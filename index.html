@@ -1,321 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ALON HISTORYVERSE 24</title>
+
+<meta name="description"
+content="ALON HISTORYVERSE 24 — Explore history, civilizations, countries, heritage, timelines, libraries and knowledge.">
+
+<meta name="theme-color" content="#05080f">
+
+<link rel="stylesheet" href="./css/style.css">
+
+<style>
+/* =========================================================
+   ALON HISTORYVERSE 24
+   UNIVERSAL ROOT INDEX
+   ONE MAIN ENTRY POINT
+========================================================= */
+
+:root{
+    --gold:#d7b35a;
+    --gold2:#f0d27a;
+    --bg:#05080f;
+    --panel:#0d1521;
+    --panel2:#101827;
+    --text:#f4f1e8;
+    --muted:#a9b0bb;
+    --line:rgba(215,179,90,.28);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+    background:var(--bg);
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% -10%,
+        rgba(215,179,90,.10),
+        transparent 35rem),
+        linear-gradient(180deg,#05080f,#070b12,#04070c);
+    color:var(--text);
+    font-family:Georgia,"Times New Roman",serif;
+    overflow-x:hidden;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* HEADER */
+
+.ah-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    min-height:72px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+
+    padding:10px 18px;
+
+    background:rgba(5,8,15,.94);
+    border-bottom:1px solid var(--line);
+
+    backdrop-filter:blur(18px);
+}
+
+.ah-brand{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+}
+
+.ah-brand strong{
+    color:var(--gold2);
+    font-size:1.25rem;
+    letter-spacing:.05em;
+}
+
+.ah-brand span{
+    color:var(--muted);
+    font-size:.62rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+.ah-actions{
+    display:flex;
+    gap:8px;
+}
 
-    <meta
-        name="description"
-        content="ALON HISTORYVERSE 24 — Explore world history, civilizations, countries, heritage, timelines, library, articles and knowledge."
-    >
+.ah-btn{
+    width:44px;
+    height:44px;
 
-    <meta
-        name="author"
-        content="Baba Thecno Guru"
-    >
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    <meta
-        name="theme-color"
-        content="#05080f"
-    >
+    border:1px solid var(--line);
+    border-radius:12px;
 
-    <title>ALON HISTORYVERSE 24</title>
+    background:rgba(215,179,90,.08);
+    color:var(--gold2);
 
-    <!-- =====================================================
-         MAIN CSS
-    ====================================================== -->
+    font-size:1.2rem;
+}
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+/* DESKTOP NAV */
 
-    <!-- =====================================================
-         BASIC INDEX SAFETY / LAYOUT
-         Uses existing style.css
-    ====================================================== -->
+.ah-nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:20px;
 
-    <style>
+    padding:14px 15px;
 
-        /* =================================================
-           INDEX PAGE ONLY
-        ================================================= */
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
 
-        .index-page {
-            min-height: 100vh;
-        }
+.ah-nav a{
+    color:var(--muted);
+    font-weight:bold;
+    font-size:.9rem;
+    transition:.18s;
+}
 
-        .index-main {
-            width: min(
-                calc(100% - 32px),
-                1280px
-            );
+.ah-nav a:hover{
+    color:var(--gold2);
+}
 
-            margin-inline: auto;
-        }
+/* MAIN */
 
-        .hero-title {
-            margin-bottom: 10px;
-        }
+.ah-main{
+    width:min(1200px,calc(100% - 30px));
+    margin:auto;
+}
 
-        .hero-title span {
-            color: var(--ah-gold-2);
-        }
+/* HERO */
 
-        .hero-subtitle {
-            color: var(--ah-muted);
-            max-width: 760px;
-            margin: 0 auto 28px;
-        }
+.ah-hero{
+    margin-top:30px;
+    padding:55px 25px;
 
-        .index-grid {
-            display: grid;
+    text-align:center;
 
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(
-                        220px,
-                        1fr
-                    )
-                );
+    border:1px solid var(--line);
+    border-radius:20px;
 
-            gap: 18px;
-        }
+    background:
+        linear-gradient(
+            145deg,
+            rgba(16,24,39,.97),
+            rgba(12,18,29,.97)
+        );
 
-        .index-card {
-            position: relative;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
 
-            display: flex;
+.ah-hero small{
+    color:var(--gold2);
+    letter-spacing:.16em;
+    text-transform:uppercase;
+}
 
-            flex-direction: column;
+.ah-hero h1{
+    margin:12px 0;
 
-            justify-content: space-between;
+    font-size:clamp(2.2rem,7vw,5rem);
+    color:var(--text);
+}
 
-            min-height: 175px;
+.ah-hero p{
+    max-width:680px;
+    margin:20px auto 30px;
 
-            padding: 24px;
+    color:var(--muted);
+    font-size:1.08rem;
+}
 
-            border:
-                1px solid var(--ah-line);
+/* SEARCH */
 
-            border-radius:
-                var(--ah-radius);
+.ah-search{
+    display:flex;
+    max-width:650px;
+    margin:auto;
 
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(16,24,39,.96),
-                    rgba(12,18,29,.96)
-                );
+    overflow:hidden;
 
-            color:
-                var(--ah-text);
+    border:1px solid var(--line);
+    border-radius:12px;
 
-            cursor: pointer;
+    background:#080d16;
+}
 
-            transition:
-                transform .18s ease,
-                border-color .18s ease,
-                background .18s ease,
-                box-shadow .18s ease;
-        }
+.ah-search input{
+    flex:1;
+    min-width:0;
 
-        .index-card:hover {
-            transform: translateY(-4px);
+    padding:14px 17px;
 
-            border-color:
-                var(--ah-gold-2);
+    border:0;
+    outline:0;
 
-            background:
-                var(--ah-card-hover);
+    background:transparent;
+    color:var(--text);
+}
 
-            box-shadow:
-                0 18px 45px rgba(0,0,0,.34);
-        }
+.ah-search button{
+    padding:0 22px;
 
-        .index-card:active {
-            transform: translateY(-1px);
-        }
+    border:0;
 
-        .index-card-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
+    background:var(--gold);
+    color:#000;
+    font-weight:bold;
+}
 
-        .index-card h3 {
-            margin-bottom: 7px;
-        }
+/* SECTIONS */
 
-        .index-card p {
-            margin: 0;
-            font-size: .92rem;
-        }
+.ah-section{
+    padding:45px 0 10px;
+}
 
-        .index-card-arrow {
-            position: absolute;
+.ah-section h2{
+    margin-bottom:20px;
+    color:var(--gold2);
+}
 
-            right: 18px;
-            bottom: 16px;
+/* GRID */
 
-            color:
-                var(--ah-gold-2);
+.ah-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(190px,1fr));
 
-            font-size: 1.15rem;
-        }
+    gap:15px;
+}
 
-        .index-section-title {
-            text-align: center;
-            margin-bottom: 28px;
-        }
+/* CARDS */
 
-        .index-status {
-            text-align: center;
+.ah-card{
+    display:block;
 
-            margin-top: 28px;
+    padding:20px;
 
-            color:
-                var(--ah-muted-2);
+    min-height:125px;
 
-            font-size: .85rem;
-        }
+    border:1px solid var(--line);
+    border-radius:17px;
 
-        .site-footer {
-            margin-top: 50px;
+    background:var(--panel);
 
-            padding: 35px 20px;
+    transition:
+        transform .18s,
+        border-color .18s,
+        background .18s;
+}
 
-            text-align: center;
+.ah-card:hover{
+    transform:translateY(-4px);
 
-            border-top:
-                1px solid var(--ah-line-soft);
-        }
+    border-color:var(--gold2);
 
-        .site-footer strong {
-            color:
-                var(--ah-gold-2);
-        }
+    background:var(--panel2);
+}
 
-        /* =================================================
-           MOBILE
-        ================================================= */
+.ah-card strong{
+    display:block;
 
-        @media (max-width: 700px) {
+    margin-bottom:7px;
 
-            .site-header {
-                padding:
-                    10px 14px;
-            }
+    color:var(--gold2);
+    font-size:1.05rem;
+}
 
-            .brand {
-                font-size:
-                    1.05rem;
-            }
+.ah-card span{
+    color:var(--muted);
+    font-size:.9rem;
+}
 
-            .brand-subtitle {
-                font-size:
-                    .55rem;
-            }
+/* STATUS */
 
-            .desktop-nav {
-                display: none;
-            }
+#ah-status{
+    margin:25px 0;
 
-            .hero-section {
-                padding:
-                    45px 0;
-            }
+    padding:12px 15px;
 
-            .hero-card {
-                padding:
-                    28px 18px;
-            }
+    border:1px solid var(--line);
+    border-radius:10px;
 
-            .index-grid {
-                grid-template-columns:
-                    1fr;
-            }
+    color:var(--muted);
+    background:rgba(215,179,90,.04);
 
-        }
+    text-align:center;
+}
 
-        @media (min-width: 701px) {
+/* FOOTER */
 
-            #menuButton {
-                display: none;
-            }
+.ah-footer{
+    margin-top:55px;
+    padding:35px 15px;
 
-        }
+    border-top:1px solid var(--line);
 
-    </style>
+    text-align:center;
+
+    color:var(--muted);
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .ah-nav{
+        display:none;
+    }
+
+    .ah-header{
+        padding:9px 12px;
+    }
+
+    .ah-brand strong{
+        font-size:1rem;
+    }
+
+    .ah-hero{
+        padding:40px 17px;
+    }
+
+    .ah-search button{
+        padding:0 15px;
+    }
+
+    .ah-grid{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+}
+
+@media(max-width:430px){
+
+    .ah-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
 </head>
 
+<body>
 
-<body class="index-page">
-
-<!-- =========================================================
-     ACCESSIBILITY
-========================================================= -->
-
-<a
-    href="#main-content"
-    class="skip-link"
->
-    Skip to main content
-</a>
-
-
-<!-- =========================================================
+<!-- =====================================================
      HEADER
-========================================================= -->
+====================================================== -->
 
-<header class="site-header">
+<header class="ah-header">
 
-    <div class="brand-wrap">
+    <a class="ah-brand" href="./index.html">
+        <strong>ALON HISTORYVERSE 24</strong>
+        <span>Baba Thecno Guru</span>
+    </a>
 
-        <a
-            href="index.html"
-            class="brand"
-            aria-label="ALON HISTORYVERSE 24 Home"
-        >
-            🏛️ ALON HISTORYVERSE 24
-        </a>
-
-        <span class="brand-subtitle">
-            World History • Knowledge • Heritage
-        </span>
-
-    </div>
-
-
-    <div class="header-actions">
-
-        <!-- LANGUAGE -->
+    <div class="ah-actions">
 
         <button
-            type="button"
-            class="icon-button"
-            id="languageButton"
-            aria-label="Change language"
-            title="Language"
-        >
+            class="ah-btn"
+            id="languageBtn"
+            aria-label="Language">
             🌐
         </button>
 
-
-        <!-- MOBILE MENU -->
-
         <button
-            type="button"
-            class="icon-button"
-            id="menuButton"
-            aria-label="Open menu"
-            aria-controls="mobileMenu"
-            aria-expanded="false"
-        >
+            class="ah-btn"
+            id="menuBtn"
+            aria-label="Menu">
             ☰
         </button>
 
@@ -324,1351 +408,989 @@
 </header>
 
 
-<!-- =========================================================
+<!-- =====================================================
      DESKTOP NAVIGATION
-========================================================= -->
+====================================================== -->
 
-<nav
-    class="desktop-nav"
-    aria-label="Main navigation"
->
+<nav class="ah-nav">
 
-    <a href="index.html">
-        Home
-    </a>
+    <a href="#explore">Explore</a>
 
-    <a href="html/library.html">
-        Library
-    </a>
+    <a href="#library">Library</a>
 
-    <a href="html/countries.html">
-        Countries
-    </a>
+    <a href="#history">History</a>
 
-    <a href="html/civilizations.html">
-        Civilizations
-    </a>
+    <a href="#countries">Countries</a>
 
-    <a href="html/heritage.html">
-        Heritage
-    </a>
+    <a href="#heritage">Heritage</a>
 
-    <a href="html/timeline.html">
-        Timeline
-    </a>
+    <a href="#timeline">Timeline</a>
 
-    <a href="html/articles.html">
-        Articles
-    </a>
+    <a href="#articles">Articles</a>
 
-    <a href="html/discover.html">
-        Discover
-    </a>
+    <a href="#about">About</a>
 
 </nav>
 
 
-<!-- =========================================================
+<!-- =====================================================
      MOBILE MENU
-========================================================= -->
+====================================================== -->
 
-<aside
+<div
     id="mobileMenu"
-    class="mobile-menu"
-    hidden
-    aria-label="Mobile navigation"
+    style="
+        display:none;
+        position:fixed;
+        z-index:2000;
+        top:0;
+        right:0;
+        width:min(320px,88vw);
+        height:100vh;
+        padding:85px 22px 25px;
+        background:#101827;
+        border-left:1px solid rgba(215,179,90,.35);
+        box-shadow:0 20px 80px #000;
+        overflow:auto;
+    "
 >
-
-    <a href="index.html">
-        🏠 Home
-    </a>
-
-    <a href="html/library.html">
-        📚 Library
-    </a>
-
-    <a href="html/department.html">
-        🗂️ Departments
-    </a>
-
-    <a href="html/subject.html">
-        📖 Subjects
-    </a>
-
-    <a href="html/book.html">
-        📕 Books
-    </a>
-
-    <a href="html/read.html">
-        📜 Read
-    </a>
-
-    <a href="html/countries.html">
-        🌍 Countries
-    </a>
-
-    <a href="html/civilizations.html">
-        🏺 Civilizations
-    </a>
-
-    <a href="html/heritage.html">
-        🏛️ Heritage
-    </a>
-
-    <a href="html/timeline.html">
-        ⏳ Timeline
-    </a>
-
-    <a href="html/articles.html">
-        📰 Articles
-    </a>
-
-    <a href="html/discover.html">
-        🔎 Discover
-    </a>
-
-    <a href="html/gallery.html">
-        🖼️ Gallery
-    </a>
-
-    <a href="html/contribute.html">
-        ✍️ Contribute
-    </a>
-
-    <a href="html/about.html">
-        ℹ️ About
-    </a>
 
     <button
-        type="button"
-        id="mobileMenuClose"
-    >
-        Close Menu
+        id="closeMenu"
+        style="
+            position:absolute;
+            top:20px;
+            right:18px;
+            width:40px;
+            height:40px;
+            border:1px solid #d7b35a;
+            border-radius:10px;
+            background:#0d1521;
+            color:#f0d27a;
+        ">
+        ✕
     </button>
 
-</aside>
+    <div id="mobileLinks"></div>
+
+</div>
 
 
-<!-- =========================================================
-     LANGUAGE PANEL
-========================================================= -->
+<!-- =====================================================
+     MAIN
+====================================================== -->
 
-<section
-    id="languagePanel"
-    class="language-panel"
-    hidden
-    aria-label="Language selection"
->
+<main class="ah-main">
 
-    <div class="language-panel-head">
 
-        <h2>
-            Language
-        </h2>
+<section class="ah-hero">
 
-        <button
-            type="button"
-            id="languageClose"
-            aria-label="Close language panel"
-        >
-            ×
+    <small>World History & Knowledge Platform</small>
+
+    <h1>ALON HISTORYVERSE 24</h1>
+
+    <p>
+        Explore countries, civilizations, ancient people,
+        kings and rulers, wars, heritage, old cities,
+        forts, culture, science, education and knowledge.
+    </p>
+
+    <form
+        class="ah-search"
+        id="searchForm">
+
+        <input
+            id="searchInput"
+            type="search"
+            placeholder="Search history, countries, library, articles..."
+            autocomplete="off">
+
+        <button type="submit">
+            Search
         </button>
 
-    </div>
-
-
-    <button
-        type="button"
-        class="language-option"
-        data-language="en"
-    >
-        🇬🇧 English
-    </button>
-
-
-    <button
-        type="button"
-        class="language-option"
-        data-language="hi"
-    >
-        🇮🇳 Hindi
-    </button>
+    </form>
 
 </section>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main
-    id="main-content"
-    class="index-main"
->
+<!-- =====================================================
+     EXPLORE
+====================================================== -->
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
+<section
+    class="ah-section"
+    id="explore">
 
-    <section class="hero-section">
+    <h2>Explore</h2>
 
-        <div class="hero-card">
+    <div class="ah-grid">
 
-            <div class="hero-kicker">
-                Explore Human History
-            </div>
+        <a class="ah-card" href="./html/discover.html">
+            <strong>Discover</strong>
+            <span>Discover historical knowledge and subjects.</span>
+        </a>
 
+        <a class="ah-card" href="./html/categories.html">
+            <strong>Categories</strong>
+            <span>Browse history through different categories.</span>
+        </a>
 
-            <h1 class="hero-title">
-                ALON
-                <span>
-                    HISTORYVERSE 24
-                </span>
-            </h1>
+        <a class="ah-card" href="./html/gallery.html">
+            <strong>Gallery</strong>
+            <span>Explore historical images and visual heritage.</span>
+        </a>
 
+        <a class="ah-card" href="./html/articles.html">
+            <strong>Articles</strong>
+            <span>Read published historical articles.</span>
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LIBRARY
+====================================================== -->
 
-            <p class="hero-description">
-                Explore the history of the world,
-                ancient civilizations, countries,
-                cultures, heritage, timelines,
-                books and historical knowledge.
-            </p>
+<section
+    class="ah-section"
+    id="library">
 
+    <h2>Knowledge Library</h2>
 
-            <!-- SEARCH -->
+    <div class="ah-grid">
 
-            <form
-                id="globalSearchForm"
-                class="search-form"
-                role="search"
-            >
+        <a class="ah-card"
+           href="./html/library.html">
+            <strong>Library</strong>
+            <span>Open the complete knowledge library.</span>
+        </a>
 
-                <label
-                    for="globalSearch"
-                    class="sr-only"
-                >
-                    Search HistoryVerse
-                </label>
+        <a class="ah-card"
+           href="./html/department.html">
+            <strong>Departments</strong>
+            <span>History, science, mathematics, computer, law and more.</span>
+        </a>
 
-                <input
-                    id="globalSearch"
-                    type="search"
-                    placeholder="Search history, countries, civilizations..."
-                    autocomplete="off"
-                >
+        <a class="ah-card"
+           href="./html/subject.html">
+            <strong>Subjects</strong>
+            <span>Explore individual knowledge subjects.</span>
+        </a>
 
-                <button
-                    type="submit"
-                    aria-label="Search"
-                >
-                    🔎
-                </button>
+        <a class="ah-card"
+           href="./html/book.html">
+            <strong>Books</strong>
+            <span>Explore books and historical resources.</span>
+        </a>
 
-            </form>
+        <a class="ah-card"
+           href="./html/read.html">
+            <strong>Read</strong>
+            <span>Read knowledge and historical content.</span>
+        </a>
 
+    </div>
 
-            <!-- QUICK ACTIONS -->
+</section>
 
-            <div class="quick-actions">
 
-                <a
-                    class="quick-action"
-                    href="html/library.html"
-                >
-                    📚 Open Library
-                </a>
+<!-- =====================================================
+     HISTORY
+====================================================== -->
 
-                <a
-                    class="quick-action"
-                    href="html/countries.html"
-                >
-                    🌍 Explore Countries
-                </a>
+<section
+    class="ah-section"
+    id="history">
 
-                <a
-                    class="quick-action"
-                    href="html/timeline.html"
-                >
-                    ⏳ View Timeline
-                </a>
+    <h2>History</h2>
 
-                <a
-                    class="quick-action"
-                    href="html/articles.html"
-                >
-                    📰 Read Articles
-                </a>
+    <div class="ah-grid">
 
-            </div>
+        <a class="ah-card"
+           href="./html/civilizations.html">
+            <strong>Civilizations</strong>
+            <span>Ancient and historic civilizations.</span>
+        </a>
+
+        <a class="ah-card"
+           href="./html/heritage.html">
+            <strong>Heritage</strong>
+            <span>World heritage, forts, monuments and sites.</span>
+        </a>
 
-        </div>
+        <a class="ah-card"
+           href="./html/timeline.html">
+            <strong>Timeline</strong>
+            <span>Explore history through time.</span>
+        </a>
 
-    </section>
+        <a class="ah-card"
+           href="./html/mathematics.html">
+            <strong>Mathematics</strong>
+            <span>History and knowledge of mathematics.</span>
+        </a>
 
+        <a class="ah-card"
+           href="./html/computer.html">
+            <strong>Computer</strong>
+            <span>Computer knowledge and technology.</span>
+        </a>
 
-    <!-- =====================================================
-         MAIN KNOWLEDGE SYSTEM
-    ====================================================== -->
+        <a class="ah-card"
+           href="./html/jobs.html">
+            <strong>Jobs & Careers</strong>
+            <span>Knowledge and career resources.</span>
+        </a>
 
-    <section>
+        <a class="ah-card"
+           href="./html/trees.html">
+            <strong>Trees</strong>
+            <span>Explore trees and natural knowledge.</span>
+        </a>
 
-        <div class="index-section-title">
+    </div>
 
-            <div class="section-kicker">
-                Knowledge System
-            </div>
+</section>
 
-            <h2>
-                Explore HistoryVerse
-            </h2>
 
-            <p>
-                Every major section is connected from this
-                central homepage.
-            </p>
+<!-- =====================================================
+     COUNTRIES
+====================================================== -->
 
-        </div>
+<section
+    class="ah-section"
+    id="countries">
 
+    <h2>World Countries</h2>
 
-        <div class="index-grid">
+    <div class="ah-grid">
 
-            <!-- LIBRARY -->
+        <a class="ah-card"
+           href="./html/countries.html">
+            <strong>All Countries</strong>
+            <span>Explore countries around the world.</span>
+        </a>
 
-            <a
-                class="index-card clickable-card"
-                href="html/library.html"
-                data-page="library"
-            >
+        <a class="ah-card"
+           href="./html/country.html">
+            <strong>Country Explorer</strong>
+            <span>Open individual country information.</span>
+        </a>
 
-                <div>
+    </div>
 
-                    <div class="index-card-icon">
-                        📚
-                    </div>
+</section>
 
-                    <h3>
-                        Library
-                    </h3>
 
-                    <p>
-                        Explore departments, subjects,
-                        books and reading materials.
-                    </p>
+<!-- =====================================================
+     HERITAGE
+====================================================== -->
 
-                </div>
+<section
+    class="ah-section"
+    id="heritage">
 
-                <span class="index-card-arrow">
-                    →
-                </span>
+    <h2>Heritage & Culture</h2>
 
-            </a>
+    <div class="ah-grid">
 
+        <a class="ah-card"
+           href="./html/heritage.html">
+            <strong>Heritage</strong>
+            <span>Historical places and cultural heritage.</span>
+        </a>
 
-            <!-- DEPARTMENTS -->
+        <a class="ah-card"
+           href="./html/civilizations.html">
+            <strong>Ancient Civilizations</strong>
+            <span>Explore ancient cultures and societies.</span>
+        </a>
 
-            <a
-                class="index-card clickable-card"
-                href="html/department.html"
-                data-page="department"
-            >
+        <a class="ah-card"
+           href="./html/gallery.html">
+            <strong>Historical Gallery</strong>
+            <span>Visual exploration of history.</span>
+        </a>
 
-                <div>
+    </div>
 
-                    <div class="index-card-icon">
-                        🗂️
-                    </div>
+</section>
 
-                    <h3>
-                        Departments
-                    </h3>
 
-                    <p>
-                        History, science, mathematics,
-                        computer, law, geography and more.
-                    </p>
+<!-- =====================================================
+     TIMELINE
+====================================================== -->
 
-                </div>
+<section
+    class="ah-section"
+    id="timeline">
 
-                <span class="index-card-arrow">
-                    →
-                </span>
+    <h2>Historical Timeline</h2>
 
-            </a>
+    <div class="ah-grid">
 
+        <a class="ah-card"
+           href="./html/timeline.html">
+            <strong>Open Timeline</strong>
+            <span>Navigate through historical periods.</span>
+        </a>
 
-            <!-- SUBJECTS -->
+    </div>
 
-            <a
-                class="index-card clickable-card"
-                href="html/subject.html"
-                data-page="subject"
-            >
+</section>
 
-                <div>
 
-                    <div class="index-card-icon">
-                        📖
-                    </div>
+<!-- =====================================================
+     ARTICLES
+====================================================== -->
 
-                    <h3>
-                        Subjects
-                    </h3>
+<section
+    class="ah-section"
+    id="articles">
 
-                    <p>
-                        Explore individual subjects
-                        and knowledge categories.
-                    </p>
+    <h2>Articles</h2>
 
-                </div>
+    <div class="ah-grid">
 
-                <span class="index-card-arrow">
-                    →
-                </span>
+        <a class="ah-card"
+           href="./html/articles.html">
+            <strong>All Articles</strong>
+            <span>Browse historical articles.</span>
+        </a>
 
-            </a>
+        <a class="ah-card"
+           href="./html/article.html">
+            <strong>Article Reader</strong>
+            <span>Open individual articles.</span>
+        </a>
 
+        <a class="ah-card"
+           href="./html/contribute.html">
+            <strong>Contribute</strong>
+            <span>Submit knowledge and historical content.</span>
+        </a>
 
-            <!-- BOOKS -->
+    </div>
 
-            <a
-                class="index-card clickable-card"
-                href="html/book.html"
-                data-page="book"
-            >
+</section>
 
-                <div>
 
-                    <div class="index-card-icon">
-                        📕
-                    </div>
+<!-- =====================================================
+     PLATFORM
+====================================================== -->
 
-                    <h3>
-                        Books
-                    </h3>
+<section
+    class="ah-section"
+    id="about">
 
-                    <p>
-                        Discover historical and educational
-                        books and collections.
-                    </p>
+    <h2>ALON HISTORYVERSE 24</h2>
 
-                </div>
+    <div class="ah-grid">
 
-                <span class="index-card-arrow">
-                    →
-                </span>
+        <a class="ah-card"
+           href="./html/about.html">
+            <strong>About</strong>
+            <span>About ALON HISTORYVERSE 24.</span>
+        </a>
 
-            </a>
+        <a class="ah-card"
+           href="./html/contact.html">
+            <strong>Contact</strong>
+            <span>Contact the platform.</span>
+        </a>
 
+        <a class="ah-card"
+           href="./html/guidelines.html">
+            <strong>Guidelines</strong>
+            <span>Community and content guidelines.</span>
+        </a>
 
-            <!-- READ -->
+        <a class="ah-card"
+           href="./html/contributor-agreement.html">
+            <strong>Contributor Agreement</strong>
+            <span>Contributor rules and agreement.</span>
+        </a>
 
-            <a
-                class="index-card clickable-card"
-                href="html/read.html"
-                data-page="read"
-            >
+        <a class="ah-card"
+           href="./html/copyright.html">
+            <strong>Copyright</strong>
+            <span>Copyright and content policy.</span>
+        </a>
 
-                <div>
+        <a class="ah-card"
+           href="./html/privacy.html">
+            <strong>Privacy</strong>
+            <span>Privacy information.</span>
+        </a>
 
-                    <div class="index-card-icon">
-                        📜
-                    </div>
+        <a class="ah-card"
+           href="./html/terms.html">
+            <strong>Terms</strong>
+            <span>Terms of use.</span>
+        </a>
 
-                    <h3>
-                        Read
-                    </h3>
+        <a class="ah-card"
+           href="./html/login.html">
+            <strong>Login</strong>
+            <span>Open the login system.</span>
+        </a>
 
-                    <p>
-                        Open knowledge pages and
-                        historical reading content.
-                    </p>
+        <a class="ah-card"
+           href="./html/admin.html">
+            <strong>Admin</strong>
+            <span>Open the administration system.</span>
+        </a>
 
-                </div>
+    </div>
 
-                <span class="index-card-arrow">
-                    →
-                </span>
+</section>
 
-            </a>
 
-
-            <!-- COUNTRIES -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/countries.html"
-                data-page="countries"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        🌍
-                    </div>
-
-                    <h3>
-                        Countries
-                    </h3>
-
-                    <p>
-                        Explore countries, people,
-                        cultures and historical regions.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- CIVILIZATIONS -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/civilizations.html"
-                data-page="civilizations"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        🏺
-                    </div>
-
-                    <h3>
-                        Civilizations
-                    </h3>
-
-                    <p>
-                        Explore ancient and historic
-                        civilizations of the world.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- HERITAGE -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/heritage.html"
-                data-page="heritage"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        🏛️
-                    </div>
-
-                    <h3>
-                        Heritage
-                    </h3>
-
-                    <p>
-                        Discover heritage sites,
-                        monuments and historic places.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- TIMELINE -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/timeline.html"
-                data-page="timeline"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        ⏳
-                    </div>
-
-                    <h3>
-                        Timeline
-                    </h3>
-
-                    <p>
-                        Travel through major periods
-                        and events in history.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- ARTICLES -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/articles.html"
-                data-page="articles"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        📰
-                    </div>
-
-                    <h3>
-                        Articles
-                    </h3>
-
-                    <p>
-                        Read published historical
-                        articles and knowledge.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- DISCOVER -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/discover.html"
-                data-page="discover"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        🔎
-                    </div>
-
-                    <h3>
-                        Discover
-                    </h3>
-
-                    <p>
-                        Find interesting historical
-                        topics and discoveries.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- GALLERY -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/gallery.html"
-                data-page="gallery"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        🖼️
-                    </div>
-
-                    <h3>
-                        Gallery
-                    </h3>
-
-                    <p>
-                        Explore visual historical
-                        collections.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- CATEGORIES -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/categories.html"
-                data-page="categories"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        🧭
-                    </div>
-
-                    <h3>
-                        Categories
-                    </h3>
-
-                    <p>
-                        Browse HistoryVerse through
-                        organized categories.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- CONTRIBUTE -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/contribute.html"
-                data-page="contribute"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        ✍️
-                    </div>
-
-                    <h3>
-                        Contribute
-                    </h3>
-
-                    <p>
-                        Submit knowledge and historical
-                        contributions.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-
-            <!-- ABOUT -->
-
-            <a
-                class="index-card clickable-card"
-                href="html/about.html"
-                data-page="about"
-            >
-
-                <div>
-
-                    <div class="index-card-icon">
-                        ℹ️
-                    </div>
-
-                    <h3>
-                        About
-                    </h3>
-
-                    <p>
-                        Learn about ALON HISTORYVERSE 24
-                        and its creator.
-                    </p>
-
-                </div>
-
-                <span class="index-card-arrow">
-                    →
-                </span>
-
-            </a>
-
-        </div>
-
-
-        <div
-            id="indexStatus"
-            class="index-status"
-        >
-            ALON HISTORYVERSE 24 V100
-        </div>
-
-    </section>
+<div id="ah-status">
+    ALON HISTORYVERSE 24 system ready.
+</div>
 
 </main>
 
 
-<!-- =========================================================
+<!-- =====================================================
      FOOTER
-========================================================= -->
+====================================================== -->
 
-<footer class="site-footer">
+<footer class="ah-footer">
 
-    <strong>
-        ALON HISTORYVERSE 24
-    </strong>
+    <strong>ALON HISTORYVERSE 24</strong>
 
-    <p>
-        World History • Knowledge • Heritage
-    </p>
+    <br>
 
-    <p>
-        Created by Baba Thecno Guru
-    </p>
+    <span>
+        Creator / Owner: Baba Thecno Guru
+    </span>
+
+    <br><br>
+
+    <span>
+        © 2026 ALON HISTORYVERSE 24
+    </span>
 
 </footer>
 
 
-<!-- =========================================================
-     CENTRAL CONTROLLER
-=========================================================
-
-     Important:
-     Only the central controller is loaded here.
-
-     It can coordinate:
-       system
-       app
-       core
-       engine
-       data
-       language
-       library
-       articles
-       countries
-       explore
-       security
-       admin
-       contact
-       submit
-       platform
-       read
-       subject
-       firebase
-========================================================== -->
-
-<script
-    type="module"
-    src="jss/master-controller.js"
-></script>
-
-
-<!-- =========================================================
-     INDEX FALLBACK CONTROLLER
-
-     This guarantees that the homepage navigation works
-     even if another engine has not initialized yet.
-========================================================== -->
+<!-- =====================================================
+     UNIVERSAL INDEX CONTROLLER
+====================================================== -->
 
 <script>
+(function(){
 
-(function () {
-
-    "use strict";
-
-
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
-    const menuButton =
-        document.getElementById(
-            "menuButton"
-        );
+"use strict";
 
 
-    const mobileMenu =
-        document.getElementById(
-            "mobileMenu"
-        );
+/* -------------------------------------------------------
+   FILE MAP
+------------------------------------------------------- */
+
+const FILES = {
+
+    discover:
+        "./html/discover.html",
+
+    categories:
+        "./html/categories.html",
+
+    gallery:
+        "./html/gallery.html",
+
+    articles:
+        "./html/articles.html",
+
+    article:
+        "./html/article.html",
+
+    library:
+        "./html/library.html",
+
+    department:
+        "./html/department.html",
+
+    subject:
+        "./html/subject.html",
+
+    book:
+        "./html/book.html",
+
+    read:
+        "./html/read.html",
+
+    civilizations:
+        "./html/civilizations.html",
+
+    heritage:
+        "./html/heritage.html",
+
+    timeline:
+        "./html/timeline.html",
+
+    mathematics:
+        "./html/mathematics.html",
+
+    computer:
+        "./html/computer.html",
+
+    jobs:
+        "./html/jobs.html",
+
+    trees:
+        "./html/trees.html",
+
+    countries:
+        "./html/countries.html",
+
+    country:
+        "./html/country.html",
+
+    contribute:
+        "./html/contribute.html",
+
+    about:
+        "./html/about.html",
+
+    contact:
+        "./html/contact.html",
+
+    guidelines:
+        "./html/guidelines.html",
+
+    agreement:
+        "./html/contributor-agreement.html",
+
+    copyright:
+        "./html/copyright.html",
+
+    privacy:
+        "./html/privacy.html",
+
+    terms:
+        "./html/terms.html",
+
+    login:
+        "./html/login.html",
+
+    admin:
+        "./html/admin.html"
+
+};
 
 
-    const mobileMenuClose =
-        document.getElementById(
-            "mobileMenuClose"
-        );
+/* -------------------------------------------------------
+   SAFE NAVIGATION
+------------------------------------------------------- */
+
+function openFile(path){
+
+    if(!path){
+        return;
+    }
+
+    window.location.href = path;
+
+}
 
 
-    const languageButton =
-        document.getElementById(
-            "languageButton"
-        );
+/* -------------------------------------------------------
+   SEARCH
+------------------------------------------------------- */
+
+const searchForm =
+    document.getElementById("searchForm");
+
+const searchInput =
+    document.getElementById("searchInput");
 
 
-    const languagePanel =
-        document.getElementById(
-            "languagePanel"
-        );
+searchForm.addEventListener(
+    "submit",
+    function(event){
 
+        event.preventDefault();
 
-    const languageClose =
-        document.getElementById(
-            "languageClose"
-        );
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
-
-    const searchForm =
-        document.getElementById(
-            "globalSearchForm"
-        );
-
-
-    const searchInput =
-        document.getElementById(
-            "globalSearch"
-        );
-
-
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
-
-    function openMenu() {
-
-        if (!mobileMenu) {
+        if(!query){
             return;
         }
 
 
-        mobileMenu.hidden =
-            false;
+        const matches = {
 
+            library:
+                ["library","book","read",
+                 "department","subject"],
 
-        document.body.classList.add(
-            "menu-open"
-        );
+            history:
+                ["history","ancient",
+                 "civilization","king",
+                 "war","culture"],
 
+            countries:
+                ["country","countries",
+                 "world","nation"],
 
-        if (menuButton) {
+            heritage:
+                ["heritage","fort",
+                 "monument","culture"],
 
-            menuButton.setAttribute(
-                "aria-expanded",
-                "true"
-            );
+            timeline:
+                ["timeline","time",
+                 "period"],
 
-        }
+            articles:
+                ["article","articles",
+                 "writing","content"],
 
-    }
+            gallery:
+                ["gallery","image",
+                 "images","photo"],
 
+            computer:
+                ["computer","technology",
+                 "tech"],
 
-    function closeMenu() {
+            mathematics:
+                ["math","mathematics"],
 
-        if (!mobileMenu) {
-            return;
-        }
+            jobs:
+                ["job","jobs","career"]
 
+        };
 
-        mobileMenu.hidden =
-            true;
 
+        let target = null;
 
-        document.body.classList.remove(
-            "menu-open"
-        );
 
+        for(
+            const key of Object.keys(matches)
+        ){
 
-        if (menuButton) {
+            if(
+                matches[key].some(
+                    word =>
+                        query.includes(word)
+                )
+            ){
 
-            menuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
+                target = FILES[key];
 
-        }
-
-    }
-
-
-    if (menuButton) {
-
-        menuButton.addEventListener(
-            "click",
-            openMenu
-        );
-
-    }
-
-
-    if (mobileMenuClose) {
-
-        mobileMenuClose.addEventListener(
-            "click",
-            closeMenu
-        );
-
-    }
-
-
-    /* =====================================================
-       MOBILE LINKS CLOSE MENU
-    ===================================================== */
-
-    if (mobileMenu) {
-
-        mobileMenu
-            .querySelectorAll("a")
-            .forEach(function (link) {
-
-                link.addEventListener(
-                    "click",
-                    closeMenu
-                );
-
-            });
-
-    }
-
-
-    /* =====================================================
-       LANGUAGE PANEL
-    ===================================================== */
-
-    function openLanguage() {
-
-        if (!languagePanel) {
-            return;
-        }
-
-
-        languagePanel.hidden =
-            false;
-
-
-        document.body.classList.add(
-            "language-open"
-        );
-
-    }
-
-
-    function closeLanguage() {
-
-        if (!languagePanel) {
-            return;
-        }
-
-
-        languagePanel.hidden =
-            true;
-
-
-        document.body.classList.remove(
-            "language-open"
-        );
-
-    }
-
-
-    if (languageButton) {
-
-        languageButton.addEventListener(
-            "click",
-            openLanguage
-        );
-
-    }
-
-
-    if (languageClose) {
-
-        languageClose.addEventListener(
-            "click",
-            closeLanguage
-        );
-
-    }
-
-
-    /* =====================================================
-       LANGUAGE
-    ===================================================== */
-
-    document
-        .querySelectorAll(
-            ".language-option"
-        )
-        .forEach(function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const language =
-                        this.dataset.language ||
-                        "en";
-
-
-                    localStorage.setItem(
-                        "alon_historyverse_language",
-                        language
-                    );
-
-
-                    document.documentElement
-                        .setAttribute(
-                            "lang",
-                            language
-                        );
-
-
-                    closeLanguage();
-
-
-                    /*
-                     * Tell the central system.
-                     */
-
-                    document.dispatchEvent(
-                        new CustomEvent(
-                            "historyverse:languagechange",
-                            {
-                                detail: {
-                                    language
-                                }
-                            }
-                        )
-                    );
-
-                }
-            );
-
-        });
-
-
-    /* =====================================================
-       SEARCH
-    ===================================================== */
-
-    if (searchForm) {
-
-        searchForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                const query =
-                    String(
-                        searchInput?.value ||
-                        ""
-                    ).trim();
-
-
-                if (!query) {
-
-                    if (searchInput) {
-                        searchInput.focus();
-                    }
-
-                    return;
-
-                }
-
-
-                /*
-                 * Store query so articles,
-                 * library and discover systems
-                 * can use it.
-                 */
-
-                localStorage.setItem(
-                    "alon_historyverse_search",
-                    query
-                );
-
-
-                /*
-                 * Send the search event
-                 * to the central controller.
-                 */
-
-                document.dispatchEvent(
-                    new CustomEvent(
-                        "historyverse:search",
-                        {
-                            detail: {
-                                query
-                            }
-                        }
-                    )
-                );
-
-
-                /*
-                 * Main search destination.
-                 *
-                 * Articles engine can read
-                 * the stored query.
-                 */
-
-                window.location.href =
-                    "html/articles.html";
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       KEYBOARD ESCAPE
-    ===================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Escape"
-            ) {
-
-                closeMenu();
-
-                closeLanguage();
+                break;
 
             }
 
         }
-    );
 
 
-    /* =====================================================
-       RESTORE LANGUAGE
-    ===================================================== */
+        if(target){
 
-    try {
+            openFile(target);
 
-        const savedLanguage =
-            localStorage.getItem(
-                "alon_historyverse_language"
-            );
+        }else{
 
-
-        if (savedLanguage) {
-
-            document.documentElement
-                .setAttribute(
-                    "lang",
-                    savedLanguage
-                );
+            document.getElementById(
+                "ah-status"
+            ).textContent =
+                "Search is ready. Open Articles, Library or Discover to continue.";
 
         }
 
-    } catch (error) {
+    }
+);
 
-        console.warn(
-            "Language restore failed.",
-            error
+
+/* -------------------------------------------------------
+   MOBILE MENU
+------------------------------------------------------- */
+
+const menu =
+    document.getElementById("mobileMenu");
+
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const closeMenu =
+    document.getElementById("closeMenu");
+
+const mobileLinks =
+    document.getElementById("mobileLinks");
+
+
+function showMenu(){
+
+    menu.style.display = "block";
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function hideMenu(){
+
+    menu.style.display = "none";
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+menuBtn.addEventListener(
+    "click",
+    showMenu
+);
+
+closeMenu.addEventListener(
+    "click",
+    hideMenu
+);
+
+
+/* -------------------------------------------------------
+   MOBILE LINK GENERATION
+------------------------------------------------------- */
+
+const mobileItems = [
+
+    ["Explore", "#explore"],
+
+    ["Library", FILES.library],
+
+    ["Departments", FILES.department],
+
+    ["Subjects", FILES.subject],
+
+    ["Books", FILES.book],
+
+    ["Read", FILES.read],
+
+    ["Countries", FILES.countries],
+
+    ["Civilizations", FILES.civilizations],
+
+    ["Heritage", FILES.heritage],
+
+    ["Timeline", FILES.timeline],
+
+    ["Articles", FILES.articles],
+
+    ["Gallery", FILES.gallery],
+
+    ["Contribute", FILES.contribute],
+
+    ["About", FILES.about],
+
+    ["Contact", FILES.contact],
+
+    ["Login", FILES.login]
+
+];
+
+
+mobileItems.forEach(
+    function(item){
+
+        const a =
+            document.createElement("a");
+
+        a.textContent =
+            item[0];
+
+        a.href =
+            item[1];
+
+        a.style.display =
+            "block";
+
+        a.style.padding =
+            "13px 5px";
+
+        a.style.borderBottom =
+            "1px solid rgba(255,255,255,.08)";
+
+        a.style.color =
+            "#f0d27a";
+
+        a.style.fontWeight =
+            "bold";
+
+        a.addEventListener(
+            "click",
+            hideMenu
+        );
+
+        mobileLinks.appendChild(a);
+
+    }
+);
+
+
+/* -------------------------------------------------------
+   LANGUAGE BUTTON
+------------------------------------------------------- */
+
+document.getElementById(
+    "languageBtn"
+).addEventListener(
+    "click",
+    function(){
+
+        alert(
+            "English interface is active. Hindi/World language support can be connected through world-language.js."
         );
 
     }
+);
 
 
-    /* =====================================================
-       GLOBAL INDEX API
-    ===================================================== */
+/* -------------------------------------------------------
+   GLOBAL COMPATIBILITY API
+------------------------------------------------------- */
 
-    window.ALON_HISTORYVERSE_INDEX = {
+window.ALON_HISTORYVERSE = {
 
-        version:
-            "V100",
+    version:
+        "V100",
 
-        navigate:
-            function (path) {
+    files:
+        FILES,
 
-                if (!path) {
-                    return;
-                }
+    open:
+        openFile,
 
-                window.location.href =
-                    path;
+    home:
+        function(){
+            window.location.href =
+                "./index.html";
+        }
 
-            },
-
-        openLibrary:
-            function () {
-
-                window.location.href =
-                    "html/library.html";
-
-            },
-
-        openCountries:
-            function () {
-
-                window.location.href =
-                    "html/countries.html";
-
-            },
-
-        openArticles:
-            function () {
-
-                window.location.href =
-                    "html/articles.html";
-
-            },
-
-        openTimeline:
-            function () {
-
-                window.location.href =
-                    "html/timeline.html";
-
-            }
-
-    };
+};
 
 
-    /* =====================================================
-       READY EVENT
-    ===================================================== */
+/* -------------------------------------------------------
+   LEGACY COMPATIBILITY
+------------------------------------------------------- */
 
-    document.dispatchEvent(
-        new CustomEvent(
-            "historyverse:indexready",
-            {
-                detail: {
-                    version:
-                        "V100"
-                }
-            }
-        )
-    );
+window.HISTORYVERSE =
+
+    window.ALON_HISTORYVERSE;
+
+
+window.HV =
+
+    window.ALON_HISTORYVERSE;
+
+
+/* -------------------------------------------------------
+   OPTIONAL DATA LOADING
+   These are safe: if JSON does not exist,
+   the website does NOT break.
+------------------------------------------------------- */
+
+async function loadJSON(
+    path
+){
+
+    try{
+
+        const response =
+            await fetch(path);
+
+        if(!response.ok){
+            return null;
+        }
+
+        return await response.json();
+
+    }catch(error){
+
+        return null;
+
+    }
+
+}
+
+
+window.ALON_HISTORYVERSE.loadJSON =
+    loadJSON;
+
+
+/* -------------------------------------------------------
+   OPTIONAL ENGINE LOADING
+   Existing JS files can work alongside this index.
+------------------------------------------------------- */
+
+const engines = [
+
+    "./jss/core.js",
+    "./jss/system.js",
+    "./jss/data.js",
+    "./jss/engine.js",
+    "./jss/app.js",
+    "./jss/platform.js",
+    "./jss/language.js",
+    "./jss/world-language.js",
+    "./jss/articles.js",
+    "./jss/library.js",
+    "./jss/library-engine.js",
+    "./jss/subject-engine.js",
+    "./jss/read.js",
+    "./jss/explore.js",
+    "./jss/country.js",
+    "./jss/countries-click.js",
+    "./jss/submit.js",
+    "./jss/contact.js",
+    "./jss/security.js",
+    "./jss/admin.js",
+    "./jss/firebase.js",
+    "./jss/master-controller.js"
+
+];
+
+
+/*
+   Do NOT blindly load all engines here.
+
+   Existing files may use ES modules,
+   imports or duplicate global variables.
+
+   The index therefore provides compatibility
+   without forcing a broken JS dependency chain.
+*/
+
+
+/* -------------------------------------------------------
+   READY
+------------------------------------------------------- */
+
+document.getElementById(
+    "ah-status"
+).textContent =
+    "ALON HISTORYVERSE 24 • V100 • Ready";
+
+
+console.log(
+    "ALON HISTORYVERSE 24 V100 ROOT INDEX READY"
+);
 
 
 })();
-
 </script>
+
 
 </body>
 </html>
