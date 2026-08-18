@@ -1,512 +1,1366 @@
-/* =========================================================
-   ALON HISTORYVERSE 24
-   MASTER COMPATIBILITY CONTROLLER — V100
-   Creator / Owner: Baba Thecno Guru
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-   IMPORTANT:
-   This file DOES NOT replace existing project systems.
-   It works as a safe fallback layer.
+    <meta charset="UTF-8">
 
-   Existing HTML / JS systems remain untouched.
-   Existing click handlers are respected.
-========================================================= */
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-(() => {
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 — Explore history, civilizations, countries, heritage, timelines, books, articles and knowledge."
+    >
+
+    <meta
+        name="author"
+        content="Baba Thecno Guru"
+    >
+
+    <title>ALON HISTORYVERSE 24</title>
+
+    <!-- =====================================================
+         GLOBAL CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<a
+    class="skip-link"
+    href="#main-content"
+>
+    Skip to content
+</a>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="site-header">
+
+    <div class="brand-wrap">
+
+        <a
+            class="brand"
+            href="./"
+            data-page="home"
+            aria-label="ALON HISTORYVERSE 24 Home"
+        >
+            <span>🏛️</span>
+            <span>ALON HISTORYVERSE 24</span>
+        </a>
+
+        <span class="brand-subtitle">
+            HISTORY • KNOWLEDGE • CIVILIZATION
+        </span>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <!-- LANGUAGE -->
+
+        <button
+            type="button"
+            class="icon-button"
+            id="languageButton"
+            aria-label="Change language"
+            aria-controls="languagePanel"
+            aria-expanded="false"
+        >
+            🌐
+        </button>
+
+
+        <!-- MENU -->
+
+        <button
+            type="button"
+            class="icon-button"
+            id="menuButton"
+            aria-label="Open menu"
+            aria-controls="mobileMenu"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =======================================================
+     DESKTOP NAVIGATION
+======================================================= -->
+
+<nav
+    class="desktop-nav"
+    aria-label="Main navigation"
+>
+
+    <a href="html/library.html">
+        Library
+    </a>
+
+    <a href="html/countries.html">
+        Countries
+    </a>
+
+    <a href="html/civilizations.html">
+        Civilizations
+    </a>
+
+    <a href="html/heritage.html">
+        Heritage
+    </a>
+
+    <a href="html/timeline.html">
+        Timeline
+    </a>
+
+    <a href="html/articles.html">
+        Articles
+    </a>
+
+    <a href="html/discover.html">
+        Discover
+    </a>
+
+</nav>
+
+
+
+<!-- =======================================================
+     MOBILE MENU
+======================================================= -->
+
+aside
+id="mobileMenu"
+class="mobile-menu"
+hidden
+aria-label="Mobile navigation"
+>
+
+    <a href="./">
+        🏠 Home
+    </a>
+
+    <a href="html/library.html">
+        📚 Library
+    </a>
+
+    <a href="html/department.html">
+        🏛️ Departments
+    </a>
+
+    <a href="html/subject.html">
+        📖 Subjects
+    </a>
+
+    <a href="html/book.html">
+        📕 Books
+    </a>
+
+    <a href="html/read.html">
+        📜 Read
+    </a>
+
+    <a href="html/countries.html">
+        🌍 Countries
+    </a>
+
+    <a href="html/country.html">
+        🗺️ Country Explorer
+    </a>
+
+    <a href="html/civilizations.html">
+        🏺 Civilizations
+    </a>
+
+    <a href="html/heritage.html">
+        🏰 Heritage
+    </a>
+
+    <a href="html/timeline.html">
+        ⏳ Timeline
+    </a>
+
+    <a href="html/articles.html">
+        📰 Articles
+    </a>
+
+    <a href="html/article.html">
+        📄 Article
+    </a>
+
+    <a href="html/discover.html">
+        🔎 Discover
+    </a>
+
+    <a href="html/categories.html">
+        🗂️ Categories
+    </a>
+
+    <a href="html/gallery.html">
+        🖼️ Gallery
+    </a>
+
+    <a href="html/mathematics.html">
+        🔢 Mathematics
+    </a>
+
+    <a href="html/computer.html">
+        💻 Computer
+    </a>
+
+    <a href="html/jobs.html">
+        💼 Jobs & Careers
+    </a>
+
+    <a href="html/trees.html">
+        🌳 Trees
+    </a>
+
+    <a href="html/contribute.html">
+        ✍️ Contribute
+    </a>
+
+    <a href="html/about.html">
+        ℹ️ About
+    </a>
+
+    <a href="html/contact.html">
+        📞 Contact
+    </a>
+
+    <a href="html/login.html">
+        🔐 Login
+    </a>
+
+    <a href="html/admin.html">
+        ⚙️ Admin
+    </a>
+
+    <button
+        type="button"
+        id="mobileMenuClose"
+    >
+        Close Menu
+    </button>
+
+</aside>
+
+
+
+<!-- =======================================================
+     LANGUAGE PANEL
+======================================================= -->
+
+div
+id="languagePanel"
+class="language-panel"
+hidden
+role="dialog"
+aria-modal="true"
+aria-labelledby="languageTitle"
+>
+
+    <div class="language-panel-head">
+
+        <h2 id="languageTitle">
+            Select Language
+        </h2>
+
+        <button
+            type="button"
+            id="languageClose"
+            aria-label="Close language panel"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="language-option"
+        data-language="en"
+    >
+        🇬🇧 English
+    </button>
+
+
+    <button
+        type="button"
+        class="language-option"
+        data-language="hi"
+    >
+        🇮🇳 Hindi / हिन्दी
+    </button>
+
+
+    <button
+        type="button"
+        class="language-option"
+        data-language="gu"
+    >
+        🇮🇳 Gujarati / ગુજરાતી
+    </button>
+
+
+    <button
+        type="button"
+        class="language-option"
+        data-language="sa"
+    >
+        🕉️ Sanskrit / संस्कृत
+    </button>
+
+</div>
+
+
+
+<!-- =======================================================
+     MAIN HOME
+======================================================= -->
+
+<main
+    id="main-content"
+    class="container"
+>
+
+
+    <!-- HERO -->
+
+    <section
+        class="hero-section"
+        id="home"
+    >
+
+        <div class="hero-card">
+
+            <div class="hero-kicker">
+                ALON HISTORYVERSE 24
+            </div>
+
+
+            <h1>
+                Explore Human History
+            </h1>
+
+
+            <p class="hero-description">
+
+                Discover ancient civilizations,
+                countries, cultures, heritage,
+                historical timelines, books,
+                articles and knowledge from
+                around the world.
+
+            </p>
+
+
+
+            <!-- SEARCH -->
+
+            <form
+                class="search-form"
+                id="globalSearchForm"
+                role="search"
+            >
+
+                <label
+                    class="sr-only"
+                    for="globalSearch"
+                >
+                    Search HistoryVerse
+                </label>
+
+
+                <input
+                    type="search"
+                    id="globalSearch"
+                    name="q"
+                    placeholder="Search history, countries, civilizations..."
+                    autocomplete="off"
+                >
+
+
+                <button
+                    type="submit"
+                    aria-label="Search"
+                >
+                    🔎
+                </button>
+
+            </form>
+
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="quick-actions">
+
+                <a
+                    class="quick-action"
+                    href="html/library.html"
+                >
+                    📚 Open Library
+                </a>
+
+
+                <a
+                    class="quick-action"
+                    href="html/countries.html"
+                >
+                    🌍 Explore Countries
+                </a>
+
+
+                <a
+                    class="quick-action"
+                    href="html/civilizations.html"
+                >
+                    🏺 Civilizations
+                </a>
+
+
+                <a
+                    class="quick-action"
+                    href="html/timeline.html"
+                >
+                    ⏳ Historical Timeline
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         KNOWLEDGE SYSTEM
+    ==================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <div class="section-kicker">
+                Knowledge System
+            </div>
+
+            <h2>
+                Explore HistoryVerse
+            </h2>
+
+        </div>
+
+
+        <div
+            class="quick-actions"
+            id="knowledgeNavigation"
+        >
+
+            <a
+                class="quick-action clickable-card"
+                href="html/library.html"
+            >
+                📚 Library
+            </a>
+
+
+            <a
+                class="quick-action clickable-card"
+                href="html/department.html"
+            >
+                🏛️ Departments
+            </a>
+
+
+            <a
+                class="quick-action clickable-card"
+                href="html/subject.html"
+            >
+                📖 Subjects
+            </a>
+
+
+            <a
+                class="quick-action clickable-card"
+                href="html/book.html"
+            >
+                📕 Books
+            </a>
+
+
+            <a
+                class="quick-action clickable-card"
+                href="html/read.html"
+            >
+                📜 Read
+            </a>
+
+
+            <a
+                class="quick-action clickable-card"
+                href="html/articles.html"
+            >
+                📰 Articles
+            </a>
+
+
+            <a
+                class="quick-action clickable-card"
+                href="html/heritage.html"
+            >
+                🏰 Heritage
+            </a>
+
+
+            <a
+                class="quick-action clickable-card"
+                href="html/discover.html"
+            >
+                🔎 Discover
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         WORLD HISTORY
+    ==================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <div class="section-kicker">
+                World History
+            </div>
+
+            <h2>
+                Explore the World
+            </h2>
+
+            <p>
+                Explore countries, civilizations,
+                heritage sites and historical events.
+            </p>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+            <a
+                class="quick-action"
+                href="html/countries.html"
+            >
+                🌍 Countries
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/country.html"
+            >
+                🗺️ Country Explorer
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/civilizations.html"
+            >
+                🏺 Civilizations
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/heritage.html"
+            >
+                🏰 Heritage
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/timeline.html"
+            >
+                ⏳ Timeline
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SUBJECTS
+    ==================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <div class="section-kicker">
+                Subjects
+            </div>
+
+            <h2>
+                Knowledge Categories
+            </h2>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+            <a
+                class="quick-action"
+                href="html/mathematics.html"
+            >
+                🔢 Mathematics
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/computer.html"
+            >
+                💻 Computer
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/jobs.html"
+            >
+                💼 Jobs & Careers
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/trees.html"
+            >
+                🌳 Trees
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/categories.html"
+            >
+                🗂️ All Categories
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         ARTICLES
+    ==================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <div class="section-kicker">
+                History Articles
+            </div>
+
+            <h2>
+                Latest Knowledge
+            </h2>
+
+        </div>
+
+
+        <div
+            id="featuredArticles"
+            class="article-grid"
+        >
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h3>
+                        Explore Historical Articles
+                    </h3>
+
+                    <p>
+                        Open the Articles section to
+                        explore published historical
+                        knowledge.
+                    </p>
+
+                    <a
+                        class="quick-action"
+                        href="html/articles.html"
+                    >
+                        Open Articles
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         HERITAGE
+    ==================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <div class="section-kicker">
+                Heritage
+            </div>
+
+            <h2>
+                Historical Heritage
+            </h2>
+
+            <p>
+                Explore forts, monuments,
+                ancient cities and cultural heritage.
+            </p>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+            <a
+                class="quick-action"
+                href="html/heritage.html"
+            >
+                🏰 Explore Heritage
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/gallery.html"
+            >
+                🖼️ Open Gallery
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         CONTRIBUTE
+    ==================================================== -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <div class="section-kicker">
+                Community
+            </div>
+
+            <h2>
+                Contribute to HistoryVerse
+            </h2>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+            <a
+                class="quick-action"
+                href="html/contribute.html"
+            >
+                ✍️ Contribute
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/guidelines.html"
+            >
+                📋 Guidelines
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="html/contributor-agreement.html"
+            >
+                📜 Contributor Agreement
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer class="site-footer">
+
+    <div class="container">
+
+        <h3>
+            ALON HISTORYVERSE 24
+        </h3>
+
+        <p>
+            Created and owned by Baba Thecno Guru.
+        </p>
+
+
+        <div class="quick-actions">
+
+            <a href="html/about.html">
+                About
+            </a>
+
+            <a href="html/contact.html">
+                Contact
+            </a>
+
+            <a href="html/privacy.html">
+                Privacy
+            </a>
+
+            <a href="html/terms.html">
+                Terms
+            </a>
+
+            <a href="html/copyright.html">
+                Copyright
+            </a>
+
+            <a href="html/login.html">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =======================================================
+     CENTRAL ALON ROUTER / CONFIG
+======================================================= -->
+
+<script>
+
+(function () {
 
     "use strict";
 
 
-    /* =====================================================
-       DUPLICATE LOAD PROTECTION
-    ===================================================== */
-
-    if (window.__ALON_HISTORYVERSE_MASTER__) {
-        return;
-    }
-
-    window.__ALON_HISTORYVERSE_MASTER__ = true;
+    /*
+     * =====================================================
+     * ALON HISTORYVERSE 24
+     * CENTRAL ROUTING CONFIGURATION
+     * =====================================================
+     */
 
 
-    /* =====================================================
-       MASTER INFORMATION
-    ===================================================== */
+    const ALON_CONFIG = {
 
-    window.ALONHistoryVerseMaster = {
+        brand:
+            "ALON HISTORYVERSE 24",
 
-        version: "V100-COMPATIBILITY-1.0",
+        creator:
+            "Baba Thecno Guru",
 
-        ready: false,
+        root:
+            "./",
 
-        name: "ALON HISTORYVERSE 24"
+        folders: {
 
-    };
+            html:
+                "html/",
+
+            css:
+                "css/",
+
+            images:
+                "images/",
+
+            data:
+                "data/",
+
+            js:
+                "jss/"
+
+        },
 
 
-    /* =====================================================
-       SAFE HELPERS
-    ===================================================== */
+        pages: {
 
-    const $ = (selector, root = document) => {
+            home:
+                "./",
 
-        try {
-            return root.querySelector(selector);
-        } catch (_) {
-            return null;
+            library:
+                "html/library.html",
+
+            department:
+                "html/department.html",
+
+            subject:
+                "html/subject.html",
+
+            book:
+                "html/book.html",
+
+            read:
+                "html/read.html",
+
+            articles:
+                "html/articles.html",
+
+            article:
+                "html/article.html",
+
+            countries:
+                "html/countries.html",
+
+            country:
+                "html/country.html",
+
+            civilizations:
+                "html/civilizations.html",
+
+            heritage:
+                "html/heritage.html",
+
+            timeline:
+                "html/timeline.html",
+
+            discover:
+                "html/discover.html",
+
+            categories:
+                "html/categories.html",
+
+            gallery:
+                "html/gallery.html",
+
+            contribute:
+                "html/contribute.html",
+
+            guidelines:
+                "html/guidelines.html",
+
+            contributorAgreement:
+                "html/contributor-agreement.html",
+
+            about:
+                "html/about.html",
+
+            contact:
+                "html/contact.html",
+
+            login:
+                "html/login.html",
+
+            admin:
+                "html/admin.html",
+
+            copyright:
+                "html/copyright.html",
+
+            privacy:
+                "html/privacy.html",
+
+            terms:
+                "html/terms.html",
+
+            mathematics:
+                "html/mathematics.html",
+
+            computer:
+                "html/computer.html",
+
+            jobs:
+                "html/jobs.html",
+
+            trees:
+                "html/trees.html"
+
+        },
+
+
+        data: {
+
+            library:
+                "data/library.json",
+
+            heritage:
+                "data/heritage.json",
+
+            timeline:
+                "data/timeline.json",
+
+            countries:
+                "data/countries.json",
+
+            civilizations:
+                "data/civilizations.json"
+
         }
 
     };
 
 
-    const $$ = (selector, root = document) => {
+    /*
+     * Expose central configuration
+     */
 
-        try {
-            return Array.from(
-                root.querySelectorAll(selector)
-            );
-        } catch (_) {
-            return [];
-        }
-
-    };
+    window.ALON_HISTORYVERSE =
+        ALON_CONFIG;
 
 
-    const safe = (fn) => {
 
-        try {
+    /*
+     * =====================================================
+     * SAFE PAGE NAVIGATION
+     * =====================================================
+     */
 
-            return fn();
-
-        } catch (error) {
-
-            console.warn(
-                "[ALON MASTER]",
-                error
-            );
-
-            return null;
-
-        }
-
-    };
-
-
-    /* =====================================================
-       SAFE NAVIGATION
-    ===================================================== */
-
-    const navigate = (url) => {
-
-        if (!url) {
-            return;
-        }
-
+    window.ALON_GO = function (page) {
 
         const target =
-            String(url).trim();
+            ALON_CONFIG.pages[page];
 
 
-        if (
-            !target ||
-            target === "#" ||
-            target === "javascript:void(0)"
-        ) {
+        if (!target) {
+
+            console.warn(
+                "ALON: Unknown page:",
+                page
+            );
+
+            return false;
+
+        }
+
+
+        window.location.href =
+            target;
+
+
+        return true;
+
+    };
+
+
+
+    /*
+     * =====================================================
+     * MOBILE MENU
+     * =====================================================
+     */
+
+    const menuButton =
+        document.getElementById(
+            "menuButton"
+        );
+
+
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+
+    const mobileMenuClose =
+        document.getElementById(
+            "mobileMenuClose"
+        );
+
+
+    function openMenu() {
+
+        if (!mobileMenu) {
             return;
         }
 
 
-        safe(() => {
-
-            window.location.href =
-                target;
-
-        });
-
-    };
+        mobileMenu.hidden =
+            false;
 
 
-    window.ALON_HISTORYVERSE_NAVIGATE =
-        navigate;
+        document.body.classList.add(
+            "menu-open"
+        );
 
 
-    /* =====================================================
-       FIND URL FROM CARD
-    ===================================================== */
+        if (menuButton) {
 
-    const getCardURL = (card) => {
-
-        if (!card) {
-            return "";
-        }
-
-
-        let url =
-            card.getAttribute(
-                "data-card-url"
+            menuButton.setAttribute(
+                "aria-expanded",
+                "true"
             );
 
+        }
 
-        if (!url) {
+    }
 
-            url =
-                card.getAttribute(
-                    "data-href"
-                );
 
+    function closeMenu() {
+
+        if (!mobileMenu) {
+            return;
         }
 
 
-        if (!url) {
+        mobileMenu.hidden =
+            true;
 
-            url =
-                card.getAttribute(
-                    "data-url"
-                );
+
+        document.body.classList.remove(
+            "menu-open"
+        );
+
+
+        if (menuButton) {
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
         }
 
-
-        if (!url) {
-
-            const link =
-                card.querySelector(
-                    "a[href]"
-                );
+    }
 
 
-            if (link) {
+    if (menuButton) {
 
-                url =
-                    link.getAttribute(
-                        "href"
-                    );
+        menuButton.addEventListener(
+            "click",
+            function () {
+
+                if (mobileMenu.hidden) {
+
+                    openMenu();
+
+                } else {
+
+                    closeMenu();
+
+                }
 
             }
+        );
 
+    }
+
+
+    if (mobileMenuClose) {
+
+        mobileMenuClose.addEventListener(
+            "click",
+            closeMenu
+        );
+
+    }
+
+
+    if (mobileMenu) {
+
+        mobileMenu
+            .querySelectorAll("a")
+            .forEach(function (link) {
+
+                link.addEventListener(
+                    "click",
+                    closeMenu
+                );
+
+            });
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * LANGUAGE PANEL
+     * =====================================================
+     */
+
+    const languageButton =
+        document.getElementById(
+            "languageButton"
+        );
+
+
+    const languagePanel =
+        document.getElementById(
+            "languagePanel"
+        );
+
+
+    const languageClose =
+        document.getElementById(
+            "languageClose"
+        );
+
+
+    function openLanguage() {
+
+        if (!languagePanel) {
+            return;
         }
 
 
-        return url || "";
-
-    };
-
-
-    /* =====================================================
-       FULL CARD CLICK FALLBACK
-       
-       IMPORTANT:
-       Existing button/link clicks are ignored.
-       Existing handlers are not cancelled.
-    ===================================================== */
-
-    const setupCardFallback = () => {
-
-        document.addEventListener(
-            "click",
-            (event) => {
-
-                const card =
-                    event.target.closest(
-                        "[data-card], " +
-                        "[data-article-card], " +
-                        "[data-library-card], " +
-                        ".content-card, " +
-                        ".clickable-card, " +
-                        ".clickable-row"
-                    );
+        languagePanel.hidden =
+            false;
 
 
-                if (!card) {
-                    return;
-                }
-
-
-                /*
-                 * Existing links/buttons continue
-                 * to work normally.
-                 */
-
-                if (
-                    event.target.closest(
-                        "a, button, input, " +
-                        "textarea, select, label"
-                    )
-                ) {
-                    return;
-                }
-
-
-                const url =
-                    getCardURL(card);
-
-
-                if (!url) {
-                    return;
-                }
-
-
-                /*
-                 * Do NOT stop propagation.
-                 * Existing project systems remain active.
-                 */
-
-                navigate(url);
-
-            },
-            false
-        );
-
-    };
-
-
-    /* =====================================================
-       KEYBOARD CARD FALLBACK
-    ===================================================== */
-
-    const setupKeyboardCards = () => {
-
-        document.addEventListener(
-            "keydown",
-            (event) => {
-
-                if (
-                    event.key !== "Enter" &&
-                    event.key !== " "
-                ) {
-                    return;
-                }
-
-
-                const card =
-                    event.target.closest(
-                        "[data-card], " +
-                        "[data-article-card], " +
-                        "[data-library-card], " +
-                        ".content-card, " +
-                        ".clickable-card, " +
-                        ".clickable-row"
-                    );
-
-
-                if (!card) {
-                    return;
-                }
-
-
-                /*
-                 * Don't interfere with
-                 * controls inside cards.
-                 */
-
-                if (
-                    event.target.closest(
-                        "a, button, input, " +
-                        "textarea, select"
-                    )
-                ) {
-                    return;
-                }
-
-
-                const url =
-                    getCardURL(card);
-
-
-                if (!url) {
-                    return;
-                }
-
-
-                event.preventDefault();
-
-                navigate(url);
-
-            },
-            false
-        );
-
-    };
-
-
-    /* =====================================================
-       MOBILE MENU FALLBACK
-       
-       Only works if an existing menu system
-       has not already handled the click.
-    ===================================================== */
-
-    const setupMenuFallback = () => {
-
-        document.addEventListener(
-            "click",
-            (event) => {
-
-                const toggle =
-                    event.target.closest(
-                        "[data-menu-toggle]"
-                    );
-
-
-                if (!toggle) {
-                    return;
-                }
-
-
-                /*
-                 * If another handler already
-                 * prevented the event, do nothing.
-                 */
-
-                if (event.defaultPrevented) {
-                    return;
-                }
-
-
-                const menu =
-                    document.getElementById(
-                        toggle.getAttribute(
-                            "aria-controls"
-                        ) || "mobile-menu"
-                    );
-
-
-                if (!menu) {
-                    return;
-                }
-
-
-                /*
-                 * Existing controller may already
-                 * have changed this state.
-                 *
-                 * We only ensure accessibility state.
-                 */
-
-                const open =
-                    !menu.hidden;
-
-
-                toggle.setAttribute(
-                    "aria-expanded",
-                    String(open)
-                );
-
-            },
-            false
+        document.body.classList.add(
+            "language-open"
         );
 
 
-        /*
-         * Close button fallback
-         */
+        if (languageButton) {
 
-        document.addEventListener(
+            languageButton.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+        }
+
+    }
+
+
+    function closeLanguage() {
+
+        if (!languagePanel) {
+            return;
+        }
+
+
+        languagePanel.hidden =
+            true;
+
+
+        document.body.classList.remove(
+            "language-open"
+        );
+
+
+        if (languageButton) {
+
+            languageButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+
+
+    if (languageButton) {
+
+        languageButton.addEventListener(
             "click",
-            (event) => {
+            openLanguage
+        );
 
-                const close =
-                    event.target.closest(
-                        "[data-menu-close]"
-                    );
+    }
 
 
-                if (!close) {
-                    return;
-                }
+    if (languageClose) {
+
+        languageClose.addEventListener(
+            "click",
+            closeLanguage
+        );
+
+    }
 
 
-                const menu =
-                    close.closest(
-                        "[data-mobile-menu]"
-                    ) ||
-                    $("#mobile-menu");
+
+    /*
+     * LANGUAGE STORAGE
+     */
+
+    document
+        .querySelectorAll(
+            ".language-option"
+        )
+        .forEach(function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const language =
+                        button.dataset.language;
 
 
-                if (!menu) {
-                    return;
-                }
-
-
-                /*
-                 * Existing handler gets priority.
-                 * This only guarantees final state.
-                 */
-
-                if (!event.defaultPrevented) {
-
-                    menu.hidden = true;
-
-                    const toggle =
-                        $(
-                            "[data-menu-toggle]"
-                        );
-
-
-                    if (toggle) {
-
-                        toggle.setAttribute(
-                            "aria-expanded",
-                            "false"
-                        );
-
+                    if (!language) {
+                        return;
                     }
 
-                }
-
-            },
-            false
-        );
-
-    };
-
-
-    /* =====================================================
-       LANGUAGE FALLBACK
-    ===================================================== */
-
-    const setupLanguageFallback = () => {
-
-        document.addEventListener(
-            "click",
-            (event) => {
-
-                const option =
-                    event.target.closest(
-                        "[data-language]"
-                    );
-
-
-                if (!option) {
-                    return;
-                }
-
-
-                const language =
-                    option.getAttribute(
-                        "data-language"
-                    );
-
-
-                if (!language) {
-                    return;
-                }
-
-
-                /*
-                 * Save language without replacing
-                 * existing language engine.
-                 */
-
-                safe(() => {
 
                     localStorage.setItem(
-                        "historyverse-language",
+                        "alon_historyverse_language",
                         language
                     );
 
-                });
-
-
-                safe(() => {
 
                     document.documentElement
                         .setAttribute(
@@ -514,19 +1368,10 @@
                             language
                         );
 
-                });
-
-
-                /*
-                 * Tell existing systems that
-                 * language changed.
-                 */
-
-                safe(() => {
 
                     document.dispatchEvent(
                         new CustomEvent(
-                            "alon:language-change",
+                            "alon:languagechange",
                             {
                                 detail: {
                                     language
@@ -535,523 +1380,234 @@
                         )
                     );
 
-                });
 
-            },
-            false
-        );
-
-    };
-
-
-    /* =====================================================
-       SEARCH FALLBACK
-       
-       Existing search systems are not replaced.
-    ===================================================== */
-
-    const setupSearchFallback = () => {
-
-        document.addEventListener(
-            "submit",
-            (event) => {
-
-                const form =
-                    event.target.closest(
-                        "[data-search-form]"
-                    );
-
-
-                if (!form) {
-                    return;
-                }
-
-
-                /*
-                 * Existing search engine gets priority.
-                 */
-
-                if (event.defaultPrevented) {
-                    return;
-                }
-
-
-                const input =
-                    form.querySelector(
-                        "[data-search-input]"
-                    ) ||
-                    form.querySelector(
-                        "input[name='q']"
-                    ) ||
-                    form.querySelector(
-                        "input[type='search']"
-                    );
-
-
-                if (!input) {
-                    return;
-                }
-
-
-                const query =
-                    input.value.trim();
-
-
-                if (!query) {
-                    return;
-                }
-
-
-                safe(() => {
-
-                    localStorage.setItem(
-                        "historyverse-search",
-                        query
-                    );
-
-                });
-
-
-                /*
-                 * Only fallback when no existing
-                 * system has stopped the form.
-                 */
-
-                event.preventDefault();
-
-
-                navigate(
-                    "articles.html?search=" +
-                    encodeURIComponent(query)
-                );
-
-            },
-            false
-        );
-
-    };
-
-
-    /* =====================================================
-       LIBRARY FALLBACK
-       
-       Supports:
-       Library
-       Department
-       Subject
-       Book
-       Read
-    ===================================================== */
-
-    const setupLibraryFallback = () => {
-
-        document.addEventListener(
-            "click",
-            (event) => {
-
-                /*
-                 * Don't interfere with actual links.
-                 */
-
-                if (
-                    event.target.closest(
-                        "a, button"
-                    )
-                ) {
-                    return;
-                }
-
-
-                const department =
-                    event.target.closest(
-                        "[data-library-department]"
-                    );
-
-
-                const subject =
-                    event.target.closest(
-                        "[data-library-subject]"
-                    );
-
-
-                const book =
-                    event.target.closest(
-                        "[data-library-book]"
-                    );
-
-
-                const read =
-                    event.target.closest(
-                        "[data-library-read]"
-                    );
-
-
-                if (department) {
-
-                    const value =
-                        department.getAttribute(
-                            "data-library-department"
-                        );
-
-
-                    if (value) {
-
-                        navigate(
-                            "department.html?department=" +
-                            encodeURIComponent(value)
-                        );
-
-                    }
-
-                    return;
+                    closeLanguage();
 
                 }
-
-
-                if (subject) {
-
-                    const value =
-                        subject.getAttribute(
-                            "data-library-subject"
-                        );
-
-
-                    if (value) {
-
-                        navigate(
-                            "subject.html?subject=" +
-                            encodeURIComponent(value)
-                        );
-
-                    }
-
-                    return;
-
-                }
-
-
-                if (book) {
-
-                    const value =
-                        book.getAttribute(
-                            "data-library-book"
-                        );
-
-
-                    if (value) {
-
-                        navigate(
-                            "book.html?book=" +
-                            encodeURIComponent(value)
-                        );
-
-                    }
-
-                    return;
-
-                }
-
-
-                if (read) {
-
-                    const value =
-                        read.getAttribute(
-                            "data-library-read"
-                        );
-
-
-                    if (value) {
-
-                        navigate(
-                            "read.html?book=" +
-                            encodeURIComponent(value)
-                        );
-
-                    }
-
-                }
-
-            },
-            false
-        );
-
-    };
-
-
-    /* =====================================================
-       BACK BUTTON FALLBACK
-    ===================================================== */
-
-    const setupBackFallback = () => {
-
-        document.addEventListener(
-            "click",
-            (event) => {
-
-                const button =
-                    event.target.closest(
-                        "[data-back], " +
-                        "[data-history-back], " +
-                        ".back-button"
-                    );
-
-
-                if (!button) {
-                    return;
-                }
-
-
-                if (event.defaultPrevented) {
-                    return;
-                }
-
-
-                event.preventDefault();
-
-
-                safe(() => {
-
-                    if (
-                        window.history.length > 1
-                    ) {
-
-                        window.history.back();
-
-                    } else {
-
-                        navigate(
-                            "index.html"
-                        );
-
-                    }
-
-                });
-
-            },
-            false
-        );
-
-    };
-
-
-    /* =====================================================
-       YEAR FALLBACK
-    ===================================================== */
-
-    const setupYearFallback = () => {
-
-        const year =
-            new Date().getFullYear();
-
-
-        $$(
-            "[data-year], #current-year"
-        ).forEach(
-            element => {
-
-                /*
-                 * Only fill empty year fields.
-                 * Existing content is not overwritten.
-                 */
-
-                if (
-                    !element.textContent.trim()
-                ) {
-
-                    element.textContent =
-                        String(year);
-
-                }
-
-            }
-        );
-
-    };
-
-
-    /* =====================================================
-       ARTICLE DUPLICATE CHECK
-       
-       IMPORTANT:
-       Does not delete articles.
-       It only exposes a safe utility.
-    ===================================================== */
-
-    const normalize = (value) => {
-
-        return String(value ?? "")
-            .toLowerCase()
-            .normalize("NFKC")
-            .replace(/\s+/g, " ")
-            .trim();
-
-    };
-
-
-    const articleKey = (article) => {
-
-        if (!article) {
-            return "";
-        }
-
-
-        const id =
-            normalize(
-                article.id
-            );
-
-
-        if (id) {
-            return "id:" + id;
-        }
-
-
-        const title =
-            normalize(
-                article.title ||
-                article.name
-            );
-
-
-        return title
-            ? "title:" + title
-            : "";
-
-    };
-
-
-    window.ALON_HISTORYVERSE_ARTICLE_TOOLS = {
-
-        normalize,
-
-        articleKey,
-
-        removeDuplicates(list) {
-
-            if (!Array.isArray(list)) {
-                return [];
-            }
-
-
-            const seen =
-                new Set();
-
-
-            return list.filter(
-                article => {
-
-                    const key =
-                        articleKey(article);
-
-
-                    if (!key) {
-                        return true;
-                    }
-
-
-                    if (seen.has(key)) {
-                        return false;
-                    }
-
-
-                    seen.add(key);
-
-                    return true;
-
-                }
-            );
-
-        }
-
-    };
-
-
-    /* =====================================================
-       READY
-    ===================================================== */
-
-    const start = () => {
-
-        setupCardFallback();
-
-        setupKeyboardCards();
-
-        setupMenuFallback();
-
-        setupLanguageFallback();
-
-        setupSearchFallback();
-
-        setupLibraryFallback();
-
-        setupBackFallback();
-
-        setupYearFallback();
-
-
-        window.ALONHistoryVerseMaster.ready =
-            true;
-
-
-        document.documentElement
-            .setAttribute(
-                "data-alon-master",
-                "ready"
-            );
-
-
-        /*
-         * Custom ready event.
-         */
-
-        safe(() => {
-
-            document.dispatchEvent(
-                new CustomEvent(
-                    "alon:master-ready",
-                    {
-                        detail: {
-                            version:
-                                window
-                                    .ALONHistoryVerseMaster
-                                    .version
-                        }
-                    }
-                )
             );
 
         });
 
 
-        console.log(
-            "ALON HISTORYVERSE 24 — Master Compatibility Controller Ready"
+
+    /*
+     * Restore language
+     */
+
+    const savedLanguage =
+        localStorage.getItem(
+            "alon_historyverse_language"
         );
 
-    };
 
+    if (savedLanguage) {
 
-    /* =====================================================
-       DOM READY
-    ===================================================== */
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            start,
-            {
-                once: true
-            }
-        );
-
-    } else {
-
-        start();
+        document.documentElement
+            .setAttribute(
+                "lang",
+                savedLanguage
+            );
 
     }
 
 
+
+    /*
+     * =====================================================
+     * GLOBAL SEARCH
+     * =====================================================
+     */
+
+    const searchForm =
+        document.getElementById(
+            "globalSearchForm"
+        );
+
+
+    const searchInput =
+        document.getElementById(
+            "globalSearch"
+        );
+
+
+    if (searchForm && searchInput) {
+
+        searchForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const query =
+                    searchInput.value.trim();
+
+
+                if (!query) {
+
+                    searchInput.focus();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Send search to Articles page.
+                 *
+                 * This avoids incorrectly sending
+                 * every search to Library.
+                 */
+
+                const url =
+                    "html/articles.html?q=" +
+                    encodeURIComponent(
+                        query
+                    );
+
+
+                window.location.href =
+                    url;
+
+            }
+        );
+
+    }
+
+
+
+    /*
+     * =====================================================
+     * ESC KEY
+     * =====================================================
+     */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeMenu();
+
+                closeLanguage();
+
+            }
+
+        }
+    );
+
+
+
+    /*
+     * =====================================================
+     * CLOSE OVERLAY
+     * =====================================================
+     */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                document.body.classList.contains(
+                    "menu-open"
+                )
+            ) {
+
+                if (
+                    mobileMenu &&
+                    !mobileMenu.contains(
+                        event.target
+                    ) &&
+                    event.target !==
+                    menuButton
+                ) {
+
+                    closeMenu();
+
+                }
+
+            }
+
+        }
+    );
+
+
+
+    /*
+     * =====================================================
+     * DEBUG / SYSTEM INFORMATION
+     * =====================================================
+     */
+
+    window.ALON_SYSTEM = {
+
+        version:
+            "V100",
+
+        files:
+            60,
+
+        architecture:
+            "Root Index + HTML + CSS + JSS + DATA + IMAGES",
+
+        singleIndex:
+            true,
+
+        rootIndex:
+            true,
+
+        githubPages:
+            true,
+
+        bilingual:
+            true,
+
+        mobile:
+            true,
+
+        centralizedNavigation:
+            true
+
+    };
+
+
+    console.log(
+        "ALON HISTORYVERSE 24 V100 initialized."
+    );
+
 })();
+
+</script>
+
+
+
+<!-- =======================================================
+     OPTIONAL ENGINE LOADER
+     
+     IMPORTANT:
+     The existing articles.js contains ES-module exports.
+     Therefore it must be loaded as a module.
+     
+     The remaining project engines can be controlled by
+     master-controller.js.
+======================================================= -->
+
+<script
+    type="module"
+    src="jss/articles.js"
+></script>
+
+
+<script
+    src="jss/master-controller.js"
+    defer
+></script>
+
+
+</body>
+</html>
