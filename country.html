@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <!-- =========================================================
+         ALON HISTORYVERSE 24
+         FILE: html/country.html
+         COUNTRY DETAIL / KNOWLEDGE PAGE
+         Creator / Owner: Baba Thecno Guru
+    ========================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b1220"
+    >
+
+    <meta
+        name="color-scheme"
+        content="dark"
+    >
+
+    <meta
+        name="description"
+        content="Explore country history, culture, languages, heritage and knowledge on ALON HISTORYVERSE 24."
+    >
+
+    <meta
+        name="author"
+        content="Baba Thecno Guru"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <title>Country — ALON HISTORYVERSE 24</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../images/historyverse-logo.svg"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+        .country-page {
+            padding-bottom: 70px;
+        }
+
+        .country-hero {
+            margin-top: 20px;
+            padding: 55px 28px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(214,168,79,.14),
+                    rgba(13,20,34,.97)
+                );
+            border: 1px solid var(--hv-border);
+            border-radius: var(--hv-radius-large);
+            box-shadow: var(--hv-shadow);
+        }
+
+        .country-hero-inner {
+            width: min(100%, 1000px);
+            margin: 0 auto;
+        }
+
+        .country-breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 25px;
+            color: var(--hv-text-secondary);
+            font-size: .78rem;
+        }
+
+        .country-breadcrumb a {
+            color: var(--hv-primary);
+            text-decoration: none;
+        }
+
+        .country-heading {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .country-heading-flag {
+            width: 95px;
+            height: 95px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 95px;
+            font-size: 4.5rem;
+            background: rgba(255,255,255,.035);
+            border: 1px solid var(--hv-border);
+            border-radius: var(--hv-radius);
+        }
+
+        .country-heading h1 {
+            margin: 0;
+            color: var(--hv-text);
+            font-family: var(--hv-font-serif);
+            font-size: clamp(2.1rem, 6vw, 4.4rem);
+            line-height: 1;
+        }
+
+        .country-heading p {
+            margin-top: 10px;
+            color: var(--hv-text-secondary);
+            line-height: 1.7;
+        }
+
+        .country-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .country-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 7px 12px;
+            color: var(--hv-text-secondary);
+            background: var(--hv-surface-light);
+            border: 1px solid var(--hv-border);
+            border-radius: 999px;
+            font-size: .76rem;
+        }
+
+        .country-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 25px;
+        }
+
+        .country-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 9px 15px;
+            border-radius: var(--hv-radius-small);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: .78rem;
+        }
+
+        .country-action.primary {
+            color: #111;
+            background: var(--hv-primary);
+        }
+
+        .country-action.secondary {
+            color: var(--hv-text);
+            background: var(--hv-surface-light);
+            border: 1px solid var(--hv-border);
+        }
+
+        .country-section {
+            padding-top: 45px;
+        }
+
+        .country-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .country-info-card {
+            min-height: 145px;
+            padding: 20px;
+            background: var(--hv-surface);
+            border: 1px solid var(--hv-border);
+            border-radius: var(--hv-radius);
+            box-shadow: var(--hv-shadow-small);
+        }
+
+        .country-info-icon {
+            font-size: 1.8rem;
+        }
+
+        .country-info-card h3 {
+            margin-top: 10px;
+            color: var(--hv-text);
+            font-family: var(--hv-font-serif);
+        }
+
+        .country-info-card p {
+            margin-top: 7px;
+            color: var(--hv-text-secondary);
+            font-size: .8rem;
+            line-height: 1.65;
+        }
+
+        .country-knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .country-knowledge-card {
+            display: block;
+            padding: 22px;
+            color: var(--hv-text);
+            background: var(--hv-surface);
+            border: 1px solid var(--hv-border);
+            border-radius: var(--hv-radius);
+            text-decoration: none;
+            transition:
+                transform var(--hv-transition),
+                border-color var(--hv-transition);
+        }
+
+        .country-knowledge-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(214,168,79,.4);
+        }
+
+        .country-knowledge-card strong {
+            display: block;
+            font-family: var(--hv-font-serif);
+            font-size: 1.05rem;
+        }
+
+        .country-knowledge-card span {
+            display: block;
+            margin-top: 7px;
+            color: var(--hv-text-secondary);
+            font-size: .78rem;
+            line-height: 1.55;
+        }
+
+        .country-notice {
+            margin-top: 35px;
+            padding: 16px;
+            color: var(--hv-text-secondary);
+            background: rgba(214,168,79,.07);
+            border: 1px solid rgba(214,168,79,.18);
+            border-radius: var(--hv-radius-small);
+            font-size: .8rem;
+            line-height: 1.6;
+        }
+
+        .country-error {
+            margin-top: 20px;
+            padding: 35px 20px;
+            text-align: center;
+            background: var(--hv-surface);
+            border: 1px solid var(--hv-border);
+            border-radius: var(--hv-radius);
+        }
+
+        .country-error h1 {
+            font-family: var(--hv-font-serif);
+        }
+
+        .country-error p {
+            margin-top: 10px;
+            color: var(--hv-text-secondary);
+        }
+
+        .country-error a {
+            display: inline-flex;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .country-info-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .country-heading {
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .country-hero {
+                padding: 40px 18px;
+            }
+
+            .country-heading {
+                flex-direction: column;
+            }
+
+            .country-heading-flag {
+                width: 78px;
+                height: 78px;
+                flex-basis: 78px;
+                font-size: 3.4rem;
+            }
+
+            .country-info-grid,
+            .country-knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+
+<body
+    id="alon-historyverse-country"
+    class="historyverse-app country-page"
+    data-version="V100"
+    data-page="country"
+>
+
+
+<a
+    href="#main-content"
+    class="skip-link"
+>
+    Skip to main content
+</a>
+
+
+<!-- =========================================================
+     HEADER
+========================================================== -->
+
+<header
+    id="global-header"
+    class="global-header"
+>
+
+    <div class="header-container">
+
+        <a
+            href="./index.html"
+            class="brand"
+            aria-label="ALON HISTORYVERSE 24 Home"
+        >
+
+            <div class="brand-text">
+
+                <span class="brand-name">
+                    ALON HISTORYVERSE 24
+                </span>
+
+                <span class="brand-tagline">
+                    Created &amp; Owned by Baba Thecno Guru
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <div class="header-actions">
+
+            <button
+                type="button"
+                id="languageBtn"
+                class="header-action language-button"
+                aria-label="Choose language"
+            >
+                🌐
+                <span data-current-language>
+                    English
+                </span>
+            </button>
+
+
+            <a
+                href="./index.html"
+                class="header-action"
+                aria-label="Home"
+            >
+                🏠
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <nav
+        class="main-navigation"
+        aria-label="Main navigation"
+    >
+
+        <div class="navigation-container">
+
+            <a
+                href="./index.html"
+                class="nav-link"
+                data-i18n="home"
+            >
+                Home
+            </a>
+
+            <a
+                href="./articles.html"
+                class="nav-link"
+                data-i18n="articles"
+            >
+                Articles
+            </a>
+
+            <a
+                href="./timeline.html"
+                class="nav-link"
+                data-i18n="timeline"
+            >
+                Timeline
+            </a>
+
+            <a
+                href="./library.html"
+                class="nav-link"
+                data-i18n="library"
+            >
+                📚 Library
+            </a>
+
+            <a
+                href="./countries.html"
+                class="nav-link active"
+                data-i18n="countries"
+            >
+                🌍 Countries
+            </a>
+
+            <a
+                href="./civilizations.html"
+                class="nav-link"
+                data-i18n="civilizations"
+            >
+                Civilizations
+            </a>
+
+            <a
+                href="./heritage.html"
+                class="nav-link"
+                data-i18n="heritage"
+            >
+                Heritage
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================== -->
+
+<main
+    id="main-content"
+    class="main-content"
+>
+
+    <div id="country-app">
+
+        <!-- Dynamic country content -->
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
+
+<footer
+    id="global-footer"
+    class="global-footer"
+>
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+
+            <h2>
+                ALON HISTORYVERSE 24
+            </h2>
+
+            <p>
+                Created &amp; Owned by Baba Thecno Guru.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Explore
+            </h3>
+
+            <a href="./index.html">
+                Home
+            </a>
+
+            <a href="./articles.html">
+                Articles
+            </a>
+
+            <a href="./timeline.html">
+                Timeline
+            </a>
+
+            <a href="./library.html">
+                Library
+            </a>
+
+            <a href="./countries.html">
+                Countries
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Knowledge
+            </h3>
+
+            <a href="./civilizations.html">
+                Civilizations
+            </a>
+
+            <a href="./heritage.html">
+                Heritage
+            </a>
+
+            <a href="./gallery.html">
+                Gallery
+            </a>
+
+            <a href="./discover.html">
+                Discover
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Legal
+            </h3>
+
+            <a href="./privacy.html">
+                Privacy
+            </a>
+
+            <a href="./terms.html">
+                Terms
+            </a>
+
+            <a href="./copyright.html">
+                Copyright
+            </a>
+
+            <a href="./guidelines.html">
+                Guidelines
+            </a>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                ©
+                <span id="current-year">
+                    2026
+                </span>
+                ALON HISTORYVERSE 24.
+                All rights reserved.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     ALON LANGUAGE ENGINE
+========================================================== -->
+
+<script
+    type="module"
+    src="../jss/language.js"
+></script>
+
+
+<!-- =========================================================
+     COUNTRY DETAIL ENGINE
+========================================================== -->
+
+<script
+    src="../jss/country.js"
+></script>
+
+
+</body>
+</html>

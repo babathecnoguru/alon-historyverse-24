@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <!-- =====================================================
+         ALON HISTORYVERSE 24
+         FILE: html/subject.html
+         LIBRARY CHANNEL — SUBJECTS
+         Creator / Owner: Baba Thecno Guru
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080f1d"
+    >
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Library Subjects."
+    >
+
+    <meta
+        name="author"
+        content="Baba Thecno Guru"
+    >
+
+    <title>
+        Subjects | ALON HISTORYVERSE 24
+    </title>
+
+
+    <!-- =====================================================
+         MAIN STYLE
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <!-- =====================================================
+         SUBJECT PAGE STYLE
+    ====================================================== -->
+
+    <style>
+
+        .subject-page {
+            padding-bottom: 70px;
+        }
+
+
+        .subject-hero {
+            max-width: 1180px;
+            margin: 22px auto 0;
+            padding: 46px 20px;
+            text-align: center;
+        }
+
+
+        .subject-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 18px;
+            padding: 9px 14px;
+
+            border: 1px solid
+                rgba(212,175,55,.25);
+
+            border-radius: 10px;
+
+            color: inherit;
+            text-decoration: none;
+
+            background:
+                rgba(255,255,255,.025);
+
+            transition:
+                .2s ease;
+        }
+
+
+        .subject-back:hover,
+        .subject-back:focus-visible {
+
+            border-color:
+                rgba(212,175,55,.55);
+
+            background:
+                rgba(212,175,55,.08);
+
+        }
+
+
+        .subject-search {
+
+            display: flex;
+            gap: 10px;
+
+            max-width: 760px;
+            margin: 22px auto 0;
+        }
+
+
+        .subject-search input {
+
+            flex: 1;
+            min-width: 0;
+            min-height: 50px;
+
+            padding: 12px 16px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.28);
+
+            border-radius: 12px;
+
+            background:
+                rgba(8,15,29,.78);
+
+            color: inherit;
+            outline: none;
+        }
+
+
+        .subject-search input:focus {
+
+            border-color:
+                rgba(212,175,55,.65);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(212,175,55,.08);
+        }
+
+
+        .subject-search button {
+
+            min-width: 54px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.38);
+
+            border-radius: 12px;
+
+            background:
+                rgba(212,175,55,.12);
+
+            color: inherit;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+        }
+
+
+        .subject-search button:hover {
+
+            background:
+                rgba(212,175,55,.22);
+
+        }
+
+
+        .subject-context {
+
+            max-width: 760px;
+
+            margin: 14px auto 0;
+
+            padding: 11px 14px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.15);
+
+            border-radius: 11px;
+
+            color: #aeb7c5;
+
+            font-size: .84rem;
+        }
+
+
+        .subject-toolbar {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 20px;
+        }
+
+
+        .subject-filter {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .subject-filter button {
+
+            min-height: 38px;
+
+            padding: 8px 13px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.18);
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.025);
+
+            color: inherit;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+        }
+
+
+        .subject-filter button:hover {
+
+            border-color:
+                rgba(212,175,55,.45);
+
+        }
+
+
+        .subject-filter button.active {
+
+            background:
+                rgba(212,175,55,.12);
+
+            border-color:
+                rgba(212,175,55,.48);
+
+            color:
+                #d4af37;
+        }
+
+
+        /* =================================================
+           SUBJECT GRID
+        ================================================== */
+
+        .subject-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(0,1fr)
+                );
+
+            gap: 15px;
+        }
+
+
+        /* =================================================
+           FULL CLICKABLE CARD
+        ================================================== */
+
+        .subject-card {
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-height: 205px;
+
+            padding: 20px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.18);
+
+            border-radius: 17px;
+
+            background:
+                rgba(255,255,255,.025);
+
+            color: inherit;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                background .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .subject-card:hover,
+        .subject-card:focus-visible {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                rgba(212,175,55,.52);
+
+            background:
+                rgba(212,175,55,.055);
+
+            box-shadow:
+                0 10px 30px
+                rgba(0,0,0,.18);
+
+        }
+
+
+        .subject-card:focus-visible {
+
+            outline:
+                2px solid
+                rgba(212,175,55,.75);
+
+            outline-offset: 3px;
+        }
+
+
+        .subject-icon {
+
+            display: block;
+
+            font-size: 2.2rem;
+
+            margin-bottom: 11px;
+        }
+
+
+        .subject-card h3 {
+
+            margin: 0;
+
+            font-size: 1.05rem;
+        }
+
+
+        .subject-card p {
+
+            margin: 8px 0 0;
+
+            color: #aeb7c5;
+
+            font-size: .82rem;
+
+            line-height: 1.55;
+        }
+
+
+        .subject-card small {
+
+            display: block;
+
+            margin-top: 7px;
+
+            color: #7f8998;
+
+            font-size: .72rem;
+        }
+
+
+        .subject-open {
+
+            margin-top: auto;
+
+            padding-top: 16px;
+
+            color: #d4af37;
+
+            font-size: .78rem;
+
+            font-weight: 700;
+        }
+
+
+        /* =================================================
+           EMPTY
+        ================================================== */
+
+        .subject-empty {
+
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            border:
+                1px solid
+                rgba(212,175,55,.15);
+
+            border-radius: 15px;
+
+            color: #aeb7c5;
+        }
+
+
+        /* =================================================
+           INFO
+        ================================================== */
+
+        .subject-info {
+
+            margin-top: 30px;
+
+            padding: 25px;
+        }
+
+
+        .subject-status {
+
+            margin-top: 12px;
+
+            color: #aeb7c5;
+
+            font-size: .82rem;
+        }
+
+
+        /* =================================================
+           MOBILE MENU
+        ================================================== */
+
+        #mobile-menu {
+
+            z-index: 9999;
+
+        }
+
+
+        #mobile-menu[hidden] {
+
+            display: none !important;
+
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 1000px) {
+
+            .subject-grid {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0,1fr)
+                    );
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .subject-hero {
+
+                padding:
+                    34px 14px;
+            }
+
+
+            .subject-search {
+
+                flex-direction:
+                    column;
+            }
+
+
+            .subject-search button {
+
+                min-height:
+                    46px;
+            }
+
+
+            .subject-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .subject-toolbar {
+
+                align-items:
+                    stretch;
+            }
+
+
+            .subject-filter {
+
+                width: 100%;
+            }
+
+
+            .subject-filter button {
+
+                flex: 1;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="historyverse-app subject-page"
+    data-page="library-subject"
+    data-version="V100"
+>
+
+
+<!-- =====================================================
+     ACCESSIBILITY
+====================================================== -->
+
+<a
+    class="skip-link"
+    href="#main-content"
+>
+    Skip to content
+</a>
+
+
+<div
+    id="notifications"
+    data-notifications
+    aria-live="polite"
+></div>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header
+    class="site-header"
+    data-site-header
+>
+
+    <div class="brand-wrap">
+
+        <a
+            class="brand"
+            href="library.html"
+            aria-label="ALON HISTORYVERSE 24 Library"
+        >
+            Baba Thecno Guru
+        </a>
+
+        <span class="brand-subtitle">
+            ALON HISTORYVERSE 24
+        </span>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <!-- LANGUAGE -->
+
+        <button
+            type="button"
+            class="icon-button"
+            id="subjectLanguageBtn"
+            data-library-language
+            aria-label="Language"
+        >
+            🌐
+        </button>
+
+
+        <!-- =================================================
+             IMPORTANT:
+             library-engine.js listens to data-menu-toggle
+             ================================================= -->
+
+        <button
+            type="button"
+            class="icon-button"
+            data-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     DESKTOP LIBRARY NAVIGATION
+====================================================== -->
+
+<nav
+    class="desktop-nav"
+    aria-label="Library navigation"
+>
+
+    <a href="library.html">
+        Library
+    </a>
+
+    <a href="department.html">
+        Departments
+    </a>
+
+    <a
+        href="subject.html"
+        aria-current="page"
+    >
+        Subjects
+    </a>
+
+    <a href="book.html">
+        Books
+    </a>
+
+    <a href="read.html">
+        Read
+    </a>
+
+</nav>
+
+
+<!-- =====================================================
+     MOBILE LIBRARY MENU
+     MASTER ENGINE TARGET:
+     #mobile-menu
+====================================================== -->
+
+<aside
+    id="mobile-menu"
+    class="mobile-menu"
+    hidden
+    aria-hidden="true"
+>
+
+    <a href="library.html">
+        Library
+    </a>
+
+    <a href="department.html">
+        Departments
+    </a>
+
+    <a
+        href="subject.html"
+        aria-current="page"
+    >
+        Subjects
+    </a>
+
+    <a href="book.html">
+        Books
+    </a>
+
+    <a href="read.html">
+        Read
+    </a>
+
+
+    <button
+        type="button"
+        data-menu-close
+    >
+        Close
+    </button>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main id="main-content">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section
+        class="hv-section hero-section subject-hero"
+    >
+
+        <div class="hero-card">
+
+            <a
+                class="subject-back"
+                href="library.html"
+            >
+                ← Back to Library
+            </a>
+
+
+            <p class="hero-kicker">
+                ALON HISTORYVERSE 24 • LIBRARY
+            </p>
+
+
+            <h1>
+                Subjects
+            </h1>
+
+
+            <p class="hero-description">
+                Explore knowledge by subject and topic.
+            </p>
+
+
+            <form
+                id="subject-search-form"
+                class="subject-search"
+                role="search"
+            >
+
+                <label
+                    class="sr-only"
+                    for="subject-search-input"
+                >
+                    Search subjects
+                </label>
+
+
+                <input
+                    id="subject-search-input"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="Search subjects..."
+                >
+
+
+                <button
+                    type="submit"
+                    aria-label="Search subjects"
+                >
+                    🔍
+                </button>
+
+            </form>
+
+
+            <div
+                id="subject-context"
+                class="subject-context"
+            >
+                Showing all Library subjects.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SUBJECTS
+    ================================================== -->
+
+    <section class="hv-section">
+
+        <div class="hv-container">
+
+
+            <div class="subject-toolbar">
+
+                <div class="section-heading">
+
+                    <p class="section-kicker">
+                        KNOWLEDGE
+                    </p>
+
+                    <h2>
+                        Explore Subjects
+                    </h2>
+
+                    <p>
+                        Select anywhere on a subject card
+                        to continue.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="subject-filter"
+                    role="group"
+                    aria-label="Subject filters"
+                >
+
+                    <button
+                        type="button"
+                        class="active"
+                        data-subject-filter="all"
+                    >
+                        All
+                    </button>
+
+
+                    <button
+                        type="button"
+                        data-subject-filter="science"
+                    >
+                        Science
+                    </button>
+
+
+                    <button
+                        type="button"
+                        data-subject-filter="technology"
+                    >
+                        Technology
+                    </button>
+
+
+                    <button
+                        type="button"
+                        data-subject-filter="humanities"
+                    >
+                        Humanities
+                    </button>
+
+
+                    <button
+                        type="button"
+                        data-subject-filter="nature"
+                    >
+                        Nature
+                    </button>
+
+
+                    <button
+                        type="button"
+                        data-subject-filter="career"
+                    >
+                        Career
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUBJECT GRID
+            ================================================== -->
+
+            <div
+                id="subject-grid"
+                class="subject-grid"
+            >
+
+
+                <!-- HISTORY -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=history"
+                    data-subject-card
+                    data-category="humanities"
+                    data-subject="history"
+                    data-subject-route="history"
+                >
+
+                    <span class="subject-icon">
+                        📜
+                    </span>
+
+                    <h3>
+                        History
+                    </h3>
+
+                    <p>
+                        Historical events, civilizations,
+                        people, empires and important eras.
+                    </p>
+
+                    <small>
+                        Humanities
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- CIVILIZATION -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=civilization"
+                    data-subject-card
+                    data-category="humanities"
+                    data-subject="civilization"
+                    data-subject-route="civilization"
+                >
+
+                    <span class="subject-icon">
+                        🏛️
+                    </span>
+
+                    <h3>
+                        Civilization
+                    </h3>
+
+                    <p>
+                        Ancient and modern civilizations,
+                        societies and human development.
+                    </p>
+
+                    <small>
+                        Humanities
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- SCIENCE -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=science"
+                    data-subject-card
+                    data-category="science"
+                    data-subject="science"
+                    data-subject-route="science"
+                >
+
+                    <span class="subject-icon">
+                        🔬
+                    </span>
+
+                    <h3>
+                        Science
+                    </h3>
+
+                    <p>
+                        Scientific concepts, discoveries,
+                        experiments and knowledge.
+                    </p>
+
+                    <small>
+                        Science
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- PHYSICS -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=physics"
+                    data-subject-card
+                    data-category="science"
+                    data-subject="physics"
+                    data-subject-route="physics"
+                >
+
+                    <span class="subject-icon">
+                        ⚛️
+                    </span>
+
+                    <h3>
+                        Physics
+                    </h3>
+
+                    <p>
+                        Matter, energy, motion, forces
+                        and the laws of nature.
+                    </p>
+
+                    <small>
+                        Science
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- MATHEMATICS -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=mathematics"
+                    data-subject-card
+                    data-category="science"
+                    data-subject="mathematics"
+                    data-subject-route="mathematics"
+                >
+
+                    <span class="subject-icon">
+                        ➗
+                    </span>
+
+                    <h3>
+                        Mathematics
+                    </h3>
+
+                    <p>
+                        Numbers, equations, geometry,
+                        formulas and mathematical ideas.
+                    </p>
+
+                    <small>
+                        Science
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- BIOLOGY -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=biology"
+                    data-subject-card
+                    data-category="science"
+                    data-subject="biology"
+                    data-subject-route="biology"
+                >
+
+                    <span class="subject-icon">
+                        🧬
+                    </span>
+
+                    <h3>
+                        Biology
+                    </h3>
+
+                    <p>
+                        Life, organisms, cells,
+                        evolution and living systems.
+                    </p>
+
+                    <small>
+                        Science
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- COMPUTER -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=computer"
+                    data-subject-card
+                    data-category="technology"
+                    data-subject="computer"
+                    data-subject-route="computer"
+                >
+
+                    <span class="subject-icon">
+                        💻
+                    </span>
+
+                    <h3>
+                        Computer
+                    </h3>
+
+                    <p>
+                        Computer hardware, software,
+                        programming and digital systems.
+                    </p>
+
+                    <small>
+                        Technology
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- PROGRAMMING -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=programming"
+                    data-subject-card
+                    data-category="technology"
+                    data-subject="programming"
+                    data-subject-route="programming"
+                >
+
+                    <span class="subject-icon">
+                        👨‍💻
+                    </span>
+
+                    <h3>
+                        Programming
+                    </h3>
+
+                    <p>
+                        Programming concepts, languages,
+                        algorithms and software development.
+                    </p>
+
+                    <small>
+                        Technology
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- TECHNOLOGY -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=technology"
+                    data-subject-card
+                    data-category="technology"
+                    data-subject="technology"
+                    data-subject-route="technology"
+                >
+
+                    <span class="subject-icon">
+                        ⚙️
+                    </span>
+
+                    <h3>
+                        Technology
+                    </h3>
+
+                    <p>
+                        Inventions, innovation, digital
+                        systems and modern technology.
+                    </p>
+
+                    <small>
+                        Technology
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- GEOGRAPHY -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=geography"
+                    data-subject-card
+                    data-category="humanities"
+                    data-subject="geography"
+                    data-subject-route="geography"
+                >
+
+                    <span class="subject-icon">
+                        🗺️
+                    </span>
+
+                    <h3>
+                        Geography
+                    </h3>
+
+                    <p>
+                        Earth, regions, countries,
+                        landscapes and places.
+                    </p>
+
+                    <small>
+                        Humanities
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- CULTURE -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=culture"
+                    data-subject-card
+                    data-category="humanities"
+                    data-subject="culture"
+                    data-subject-route="culture"
+                >
+
+                    <span class="subject-icon">
+                        🎭
+                    </span>
+
+                    <h3>
+                        Culture
+                    </h3>
+
+                    <p>
+                        Traditions, customs, languages,
+                        arts and cultural heritage.
+                    </p>
+
+                    <small>
+                        Humanities
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- NATURE -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=nature"
+                    data-subject-card
+                    data-category="nature"
+                    data-subject="nature"
+                    data-subject-route="nature"
+                >
+
+                    <span class="subject-icon">
+                        🌿
+                    </span>
+
+                    <h3>
+                        Nature
+                    </h3>
+
+                    <p>
+                        Natural environments, ecosystems,
+                        wildlife and the natural world.
+                    </p>
+
+                    <small>
+                        Nature
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- MOUNTAINS -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=mountains"
+                    data-subject-card
+                    data-category="nature"
+                    data-subject="mountains"
+                    data-subject-route="mountains"
+                >
+
+                    <span class="subject-icon">
+                        🏔️
+                    </span>
+
+                    <h3>
+                        Mountains
+                    </h3>
+
+                    <p>
+                        Mountain ranges, geology,
+                        landscapes and natural history.
+                    </p>
+
+                    <small>
+                        Nature
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- FORESTS -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=forests"
+                    data-subject-card
+                    data-category="nature"
+                    data-subject="forests"
+                    data-subject-route="forests"
+                >
+
+                    <span class="subject-icon">
+                        🌳
+                    </span>
+
+                    <h3>
+                        Forests & Trees
+                    </h3>
+
+                    <p>
+                        Forest ecosystems, trees,
+                        plants and natural environments.
+                    </p>
+
+                    <small>
+                        Nature
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- JOBS -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=jobs"
+                    data-subject-card
+                    data-category="career"
+                    data-subject="jobs"
+                    data-subject-route="jobs"
+                >
+
+                    <span class="subject-icon">
+                        💼
+                    </span>
+
+                    <h3>
+                        Jobs & Careers
+                    </h3>
+
+                    <p>
+                        Careers, employment, qualifications,
+                        skills and professional opportunities.
+                    </p>
+
+                    <small>
+                        Career
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- EDUCATION -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=education"
+                    data-subject-card
+                    data-category="career"
+                    data-subject="education"
+                    data-subject-route="education"
+                >
+
+                    <span class="subject-icon">
+                        🎓
+                    </span>
+
+                    <h3>
+                        Education
+                    </h3>
+
+                    <p>
+                        Learning, study methods,
+                        educational resources and knowledge.
+                    </p>
+
+                    <small>
+                        Career
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- LAW -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=law"
+                    data-subject-card
+                    data-category="humanities"
+                    data-subject="law"
+                    data-subject-route="law"
+                >
+
+                    <span class="subject-icon">
+                        ⚖️
+                    </span>
+
+                    <h3>
+                        Law
+                    </h3>
+
+                    <p>
+                        General legal knowledge,
+                        legal systems and public education.
+                    </p>
+
+                    <small>
+                        Humanities
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+                <!-- ARTS -->
+
+                <a
+                    class="subject-card"
+                    href="book.html?subject=arts"
+                    data-subject-card
+                    data-category="humanities"
+                    data-subject="arts"
+                    data-subject-route="arts"
+                >
+
+                    <span class="subject-icon">
+                        🎨
+                    </span>
+
+                    <h3>
+                        Arts
+                    </h3>
+
+                    <p>
+                        Visual arts, music, dance,
+                        crafts and creative knowledge.
+                    </p>
+
+                    <small>
+                        Humanities
+                    </small>
+
+                    <span class="subject-open">
+                        Open Books →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 EMPTY MESSAGE
+            ================================================== -->
+
+            <div
+                id="subject-empty"
+                class="subject-empty"
+            >
+                No matching subjects found.
+            </div>
+
+
+            <!-- =================================================
+                 INFORMATION
+            ================================================== -->
+
+            <div
+                class="subject-info content-card"
+            >
+
+                <p class="section-kicker">
+                    LIBRARY CHANNEL
+                </p>
+
+
+                <h2>
+                    Subject System
+                </h2>
+
+
+                <p>
+                    Subjects organize the knowledge inside
+                    ALON HISTORYVERSE 24. Select any complete
+                    subject card to continue to its books.
+                </p>
+
+
+                <p>
+                    Computer and Jobs & Careers are included
+                    as dedicated Library subjects and can
+                    connect to their own books and reading
+                    material.
+                </p>
+
+
+                <p
+                    id="subject-status"
+                    class="subject-status"
+                >
+                    Library Subject Channel ready.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="site-footer">
+
+    <p>
+        ©
+        <span data-year></span>
+        Baba Thecno Guru —
+        ALON HISTORYVERSE 24
+    </p>
+
+
+    <p>
+        History • Culture • Heritage • Knowledge
+    </p>
+
+
+    <div class="footer-links">
+
+        <a href="library.html">
+            Library
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+        <a href="privacy.html">
+            Privacy
+        </a>
+
+        <a href="terms.html">
+            Terms
+        </a>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     MASTER LIBRARY ENGINE
+====================================================== -->
+
+<script
+    type="module"
+    src="../jss/library-engine.js"
+></script>
+
+
+<!-- =====================================================
+     SUBJECT CONTROLLER
+     NO IMPORT
+     NO SECOND MENU ENGINE
+====================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        /* =================================================
+           YEAR
+        ================================================= */
+
+        document
+            .querySelectorAll("[data-year]")
+            .forEach(
+                function (element) {
+
+                    element.textContent =
+                        new Date()
+                            .getFullYear();
+
+                }
+            );
+
+
+        /* =================================================
+           URL PARAMETERS
+        ================================================= */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const selectedSubject =
+            (
+                params.get("subject") || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const searchFromURL =
+            (
+                params.get("search") || ""
+            )
+            .trim();
+
+
+        /* =================================================
+           ELEMENTS
+        ================================================= */
+
+        const context =
+            document.getElementById(
+                "subject-context"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "subject-search-input"
+            );
+
+
+        const searchForm =
+            document.getElementById(
+                "subject-search-form"
+            );
+
+
+        const cards =
+            Array.from(
+                document.querySelectorAll(
+                    "[data-subject-card]"
+                )
+            );
+
+
+        const empty =
+            document.getElementById(
+                "subject-empty"
+            );
+
+
+        const filterButtons =
+            Array.from(
+                document.querySelectorAll(
+                    "[data-subject-filter]"
+                )
+            );
+
+
+        const status =
+            document.getElementById(
+                "subject-status"
+            );
+
+
+        /* =================================================
+           CATEGORY
+        ================================================= */
+
+        let activeCategory =
+            "all";
+
+
+        /* =================================================
+           FILTER FUNCTION
+        ================================================= */
+
+        function applyFilters() {
+
+            const query =
+                String(
+                    searchInput?.value || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            let visible =
+                0;
+
+
+            cards.forEach(
+                function (card) {
+
+                    const text =
+                        card.textContent
+                            .toLowerCase();
+
+
+                    const subject =
+                        String(
+                            card.dataset.subject || ""
+                        )
+                        .toLowerCase();
+
+
+                    const category =
+                        String(
+                            card.dataset.category || ""
+                        )
+                        .toLowerCase();
+
+
+                    const matchesSearch =
+                        !query ||
+                        text.includes(query) ||
+                        subject.includes(query);
+
+
+                    const matchesCategory =
+                        activeCategory === "all" ||
+                        category === activeCategory;
+
+
+                    const shouldShow =
+                        matchesSearch &&
+                        matchesCategory;
+
+
+                    card.hidden =
+                        !shouldShow;
+
+
+                    if (shouldShow) {
+
+                        visible++;
+
+                    }
+
+                }
+            );
+
+
+            if (empty) {
+
+                empty.style.display =
+                    visible === 0
+                        ? "block"
+                        : "none";
+
+            }
+
+
+            if (context) {
+
+                if (query) {
+
+                    context.textContent =
+                        "Showing subjects matching: " +
+                        query;
+
+                }
+                else if (
+                    activeCategory !== "all"
+                ) {
+
+                    context.textContent =
+                        "Showing " +
+                        activeCategory +
+                        " subjects.";
+
+                }
+                else {
+
+                    context.textContent =
+                        "Showing all Library subjects.";
+
+                }
+
+            }
+
+        }
+
+
+        /* =================================================
+           SEARCH FROM URL
+        ================================================= */
+
+        if (searchFromURL) {
+
+            if (searchInput) {
+
+                searchInput.value =
+                    searchFromURL;
+
+            }
+
+        }
+
+
+        /* =================================================
+           SEARCH EVENTS
+        ================================================= */
+
+        searchForm?.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+                applyFilters();
+
+            }
+        );
+
+
+        searchInput?.addEventListener(
+            "input",
+            function () {
+
+                applyFilters();
+
+            }
+        );
+
+
+        /* =================================================
+           CATEGORY FILTERS
+        ================================================= */
+
+        filterButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        filterButtons.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        activeCategory =
+                            String(
+                                button.dataset.subjectFilter ||
+                                "all"
+                            )
+                            .trim()
+                            .toLowerCase();
+
+
+                        /*
+                           Remove URL subject selection
+                           when user chooses a category.
+                        */
+
+                        cards.forEach(
+                            function (card) {
+
+                                card.hidden =
+                                    false;
+
+                            }
+                        );
+
+
+                        applyFilters();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           SELECTED SUBJECT
+        ================================================= */
+
+        if (selectedSubject) {
+
+            const matchingCard =
+                cards.find(
+                    function (card) {
+
+                        return (
+                            String(
+                                card.dataset.subject || ""
+                            )
+                            .trim()
+                            .toLowerCase() ===
+                            selectedSubject
+                        );
+
+                    }
+                );
+
+
+            if (matchingCard) {
+
+                cards.forEach(
+                    function (card) {
+
+                        card.hidden =
+                            card !== matchingCard;
+
+                    }
+                );
+
+
+                if (empty) {
+
+                    empty.style.display =
+                        "none";
+
+                }
+
+
+                if (context) {
+
+                    context.textContent =
+                        "Selected subject: " +
+                        selectedSubject;
+
+                }
+
+            }
+            else {
+
+                applyFilters();
+
+            }
+
+        }
+        else {
+
+            applyFilters();
+
+        }
+
+
+        /* =================================================
+           STATUS
+        ================================================= */
+
+        if (status) {
+
+            status.textContent =
+                "Library Subject Channel ready • V100";
+
+        }
+
+
+        /* =================================================
+           LANGUAGE COMPATIBILITY
+        ================================================= */
+
+        const languageButton =
+            document.getElementById(
+                "subjectLanguageBtn"
+            );
+
+
+        languageButton?.addEventListener(
+            "click",
+            function () {
+
+                document.dispatchEvent(
+                    new CustomEvent(
+                        "historyverse:language-request",
+                        {
+                            detail: {
+
+                                page:
+                                    "subject"
+
+                            }
+
+                        }
+                    )
+                );
+
+            }
+        );
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

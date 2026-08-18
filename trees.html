@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <!-- =========================================================
+         ALON HISTORYVERSE 24
+         FILE: html/trees.html
+
+         LIBRARY MODULE
+         TREES & NATURE
+
+         CONNECTION:
+         library.html
+              ↓
+         library-engine.js
+              ↓
+         trees.html
+
+         VERSION: V100
+         CREATOR / OWNER: Baba Thecno Guru
+    ========================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080f1d"
+    >
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Trees & Nature Library — trees, plants, forests, fruit trees, medicinal plants and natural knowledge."
+    >
+
+    <meta
+        name="author"
+        content="Baba Thecno Guru"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <title>
+        Trees & Nature | ALON HISTORYVERSE 24
+    </title>
+
+
+    <!-- =========================================================
+         GLOBAL PROJECT STYLE
+    ========================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <!-- =========================================================
+         TREES PAGE COMPATIBILITY STYLE
+    ========================================================== -->
+
+    <style>
+
+        .trees-page {
+            padding-bottom: 80px;
+        }
+
+
+        .trees-hero {
+
+            max-width: 1180px;
+
+            margin: 22px auto 0;
+
+            padding: 52px 24px;
+
+            text-align: center;
+
+        }
+
+
+        .trees-hero .hero-card {
+
+            width: 100%;
+
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .trees-search {
+
+            display: flex;
+
+            gap: 10px;
+
+            max-width: 760px;
+
+            margin: 24px auto 0;
+
+        }
+
+
+        .trees-search input {
+
+            flex: 1;
+
+            min-width: 0;
+
+            min-height: 50px;
+
+            padding: 12px 16px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.28);
+
+            border-radius: 12px;
+
+            background:
+                rgba(8,15,29,.78);
+
+            color: inherit;
+
+            outline: none;
+
+        }
+
+
+        .trees-search input:focus {
+
+            border-color:
+                rgba(212,175,55,.65);
+
+        }
+
+
+        .trees-search button {
+
+            min-width: 54px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.38);
+
+            border-radius: 12px;
+
+            background:
+                rgba(212,175,55,.12);
+
+            color: inherit;
+
+            cursor: pointer;
+
+        }
+
+
+        .trees-search button:hover {
+
+            background:
+                rgba(212,175,55,.20);
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ====================================================== */
+
+        .trees-status {
+
+            max-width: 760px;
+
+            margin: 15px auto 0;
+
+            padding: 10px 14px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.14);
+
+            border-radius: 10px;
+
+            color: #9ea8b7;
+
+            font-size: .80rem;
+
+        }
+
+
+        /* =====================================================
+           TOOLBAR
+        ====================================================== */
+
+        .trees-toolbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .trees-filters {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+        }
+
+
+        .tree-filter {
+
+            padding: 9px 13px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.20);
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.025);
+
+            color: inherit;
+
+            cursor: pointer;
+
+        }
+
+
+        .tree-filter:hover,
+        .tree-filter.active {
+
+            border-color:
+                rgba(212,175,55,.50);
+
+            background:
+                rgba(212,175,55,.12);
+
+        }
+
+
+        /* =====================================================
+           TREE GRID
+        ====================================================== */
+
+        .trees-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 15px;
+
+        }
+
+
+        .tree-card {
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-height: 210px;
+
+            padding: 20px;
+
+            color: inherit;
+
+            text-decoration: none;
+
+            border:
+                1px solid
+                rgba(212,175,55,.18);
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,.025);
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                background .2s ease;
+
+        }
+
+
+        .tree-card:hover,
+        .tree-card:focus-visible {
+
+            transform:
+                translateY(-3px);
+
+            border-color:
+                rgba(212,175,55,.55);
+
+            background:
+                rgba(212,175,55,.055);
+
+        }
+
+
+        .tree-icon {
+
+            font-size: 2.3rem;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .tree-card h3 {
+
+            margin: 0;
+
+        }
+
+
+        .tree-card p {
+
+            margin: 8px 0 0;
+
+            color: #aeb7c5;
+
+            line-height: 1.55;
+
+            font-size: .86rem;
+
+        }
+
+
+        .tree-meta {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 6px;
+
+            margin-top: 12px;
+
+        }
+
+
+        .tree-tag {
+
+            padding: 5px 8px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.16);
+
+            border-radius: 8px;
+
+            color: #bfc7d3;
+
+            font-size: .72rem;
+
+        }
+
+
+        .tree-open {
+
+            margin-top: auto;
+
+            padding-top: 15px;
+
+            color: #d4af37;
+
+            font-weight: 700;
+
+            font-size: .78rem;
+
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ====================================================== */
+
+        .tree-empty {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            border:
+                1px dashed
+                rgba(212,175,55,.25);
+
+            border-radius: 14px;
+
+            color: #aeb7c5;
+
+        }
+
+
+        .tree-empty.show {
+
+            display: block;
+
+        }
+
+
+        /* =====================================================
+           INFORMATION PANEL
+        ====================================================== */
+
+        .tree-info {
+
+            margin-top: 28px;
+
+            padding: 26px;
+
+        }
+
+
+        .tree-actions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 18px;
+
+        }
+
+
+        .tree-actions a {
+
+            text-decoration: none;
+
+        }
+
+
+        .tree-rules {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 9px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .tree-rule {
+
+            padding: 12px 14px;
+
+            border:
+                1px solid
+                rgba(212,175,55,.13);
+
+            border-radius: 10px;
+
+            color: #aeb7c5;
+
+            font-size: .80rem;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 1000px) {
+
+            .trees-grid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .trees-hero {
+
+                padding:
+                    36px 14px;
+
+            }
+
+
+            .trees-search {
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .trees-search button {
+
+                min-height:
+                    46px;
+
+            }
+
+
+            .trees-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .tree-rules {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="historyverse-app trees-page"
+    data-page="library-trees"
+    data-library-module="trees"
+    data-version="V100"
+>
+
+
+<!-- =========================================================
+     ACCESSIBILITY
+========================================================== -->
+
+<a
+    class="skip-link"
+    href="#main-content"
+>
+    Skip to content
+</a>
+
+
+<div
+    id="notifications"
+    data-notifications
+    aria-live="polite"
+></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================== -->
+
+<header
+    class="site-header"
+    data-site-header
+>
+
+    <div class="brand-wrap">
+
+        <a
+            class="brand"
+            href="library.html"
+            aria-label="Back to ALON HISTORYVERSE 24 Library"
+        >
+            Baba Thecno Guru
+        </a>
+
+
+        <span class="brand-subtitle">
+            ALON HISTORYVERSE 24 • LIBRARY
+        </span>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <button
+            type="button"
+            class="icon-button"
+            data-language-toggle
+            aria-label="Language"
+        >
+            🌐
+        </button>
+
+
+        <button
+            type="button"
+            class="icon-button"
+            data-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     LIBRARY NAVIGATION
+========================================================== -->
+
+<nav
+    class="desktop-nav"
+    aria-label="Library navigation"
+>
+
+    <a href="library.html">
+        Library
+    </a>
+
+
+    <a href="department.html">
+        Departments
+    </a>
+
+
+    <a href="subject.html">
+        Subjects
+    </a>
+
+
+    <a href="book.html">
+        Books
+    </a>
+
+
+    <a href="read.html">
+        Read
+    </a>
+
+
+    <a href="mathematics.html">
+        Mathematics
+    </a>
+
+
+    <a href="computer.html">
+        Computer
+    </a>
+
+
+    <a
+        href="trees.html"
+        aria-current="page"
+    >
+        Trees
+    </a>
+
+
+    <a href="jobs.html">
+        Jobs
+    </a>
+
+</nav>
+
+
+<!-- =========================================================
+     MOBILE LIBRARY MENU
+========================================================== -->
+
+<aside
+    id="mobile-menu"
+    class="mobile-menu"
+    data-mobile-menu
+    hidden
+>
+
+    <a
+        href="library.html"
+        data-menu-link
+    >
+        📚 Library
+    </a>
+
+
+    <a
+        href="department.html"
+        data-menu-link
+    >
+        🏛️ Departments
+    </a>
+
+
+    <a
+        href="subject.html"
+        data-menu-link
+    >
+        📑 Subjects
+    </a>
+
+
+    <a
+        href="book.html"
+        data-menu-link
+    >
+        📚 Books
+    </a>
+
+
+    <a
+        href="read.html"
+        data-menu-link
+    >
+        📖 Read
+    </a>
+
+
+    <a
+        href="mathematics.html"
+        data-menu-link
+    >
+        ➗ Mathematics
+    </a>
+
+
+    <a
+        href="computer.html"
+        data-menu-link
+    >
+        💻 Computer
+    </a>
+
+
+    <a
+        href="trees.html"
+        data-menu-link
+    >
+        🌳 Trees
+    </a>
+
+
+    <a
+        href="jobs.html"
+        data-menu-link
+    >
+        💼 Jobs
+    </a>
+
+
+    <button
+        type="button"
+        data-menu-close
+    >
+        Close
+    </button>
+
+</aside>
+
+
+<!-- =========================================================
+     LANGUAGE PANEL
+========================================================== -->
+
+<aside
+    id="languagePanel"
+    class="language-panel"
+    data-language-panel
+    aria-hidden="true"
+    hidden
+>
+
+    <div class="language-panel-head">
+
+        <div>
+
+            <p class="section-kicker">
+                ALON HISTORYVERSE 24
+            </p>
+
+
+            <h2>
+                Language
+            </h2>
+
+        </div>
+
+
+        <button
+            type="button"
+            data-language-close
+            aria-label="Close language panel"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="language-current">
+
+        <strong data-current-language>
+            English
+        </strong>
+
+
+        <span data-current-language-code>
+            EN
+        </span>
+
+    </div>
+
+
+    <label
+        class="sr-only"
+        for="languageSearch"
+    >
+        Search language
+    </label>
+
+
+    <input
+        id="languageSearch"
+        type="search"
+        placeholder="Search language..."
+    >
+
+
+    <div
+        id="languageList"
+        class="language-list"
+    ></div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================== -->
+
+<main id="main-content">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section
+        class="hv-section hero-section trees-hero"
+    >
+
+        <div class="hero-card">
+
+            <p class="hero-kicker">
+                ALON HISTORYVERSE 24 • LIBRARY • NATURE
+            </p>
+
+
+            <h1>
+                🌳 Trees & Nature
+            </h1>
+
+
+            <p class="hero-description">
+                Explore trees, plants, forests, fruit trees,
+                medicinal plants and natural knowledge from
+                around the world.
+            </p>
+
+
+            <form
+                id="trees-search-form"
+                class="trees-search"
+                data-trees-search
+            >
+
+                <label
+                    class="sr-only"
+                    for="trees-search-input"
+                >
+                    Search Trees and Nature
+                </label>
+
+
+                <input
+                    id="trees-search-input"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="Search tree, plant, forest..."
+                    data-trees-search-input
+                >
+
+
+                <button
+                    type="submit"
+                    aria-label="Search trees"
+                >
+                    🔍
+                </button>
+
+            </form>
+
+
+            <div
+                class="trees-status"
+                data-trees-status
+                aria-live="polite"
+            >
+                🌳 Trees & Nature Library ready.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         TREE CATEGORIES
+    ====================================================== -->
+
+    <section class="hv-section">
+
+        <div class="hv-container">
+
+
+            <div class="trees-toolbar">
+
+                <div class="section-heading">
+
+                    <p class="section-kicker">
+                        NATURE LIBRARY
+                    </p>
+
+
+                    <h2>
+                        Explore Trees & Nature
+                    </h2>
+
+
+                    <p>
+                        पूरी card पर click करके knowledge खोलें।
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="trees-filters"
+                    data-tree-filters
+                >
+
+                    <button
+                        type="button"
+                        class="tree-filter active"
+                        data-tree-filter="all"
+                    >
+                        All
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="tree-filter"
+                        data-tree-filter="fruit"
+                    >
+                        Fruit
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="tree-filter"
+                        data-tree-filter="medicinal"
+                    >
+                        Medicinal
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="tree-filter"
+                        data-tree-filter="forest"
+                    >
+                        Forest
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="tree-filter"
+                        data-tree-filter="flowering"
+                    >
+                        Flowering
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TREE DATABASE
+            ================================================== -->
+
+            <div
+                class="trees-grid"
+                data-trees-grid
+            >
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=mango"
+                    data-tree-card
+                    data-tree-name="mango"
+                    data-tree-category="fruit"
+                >
+
+                    <span class="tree-icon">
+                        🥭
+                    </span>
+
+
+                    <h3>
+                        Mango Tree
+                    </h3>
+
+
+                    <p>
+                        A tropical fruit tree known for
+                        mangoes and its cultural importance.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Fruit
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Tropical
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=neem"
+                    data-tree-card
+                    data-tree-name="neem"
+                    data-tree-category="medicinal"
+                >
+
+                    <span class="tree-icon">
+                        🌿
+                    </span>
+
+
+                    <h3>
+                        Neem Tree
+                    </h3>
+
+
+                    <p>
+                        A widely known tree of South Asia
+                        with traditional and ecological importance.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Medicinal
+                        </span>
+
+
+                        <span class="tree-tag">
+                            South Asia
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=banyan"
+                    data-tree-card
+                    data-tree-name="banyan"
+                    data-tree-category="forest"
+                >
+
+                    <span class="tree-icon">
+                        🌳
+                    </span>
+
+
+                    <h3>
+                        Banyan Tree
+                    </h3>
+
+
+                    <p>
+                        A large spreading tree recognized for
+                        its aerial roots and extensive canopy.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Forest
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Heritage
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=peepal"
+                    data-tree-card
+                    data-tree-name="peepal"
+                    data-tree-category="forest"
+                >
+
+                    <span class="tree-icon">
+                        🍃
+                    </span>
+
+
+                    <h3>
+                        Peepal Tree
+                    </h3>
+
+
+                    <p>
+                        A long-lived fig tree important in
+                        ecosystems and South Asian culture.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Forest
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Fig
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=gulmohar"
+                    data-tree-card
+                    data-tree-name="gulmohar"
+                    data-tree-category="flowering"
+                >
+
+                    <span class="tree-icon">
+                        🌺
+                    </span>
+
+
+                    <h3>
+                        Gulmohar
+                    </h3>
+
+
+                    <p>
+                        A flowering tree famous for its
+                        bright seasonal blossoms.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Flowering
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Tropical
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=apple"
+                    data-tree-card
+                    data-tree-name="apple"
+                    data-tree-category="fruit"
+                >
+
+                    <span class="tree-icon">
+                        🍎
+                    </span>
+
+
+                    <h3>
+                        Apple Tree
+                    </h3>
+
+
+                    <p>
+                        A fruit-bearing tree cultivated in
+                        temperate regions around the world.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Fruit
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Temperate
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <!-- =================================================
+                     EXTRA NATURE RESOURCES
+                ================================================== -->
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=teak"
+                    data-tree-card
+                    data-tree-name="teak"
+                    data-tree-category="forest"
+                >
+
+                    <span class="tree-icon">
+                        🌲
+                    </span>
+
+
+                    <h3>
+                        Teak Tree
+                    </h3>
+
+
+                    <p>
+                        A valuable tropical hardwood tree
+                        associated with forests and timber.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Forest
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Hardwood
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=guava"
+                    data-tree-card
+                    data-tree-name="guava"
+                    data-tree-category="fruit"
+                >
+
+                    <span class="tree-icon">
+                        🍈
+                    </span>
+
+
+                    <h3>
+                        Guava Tree
+                    </h3>
+
+
+                    <p>
+                        A tropical fruit tree cultivated
+                        widely in warm regions.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Fruit
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Tropical
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=tulsi"
+                    data-tree-card
+                    data-tree-name="tulsi"
+                    data-tree-category="medicinal"
+                >
+
+                    <span class="tree-icon">
+                        🌱
+                    </span>
+
+
+                    <h3>
+                        Tulsi
+                    </h3>
+
+
+                    <p>
+                        An aromatic plant widely known in
+                        South Asian traditional knowledge.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Medicinal
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Plant
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="tree-card"
+                    href="read.html?type=tree&id=rose"
+                    data-tree-card
+                    data-tree-name="rose"
+                    data-tree-category="flowering"
+                >
+
+                    <span class="tree-icon">
+                        🌹
+                    </span>
+
+
+                    <h3>
+                        Rose Plant
+                    </h3>
+
+
+                    <p>
+                        A widely cultivated flowering plant
+                        known for its flowers and cultural value.
+                    </p>
+
+
+                    <div class="tree-meta">
+
+                        <span class="tree-tag">
+                            Flowering
+                        </span>
+
+
+                        <span class="tree-tag">
+                            Garden
+                        </span>
+
+                    </div>
+
+
+                    <span class="tree-open">
+                        Read Knowledge →
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <div
+                class="tree-empty"
+                data-tree-empty
+            >
+                🌱 No trees or nature resources found
+                for this search.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LIBRARY CONNECTION
+    ====================================================== -->
+
+    <section class="hv-section">
+
+        <div class="hv-container">
+
+            <div class="tree-info content-card">
+
+                <p class="section-kicker">
+                    LIBRARY CONNECTION
+                </p>
+
+
+                <h2>
+                    Continue Exploring
+                </h2>
+
+
+                <p>
+                    Trees & Nature is part of the central
+                    ALON HISTORYVERSE 24 Library system.
+                    Continue to Departments, Subjects, Books
+                    or Reading.
+                </p>
+
+
+                <div class="tree-actions">
+
+                    <a
+                        class="primary-button"
+                        href="library.html"
+                    >
+                        📚 Library
+                    </a>
+
+
+                    <a
+                        class="secondary-button"
+                        href="department.html?department=nature"
+                    >
+                        🏛️ Nature Department
+                    </a>
+
+
+                    <a
+                        class="secondary-button"
+                        href="subject.html?subject=trees"
+                    >
+                        📑 Tree Subjects
+                    </a>
+
+
+                    <a
+                        class="secondary-button"
+                        href="book.html?category=nature"
+                    >
+                        📖 Nature Books
+                    </a>
+
+
+                    <a
+                        class="secondary-button"
+                        href="read.html?subject=nature"
+                    >
+                        📖 Read Nature Knowledge
+                    </a>
+
+                </div>
+
+
+                <div class="tree-rules">
+
+                    <div class="tree-rule">
+                        🌳 Nature knowledge can be expanded
+                        through the central Library system.
+                    </div>
+
+
+                    <div class="tree-rule">
+                        📝 Information should be accurate,
+                        educational and useful.
+                    </div>
+
+
+                    <div class="tree-rule">
+                        🌍 Natural knowledge can cover
+                        countries and regions worldwide.
+                    </div>
+
+
+                    <div class="tree-rule">
+                        © Respect copyright and content ownership.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
+
+<footer class="site-footer">
+
+    <p>
+        ©
+        <span data-year></span>
+        Baba Thecno Guru —
+        ALON HISTORYVERSE 24
+    </p>
+
+
+    <p>
+        Trees • Nature • Environment • Knowledge
+    </p>
+
+
+    <div class="footer-links">
+
+        <a href="library.html">
+            Library
+        </a>
+
+
+        <a href="about.html">
+            About
+        </a>
+
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+
+        <a href="privacy.html">
+            Privacy
+        </a>
+
+
+        <a href="terms.html">
+            Terms
+        </a>
+
+
+        <a href="copyright.html">
+            Copyright
+        </a>
+
+
+        <a href="guidelines.html">
+            Guidelines
+        </a>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     CENTRAL LIBRARY ENGINE
+========================================================== -->
+
+<script
+    type="module"
+    src="../jss/library-engine.js"
+></script>
+
+
+<!-- =========================================================
+     TREES PAGE LOCAL BEHAVIOUR
+========================================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+
+            /* =============================================
+               YEAR
+            ============================================== */
+
+            const year =
+                document.querySelector(
+                    "[data-year]"
+                );
+
+
+            if (year) {
+
+                year.textContent =
+                    new Date().getFullYear();
+
+            }
+
+
+            /* =============================================
+               TREE ELEMENTS
+            ============================================== */
+
+            const cards =
+                Array.from(
+                    document.querySelectorAll(
+                        "[data-tree-card]"
+                    )
+                );
+
+
+            const filters =
+                Array.from(
+                    document.querySelectorAll(
+                        "[data-tree-filter]"
+                    )
+                );
+
+
+            const searchForm =
+                document.querySelector(
+                    "[data-trees-search]"
+                );
+
+
+            const searchInput =
+                document.querySelector(
+                    "[data-trees-search-input]"
+                );
+
+
+            const empty =
+                document.querySelector(
+                    "[data-tree-empty]"
+                );
+
+
+            const status =
+                document.querySelector(
+                    "[data-trees-status]"
+                );
+
+
+            /* =============================================
+               TREE FILTER SYSTEM
+            ============================================== */
+
+            function filterTrees() {
+
+                const query =
+                    (
+                        searchInput?.value || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                const activeFilter =
+                    document.querySelector(
+                        "[data-tree-filter].active"
+                    );
+
+
+                const category =
+                    activeFilter
+                        ? (
+                            activeFilter.getAttribute(
+                                "data-tree-filter"
+                            ) || "all"
+                        )
+                        : "all";
+
+
+                let visible =
+                    0;
+
+
+                cards.forEach(
+                    function (card) {
+
+                        const name =
+                            (
+                                card.getAttribute(
+                                    "data-tree-name"
+                                ) || ""
+                            )
+                            .toLowerCase();
+
+
+                        const cardCategory =
+                            card.getAttribute(
+                                "data-tree-category"
+                            ) || "";
+
+
+                        const text =
+                            card.textContent
+                                .toLowerCase();
+
+
+                        const matchesSearch =
+                            !query ||
+                            name.includes(query) ||
+                            text.includes(query);
+
+
+                        const matchesCategory =
+                            category === "all" ||
+                            cardCategory === category;
+
+
+                        const show =
+                            matchesSearch &&
+                            matchesCategory;
+
+
+                        card.hidden =
+                            !show;
+
+
+                        if (show) {
+
+                            visible++;
+
+                        }
+
+                    }
+                );
+
+
+                if (empty) {
+
+                    empty.classList.toggle(
+                        "show",
+                        visible === 0
+                    );
+
+                }
+
+
+                if (status) {
+
+                    status.textContent =
+                        `🌳 ${visible} nature resource${
+                            visible === 1
+                                ? ""
+                                : "s"
+                        } available.`;
+
+                }
+
+            }
+
+
+            /* =============================================
+               CATEGORY BUTTONS
+            ============================================== */
+
+            filters.forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            filters.forEach(
+                                function (item) {
+
+                                    item.classList.remove(
+                                        "active"
+                                    );
+
+                                }
+                            );
+
+
+                            button.classList.add(
+                                "active"
+                            );
+
+
+                            filterTrees();
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =============================================
+               SEARCH SUBMIT
+            ============================================== */
+
+            searchForm?.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    filterTrees();
+
+                }
+            );
+
+
+            /* =============================================
+               LIVE SEARCH
+            ============================================== */
+
+            searchInput?.addEventListener(
+                "input",
+                filterTrees
+            );
+
+
+            /* =============================================
+               MOBILE MENU FALLBACK
+            ============================================== */
+
+            const menuButton =
+                document.querySelector(
+                    "[data-menu-toggle]"
+                );
+
+
+            const menu =
+                document.getElementById(
+                    "mobile-menu"
+                );
+
+
+            menuButton?.addEventListener(
+                "click",
+                function () {
+
+                    if (!menu) {
+
+                        return;
+
+                    }
+
+
+                    const isOpen =
+                        menu.hidden === false;
+
+
+                    menu.hidden =
+                        isOpen;
+
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        String(!isOpen)
+                    );
+
+                }
+            );
+
+
+            const closeButton =
+                document.querySelector(
+                    "[data-menu-close]"
+                );
+
+
+            closeButton?.addEventListener(
+                "click",
+                function () {
+
+                    if (menu) {
+
+                        menu.hidden =
+                            true;
+
+                    }
+
+
+                    menuButton?.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+            );
+
+
+            /* =============================================
+               LANGUAGE PANEL FALLBACK
+            ============================================== */
+
+            const languageButton =
+                document.querySelector(
+                    "[data-language-toggle]"
+                );
+
+
+            const languagePanel =
+                document.querySelector(
+                    "[data-language-panel]"
+                );
+
+
+            const languageClose =
+                document.querySelector(
+                    "[data-language-close]"
+                );
+
+
+            languageButton?.addEventListener(
+                "click",
+                function () {
+
+                    if (!languagePanel) {
+
+                        return;
+
+                    }
+
+
+                    const isOpen =
+                        languagePanel.hidden === false;
+
+
+                    languagePanel.hidden =
+                        isOpen;
+
+
+                    languagePanel.setAttribute(
+                        "aria-hidden",
+                        String(isOpen)
+                    );
+
+                }
+            );
+
+
+            languageClose?.addEventListener(
+                "click",
+                function () {
+
+                    if (!languagePanel) {
+
+                        return;
+
+                    }
+
+
+                    languagePanel.hidden =
+                        true;
+
+
+                    languagePanel.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+                }
+            );
+
+
+            /* =============================================
+               INITIAL TREE STATE
+            ============================================== */
+
+            filterTrees();
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

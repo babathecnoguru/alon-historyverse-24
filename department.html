@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <!-- =====================================================
+         ALON HISTORYVERSE 24
+         FILE: html/department.html
+         LIBRARY DEPARTMENT SYSTEM
+         Creator / Owner: Baba Thecno Guru
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080f1d"
+    >
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Library Departments."
+    >
+
+    <meta
+        name="author"
+        content="Baba Thecno Guru"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <title>
+        Departments | ALON HISTORYVERSE 24
+    </title>
+
+
+    <!-- =====================================================
+         GLOBAL STYLE
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <!-- =====================================================
+         DEPARTMENT STYLE
+    ====================================================== -->
+
+    <style>
+
+        .department-page {
+            padding-bottom: 70px;
+        }
+
+        .department-hero {
+            max-width: 1180px;
+            margin: 22px auto 0;
+            padding: 46px 20px;
+            text-align: center;
+        }
+
+        .department-hero-card {
+            width: 100%;
+        }
+
+        .department-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 18px;
+            padding: 9px 14px;
+            border: 1px solid rgba(212,175,55,.25);
+            border-radius: 10px;
+            color: inherit;
+            text-decoration: none;
+            background: rgba(255,255,255,.025);
+            transition: .2s ease;
+        }
+
+        .department-back:hover,
+        .department-back:focus-visible {
+            border-color: rgba(212,175,55,.55);
+            background: rgba(212,175,55,.08);
+        }
+
+        .department-search {
+            display: flex;
+            gap: 10px;
+            max-width: 760px;
+            margin: 22px auto 0;
+        }
+
+        .department-search input {
+            flex: 1;
+            min-width: 0;
+            min-height: 50px;
+            padding: 12px 16px;
+            border: 1px solid rgba(212,175,55,.28);
+            border-radius: 12px;
+            background: rgba(8,15,29,.78);
+            color: inherit;
+            outline: none;
+        }
+
+        .department-search input:focus {
+            border-color: rgba(212,175,55,.65);
+        }
+
+        .department-search button {
+            min-width: 54px;
+            border: 1px solid rgba(212,175,55,.38);
+            border-radius: 12px;
+            background: rgba(212,175,55,.12);
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .department-search button:hover {
+            background: rgba(212,175,55,.20);
+        }
+
+        .department-context {
+            max-width: 760px;
+            margin: 14px auto 0;
+            padding: 11px 14px;
+            border: 1px solid rgba(212,175,55,.15);
+            border-radius: 11px;
+            color: #aeb7c5;
+            font-size: .84rem;
+        }
+
+        .department-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0,1fr));
+            gap: 15px;
+        }
+
+        .department-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 190px;
+            padding: 20px;
+            border: 1px solid rgba(212,175,55,.18);
+            border-radius: 17px;
+            background: rgba(255,255,255,.025);
+            color: inherit;
+            text-decoration: none;
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                background .2s ease;
+            cursor: pointer;
+        }
+
+        .department-card:hover,
+        .department-card:focus-visible {
+            transform: translateY(-3px);
+            border-color: rgba(212,175,55,.50);
+            background: rgba(212,175,55,.055);
+        }
+
+        .department-card.selected {
+            border-color: rgba(212,175,55,.70);
+            background: rgba(212,175,55,.09);
+        }
+
+        .department-icon {
+            font-size: 2.25rem;
+            margin-bottom: 12px;
+        }
+
+        .department-card h3 {
+            margin: 0;
+        }
+
+        .department-card p {
+            margin: 8px 0 0;
+            color: #aeb7c5;
+            font-size: .83rem;
+            line-height: 1.55;
+        }
+
+        .department-open {
+            margin-top: auto;
+            padding-top: 16px;
+            color: #d4af37;
+            font-size: .78rem;
+            font-weight: 700;
+        }
+
+        .department-info {
+            margin-top: 30px;
+            padding: 24px;
+        }
+
+        .department-status {
+            margin-top: 12px;
+            color: #aeb7c5;
+            font-size: .82rem;
+        }
+
+        .department-empty {
+            display: none;
+            padding: 30px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,.15);
+            border-radius: 15px;
+            color: #aeb7c5;
+        }
+
+        .department-card[hidden] {
+            display: none !important;
+        }
+
+        .department-notification {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            z-index: 9999;
+            max-width: calc(100% - 30px);
+            padding: 12px 16px;
+            border: 1px solid rgba(212,175,55,.35);
+            border-radius: 12px;
+            background: #080f1d;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,.35);
+            font-size: .84rem;
+        }
+
+        @media (max-width: 1000px) {
+
+            .department-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0,1fr));
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .department-hero {
+                padding: 34px 14px;
+            }
+
+            .department-search {
+                flex-direction: column;
+            }
+
+            .department-search button {
+                min-height: 46px;
+            }
+
+            .department-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="historyverse-app department-page"
+    data-page="library-department"
+    data-version="V100"
+>
+
+
+<!-- =====================================================
+     ACCESSIBILITY
+====================================================== -->
+
+<a
+    class="skip-link"
+    href="#main-content"
+>
+    Skip to content
+</a>
+
+
+<div
+    id="notifications"
+    data-notifications
+    aria-live="polite"
+></div>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="site-header">
+
+    <div class="brand-wrap">
+
+        <a
+            class="brand"
+            href="library.html"
+            aria-label="ALON HISTORYVERSE 24 Library"
+        >
+            Baba Thecno Guru
+        </a>
+
+        <span class="brand-subtitle">
+            ALON HISTORYVERSE 24
+        </span>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <button
+            type="button"
+            class="icon-button"
+            id="department-language-button"
+            aria-label="Language"
+        >
+            🌐
+        </button>
+
+
+        <button
+            type="button"
+            class="icon-button"
+            id="department-menu-button"
+            aria-expanded="false"
+            aria-controls="department-mobile-menu"
+            aria-label="Menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     DESKTOP LIBRARY NAVIGATION
+====================================================== -->
+
+<nav
+    class="desktop-nav"
+    aria-label="Library navigation"
+>
+
+    <a href="library.html">
+        Library
+    </a>
+
+    <a
+        href="department.html"
+        aria-current="page"
+    >
+        Departments
+    </a>
+
+    <a href="subject.html">
+        Subjects
+    </a>
+
+    <a href="book.html">
+        Books
+    </a>
+
+    <a href="read.html">
+        Read
+    </a>
+
+    <a href="mathematics.html">
+        Mathematics
+    </a>
+
+    <a href="computer.html">
+        Computer
+    </a>
+
+    <a href="jobs.html">
+        Jobs
+    </a>
+
+    <a href="trees.html">
+        Trees
+    </a>
+
+</nav>
+
+
+<!-- =====================================================
+     MOBILE MENU
+====================================================== -->
+
+<aside
+    id="department-mobile-menu"
+    class="mobile-menu"
+    hidden
+>
+
+    <a href="library.html">
+        Library
+    </a>
+
+    <a href="department.html">
+        Departments
+    </a>
+
+    <a href="subject.html">
+        Subjects
+    </a>
+
+    <a href="book.html">
+        Books
+    </a>
+
+    <a href="read.html">
+        Read
+    </a>
+
+    <a href="mathematics.html">
+        Mathematics
+    </a>
+
+    <a href="computer.html">
+        Computer
+    </a>
+
+    <a href="jobs.html">
+        Jobs
+    </a>
+
+    <a href="trees.html">
+        Trees
+    </a>
+
+    <button
+        type="button"
+        id="department-menu-close"
+    >
+        Close
+    </button>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main id="main-content">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section
+        class="hv-section hero-section department-hero"
+    >
+
+        <div class="hero-card department-hero-card">
+
+
+            <a
+                class="department-back"
+                href="library.html"
+            >
+                ← Back to Library
+            </a>
+
+
+            <p class="hero-kicker">
+                ALON HISTORYVERSE 24 • LIBRARY
+            </p>
+
+
+            <h1>
+                Knowledge Departments
+            </h1>
+
+
+            <p class="hero-description">
+                Explore knowledge through organized
+                Library departments.
+            </p>
+
+
+            <!-- SEARCH -->
+
+            <form
+                id="department-search-form"
+                class="department-search"
+                role="search"
+            >
+
+                <label
+                    class="sr-only"
+                    for="department-search-input"
+                >
+                    Search departments
+                </label>
+
+
+                <input
+                    id="department-search-input"
+                    type="search"
+                    placeholder="Search departments..."
+                    autocomplete="off"
+                >
+
+
+                <button
+                    type="submit"
+                    aria-label="Search departments"
+                >
+                    🔍
+                </button>
+
+            </form>
+
+
+            <div
+                id="department-context"
+                class="department-context"
+                aria-live="polite"
+            >
+                Showing all Library departments.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         DEPARTMENTS
+    ================================================== -->
+
+    <section class="hv-section">
+
+        <div class="hv-container">
+
+
+            <div class="section-heading">
+
+                <p class="section-kicker">
+                    LIBRARY CHANNEL
+                </p>
+
+                <h2>
+                    Departments
+                </h2>
+
+                <p>
+                    Select a complete department card
+                    to continue.
+                </p>
+
+            </div>
+
+
+            <div
+                id="department-grid"
+                class="department-grid"
+            >
+
+
+                <!-- HISTORY -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=history"
+                    data-department-card
+                    data-department="history"
+                >
+
+                    <span class="department-icon">
+                        🏺
+                    </span>
+
+                    <h3>
+                        History & Civilization
+                    </h3>
+
+                    <p>
+                        Human history, civilizations,
+                        historical events and eras.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- COUNTRIES -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=countries"
+                    data-department-card
+                    data-department="countries"
+                >
+
+                    <span class="department-icon">
+                        🌍
+                    </span>
+
+                    <h3>
+                        Countries & Culture
+                    </h3>
+
+                    <p>
+                        Countries, societies, cultures,
+                        traditions and people.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- SCIENCE -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=science"
+                    data-department-card
+                    data-department="science"
+                >
+
+                    <span class="department-icon">
+                        🔬
+                    </span>
+
+                    <h3>
+                        Science
+                    </h3>
+
+                    <p>
+                        Scientific knowledge,
+                        discoveries and learning.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- MATHEMATICS -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=mathematics"
+                    data-department-card
+                    data-department="mathematics"
+                >
+
+                    <span class="department-icon">
+                        ➗
+                    </span>
+
+                    <h3>
+                        Mathematics
+                    </h3>
+
+                    <p>
+                        Mathematics concepts,
+                        formulas and learning.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- COMPUTER -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=computer"
+                    data-department-card
+                    data-department="computer"
+                >
+
+                    <span class="department-icon">
+                        💻
+                    </span>
+
+                    <h3>
+                        Computer
+                    </h3>
+
+                    <p>
+                        Computer knowledge,
+                        software, hardware and technology.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- LAW -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=law"
+                    data-department-card
+                    data-department="law"
+                >
+
+                    <span class="department-icon">
+                        ⚖️
+                    </span>
+
+                    <h3>
+                        Law
+                    </h3>
+
+                    <p>
+                        General legal knowledge,
+                        law and public education.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- JOBS -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=jobs"
+                    data-department-card
+                    data-department="jobs"
+                >
+
+                    <span class="department-icon">
+                        💼
+                    </span>
+
+                    <h3>
+                        Jobs & Careers
+                    </h3>
+
+                    <p>
+                        Careers, employment,
+                        qualifications and opportunities.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- ARTS -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=arts"
+                    data-department-card
+                    data-department="arts"
+                >
+
+                    <span class="department-icon">
+                        🎨
+                    </span>
+
+                    <h3>
+                        Arts & Culture
+                    </h3>
+
+                    <p>
+                        Art, music, dance,
+                        crafts and cultural knowledge.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- GEOGRAPHY -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=geography"
+                    data-department-card
+                    data-department="geography"
+                >
+
+                    <span class="department-icon">
+                        🗺️
+                    </span>
+
+                    <h3>
+                        Geography
+                    </h3>
+
+                    <p>
+                        Earth, regions, landscapes,
+                        places and geographic knowledge.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- CITIES -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=cities"
+                    data-department-card
+                    data-department="cities"
+                >
+
+                    <span class="department-icon">
+                        🏙️
+                    </span>
+
+                    <h3>
+                        Cities
+                    </h3>
+
+                    <p>
+                        Cities, urban history,
+                        places and development.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- VILLAGES -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=villages"
+                    data-department-card
+                    data-department="villages"
+                >
+
+                    <span class="department-icon">
+                        🏡
+                    </span>
+
+                    <h3>
+                        Villages
+                    </h3>
+
+                    <p>
+                        Villages, rural life,
+                        traditions and local history.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- MOUNTAINS -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=mountains"
+                    data-department-card
+                    data-department="mountains"
+                >
+
+                    <span class="department-icon">
+                        🏔️
+                    </span>
+
+                    <h3>
+                        Mountains
+                    </h3>
+
+                    <p>
+                        Mountains, ranges,
+                        geology and natural history.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- FORESTS -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=forests"
+                    data-department-card
+                    data-department="forests"
+                >
+
+                    <span class="department-icon">
+                        🌲
+                    </span>
+
+                    <h3>
+                        Forests & Trees
+                    </h3>
+
+                    <p>
+                        Trees, forests,
+                        ecosystems and nature.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- TECHNOLOGY -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=technology"
+                    data-department-card
+                    data-department="technology"
+                >
+
+                    <span class="department-icon">
+                        ⚙️
+                    </span>
+
+                    <h3>
+                        Technology
+                    </h3>
+
+                    <p>
+                        Technology, inventions,
+                        digital systems and innovation.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+                <!-- EDUCATION -->
+
+                <a
+                    class="department-card"
+                    href="subject.html?department=education"
+                    data-department-card
+                    data-department="education"
+                >
+
+                    <span class="department-icon">
+                        🎓
+                    </span>
+
+                    <h3>
+                        Education
+                    </h3>
+
+                    <p>
+                        Learning, study,
+                        educational resources and subjects.
+                    </p>
+
+                    <span class="department-open">
+                        Explore Subjects →
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+            <div
+                id="department-empty"
+                class="department-empty"
+            >
+                No matching department found.
+            </div>
+
+
+            <!-- =================================================
+                 INFORMATION
+            ================================================== -->
+
+            <div class="department-info content-card">
+
+                <p class="section-kicker">
+                    LIBRARY
+                </p>
+
+                <h2>
+                    Department Channel
+                </h2>
+
+                <p>
+                    Departments are the first level of the
+                    ALON HISTORYVERSE 24 Library. Each department
+                    connects with subjects, books and
+                    reading material.
+                </p>
+
+                <p
+                    id="department-status"
+                    class="department-status"
+                >
+                    Department Channel ready.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="site-footer">
+
+    <p>
+        ©
+        <span data-year></span>
+        Baba Thecno Guru —
+        ALON HISTORYVERSE 24
+    </p>
+
+    <p>
+        History • Culture • Heritage • Knowledge
+    </p>
+
+    <div class="footer-links">
+
+        <a href="library.html">
+            Library
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+        <a href="privacy.html">
+            Privacy
+        </a>
+
+        <a href="terms.html">
+            Terms
+        </a>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     LIBRARY ENGINE
+====================================================== -->
+
+<script
+    type="module"
+    src="../jss/library-engine.js"
+></script>
+
+
+<!-- =====================================================
+     DEPARTMENT PAGE ENGINE
+     
+     IMPORTANT:
+     No invalid imports.
+     This page uses the existing library engine
+     only through the global public API.
+====================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        /* =================================================
+           YEAR
+        ================================================== */
+
+        document
+            .querySelectorAll("[data-year]")
+            .forEach(function (element) {
+
+                element.textContent =
+                    String(
+                        new Date().getFullYear()
+                    );
+
+            });
+
+
+        /* =================================================
+           URL PARAMETER
+        ================================================== */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const selectedDepartment =
+            String(
+                params.get("department") || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        /* =================================================
+           ELEMENTS
+        ================================================== */
+
+        const context =
+            document.getElementById(
+                "department-context"
+            );
+
+        const searchForm =
+            document.getElementById(
+                "department-search-form"
+            );
+
+        const searchInput =
+            document.getElementById(
+                "department-search-input"
+            );
+
+        const cards =
+            Array.from(
+                document.querySelectorAll(
+                    "[data-department-card]"
+                )
+            );
+
+        const empty =
+            document.getElementById(
+                "department-empty"
+            );
+
+        const status =
+            document.getElementById(
+                "department-status"
+            );
+
+
+        /* =================================================
+           DEPARTMENT NAMES
+        ================================================== */
+
+        const departmentNames = {
+
+            history:
+                "History & Civilization",
+
+            countries:
+                "Countries & Culture",
+
+            science:
+                "Science",
+
+            mathematics:
+                "Mathematics",
+
+            computer:
+                "Computer",
+
+            law:
+                "Law",
+
+            jobs:
+                "Jobs & Careers",
+
+            arts:
+                "Arts & Culture",
+
+            geography:
+                "Geography",
+
+            cities:
+                "Cities",
+
+            villages:
+                "Villages",
+
+            mountains:
+                "Mountains",
+
+            forests:
+                "Forests & Trees",
+
+            technology:
+                "Technology",
+
+            education:
+                "Education"
+
+        };
+
+
+        /* =================================================
+           SELECTED DEPARTMENT
+        ================================================== */
+
+        if (
+            selectedDepartment &&
+            departmentNames[selectedDepartment]
+        ) {
+
+            if (context) {
+
+                context.textContent =
+                    "Selected department: " +
+                    departmentNames[
+                        selectedDepartment
+                    ];
+
+            }
+
+            cards.forEach(
+                function (card) {
+
+                    const id =
+                        String(
+                            card.dataset.department || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+                    if (
+                        id ===
+                        selectedDepartment
+                    ) {
+
+                        card.classList.add(
+                            "selected"
+                        );
+
+                        card.setAttribute(
+                            "aria-current",
+                            "true"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =================================================
+           SEARCH
+        ================================================== */
+
+        function filterDepartments() {
+
+            const query =
+                String(
+                    searchInput?.value || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            let visible =
+                0;
+
+
+            cards.forEach(
+                function (card) {
+
+                    const text =
+                        card.textContent
+                            .toLowerCase();
+
+                    const department =
+                        String(
+                            card.dataset.department || ""
+                        )
+                        .toLowerCase();
+
+
+                    const match =
+                        !query ||
+                        text.includes(query) ||
+                        department.includes(query);
+
+
+                    card.hidden =
+                        !match;
+
+
+                    if (match) {
+                        visible++;
+                    }
+
+                }
+            );
+
+
+            if (empty) {
+
+                empty.style.display =
+                    visible === 0
+                        ? "block"
+                        : "none";
+
+            }
+
+
+            if (context) {
+
+                if (query) {
+
+                    context.textContent =
+                        "Search results for: " +
+                        query;
+
+                }
+                else if (
+                    selectedDepartment &&
+                    departmentNames[
+                        selectedDepartment
+                    ]
+                ) {
+
+                    context.textContent =
+                        "Selected department: " +
+                        departmentNames[
+                            selectedDepartment
+                        ];
+
+                }
+                else {
+
+                    context.textContent =
+                        "Showing all Library departments.";
+
+                }
+
+            }
+
+        }
+
+
+        if (searchForm) {
+
+            searchForm.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    filterDepartments();
+
+                }
+            );
+
+        }
+
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "input",
+                filterDepartments
+            );
+
+        }
+
+
+        /* =================================================
+           CARD CLICK SAFETY
+           
+           Whole card remains clickable because it is
+           already an <a> element.
+        ================================================== */
+
+        cards.forEach(
+            function (card) {
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        const department =
+                            String(
+                                card.dataset.department || ""
+                            )
+                            .trim()
+                            .toLowerCase();
+
+
+                        if (!department) {
+                            return;
+                        }
+
+
+                        try {
+
+                            const state =
+                                JSON.parse(
+                                    localStorage.getItem(
+                                        "alon_historyverse_library"
+                                    ) || "{}"
+                                );
+
+
+                            state.lastPage =
+                                "library-department";
+
+                            state.lastDepartment =
+                                department;
+
+
+                            if (
+                                !Array.isArray(
+                                    state.history
+                                )
+                            ) {
+
+                                state.history = [];
+
+                            }
+
+
+                            state.history.push({
+
+                                page:
+                                    "library-department",
+
+                                department:
+                                    department,
+
+                                time:
+                                    Date.now()
+
+                            });
+
+
+                            if (
+                                state.history.length >
+                                30
+                            ) {
+
+                                state.history =
+                                    state.history.slice(-30);
+
+                            }
+
+
+                            localStorage.setItem(
+                                "alon_historyverse_library",
+                                JSON.stringify(state)
+                            );
+
+                        }
+                        catch (error) {
+
+                            console.warn(
+                                "Department memory could not be saved.",
+                                error
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           MOBILE MENU
+        ================================================== */
+
+        const menuButton =
+            document.getElementById(
+                "department-menu-button"
+            );
+
+        const menu =
+            document.getElementById(
+                "department-mobile-menu"
+            );
+
+        const closeButton =
+            document.getElementById(
+                "department-menu-close"
+            );
+
+
+        function openMenu() {
+
+            if (!menu) {
+                return;
+            }
+
+
+            menu.hidden =
+                false;
+
+
+            menu.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+
+            if (menuButton) {
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+            }
+
+
+            document.body.classList.add(
+                "mobile-menu-open"
+            );
+
+        }
+
+
+        function closeMenu() {
+
+            if (!menu) {
+                return;
+            }
+
+
+            menu.hidden =
+                true;
+
+
+            menu.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+
+            if (menuButton) {
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+
+            document.body.classList.remove(
+                "mobile-menu-open"
+            );
+
+        }
+
+
+        if (menuButton) {
+
+            menuButton.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+
+                    if (
+                        menu &&
+                        menu.hidden
+                    ) {
+
+                        openMenu();
+
+                    }
+                    else {
+
+                        closeMenu();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                "click",
+                function () {
+
+                    closeMenu();
+
+                }
+            );
+
+        }
+
+
+        if (menu) {
+
+            menu.querySelectorAll("a")
+                .forEach(
+                    function (link) {
+
+                        link.addEventListener(
+                            "click",
+                            function () {
+
+                                closeMenu();
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !menu ||
+                    menu.hidden
+                ) {
+
+                    return;
+
+                }
+
+
+                const inside =
+                    menu.contains(
+                        event.target
+                    );
+
+                const button =
+                    menuButton &&
+                    menuButton.contains(
+                        event.target
+                    );
+
+
+                if (
+                    !inside &&
+                    !button
+                ) {
+
+                    closeMenu();
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    closeMenu();
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           LANGUAGE BUTTON
+        ================================================== */
+
+        const languageButton =
+            document.getElementById(
+                "department-language-button"
+            );
+
+
+        if (languageButton) {
+
+            languageButton.addEventListener(
+                "click",
+                function () {
+
+                    document.dispatchEvent(
+                        new CustomEvent(
+                            "historyverse:language-request",
+                            {
+                                detail: {
+                                    page:
+                                        "library-department"
+                                }
+                            }
+                        )
+                    );
+
+
+                    showDepartmentNotice(
+                        "Language system ready."
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =================================================
+           ENGINE STATUS
+        ================================================== */
+
+        if (status) {
+
+            status.textContent =
+                "Department Channel: Ready • " +
+                cards.length +
+                " departments available.";
+
+        }
+
+
+        /* =================================================
+           PAGE READY
+        ================================================== */
+
+        document.documentElement.setAttribute(
+            "data-department-engine",
+            "ready"
+        );
+
+
+        document.body.classList.add(
+            "department-ready"
+        );
+
+
+        console.info(
+            "ALON HISTORYVERSE 24 Department:",
+            "READY"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+function showDepartmentNotice(message) {
+
+    const old =
+        document.querySelector(
+            ".department-notification"
+        );
+
+
+    if (old) {
+        old.remove();
+    }
+
+
+    const notice =
+        document.createElement(
+            "div"
+        );
+
+
+    notice.className =
+        "department-notification";
+
+
+    notice.textContent =
+        String(message || "");
+
+
+    document.body.appendChild(
+        notice
+    );
+
+
+    window.setTimeout(
+        function () {
+
+            notice.remove();
+
+        },
+        2500
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>

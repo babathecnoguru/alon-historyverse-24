@@ -1,0 +1,1138 @@
+
+        .library-actions a,
+        .library-actions button {
+            min-width: 120px;
+            text-decoration: none;
+        }
+
+        .library-rules {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 9px;
+            margin-top: 18px;
+        }
+
+        .library-rule {
+            padding: 11px 13px;
+            border: 1px solid rgba(212,175,55,.13);
+            border-radius: 10px;
+            color: #aeb7c5;
+            font-size: .8rem;
+        }
+
+        @media (max-width: 1000px) {
+
+            .library-grid,
+            .library-module-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .library-hero {
+                padding: 36px 14px;
+            }
+
+            .library-search {
+                flex-direction: column;
+            }
+
+            .library-search button {
+                min-height: 46px;
+            }
+
+            .library-grid,
+            .library-module-grid,
+            .library-rules {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="historyverse-app library-page"
+    data-page="library"
+    data-version="V100"
+>
+
+
+<!-- =========================================================
+     ACCESSIBILITY
+========================================================== -->
+
+<a
+    class="skip-link"
+    href="#main-content"
+>
+    Skip to content
+</a>
+
+
+<div
+    id="notifications"
+    data-notifications
+    aria-live="polite"
+></div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================== -->
+
+<header
+    class="site-header"
+    data-site-header
+>
+
+    <div class="brand-wrap">
+
+        <!--
+            ONLY THE HOME / INDEX CONNECTION
+        -->
+
+        <a
+            class="brand"
+            href="index.html"
+            aria-label="ALON HISTORYVERSE 24 Home"
+        >
+            Baba Thecno Guru
+        </a>
+
+        <span class="brand-subtitle">
+            ALON HISTORYVERSE 24
+        </span>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <button
+            type="button"
+            class="icon-button"
+            id="languageBtn"
+            data-language-toggle
+            aria-label="Language"
+        >
+            🌐
+        </button>
+
+
+        <button
+            type="button"
+            class="icon-button"
+            data-menu-toggle
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     PRIMARY NAVIGATION
+========================================================== -->
+
+<nav
+    class="desktop-nav"
+    aria-label="Primary navigation"
+>
+
+    <a href="index.html">
+        Home
+    </a>
+
+    <a href="articles.html">
+        Articles
+    </a>
+
+    <a href="timeline.html">
+        Timeline
+    </a>
+
+    <a
+        href="library.html"
+        aria-current="page"
+    >
+        Library
+    </a>
+
+    <a href="countries.html">
+        Countries
+    </a>
+
+    <a href="civilizations.html">
+        Civilizations
+    </a>
+
+    <a href="heritage.html">
+        Heritage
+    </a>
+
+    <a href="contribute.html">
+        Contribute
+    </a>
+
+</nav>
+
+
+<!-- =========================================================
+     MOBILE MENU
+========================================================== -->
+
+<aside
+    id="mobile-menu"
+    class="mobile-menu"
+    data-mobile-menu
+    hidden
+>
+
+    <a
+        href="index.html"
+        data-menu-link
+    >
+        Home
+    </a>
+
+    <a
+        href="articles.html"
+        data-menu-link
+    >
+        Articles
+    </a>
+
+    <a
+        href="timeline.html"
+        data-menu-link
+    >
+        Timeline
+    </a>
+
+    <a
+        href="library.html"
+        data-menu-link
+    >
+        Library
+    </a>
+
+    <a
+        href="countries.html"
+        data-menu-link
+    >
+        Countries
+    </a>
+
+    <a
+        href="civilizations.html"
+        data-menu-link
+    >
+        Civilizations
+    </a>
+
+    <a
+        href="heritage.html"
+        data-menu-link
+    >
+        Heritage
+    </a>
+
+    <a
+        href="contribute.html"
+        data-menu-link
+    >
+        Contribute
+    </a>
+
+    <a
+        href="contact.html"
+        data-menu-link
+    >
+        Contact
+    </a>
+
+    <button
+        type="button"
+        data-menu-close
+    >
+        Close
+    </button>
+
+</aside>
+
+
+<!-- =========================================================
+     LANGUAGE PANEL
+
+     Library engine does not depend on this panel.
+========================================================== -->
+
+<aside
+    id="languagePanel"
+    class="language-panel"
+    data-language-panel
+    aria-hidden="true"
+    hidden
+>
+
+    <div class="language-panel-head">
+
+        <div>
+
+            <p class="section-kicker">
+                ALON HISTORYVERSE 24
+            </p>
+
+            <h2>
+                Language
+            </h2>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="closeLang"
+            data-language-close
+            aria-label="Close language panel"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="language-current">
+
+        <strong data-current-language>
+            English
+        </strong>
+
+        <span data-current-language-code>
+            EN
+        </span>
+
+    </div>
+
+
+    <label
+        class="sr-only"
+        for="languageSearch"
+    >
+        Search languages
+    </label>
+
+
+    <input
+        id="languageSearch"
+        type="search"
+        placeholder="Search language..."
+        data-i18n-placeholder="search"
+    >
+
+
+    <div
+        id="languageList"
+        class="language-list"
+    ></div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================== -->
+
+<main id="main-content">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section
+        class="hv-section hero-section library-hero"
+    >
+
+        <div class="hero-card">
+
+            <p class="hero-kicker">
+                ALON HISTORYVERSE 24 • LIBRARY
+            </p>
+
+
+            <h1>
+                Free Knowledge Library
+            </h1>
+
+
+            <p class="hero-description">
+                Books, subjects, departments, mathematics,
+                computer knowledge, jobs, trees and connected
+                knowledge resources.
+            </p>
+
+
+            <!--
+                Search is handled by library-engine.js
+            -->
+
+            <form
+                id="library-search-form"
+                class="library-search"
+                data-library-search
+                role="search"
+            >
+
+                <label
+                    class="sr-only"
+                    for="library-search-input"
+                >
+                    Search Library
+                </label>
+
+
+                <input
+                    id="library-search-input"
+                    name="q"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="Search Library..."
+                    data-library-search-input
+                >
+
+
+                <button
+                    type="submit"
+                    aria-label="Search Library"
+                    data-library-search-submit
+                >
+                    🔍
+                </button>
+
+            </form>
+
+
+            <div
+                class="library-notice"
+                data-library-status
+            >
+                📚 Library system ready.
+            </div>
+
+
+            <div
+                class="library-error"
+                data-library-error
+                role="alert"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LIBRARY MAIN MODULES
+
+         ALL ROUTING IS OWNED BY LIBRARY ENGINE.
+         The cards contain data-library-module instead of
+         creating separate system dependencies.
+    ====================================================== -->
+
+    <section class="hv-section library-section">
+
+        <div class="hv-container">
+
+
+            <div class="section-heading">
+
+                <p class="section-kicker">
+                    LIBRARY
+                </p>
+
+                <h2>
+                    Explore Library
+                </h2>
+
+                <p>
+                    Select a Library section.
+                </p>
+
+            </div>
+
+
+            <div
+                id="library-main-modules"
+                class="library-grid"
+                data-library-modules
+            >
+
+
+                <!-- DEPARTMENT -->
+
+                <a
+                    class="library-card"
+                    href="department.html"
+                    data-library-module="department"
+                >
+
+                    <span class="library-icon">
+                        🏛️
+                    </span>
+
+                    <h3>
+                        Departments
+                    </h3>
+
+                    <p>
+                        Major knowledge departments and fields.
+                    </p>
+
+                    <span class="library-open">
+                        Open →
+                    </span>
+
+                </a>
+
+
+                <!-- SUBJECT -->
+
+                <a
+                    class="library-card"
+                    href="subject.html"
+                    data-library-module="subject"
+                >
+
+                    <span class="library-icon">
+                        📑
+                    </span>
+
+                    <h3>
+                        Subjects
+                    </h3>
+
+                    <p>
+                        Subjects and connected knowledge topics.
+                    </p>
+
+                    <span class="library-open">
+                        Open →
+                    </span>
+
+                </a>
+
+
+                <!-- BOOK -->
+
+                <a
+                    class="library-card"
+                    href="book.html"
+                    data-library-module="book"
+                >
+
+                    <span class="library-icon">
+                        📚
+                    </span>
+
+                    <h3>
+                        Books
+                    </h3>
+
+                    <p>
+                        Browse books and knowledge resources.
+                    </p>
+
+                    <span class="library-open">
+                        Open →
+                    </span>
+
+                </a>
+
+
+                <!-- READ -->
+
+                <a
+                    class="library-card"
+                    href="read.html"
+                    data-library-module="read"
+                >
+
+                    <span class="library-icon">
+                        📖
+                    </span>
+
+                    <h3>
+                        Read
+                    </h3>
+
+                    <p>
+                        Open readable Library knowledge.
+                    </p>
+
+                    <span class="library-open">
+                        Start Reading →
+                    </span>
+
+                </a>
+
+
+                <!-- MATHEMATICS -->
+
+                <a
+                    class="library-card"
+                    href="mathematics.html"
+                    data-library-module="mathematics"
+                >
+
+                    <span class="library-icon">
+                        ➗
+                    </span>
+
+                    <h3>
+                        Mathematics
+                    </h3>
+
+                    <p>
+                        Mathematics concepts and knowledge.
+                    </p>
+
+                    <span class="library-open">
+                        Open →
+                    </span>
+
+                </a>
+
+
+                <!-- COMPUTER -->
+
+                <a
+                    class="library-card"
+                    href="computer.html"
+                    data-library-module="computer"
+                >
+
+                    <span class="library-icon">
+                        💻
+                    </span>
+
+                    <h3>
+                        Computer
+                    </h3>
+
+                    <p>
+                        Computer, programming and technology knowledge.
+                    </p>
+
+                    <span class="library-open">
+                        Open →
+                    </span>
+
+                </a>
+
+
+                <!-- JOBS -->
+
+                <a
+                    class="library-card"
+                    href="jobs.html"
+                    data-library-module="jobs"
+                >
+
+                    <span class="library-icon">
+                        💼
+                    </span>
+
+                    <h3>
+                        Jobs & Careers
+                    </h3>
+
+                    <p>
+                        Jobs, vacancies, qualifications and careers.
+                    </p>
+
+                    <span class="library-open">
+                        Open →
+                    </span>
+
+                </a>
+
+
+                <!-- TREES -->
+
+                <a
+                    class="library-card"
+                    href="trees.html"
+                    data-library-module="trees"
+                >
+
+                    <span class="library-icon">
+                        🌳
+                    </span>
+
+                    <h3>
+                        Trees & Nature
+                    </h3>
+
+                    <p>
+                        Trees, plants, forests and natural knowledge.
+                    </p>
+
+                    <span class="library-open">
+                        Open →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         KNOWLEDGE DEPARTMENTS
+
+         These are Library categories.
+         Their filtering is handled by library-engine.js.
+    ====================================================== -->
+
+    <section
+        class="hv-section"
+        aria-labelledby="knowledge-title"
+    >
+
+        <div class="hv-container">
+
+
+            <div class="library-toolbar">
+
+                <div class="section-heading">
+
+                    <p class="section-kicker">
+                        KNOWLEDGE
+                    </p>
+
+                    <h2 id="knowledge-title">
+                        Knowledge Categories
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="library-filters"
+                    role="group"
+                    aria-label="Library categories"
+                    data-library-filters
+                >
+
+                    <button
+                        type="button"
+                        class="library-filter active"
+                        data-library-filter="all"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        type="button"
+                        class="library-filter"
+                        data-library-filter="history"
+                    >
+                        History
+                    </button>
+
+                    <button
+                        type="button"
+                        class="library-filter"
+                        data-library-filter="science"
+                    >
+                        Science
+                    </button>
+
+                    <button
+                        type="button"
+                        class="library-filter"
+                        data-library-filter="mathematics"
+                    >
+                        Mathematics
+                    </button>
+
+                    <button
+                        type="button"
+                        class="library-filter"
+                        data-library-filter="technology"
+                    >
+                        Computer
+                    </button>
+
+                    <button
+                        type="button"
+                        class="library-filter"
+                        data-library-filter="careers"
+                    >
+                        Jobs
+                    </button>
+
+                    <button
+                        type="button"
+                        class="library-filter"
+                        data-library-filter="nature"
+                    >
+                        Nature
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="library-module-grid"
+                data-library-category-grid
+            >
+
+
+                <a
+                    class="library-card library-module"
+                    href="department.html?department=history"
+                    data-library-category="history"
+                >
+
+                    <span class="library-icon">
+                        🏺
+                    </span>
+
+                    <h3>
+                        History
+                    </h3>
+
+                    <p>
+                        Human history, civilizations and events.
+                    </p>
+
+                    <span class="library-open">
+                        Explore →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="library-card library-module"
+                    href="department.html?department=science"
+                    data-library-category="science"
+                >
+
+                    <span class="library-icon">
+                        🔬
+                    </span>
+
+                    <h3>
+                        Science
+                    </h3>
+
+                    <p>
+                        Scientific knowledge and discoveries.
+                    </p>
+
+                    <span class="library-open">
+                        Explore →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="library-card library-module"
+                    href="mathematics.html"
+                    data-library-category="mathematics"
+                >
+
+                    <span class="library-icon">
+                        ∑
+                    </span>
+
+                    <h3>
+                        Mathematics
+                    </h3>
+
+                    <p>
+                        Numbers, formulas, concepts and mathematics.
+                    </p>
+
+                    <span class="library-open">
+                        Explore →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="library-card library-module"
+                    href="computer.html"
+                    data-library-category="technology"
+                >
+
+                    <span class="library-icon">
+                        🖥️
+                    </span>
+
+                    <h3>
+                        Computer & Technology
+                    </h3>
+
+                    <p>
+                        Computers, programming and digital technology.
+                    </p>
+
+                    <span class="library-open">
+                        Explore →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="library-card library-module"
+                    href="jobs.html"
+                    data-library-category="careers"
+                >
+
+                    <span class="library-icon">
+                        💼
+                    </span>
+
+                    <h3>
+                        Jobs & Careers
+                    </h3>
+
+                    <p>
+                        Global jobs, vacancies and career information.
+                    </p>
+
+                    <span class="library-open">
+                        Explore →
+                    </span>
+
+                </a>
+
+
+                <a
+                    class="library-card library-module"
+                    href="trees.html"
+                    data-library-category="nature"
+                >
+
+                    <span class="library-icon">
+                        🌲
+                    </span>
+
+                    <h3>
+                        Trees & Nature
+                    </h3>
+
+                    <p>
+                        Trees, forests, plants and natural history.
+                    </p>
+
+                    <span class="library-open">
+                        Explore →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTRIBUTION
+    ====================================================== -->
+
+    <section class="hv-section">
+
+        <div class="hv-container">
+
+            <div class="library-contribute content-card">
+
+                <p class="section-kicker">
+                    COMMUNITY
+                </p>
+
+                <h2>
+                    Help Build the Library
+                </h2>
+
+                <p>
+                    Share original knowledge or legally shareable
+                    material according to ALON HISTORYVERSE 24
+                    contribution and copyright rules.
+                </p>
+
+
+                <div class="library-actions">
+
+                    <a
+                        class="primary-button"
+                        href="contribute.html"
+                    >
+                        ➕ Contribute
+                    </a>
+
+                    <a
+                        class="secondary-button"
+                        href="guidelines.html"
+                    >
+                        📋 Guidelines
+                    </a>
+
+                    <a
+                        class="secondary-button"
+                        href="copyright.html"
+                    >
+                        © Copyright
+                    </a>
+
+                </div>
+
+
+                <div class="library-rules">
+
+                    <div class="library-rule">
+                        ✅ Original or legally permitted content.
+                    </div>
+
+                    <div class="library-rule">
+                        🚫 Unauthorized copyrighted material is not allowed.
+                    </div>
+
+                    <div class="library-rule">
+                        🔐 Protect private personal information.
+                    </div>
+
+                    <div class="library-rule">
+                        🛡️ Content may be moderated.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
+
+<footer class="site-footer">
+
+    <p>
+        ©
+        <span data-year></span>
+        Baba Thecno Guru —
+        ALON HISTORYVERSE 24
+    </p>
+
+    <p>
+        History • Culture • Heritage • Knowledge
+    </p>
+
+
+    <div class="footer-links">
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+        <a href="privacy.html">
+            Privacy
+        </a>
+
+        <a href="terms.html">
+            Terms
+        </a>
+
+        <a href="copyright.html">
+            Copyright
+        </a>
+
+        <a href="guidelines.html">
+            Guidelines
+        </a>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     LIBRARY ENGINE
+     
+     IMPORTANT:
+     Library functions/modules are controlled from here.
+     
+     No separate articles.js / old Library engine is required
+     for the Library page.
+========================================================== -->
+
+<script
+    type="module"
+    src="../jss/library-engine.js"
+></script>
+
+
+<!-- =========================================================
+     SAFE PAGE INITIALIZATION
+
+     This is only a tiny fallback for year display.
+     Library functionality remains inside library-engine.js.
+========================================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const year =
+                document.querySelector("[data-year]");
+
+            if (year) {
+                year.textContent =
+                    new Date().getFullYear();
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+</html>
