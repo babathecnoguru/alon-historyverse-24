@@ -1,1131 +1,165 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#05080f"
-    >
-
-    <meta
-        name="description"
-        content="ALON HISTORYVERSE 24 — Explore history, civilizations, countries, heritage, timelines, books, articles and knowledge."
-    >
-
-    <meta
-        name="author"
-        content="Baba Thecno Guru"
-    >
-
-    <title>ALON HISTORYVERSE 24</title>
-
-    <!-- =====================================================
-         GLOBAL CSS
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
-
-</head>
-
-
-<body>
-
-<a
-    class="skip-link"
-    href="#main-content"
->
-    Skip to content
-</a>
-
-
-<!-- =======================================================
-     HEADER
-======================================================= -->
-
-<header class="site-header">
-
-    <div class="brand-wrap">
-
-        <a
-            class="brand"
-            href="./"
-            data-page="home"
-            aria-label="ALON HISTORYVERSE 24 Home"
-        >
-            <span>🏛️</span>
-            <span>ALON HISTORYVERSE 24</span>
-        </a>
-
-        <span class="brand-subtitle">
-            HISTORY • KNOWLEDGE • CIVILIZATION
-        </span>
-
-    </div>
-
-
-    <div class="header-actions">
-
-        <!-- LANGUAGE -->
-
-        <button
-            type="button"
-            class="icon-button"
-            id="languageButton"
-            aria-label="Change language"
-            aria-controls="languagePanel"
-            aria-expanded="false"
-        >
-            🌐
-        </button>
-
-
-        <!-- MENU -->
-
-        <button
-            type="button"
-            class="icon-button"
-            id="menuButton"
-            aria-label="Open menu"
-            aria-controls="mobileMenu"
-            aria-expanded="false"
-        >
-            ☰
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<!-- =======================================================
-     DESKTOP NAVIGATION
-======================================================= -->
-
-<nav
-    class="desktop-nav"
-    aria-label="Main navigation"
->
-
-    <a href="html/library.html">
-        Library
-    </a>
-
-    <a href="html/countries.html">
-        Countries
-    </a>
-
-    <a href="html/civilizations.html">
-        Civilizations
-    </a>
-
-    <a href="html/heritage.html">
-        Heritage
-    </a>
-
-    <a href="html/timeline.html">
-        Timeline
-    </a>
-
-    <a href="html/articles.html">
-        Articles
-    </a>
-
-    <a href="html/discover.html">
-        Discover
-    </a>
-
-</nav>
-
-
-
-<!-- =======================================================
-     MOBILE MENU
-======================================================= -->
-
-aside
-id="mobileMenu"
-class="mobile-menu"
-hidden
-aria-label="Mobile navigation"
->
-
-    <a href="./">
-        🏠 Home
-    </a>
-
-    <a href="html/library.html">
-        📚 Library
-    </a>
-
-    <a href="html/department.html">
-        🏛️ Departments
-    </a>
-
-    <a href="html/subject.html">
-        📖 Subjects
-    </a>
-
-    <a href="html/book.html">
-        📕 Books
-    </a>
-
-    <a href="html/read.html">
-        📜 Read
-    </a>
-
-    <a href="html/countries.html">
-        🌍 Countries
-    </a>
-
-    <a href="html/country.html">
-        🗺️ Country Explorer
-    </a>
-
-    <a href="html/civilizations.html">
-        🏺 Civilizations
-    </a>
-
-    <a href="html/heritage.html">
-        🏰 Heritage
-    </a>
-
-    <a href="html/timeline.html">
-        ⏳ Timeline
-    </a>
-
-    <a href="html/articles.html">
-        📰 Articles
-    </a>
-
-    <a href="html/article.html">
-        📄 Article
-    </a>
-
-    <a href="html/discover.html">
-        🔎 Discover
-    </a>
-
-    <a href="html/categories.html">
-        🗂️ Categories
-    </a>
-
-    <a href="html/gallery.html">
-        🖼️ Gallery
-    </a>
-
-    <a href="html/mathematics.html">
-        🔢 Mathematics
-    </a>
-
-    <a href="html/computer.html">
-        💻 Computer
-    </a>
-
-    <a href="html/jobs.html">
-        💼 Jobs & Careers
-    </a>
-
-    <a href="html/trees.html">
-        🌳 Trees
-    </a>
-
-    <a href="html/contribute.html">
-        ✍️ Contribute
-    </a>
-
-    <a href="html/about.html">
-        ℹ️ About
-    </a>
-
-    <a href="html/contact.html">
-        📞 Contact
-    </a>
-
-    <a href="html/login.html">
-        🔐 Login
-    </a>
-
-    <a href="html/admin.html">
-        ⚙️ Admin
-    </a>
-
-    <button
-        type="button"
-        id="mobileMenuClose"
-    >
-        Close Menu
-    </button>
-
-</aside>
-
-
-
-<!-- =======================================================
-     LANGUAGE PANEL
-======================================================= -->
-
-div
-id="languagePanel"
-class="language-panel"
-hidden
-role="dialog"
-aria-modal="true"
-aria-labelledby="languageTitle"
->
-
-    <div class="language-panel-head">
-
-        <h2 id="languageTitle">
-            Select Language
-        </h2>
-
-        <button
-            type="button"
-            id="languageClose"
-            aria-label="Close language panel"
-        >
-            ×
-        </button>
-
-    </div>
-
-
-    <button
-        type="button"
-        class="language-option"
-        data-language="en"
-    >
-        🇬🇧 English
-    </button>
-
-
-    <button
-        type="button"
-        class="language-option"
-        data-language="hi"
-    >
-        🇮🇳 Hindi / हिन्दी
-    </button>
-
-
-    <button
-        type="button"
-        class="language-option"
-        data-language="gu"
-    >
-        🇮🇳 Gujarati / ગુજરાતી
-    </button>
-
-
-    <button
-        type="button"
-        class="language-option"
-        data-language="sa"
-    >
-        🕉️ Sanskrit / संस्कृत
-    </button>
-
-</div>
-
-
-
-<!-- =======================================================
-     MAIN HOME
-======================================================= -->
-
-<main
-    id="main-content"
-    class="container"
->
-
-
-    <!-- HERO -->
-
-    <section
-        class="hero-section"
-        id="home"
-    >
-
-        <div class="hero-card">
-
-            <div class="hero-kicker">
-                ALON HISTORYVERSE 24
-            </div>
-
-
-            <h1>
-                Explore Human History
-            </h1>
-
-
-            <p class="hero-description">
-
-                Discover ancient civilizations,
-                countries, cultures, heritage,
-                historical timelines, books,
-                articles and knowledge from
-                around the world.
-
-            </p>
-
-
-
-            <!-- SEARCH -->
-
-            <form
-                class="search-form"
-                id="globalSearchForm"
-                role="search"
-            >
-
-                <label
-                    class="sr-only"
-                    for="globalSearch"
-                >
-                    Search HistoryVerse
-                </label>
-
-
-                <input
-                    type="search"
-                    id="globalSearch"
-                    name="q"
-                    placeholder="Search history, countries, civilizations..."
-                    autocomplete="off"
-                >
-
-
-                <button
-                    type="submit"
-                    aria-label="Search"
-                >
-                    🔎
-                </button>
-
-            </form>
-
-
-
-            <!-- QUICK ACTIONS -->
-
-            <div class="quick-actions">
-
-                <a
-                    class="quick-action"
-                    href="html/library.html"
-                >
-                    📚 Open Library
-                </a>
-
-
-                <a
-                    class="quick-action"
-                    href="html/countries.html"
-                >
-                    🌍 Explore Countries
-                </a>
-
-
-                <a
-                    class="quick-action"
-                    href="html/civilizations.html"
-                >
-                    🏺 Civilizations
-                </a>
-
-
-                <a
-                    class="quick-action"
-                    href="html/timeline.html"
-                >
-                    ⏳ Historical Timeline
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         KNOWLEDGE SYSTEM
-    ==================================================== -->
-
-    <section>
-
-        <div class="section-heading">
-
-            <div class="section-kicker">
-                Knowledge System
-            </div>
-
-            <h2>
-                Explore HistoryVerse
-            </h2>
-
-        </div>
-
-
-        <div
-            class="quick-actions"
-            id="knowledgeNavigation"
-        >
-
-            <a
-                class="quick-action clickable-card"
-                href="html/library.html"
-            >
-                📚 Library
-            </a>
-
-
-            <a
-                class="quick-action clickable-card"
-                href="html/department.html"
-            >
-                🏛️ Departments
-            </a>
-
-
-            <a
-                class="quick-action clickable-card"
-                href="html/subject.html"
-            >
-                📖 Subjects
-            </a>
-
-
-            <a
-                class="quick-action clickable-card"
-                href="html/book.html"
-            >
-                📕 Books
-            </a>
-
-
-            <a
-                class="quick-action clickable-card"
-                href="html/read.html"
-            >
-                📜 Read
-            </a>
-
-
-            <a
-                class="quick-action clickable-card"
-                href="html/articles.html"
-            >
-                📰 Articles
-            </a>
-
-
-            <a
-                class="quick-action clickable-card"
-                href="html/heritage.html"
-            >
-                🏰 Heritage
-            </a>
-
-
-            <a
-                class="quick-action clickable-card"
-                href="html/discover.html"
-            >
-                🔎 Discover
-            </a>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         WORLD HISTORY
-    ==================================================== -->
-
-    <section>
-
-        <div class="section-heading">
-
-            <div class="section-kicker">
-                World History
-            </div>
-
-            <h2>
-                Explore the World
-            </h2>
-
-            <p>
-                Explore countries, civilizations,
-                heritage sites and historical events.
-            </p>
-
-        </div>
-
-
-        <div class="quick-actions">
-
-            <a
-                class="quick-action"
-                href="html/countries.html"
-            >
-                🌍 Countries
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/country.html"
-            >
-                🗺️ Country Explorer
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/civilizations.html"
-            >
-                🏺 Civilizations
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/heritage.html"
-            >
-                🏰 Heritage
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/timeline.html"
-            >
-                ⏳ Timeline
-            </a>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         SUBJECTS
-    ==================================================== -->
-
-    <section>
-
-        <div class="section-heading">
-
-            <div class="section-kicker">
-                Subjects
-            </div>
-
-            <h2>
-                Knowledge Categories
-            </h2>
-
-        </div>
-
-
-        <div class="quick-actions">
-
-            <a
-                class="quick-action"
-                href="html/mathematics.html"
-            >
-                🔢 Mathematics
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/computer.html"
-            >
-                💻 Computer
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/jobs.html"
-            >
-                💼 Jobs & Careers
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/trees.html"
-            >
-                🌳 Trees
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/categories.html"
-            >
-                🗂️ All Categories
-            </a>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         ARTICLES
-    ==================================================== -->
-
-    <section>
-
-        <div class="section-heading">
-
-            <div class="section-kicker">
-                History Articles
-            </div>
-
-            <h2>
-                Latest Knowledge
-            </h2>
-
-        </div>
-
-
-        <div
-            id="featuredArticles"
-            class="article-grid"
-        >
-
-            <div class="card">
-                <div class="card-body">
-
-                    <h3>
-                        Explore Historical Articles
-                    </h3>
-
-                    <p>
-                        Open the Articles section to
-                        explore published historical
-                        knowledge.
-                    </p>
-
-                    <a
-                        class="quick-action"
-                        href="html/articles.html"
-                    >
-                        Open Articles
-                    </a>
-
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         HERITAGE
-    ==================================================== -->
-
-    <section>
-
-        <div class="section-heading">
-
-            <div class="section-kicker">
-                Heritage
-            </div>
-
-            <h2>
-                Historical Heritage
-            </h2>
-
-            <p>
-                Explore forts, monuments,
-                ancient cities and cultural heritage.
-            </p>
-
-        </div>
-
-
-        <div class="quick-actions">
-
-            <a
-                class="quick-action"
-                href="html/heritage.html"
-            >
-                🏰 Explore Heritage
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/gallery.html"
-            >
-                🖼️ Open Gallery
-            </a>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         CONTRIBUTE
-    ==================================================== -->
-
-    <section>
-
-        <div class="section-heading">
-
-            <div class="section-kicker">
-                Community
-            </div>
-
-            <h2>
-                Contribute to HistoryVerse
-            </h2>
-
-        </div>
-
-
-        <div class="quick-actions">
-
-            <a
-                class="quick-action"
-                href="html/contribute.html"
-            >
-                ✍️ Contribute
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/guidelines.html"
-            >
-                📋 Guidelines
-            </a>
-
-
-            <a
-                class="quick-action"
-                href="html/contributor-agreement.html"
-            >
-                📜 Contributor Agreement
-            </a>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-
-<!-- =======================================================
-     FOOTER
-======================================================= -->
-
-<footer class="site-footer">
-
-    <div class="container">
-
-        <h3>
-            ALON HISTORYVERSE 24
-        </h3>
-
-        <p>
-            Created and owned by Baba Thecno Guru.
-        </p>
-
-
-        <div class="quick-actions">
-
-            <a href="html/about.html">
-                About
-            </a>
-
-            <a href="html/contact.html">
-                Contact
-            </a>
-
-            <a href="html/privacy.html">
-                Privacy
-            </a>
-
-            <a href="html/terms.html">
-                Terms
-            </a>
-
-            <a href="html/copyright.html">
-                Copyright
-            </a>
-
-            <a href="html/login.html">
-                Login
-            </a>
-
-        </div>
-
-    </div>
-
-</footer>
-
-
-
-<!-- =======================================================
-     CENTRAL ALON ROUTER / CONFIG
-======================================================= -->
-
-<script>
+/* =========================================================
+   ALON HISTORYVERSE 24
+   FILE: jss/master-controller.js
+   MASTER CONTROLLER
+   VERSION: V100
+   Creator / Owner: Baba Thecno Guru
+
+   MAIN SYSTEMS
+   ---------------------------------------------------------
+   1. Mobile Menu
+   2. Search
+   3. Navigation
+   4. Language Button
+   5. Status System
+   6. Global API
+   7. Safe JSON Loader
+   8. Page Compatibility
+========================================================= */
 
 (function () {
 
     "use strict";
 
+    /* =====================================================
+       CONFIGURATION
+    ===================================================== */
 
-    /*
-     * =====================================================
-     * ALON HISTORYVERSE 24
-     * CENTRAL ROUTING CONFIGURATION
-     * =====================================================
-     */
+    const CONFIG = {
 
+        version: "V100",
 
-    const ALON_CONFIG = {
+        home: "./index.html",
 
-        brand:
-            "ALON HISTORYVERSE 24",
+        paths: {
 
-        creator:
-            "Baba Thecno Guru",
+            discover: "./html/discover.html",
+            categories: "./html/categories.html",
+            gallery: "./html/gallery.html",
 
-        root:
-            "./",
+            articles: "./html/articles.html",
+            article: "./html/article.html",
 
-        folders: {
+            library: "./html/library.html",
+            department: "./html/department.html",
+            subject: "./html/subject.html",
+            book: "./html/book.html",
+            read: "./html/read.html",
 
-            html:
-                "html/",
+            civilizations: "./html/civilizations.html",
+            heritage: "./html/heritage.html",
+            timeline: "./html/timeline.html",
 
-            css:
-                "css/",
+            mathematics: "./html/mathematics.html",
+            computer: "./html/computer.html",
+            jobs: "./html/jobs.html",
+            trees: "./html/trees.html",
 
-            images:
-                "images/",
+            countries: "./html/countries.html",
+            country: "./html/country.html",
 
-            data:
-                "data/",
+            contribute: "./html/contribute.html",
 
-            js:
-                "jss/"
+            about: "./html/about.html",
+            contact: "./html/contact.html",
 
-        },
+            guidelines: "./html/guidelines.html",
+            agreement: "./html/contributor-agreement.html",
+            copyright: "./html/copyright.html",
+            privacy: "./html/privacy.html",
+            terms: "./html/terms.html",
 
-
-        pages: {
-
-            home:
-                "./",
-
-            library:
-                "html/library.html",
-
-            department:
-                "html/department.html",
-
-            subject:
-                "html/subject.html",
-
-            book:
-                "html/book.html",
-
-            read:
-                "html/read.html",
-
-            articles:
-                "html/articles.html",
-
-            article:
-                "html/article.html",
-
-            countries:
-                "html/countries.html",
-
-            country:
-                "html/country.html",
-
-            civilizations:
-                "html/civilizations.html",
-
-            heritage:
-                "html/heritage.html",
-
-            timeline:
-                "html/timeline.html",
-
-            discover:
-                "html/discover.html",
-
-            categories:
-                "html/categories.html",
-
-            gallery:
-                "html/gallery.html",
-
-            contribute:
-                "html/contribute.html",
-
-            guidelines:
-                "html/guidelines.html",
-
-            contributorAgreement:
-                "html/contributor-agreement.html",
-
-            about:
-                "html/about.html",
-
-            contact:
-                "html/contact.html",
-
-            login:
-                "html/login.html",
-
-            admin:
-                "html/admin.html",
-
-            copyright:
-                "html/copyright.html",
-
-            privacy:
-                "html/privacy.html",
-
-            terms:
-                "html/terms.html",
-
-            mathematics:
-                "html/mathematics.html",
-
-            computer:
-                "html/computer.html",
-
-            jobs:
-                "html/jobs.html",
-
-            trees:
-                "html/trees.html"
-
-        },
-
-
-        data: {
-
-            library:
-                "data/library.json",
-
-            heritage:
-                "data/heritage.json",
-
-            timeline:
-                "data/timeline.json",
-
-            countries:
-                "data/countries.json",
-
-            civilizations:
-                "data/civilizations.json"
-
+            login: "./html/login.html",
+            admin: "./html/admin.html"
         }
 
     };
 
 
-    /*
-     * Expose central configuration
-     */
+    /* =====================================================
+       DOM HELPERS
+    ===================================================== */
 
-    window.ALON_HISTORYVERSE =
-        ALON_CONFIG;
+    const $ = function (selector) {
+        return document.querySelector(selector);
+    };
 
-
-
-    /*
-     * =====================================================
-     * SAFE PAGE NAVIGATION
-     * =====================================================
-     */
-
-    window.ALON_GO = function (page) {
-
-        const target =
-            ALON_CONFIG.pages[page];
-
-
-        if (!target) {
-
-            console.warn(
-                "ALON: Unknown page:",
-                page
-            );
-
-            return false;
-
-        }
-
-
-        window.location.href =
-            target;
-
-
-        return true;
-
+    const byId = function (id) {
+        return document.getElementById(id);
     };
 
 
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
 
-    /*
-     * =====================================================
-     * MOBILE MENU
-     * =====================================================
-     */
+    const menuBtn =
+        byId("menuBtn");
 
-    const menuButton =
-        document.getElementById(
-            "menuButton"
-        );
-
+    const closeMenu =
+        byId("closeMenu");
 
     const mobileMenu =
-        document.getElementById(
-            "mobileMenu"
-        );
+        byId("mobileMenu");
+
+    const mobileLinks =
+        byId("mobileLinks");
+
+    const languageBtn =
+        byId("languageBtn");
+
+    const searchForm =
+        byId("searchForm");
+
+    const searchInput =
+        byId("searchInput");
+
+    const statusBox =
+        byId("ah-status");
 
 
-    const mobileMenuClose =
-        document.getElementById(
-            "mobileMenuClose"
-        );
+    /* =====================================================
+       STATUS SYSTEM
+    ===================================================== */
 
+    function setStatus(message) {
+
+        if (!statusBox) {
+            return;
+        }
+
+        statusBox.textContent =
+            message;
+
+    }
+
+
+    /* =====================================================
+       SAFE NAVIGATION
+    ===================================================== */
+
+    function openPage(path) {
+
+        if (!path) {
+            return;
+        }
+
+        window.location.href =
+            path;
+
+    }
+
+
+    function goHome() {
+
+        openPage(CONFIG.home);
+
+    }
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
 
     function openMenu() {
 
@@ -1133,19 +167,15 @@ aria-labelledby="languageTitle"
             return;
         }
 
+        mobileMenu.style.display =
+            "block";
 
-        mobileMenu.hidden =
-            false;
+        document.body.style.overflow =
+            "hidden";
 
+        if (menuBtn) {
 
-        document.body.classList.add(
-            "menu-open"
-        );
-
-
-        if (menuButton) {
-
-            menuButton.setAttribute(
+            menuBtn.setAttribute(
                 "aria-expanded",
                 "true"
             );
@@ -1155,25 +185,21 @@ aria-labelledby="languageTitle"
     }
 
 
-    function closeMenu() {
+    function closeMobileMenu() {
 
         if (!mobileMenu) {
             return;
         }
 
+        mobileMenu.style.display =
+            "none";
 
-        mobileMenu.hidden =
-            true;
+        document.body.style.overflow =
+            "";
 
+        if (menuBtn) {
 
-        document.body.classList.remove(
-            "menu-open"
-        );
-
-
-        if (menuButton) {
-
-            menuButton.setAttribute(
+            menuBtn.setAttribute(
                 "aria-expanded",
                 "false"
             );
@@ -1183,21 +209,171 @@ aria-labelledby="languageTitle"
     }
 
 
-    if (menuButton) {
+    /* =====================================================
+       MOBILE MENU EVENTS
+    ===================================================== */
 
-        menuButton.addEventListener(
+    if (menuBtn) {
+
+        menuBtn.addEventListener(
             "click",
-            function () {
+            openMenu
+        );
 
-                if (mobileMenu.hidden) {
+    }
 
-                    openMenu();
 
-                } else {
+    if (closeMenu) {
 
-                    closeMenu();
+        closeMenu.addEventListener(
+            "click",
+            closeMobileMenu
+        );
 
-                }
+    }
+
+
+    /* =====================================================
+       CLOSE MENU WITH ESCAPE
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeMobileMenu();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       MOBILE MENU LINKS
+    ===================================================== */
+
+    const mobileItems = [
+
+        {
+            name: "Explore",
+            target: "#explore"
+        },
+
+        {
+            name: "Library",
+            target: CONFIG.paths.library
+        },
+
+        {
+            name: "Departments",
+            target: CONFIG.paths.department
+        },
+
+        {
+            name: "Subjects",
+            target: CONFIG.paths.subject
+        },
+
+        {
+            name: "Books",
+            target: CONFIG.paths.book
+        },
+
+        {
+            name: "Read",
+            target: CONFIG.paths.read
+        },
+
+        {
+            name: "Countries",
+            target: CONFIG.paths.countries
+        },
+
+        {
+            name: "Civilizations",
+            target: CONFIG.paths.civilizations
+        },
+
+        {
+            name: "Heritage",
+            target: CONFIG.paths.heritage
+        },
+
+        {
+            name: "Timeline",
+            target: CONFIG.paths.timeline
+        },
+
+        {
+            name: "Articles",
+            target: CONFIG.paths.articles
+        },
+
+        {
+            name: "Gallery",
+            target: CONFIG.paths.gallery
+        },
+
+        {
+            name: "Contribute",
+            target: CONFIG.paths.contribute
+        },
+
+        {
+            name: "About",
+            target: CONFIG.paths.about
+        },
+
+        {
+            name: "Contact",
+            target: CONFIG.paths.contact
+        },
+
+        {
+            name: "Login",
+            target: CONFIG.paths.login
+        }
+
+    ];
+
+
+    function buildMobileMenu() {
+
+        if (!mobileLinks) {
+            return;
+        }
+
+        mobileLinks.innerHTML = "";
+
+        mobileItems.forEach(
+            function (item) {
+
+                const link =
+                    document.createElement("a");
+
+                link.href =
+                    item.target;
+
+                link.textContent =
+                    item.name;
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        closeMobileMenu();
+
+                    }
+                );
+
+                mobileLinks.appendChild(
+                    link
+                );
 
             }
         );
@@ -1205,232 +381,236 @@ aria-labelledby="languageTitle"
     }
 
 
-    if (mobileMenuClose) {
-
-        mobileMenuClose.addEventListener(
-            "click",
-            closeMenu
-        );
-
-    }
+    buildMobileMenu();
 
 
-    if (mobileMenu) {
+    /* =====================================================
+       SEARCH DATABASE
+    ===================================================== */
 
-        mobileMenu
-            .querySelectorAll("a")
-            .forEach(function (link) {
+    const SEARCH_MAP = {
 
-                link.addEventListener(
-                    "click",
-                    closeMenu
-                );
+        library: [
+            "library",
+            "libraries",
+            "book",
+            "books",
+            "read",
+            "department",
+            "departments",
+            "subject",
+            "subjects"
+        ],
 
-            });
+        history: [
+            "history",
+            "ancient",
+            "historical",
+            "civilization",
+            "civilizations",
+            "king",
+            "kings",
+            "ruler",
+            "rulers",
+            "war",
+            "wars",
+            "culture"
+        ],
 
-    }
+        countries: [
+            "country",
+            "countries",
+            "world",
+            "nation",
+            "nations"
+        ],
+
+        heritage: [
+            "heritage",
+            "fort",
+            "forts",
+            "monument",
+            "monuments",
+            "palace",
+            "palaces",
+            "culture"
+        ],
+
+        timeline: [
+            "timeline",
+            "time",
+            "period",
+            "periods",
+            "era",
+            "eras"
+        ],
+
+        articles: [
+            "article",
+            "articles",
+            "writing",
+            "content"
+        ],
+
+        gallery: [
+            "gallery",
+            "image",
+            "images",
+            "photo",
+            "photos"
+        ],
+
+        computer: [
+            "computer",
+            "technology",
+            "tech"
+        ],
+
+        mathematics: [
+            "math",
+            "mathematics"
+        ],
+
+        jobs: [
+            "job",
+            "jobs",
+            "career",
+            "careers"
+        ],
+
+        trees: [
+            "tree",
+            "trees",
+            "nature",
+            "forest",
+            "forests"
+        ],
+
+        discover: [
+            "discover",
+            "explore"
+        ],
+
+        contribute: [
+            "contribute",
+            "contribution",
+            "submit"
+        ]
+
+    };
 
 
+    /* =====================================================
+       SEARCH ENGINE
+    ===================================================== */
 
-    /*
-     * =====================================================
-     * LANGUAGE PANEL
-     * =====================================================
-     */
+    function searchWebsite(query) {
 
-    const languageButton =
-        document.getElementById(
-            "languageButton"
-        );
+        if (!query) {
+            return null;
+        }
 
+        const text =
+            query
+                .toLowerCase()
+                .trim();
 
-    const languagePanel =
-        document.getElementById(
-            "languagePanel"
-        );
-
-
-    const languageClose =
-        document.getElementById(
-            "languageClose"
-        );
-
-
-    function openLanguage() {
-
-        if (!languagePanel) {
-            return;
+        if (!text) {
+            return null;
         }
 
 
-        languagePanel.hidden =
-            false;
+        /*
+         * Exact page-name matching
+         */
 
-
-        document.body.classList.add(
-            "language-open"
-        );
-
-
-        if (languageButton) {
-
-            languageButton.setAttribute(
-                "aria-expanded",
-                "true"
-            );
-
+        if (
+            text === "library"
+        ) {
+            return CONFIG.paths.library;
         }
 
-    }
+        if (
+            text === "countries" ||
+            text === "country"
+        ) {
+            return CONFIG.paths.countries;
+        }
 
+        if (
+            text === "articles" ||
+            text === "article"
+        ) {
+            return CONFIG.paths.articles;
+        }
 
-    function closeLanguage() {
+        if (
+            text === "gallery"
+        ) {
+            return CONFIG.paths.gallery;
+        }
 
-        if (!languagePanel) {
-            return;
+        if (
+            text === "heritage"
+        ) {
+            return CONFIG.paths.heritage;
+        }
+
+        if (
+            text === "timeline"
+        ) {
+            return CONFIG.paths.timeline;
         }
 
 
-        languagePanel.hidden =
-            true;
+        /*
+         * Keyword matching
+         */
 
+        for (
+            const key of Object.keys(
+                SEARCH_MAP
+            )
+        ) {
 
-        document.body.classList.remove(
-            "language-open"
-        );
+            const keywords =
+                SEARCH_MAP[key];
 
+            const found =
+                keywords.some(
+                    function (word) {
 
-        if (languageButton) {
-
-            languageButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-    }
-
-
-    if (languageButton) {
-
-        languageButton.addEventListener(
-            "click",
-            openLanguage
-        );
-
-    }
-
-
-    if (languageClose) {
-
-        languageClose.addEventListener(
-            "click",
-            closeLanguage
-        );
-
-    }
-
-
-
-    /*
-     * LANGUAGE STORAGE
-     */
-
-    document
-        .querySelectorAll(
-            ".language-option"
-        )
-        .forEach(function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const language =
-                        button.dataset.language;
-
-
-                    if (!language) {
-                        return;
-                    }
-
-
-                    localStorage.setItem(
-                        "alon_historyverse_language",
-                        language
-                    );
-
-
-                    document.documentElement
-                        .setAttribute(
-                            "lang",
-                            language
+                        return text.includes(
+                            word
                         );
 
+                    }
+                );
 
-                    document.dispatchEvent(
-                        new CustomEvent(
-                            "alon:languagechange",
-                            {
-                                detail: {
-                                    language
-                                }
-                            }
-                        )
-                    );
+            if (found) {
 
+                if (
+                    CONFIG.paths[key]
+                ) {
 
-                    closeLanguage();
+                    return CONFIG.paths[key];
 
                 }
-            );
 
-        });
+            }
 
+        }
 
-
-    /*
-     * Restore language
-     */
-
-    const savedLanguage =
-        localStorage.getItem(
-            "alon_historyverse_language"
-        );
-
-
-    if (savedLanguage) {
-
-        document.documentElement
-            .setAttribute(
-                "lang",
-                savedLanguage
-            );
+        return null;
 
     }
 
 
+    /* =====================================================
+       SEARCH FORM
+    ===================================================== */
 
-    /*
-     * =====================================================
-     * GLOBAL SEARCH
-     * =====================================================
-     */
-
-    const searchForm =
-        document.getElementById(
-            "globalSearchForm"
-        );
-
-
-    const searchInput =
-        document.getElementById(
-            "globalSearch"
-        );
-
-
-    if (searchForm && searchInput) {
+    if (searchForm) {
 
         searchForm.addEventListener(
             "submit",
@@ -1438,36 +618,46 @@ aria-labelledby="languageTitle"
 
                 event.preventDefault();
 
-
                 const query =
-                    searchInput.value.trim();
-
+                    searchInput
+                        ? searchInput.value.trim()
+                        : "";
 
                 if (!query) {
 
-                    searchInput.focus();
+                    setStatus(
+                        "Please enter something to search."
+                    );
+
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
 
                     return;
-
                 }
 
 
-                /*
-                 * Send search to Articles page.
-                 *
-                 * This avoids incorrectly sending
-                 * every search to Library.
-                 */
+                const target =
+                    searchWebsite(query);
 
-                const url =
-                    "html/articles.html?q=" +
-                    encodeURIComponent(
-                        query
+
+                if (target) {
+
+                    setStatus(
+                        "Opening results..."
                     );
 
+                    openPage(target);
 
-                window.location.href =
-                    url;
+                } else {
+
+                    setStatus(
+                        "No direct page found for \"" +
+                        query +
+                        "\". Try Library, History, Countries, Heritage, Timeline or Articles."
+                    );
+
+                }
 
             }
         );
@@ -1475,139 +665,331 @@ aria-labelledby="languageTitle"
     }
 
 
+    /* =====================================================
+       LANGUAGE SYSTEM
+    ===================================================== */
 
-    /*
-     * =====================================================
-     * ESC KEY
-     * =====================================================
-     */
+    function languageSystem() {
 
-    document.addEventListener(
-        "keydown",
-        function (event) {
+        /*
+         * Future language engine can connect here.
+         *
+         * Supported architecture:
+         *
+         * English
+         * Hindi
+         * World Languages
+         */
+
+        if (window.ALON_LANGUAGE_ENGINE) {
 
             if (
-                event.key ===
-                "Escape"
+                typeof
+                window.ALON_LANGUAGE_ENGINE.open ===
+                "function"
             ) {
 
-                closeMenu();
+                window.ALON_LANGUAGE_ENGINE.open();
 
-                closeLanguage();
+                return;
 
             }
 
         }
-    );
 
 
+        alert(
+            "English interface is active.\n\n" +
+            "Hindi and World Language support can be connected through the language engine."
+        );
 
-    /*
-     * =====================================================
-     * CLOSE OVERLAY
-     * =====================================================
-     */
+    }
+
+
+    if (languageBtn) {
+
+        languageBtn.addEventListener(
+            "click",
+            languageSystem
+        );
+
+    }
+
+
+    /* =====================================================
+       SMOOTH INTERNAL NAVIGATION
+    ===================================================== */
 
     document.addEventListener(
         "click",
         function (event) {
 
-            if (
-                document.body.classList.contains(
-                    "menu-open"
-                )
-            ) {
+            const link =
+                event.target.closest(
+                    'a[href^="#"]'
+                );
 
-                if (
-                    mobileMenu &&
-                    !mobileMenu.contains(
-                        event.target
-                    ) &&
-                    event.target !==
-                    menuButton
-                ) {
-
-                    closeMenu();
-
-                }
-
+            if (!link) {
+                return;
             }
+
+            const targetId =
+                link.getAttribute("href");
+
+            if (
+                !targetId ||
+                targetId === "#"
+            ) {
+                return;
+            }
+
+            const target =
+                document.querySelector(
+                    targetId
+                );
+
+            if (!target) {
+                return;
+            }
+
+            event.preventDefault();
+
+            closeMobileMenu();
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+            history.replaceState(
+                null,
+                "",
+                targetId
+            );
 
         }
     );
 
 
+    /* =====================================================
+       CARD SAFETY
+    ===================================================== */
 
-    /*
-     * =====================================================
-     * DEBUG / SYSTEM INFORMATION
-     * =====================================================
-     */
+    document.addEventListener(
+        "click",
+        function (event) {
 
-    window.ALON_SYSTEM = {
+            const card =
+                event.target.closest(
+                    ".ah-card"
+                );
+
+            if (!card) {
+                return;
+            }
+
+            /*
+             * Whole card is already clickable
+             * because .ah-card itself is <a>.
+             */
+
+            card.classList.add(
+                "ah-card-clicked"
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       JSON LOADER
+    ===================================================== */
+
+    async function loadJSON(path) {
+
+        if (!path) {
+            return null;
+        }
+
+        try {
+
+            const response =
+                await fetch(path);
+
+            if (!response.ok) {
+
+                return null;
+
+            }
+
+            return await response.json();
+
+        } catch (error) {
+
+            console.warn(
+                "ALON JSON unavailable:",
+                path
+            );
+
+            return null;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       PAGE INFORMATION
+    ===================================================== */
+
+    function getPageInfo() {
+
+        return {
+
+            title:
+                document.title,
+
+            url:
+                window.location.href,
+
+            path:
+                window.location.pathname,
+
+            version:
+                CONFIG.version
+
+        };
+
+    }
+
+
+    /* =====================================================
+       GLOBAL API
+    ===================================================== */
+
+    const API = {
+
+        name:
+            "ALON HISTORYVERSE 24",
 
         version:
-            "V100",
+            CONFIG.version,
 
         files:
-            60,
+            CONFIG.paths,
 
-        architecture:
-            "Root Index + HTML + CSS + JSS + DATA + IMAGES",
+        config:
+            CONFIG,
 
-        singleIndex:
-            true,
+        open:
+            openPage,
 
-        rootIndex:
-            true,
+        home:
+            goHome,
 
-        githubPages:
-            true,
+        menu: {
 
-        bilingual:
-            true,
+            open:
+                openMenu,
 
-        mobile:
-            true,
+            close:
+                closeMobileMenu
 
-        centralizedNavigation:
-            true
+        },
+
+        search:
+            searchWebsite,
+
+        status:
+            setStatus,
+
+        loadJSON:
+            loadJSON,
+
+        page:
+            getPageInfo
 
     };
 
 
-    console.log(
-        "ALON HISTORYVERSE 24 V100 initialized."
-    );
+    /* =====================================================
+       GLOBAL COMPATIBILITY
+    ===================================================== */
+
+    window.ALON_HISTORYVERSE =
+        API;
+
+    window.HISTORYVERSE =
+        API;
+
+    window.HV =
+        API;
+
+
+    /* =====================================================
+       LEGACY NAVIGATION FUNCTIONS
+    ===================================================== */
+
+    window.openHistoryVersePage =
+        openPage;
+
+    window.goHistoryVerseHome =
+        goHome;
+
+
+    /* =====================================================
+       READY EVENT
+    ===================================================== */
+
+    function systemReady() {
+
+        setStatus(
+            "ALON HISTORYVERSE 24 • V100 • Ready"
+        );
+
+        console.log(
+            "======================================"
+        );
+
+        console.log(
+            "ALON HISTORYVERSE 24"
+        );
+
+        console.log(
+            "MASTER CONTROLLER: READY"
+        );
+
+        console.log(
+            "VERSION:",
+            CONFIG.version
+        );
+
+        console.log(
+            "======================================"
+        );
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            systemReady
+        );
+
+    } else {
+
+        systemReady();
+
+    }
+
 
 })();
-
-</script>
-
-
-
-<!-- =======================================================
-     OPTIONAL ENGINE LOADER
-     
-     IMPORTANT:
-     The existing articles.js contains ES-module exports.
-     Therefore it must be loaded as a module.
-     
-     The remaining project engines can be controlled by
-     master-controller.js.
-======================================================= -->
-
-<script
-    type="module"
-    src="jss/articles.js"
-></script>
-
-
-<script
-    src="jss/master-controller.js"
-    defer
-></script>
-
-
-</body>
-</html>
