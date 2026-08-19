@@ -1,1 +1,14 @@
-{"version":"V100","civilizations":[{"id":"indus","name":"Indus Valley Civilization","era":"Ancient"},{"id":"egyptian","name":"Ancient Egypt","era":"Ancient"},{"id":"greek","name":"Ancient Greece","era":"Ancient"},{"id":"roman","name":"Roman Civilization","era":"Ancient"},{"id":"chinese","name":"Ancient Chinese Civilization","era":"Ancient"}]}
+[
+  {
+    "id": "indus",
+    "name": "Indus Valley Civilization"
+  },
+  {
+    "id": "egyptian",
+    "name": "Ancient Egyptian Civilization"
+  },
+  {
+    "id": "roman",
+    "name": "Roman Civilization"
+  }
+]

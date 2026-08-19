@@ -1,1 +1,18 @@
-{"version":"V100","departments":["History","Countries","Science","Mathematics","Computer","Law","Jobs & Careers","Arts","Geography","Cities","Villages","Mountains","Forests","Technology","Education"],"flow":["Department","Subject","Book","Read"]}
+[
+  {
+    "id": "history",
+    "title": "History"
+  },
+  {
+    "id": "computer",
+    "title": "Computer"
+  },
+  {
+    "id": "mathematics",
+    "title": "Mathematics"
+  },
+  {
+    "id": "jobs",
+    "title": "Jobs & Careers"
+  }
+]

@@ -1,1 +1,14 @@
-{"version":"V100","categories":["Bold Heritage Sites","Ancient Forts","Old Cities","Palaces","Temples","Archaeological Sites","Cultural Landscapes"],"examples":["Red Fort","Fatehpur Sikri","Great Pyramid of Giza","Acropolis of Athens"]}
+[
+  {
+    "id": "forts",
+    "title": "Forts"
+  },
+  {
+    "id": "monuments",
+    "title": "Monuments"
+  },
+  {
+    "id": "cities",
+    "title": "Old Cities"
+  }
+]
