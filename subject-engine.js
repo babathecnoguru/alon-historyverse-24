@@ -1,1 +1,18 @@
-window.ALONSubject={open:s=>location.href='subject.html?subject='+encodeURIComponent(s)};
+(() => {
+"use strict";
+
+window.ALONSubject = {
+open(subject) {
+const value = String(subject || "").trim();
+
+  if (!value) {
+    return;
+  }
+
+  window.location.href =
+    "subject.html?subject=" +
+    encodeURIComponent(value);
+}
+
+};
+})();

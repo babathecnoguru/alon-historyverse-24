@@ -1,1 +1,211 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Login • ALON HISTORYVERSE 24</title><link rel="stylesheet" href="../css/style.css"></head><body><main class="page"><header class="page-header"><a href="../index.html">← ALON HISTORYVERSE 24</a><h1>Login</h1><p>ALON HISTORYVERSE 24 V100 knowledge platform.</p></header><section class="content"><h2>Login</h2><p>This is the Login section of ALON HISTORYVERSE 24 V100.</p><div class="grid"><a class="card" href="../index.html"><h3>Home</h3><p>Return to the main entry point.</p></a><a class="card" href="discover.html"><h3>Discover</h3><p>Explore more knowledge.</p></a><a class="card" href="library.html"><h3>Library</h3><p>Open the knowledge library.</p></a></div></section><section class="content"><h2>Demo Login</h2><p>Demo PIN: <b>2468</b></p><input id="pin" class="searchbox" type="password"><button class="btn" onclick="alert(ALONAdmin.login(document.getElementById('pin').value)?'Login successful':'Wrong PIN')">Login</button></section><footer class="footer">ALON HISTORYVERSE 24 • Baba Thecno Guru • <a href="../index.html">Home</a></footer></main><script src="../jss/core.js"></script><script src="../jss/system.js"></script><script src="../jss/data.js"></script><script src="../jss/app.js"></script><script src="../jss/platform.js"></script><script src="../jss/language.js"></script><script src="../jss/world-language.js"></script><script src="../jss/articles.js"></script><script src="../jss/library.js"></script><script src="../jss/library-engine.js"></script><script src="../jss/subject-engine.js"></script><script src="../jss/read.js"></script><script src="../jss/explore.js"></script><script src="../jss/country.js"></script><script src="../jss/countries-click.js"></script><script src="../jss/submit.js"></script><script src="../jss/contact.js"></script><script src="../jss/security.js"></script><script src="../jss/admin.js"></script><script src="../jss/firebase.js"></script><script src="../jss/engine.js"></script><script src="../jss/master-controller.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login • ALON HISTORYVERSE 24</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<main class="page">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+    <header class="page-header">
+
+        <a href="../index.html" class="back-link">
+            ← ALON HISTORYVERSE 24
+        </a>
+
+        <h1>Login</h1>
+
+        <p>
+            ALON HISTORYVERSE 24 V100 knowledge platform.
+        </p>
+
+    </header>
+
+
+    <!-- =====================================================
+         LOGIN INTRO
+    ====================================================== -->
+    <section class="content">
+
+        <h2>Login</h2>
+
+        <p>
+            Sign in to access authorized ALON HISTORYVERSE 24
+            platform features.
+        </p>
+
+        <div class="grid">
+
+            <a class="card" href="../index.html">
+                <h3>Home</h3>
+                <p>
+                    Return to the main entry point.
+                </p>
+            </a>
+
+
+            <a class="card" href="discover.html">
+                <h3>Discover</h3>
+                <p>
+                    Explore history and knowledge.
+                </p>
+            </a>
+
+
+            <a class="card" href="library.html">
+                <h3>Library</h3>
+                <p>
+                    Open the Knowledge Library.
+                </p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LOGIN FORM
+    ====================================================== -->
+    <section class="content">
+
+        <h2>Account Login</h2>
+
+        <form id="login-form" autocomplete="off">
+
+            <div class="form-group">
+
+                <label for="pin">
+                    PIN
+                </label>
+
+                <input
+                    id="pin"
+                    name="pin"
+                    class="searchbox"
+                    type="password"
+                    inputmode="numeric"
+                    autocomplete="current-password"
+                    placeholder="Enter your PIN"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Login
+            </button>
+
+            <p
+                id="login-status"
+                class="status"
+                aria-live="polite"
+            ></p>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+    <footer class="footer">
+
+        ALON HISTORYVERSE 24 • Baba Thecno Guru
+
+        <br>
+
+        <a href="../index.html">
+            Home
+        </a>
+
+    </footer>
+
+</main>
+
+
+<!-- =======================================================
+     LOGIN PAGE SCRIPTS
+======================================================== -->
+
+<script src="../jss/core.js"></script>
+<script src="../jss/system.js"></script>
+<script src="../jss/admin.js"></script>
+
+<script>
+(function () {
+
+    "use strict";
+
+    const form = document.getElementById("login-form");
+    const pinInput = document.getElementById("pin");
+    const status = document.getElementById("login-status");
+
+    if (!form || !pinInput || !status) {
+        return;
+    }
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const pin = pinInput.value.trim();
+
+        if (!pin) {
+            status.textContent = "Please enter your PIN.";
+            return;
+        }
+
+        if (
+            typeof window.ALONAdmin === "undefined" ||
+            typeof window.ALONAdmin.login !== "function"
+        ) {
+            status.textContent =
+                "Login system is currently unavailable.";
+
+            return;
+        }
+
+        const success = window.ALONAdmin.login(pin);
+
+        if (success) {
+
+            status.textContent =
+                "Login successful.";
+
+            /*
+             * Admin.js can control the final destination.
+             * No hard-coded admin path is used here.
+             */
+
+        } else {
+
+            status.textContent =
+                "Wrong PIN. Please try again.";
+
+            pinInput.value = "";
+            pinInput.focus();
+
+        }
+
+    });
+
+})();
+</script>
+
+</body>
+</html>

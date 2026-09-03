@@ -1,1 +1,9 @@
-window.ALONPlatform={brand:'ALON HISTORYVERSE 24',creator:'Baba Thecno Guru'};
+(() => {
+"use strict";
+
+window.ALON_HISTORYVERSE =
+window.ALON_HISTORYVERSE || {};
+
+window.ALON_HISTORYVERSE.version = "V100";
+window.ALON_HISTORYVERSE.ready = true;
+})();

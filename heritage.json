@@ -1,14 +1,14 @@
 [
-  {
-    "id": "forts",
-    "title": "Forts"
-  },
-  {
-    "id": "monuments",
-    "title": "Monuments"
-  },
-  {
-    "id": "cities",
-    "title": "Old Cities"
-  }
+{
+"id": "forts",
+"title": "Forts"
+},
+{
+"id": "monuments",
+"title": "Monuments"
+},
+{
+"id": "cities",
+"title": "Old Cities"
+}
 ]

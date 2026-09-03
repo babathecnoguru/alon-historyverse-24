@@ -1,1 +1,10 @@
-window.ALONSecurity={sanitize:s=>String(s??'').replace(/[<>]/g,'')};
+(() => {
+"use strict";
+
+window.ALONSecurity = {
+sanitize(value) {
+return String(value ?? "")
+.replace(/[<>]/g, "");
+}
+};
+})();

@@ -1,22 +1,22 @@
 [
-  {
-    "id": "india",
-    "name": "India",
-    "region": "Asia"
-  },
-  {
-    "id": "egypt",
-    "name": "Egypt",
-    "region": "Africa"
-  },
-  {
-    "id": "china",
-    "name": "China",
-    "region": "Asia"
-  },
-  {
-    "id": "japan",
-    "name": "Japan",
-    "region": "Asia"
-  }
+{
+"id": "india",
+"name": "India",
+"region": "Asia"
+},
+{
+"id": "egypt",
+"name": "Egypt",
+"region": "Africa"
+},
+{
+"id": "china",
+"name": "China",
+"region": "Asia"
+},
+{
+"id": "japan",
+"name": "Japan",
+"region": "Asia"
+}
 ]

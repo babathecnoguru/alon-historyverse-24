@@ -1,1 +1,16 @@
-window.ALONFirebase={configured:false,init:()=>console.info('Firebase adapter ready; configuration not supplied.')};
+(() => {
+"use strict";
+
+window.ALONFirebase = {
+configured: false,
+
+init() {
+  console.info(
+    "Firebase adapter ready; configuration not supplied."
+  );
+
+  return false;
+}
+
+};
+})();

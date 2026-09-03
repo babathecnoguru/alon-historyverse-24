@@ -1,14 +1,14 @@
 [
-  {
-    "id": "ancient",
-    "title": "Ancient Era"
-  },
-  {
-    "id": "medieval",
-    "title": "Medieval Era"
-  },
-  {
-    "id": "modern",
-    "title": "Modern Era"
-  }
+{
+"id": "ancient",
+"title": "Ancient Era"
+},
+{
+"id": "medieval",
+"title": "Medieval Era"
+},
+{
+"id": "modern",
+"title": "Modern Era"
+}
 ]

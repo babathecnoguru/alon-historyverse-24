@@ -1,18 +1,18 @@
 [
-  {
-    "id": "history",
-    "title": "History"
-  },
-  {
-    "id": "computer",
-    "title": "Computer"
-  },
-  {
-    "id": "mathematics",
-    "title": "Mathematics"
-  },
-  {
-    "id": "jobs",
-    "title": "Jobs & Careers"
-  }
+{
+"id": "history",
+"title": "History"
+},
+{
+"id": "computer",
+"title": "Computer"
+},
+{
+"id": "mathematics",
+"title": "Mathematics"
+},
+{
+"id": "jobs",
+"title": "Jobs & Careers"
+}
 ]

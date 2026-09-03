@@ -1,1 +1,7 @@
-document.addEventListener('DOMContentLoaded',()=>document.documentElement.dataset.alonReady='true');
+(() => {
+"use strict";
+
+document.addEventListener("DOMContentLoaded", () => {
+document.documentElement.dataset.alonReady = "true";
+});
+})();

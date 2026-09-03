@@ -1,1 +1,23 @@
-window.ALONExplore={filter:q=>document.querySelectorAll('[data-searchable]').forEach(e=>e.hidden=q&&!e.textContent.toLowerCase().includes(q.toLowerCase()))};
+(() => {
+"use strict";
+
+window.ALONExplore = {
+filter(query) {
+const searchQuery = String(query || "")
+.trim()
+.toLowerCase();
+
+  document
+    .querySelectorAll("[data-searchable]")
+    .forEach((element) => {
+      const text = element.textContent
+        .toLowerCase();
+
+      element.hidden =
+        Boolean(searchQuery) &&
+        !text.includes(searchQuery);
+    });
+}
+
+};
+})();

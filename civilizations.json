@@ -1,14 +1,14 @@
 [
-  {
-    "id": "indus",
-    "name": "Indus Valley Civilization"
-  },
-  {
-    "id": "egyptian",
-    "name": "Ancient Egyptian Civilization"
-  },
-  {
-    "id": "roman",
-    "name": "Roman Civilization"
-  }
+{
+"id": "indus",
+"name": "Indus Valley Civilization"
+},
+{
+"id": "egyptian",
+"name": "Ancient Egyptian Civilization"
+},
+{
+"id": "roman",
+"name": "Roman Civilization"
+}
 ]

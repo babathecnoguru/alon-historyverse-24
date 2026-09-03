@@ -1,1 +1,340 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Contribute • ALON HISTORYVERSE 24</title><link rel="stylesheet" href="../css/style.css"></head><body><main class="page"><header class="page-header"><a href="../index.html">← ALON HISTORYVERSE 24</a><h1>Contribute</h1><p>ALON HISTORYVERSE 24 V100 knowledge platform.</p></header><section class="content"><h2>Contribute</h2><p>This is the Contribute section of ALON HISTORYVERSE 24 V100.</p><div class="grid"><a class="card" href="../index.html"><h3>Home</h3><p>Return to the main entry point.</p></a><a class="card" href="discover.html"><h3>Discover</h3><p>Explore more knowledge.</p></a><a class="card" href="library.html"><h3>Library</h3><p>Open the knowledge library.</p></a></div></section><footer class="footer">ALON HISTORYVERSE 24 • Baba Thecno Guru • <a href="../index.html">Home</a></footer></main><script src="../jss/core.js"></script><script src="../jss/system.js"></script><script src="../jss/data.js"></script><script src="../jss/app.js"></script><script src="../jss/platform.js"></script><script src="../jss/language.js"></script><script src="../jss/world-language.js"></script><script src="../jss/articles.js"></script><script src="../jss/library.js"></script><script src="../jss/library-engine.js"></script><script src="../jss/subject-engine.js"></script><script src="../jss/read.js"></script><script src="../jss/explore.js"></script><script src="../jss/country.js"></script><script src="../jss/countries-click.js"></script><script src="../jss/submit.js"></script><script src="../jss/contact.js"></script><script src="../jss/security.js"></script><script src="../jss/admin.js"></script><script src="../jss/firebase.js"></script><script src="../jss/engine.js"></script><script src="../jss/master-controller.js"></script></body></html>
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contribute • ALON HISTORYVERSE 24</title>
+
+<!-- Global stylesheet -->
+<link rel="stylesheet" href="../css/style.css">
+
+</head><body><main class="page">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+    <header class="page-header">
+
+        <a href="../index.html" class="back-link">
+            ← ALON HISTORYVERSE 24
+        </a>
+
+        <h1>Contribute</h1>
+
+        <p>
+            Contribute knowledge to
+            ALON HISTORYVERSE 24.
+        </p>
+
+    </header>
+
+
+    <!-- =========================
+         INTRODUCTION
+    ========================== -->
+    <section class="content">
+
+        <h2>Contribute to ALON HISTORYVERSE 24</h2>
+
+        <p>
+            Share historical knowledge, research,
+            cultural information, heritage details,
+            educational resources or corrections
+            with the ALON HISTORYVERSE 24 community.
+        </p>
+
+        <p>
+            Every contribution can be reviewed before
+            it becomes part of the public knowledge
+            platform.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         CONTRIBUTION FORM
+    ========================== -->
+    <section class="content">
+
+        <h2>Submit a Contribution</h2>
+
+        <form
+            id="contribute-form"
+            data-contribute
+            novalidate
+        >
+
+            <div class="form-group">
+
+                <label for="contributor-name">
+                    Name
+                </label>
+
+                <input
+                    class="searchbox"
+                    id="contributor-name"
+                    name="name"
+                    type="text"
+                    required
+                    autocomplete="name"
+                    placeholder="Enter your name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="contributor-email">
+                    Email
+                </label>
+
+                <input
+                    class="searchbox"
+                    id="contributor-email"
+                    name="email"
+                    type="email"
+                    required
+                    autocomplete="email"
+                    placeholder="Enter your email"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="contribution-title">
+                    Contribution Title
+                </label>
+
+                <input
+                    class="searchbox"
+                    id="contribution-title"
+                    name="title"
+                    type="text"
+                    required
+                    placeholder="Enter a title"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="contribution-category">
+                    Category
+                </label>
+
+                <select
+                    class="searchbox"
+                    id="contribution-category"
+                    name="category"
+                    required
+                >
+                    <option value="">
+                        Select a category
+                    </option>
+
+                    <option value="history">
+                        History
+                    </option>
+
+                    <option value="civilizations">
+                        Civilizations
+                    </option>
+
+                    <option value="countries">
+                        Countries
+                    </option>
+
+                    <option value="heritage">
+                        Heritage
+                    </option>
+
+                    <option value="culture">
+                        Culture
+                    </option>
+
+                    <option value="science">
+                        Science
+                    </option>
+
+                    <option value="education">
+                        Education
+                    </option>
+
+                    <option value="other">
+                        Other
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="contribution-content">
+                    Contribution
+                </label>
+
+                <textarea
+                    class="searchbox"
+                    id="contribution-content"
+                    name="content"
+                    rows="10"
+                    required
+                    placeholder="Write your contribution..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="contribution-source">
+                    Source / Reference
+                </label>
+
+                <input
+                    class="searchbox"
+                    id="contribution-source"
+                    name="source"
+                    type="text"
+                    placeholder="Add a source or reference"
+                >
+
+            </div>
+
+
+            <button
+                class="btn"
+                type="submit"
+            >
+                Submit Contribution
+            </button>
+
+
+            <!-- Status for submit.js -->
+            <p
+                id="contribute-status"
+                class="form-status"
+                aria-live="polite"
+            ></p>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================
+         GUIDELINES
+    ========================== -->
+    <section class="content">
+
+        <h2>Before You Submit</h2>
+
+        <div class="grid">
+
+            <a class="card" href="contributor-agreement.html">
+                <h3>Contributor Agreement</h3>
+                <p>
+                    Review the contributor terms
+                    before submitting content.
+                </p>
+            </a>
+
+
+            <a class="card" href="guidelines.html">
+                <h3>Community Guidelines</h3>
+                <p>
+                    Learn about content and
+                    contribution standards.
+                </p>
+            </a>
+
+
+            <a class="card" href="copyright.html">
+                <h3>Copyright</h3>
+                <p>
+                    Review copyright and
+                    content ownership information.
+                </p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+    <section class="content">
+
+        <div class="grid">
+
+            <a class="card" href="articles.html">
+                <h3>Articles</h3>
+                <p>
+                    Explore existing articles.
+                </p>
+            </a>
+
+
+            <a class="card" href="library.html">
+                <h3>Library</h3>
+                <p>
+                    Explore the knowledge library.
+                </p>
+            </a>
+
+
+            <a class="card" href="contact.html">
+                <h3>Contact</h3>
+                <p>
+                    Contact ALON HISTORYVERSE 24.
+                </p>
+            </a>
+
+
+            <a class="card" href="../index.html">
+                <h3>Home</h3>
+                <p>
+                    Return to the main
+                    ALON HISTORYVERSE 24 page.
+                </p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+    <footer class="footer">
+
+        <p>
+            ALON HISTORYVERSE 24
+            • Baba Thecno Guru
+        </p>
+
+        <a href="../index.html">
+            Home
+        </a>
+
+    </footer>
+
+</main>
+
+
+<!-- =========================
+     CORE + SUBMISSION SYSTEM
+========================== -->
+<script src="../jss/core.js"></script>
+<script src="../jss/system.js"></script>
+<script src="../jss/submit.js"></script>
+
+</body>
+</html>
