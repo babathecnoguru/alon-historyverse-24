@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -109,6 +110,7 @@
                 Login
             </button>
 
+
             <p
                 id="login-status"
                 class="status"
@@ -146,6 +148,7 @@
 <script src="../jss/system.js"></script>
 <script src="../jss/admin.js"></script>
 
+
 <script>
 (function () {
 
@@ -166,21 +169,29 @@
         const pin = pinInput.value.trim();
 
         if (!pin) {
-            status.textContent = "Please enter your PIN.";
+
+            status.textContent =
+                "Please enter your PIN.";
+
             return;
         }
+
 
         if (
             typeof window.ALONAdmin === "undefined" ||
             typeof window.ALONAdmin.login !== "function"
         ) {
+
             status.textContent =
                 "Login system is currently unavailable.";
 
             return;
         }
 
-        const success = window.ALONAdmin.login(pin);
+
+        const success =
+            window.ALONAdmin.login(pin);
+
 
         if (success) {
 
@@ -188,7 +199,7 @@
                 "Login successful.";
 
             /*
-             * Admin.js can control the final destination.
+             * admin.js can control the final destination.
              * No hard-coded admin path is used here.
              */
 
@@ -208,4 +219,5 @@
 </script>
 
 </body>
+
 </html>
