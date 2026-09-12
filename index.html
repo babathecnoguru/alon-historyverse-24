@@ -5,10 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>ALON HISTORYVERSE 24</title>
 
@@ -28,13 +25,10 @@
     >
 
     <!-- =====================================================
-         ROOT CSS
+         ROOT STYLESHEET
     ====================================================== -->
 
-    <link
-        rel="stylesheet"
-        href="./css/style.css"
-    >
+    <link rel="stylesheet" href="./style.css">
 
 </head>
 
@@ -61,20 +55,26 @@
 
     <div class="ah-actions">
 
+        <!-- LANGUAGE -->
+
         <button
             class="ah-btn"
             id="languageBtn"
             type="button"
+            aria-label="Language"
         >
             🌐
         </button>
 
+
+        <!-- MENU -->
 
         <button
             class="ah-btn"
             id="menuBtn"
             type="button"
             aria-label="Open menu"
+            aria-expanded="false"
         >
             ☰
         </button>
@@ -85,31 +85,28 @@
 
 
 <!-- =========================================================
-     NAVIGATION
+     DESKTOP NAVIGATION
 ========================================================== -->
 
-<nav
-    class="ah-nav"
-    id="mainNav"
->
+<nav class="ah-nav">
 
     <a href="./index.html">Home</a>
 
-    <a href="./html/discover.html">Explore</a>
+    <a href="./discover.html">Explore</a>
 
-    <a href="./html/library.html">Library</a>
+    <a href="./library.html">Library</a>
 
-    <a href="./html/civilizations.html">History</a>
+    <a href="./civilizations.html">History</a>
 
-    <a href="./html/countries.html">Countries</a>
+    <a href="./countries.html">Countries</a>
 
-    <a href="./html/heritage.html">Heritage</a>
+    <a href="./heritage.html">Heritage</a>
 
-    <a href="./html/timeline.html">Timeline</a>
+    <a href="./timeline.html">Timeline</a>
 
-    <a href="./html/articles.html">Articles</a>
+    <a href="./articles.html">Articles</a>
 
-    <a href="./html/about.html">About</a>
+    <a href="./about.html">About</a>
 
 </nav>
 
@@ -121,65 +118,216 @@
 <div
     id="mobileMenu"
     class="mobile-menu"
+    hidden
 >
 
-    <a href="./html/discover.html">Discover</a>
+    <div class="mobile-menu-section">
 
-    <a href="./html/categories.html">Categories</a>
+        <strong>Explore</strong>
 
-    <a href="./html/gallery.html">Gallery</a>
+        <a href="./discover.html">
+            Discover
+        </a>
 
-    <a href="./html/articles.html">Articles</a>
+        <a href="./categories.html">
+            Categories
+        </a>
 
-    <a href="./html/library.html">Library</a>
+        <a href="./gallery.html">
+            Gallery
+        </a>
 
-    <a href="./html/department.html">Departments</a>
+        <a href="./articles.html">
+            Articles
+        </a>
 
-    <a href="./html/subject.html">Subjects</a>
+    </div>
 
-    <a href="./html/book.html">Books</a>
 
-    <a href="./html/read.html">Read</a>
+    <!-- LIBRARY IS KEPT TOGETHER -->
 
-    <a href="./html/civilizations.html">Civilizations</a>
+    <div class="mobile-menu-section">
 
-    <a href="./html/heritage.html">Heritage</a>
+        <strong>Library</strong>
 
-    <a href="./html/timeline.html">Timeline</a>
+        <a href="./library.html">
+            Library
+        </a>
 
-    <a href="./html/mathematics.html">Mathematics</a>
+        <a href="./department.html">
+            Department
+        </a>
 
-    <a href="./html/computer.html">Computer</a>
+        <a href="./subject.html">
+            Subject
+        </a>
 
-    <a href="./html/jobs.html">Jobs &amp; Careers</a>
+        <a href="./book.html">
+            Book
+        </a>
 
-    <a href="./html/trees.html">Trees</a>
+        <a href="./read.html">
+            Read
+        </a>
 
-    <a href="./html/countries.html">Countries</a>
+    </div>
 
-    <a href="./html/country.html">Country</a>
 
-    <a href="./html/contribute.html">Contribute</a>
+    <div class="mobile-menu-section">
 
-    <a href="./html/about.html">About</a>
+        <strong>History</strong>
 
-    <a href="./html/contact.html">Contact</a>
+        <a href="./civilizations.html">
+            Civilizations
+        </a>
 
-    <a href="./html/guidelines.html">Guidelines</a>
+        <a href="./timeline.html">
+            Timeline
+        </a>
 
-    <a href="./html/contributor-agreement.html">
-        Contributor Agreement
-    </a>
+        <a href="./heritage.html">
+            Heritage
+        </a>
 
-    <a href="./html/copyright.html">Copyright</a>
+    </div>
 
-    <a href="./html/privacy.html">Privacy</a>
 
-    <a href="./html/terms.html">Terms</a>
+    <div class="mobile-menu-section">
 
-    <a href="./html/login.html">Login</a>
+        <strong>Countries</strong>
 
-    <a href="./html/admin.html">Admin</a>
+        <a href="./countries.html">
+            Countries
+        </a>
+
+        <a href="./country.html">
+            Country
+        </a>
+
+    </div>
+
+
+    <div class="mobile-menu-section">
+
+        <strong>Knowledge</strong>
+
+        <a href="./mathematics.html">
+            Mathematics
+        </a>
+
+        <a href="./computer.html">
+            Computer
+        </a>
+
+        <a href="./jobs.html">
+            Jobs &amp; Careers
+        </a>
+
+        <a href="./trees.html">
+            Trees
+        </a>
+
+    </div>
+
+
+    <div class="mobile-menu-section">
+
+        <strong>Community</strong>
+
+        <a href="./contribute.html">
+            Contribute
+        </a>
+
+        <a href="./guidelines.html">
+            Guidelines
+        </a>
+
+        <a href="./contributor-agreement.html">
+            Contributor Agreement
+        </a>
+
+    </div>
+
+
+    <div class="mobile-menu-section">
+
+        <strong>Information</strong>
+
+        <a href="./about.html">
+            About
+        </a>
+
+        <a href="./contact.html">
+            Contact
+        </a>
+
+        <a href="./copyright.html">
+            Copyright
+        </a>
+
+        <a href="./privacy.html">
+            Privacy
+        </a>
+
+        <a href="./terms.html">
+            Terms
+        </a>
+
+    </div>
+
+
+    <div class="mobile-menu-section">
+
+        <strong>Account</strong>
+
+        <a href="./login.html">
+            Login
+        </a>
+
+        <a href="./admin.html">
+            Admin
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     LANGUAGE PANEL
+========================================================== -->
+
+<div
+    id="languagePanel"
+    class="language-panel"
+    hidden
+>
+
+    <div class="language-panel-header">
+
+        <strong>
+            Select Language
+        </strong>
+
+        <button
+            id="closeLanguage"
+            type="button"
+            aria-label="Close language"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div
+        id="languageList"
+        class="language-list"
+    >
+
+        <!-- JavaScript inserts available languages here -->
+
+    </div>
 
 </div>
 
@@ -189,6 +337,7 @@
 ========================================================== -->
 
 <main class="page">
+
 
     <!-- =====================================================
          HERO
@@ -206,9 +355,7 @@
         </p>
 
 
-        <!-- =================================================
-             SEARCH
-        ================================================== -->
+        <!-- SEARCH -->
 
         <form
             id="searchForm"
@@ -244,37 +391,115 @@
 
             <a
                 class="card"
-                href="./html/discover.html"
+                href="./discover.html"
             >
                 <h3>Discover</h3>
-                <p>Explore historical knowledge.</p>
+                <p>
+                    Explore historical knowledge.
+                </p>
             </a>
 
 
             <a
                 class="card"
-                href="./html/categories.html"
+                href="./categories.html"
             >
                 <h3>Categories</h3>
-                <p>Browse knowledge by category.</p>
+                <p>
+                    Browse knowledge by category.
+                </p>
             </a>
 
 
             <a
                 class="card"
-                href="./html/gallery.html"
+                href="./gallery.html"
             >
                 <h3>Gallery</h3>
-                <p>Explore historical images and media.</p>
+                <p>
+                    Explore historical media.
+                </p>
             </a>
 
 
             <a
                 class="card"
-                href="./html/articles.html"
+                href="./articles.html"
             >
                 <h3>Articles</h3>
-                <p>Read and explore historical articles.</p>
+                <p>
+                    Read historical articles.
+                </p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LIBRARY
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>Knowledge Library</h2>
+
+
+        <div class="cards">
+
+            <a
+                class="card"
+                href="./library.html"
+            >
+                <h3>Library</h3>
+                <p>
+                    Enter the knowledge library.
+                </p>
+            </a>
+
+
+            <a
+                class="card"
+                href="./department.html"
+            >
+                <h3>Departments</h3>
+                <p>
+                    Browse departments.
+                </p>
+            </a>
+
+
+            <a
+                class="card"
+                href="./subject.html"
+            >
+                <h3>Subjects</h3>
+                <p>
+                    Explore subjects.
+                </p>
+            </a>
+
+
+            <a
+                class="card"
+                href="./book.html"
+            >
+                <h3>Books</h3>
+                <p>
+                    Browse books.
+                </p>
+            </a>
+
+
+            <a
+                class="card"
+                href="./read.html"
+            >
+                <h3>Read</h3>
+                <p>
+                    Read knowledge content.
+                </p>
             </a>
 
         </div>
@@ -295,28 +520,25 @@
 
             <a
                 class="card"
-                href="./html/civilizations.html"
+                href="./civilizations.html"
             >
                 <h3>Civilizations</h3>
-                <p>Ancient and historical civilizations.</p>
             </a>
 
 
             <a
                 class="card"
-                href="./html/timeline.html"
-            >
-                <h3>Timeline</h3>
-                <p>Explore history through time.</p>
-            </a>
-
-
-            <a
-                class="card"
-                href="./html/heritage.html"
+                href="./heritage.html"
             >
                 <h3>Heritage</h3>
-                <p>Heritage sites, forts and old cities.</p>
+            </a>
+
+
+            <a
+                class="card"
+                href="./timeline.html"
+            >
+                <h3>Timeline</h3>
             </a>
 
         </div>
@@ -337,79 +559,27 @@
 
             <a
                 class="card"
-                href="./html/countries.html"
+                href="./countries.html"
             >
                 <h3>Countries</h3>
-                <p>Explore countries of the world.</p>
+
+                <p>
+                    Explore countries of the world.
+                </p>
+
             </a>
 
 
             <a
                 class="card"
-                href="./html/country.html"
+                href="./country.html"
             >
-                <h3>Country Details</h3>
-                <p>Explore country information and subdivisions.</p>
-            </a>
+                <h3>Country</h3>
 
-        </div>
+                <p>
+                    Explore country details.
+                </p>
 
-    </section>
-
-
-    <!-- =====================================================
-         KNOWLEDGE LIBRARY
-    ====================================================== -->
-
-    <section class="section">
-
-        <h2>Knowledge Library</h2>
-
-
-        <div class="cards">
-
-            <a
-                class="card"
-                href="./html/library.html"
-            >
-                <h3>Library</h3>
-                <p>Enter the ALON knowledge library.</p>
-            </a>
-
-
-            <a
-                class="card"
-                href="./html/department.html"
-            >
-                <h3>Departments</h3>
-                <p>Browse knowledge departments.</p>
-            </a>
-
-
-            <a
-                class="card"
-                href="./html/subject.html"
-            >
-                <h3>Subjects</h3>
-                <p>Explore individual subjects.</p>
-            </a>
-
-
-            <a
-                class="card"
-                href="./html/book.html"
-            >
-                <h3>Books</h3>
-                <p>Browse available books.</p>
-            </a>
-
-
-            <a
-                class="card"
-                href="./html/read.html"
-            >
-                <h3>Read</h3>
-                <p>Open and read knowledge content.</p>
             </a>
 
         </div>
@@ -423,14 +593,14 @@
 
     <section class="section">
 
-        <h2>Departments</h2>
+        <h2>Knowledge Departments</h2>
 
 
         <div class="cards">
 
             <a
                 class="card"
-                href="./html/mathematics.html"
+                href="./mathematics.html"
             >
                 <h3>Mathematics</h3>
             </a>
@@ -438,7 +608,7 @@
 
             <a
                 class="card"
-                href="./html/computer.html"
+                href="./computer.html"
             >
                 <h3>Computer</h3>
             </a>
@@ -446,7 +616,7 @@
 
             <a
                 class="card"
-                href="./html/jobs.html"
+                href="./jobs.html"
             >
                 <h3>Jobs &amp; Careers</h3>
             </a>
@@ -454,7 +624,7 @@
 
             <a
                 class="card"
-                href="./html/trees.html"
+                href="./trees.html"
             >
                 <h3>Trees</h3>
             </a>
@@ -465,7 +635,7 @@
 
 
     <!-- =====================================================
-         CONTRIBUTION
+         COMMUNITY
     ====================================================== -->
 
     <section class="section">
@@ -477,25 +647,23 @@
 
             <a
                 class="card"
-                href="./html/contribute.html"
+                href="./contribute.html"
             >
                 <h3>Contribute</h3>
-                <p>Contribute knowledge and content.</p>
             </a>
 
 
             <a
                 class="card"
-                href="./html/guidelines.html"
+                href="./guidelines.html"
             >
                 <h3>Guidelines</h3>
-                <p>Read contribution guidelines.</p>
             </a>
 
 
             <a
                 class="card"
-                href="./html/contributor-agreement.html"
+                href="./contributor-agreement.html"
             >
                 <h3>Contributor Agreement</h3>
             </a>
@@ -518,7 +686,7 @@
 
             <a
                 class="card"
-                href="./html/about.html"
+                href="./about.html"
             >
                 <h3>About</h3>
             </a>
@@ -526,7 +694,7 @@
 
             <a
                 class="card"
-                href="./html/contact.html"
+                href="./contact.html"
             >
                 <h3>Contact</h3>
             </a>
@@ -534,7 +702,7 @@
 
             <a
                 class="card"
-                href="./html/copyright.html"
+                href="./copyright.html"
             >
                 <h3>Copyright</h3>
             </a>
@@ -542,7 +710,7 @@
 
             <a
                 class="card"
-                href="./html/privacy.html"
+                href="./privacy.html"
             >
                 <h3>Privacy</h3>
             </a>
@@ -550,7 +718,7 @@
 
             <a
                 class="card"
-                href="./html/terms.html"
+                href="./terms.html"
             >
                 <h3>Terms</h3>
             </a>
@@ -561,7 +729,7 @@
 
 
     <!-- =====================================================
-         ACCOUNT / ADMIN
+         ACCOUNT
     ====================================================== -->
 
     <section class="section">
@@ -573,7 +741,7 @@
 
             <a
                 class="card"
-                href="./html/login.html"
+                href="./login.html"
             >
                 <h3>Login</h3>
             </a>
@@ -581,7 +749,7 @@
 
             <a
                 class="card"
-                href="./html/admin.html"
+                href="./admin.html"
             >
                 <h3>Admin</h3>
             </a>
@@ -590,10 +758,6 @@
 
     </section>
 
-
-    <!-- =====================================================
-         STATUS
-    ====================================================== -->
 
     <div
         id="ah-status"
@@ -624,41 +788,42 @@
 
 <!-- =========================================================
      ROOT JAVASCRIPT
+     ALL FILES ARE IN ROOT
 ========================================================== -->
 
-<script src="./jss/core.js"></script>
+<script src="./core.js"></script>
 
-<script src="./jss/system.js"></script>
+<script src="./system.js"></script>
 
-<script src="./jss/data.js"></script>
+<script src="./data.js"></script>
 
-<script src="./jss/app.js"></script>
+<script src="./app.js"></script>
 
-<script src="./jss/platform.js"></script>
+<script src="./platform.js"></script>
 
-<script src="./jss/language.js"></script>
+<script src="./language.js"></script>
 
-<script src="./jss/world-language.js"></script>
+<script src="./world-language.js"></script>
 
-<script src="./jss/articles.js"></script>
+<script src="./articles.js"></script>
 
-<script src="./jss/library.js"></script>
+<script src="./library.js"></script>
 
-<script src="./jss/library-engine.js"></script>
+<script src="./library-engine.js"></script>
 
-<script src="./jss/subject-engine.js"></script>
+<script src="./subject-engine.js"></script>
 
-<script src="./jss/read.js"></script>
+<script src="./read.js"></script>
 
-<script src="./jss/explore.js"></script>
+<script src="./explore.js"></script>
 
-<script src="./jss/country.js"></script>
+<script src="./country.js"></script>
 
-<script src="./jss/countries-click.js"></script>
+<script src="./countries-click.js"></script>
 
 
 <!-- =========================================================
-     ROOT INDEX CONTROLLER
+     INDEX CONTROLLER
 ========================================================== -->
 
 <script>
@@ -668,9 +833,9 @@
     "use strict";
 
 
-    /* -------------------------------------------------------
-       MOBILE MENU
-    -------------------------------------------------------- */
+    /* =======================================================
+       MENU
+    ======================================================== */
 
     const menuBtn =
         document.getElementById("menuBtn");
@@ -685,9 +850,33 @@
             "click",
             function () {
 
-                mobileMenu.classList.toggle(
-                    "open"
-                );
+                const isOpen =
+                    !mobileMenu.hasAttribute("hidden");
+
+                if (isOpen) {
+
+                    mobileMenu.setAttribute(
+                        "hidden",
+                        ""
+                    );
+
+                    menuBtn.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                } else {
+
+                    mobileMenu.removeAttribute(
+                        "hidden"
+                    );
+
+                    menuBtn.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+                }
 
             }
         );
@@ -695,9 +884,9 @@
     }
 
 
-    /* -------------------------------------------------------
+    /* =======================================================
        SEARCH
-    -------------------------------------------------------- */
+    ======================================================== */
 
     const searchForm =
         document.getElementById("searchForm");
@@ -725,13 +914,9 @@
                 }
 
 
-                const encoded =
-                    encodeURIComponent(query);
-
-
                 window.location.href =
-                    "./html/discover.html?search=" +
-                    encoded;
+                    "./discover.html?search=" +
+                    encodeURIComponent(query);
 
             }
         );
@@ -739,25 +924,145 @@
     }
 
 
-    /* -------------------------------------------------------
-       LANGUAGE BUTTON
-    -------------------------------------------------------- */
+    /* =======================================================
+       LANGUAGE
+    ======================================================== */
 
     const languageBtn =
         document.getElementById("languageBtn");
 
+    const languagePanel =
+        document.getElementById("languagePanel");
 
-    if (
-        languageBtn &&
-        window.ALON_WORLD_LANGUAGE &&
-        typeof window.ALON_WORLD_LANGUAGE.open === "function"
-    ) {
+    const languageList =
+        document.getElementById("languageList");
 
-        languageBtn.addEventListener(
-            "click",
-            function () {
+    const closeLanguage =
+        document.getElementById("closeLanguage");
 
-                window.ALON_WORLD_LANGUAGE.open();
+
+    function openLanguagePanel() {
+
+        if (!languagePanel) {
+
+            return;
+
+        }
+
+        languagePanel.removeAttribute("hidden");
+
+        buildLanguageList();
+
+    }
+
+
+    function closeLanguagePanel() {
+
+        if (!languagePanel) {
+
+            return;
+
+        }
+
+        languagePanel.setAttribute(
+            "hidden",
+            ""
+        );
+
+    }
+
+
+    function buildLanguageList() {
+
+        if (!languageList) {
+
+            return;
+
+        }
+
+
+        languageList.innerHTML = "";
+
+
+        /*
+         * The current world-language.js exposes:
+         *
+         * window.ALONWorldLanguage
+         *
+         * and its supported array.
+         */
+
+
+        const api =
+            window.ALONWorldLanguage;
+
+
+        const supported =
+            api &&
+            Array.isArray(api.supported)
+                ? api.supported
+                : ["en", "hi"];
+
+
+        const names = {
+
+            en: "English",
+
+            hi: "हिन्दी"
+
+        };
+
+
+        supported.forEach(
+            function (code) {
+
+                const button =
+                    document.createElement("button");
+
+
+                button.type =
+                    "button";
+
+
+                button.className =
+                    "language-option";
+
+
+                button.textContent =
+                    names[code] || code.toUpperCase();
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        if (
+                            window.ALONWorldLanguage &&
+                            typeof window.ALONWorldLanguage.switchTo ===
+                                "function"
+                        ) {
+
+                            const changed =
+                                window.ALONWorldLanguage.switchTo(
+                                    code
+                                );
+
+
+                            if (changed) {
+
+                                closeLanguagePanel();
+
+                            }
+
+                        }
+
+                    }
+                );
+
+
+                languageList.appendChild(
+                    button
+                );
 
             }
         );
@@ -765,9 +1070,29 @@
     }
 
 
-    /* -------------------------------------------------------
-       PATH CHECK
-    -------------------------------------------------------- */
+    if (languageBtn) {
+
+        languageBtn.addEventListener(
+            "click",
+            openLanguagePanel
+        );
+
+    }
+
+
+    if (closeLanguage) {
+
+        closeLanguage.addEventListener(
+            "click",
+            closeLanguagePanel
+        );
+
+    }
+
+
+    /* =======================================================
+       STATUS
+    ======================================================== */
 
     const status =
         document.getElementById("ah-status");
