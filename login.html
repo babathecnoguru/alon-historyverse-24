@@ -1,223 +1,1565 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login • ALON HISTORYVERSE 24</title>
 
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 secure-style member login system with country code, mobile, email and live location."
+    >
+
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           GLOBAL LOGIN SYSTEM
+        ===================================================== */
+
+        .login-page {
+            min-height: 100vh;
+            padding: 25px 14px 50px;
+        }
+
+        .login-wrap {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .login-card {
+            background: rgba(5, 8, 15, 0.96);
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: 0 15px 45px rgba(0,0,0,.35);
+        }
+
+        .login-title {
+            text-align: center;
+            margin: 0;
+            color: #f0d27a;
+            font-family: Georgia, serif;
+            font-size: 30px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            opacity: .82;
+            line-height: 1.6;
+            margin: 8px auto 25px;
+        }
+
+        .login-section {
+            border: 1px solid rgba(215,179,90,.25);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .login-section h2 {
+            margin-top: 0;
+            color: #f0d27a;
+            font-size: 19px;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 14px;
+            border-radius: 11px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(255,255,255,.05);
+            color: inherit;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: #f0d27a;
+        }
+
+        .country-row {
+            display: grid;
+            grid-template-columns: minmax(180px, 1fr) 1.25fr;
+            gap: 10px;
+        }
+
+        .country-select-wrap {
+            position: relative;
+        }
+
+        .country-preview {
+            margin-top: 7px;
+            font-size: 13px;
+            opacity: .8;
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap input {
+            padding-right: 60px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 7px;
+            top: 6px;
+            height: 40px;
+            min-width: 45px;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .location-box {
+            border: 1px dashed rgba(215,179,90,.45);
+            border-radius: 13px;
+            padding: 14px;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .location-status {
+            font-weight: 700;
+            color: #f0d27a;
+        }
+
+        .location-details {
+            margin-top: 8px;
+            font-size: 13px;
+            opacity: .85;
+            word-break: break-word;
+        }
+
+        .login-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .login-btn {
+            border: 1px solid rgba(215,179,90,.55);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .primary-btn {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: inherit;
+        }
+
+        .login-message {
+            display: none;
+            margin-top: 16px;
+            padding: 13px;
+            border-radius: 11px;
+            border: 1px solid rgba(215,179,90,.35);
+            line-height: 1.5;
+        }
+
+        .login-message.show {
+            display: block;
+        }
+
+        .user-box {
+            display: none;
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 15px;
+            border: 1px solid rgba(215,179,90,.4);
+        }
+
+        .user-box.show {
+            display: block;
+        }
+
+        .user-id {
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 18px;
+            text-decoration: none;
+        }
+
+        .small-note {
+            font-size: 12px;
+            opacity: .7;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 600px) {
+
+            .login-page {
+                padding: 12px 10px 35px;
+            }
+
+            .login-card {
+                padding: 17px;
+                border-radius: 17px;
+            }
+
+            .login-title {
+                font-size: 25px;
+            }
+
+            .country-row {
+                grid-template-columns: 1fr;
+            }
+
+            .login-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<main class="page">
+<main class="login-page">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
+    <div class="login-wrap">
 
         <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Login</h1>
+        <section class="login-card">
 
-        <p>
-            ALON HISTORYVERSE 24 V100 knowledge platform.
-        </p>
+            <h1 class="login-title">
+                🌍 ALON HISTORYVERSE 24
+            </h1>
 
-    </header>
+            <p class="login-subtitle">
+                Member Login / सदस्य लॉगिन
+            </p>
+
+            <!-- =================================================
+                 LOGIN / REGISTRATION
+            ================================================== -->
+
+            <div id="loginFormArea">
+
+                <div class="login-section">
+
+                    <h2>👤 Account Information / खाता जानकारी</h2>
+
+                    <div class="field">
+                        <label for="email">
+                            📧 Email / ईमेल
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            autocomplete="email"
+                            placeholder="Enter your email"
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="password">
+                            🔐 Password / पासवर्ड
+                        </label>
+
+                        <div class="password-wrap">
+
+                            <input
+                                type="password"
+                                id="password"
+                                autocomplete="current-password"
+                                placeholder="Enter password"
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Show password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
 
 
-    <!-- =====================================================
-         LOGIN INTRO
-    ====================================================== -->
-    <section class="content">
+                <!-- =================================================
+                     COUNTRY + MOBILE
+                ================================================== -->
 
-        <h2>Login</h2>
+                <div class="login-section">
 
-        <p>
-            Sign in to access authorized ALON HISTORYVERSE 24
-            platform features.
-        </p>
+                    <h2>📱 Mobile / मोबाइल</h2>
 
-        <div class="grid">
+                    <div class="country-row">
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main entry point.
-                </p>
-            </a>
+                        <div class="field country-select-wrap">
 
+                            <label for="country">
+                                🌐 Country / देश
+                            </label>
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore history and knowledge.
-                </p>
-            </a>
+                            <select id="country">
+                                <option value="">
+                                    Select Country / देश चुनें
+                                </option>
+                            </select>
 
+                            <div
+                                class="country-preview"
+                                id="countryPreview"
+                            >
+                                Select your country
+                            </div>
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the Knowledge Library.
-                </p>
-            </a>
-
-        </div>
-
-    </section>
+                        </div>
 
 
-    <!-- =====================================================
-         LOGIN FORM
-    ====================================================== -->
-    <section class="content">
+                        <div class="field">
 
-        <h2>Account Login</h2>
+                            <label for="mobile">
+                                📱 Mobile Number
+                            </label>
 
-        <form id="login-form" autocomplete="off">
+                            <input
+                                type="tel"
+                                id="mobile"
+                                inputmode="numeric"
+                                autocomplete="tel"
+                                placeholder="Mobile number"
+                            >
 
-            <div class="form-group">
+                        </div>
 
-                <label for="pin">
-                    PIN
-                </label>
+                    </div>
 
-                <input
-                    id="pin"
-                    name="pin"
-                    class="searchbox"
-                    type="password"
-                    inputmode="numeric"
-                    autocomplete="current-password"
-                    placeholder="Enter your PIN"
-                    required
-                >
+                    <div class="small-note">
+                        Pakistan (+92) and Bangladesh (+880) are not available
+                        in this system.
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     LIVE LOCATION
+                ================================================== -->
+
+                <div class="login-section">
+
+                    <h2>📍 Live Location / लाइव लोकेशन</h2>
+
+                    <button
+                        type="button"
+                        class="login-btn secondary-btn"
+                        id="locationBtn"
+                    >
+                        📍 Get Live Location
+                    </button>
+
+                    <div class="location-box">
+
+                        <div
+                            class="location-status"
+                            id="locationStatus"
+                        >
+                            Location not detected
+                        </div>
+
+                        <div
+                            class="location-details"
+                            id="locationDetails"
+                        >
+                            Your browser will ask for location permission.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div class="login-actions">
+
+                    <button
+                        type="button"
+                        class="login-btn primary-btn"
+                        id="loginBtn"
+                    >
+                        🔐 Login / लॉगिन
+                    </button>
+
+                    <button
+                        type="button"
+                        class="login-btn secondary-btn"
+                        id="clearBtn"
+                    >
+                        🧹 Clear
+                    </button>
+
+                </div>
 
             </div>
 
 
-            <button
-                type="submit"
-                class="btn"
+            <!-- =================================================
+                 MESSAGE
+            ================================================== -->
+
+            <div
+                id="loginMessage"
+                class="login-message"
+            ></div>
+
+
+            <!-- =================================================
+                 CURRENT USER
+            ================================================== -->
+
+            <div
+                id="userBox"
+                class="user-box"
             >
-                Login
-            </button>
 
+                <h2>✅ Logged In / लॉगिन सफल</h2>
 
-            <p
-                id="login-status"
-                class="status"
-                aria-live="polite"
-            ></p>
+                <p>
+                    <strong>User ID:</strong><br>
+                    <span
+                        id="displayUserId"
+                        class="user-id"
+                    ></span>
+                </p>
 
-        </form>
+                <p>
+                    <strong>Email:</strong>
+                    <span id="displayEmail"></span>
+                </p>
 
-    </section>
+                <p>
+                    <strong>Mobile:</strong>
+                    <span id="displayMobile"></span>
+                </p>
 
+                <p>
+                    <strong>Country:</strong>
+                    <span id="displayCountry"></span>
+                </p>
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-    <footer class="footer">
+                <p>
+                    <strong>Location:</strong>
+                    <span id="displayLocation"></span>
+                </p>
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+                <button
+                    type="button"
+                    class="login-btn secondary-btn"
+                    id="logoutBtn"
+                >
+                    🚪 Logout / लॉगआउट
+                </button>
 
-        <br>
+            </div>
 
-        <a href="../index.html">
-            Home
-        </a>
+        </section>
 
-    </footer>
+    </div>
 
 </main>
 
 
-<!-- =======================================================
-     LOGIN PAGE SCRIPTS
-======================================================== -->
-
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/admin.js"></script>
-
-
 <script>
-(function () {
-
-    "use strict";
-
-    const form = document.getElementById("login-form");
-    const pinInput = document.getElementById("pin");
-    const status = document.getElementById("login-status");
-
-    if (!form || !pinInput || !status) {
-        return;
-    }
-
-    form.addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-        const pin = pinInput.value.trim();
-
-        if (!pin) {
-
-            status.textContent =
-                "Please enter your PIN.";
-
-            return;
-        }
+/* =============================================================
+   ALON HISTORYVERSE 24
+   GLOBAL LOGIN / USER SESSION SYSTEM
+   ============================================================= */
 
 
-        if (
-            typeof window.ALONAdmin === "undefined" ||
-            typeof window.ALONAdmin.login !== "function"
-        ) {
+/* =============================================================
+   COUNTRY DATABASE
+   Pakistan and Bangladesh intentionally excluded.
+   ============================================================= */
 
-            status.textContent =
-                "Login system is currently unavailable.";
+const COUNTRIES = [
 
-            return;
-        }
+    ["🇦🇫","Afghanistan","+93","AF"],
+    ["🇦🇱","Albania","+355","AL"],
+    ["🇩🇿","Algeria","+213","DZ"],
+    ["🇦🇩","Andorra","+376","AD"],
+    ["🇦🇴","Angola","+244","AO"],
+    ["🇦🇬","Antigua and Barbuda","+1","AG"],
+    ["🇦🇷","Argentina","+54","AR"],
+    ["🇦🇲","Armenia","+374","AM"],
+    ["🇦🇺","Australia","+61","AU"],
+    ["🇦🇹","Austria","+43","AT"],
+    ["🇦🇿","Azerbaijan","+994","AZ"],
+
+    ["🇧🇸","Bahamas","+1","BS"],
+    ["🇧🇭","Bahrain","+973","BH"],
+    ["🇧🇧","Barbados","+1","BB"],
+    ["🇧🇾","Belarus","+375","BY"],
+    ["🇧🇪","Belgium","+32","BE"],
+    ["🇧🇿","Belize","+501","BZ"],
+    ["🇧🇯","Benin","+229","BJ"],
+    ["🇧🇹","Bhutan","+975","BT"],
+    ["🇧🇴","Bolivia","+591","BO"],
+    ["🇧🇦","Bosnia and Herzegovina","+387","BA"],
+    ["🇧🇼","Botswana","+267","BW"],
+    ["🇧🇷","Brazil","+55","BR"],
+    ["🇧🇳","Brunei","+673","BN"],
+    ["🇧🇬","Bulgaria","+359","BG"],
+    ["🇧🇫","Burkina Faso","+226","BF"],
+    ["🇧🇮","Burundi","+257","BI"],
+
+    ["🇨🇻","Cabo Verde","+238","CV"],
+    ["🇰🇭","Cambodia","+855","KH"],
+    ["🇨🇲","Cameroon","+237","CM"],
+    ["🇨🇦","Canada","+1","CA"],
+    ["🇨🇫","Central African Republic","+236","CF"],
+    ["🇹🇩","Chad","+235","TD"],
+    ["🇨🇱","Chile","+56","CL"],
+    ["🇨🇳","China","+86","CN"],
+    ["🇨🇴","Colombia","+57","CO"],
+    ["🇰🇲","Comoros","+269","KM"],
+    ["🇨🇬","Congo","+242","CG"],
+    ["🇨🇩","DR Congo","+243","CD"],
+    ["🇨🇷","Costa Rica","+506","CR"],
+    ["🇨🇮","Côte d'Ivoire","+225","CI"],
+    ["🇭🇷","Croatia","+385","HR"],
+    ["🇨🇺","Cuba","+53","CU"],
+    ["🇨🇾","Cyprus","+357","CY"],
+    ["🇨🇿","Czechia","+420","CZ"],
+
+    ["🇩🇰","Denmark","+45","DK"],
+    ["🇩🇯","Djibouti","+253","DJ"],
+    ["🇩🇲","Dominica","+1","DM"],
+    ["🇩🇴","Dominican Republic","+1","DO"],
+
+    ["🇪🇨","Ecuador","+593","EC"],
+    ["🇪🇬","Egypt","+20","EG"],
+    ["🇸🇻","El Salvador","+503","SV"],
+    ["🇬🇶","Equatorial Guinea","+240","GQ"],
+    ["🇪🇷","Eritrea","+291","ER"],
+    ["🇪🇪","Estonia","+372","EE"],
+    ["🇸🇿","Eswatini","+268","SZ"],
+    ["🇪🇹","Ethiopia","+251","ET"],
+
+    ["🇫🇯","Fiji","+679","FJ"],
+    ["🇫🇮","Finland","+358","FI"],
+    ["🇫🇷","France","+33","FR"],
+
+    ["🇬🇦","Gabon","+241","GA"],
+    ["🇬🇲","Gambia","+220","GM"],
+    ["🇬🇪","Georgia","+995","GE"],
+    ["🇩🇪","Germany","+49","DE"],
+    ["🇬🇭","Ghana","+233","GH"],
+    ["🇬🇷","Greece","+30","GR"],
+    ["🇬🇩","Grenada","+1","GD"],
+    ["🇬🇹","Guatemala","+502","GT"],
+    ["🇬🇳","Guinea","+224","GN"],
+    ["🇬🇼","Guinea-Bissau","+245","GW"],
+    ["🇬🇾","Guyana","+592","GY"],
+
+    ["🇭🇹","Haiti","+509","HT"],
+    ["🇭🇳","Honduras","+504","HN"],
+    ["🇭🇺","Hungary","+36","HU"],
+
+    ["🇮🇸","Iceland","+354","IS"],
+    ["🇮🇳","India","+91","IN"],
+    ["🇮🇩","Indonesia","+62","ID"],
+    ["🇮🇷","Iran","+98","IR"],
+    ["🇮🇶","Iraq","+964","IQ"],
+    ["🇮🇪","Ireland","+353","IE"],
+    ["🇮🇱","Israel","+972","IL"],
+    ["🇮🇹","Italy","+39","IT"],
+
+    ["🇯🇲","Jamaica","+1","JM"],
+    ["🇯🇵","Japan","+81","JP"],
+    ["🇯🇴","Jordan","+962","JO"],
+
+    ["🇰🇿","Kazakhstan","+7","KZ"],
+    ["🇰🇪","Kenya","+254","KE"],
+    ["🇰🇮","Kiribati","+686","KI"],
+    ["🇰🇼","Kuwait","+965","KW"],
+    ["🇰🇬","Kyrgyzstan","+996","KG"],
+
+    ["🇱🇦","Laos","+856","LA"],
+    ["🇱🇻","Latvia","+371","LV"],
+    ["🇱🇧","Lebanon","+961","LB"],
+    ["🇱🇸","Lesotho","+266","LS"],
+    ["🇱🇷","Liberia","+231","LR"],
+    ["🇱🇾","Libya","+218","LY"],
+    ["🇱🇮","Liechtenstein","+423","LI"],
+    ["🇱🇹","Lithuania","+370","LT"],
+    ["🇱🇺","Luxembourg","+352","LU"],
+
+    ["🇲🇬","Madagascar","+261","MG"],
+    ["🇲🇼","Malawi","+265","MW"],
+    ["🇲🇾","Malaysia","+60","MY"],
+    ["🇲🇻","Maldives","+960","MV"],
+    ["🇲🇱","Mali","+223","ML"],
+    ["🇲🇹","Malta","+356","MT"],
+    ["🇲🇭","Marshall Islands","+692","MH"],
+    ["🇲🇷","Mauritania","+222","MR"],
+    ["🇲🇺","Mauritius","+230","MU"],
+    ["🇲🇽","Mexico","+52","MX"],
+    ["🇫🇲","Micronesia","+691","FM"],
+    ["🇲🇩","Moldova","+373","MD"],
+    ["🇲🇨","Monaco","+377","MC"],
+    ["🇲🇳","Mongolia","+976","MN"],
+    ["🇲🇪","Montenegro","+382","ME"],
+    ["🇲🇦","Morocco","+212","MA"],
+    ["🇲🇿","Mozambique","+258","MZ"],
+    ["🇲🇲","Myanmar","+95","MM"],
+
+    ["🇳🇦","Namibia","+264","NA"],
+    ["🇳🇷","Nauru","+674","NR"],
+    ["🇳🇵","Nepal","+977","NP"],
+    ["🇳🇱","Netherlands","+31","NL"],
+    ["🇳🇿","New Zealand","+64","NZ"],
+    ["🇳🇮","Nicaragua","+505","NI"],
+    ["🇳🇪","Niger","+227","NE"],
+    ["🇳🇬","Nigeria","+234","NG"],
+    ["🇰🇵","North Korea","+850","KP"],
+    ["🇲🇰","North Macedonia","+389","MK"],
+    ["🇳🇴","Norway","+47","NO"],
+
+    ["🇴🇲","Oman","+968","OM"],
+
+    ["🇵🇼","Palau","+680","PW"],
+    ["🇵🇸","Palestine","+970","PS"],
+    ["🇵🇦","Panama","+507","PA"],
+    ["🇵🇬","Papua New Guinea","+675","PG"],
+    ["🇵🇾","Paraguay","+595","PY"],
+    ["🇵🇪","Peru","+51","PE"],
+    ["🇵🇭","Philippines","+63","PH"],
+    ["🇵🇱","Poland","+48","PL"],
+    ["🇵🇹","Portugal","+351","PT"],
+
+    ["🇶🇦","Qatar","+974","QA"],
+
+    ["🇷🇴","Romania","+40","RO"],
+    ["🇷🇺","Russia","+7","RU"],
+    ["🇷🇼","Rwanda","+250","RW"],
+
+    ["🇰🇳","Saint Kitts and Nevis","+1","KN"],
+    ["🇱🇨","Saint Lucia","+1","LC"],
+    ["🇻🇨","Saint Vincent and the Grenadines","+1","VC"],
+    ["🇼🇸","Samoa","+685","WS"],
+    ["🇸🇲","San Marino","+378","SM"],
+    ["🇸🇹","Sao Tome and Principe","+239","ST"],
+    ["🇸🇦","Saudi Arabia","+966","SA"],
+    ["🇸🇳","Senegal","+221","SN"],
+    ["🇷🇸","Serbia","+381","RS"],
+    ["🇸🇨","Seychelles","+248","SC"],
+    ["🇸🇱","Sierra Leone","+232","SL"],
+    ["🇸🇬","Singapore","+65","SG"],
+    ["🇸🇰","Slovakia","+421","SK"],
+    ["🇸🇮","Slovenia","+386","SI"],
+    ["🇸🇧","Solomon Islands","+677","SB"],
+    ["🇸🇴","Somalia","+252","SO"],
+    ["🇿🇦","South Africa","+27","ZA"],
+    ["🇰🇷","South Korea","+82","KR"],
+    ["🇸🇸","South Sudan","+211","SS"],
+    ["🇪🇸","Spain","+34","ES"],
+    ["🇱🇰","Sri Lanka","+94","LK"],
+    ["🇸🇩","Sudan","+249","SD"],
+    ["🇸🇷","Suriname","+597","SR"],
+    ["🇸🇪","Sweden","+46","SE"],
+    ["🇨🇭","Switzerland","+41","CH"],
+    ["🇸🇾","Syria","+963","SY"],
+
+    ["🇹🇯","Tajikistan","+992","TJ"],
+    ["🇹🇿","Tanzania","+255","TZ"],
+    ["🇹🇭","Thailand","+66","TH"],
+    ["🇹🇱","Timor-Leste","+670","TL"],
+    ["🇹🇬","Togo","+228","TG"],
+    ["🇹🇴","Tonga","+676","TO"],
+    ["🇹🇹","Trinidad and Tobago","+1","TT"],
+    ["🇹🇳","Tunisia","+216","TN"],
+    ["🇹🇷","Türkiye","+90","TR"],
+    ["🇹🇲","Turkmenistan","+993","TM"],
+    ["🇹🇻","Tuvalu","+688","TV"],
+
+    ["🇺🇬","Uganda","+256","UG"],
+    ["🇺🇦","Ukraine","+380","UA"],
+    ["🇦🇪","United Arab Emirates","+971","AE"],
+    ["🇬🇧","United Kingdom","+44","GB"],
+    ["🇺🇸","United States","+1","US"],
+    ["🇺🇾","Uruguay","+598","UY"],
+    ["🇺🇿","Uzbekistan","+998","UZ"],
+
+    ["🇻🇺","Vanuatu","+678","VU"],
+    ["🇻🇦","Vatican City","+39","VA"],
+    ["🇻🇪","Venezuela","+58","VE"],
+    ["🇻🇳","Vietnam","+84","VN"],
+
+    ["🇾🇪","Yemen","+967","YE"],
+
+    ["🇿🇲","Zambia","+260","ZM"],
+    ["🇿🇼","Zimbabwe","+263","ZW"]
+
+];
 
 
-        const success =
-            window.ALONAdmin.login(pin);
+/* =============================================================
+   ELEMENTS
+   ============================================================= */
+
+const countrySelect =
+    document.getElementById("country");
+
+const countryPreview =
+    document.getElementById("countryPreview");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const mobileInput =
+    document.getElementById("mobile");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const clearBtn =
+    document.getElementById("clearBtn");
+
+const passwordToggle =
+    document.getElementById("passwordToggle");
+
+const locationBtn =
+    document.getElementById("locationBtn");
+
+const locationStatus =
+    document.getElementById("locationStatus");
+
+const locationDetails =
+    document.getElementById("locationDetails");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const userBox =
+    document.getElementById("userBox");
+
+const loginFormArea =
+    document.getElementById("loginFormArea");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
 
 
-        if (success) {
+/* =============================================================
+   STORAGE KEYS
+   These keys can be used by the complete website.
+   ============================================================= */
 
-            status.textContent =
-                "Login successful.";
+const AUTH_USER_KEY =
+    "ALON_AUTH_USER";
 
-            /*
-             * admin.js can control the final destination.
-             * No hard-coded admin path is used here.
-             */
+const AUTH_SESSION_KEY =
+    "ALON_AUTH_SESSION";
 
-        } else {
+const LOCATION_KEY =
+    "ALON_USER_LOCATION";
 
-            status.textContent =
-                "Wrong PIN. Please try again.";
 
-            pinInput.value = "";
-            pinInput.focus();
+/* =============================================================
+   COUNTRY LIST
+   ============================================================= */
 
-        }
+function loadCountries() {
+
+    COUNTRIES.forEach(country => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = country[3];
+
+        option.textContent =
+            `${country[0]} ${country[1]} (${country[2]})`;
+
+        option.dataset.flag = country[0];
+        option.dataset.name = country[1];
+        option.dataset.code = country[2];
+
+        countrySelect.appendChild(option);
 
     });
 
-})();
+}
+
+
+/* =============================================================
+   COUNTRY SELECT
+   ============================================================= */
+
+countrySelect.addEventListener("change", function () {
+
+    const selected =
+        COUNTRIES.find(
+            country => country[3] === this.value
+        );
+
+    if (!selected) {
+
+        countryPreview.textContent =
+            "Select your country";
+
+        return;
+    }
+
+    countryPreview.textContent =
+        `${selected[0]} ${selected[1]} • Calling Code ${selected[2]}`;
+
+});
+
+
+/* =============================================================
+   PASSWORD SHOW / HIDE
+   ============================================================= */
+
+passwordToggle.addEventListener("click", function () {
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+        passwordToggle.textContent = "🙈";
+
+    } else {
+
+        passwordInput.type = "password";
+
+        passwordToggle.textContent = "👁";
+
+    }
+
+});
+
+
+/* =============================================================
+   MESSAGE SYSTEM
+   ============================================================= */
+
+function showMessage(message) {
+
+    loginMessage.textContent = message;
+
+    loginMessage.classList.add("show");
+
+}
+
+
+function hideMessage() {
+
+    loginMessage.textContent = "";
+
+    loginMessage.classList.remove("show");
+
+}
+
+
+/* =============================================================
+   USER ID
+   ============================================================= */
+
+function createUserId(countryCode) {
+
+    const randomPart =
+        Math.random()
+        .toString(36)
+        .substring(2, 10)
+        .toUpperCase();
+
+    const timePart =
+        Date.now()
+        .toString(36)
+        .toUpperCase();
+
+    return `AH24-${countryCode}-${timePart}-${randomPart}`;
+
+}
+
+
+/* =============================================================
+   LOCATION DATA
+   ============================================================= */
+
+let currentLocation = null;
+
+
+function getLiveLocation() {
+
+    hideMessage();
+
+    if (!navigator.geolocation) {
+
+        locationStatus.textContent =
+            "❌ Geolocation is not supported.";
+
+        locationDetails.textContent =
+            "Your browser does not support live location.";
+
+        return;
+
+    }
+
+
+    locationStatus.textContent =
+        "⏳ Detecting live location...";
+
+    locationDetails.textContent =
+        "Please allow location permission in your browser.";
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const latitude =
+                Number(position.coords.latitude.toFixed(6));
+
+            const longitude =
+                Number(position.coords.longitude.toFixed(6));
+
+            const accuracy =
+                Math.round(position.coords.accuracy);
+
+
+            currentLocation = {
+
+                latitude: latitude,
+
+                longitude: longitude,
+
+                accuracy: accuracy,
+
+                timestamp:
+                    new Date().toISOString()
+
+            };
+
+
+            localStorage.setItem(
+                LOCATION_KEY,
+                JSON.stringify(currentLocation)
+            );
+
+
+            locationStatus.textContent =
+                "✅ Live location detected";
+
+
+            locationDetails.innerHTML =
+                `Latitude: ${latitude}<br>
+                 Longitude: ${longitude}<br>
+                 Accuracy: approximately ${accuracy} meters`;
+
+        },
+
+
+        function(error) {
+
+            currentLocation = null;
+
+            if (error.code === 1) {
+
+                locationStatus.textContent =
+                    "⚠️ Location permission denied";
+
+                locationDetails.textContent =
+                    "Please allow location permission to use live location.";
+
+            } else if (error.code === 2) {
+
+                locationStatus.textContent =
+                    "⚠️ Location unavailable";
+
+                locationDetails.textContent =
+                    "The device could not determine your current location.";
+
+            } else {
+
+                locationStatus.textContent =
+                    "⚠️ Location request timed out";
+
+                locationDetails.textContent =
+                    "Please try again.";
+
+            }
+
+        },
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 15000,
+
+            maximumAge: 0
+
+        }
+
+    );
+
+}
+
+
+locationBtn.addEventListener(
+    "click",
+    getLiveLocation
+);
+
+
+/* =============================================================
+   VALIDATION
+   ============================================================= */
+
+function validateForm() {
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    const mobile =
+        mobileInput.value.replace(/\D/g, "");
+
+    const countryCode =
+        countrySelect.value;
+
+
+    if (!email) {
+
+        showMessage(
+            "📧 Please enter your email."
+        );
+
+        emailInput.focus();
+
+        return false;
+
+    }
+
+
+    if (!email.includes("@") || !email.includes(".")) {
+
+        showMessage(
+            "📧 Please enter a valid email address."
+        );
+
+        emailInput.focus();
+
+        return false;
+
+    }
+
+
+    if (!password || password.length < 6) {
+
+        showMessage(
+            "🔐 Password must contain at least 6 characters."
+        );
+
+        passwordInput.focus();
+
+        return false;
+
+    }
+
+
+    if (!countryCode) {
+
+        showMessage(
+            "🌐 Please select your country."
+        );
+
+        countrySelect.focus();
+
+        return false;
+
+    }
+
+
+    if (mobile.length < 6 || mobile.length > 15) {
+
+        showMessage(
+            "📱 Please enter a valid mobile number."
+        );
+
+        mobileInput.focus();
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =============================================================
+   COUNTRY DATA
+   ============================================================= */
+
+function getSelectedCountry() {
+
+    return COUNTRIES.find(
+        country => country[3] === countrySelect.value
+    );
+
+}
+
+
+/* =============================================================
+   LOGIN
+   ============================================================= */
+
+async function loginUser() {
+
+    hideMessage();
+
+
+    if (!validateForm()) {
+
+        return;
+
+    }
+
+
+    const selectedCountry =
+        getSelectedCountry();
+
+
+    if (!selectedCountry) {
+
+        showMessage(
+            "Invalid country selection."
+        );
+
+        return;
+
+    }
+
+
+    let existingUser = null;
+
+    try {
+
+        existingUser =
+            JSON.parse(
+                localStorage.getItem(
+                    AUTH_USER_KEY
+                )
+            );
+
+    } catch (error) {
+
+        existingUser = null;
+
+    }
+
+
+    /*
+       Keep the same User ID when the same email
+       is used on this browser.
+    */
+
+    let userId;
+
+    if (
+        existingUser &&
+        existingUser.email &&
+        existingUser.email.toLowerCase()
+        === emailInput.value.trim().toLowerCase()
+    ) {
+
+        userId = existingUser.userId;
+
+    } else {
+
+        userId =
+            createUserId(
+                selectedCountry[3]
+            );
+
+    }
+
+
+    /*
+       Password is intentionally NOT stored.
+       Only a temporary browser session is created.
+    */
+
+    const user = {
+
+        userId: userId,
+
+        email:
+            emailInput.value
+            .trim()
+            .toLowerCase(),
+
+        mobile:
+            mobileInput.value
+            .replace(/\D/g, ""),
+
+        country: {
+
+            name: selectedCountry[1],
+
+            flag: selectedCountry[0],
+
+            callingCode: selectedCountry[2],
+
+            code: selectedCountry[3]
+
+        },
+
+        location:
+            currentLocation || null,
+
+        loggedInAt:
+            new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+        AUTH_USER_KEY,
+        JSON.stringify(user)
+    );
+
+
+    localStorage.setItem(
+        AUTH_SESSION_KEY,
+        "true"
+    );
+
+
+    showLoggedInUser(user);
+
+}
+
+
+/* =============================================================
+   SHOW LOGGED-IN USER
+   ============================================================= */
+
+function showLoggedInUser(user) {
+
+    loginFormArea.style.display =
+        "none";
+
+    userBox.classList.add("show");
+
+
+    document.getElementById(
+        "displayUserId"
+    ).textContent =
+        user.userId;
+
+
+    document.getElementById(
+        "displayEmail"
+    ).textContent =
+        user.email;
+
+
+    document.getElementById(
+        "displayMobile"
+    ).textContent =
+        `${user.country.callingCode} ${user.mobile}`;
+
+
+    document.getElementById(
+        "displayCountry"
+    ).textContent =
+        `${user.country.flag} ${user.country.name}`;
+
+
+    const locationText =
+        user.location
+
+        ? `${user.location.latitude}, ${user.location.longitude}`
+
+        : "Not available";
+
+
+    document.getElementById(
+        "displayLocation"
+    ).textContent =
+        locationText;
+
+
+    showMessage(
+        "✅ Login successful. Your ALON HISTORYVERSE 24 user session is active."
+    );
+
+}
+
+
+/* =============================================================
+   LOGOUT
+   ============================================================= */
+
+logoutBtn.addEventListener(
+    "click",
+    function() {
+
+        localStorage.removeItem(
+            AUTH_SESSION_KEY
+        );
+
+        /*
+           Keep user profile so the same browser
+           can recognize the same User ID later.
+        */
+
+        userBox.classList.remove("show");
+
+        loginFormArea.style.display =
+            "block";
+
+        showMessage(
+            "🚪 You have been logged out."
+        );
+
+    }
+);
+
+
+/* =============================================================
+   CLEAR FORM
+   ============================================================= */
+
+clearBtn.addEventListener(
+    "click",
+    function() {
+
+        emailInput.value = "";
+
+        passwordInput.value = "";
+
+        mobileInput.value = "";
+
+        countrySelect.value = "";
+
+        countryPreview.textContent =
+            "Select your country";
+
+        currentLocation = null;
+
+        locationStatus.textContent =
+            "Location not detected";
+
+        locationDetails.textContent =
+            "Your browser will ask for location permission.";
+
+        hideMessage();
+
+    }
+);
+
+
+/* =============================================================
+   LOGIN BUTTON
+   ============================================================= */
+
+loginBtn.addEventListener(
+    "click",
+    loginUser
+);
+
+
+/* =============================================================
+   ENTER KEY LOGIN
+   ============================================================= */
+
+[
+    emailInput,
+    passwordInput,
+    mobileInput
+].forEach(input => {
+
+    input.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                loginUser();
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =============================================================
+   RESTORE SESSION
+   ============================================================= */
+
+function restoreSession() {
+
+    const session =
+        localStorage.getItem(
+            AUTH_SESSION_KEY
+        );
+
+    if (session !== "true") {
+
+        return;
+
+    }
+
+
+    try {
+
+        const user =
+            JSON.parse(
+                localStorage.getItem(
+                    AUTH_USER_KEY
+                )
+            );
+
+
+        if (user && user.userId) {
+
+            showLoggedInUser(user);
+
+        }
+
+    } catch (error) {
+
+        localStorage.removeItem(
+            AUTH_SESSION_KEY
+        );
+
+    }
+
+}
+
+
+/* =============================================================
+   PUBLIC GLOBAL FUNCTIONS
+   Other ALON HISTORYVERSE 24 pages can use these.
+   ============================================================= */
+
+window.ALON_AUTH = {
+
+    getUser: function() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    AUTH_USER_KEY
+                )
+            );
+
+        } catch (error) {
+
+            return null;
+
+        }
+
+    },
+
+
+    isLoggedIn: function() {
+
+        return (
+            localStorage.getItem(
+                AUTH_SESSION_KEY
+            ) === "true"
+        );
+
+    },
+
+
+    getUserId: function() {
+
+        const user =
+            this.getUser();
+
+        return user
+            ? user.userId
+            : null;
+
+    },
+
+
+    logout: function() {
+
+        localStorage.removeItem(
+            AUTH_SESSION_KEY
+        );
+
+    }
+
+};
+
+
+/* =============================================================
+   START
+   ============================================================= */
+
+loadCountries();
+
+restoreSession();
+
 </script>
 
 </body>
-
 </html>

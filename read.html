@@ -12,166 +12,2547 @@
 
     <title>Read • ALON HISTORYVERSE 24</title>
 
+    <meta
+        name="description"
+        content="Read books and knowledge content on ALON HISTORYVERSE 24."
+    >
+
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           READING ENGINE
+        ====================================================== */
+
+        :root {
+            --reader-gold: #d7b35a;
+            --reader-gold-light: #f0d27a;
+            --reader-bg: #05080f;
+            --reader-panel: rgba(12, 17, 27, .96);
+            --reader-text: #eeeeee;
+            --reader-muted: #9fa7b5;
+            --reader-border: rgba(215, 179, 90, .28);
+        }
+
+        body.reader-active {
+            background: var(--reader-bg);
+        }
+
+        .reader-page {
+            min-height: 100vh;
+            padding: 15px 10px 50px;
+            box-sizing: border-box;
+        }
+
+        .reader-container {
+            width: 100%;
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        /* =====================================================
+           TOP BAR
+        ====================================================== */
+
+        .reader-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+
+            padding: 10px 12px;
+            margin-bottom: 14px;
+
+            background: rgba(5, 8, 15, .97);
+            border: 1px solid var(--reader-border);
+            border-radius: 14px;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .reader-brand {
+            color: var(--reader-gold-light);
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .reader-controls {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .reader-control {
+            min-width: 40px;
+            min-height: 38px;
+
+            padding: 7px 10px;
+
+            border: 1px solid var(--reader-border);
+            border-radius: 9px;
+
+            background: rgba(255,255,255,.04);
+            color: inherit;
+
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .reader-control:hover {
+            border-color: var(--reader-gold);
+        }
+
+        /* =====================================================
+           BOOK HEADER
+        ====================================================== */
+
+        .book-header {
+            background: var(--reader-panel);
+            border: 1px solid var(--reader-border);
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin-bottom: 15px;
+        }
+
+        .book-header h1 {
+            margin: 0;
+            color: var(--reader-gold-light);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 32px;
+            line-height: 1.3;
+        }
+
+        .book-subtitle {
+            color: var(--reader-muted);
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        .book-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .meta-tag {
+            border: 1px solid var(--reader-border);
+            border-radius: 20px;
+            padding: 6px 11px;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .reader-search {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .reader-search input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            border-radius: 11px;
+            border: 1px solid var(--reader-border);
+            background: var(--reader-panel);
+            color: inherit;
+            outline: none;
+        }
+
+        .reader-search button {
+            border: 1px solid var(--reader-gold);
+            border-radius: 11px;
+            padding: 0 17px;
+            background: var(--reader-gold);
+            color: #05080f;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           PROGRESS
+        ====================================================== */
+
+        .progress-box {
+            position: sticky;
+            top: 70px;
+            z-index: 900;
+
+            background: rgba(5,8,15,.95);
+            border: 1px solid var(--reader-border);
+            border-radius: 12px;
+            padding: 9px 11px;
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .progress-track {
+            height: 7px;
+            background: rgba(255,255,255,.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--reader-gold);
+            transition: width .2s ease;
+        }
+
+        /* =====================================================
+           LAYOUT
+        ====================================================== */
+
+        .reader-layout {
+            display: grid;
+            grid-template-columns: 235px 1fr;
+            gap: 15px;
+            align-items: start;
+        }
+
+        /* =====================================================
+           CHAPTER PANEL
+        ====================================================== */
+
+        .chapter-panel {
+            position: sticky;
+            top: 125px;
+
+            background: var(--reader-panel);
+            border: 1px solid var(--reader-border);
+            border-radius: 17px;
+            padding: 15px;
+        }
+
+        .chapter-panel h2 {
+            color: var(--reader-gold-light);
+            font-size: 18px;
+            margin-top: 0;
+        }
+
+        .chapter-list {
+            display: grid;
+            gap: 7px;
+        }
+
+        .chapter-btn {
+            width: 100%;
+            text-align: left;
+
+            border: 1px solid rgba(215,179,90,.18);
+            border-radius: 9px;
+
+            padding: 10px;
+            background: rgba(255,255,255,.025);
+            color: inherit;
+
+            cursor: pointer;
+        }
+
+        .chapter-btn.active {
+            border-color: var(--reader-gold);
+            color: var(--reader-gold-light);
+            background: rgba(215,179,90,.08);
+        }
+
+        /* =====================================================
+           READER
+        ====================================================== */
+
+        .reading-card {
+            background: #0a0f18;
+            border: 1px solid var(--reader-border);
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .chapter-title {
+            color: var(--reader-gold-light);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 26px;
+            margin-top: 0;
+        }
+
+        .chapter-info {
+            color: var(--reader-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .reading-content {
+            max-width: 780px;
+            margin: auto;
+
+            color: var(--reader-text);
+
+            font-family: Georgia,
+                         "Times New Roman",
+                         serif;
+
+            font-size: 18px;
+            line-height: 1.9;
+
+            word-wrap: break-word;
+        }
+
+        .reading-content p {
+            margin: 0 0 18px;
+        }
+
+        .reading-content h2,
+        .reading-content h3 {
+            color: var(--reader-gold-light);
+            line-height: 1.4;
+        }
+
+        .reading-content img,
+        .reading-content video {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 18px auto;
+            border-radius: 12px;
+        }
+
+        .reading-content blockquote {
+            border-left: 3px solid var(--reader-gold);
+            padding-left: 15px;
+            margin-left: 0;
+            opacity: .9;
+        }
+
+        /* =====================================================
+           BOTTOM READER ACTIONS
+        ====================================================== */
+
+        .reader-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 25px;
+            padding-top: 18px;
+            border-top: 1px solid var(--reader-border);
+        }
+
+        .action-btn {
+            border: 1px solid var(--reader-border);
+            border-radius: 10px;
+            padding: 10px 13px;
+            background: rgba(255,255,255,.04);
+            color: inherit;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .action-btn.active {
+            border-color: var(--reader-gold);
+            color: var(--reader-gold-light);
+        }
+
+        /* =====================================================
+           COMMENTS
+        ====================================================== */
+
+        .comments-card {
+            margin-top: 15px;
+            background: var(--reader-panel);
+            border: 1px solid var(--reader-border);
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .comments-card h2 {
+            color: var(--reader-gold-light);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            min-height: 100px;
+            box-sizing: border-box;
+
+            padding: 13px;
+
+            border-radius: 11px;
+            border: 1px solid var(--reader-border);
+
+            background: rgba(255,255,255,.04);
+            color: inherit;
+
+            resize: vertical;
+            outline: none;
+        }
+
+        .comment-submit {
+            margin-top: 9px;
+            border: 1px solid var(--reader-gold);
+            border-radius: 10px;
+            padding: 11px 15px;
+            background: var(--reader-gold);
+            color: #05080f;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .comments-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .comment-item {
+            border: 1px solid rgba(215,179,90,.18);
+            border-radius: 12px;
+            padding: 13px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .comment-user {
+            color: var(--reader-gold-light);
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .comment-text {
+            margin-top: 7px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .comment-date {
+            margin-top: 7px;
+            font-size: 11px;
+            opacity: .55;
+        }
+
+        /* =====================================================
+           READER ID
+        ====================================================== */
+
+        .reader-id-box {
+            margin-top: 15px;
+            padding: 15px;
+
+            border: 1px solid var(--reader-border);
+            border-radius: 14px;
+
+            background: rgba(215,179,90,.04);
+        }
+
+        .reader-id {
+            font-family: monospace;
+            word-break: break-all;
+            color: var(--reader-gold-light);
+        }
+
+        /* =====================================================
+           EMPTY / MESSAGE
+        ====================================================== */
+
+        .reader-message {
+            padding: 14px;
+            border-radius: 11px;
+            border: 1px solid var(--reader-border);
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .reader-message.show {
+            display: block;
+        }
+
+        .reader-footer {
+            text-align: center;
+            opacity: .65;
+            font-size: 12px;
+            padding: 25px 5px;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           READING MODE
+        ====================================================== */
+
+        body.reading-mode .chapter-panel,
+        body.reading-mode .reader-search,
+        body.reading-mode .book-header {
+            display: none;
+        }
+
+        body.reading-mode .reader-layout {
+            display: block;
+        }
+
+        body.reading-mode .reading-card {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        body.reading-mode .reading-content {
+            font-size: 21px;
+            line-height: 2;
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 760px) {
+
+            .reader-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .chapter-panel {
+                position: static;
+            }
+
+            .chapter-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .reader-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .reader-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .book-header h1 {
+                font-size: 26px;
+            }
+
+            .reading-card {
+                padding: 18px;
+            }
+
+            .reading-content {
+                font-size: 17px;
+                line-height: 1.8;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .chapter-list {
+                grid-template-columns: 1fr;
+            }
+
+            .reader-search {
+                grid-template-columns: 1fr;
+            }
+
+            .reader-search button {
+                min-height: 44px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
-<body>
-
-<main class="page">
-
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
-
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
-
-        <h1>Read</h1>
-
-        <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Library.
-        </p>
-
-    </header>
+<body class="reader-active">
 
 
-    <!-- =====================================================
-         READING AREA
-    ====================================================== -->
-    <section class="content">
+<main class="reader-page">
 
-        <h2 id="read-title">
-            Read
-        </h2>
-
-        <p id="read-description">
-            Open and read knowledge resources from the
-            ALON HISTORYVERSE 24 Knowledge Library.
-        </p>
+    <div class="reader-container">
 
 
-        <!-- Dynamic reading content -->
-        <article
-            id="reading-content"
-            class="article-reader"
-            aria-live="polite"
-        >
+        <!-- =================================================
+             TOP READER BAR
+        ================================================== -->
 
-            <div class="card">
+        <header class="reader-topbar">
 
-                <h3>Knowledge Reader</h3>
+            <div class="reader-brand">
+                📖 ALON HISTORYVERSE 24
+            </div>
 
-                <p id="read-status">
-                    Select a book or reading resource to begin.
-                </p>
+            <div class="reader-controls">
+
+                <button
+                    type="button"
+                    class="reader-control"
+                    id="fontMinus"
+                    title="Decrease font"
+                >
+                    A−
+                </button>
+
+                <button
+                    type="button"
+                    class="reader-control"
+                    id="fontPlus"
+                    title="Increase font"
+                >
+                    A+
+                </button>
+
+                <button
+                    type="button"
+                    class="reader-control"
+                    id="readingModeBtn"
+                    title="Reading mode"
+                >
+                    📖
+                </button>
+
+                <button
+                    type="button"
+                    class="reader-control"
+                    id="bookmarkBtn"
+                    title="Bookmark"
+                >
+                    🔖
+                </button>
+
+                <button
+                    type="button"
+                    class="reader-control"
+                    id="homeBtn"
+                    title="Home"
+                >
+                    🏠
+                </button>
 
             </div>
 
-        </article>
-
-    </section>
+        </header>
 
 
-    <!-- =====================================================
-         LIBRARY NAVIGATION
-    ====================================================== -->
-    <section class="content">
+        <!-- =================================================
+             BOOK HEADER
+        ================================================== -->
 
-        <h2>Knowledge Library</h2>
+        <section class="book-header">
 
-        <div class="grid">
+            <h1 id="bookTitle">
+                Loading Book...
+            </h1>
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Return to the Knowledge Library.
-                </p>
-            </a>
+            <div
+                class="book-subtitle"
+                id="bookDescription"
+            >
+                Preparing your reading experience...
+            </div>
 
+            <div class="book-meta">
 
-            <a class="card" href="department.html">
-                <h3>Departments</h3>
-                <p>
-                    Explore knowledge departments.
-                </p>
-            </a>
+                <span
+                    class="meta-tag"
+                    id="bookSubject"
+                >
+                    Subject
+                </span>
 
+                <span
+                    class="meta-tag"
+                    id="bookAuthor"
+                >
+                    Author
+                </span>
 
-            <a class="card" href="subject.html">
-                <h3>Subjects</h3>
-                <p>
-                    Browse subjects and topics.
-                </p>
-            </a>
+                <span
+                    class="meta-tag"
+                    id="bookCode"
+                >
+                    Book Code
+                </span>
 
+            </div>
 
-            <a class="card" href="book.html">
-                <h3>Books</h3>
-                <p>
-                    Browse available books.
-                </p>
-            </a>
-
-
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
-            </a>
+        </section>
 
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge.
-                </p>
-            </a>
+        <!-- =================================================
+             SEARCH INSIDE BOOK
+        ================================================== -->
+
+        <form
+            class="reader-search"
+            id="searchForm"
+        >
+
+            <input
+                type="search"
+                id="readerSearch"
+                placeholder="Search inside this book..."
+                autocomplete="off"
+            >
+
+            <button type="submit">
+                🔎 Search
+            </button>
+
+        </form>
 
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main entry point.
-                </p>
-            </a>
+        <!-- =================================================
+             PROGRESS
+        ================================================== -->
+
+        <div class="progress-box">
+
+            <div class="progress-label">
+
+                <span>
+                    Reading Progress
+                </span>
+
+                <span id="progressText">
+                    0%
+                </span>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill"
+                ></div>
+
+            </div>
 
         </div>
 
-    </section>
+
+        <!-- =================================================
+             MESSAGE
+        ================================================== -->
+
+        <div
+            class="reader-message"
+            id="readerMessage"
+        ></div>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-    <footer class="footer">
+        <!-- =================================================
+             READER LAYOUT
+        ================================================== -->
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+        <div class="reader-layout">
 
-        <br>
 
-        <a href="../index.html">
-            Home
-        </a>
+            <!-- =================================================
+                 CHAPTERS
+            ================================================== -->
 
-    </footer>
+            <aside class="chapter-panel">
+
+                <h2>
+                    📚 Chapters
+                </h2>
+
+                <div
+                    class="chapter-list"
+                    id="chapterList"
+                ></div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 READING AREA
+            ================================================== -->
+
+            <section class="reading-card">
+
+                <h2
+                    class="chapter-title"
+                    id="chapterTitle"
+                >
+                    Chapter
+                </h2>
+
+                <div
+                    class="chapter-info"
+                    id="chapterInfo"
+                >
+                    Chapter 1
+                </div>
+
+
+                <article
+                    class="reading-content"
+                    id="readingContent"
+                >
+                </article>
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div class="reader-actions">
+
+                    <button
+                        type="button"
+                        class="action-btn"
+                        id="previousBtn"
+                    >
+                        ← Previous
+                    </button>
+
+                    <button
+                        type="button"
+                        class="action-btn"
+                        id="nextBtn"
+                    >
+                        Next →
+                    </button>
+
+                    <button
+                        type="button"
+                        class="action-btn"
+                        id="likeBtn"
+                    >
+                        👍 Like <span id="likeCount">0</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="action-btn"
+                        id="dislikeBtn"
+                    >
+                        👎 Dislike <span id="dislikeCount">0</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="action-btn"
+                        id="saveProgressBtn"
+                    >
+                        💾 Save Progress
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================================
+             COMMENTS
+        ================================================== -->
+
+        <section class="comments-card">
+
+            <h2>
+                💬 Reader Feedback
+            </h2>
+
+            <form
+                class="comment-form"
+                id="commentForm"
+            >
+
+                <textarea
+                    id="commentText"
+                    maxlength="2000"
+                    placeholder="Write your reaction, feedback or comment..."
+                ></textarea>
+
+                <button
+                    type="submit"
+                    class="comment-submit"
+                >
+                    💬 Post Comment
+                </button>
+
+            </form>
+
+
+            <div
+                class="comments-list"
+                id="commentsList"
+            ></div>
+
+
+            <!-- =================================================
+                 READER ID
+            ================================================== -->
+
+            <div class="reader-id-box">
+
+                👁️
+                <strong>
+                    Reader ID / पाठक ID:
+                </strong>
+
+                <br>
+
+                <span
+                    class="reader-id"
+                    id="readerId"
+                >
+                    Creating...
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="reader-footer">
+
+            © 2026 ALON HISTORYVERSE 24
+            <br>
+            Created by Baba Thecno Guru
+
+        </footer>
+
+
+    </div>
 
 </main>
 
 
-<!-- =======================================================
-     READ PAGE SCRIPTS
-======================================================== -->
+<script>
 
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/library-engine.js"></script>
-<script src="../jss/read.js"></script>
+/* =============================================================
+   ALON HISTORYVERSE 24
+   READ ENGINE
+   ============================================================= */
+
+
+/* =============================================================
+   STORAGE
+   ============================================================= */
+
+const BOOKS_KEY =
+    "ALON_HISTORYVERSE_BOOKS";
+
+const READ_PROGRESS_KEY =
+    "ALON_READ_PROGRESS";
+
+const BOOKMARKS_KEY =
+    "ALON_BOOKMARKS";
+
+const REACTIONS_KEY =
+    "ALON_BOOK_REACTIONS";
+
+const COMMENTS_KEY =
+    "ALON_BOOK_COMMENTS";
+
+const READER_ID_KEY =
+    "ALON_READER_ID";
+
+
+/* =============================================================
+   URL PARAMETERS
+   Supports:
+   read.html?code=BOOK001
+   read.html?book=BOOK001
+   read.html?id=BOOK001
+   ============================================================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const requestedBook =
+    params.get("code") ||
+    params.get("book") ||
+    params.get("id");
+
+
+/* =============================================================
+   DEFAULT DEMO BOOK
+   ============================================================= */
+
+const DEFAULT_BOOK = {
+
+    id: "AH24-DEMO-001",
+
+    code: "HISTORY001",
+
+    title:
+        "The Journey of Human History",
+
+    subject:
+        "History",
+
+    author:
+        "ALON HISTORYVERSE 24",
+
+    description:
+        "An educational reading example for the ALON HISTORYVERSE 24 library.",
+
+    chapters: [
+
+        {
+            title: "Introduction",
+
+            content: `
+                <p>
+                    Welcome to ALON HISTORYVERSE 24.
+                    This reading system is designed to make
+                    historical and educational books easier
+                    to read on mobile and desktop devices.
+                </p>
+
+                <p>
+                    Select a chapter from the chapter panel
+                    to continue reading.
+                </p>
+
+                <blockquote>
+                    Knowledge becomes powerful when it is
+                    understood, remembered and shared.
+                </blockquote>
+            `
+        },
+
+        {
+            title: "Understanding History",
+
+            content: `
+                <p>
+                    History is the study of events, people,
+                    societies and ideas from the past.
+                </p>
+
+                <p>
+                    Historical knowledge helps us understand
+                    how civilizations developed and how
+                    cultures changed over time.
+                </p>
+            `
+        },
+
+        {
+            title: "Civilizations",
+
+            content: `
+                <p>
+                    Human civilizations developed in many
+                    regions of the world. They created
+                    languages, governments, cities,
+                    technologies, art and systems of knowledge.
+                </p>
+
+                <p>
+                    Comparing civilizations helps us understand
+                    both their differences and their shared
+                    human experiences.
+                </p>
+            `
+        },
+
+        {
+            title: "Conclusion",
+
+            content: `
+                <p>
+                    The study of history never truly ends.
+                    Every generation discovers new evidence,
+                    asks new questions and develops new ways
+                    to understand the past.
+                </p>
+
+                <p>
+                    Continue exploring the Library,
+                    Countries, Civilizations, Heritage and
+                    Timeline sections of ALON HISTORYVERSE 24.
+                </p>
+            `
+        }
+
+    ]
+
+};
+
+
+/* =============================================================
+   ELEMENTS
+   ============================================================= */
+
+const bookTitle =
+    document.getElementById("bookTitle");
+
+const bookDescription =
+    document.getElementById("bookDescription");
+
+const bookSubject =
+    document.getElementById("bookSubject");
+
+const bookAuthor =
+    document.getElementById("bookAuthor");
+
+const bookCode =
+    document.getElementById("bookCode");
+
+const chapterList =
+    document.getElementById("chapterList");
+
+const chapterTitle =
+    document.getElementById("chapterTitle");
+
+const chapterInfo =
+    document.getElementById("chapterInfo");
+
+const readingContent =
+    document.getElementById("readingContent");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+const readerMessage =
+    document.getElementById("readerMessage");
+
+const likeBtn =
+    document.getElementById("likeBtn");
+
+const dislikeBtn =
+    document.getElementById("dislikeBtn");
+
+const likeCount =
+    document.getElementById("likeCount");
+
+const dislikeCount =
+    document.getElementById("dislikeCount");
+
+const commentsList =
+    document.getElementById("commentsList");
+
+const readerIdElement =
+    document.getElementById("readerId");
+
+
+/* =============================================================
+   READER ID
+   ============================================================= */
+
+function createReaderId() {
+
+    let readerId =
+        localStorage.getItem(
+            READER_ID_KEY
+        );
+
+
+    if (!readerId) {
+
+        const random =
+            Math.random()
+            .toString(36)
+            .substring(2, 10)
+            .toUpperCase();
+
+        const time =
+            Date.now()
+            .toString(36)
+            .toUpperCase();
+
+        readerId =
+            `AH24-READER-${time}-${random}`;
+
+        localStorage.setItem(
+            READER_ID_KEY,
+            readerId
+        );
+
+    }
+
+
+    readerIdElement.textContent =
+        readerId;
+
+
+    return readerId;
+
+}
+
+
+const currentReaderId =
+    createReaderId();
+
+
+/* =============================================================
+   LOAD BOOKS
+   ============================================================= */
+
+function loadBooks() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    BOOKS_KEY
+                )
+            );
+
+        if (
+            Array.isArray(saved) &&
+            saved.length
+        ) {
+
+            return saved;
+
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Book storage could not be read."
+        );
+
+    }
+
+
+    return [DEFAULT_BOOK];
+
+}
+
+
+const books =
+    loadBooks();
+
+
+/* =============================================================
+   FIND BOOK
+   ============================================================= */
+
+function findBook() {
+
+    if (!requestedBook) {
+
+        return books[0];
+
+    }
+
+
+    const query =
+        requestedBook
+        .trim()
+        .toLowerCase();
+
+
+    return books.find(book => {
+
+        return (
+
+            String(book.id || "")
+            .toLowerCase() === query
+
+            ||
+
+            String(book.code || "")
+            .toLowerCase() === query
+
+            ||
+
+            String(book.title || "")
+            .toLowerCase() === query
+
+        );
+
+    }) || null;
+
+}
+
+
+const currentBook =
+    findBook();
+
+
+/* =============================================================
+   ACTIVE CHAPTER
+   ============================================================= */
+
+let currentChapterIndex = 0;
+
+
+/* =============================================================
+   BOOK KEY
+   ============================================================= */
+
+function getBookKey() {
+
+    if (!currentBook) {
+
+        return "UNKNOWN";
+
+    }
+
+    return (
+        currentBook.code ||
+        currentBook.id ||
+        currentBook.title
+    );
+
+}
+
+
+/* =============================================================
+   SHOW MESSAGE
+   ============================================================= */
+
+function showMessage(message) {
+
+    readerMessage.textContent =
+        message;
+
+    readerMessage.classList.add(
+        "show"
+    );
+
+}
+
+
+function hideMessage() {
+
+    readerMessage.classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =============================================================
+   RENDER BOOK
+   ============================================================= */
+
+function renderBook() {
+
+    if (!currentBook) {
+
+        bookTitle.textContent =
+            "Book Not Found";
+
+        bookDescription.textContent =
+            "This book code or name does not exist in the ALON HISTORYVERSE 24 Library.";
+
+        bookSubject.textContent =
+            "Not Found";
+
+        bookAuthor.textContent =
+            "—";
+
+        bookCode.textContent =
+            requestedBook || "Unknown";
+
+        readingContent.innerHTML = `
+            <p>
+                ❌ This book is not available.
+            </p>
+
+            <p>
+                Please return to the Library and select a
+                book that exists on the website.
+            </p>
+        `;
+
+        chapterList.innerHTML = "";
+
+        showMessage(
+            "Book not found. Only books registered in the website library can be opened."
+        );
+
+        return;
+
+    }
+
+
+    bookTitle.textContent =
+        currentBook.title ||
+        "Untitled Book";
+
+
+    bookDescription.textContent =
+        currentBook.description ||
+        "ALON HISTORYVERSE 24 knowledge book.";
+
+
+    bookSubject.textContent =
+        `📚 ${currentBook.subject || "General"}`;
+
+
+    bookAuthor.textContent =
+        `✍️ ${currentBook.author || "ALON HISTORYVERSE 24"}`;
+
+
+    bookCode.textContent =
+        `🔑 ${currentBook.code || currentBook.id}`;
+
+
+    if (
+        !Array.isArray(currentBook.chapters) ||
+        !currentBook.chapters.length
+    ) {
+
+        currentBook.chapters = [
+
+            {
+                title: "Reading",
+
+                content:
+                    "<p>No chapter content is available yet.</p>"
+
+            }
+
+        ];
+
+    }
+
+
+    loadSavedProgress();
+
+    renderChapters();
+
+    renderChapter();
+
+    loadReactions();
+
+    loadComments();
+
+}
+
+
+/* =============================================================
+   CHAPTER LIST
+   ============================================================= */
+
+function renderChapters() {
+
+    chapterList.innerHTML = "";
+
+
+    currentBook.chapters.forEach(
+        (chapter, index) => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.type = "button";
+
+            button.className =
+                "chapter-btn";
+
+            button.textContent =
+                `${index + 1}. ${chapter.title || "Chapter"}`;
+
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    currentChapterIndex =
+                        index;
+
+                    renderChapter();
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+                }
+            );
+
+
+            chapterList.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =============================================================
+   RENDER CHAPTER
+   ============================================================= */
+
+function renderChapter() {
+
+    const chapter =
+        currentBook.chapters[
+            currentChapterIndex
+        ];
+
+
+    if (!chapter) {
+
+        return;
+
+    }
+
+
+    chapterTitle.textContent =
+        chapter.title ||
+        `Chapter ${currentChapterIndex + 1}`;
+
+
+    chapterInfo.textContent =
+        `Chapter ${currentChapterIndex + 1} of ${currentBook.chapters.length}`;
+
+
+    /*
+       Content comes from books created for this website.
+       For stored HTML, use innerHTML intentionally.
+    */
+
+    readingContent.innerHTML =
+        chapter.content ||
+        "<p>No content available.</p>";
+
+
+    const buttons =
+        chapterList.querySelectorAll(
+            ".chapter-btn"
+        );
+
+
+    buttons.forEach(
+        (button, index) => {
+
+            button.classList.toggle(
+                "active",
+                index === currentChapterIndex
+            );
+
+        }
+    );
+
+
+    updateProgress();
+
+}
+
+
+/* =============================================================
+   PREVIOUS / NEXT
+   ============================================================= */
+
+document
+    .getElementById("previousBtn")
+    .addEventListener(
+        "click",
+        function() {
+
+            if (
+                currentChapterIndex > 0
+            ) {
+
+                currentChapterIndex--;
+
+                renderChapter();
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("nextBtn")
+    .addEventListener(
+        "click",
+        function() {
+
+            if (
+                currentChapterIndex <
+                currentBook.chapters.length - 1
+            ) {
+
+                currentChapterIndex++;
+
+                renderChapter();
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+    );
+
+
+/* =============================================================
+   READING PROGRESS
+   ============================================================= */
+
+function getProgressData() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                READ_PROGRESS_KEY
+            )
+        ) || {};
+
+    } catch (error) {
+
+        return {};
+
+    }
+
+}
+
+
+function saveProgress() {
+
+    if (!currentBook) {
+
+        return;
+
+    }
+
+
+    const data =
+        getProgressData();
+
+
+    data[getBookKey()] = {
+
+        chapter:
+            currentChapterIndex,
+
+        scroll:
+            window.scrollY,
+
+        updatedAt:
+            new Date().toISOString(),
+
+        readerId:
+            currentReaderId
+
+    };
+
+
+    localStorage.setItem(
+        READ_PROGRESS_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+function loadSavedProgress() {
+
+    const data =
+        getProgressData();
+
+
+    const saved =
+        data[getBookKey()];
+
+
+    if (!saved) {
+
+        return;
+
+    }
+
+
+    if (
+        Number.isInteger(
+            saved.chapter
+        ) &&
+        saved.chapter >= 0 &&
+        saved.chapter <
+        currentBook.chapters.length
+    ) {
+
+        currentChapterIndex =
+            saved.chapter;
+
+    }
+
+}
+
+
+function updateProgress() {
+
+    if (!currentBook) {
+
+        return;
+
+    }
+
+
+    const total =
+        currentBook.chapters.length;
+
+
+    const percent =
+        total > 1
+
+        ? Math.round(
+            (
+                currentChapterIndex /
+                (total - 1)
+            ) * 100
+        )
+
+        : 100;
+
+
+    progressFill.style.width =
+        `${percent}%`;
+
+
+    progressText.textContent =
+        `${percent}%`;
+
+}
+
+
+/* =============================================================
+   SAVE PROGRESS BUTTON
+   ============================================================= */
+
+document
+    .getElementById("saveProgressBtn")
+    .addEventListener(
+        "click",
+        function() {
+
+            saveProgress();
+
+            showMessage(
+                "💾 Reading progress saved."
+            );
+
+        }
+    );
+
+
+/* =============================================================
+   AUTOMATIC SCROLL SAVE
+   ============================================================= */
+
+let scrollTimer = null;
+
+window.addEventListener(
+    "scroll",
+    function() {
+
+        clearTimeout(scrollTimer);
+
+        scrollTimer =
+            setTimeout(
+                saveProgress,
+                600
+            );
+
+    }
+);
+
+
+/* =============================================================
+   FONT SIZE
+   ============================================================= */
+
+let readerFontSize = 18;
+
+
+document
+    .getElementById("fontPlus")
+    .addEventListener(
+        "click",
+        function() {
+
+            readerFontSize =
+                Math.min(
+                    readerFontSize + 1,
+                    30
+                );
+
+            readingContent.style.fontSize =
+                `${readerFontSize}px`;
+
+        }
+    );
+
+
+document
+    .getElementById("fontMinus")
+    .addEventListener(
+        "click",
+        function() {
+
+            readerFontSize =
+                Math.max(
+                    readerFontSize - 1,
+                    13
+                );
+
+            readingContent.style.fontSize =
+                `${readerFontSize}px`;
+
+        }
+    );
+
+
+/* =============================================================
+   READING MODE
+   ============================================================= */
+
+document
+    .getElementById("readingModeBtn")
+    .addEventListener(
+        "click",
+        function() {
+
+            document.body.classList.toggle(
+                "reading-mode"
+            );
+
+        }
+    );
+
+
+/* =============================================================
+   BOOKMARK
+   ============================================================= */
+
+document
+    .getElementById("bookmarkBtn")
+    .addEventListener(
+        "click",
+        function() {
+
+            if (!currentBook) {
+
+                return;
+
+            }
+
+
+            let bookmarks = [];
+
+
+            try {
+
+                bookmarks =
+                    JSON.parse(
+                        localStorage.getItem(
+                            BOOKMARKS_KEY
+                        )
+                    ) || [];
+
+            } catch (error) {
+
+                bookmarks = [];
+
+            }
+
+
+            const key =
+                getBookKey();
+
+
+            const existing =
+                bookmarks.findIndex(
+                    item =>
+                        item.book === key
+                );
+
+
+            if (existing >= 0) {
+
+                bookmarks.splice(
+                    existing,
+                    1
+                );
+
+                this.classList.remove(
+                    "active"
+                );
+
+                showMessage(
+                    "🔖 Bookmark removed."
+                );
+
+            } else {
+
+                bookmarks.push({
+
+                    book: key,
+
+                    chapter:
+                        currentChapterIndex,
+
+                    readerId:
+                        currentReaderId,
+
+                    savedAt:
+                        new Date().toISOString()
+
+                });
+
+                this.classList.add(
+                    "active"
+                );
+
+                showMessage(
+                    "🔖 Bookmark saved."
+                );
+
+            }
+
+
+            localStorage.setItem(
+                BOOKMARKS_KEY,
+                JSON.stringify(bookmarks)
+            );
+
+        }
+    );
+
+
+/* =============================================================
+   REACTIONS
+   ============================================================= */
+
+function getReactionData() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                REACTIONS_KEY
+            )
+        ) || {};
+
+    } catch (error) {
+
+        return {};
+
+    }
+
+}
+
+
+function loadReactions() {
+
+    if (!currentBook) {
+
+        return;
+
+    }
+
+
+    const data =
+        getReactionData();
+
+
+    const bookData =
+        data[getBookKey()] || {
+
+            likes: 0,
+
+            dislikes: 0,
+
+            users: {}
+
+        };
+
+
+    likeCount.textContent =
+        bookData.likes || 0;
+
+
+    dislikeCount.textContent =
+        bookData.dislikes || 0;
+
+
+    const readerReaction =
+        bookData.users
+        ? bookData.users[currentReaderId]
+        : null;
+
+
+    likeBtn.classList.toggle(
+        "active",
+        readerReaction === "like"
+    );
+
+
+    dislikeBtn.classList.toggle(
+        "active",
+        readerReaction === "dislike"
+    );
+
+}
+
+
+function setReaction(type) {
+
+    if (!currentBook) {
+
+        return;
+
+    }
+
+
+    const data =
+        getReactionData();
+
+
+    if (!data[getBookKey()]) {
+
+        data[getBookKey()] = {
+
+            likes: 0,
+
+            dislikes: 0,
+
+            users: {}
+
+        };
+
+    }
+
+
+    const bookData =
+        data[getBookKey()];
+
+
+    if (!bookData.users) {
+
+        bookData.users = {};
+
+    }
+
+
+    const oldReaction =
+        bookData.users[currentReaderId];
+
+
+    if (oldReaction === type) {
+
+        if (type === "like") {
+
+            bookData.likes =
+                Math.max(
+                    0,
+                    bookData.likes - 1
+                );
+
+        } else {
+
+            bookData.dislikes =
+                Math.max(
+                    0,
+                    bookData.dislikes - 1
+                );
+
+        }
+
+
+        delete bookData.users[
+            currentReaderId
+        ];
+
+    } else {
+
+        if (oldReaction === "like") {
+
+            bookData.likes =
+                Math.max(
+                    0,
+                    bookData.likes - 1
+                );
+
+        }
+
+
+        if (oldReaction === "dislike") {
+
+            bookData.dislikes =
+                Math.max(
+                    0,
+                    bookData.dislikes - 1
+                );
+
+        }
+
+
+        if (type === "like") {
+
+            bookData.likes++;
+
+        } else {
+
+            bookData.dislikes++;
+
+        }
+
+
+        bookData.users[
+            currentReaderId
+        ] = type;
+
+    }
+
+
+    data[getBookKey()] =
+        bookData;
+
+
+    localStorage.setItem(
+        REACTIONS_KEY,
+        JSON.stringify(data)
+    );
+
+
+    loadReactions();
+
+}
+
+
+likeBtn.addEventListener(
+    "click",
+    function() {
+
+        setReaction("like");
+
+    }
+);
+
+
+dislikeBtn.addEventListener(
+    "click",
+    function() {
+
+        setReaction("dislike");
+
+    }
+);
+
+
+/* =============================================================
+   COMMENTS
+   ============================================================= */
+
+function getCommentsData() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                COMMENTS_KEY
+            )
+        ) || {};
+
+    } catch (error) {
+
+        return {};
+
+    }
+
+}
+
+
+function loadComments() {
+
+    commentsList.innerHTML = "";
+
+
+    if (!currentBook) {
+
+        return;
+
+    }
+
+
+    const data =
+        getCommentsData();
+
+
+    const comments =
+        data[getBookKey()] || [];
+
+
+    if (!comments.length) {
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+        empty.textContent =
+            "No comments yet. Be the first reader to share a reaction.";
+
+        empty.style.opacity = ".65";
+
+        commentsList.appendChild(
+            empty
+        );
+
+        return;
+
+    }
+
+
+    comments
+        .slice()
+        .reverse()
+        .forEach(comment => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "comment-item";
+
+
+            const user =
+                document.createElement(
+                    "div"
+                );
+
+            user.className =
+                "comment-user";
+
+            user.textContent =
+                `👁️ ${comment.readerId}`;
+
+
+            const text =
+                document.createElement(
+                    "div"
+                );
+
+            text.className =
+                "comment-text";
+
+            text.textContent =
+                comment.text;
+
+
+            const date =
+                document.createElement(
+                    "div"
+                );
+
+            date.className =
+                "comment-date";
+
+            date.textContent =
+                comment.date
+                ? new Date(
+                    comment.date
+                ).toLocaleString()
+                : "";
+
+
+            item.appendChild(user);
+
+            item.appendChild(text);
+
+            item.appendChild(date);
+
+            commentsList.appendChild(
+                item
+            );
+
+        });
+
+}
+
+
+/* =============================================================
+   COMMENT SUBMIT
+   ============================================================= */
+
+document
+    .getElementById("commentForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            if (!currentBook) {
+
+                return;
+
+            }
+
+
+            const textarea =
+                document.getElementById(
+                    "commentText"
+                );
+
+
+            const text =
+                textarea.value.trim();
+
+
+            if (!text) {
+
+                showMessage(
+                    "Please write a comment first."
+                );
+
+                return;
+
+            }
+
+
+            const data =
+                getCommentsData();
+
+
+            if (!data[getBookKey()]) {
+
+                data[getBookKey()] = [];
+
+            }
+
+
+            data[getBookKey()].push({
+
+                readerId:
+                    currentReaderId,
+
+                text:
+                    text,
+
+                date:
+                    new Date().toISOString()
+
+            });
+
+
+            localStorage.setItem(
+                COMMENTS_KEY,
+                JSON.stringify(data)
+            );
+
+
+            textarea.value = "";
+
+            loadComments();
+
+            showMessage(
+                "💬 Your comment has been added."
+            );
+
+        }
+    );
+
+
+/* =============================================================
+   SEARCH INSIDE CURRENT BOOK
+   ============================================================= */
+
+document
+    .getElementById("searchForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const query =
+                document
+                .getElementById(
+                    "readerSearch"
+                )
+                .value
+                .trim()
+                .toLowerCase();
+
+
+            if (!query) {
+
+                return;
+
+            }
+
+
+            const chapterIndex =
+                currentBook.chapters.findIndex(
+                    chapter =>
+                        String(
+                            chapter.title
+                        )
+                        .toLowerCase()
+                        .includes(query)
+
+                        ||
+
+                        String(
+                            chapter.content
+                        )
+                        .toLowerCase()
+                        .includes(query)
+                );
+
+
+            if (chapterIndex < 0) {
+
+                showMessage(
+                    "🔎 The searched word was not found in this book."
+                );
+
+                return;
+
+            }
+
+
+            currentChapterIndex =
+                chapterIndex;
+
+
+            renderChapter();
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+
+            showMessage(
+                `🔎 Found in Chapter ${chapterIndex + 1}.`
+            );
+
+        }
+    );
+
+
+/* =============================================================
+   HOME
+   ============================================================= */
+
+document
+    .getElementById("homeBtn")
+    .addEventListener(
+        "click",
+        function() {
+
+            window.location.href =
+                "../index.html";
+
+        }
+    );
+
+
+/* =============================================================
+   RESTORE BOOKMARK STATE
+   ============================================================= */
+
+function restoreBookmarkState() {
+
+    if (!currentBook) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const bookmarks =
+            JSON.parse(
+                localStorage.getItem(
+                    BOOKMARKS_KEY
+                )
+            ) || [];
+
+
+        const found =
+            bookmarks.some(
+                item =>
+                    item.book === getBookKey()
+            );
+
+
+        document
+            .getElementById(
+                "bookmarkBtn"
+            )
+            .classList.toggle(
+                "active",
+                found
+            );
+
+    } catch (error) {}
+
+}
+
+
+/* =============================================================
+   START
+   ============================================================= */
+
+renderBook();
+
+restoreBookmarkState();
+
+
+/* =============================================================
+   SAVE WHEN LEAVING PAGE
+   ============================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    saveProgress
+);
+
+</script>
 
 </body>
-
 </html>

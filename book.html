@@ -12,137 +12,700 @@
 
     <title>Books • ALON HISTORYVERSE 24</title>
 
-    <!-- Global stylesheet -->
+    <meta
+        name="description"
+        content="Create, read, edit, save and manage books in ALON HISTORYVERSE 24."
+    >
+
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        .book-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .book-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .book-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .book-header p {
+            opacity: .85;
+        }
+
+        .book-panel {
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .book-panel h2 {
+            margin-top: 0;
+        }
+
+        .book-form {
+            display: grid;
+            gap: 14px;
+        }
+
+        .book-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 14px;
+        }
+
+        .book-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .book-field label {
+            font-weight: 600;
+        }
+
+        .book-field input,
+        .book-field select,
+        .book-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(0,0,0,.25);
+            color: inherit;
+            font: inherit;
+        }
+
+        .book-field textarea {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        .book-field textarea.book-description {
+            min-height: 120px;
+        }
+
+        .country-box {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 10px;
+        }
+
+        .country-preview {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid rgba(215,179,90,.3);
+            border-radius: 10px;
+        }
+
+        .country-flag {
+            font-size: 28px;
+        }
+
+        .media-preview {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .media-preview img,
+        .media-preview video {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+        }
+
+        .book-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .book-btn {
+            border: 1px solid rgba(215,179,90,.5);
+            border-radius: 10px;
+            padding: 11px 18px;
+            cursor: pointer;
+            background: rgba(215,179,90,.1);
+            color: inherit;
+            font: inherit;
+        }
+
+        .book-btn:hover {
+            background: rgba(215,179,90,.2);
+        }
+
+        .book-btn.delete {
+            border-color: #a44;
+        }
+
+        .book-btn.secondary {
+            opacity: .85;
+        }
+
+        .book-message {
+            margin-top: 12px;
+            min-height: 20px;
+        }
+
+        .book-search {
+            margin-bottom: 20px;
+        }
+
+        .book-search input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(0,0,0,.25);
+            color: inherit;
+            font: inherit;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 18px;
+        }
+
+        .book-card {
+            border: 1px solid rgba(215,179,90,.3);
+            border-radius: 15px;
+            padding: 16px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .book-card-image {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .book-card h3 {
+            margin: 5px 0;
+        }
+
+        .book-meta {
+            font-size: .9rem;
+            opacity: .8;
+            margin: 5px 0;
+        }
+
+        .book-content-preview {
+            margin-top: 12px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            max-height: 180px;
+            overflow: hidden;
+        }
+
+        .book-card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .empty-books {
+            text-align: center;
+            padding: 25px;
+            opacity: .7;
+        }
+
+        .location-status {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.25);
+        }
+
+        @media (max-width: 700px) {
+
+            .book-page {
+                padding: 12px;
+            }
+
+            .book-row {
+                grid-template-columns: 1fr;
+            }
+
+            .country-box {
+                grid-template-columns: 1fr;
+            }
+
+            .book-actions,
+            .book-card-actions {
+                flex-direction: column;
+            }
+
+            .book-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
 <body>
 
-<main class="page">
+<main class="book-page">
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
+
+    <header class="book-header">
 
         <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Books</h1>
+        <h1>
+            📚 Books
+            <br>
+            पुस्तकें
+        </h1>
 
         <p>
-            Explore books and knowledge resources
-            from the ALON HISTORYVERSE 24 Library.
+            Create • Read • Edit • Save • Delete
+            <br>
+            पुस्तक बनाएं • लिखें • संपादित करें • सेव करें
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         BOOKS CONTENT
+         BOOK CREATOR
     ====================================================== -->
-    <section class="content">
 
-        <h2>Books</h2>
+    <section class="book-panel">
 
-        <p>
-            Browse books available through the
-            ALON HISTORYVERSE 24 knowledge library.
-        </p>
+        <h2>
+            ✍️ Create / Edit Book
+            <br>
+            पुस्तक बनाएं / संपादित करें
+        </h2>
+
+        <form
+            id="book-form"
+            class="book-form"
+        >
+
+            <input
+                type="hidden"
+                id="book-id"
+            >
 
 
-        <!-- =================================================
-             BOOK SEARCH
-        ================================================== -->
-        <div class="article-tools">
+            <!-- USER INFORMATION -->
 
-            <label for="book-search">
-                Search Books
-            </label>
+            <div class="book-row">
+
+                <div class="book-field">
+
+                    <label for="book-mobile">
+                        📱 Mobile Number
+                        / मोबाइल नंबर
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="book-mobile"
+                        placeholder="Mobile number"
+                        autocomplete="tel"
+                    >
+
+                </div>
+
+
+                <div class="book-field">
+
+                    <label for="book-email">
+                        📧 Email
+                        / ईमेल
+                    </label>
+
+                    <input
+                        type="email"
+                        id="book-email"
+                        placeholder="Email address"
+                        autocomplete="email"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="book-row">
+
+                <div class="book-field">
+
+                    <label for="book-password">
+                        🔐 Password
+                        / पासवर्ड
+                    </label>
+
+                    <input
+                        type="password"
+                        id="book-password"
+                        placeholder="Password"
+                        autocomplete="new-password"
+                    >
+
+                </div>
+
+
+                <div class="book-field">
+
+                    <label for="book-country">
+                        🌍 Country
+                        / देश
+                    </label>
+
+                    <select id="book-country">
+                        <option value="">
+                            Select Country / देश चुनें
+                        </option>
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- COUNTRY INFORMATION -->
+
+            <div
+                id="country-preview"
+                class="country-preview"
+            >
+
+                <span
+                    id="country-flag"
+                    class="country-flag"
+                >
+                    🌍
+                </span>
+
+                <div>
+
+                    <strong id="country-name">
+                        Country
+                    </strong>
+
+                    <div id="country-code">
+                        Calling Code: —
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LIVE LOCATION -->
+
+            <div class="book-field">
+
+                <label>
+                    📍 Live Location
+                    / लाइव लोकेशन
+                </label>
+
+                <button
+                    type="button"
+                    class="book-btn"
+                    id="get-location"
+                >
+                    📍 Get Live Location
+                    / लाइव लोकेशन प्राप्त करें
+                </button>
+
+                <div
+                    id="location-status"
+                    class="location-status"
+                >
+                    Location not selected
+                    / लोकेशन चयनित नहीं है
+                </div>
+
+                <input
+                    type="hidden"
+                    id="book-latitude"
+                >
+
+                <input
+                    type="hidden"
+                    id="book-longitude"
+                >
+
+            </div>
+
+
+            <!-- BOOK NAME -->
+
+            <div class="book-field">
+
+                <label for="book-name">
+                    📖 Book Name
+                    / पुस्तक का नाम
+                </label>
+
+                <input
+                    type="text"
+                    id="book-name"
+                    placeholder="Enter book name / पुस्तक का नाम लिखें"
+                    required
+                >
+
+            </div>
+
+
+            <!-- SUBJECT -->
+
+            <div class="book-field">
+
+                <label for="book-subject">
+                    📚 Book Subject
+                    / पुस्तक विषय
+                </label>
+
+                <input
+                    type="text"
+                    id="book-subject"
+                    placeholder="History, Mathematics, Computer..."
+                    required
+                >
+
+            </div>
+
+
+            <!-- IMAGE -->
+
+            <div class="book-field">
+
+                <label for="book-image">
+                    🖼️ Book Image
+                    / पुस्तक की तस्वीर
+                </label>
+
+                <input
+                    type="file"
+                    id="book-image"
+                    accept="image/*"
+                >
+
+                <div
+                    id="image-preview"
+                    class="media-preview"
+                >
+
+                    <img
+                        id="book-image-preview"
+                        alt="Book preview"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- VIDEO -->
+
+            <div class="book-field">
+
+                <label for="book-video">
+                    🎥 Book Video
+                    / पुस्तक वीडियो
+                </label>
+
+                <input
+                    type="file"
+                    id="book-video"
+                    accept="video/*"
+                >
+
+                <div
+                    id="video-preview"
+                    class="media-preview"
+                >
+
+                    <video
+                        id="book-video-preview"
+                        controls
+                    ></video>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOOK CONTENT -->
+
+            <div class="book-field">
+
+                <label for="book-content">
+                    ✍️ Write Book
+                    / पुस्तक लिखें
+                </label>
+
+                <textarea
+                    id="book-content"
+                    placeholder="Write the complete book content here...
+
+यहां पूरी पुस्तक की सामग्री लिखें..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="book-field">
+
+                <label for="book-description">
+                    📝 Description
+                    / विवरण
+                </label>
+
+                <textarea
+                    id="book-description"
+                    class="book-description"
+                    placeholder="Write book description...
+
+पुस्तक का विवरण लिखें..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="book-actions">
+
+                <button
+                    type="submit"
+                    class="book-btn"
+                >
+                    💾 Save Book
+                    / पुस्तक सेव करें
+                </button>
+
+                <button
+                    type="button"
+                    id="clear-book"
+                    class="book-btn secondary"
+                >
+                    🧹 Clear
+                    / साफ करें
+                </button>
+
+            </div>
+
+
+            <div
+                id="book-message"
+                class="book-message"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         SAVED BOOKS
+    ====================================================== -->
+
+    <section class="book-panel">
+
+        <h2>
+            📚 Saved Books
+            <br>
+            सेव की गई पुस्तकें
+        </h2>
+
+
+        <div class="book-search">
 
             <input
                 type="search"
                 id="book-search"
-                name="book-search"
-                placeholder="Search books..."
-                autocomplete="off"
+                placeholder="Search book name, subject, content...
+पुस्तक का नाम, विषय या सामग्री खोजें..."
             >
 
         </div>
 
 
-        <!-- =================================================
-             BOOK LIST
-        ================================================== -->
         <div
             id="books-list"
-            class="grid books-grid"
-            aria-live="polite"
-        >
+            class="books-grid"
+        ></div>
 
-            <!--
-                Book cards are generated by
-                ../jss/library-engine.js
-            -->
-
-            <p id="books-loading">
-                Loading books...
-            </p>
-
-        </div>
+    </section>
 
 
-        <!-- =================================================
-             LIBRARY NAVIGATION
-        ================================================== -->
-        <div class="grid">
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
+    <section class="book-panel">
 
-                <p>
-                    Return to the main knowledge library.
-                </p>
+        <h2>
+            Library Navigation
+            <br>
+            लाइब्रेरी नेविगेशन
+        </h2>
+
+        <div class="books-grid">
+
+            <a href="library.html" class="book-card">
+                📚 Library
+                <br>
+                लाइब्रेरी
             </a>
 
-
-            <a class="card" href="department.html">
-                <h3>Departments</h3>
-
-                <p>
-                    Explore knowledge departments.
-                </p>
+            <a href="department.html" class="book-card">
+                🏛️ Department
+                <br>
+                विभाग
             </a>
 
-
-            <a class="card" href="subject.html">
-                <h3>Subjects</h3>
-
-                <p>
-                    Browse individual subjects.
-                </p>
+            <a href="subject.html" class="book-card">
+                📖 Subject
+                <br>
+                विषय
             </a>
 
-
-            <a class="card" href="read.html">
-                <h3>Read</h3>
-
-                <p>
-                    Open the reading section.
-                </p>
+            <a href="read.html" class="book-card">
+                📕 Read Book
+                <br>
+                पुस्तक पढ़ें
             </a>
 
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-
-                <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
-                </p>
+            <a href="../index.html" class="book-card">
+                🏠 Home
+                <br>
+                मुख्य पृष्ठ
             </a>
 
         </div>
@@ -153,31 +716,1082 @@
     <!-- =====================================================
          FOOTER
     ====================================================== -->
-    <footer class="footer">
+
+    <footer>
 
         <p>
-            ALON HISTORYVERSE 24
+            © ALON HISTORYVERSE 24
             • Baba Thecno Guru
         </p>
-
-        <a href="../index.html">
-            Home
-        </a>
 
     </footer>
 
 </main>
 
 
-<!-- =====================================================
-     CORE SYSTEM
-====================================================== -->
+<!-- =========================================================
+     BOOK SYSTEM
+========================================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    const STORAGE_KEY =
+        "alon_historyverse_24_books";
+
+
+    const form =
+        document.getElementById("book-form");
+
+    const bookId =
+        document.getElementById("book-id");
+
+    const mobile =
+        document.getElementById("book-mobile");
+
+    const email =
+        document.getElementById("book-email");
+
+    const password =
+        document.getElementById("book-password");
+
+    const country =
+        document.getElementById("book-country");
+
+    const countryFlag =
+        document.getElementById("country-flag");
+
+    const countryName =
+        document.getElementById("country-name");
+
+    const countryCode =
+        document.getElementById("country-code");
+
+    const bookName =
+        document.getElementById("book-name");
+
+    const bookSubject =
+        document.getElementById("book-subject");
+
+    const bookContent =
+        document.getElementById("book-content");
+
+    const bookDescription =
+        document.getElementById("book-description");
+
+    const imageInput =
+        document.getElementById("book-image");
+
+    const videoInput =
+        document.getElementById("book-video");
+
+    const imagePreview =
+        document.getElementById("image-preview");
+
+    const imagePreviewImg =
+        document.getElementById("book-image-preview");
+
+    const videoPreview =
+        document.getElementById("video-preview");
+
+    const videoPreviewElement =
+        document.getElementById("book-video-preview");
+
+    const search =
+        document.getElementById("book-search");
+
+    const booksList =
+        document.getElementById("books-list");
+
+    const message =
+        document.getElementById("book-message");
+
+    const locationStatus =
+        document.getElementById("location-status");
+
+    const latitude =
+        document.getElementById("book-latitude");
+
+    const longitude =
+        document.getElementById("book-longitude");
+
+
+    let books = [];
+
+    let currentImage = "";
+
+    let currentVideo = "";
+
+
+    /* =====================================================
+       COUNTRY DATABASE
+    ====================================================== */
+
+    const countries = [
+
+        ["🇮🇳","India","+91"],
+        ["🇺🇸","United States","+1"],
+        ["🇬🇧","United Kingdom","+44"],
+        ["🇨🇦","Canada","+1"],
+        ["🇦🇺","Australia","+61"],
+        ["🇳🇿","New Zealand","+64"],
+        ["🇩🇪","Germany","+49"],
+        ["🇫🇷","France","+33"],
+        ["🇮🇹","Italy","+39"],
+        ["🇪🇸","Spain","+34"],
+        ["🇵🇹","Portugal","+351"],
+        ["🇳🇱","Netherlands","+31"],
+        ["🇧🇪","Belgium","+32"],
+        ["🇨🇭","Switzerland","+41"],
+        ["🇦🇹","Austria","+43"],
+        ["🇸🇪","Sweden","+46"],
+        ["🇳🇴","Norway","+47"],
+        ["🇩🇰","Denmark","+45"],
+        ["🇫🇮","Finland","+358"],
+        ["🇮🇸","Iceland","+354"],
+        ["🇮🇪","Ireland","+353"],
+        ["🇵🇱","Poland","+48"],
+        ["🇨🇿","Czech Republic","+420"],
+        ["🇬🇷","Greece","+30"],
+        ["🇷🇴","Romania","+40"],
+        ["🇭🇺","Hungary","+36"],
+        ["🇺🇦","Ukraine","+380"],
+        ["🇷🇺","Russia","+7"],
+        ["🇹🇷","Turkey","+90"],
+        ["🇮🇱","Israel","+972"],
+        ["🇸🇦","Saudi Arabia","+966"],
+        ["🇦🇪","United Arab Emirates","+971"],
+        ["🇶🇦","Qatar","+974"],
+        ["🇰🇼","Kuwait","+965"],
+        ["🇴🇲","Oman","+968"],
+        ["🇧🇭","Bahrain","+973"],
+        ["🇯🇴","Jordan","+962"],
+        ["🇮🇷","Iran","+98"],
+        ["🇮🇶","Iraq","+964"],
+        ["🇪🇬","Egypt","+20"],
+        ["🇿🇦","South Africa","+27"],
+        ["🇳🇬","Nigeria","+234"],
+        ["🇰🇪","Kenya","+254"],
+        ["🇪🇹","Ethiopia","+251"],
+        ["🇬🇭","Ghana","+233"],
+        ["🇲🇦","Morocco","+212"],
+        ["🇩🇿","Algeria","+213"],
+        ["🇹🇳","Tunisia","+216"],
+        ["🇧🇷","Brazil","+55"],
+        ["🇦🇷","Argentina","+54"],
+        ["🇨🇱","Chile","+56"],
+        ["🇨🇴","Colombia","+57"],
+        ["🇵🇪","Peru","+51"],
+        ["🇲🇽","Mexico","+52"],
+        ["🇨🇺","Cuba","+53"],
+        ["🇯🇵","Japan","+81"],
+        ["🇨🇳","China","+86"],
+        ["🇰🇷","South Korea","+82"],
+        ["🇹🇭","Thailand","+66"],
+        ["🇻🇳","Vietnam","+84"],
+        ["🇲🇾","Malaysia","+60"],
+        ["🇸🇬","Singapore","+65"],
+        ["🇮🇩","Indonesia","+62"],
+        ["🇵🇭","Philippines","+63"],
+        ["🇵🇰","Pakistan","+92"],
+        ["🇧🇩","Bangladesh","+880"]
+
+    ];
+
+
+    countries.forEach(function (item) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = item[1];
+
+        option.dataset.flag = item[0];
+
+        option.dataset.code = item[2];
+
+        option.textContent =
+            item[0] + " " +
+            item[1] + " " +
+            item[2];
+
+        country.appendChild(option);
+
+    });
+
+
+    country.addEventListener("change", function () {
+
+        const selected =
+            country.options[country.selectedIndex];
+
+        if (!selected || !selected.value) {
+
+            countryFlag.textContent = "🌍";
+
+            countryName.textContent = "Country";
+
+            countryCode.textContent =
+                "Calling Code: —";
+
+            return;
+
+        }
+
+        countryFlag.textContent =
+            selected.dataset.flag;
+
+        countryName.textContent =
+            selected.value;
+
+        countryCode.textContent =
+            "Calling Code: " +
+            selected.dataset.code;
+
+    });
+
+
+    /* =====================================================
+       LOAD SAVED BOOKS
+    ====================================================== */
+
+    function loadBooks() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(STORAGE_KEY);
+
+            books =
+                saved
+                    ? JSON.parse(saved)
+                    : [];
+
+            if (!Array.isArray(books)) {
+
+                books = [];
+
+            }
+
+        } catch (error) {
+
+            books = [];
+
+        }
+
+        renderBooks();
+
+    }
+
+
+    function saveBooks() {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(books)
+        );
+
+    }
+
+
+    /* =====================================================
+       IMAGE FILE
+    ====================================================== */
+
+    imageInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                imageInput.files[0];
+
+            if (!file) return;
+
+            const reader =
+                new FileReader();
+
+            reader.onload = function (event) {
+
+                currentImage =
+                    event.target.result;
+
+                imagePreviewImg.src =
+                    currentImage;
+
+                imagePreview.style.display =
+                    "block";
+
+            };
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+
+    /* =====================================================
+       VIDEO FILE
+    ====================================================== */
+
+    videoInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                videoInput.files[0];
+
+            if (!file) return;
+
+            const reader =
+                new FileReader();
+
+            reader.onload = function (event) {
+
+                currentVideo =
+                    event.target.result;
+
+                videoPreviewElement.src =
+                    currentVideo;
+
+                videoPreview.style.display =
+                    "block";
+
+            };
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+
+    /* =====================================================
+       LIVE LOCATION
+    ====================================================== */
+
+    document
+        .getElementById("get-location")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (!navigator.geolocation) {
+
+                    locationStatus.textContent =
+                        "Geolocation is not supported.";
+
+                    return;
+
+                }
+
+                locationStatus.textContent =
+                    "Getting live location...";
+
+                navigator.geolocation.getCurrentPosition(
+
+                    function (position) {
+
+                        latitude.value =
+                            position.coords.latitude;
+
+                        longitude.value =
+                            position.coords.longitude;
+
+                        locationStatus.textContent =
+                            "Location captured: " +
+                            position.coords.latitude +
+                            ", " +
+                            position.coords.longitude;
+
+                    },
+
+                    function () {
+
+                        locationStatus.textContent =
+                            "Location permission denied or unavailable.";
+
+                    }
+
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       SAVE BOOK
+    ====================================================== */
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            if (!bookName.value.trim()) {
+
+                message.textContent =
+                    "Please enter the book name.";
+
+                return;
+
+            }
+
+
+            const selectedCountry =
+                country.options[country.selectedIndex];
+
+
+            const data = {
+
+                id:
+                    bookId.value ||
+                    Date.now().toString(),
+
+                mobile:
+                    mobile.value.trim(),
+
+                email:
+                    email.value.trim(),
+
+                country:
+                    selectedCountry
+                        ? selectedCountry.value
+                        : "",
+
+                countryFlag:
+                    selectedCountry
+                        ? selectedCountry.dataset.flag || ""
+                        : "",
+
+                countryCode:
+                    selectedCountry
+                        ? selectedCountry.dataset.code || ""
+                        : "",
+
+                latitude:
+                    latitude.value,
+
+                longitude:
+                    longitude.value,
+
+                name:
+                    bookName.value.trim(),
+
+                subject:
+                    bookSubject.value.trim(),
+
+                image:
+                    currentImage,
+
+                video:
+                    currentVideo,
+
+                content:
+                    bookContent.value,
+
+                description:
+                    bookDescription.value,
+
+                updatedAt:
+                    new Date().toISOString()
+
+            };
+
+
+            const existingIndex =
+                books.findIndex(
+                    function (book) {
+
+                        return book.id === data.id;
+
+                    }
+                );
+
+
+            if (existingIndex >= 0) {
+
+                books[existingIndex] =
+                    data;
+
+                message.textContent =
+                    "Book updated successfully.";
+
+            } else {
+
+                books.unshift(data);
+
+                message.textContent =
+                    "Book saved successfully.";
+
+            }
+
+
+            saveBooks();
+
+            renderBooks();
+
+        }
+    );
+
+
+    /* =====================================================
+       RENDER BOOKS
+    ====================================================== */
+
+    function renderBooks() {
+
+        const query =
+            search.value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            books.filter(
+                function (book) {
+
+                    return (
+
+                        (book.name || "")
+                            .toLowerCase()
+                            .includes(query)
+
+                        ||
+
+                        (book.subject || "")
+                            .toLowerCase()
+                            .includes(query)
+
+                        ||
+
+                        (book.content || "")
+                            .toLowerCase()
+                            .includes(query)
+
+                        ||
+
+                        (book.description || "")
+                            .toLowerCase()
+                            .includes(query)
+
+                    );
+
+                }
+            );
+
+
+        booksList.innerHTML = "";
+
+
+        if (!filtered.length) {
+
+            booksList.innerHTML =
+                '<div class="empty-books">' +
+                '📚 No saved books found.' +
+                '<br>' +
+                'कोई सेव की गई पुस्तक नहीं मिली।' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        filtered.forEach(
+            function (book) {
+
+                const card =
+                    document.createElement("article");
+
+                card.className =
+                    "book-card";
+
+
+                if (book.image) {
+
+                    const img =
+                        document.createElement("img");
+
+                    img.className =
+                        "book-card-image";
+
+                    img.src =
+                        book.image;
+
+                    img.alt =
+                        book.name || "Book";
+
+                    card.appendChild(img);
+
+                }
+
+
+                const title =
+                    document.createElement("h3");
+
+                title.textContent =
+                    "📖 " +
+                    (book.name || "Untitled Book");
+
+                card.appendChild(title);
+
+
+                const subject =
+                    document.createElement("div");
+
+                subject.className =
+                    "book-meta";
+
+                subject.textContent =
+                    "📚 Subject: " +
+                    (book.subject || "—");
+
+                card.appendChild(subject);
+
+
+                const countryInfo =
+                    document.createElement("div");
+
+                countryInfo.className =
+                    "book-meta";
+
+                countryInfo.textContent =
+                    (book.countryFlag || "🌍") +
+                    " " +
+                    (book.country || "Country") +
+                    " " +
+                    (book.countryCode || "");
+
+                card.appendChild(countryInfo);
+
+
+                const locationInfo =
+                    document.createElement("div");
+
+                locationInfo.className =
+                    "book-meta";
+
+                locationInfo.textContent =
+                    book.latitude &&
+                    book.longitude
+                        ? "📍 Location saved"
+                        : "📍 Location not saved";
+
+                card.appendChild(locationInfo);
+
+
+                const content =
+                    document.createElement("div");
+
+                content.className =
+                    "book-content-preview";
+
+                content.textContent =
+                    book.content || "";
+
+                card.appendChild(content);
+
+
+                if (book.description) {
+
+                    const description =
+                        document.createElement("p");
+
+                    description.className =
+                        "book-meta";
+
+                    description.textContent =
+                        "📝 " +
+                        book.description;
+
+                    card.appendChild(description);
+
+                }
+
+
+                if (book.video) {
+
+                    const video =
+                        document.createElement("video");
+
+                    video.controls = true;
+
+                    video.preload = "metadata";
+
+                    video.src =
+                        book.video;
+
+                    video.style.width =
+                        "100%";
+
+                    video.style.borderRadius =
+                        "10px";
+
+                    video.style.marginTop =
+                        "10px";
+
+                    card.appendChild(video);
+
+                }
+
+
+                const actions =
+                    document.createElement("div");
+
+                actions.className =
+                    "book-card-actions";
+
+
+                const editButton =
+                    document.createElement("button");
+
+                editButton.className =
+                    "book-btn";
+
+                editButton.textContent =
+                    "✏️ Edit / संपादित करें";
+
+                editButton.addEventListener(
+                    "click",
+                    function () {
+
+                        editBook(book.id);
+
+                    }
+                );
+
+
+                const readButton =
+                    document.createElement("a");
+
+                readButton.className =
+                    "book-btn";
+
+                readButton.href =
+                    "read.html?book=" +
+                    encodeURIComponent(book.id);
+
+                readButton.textContent =
+                    "📖 Read / पढ़ें";
+
+
+                const deleteButton =
+                    document.createElement("button");
+
+                deleteButton.className =
+                    "book-btn delete";
+
+                deleteButton.textContent =
+                    "🗑️ Delete / मिटाएं";
+
+                deleteButton.addEventListener(
+                    "click",
+                    function () {
+
+                        deleteBook(book.id);
+
+                    }
+                );
+
+
+                actions.appendChild(editButton);
+
+                actions.appendChild(readButton);
+
+                actions.appendChild(deleteButton);
+
+                card.appendChild(actions);
+
+                booksList.appendChild(card);
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       EDIT BOOK
+    ====================================================== */
+
+    function editBook(id) {
+
+        const book =
+            books.find(
+                function (item) {
+
+                    return item.id === id;
+
+                }
+            );
+
+
+        if (!book) return;
+
+
+        bookId.value =
+            book.id;
+
+        mobile.value =
+            book.mobile || "";
+
+        email.value =
+            book.email || "";
+
+        /*
+         * Password is intentionally not loaded
+         * from storage for security.
+         */
+
+        password.value =
+            "";
+
+
+        country.value =
+            book.country || "";
+
+        country.dispatchEvent(
+            new Event("change")
+        );
+
+
+        latitude.value =
+            book.latitude || "";
+
+        longitude.value =
+            book.longitude || "";
+
+
+        if (
+            book.latitude &&
+            book.longitude
+        ) {
+
+            locationStatus.textContent =
+                "Saved location: " +
+                book.latitude +
+                ", " +
+                book.longitude;
+
+        } else {
+
+            locationStatus.textContent =
+                "Location not selected";
+
+        }
+
+
+        bookName.value =
+            book.name || "";
+
+        bookSubject.value =
+            book.subject || "";
+
+        bookContent.value =
+            book.content || "";
+
+        bookDescription.value =
+            book.description || "";
+
+
+        currentImage =
+            book.image || "";
+
+        currentVideo =
+            book.video || "";
+
+
+        if (currentImage) {
+
+            imagePreviewImg.src =
+                currentImage;
+
+            imagePreview.style.display =
+                "block";
+
+        } else {
+
+            imagePreview.style.display =
+                "none";
+
+        }
+
+
+        if (currentVideo) {
+
+            videoPreviewElement.src =
+                currentVideo;
+
+            videoPreview.style.display =
+                "block";
+
+        } else {
+
+            videoPreview.style.display =
+                "none";
+
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+
+        message.textContent =
+            "Editing book... / पुस्तक संपादन मोड";
+
+    }
+
+
+    /* =====================================================
+       DELETE BOOK
+    ====================================================== */
+
+    function deleteBook(id) {
+
+        const book =
+            books.find(
+                function (item) {
+
+                    return item.id === id;
+
+                }
+            );
+
+
+        if (!book) return;
+
+
+        const confirmed =
+            confirm(
+                "Delete this book?\n\n" +
+                "क्या इस पुस्तक को मिटाना है?"
+            );
+
+
+        if (!confirmed) return;
+
+
+        books =
+            books.filter(
+                function (item) {
+
+                    return item.id !== id;
+
+                }
+            );
+
+
+        saveBooks();
+
+        renderBooks();
+
+
+        if (bookId.value === id) {
+
+            clearForm();
+
+        }
+
+
+        message.textContent =
+            "Book deleted successfully.";
+
+    }
+
+
+    /* =====================================================
+       CLEAR FORM
+    ====================================================== */
+
+    function clearForm() {
+
+        form.reset();
+
+        bookId.value = "";
+
+        currentImage = "";
+
+        currentVideo = "";
+
+        imagePreview.style.display =
+            "none";
+
+        videoPreview.style.display =
+            "none";
+
+        imagePreviewImg.removeAttribute("src");
+
+        videoPreviewElement.removeAttribute("src");
+
+        latitude.value = "";
+
+        longitude.value = "";
+
+        locationStatus.textContent =
+            "Location not selected";
+
+        countryFlag.textContent =
+            "🌍";
+
+        countryName.textContent =
+            "Country";
+
+        countryCode.textContent =
+            "Calling Code: —";
+
+        message.textContent = "";
+
+    }
+
+
+    document
+        .getElementById("clear-book")
+        .addEventListener(
+            "click",
+            clearForm
+        );
+
+
+    /* =====================================================
+       SEARCH
+    ====================================================== */
+
+    search.addEventListener(
+        "input",
+        renderBooks
+    );
+
+
+    /* =====================================================
+       START
+    ====================================================== */
+
+    loadBooks();
+
+
+})();
+
+</script>
+
+
+<!-- =========================================================
+     EXISTING ALON HISTORYVERSE SYSTEM SCRIPTS
+========================================================== -->
 
 <script src="../jss/core.js"></script>
+
 <script src="../jss/system.js"></script>
 
-<!-- Library engine -->
 <script src="../jss/library-engine.js"></script>
+
 
 </body>
 

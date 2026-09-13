@@ -10,288 +10,2391 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Trees • ALON HISTORYVERSE 24</title>
+    <title>World Trees & Plants • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Explore trees, plants, herbs, medicinal plants, poisonous and non-poisonous plants from around the world."
+    >
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           WORLD TREES & PLANTS KNOWLEDGE SYSTEM
+           ===================================================== */
+
+        .plants-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 12px 60px;
+        }
+
+        .plants-hero {
+            text-align: center;
+            padding: 30px 16px;
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 20px;
+            background: rgba(255,255,255,.025);
+            margin-bottom: 18px;
+        }
+
+        .plants-hero h1 {
+            margin: 8px 0;
+        }
+
+        .plants-hero p {
+            line-height: 1.7;
+            opacity: .85;
+        }
+
+        .language-buttons,
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 9px;
+            flex-wrap: wrap;
+            margin: 18px 0;
+        }
+
+        .plant-btn {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.38);
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .plant-btn:hover,
+        .plant-btn.active {
+            background: rgba(215,179,90,.12);
+            border-color: #d7b35a;
+        }
+
+        .plant-search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.3);
+            background: rgba(0,0,0,.18);
+            color: inherit;
+            outline: none;
+            font-size: 1rem;
+            margin-top: 12px;
+        }
+
+        .plant-search:focus {
+            border-color: #d7b35a;
+        }
+
+        .category-grid,
+        .plants-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .category-card,
+        .plant-card,
+        .editor-card,
+        .info-card {
+            border: 1px solid rgba(215,179,90,.24);
+            border-radius: 16px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .category-card {
+            padding: 18px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(215,179,90,.65);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+        }
+
+        .category-card h3 {
+            margin: 8px 0;
+        }
+
+        .category-card p {
+            line-height: 1.55;
+            opacity: .8;
+            font-size: .9rem;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .filter-btn {
+            padding: 9px 12px;
+            border-radius: 9px;
+            border: 1px solid rgba(215,179,90,.28);
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: rgba(215,179,90,.14);
+            border-color: #d7b35a;
+        }
+
+        .plant-card {
+            overflow: hidden;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .plant-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(215,179,90,.6);
+        }
+
+        .plant-image {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
+            background: rgba(0,0,0,.2);
+        }
+
+        .plant-content {
+            padding: 16px;
+        }
+
+        .plant-content h3 {
+            margin: 5px 0;
+        }
+
+        .scientific-name {
+            font-style: italic;
+            opacity: .7;
+            font-size: .88rem;
+        }
+
+        .plant-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+
+        .plant-tag {
+            padding: 5px 8px;
+            border-radius: 7px;
+            font-size: .72rem;
+            border: 1px solid rgba(215,179,90,.2);
+            background: rgba(215,179,90,.07);
+        }
+
+        .plant-description {
+            line-height: 1.6;
+            opacity: .85;
+            font-size: .9rem;
+        }
+
+        .plant-meta {
+            margin-top: 10px;
+            font-size: .82rem;
+            opacity: .72;
+        }
+
+        .plant-actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-top: 13px;
+        }
+
+        .small-btn {
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(215,179,90,.28);
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .small-btn:hover {
+            border-color: #d7b35a;
+        }
+
+        .editor-card,
+        .info-card {
+            padding: 20px;
+            margin-top: 22px;
+        }
+
+        .editor-card h2,
+        .info-card h2 {
+            margin-top: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            font-size: .88rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border-radius: 9px;
+            border: 1px solid rgba(215,179,90,.25);
+            background: rgba(0,0,0,.18);
+            color: inherit;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #d7b35a;
+        }
+
+        .editor-buttons {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .notice {
+            padding: 15px;
+            border-left: 4px solid #d7b35a;
+            border-radius: 9px;
+            background: rgba(215,179,90,.07);
+            line-height: 1.65;
+            margin: 14px 0;
+        }
+
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 35px 15px;
+            border: 1px dashed rgba(215,179,90,.35);
+            border-radius: 14px;
+            margin-top: 18px;
+        }
+
+        .saved-counter {
+            text-align: center;
+            margin: 10px 0;
+            opacity: .8;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        [data-lang="hi"] {
+            display: none;
+        }
+
+        body.hindi [data-lang="en"] {
+            display: none;
+        }
+
+        body.hindi [data-lang="hi"] {
+            display: inline;
+        }
+
+        .lang-block {
+            display: block;
+        }
+
+        body.hindi .lang-block.en {
+            display: none;
+        }
+
+        body:not(.hindi) .lang-block.hi {
+            display: none;
+        }
+
+        @media (max-width: 850px) {
+
+            .category-grid,
+            .plants-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .plants-page {
+                padding: 10px 8px 45px;
+            }
+
+            .category-grid,
+            .plants-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .plant-image {
+                height: 210px;
+            }
+
+            .editor-card,
+            .info-card {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
 <body>
 
-<main class="page">
+<main class="plants-page">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <header class="plants-hero">
+
+        <a
+            href="../index.html"
+            class="back-link"
+        >
+            <span data-lang="en">← Back to Home</span>
+            <span data-lang="hi">← होम पर वापस जाएँ</span>
         </a>
 
-        <h1>Trees</h1>
+        <h1>
+
+            <span data-lang="en">
+                🌳 World Trees & Plants
+            </span>
+
+            <span data-lang="hi">
+                🌳 विश्व के पेड़-पौधे
+            </span>
+
+        </h1>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform.
+
+            <span class="lang-block en">
+                Explore trees, plants, herbs and botanical
+                knowledge from different parts of the world.
+            </span>
+
+            <span class="lang-block hi">
+                दुनिया के अलग-अलग क्षेत्रों के पेड़-पौधों,
+                जड़ी-बूटियों और वनस्पतियों की जानकारी खोजें।
+            </span>
+
         </p>
+
+
+        <!-- LANGUAGE -->
+
+        <div class="language-buttons">
+
+            <button
+                id="englishBtn"
+                class="plant-btn active"
+                onclick="setLanguage('en')"
+            >
+                English
+            </button>
+
+            <button
+                id="hindiBtn"
+                class="plant-btn"
+                onclick="setLanguage('hi')"
+            >
+                हिन्दी
+            </button>
+
+        </div>
+
+
+        <input
+            type="search"
+            id="plantSearch"
+            class="plant-search"
+            placeholder="Search plant, tree, country, category..."
+            autocomplete="off"
+        >
 
     </header>
 
 
-    <!-- =====================================================
-         TREES INTRO
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         IMPORTANT NOTICE
+         ================================================= -->
 
-        <h2>Trees</h2>
+    <section class="notice">
 
-        <p>
-            Explore knowledge about trees, forests, plant
-            diversity, traditional uses, ecosystems and the
-            role of trees in human history and culture.
-        </p>
+        <span class="lang-block en">
 
+            <strong>Knowledge & Safety Notice:</strong>
+            Plant information is provided for educational and
+            historical knowledge. Identification, toxicity and
+            medicinal classifications can vary by species,
+            region and source. Do not consume or use an unknown
+            plant as medicine based only on information on this
+            website.
 
-        <!-- =================================================
-             TREE KNOWLEDGE CATEGORIES
-        ================================================== -->
-        <div class="grid">
+        </span>
 
-            <article class="card">
+        <span class="lang-block hi">
 
-                <h3>Tree Species</h3>
+            <strong>ज्ञान एवं सुरक्षा सूचना:</strong>
+            पौधों की जानकारी शैक्षणिक एवं ज्ञानवर्धक उद्देश्य से
+            दी जाती है। पहचान, विषाक्तता और औषधीय वर्गीकरण
+            प्रजाति, क्षेत्र और स्रोत के अनुसार अलग हो सकते हैं।
+            केवल इस वेबसाइट की जानकारी के आधार पर किसी अज्ञात
+            पौधे का सेवन या औषधि के रूप में उपयोग न करें।
 
-                <p>
-                    Explore different tree species and their
-                    characteristics.
-                </p>
+        </span>
 
-            </article>
-
-
-            <article class="card">
-
-                <h3>Forests</h3>
-
-                <p>
-                    Learn about forests, ecosystems and
-                    biodiversity.
-                </p>
-
-            </article>
+    </section>
 
 
-            <article class="card">
+    <!-- =================================================
+         CATEGORIES
+         ================================================= -->
 
-                <h3>Medicinal &amp; Traditional Uses</h3>
+    <section>
 
-                <p>
-                    Discover historical and traditional uses
-                    of trees and plants.
-                </p>
+        <h2>
 
-            </article>
+            <span data-lang="en">
+                🌿 Plant Categories
+            </span>
 
+            <span data-lang="hi">
+                🌿 पौधों की श्रेणियाँ
+            </span>
 
-            <article class="card">
-
-                <h3>Trees &amp; Culture</h3>
-
-                <p>
-                    Explore the cultural and historical
-                    importance of trees.
-                </p>
-
-            </article>
+        </h2>
 
 
-            <article class="card">
+        <div class="category-grid">
 
-                <h3>Environment</h3>
+            <div
+                class="category-card"
+                data-category="tree"
+            >
 
-                <p>
-                    Learn about trees, climate, soil and
-                    environmental systems.
-                </p>
+                <div class="category-icon">🌳</div>
 
-            </article>
+                <h3>
 
+                    <span data-lang="en">
+                        Trees
+                    </span>
 
-            <article class="card">
+                    <span data-lang="hi">
+                        पेड़
+                    </span>
 
-                <h3>Conservation</h3>
+                </h3>
 
                 <p>
-                    Explore tree conservation and protection
-                    of natural heritage.
+
+                    <span class="lang-block en">
+                        Large woody plants with trunks and
+                        long-term growth.
+                    </span>
+
+                    <span class="lang-block hi">
+                        तने वाले बड़े लकड़ीदार पौधे जो लंबे
+                        समय तक बढ़ते हैं।
+                    </span>
+
                 </p>
 
-            </article>
+            </div>
+
+
+            <div
+                class="category-card"
+                data-category="flower"
+            >
+
+                <div class="category-icon">🌺</div>
+
+                <h3>
+
+                    <span data-lang="en">
+                        Flowering Plants
+                    </span>
+
+                    <span data-lang="hi">
+                        फूल वाले पौधे
+                    </span>
+
+                </h3>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Plants known for flowers and seed
+                        production.
+                    </span>
+
+                    <span class="lang-block hi">
+                        फूल और बीज बनाने वाले पौधों की
+                        श्रेणी।
+                    </span>
+
+                </p>
+
+            </div>
+
+
+            <div
+                class="category-card"
+                data-category="herb"
+            >
+
+                <div class="category-icon">🌿</div>
+
+                <h3>
+
+                    <span data-lang="en">
+                        Herbs
+                    </span>
+
+                    <span data-lang="hi">
+                        जड़ी-बूटियाँ
+                    </span>
+
+                </h3>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Herbaceous plants documented for
+                        traditional or botanical uses.
+                    </span>
+
+                    <span class="lang-block hi">
+                        जड़ी-बूटी वर्ग के पौधे जिनके पारंपरिक
+                        या वनस्पति संबंधी उपयोग दर्ज हैं।
+                    </span>
+
+                </p>
+
+            </div>
+
+
+            <div
+                class="category-card"
+                data-category="medicinal"
+            >
+
+                <div class="category-icon">🧪</div>
+
+                <h3>
+
+                    <span data-lang="en">
+                        Medicinal / Herbal
+                    </span>
+
+                    <span data-lang="hi">
+                        औषधीय / जड़ी-बूटी
+                    </span>
+
+                </h3>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Plants documented in traditional,
+                        historical or scientific medicinal
+                        contexts.
+                    </span>
+
+                    <span class="lang-block hi">
+                        पारंपरिक, ऐतिहासिक या वैज्ञानिक
+                        औषधीय संदर्भों में दर्ज पौधे।
+                    </span>
+
+                </p>
+
+            </div>
+
+
+            <div
+                class="category-card"
+                data-category="poisonous"
+            >
+
+                <div class="category-icon">☠️</div>
+
+                <h3>
+
+                    <span data-lang="en">
+                        Poisonous / Toxic
+                    </span>
+
+                    <span data-lang="hi">
+                        जहरीले / विषैले
+                    </span>
+
+                </h3>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Plants known to contain toxic compounds
+                        or requiring special caution.
+                    </span>
+
+                    <span class="lang-block hi">
+                        ऐसे पौधे जिनमें विषैले तत्व पाए जा सकते
+                        हैं या जिनमें विशेष सावधानी आवश्यक है।
+                    </span>
+
+                </p>
+
+            </div>
+
+
+            <div
+                class="category-card"
+                data-category="non-poisonous"
+            >
+
+                <div class="category-icon">🍃</div>
+
+                <h3>
+
+                    <span data-lang="en">
+                        Non-Poisonous
+                    </span>
+
+                    <span data-lang="hi">
+                        गैर-जहरीले
+                    </span>
+
+                </h3>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Plants classified as non-toxic in the
+                        available reference information.
+                    </span>
+
+                    <span class="lang-block hi">
+                        उपलब्ध संदर्भ जानकारी के अनुसार
+                        गैर-विषैले वर्ग में रखे गए पौधे।
+                    </span>
+
+                </p>
+
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- =====================================================
-         SEARCH / EXPLORER
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         FILTERS
+         ================================================= -->
 
-        <h2>Tree Explorer</h2>
+    <section>
 
-        <div class="search-area">
+        <div class="filter-bar">
 
-            <label for="tree-search">
-                Search Trees
-            </label>
-
-            <input
-                id="tree-search"
-                class="searchbox"
-                type="search"
-                placeholder="Search tree species or topics..."
-                autocomplete="off"
+            <button
+                class="filter-btn active"
+                data-filter="all"
             >
+                🌍
+                <span data-lang="en">All</span>
+                <span data-lang="hi">सभी</span>
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="tree"
+            >
+                🌳
+                <span data-lang="en">Trees</span>
+                <span data-lang="hi">पेड़</span>
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="herb"
+            >
+                🌿
+                <span data-lang="en">Herbs</span>
+                <span data-lang="hi">जड़ी-बूटी</span>
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="medicinal"
+            >
+                🧪
+                <span data-lang="en">Medicinal</span>
+                <span data-lang="hi">औषधीय</span>
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="poisonous"
+            >
+                ☠️
+                <span data-lang="en">Poisonous</span>
+                <span data-lang="hi">जहरीले</span>
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="non-poisonous"
+            >
+                🍃
+                <span data-lang="en">Non-Poisonous</span>
+                <span data-lang="hi">गैर-जहरीले</span>
+            </button>
 
         </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PLANT DATABASE
+         ================================================= -->
+
+    <section>
+
+        <h2>
+
+            <span data-lang="en">
+                🌎 Plant Knowledge Database
+            </span>
+
+            <span data-lang="hi">
+                🌎 पौधों का ज्ञान डेटाबेस
+            </span>
+
+        </h2>
 
 
         <div
-            id="trees-list"
-            class="grid"
-            aria-live="polite"
+            id="plantsGrid"
+            class="plants-grid"
+        ></div>
+
+
+        <div
+            id="emptyState"
+            class="empty-state"
         >
 
-            <article class="card">
+            <span class="lang-block en">
+                No plant found. Try another search or category.
+            </span>
 
-                <h3>Tree Knowledge</h3>
-
-                <p id="trees-status">
-                    Tree information will appear here.
-                </p>
-
-            </article>
+            <span class="lang-block hi">
+                कोई पौधा नहीं मिला। दूसरी खोज या श्रेणी आजमाएँ।
+            </span>
 
         </div>
 
     </section>
 
 
-    <!-- =====================================================
-         RELATED KNOWLEDGE
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         ADD / SAVE PLANT
+         ================================================= -->
 
-        <h2>Explore More</h2>
+    <section class="editor-card">
 
-        <div class="grid">
+        <h2>
 
-            <a class="card" href="countries.html">
-                <h3>Countries</h3>
+            <span data-lang="en">
+                ✍️ Add Plant / Tree Information
+            </span>
 
-                <p>
-                    Explore countries and their natural and
-                    cultural heritage.
-                </p>
-            </a>
+            <span data-lang="hi">
+                ✍️ पेड़-पौधे की जानकारी जोड़ें
+            </span>
 
-
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
-
-                <p>
-                    Explore natural and cultural heritage.
-                </p>
-            </a>
+        </h2>
 
 
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
+        <div class="notice">
 
-                <p>
-                    Discover civilizations and their
-                    relationship with nature.
-                </p>
-            </a>
+            <span class="lang-block en">
+                Information added here is stored in this browser
+                using localStorage. The person who submits the
+                information is responsible for its accuracy,
+                legality, copyright and source.
+            </span>
 
-
-            <a class="card" href="gallery.html">
-                <h3>Gallery</h3>
-
-                <p>
-                    Explore historical and educational
-                    visual collections.
-                </p>
-            </a>
-
-
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-
-                <p>
-                    Read related educational articles.
-                </p>
-            </a>
-
-
-            <a class="card" href="library.html">
-                <h3>Knowledge Library</h3>
-
-                <p>
-                    Open the Knowledge Library.
-                </p>
-            </a>
-
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-
-                <p>
-                    Explore more knowledge.
-                </p>
-            </a>
-
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-
-                <p>
-                    Return to the main entry point.
-                </p>
-            </a>
+            <span class="lang-block hi">
+                यहाँ डाली गई जानकारी इस ब्राउज़र में localStorage
+                के माध्यम से सेव होगी। जानकारी डालने वाला व्यक्ति
+                उसकी सटीकता, वैधता, कॉपीराइट और स्रोत के लिए
+                स्वयं जिम्मेदार होगा।
+            </span>
 
         </div>
+
+
+        <form id="plantForm">
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="plantName">
+                        <span data-lang="en">Plant / Tree Name</span>
+                        <span data-lang="hi">पौधे / पेड़ का नाम</span>
+                    </label>
+
+                    <input
+                        id="plantName"
+                        type="text"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="scientificName">
+                        <span data-lang="en">Scientific Name</span>
+                        <span data-lang="hi">वैज्ञानिक नाम</span>
+                    </label>
+
+                    <input
+                        id="scientificName"
+                        type="text"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="plantCountry">
+                        <span data-lang="en">Country / Region</span>
+                        <span data-lang="hi">देश / क्षेत्र</span>
+                    </label>
+
+                    <input
+                        id="plantCountry"
+                        type="text"
+                        placeholder="India, Brazil, Africa..."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="plantCategory">
+                        <span data-lang="en">Category</span>
+                        <span data-lang="hi">श्रेणी</span>
+                    </label>
+
+                    <select id="plantCategory">
+
+                        <option value="tree">
+                            🌳 Tree / पेड़
+                        </option>
+
+                        <option value="flower">
+                            🌺 Flowering Plant / फूल वाला पौधा
+                        </option>
+
+                        <option value="herb">
+                            🌿 Herb / जड़ी-बूटी
+                        </option>
+
+                        <option value="medicinal">
+                            🧪 Medicinal / औषधीय
+                        </option>
+
+                        <option value="poisonous">
+                            ☠️ Poisonous / जहरीला
+                        </option>
+
+                        <option value="non-poisonous">
+                            🍃 Non-Poisonous / गैर-जहरीला
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="toxicity">
+
+                        <span data-lang="en">
+                            Toxicity
+                        </span>
+
+                        <span data-lang="hi">
+                            विषाक्तता
+                        </span>
+
+                    </label>
+
+                    <select id="toxicity">
+
+                        <option value="unknown">
+                            Unknown / अज्ञात
+                        </option>
+
+                        <option value="non-poisonous">
+                            Non-Poisonous / गैर-जहरीला
+                        </option>
+
+                        <option value="poisonous">
+                            Poisonous / जहरीला
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="medicinal">
+
+                        <span data-lang="en">
+                            Medicinal / Herbal Status
+                        </span>
+
+                        <span data-lang="hi">
+                            औषधीय / जड़ी-बूटी स्थिति
+                        </span>
+
+                    </label>
+
+                    <select id="medicinal">
+
+                        <option value="no">
+                            No / नहीं
+                        </option>
+
+                        <option value="traditional">
+                            Traditional / पारंपरिक
+                        </option>
+
+                        <option value="documented">
+                            Documented / दर्ज
+                        </option>
+
+                        <option value="unknown">
+                            Unknown / अज्ञात
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="plantCharacteristics">
+
+                        <span data-lang="en">
+                            Characteristics
+                        </span>
+
+                        <span data-lang="hi">
+                            विशेषताएँ
+                        </span>
+
+                    </label>
+
+                    <textarea
+                        id="plantCharacteristics"
+                        placeholder="Size, leaves, flowers, habitat, climate, notable features..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="plantDescription">
+
+                        <span data-lang="en">
+                            Detailed Description
+                        </span>
+
+                        <span data-lang="hi">
+                            विस्तृत विवरण
+                        </span>
+
+                    </label>
+
+                    <textarea
+                        id="plantDescription"
+                        required
+                        placeholder="Write complete educational information..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="plantImage">
+
+                        <span data-lang="en">
+                            Image URL
+                        </span>
+
+                        <span data-lang="hi">
+                            इमेज URL
+                        </span>
+
+                    </label>
+
+                    <input
+                        id="plantImage"
+                        type="url"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="plantVideo">
+
+                        <span data-lang="en">
+                            Video URL
+                        </span>
+
+                        <span data-lang="hi">
+                            वीडियो URL
+                        </span>
+
+                    </label>
+
+                    <input
+                        id="plantVideo"
+                        type="url"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <div class="editor-buttons">
+
+                <button
+                    type="submit"
+                    class="plant-btn"
+                >
+                    💾
+                    <span data-lang="en">
+                        Save Plant
+                    </span>
+                    <span data-lang="hi">
+                        पौधा सेव करें
+                    </span>
+                </button>
+
+                <button
+                    type="button"
+                    class="plant-btn"
+                    onclick="resetPlantForm()"
+                >
+                    ↻
+                    <span data-lang="en">
+                        Clear
+                    </span>
+                    <span data-lang="hi">
+                        साफ करें
+                    </span>
+                </button>
+
+            </div>
+
+        </form>
 
     </section>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-    <footer class="footer">
+    <!-- =================================================
+         USER SAVED COUNT
+         ================================================= -->
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <div
+        id="savedCounter"
+        class="saved-counter"
+    ></div>
 
-        <br>
 
-        <a href="../index.html">
-            Home
+    <!-- =================================================
+         INFORMATION
+         ================================================= -->
+
+    <section class="info-card">
+
+        <h2>
+
+            <span data-lang="en">
+                🌱 What Information Can Be Stored?
+            </span>
+
+            <span data-lang="hi">
+                🌱 कौन-कौन सी जानकारी सेव की जा सकती है?
+            </span>
+
+        </h2>
+
+        <ul>
+
+            <li>
+                <span class="lang-block en">
+                    Common and scientific plant name.
+                </span>
+                <span class="lang-block hi">
+                    सामान्य और वैज्ञानिक नाम।
+                </span>
+            </li>
+
+            <li>
+                <span class="lang-block en">
+                    Countries and regions where the plant is found.
+                </span>
+                <span class="lang-block hi">
+                    किन देशों और क्षेत्रों में पौधा पाया जाता है।
+                </span>
+            </li>
+
+            <li>
+                <span class="lang-block en">
+                    Plant category and botanical characteristics.
+                </span>
+                <span class="lang-block hi">
+                    पौधे की श्रेणी और वनस्पति संबंधी विशेषताएँ।
+                </span>
+            </li>
+
+            <li>
+                <span class="lang-block en">
+                    Poisonous / non-poisonous classification.
+                </span>
+                <span class="lang-block hi">
+                    जहरीला / गैर-जहरीला वर्गीकरण।
+                </span>
+            </li>
+
+            <li>
+                <span class="lang-block en">
+                    Medicinal or traditional-use classification.
+                </span>
+                <span class="lang-block hi">
+                    औषधीय या पारंपरिक उपयोग का वर्गीकरण।
+                </span>
+            </li>
+
+            <li>
+                <span class="lang-block en">
+                    Educational description, images and videos.
+                </span>
+                <span class="lang-block hi">
+                    ज्ञानवर्धक विवरण, इमेज और वीडियो।
+                </span>
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =================================================
+         NAVIGATION
+         ================================================= -->
+
+    <nav class="navigation-buttons">
+
+        <a
+            href="department.html"
+            class="plant-btn"
+        >
+            🏢
+            <span data-lang="en">Department</span>
+            <span data-lang="hi">डिपार्टमेंट</span>
         </a>
 
+        <a
+            href="subject.html?department=trees&subject=trees"
+            class="plant-btn"
+        >
+            📖
+            <span data-lang="en">Subjects</span>
+            <span data-lang="hi">सब्जेक्ट</span>
+        </a>
+
+        <a
+            href="book.html"
+            class="plant-btn"
+        >
+            📚
+            <span data-lang="en">Books</span>
+            <span data-lang="hi">बुक्स</span>
+        </a>
+
+        <a
+            href="library.html"
+            class="plant-btn"
+        >
+            📚
+            <span data-lang="en">Library</span>
+            <span data-lang="hi">लाइब्रेरी</span>
+        </a>
+
+        <a
+            href="../index.html"
+            class="plant-btn"
+        >
+            🏠
+            <span data-lang="en">Home</span>
+            <span data-lang="hi">होम</span>
+        </a>
+
+    </nav>
+
+
+    <!-- =================================================
+         FOOTER
+         ================================================= -->
+
+    <footer class="plants-hero">
+
+        <strong>
+            ALON HISTORYVERSE 24
+        </strong>
+
+        <p>
+            Baba Thecno Guru
+        </p>
+
+        <p>
+
+            <span class="lang-block en">
+                Trees • Plants • Herbs • Nature • Knowledge
+            </span>
+
+            <span class="lang-block hi">
+                पेड़ • पौधे • जड़ी-बूटियाँ • प्रकृति • ज्ञान
+            </span>
+
+        </p>
+
     </footer>
+
 
 </main>
 
 
-<!-- =======================================================
-     TREES PAGE SCRIPTS
-======================================================== -->
+<script>
 
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/data.js"></script>
+    /* =====================================================
+       STORAGE
+       ===================================================== */
+
+    const PLANTS_KEY =
+        "ALON_HISTORYVERSE_PLANTS";
+
+    const SAVED_KEY =
+        "ALON_HISTORYVERSE_SAVED_PLANTS";
+
+    const LANGUAGE_KEY =
+        "alon_historyverse_language";
+
+
+    /* =====================================================
+       STARTER DATABASE
+       ===================================================== */
+
+    const starterPlants = [
+
+        {
+            id: "plant-neem",
+            name: "Neem",
+            scientific: "Azadirachta indica",
+            country: "India, South Asia",
+            category: "tree",
+            toxicity: "unknown",
+            medicinal: "traditional",
+            characteristics:
+                "Evergreen or semi-evergreen tree, commonly associated with dry and tropical regions.",
+            description:
+                "Neem is a well-known tree of the Indian subcontinent and has a long history of traditional and cultural use.",
+            image: "",
+            video: ""
+        },
+
+        {
+            id: "plant-banyan",
+            name: "Banyan",
+            scientific: "Ficus benghalensis",
+            country: "India and South Asia",
+            category: "tree",
+            toxicity: "unknown",
+            medicinal: "traditional",
+            characteristics:
+                "Large fig tree known for aerial prop roots and a broad spreading canopy.",
+            description:
+                "The banyan is an important tree in South Asian landscapes and cultural history.",
+            image: "",
+            video: ""
+        },
+
+        {
+            id: "plant-baobab",
+            name: "Baobab",
+            scientific: "Adansonia",
+            country: "Africa, Madagascar, Australia",
+            category: "tree",
+            toxicity: "unknown",
+            medicinal: "traditional",
+            characteristics:
+                "Distinctive trunk, seasonal leaf loss in many species and adaptation to dry environments.",
+            description:
+                "Baobab trees are iconic trees of several African regions and Madagascar and are notable for their unusual forms and long lifespans.",
+            image: "",
+            video: ""
+        },
+
+        {
+            id: "plant-bamboo",
+            name: "Bamboo",
+            scientific: "Bambusoideae",
+            country: "Asia, Africa, Americas and other regions",
+            category: "herb",
+            toxicity: "unknown",
+            medicinal: "traditional",
+            characteristics:
+                "Fast-growing grass with hollow or solid stems depending on species.",
+            description:
+                "Bamboo includes many grass species distributed across tropical, subtropical and temperate regions.",
+            image: "",
+            video: ""
+        },
+
+        {
+            id: "plant-rose",
+            name: "Rose",
+            scientific: "Rosa",
+            country: "Widely cultivated worldwide",
+            category: "flower",
+            toxicity: "unknown",
+            medicinal: "traditional",
+            characteristics:
+                "Flowering shrubs or climbers with many cultivated varieties.",
+            description:
+                "Roses are widely cultivated ornamental flowering plants with major cultural and horticultural importance.",
+            image: "",
+            video: ""
+        },
+
+        {
+            id: "plant-digitalis",
+            name: "Foxglove",
+            scientific: "Digitalis",
+            country: "Europe and other cultivated regions",
+            category: "poisonous",
+            toxicity: "poisonous",
+            medicinal: "documented",
+            characteristics:
+                "Flowering plants known for tubular flowers and biologically active compounds.",
+            description:
+                "Foxglove species contain potent compounds and are recognized as toxic plants. They are also historically important in pharmacology.",
+            image: "",
+            video: ""
+        }
+
+    ];
+
+
+    let plants = [];
+
+
+    /* =====================================================
+       LOAD DATABASE
+       ===================================================== */
+
+    function loadPlants() {
+
+        try {
+
+            const stored =
+                localStorage.getItem(
+                    PLANTS_KEY
+                );
+
+            if (stored) {
+
+                plants =
+                    JSON.parse(stored);
+
+            } else {
+
+                plants =
+                    [...starterPlants];
+
+                savePlants();
+
+            }
+
+        } catch (error) {
+
+            plants =
+                [...starterPlants];
+
+        }
+
+    }
+
+
+    function savePlants() {
+
+        try {
+
+            localStorage.setItem(
+                PLANTS_KEY,
+                JSON.stringify(plants)
+            );
+
+        } catch (error) {
+
+            alert(
+                "Could not save plant database."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SAVED PLANTS
+       ===================================================== */
+
+    function getSavedPlants() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    SAVED_KEY
+                ) || "[]"
+            );
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function saveSavedPlants(list) {
+
+        localStorage.setItem(
+            SAVED_KEY,
+            JSON.stringify(list)
+        );
+
+    }
+
+
+    function toggleSave(id) {
+
+        let saved =
+            getSavedPlants();
+
+        if (saved.includes(id)) {
+
+            saved =
+                saved.filter(
+                    item => item !== id
+                );
+
+        } else {
+
+            saved.push(id);
+
+        }
+
+        saveSavedPlants(saved);
+
+        renderPlants();
+
+    }
+
+
+    function deletePlant(id) {
+
+        const plant =
+            plants.find(
+                item => item.id === id
+            );
+
+        if (!plant) return;
+
+        const english =
+            confirm(
+                "Delete this plant from your local database?"
+            );
+
+        if (!english) return;
+
+        plants =
+            plants.filter(
+                item => item.id !== id
+            );
+
+        savePlants();
+
+        let saved =
+            getSavedPlants();
+
+        saved =
+            saved.filter(
+                item => item !== id
+            );
+
+        saveSavedPlants(saved);
+
+        renderPlants();
+
+    }
+
+
+    /* =====================================================
+       FILTER
+       ===================================================== */
+
+    let currentFilter = "all";
+
+
+    const searchInput =
+        document.getElementById(
+            "plantSearch"
+        );
+
+
+    function renderPlants() {
+
+        const grid =
+            document.getElementById(
+                "plantsGrid"
+            );
+
+        const empty =
+            document.getElementById(
+                "emptyState"
+            );
+
+        const search =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        const filtered =
+            plants.filter(
+                plant => {
+
+                    const searchable = [
+
+                        plant.name,
+                        plant.scientific,
+                        plant.country,
+                        plant.category,
+                        plant.toxicity,
+                        plant.medicinal,
+                        plant.characteristics,
+                        plant.description
+
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+                    const searchMatch =
+                        !search ||
+                        searchable.includes(
+                            search
+                        );
+
+                    const filterMatch =
+                        currentFilter === "all" ||
+                        plant.category ===
+                            currentFilter ||
+                        plant.toxicity ===
+                            currentFilter ||
+                        plant.medicinal ===
+                            currentFilter;
+
+                    return (
+                        searchMatch &&
+                        filterMatch
+                    );
+
+                }
+            );
+
+
+        grid.innerHTML = "";
+
+
+        filtered.forEach(
+            plant => {
+
+                const saved =
+                    getSavedPlants()
+                        .includes(
+                            plant.id
+                        );
+
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "plant-card";
+
+
+                const image =
+                    plant.image
+                    ? `
+                        <img
+                            class="plant-image"
+                            src="${escapeHtml(plant.image)}"
+                            alt="${escapeHtml(plant.name)}"
+                            loading="lazy"
+                        >
+                      `
+                    : `
+                        <div
+                            class="plant-image"
+                            style="
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:4rem;
+                            "
+                        >
+                            🌿
+                        </div>
+                      `;
+
+
+                const toxicityText =
+                    plant.toxicity ===
+                    "poisonous"
+                    ? "☠️ Poisonous"
+                    : plant.toxicity ===
+                      "non-poisonous"
+                    ? "🍃 Non-Poisonous"
+                    : "❔ Toxicity Unknown";
+
+
+                const medicinalText =
+                    plant.medicinal ===
+                    "traditional"
+                    ? "🌿 Traditional"
+                    : plant.medicinal ===
+                      "documented"
+                    ? "🧪 Documented"
+                    : plant.medicinal ===
+                      "no"
+                    ? "No Medicinal Classification"
+                    : "❔ Unknown";
+
+
+                card.innerHTML = `
+
+                    ${image}
+
+                    <div class="plant-content">
+
+                        <h3>
+                            ${escapeHtml(
+                                plant.name
+                            )}
+                        </h3>
+
+                        <div class="scientific-name">
+                            ${escapeHtml(
+                                plant.scientific ||
+                                "Scientific name not provided"
+                            )}
+                        </div>
+
+                        <div class="plant-tags">
+
+                            <span class="plant-tag">
+                                ${escapeHtml(
+                                    plant.category
+                                )}
+                            </span>
+
+                            <span class="plant-tag">
+                                ${escapeHtml(
+                                    toxicityText
+                                )}
+                            </span>
+
+                            <span class="plant-tag">
+                                ${escapeHtml(
+                                    medicinalText
+                                )}
+                            </span>
+
+                        </div>
+
+                        <div class="plant-meta">
+                            🌍 ${escapeHtml(
+                                plant.country ||
+                                "Country not specified"
+                            )}
+                        </div>
+
+                        <p class="plant-description">
+                            ${escapeHtml(
+                                plant.description ||
+                                "No description available."
+                            )}
+                        </p>
+
+                        <div class="plant-meta">
+                            <strong>
+                                Characteristics:
+                            </strong>
+                            ${escapeHtml(
+                                plant.characteristics ||
+                                "Not provided."
+                            )}
+                        </div>
+
+                        <div class="plant-actions">
+
+                            <button
+                                class="small-btn"
+                                onclick="toggleSave('${escapeJs(plant.id)}')"
+                            >
+                                ${saved ? "★" : "☆"}
+                                ${saved ? "Saved" : "Save"}
+                            </button>
+
+                            ${
+                                plant.video
+                                ? `
+                                    <button
+                                        class="small-btn"
+                                        onclick="openVideo('${escapeJs(plant.video)}')"
+                                    >
+                                        ▶ Video
+                                    </button>
+                                  `
+                                : ""
+                            }
+
+                            <button
+                                class="small-btn"
+                                onclick="deletePlant('${escapeJs(plant.id)}')"
+                            >
+                                🗑 Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+
+                grid.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+        empty.style.display =
+            filtered.length === 0
+            ? "block"
+            : "none";
+
+
+        updateSavedCounter();
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+       ===================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        renderPlants
+    );
+
+
+    /* =====================================================
+       CATEGORY BUTTONS
+       ===================================================== */
+
+    document
+        .querySelectorAll(
+            ".filter-btn"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        document
+                            .querySelectorAll(
+                                ".filter-btn"
+                            )
+                            .forEach(
+                                btn =>
+                                    btn.classList.remove(
+                                        "active"
+                                    )
+                            );
+
+                        this.classList.add(
+                            "active"
+                        );
+
+                        currentFilter =
+                            this.dataset.filter;
+
+                        renderPlants();
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       CATEGORY CARDS
+       ===================================================== */
+
+    document
+        .querySelectorAll(
+            ".category-card"
+        )
+        .forEach(
+            card => {
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        currentFilter =
+                            this.dataset.category;
+
+                        document
+                            .querySelectorAll(
+                                ".filter-btn"
+                            )
+                            .forEach(
+                                btn =>
+                                    btn.classList.toggle(
+                                        "active",
+                                        btn.dataset.filter ===
+                                            currentFilter
+                                    )
+                            );
+
+                        if (
+                            currentFilter ===
+                            "tree"
+                        ) {
+
+                            document
+                                .querySelector(
+                                    '.filter-btn[data-filter="tree"]'
+                                )
+                                ?.classList.add(
+                                    "active"
+                                );
+
+                        }
+
+                        renderPlants();
+
+                        document
+                            .getElementById(
+                                "plantsGrid"
+                            )
+                            .scrollIntoView({
+                                behavior: "smooth"
+                            });
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       ADD PLANT
+       ===================================================== */
+
+    document
+        .getElementById(
+            "plantForm"
+        )
+        .addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document
+                        .getElementById(
+                            "plantName"
+                        )
+                        .value
+                        .trim();
+
+
+                const scientific =
+                    document
+                        .getElementById(
+                            "scientificName"
+                        )
+                        .value
+                        .trim();
+
+
+                const country =
+                    document
+                        .getElementById(
+                            "plantCountry"
+                        )
+                        .value
+                        .trim();
+
+
+                const category =
+                    document
+                        .getElementById(
+                            "plantCategory"
+                        )
+                        .value;
+
+
+                const toxicity =
+                    document
+                        .getElementById(
+                            "toxicity"
+                        )
+                        .value;
+
+
+                const medicinal =
+                    document
+                        .getElementById(
+                            "medicinal"
+                        )
+                        .value;
+
+
+                const characteristics =
+                    document
+                        .getElementById(
+                            "plantCharacteristics"
+                        )
+                        .value
+                        .trim();
+
+
+                const description =
+                    document
+                        .getElementById(
+                            "plantDescription"
+                        )
+                        .value
+                        .trim();
+
+
+                const image =
+                    document
+                        .getElementById(
+                            "plantImage"
+                        )
+                        .value
+                        .trim();
+
+
+                const video =
+                    document
+                        .getElementById(
+                            "plantVideo"
+                        )
+                        .value
+                        .trim();
+
+
+                const newPlant = {
+
+                    id:
+                        "plant-" +
+                        Date.now(),
+
+                    name,
+
+                    scientific,
+
+                    country,
+
+                    category,
+
+                    toxicity,
+
+                    medicinal,
+
+                    characteristics,
+
+                    description,
+
+                    image,
+
+                    video
+
+                };
+
+
+                plants.unshift(
+                    newPlant
+                );
+
+                savePlants();
+
+                resetPlantForm();
+
+                renderPlants();
+
+
+                alert(
+                    "Plant information saved successfully."
+                );
+
+            }
+        );
+
+
+    function resetPlantForm() {
+
+        document
+            .getElementById(
+                "plantForm"
+            )
+            .reset();
+
+    }
+
+
+    /* =====================================================
+       VIDEO
+       ===================================================== */
+
+    function openVideo(url) {
+
+        if (!url) return;
+
+        window.open(
+            url,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+    }
+
+
+    /* =====================================================
+       SAVED COUNTER
+       ===================================================== */
+
+    function updateSavedCounter() {
+
+        const count =
+            getSavedPlants().length;
+
+        const element =
+            document.getElementById(
+                "savedCounter"
+            );
+
+        if (
+            document.body.classList.contains(
+                "hindi"
+            )
+        ) {
+
+            element.textContent =
+                "⭐ सेव किए गए पौधे: " +
+                count;
+
+        } else {
+
+            element.textContent =
+                "⭐ Saved plants: " +
+                count;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LANGUAGE SYSTEM
+       ===================================================== */
+
+    function setLanguage(language) {
+
+        if (
+            language !== "en" &&
+            language !== "hi"
+        ) {
+            language = "en";
+        }
+
+
+        document.documentElement.lang =
+            language;
+
+
+        if (language === "hi") {
+
+            document.body.classList.add(
+                "hindi"
+            );
+
+        } else {
+
+            document.body.classList.remove(
+                "hindi"
+            );
+
+        }
+
+
+        const englishBtn =
+            document.getElementById(
+                "englishBtn"
+            );
+
+        const hindiBtn =
+            document.getElementById(
+                "hindiBtn"
+            );
+
+
+        englishBtn.classList.toggle(
+            "active",
+            language === "en"
+        );
+
+        hindiBtn.classList.toggle(
+            "active",
+            language === "hi"
+        );
+
+
+        try {
+
+            localStorage.setItem(
+                LANGUAGE_KEY,
+                language
+            );
+
+        } catch (error) {}
+
+        updateSavedCounter();
+
+    }
+
+
+    function loadLanguage() {
+
+        let language = "en";
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    LANGUAGE_KEY
+                );
+
+            if (
+                saved === "en" ||
+                saved === "hi"
+            ) {
+
+                language =
+                    saved;
+
+            }
+
+        } catch (error) {}
+
+        setLanguage(
+            language
+        );
+
+    }
+
+
+    /* =====================================================
+       SECURITY HELPERS
+       ===================================================== */
+
+    function escapeHtml(value) {
+
+        return String(value || "")
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    function escapeJs(value) {
+
+        return String(value || "")
+            .replace(
+                /\\/g,
+                "\\\\"
+            )
+            .replace(
+                /'/g,
+                "\\'"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            );
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadPlants();
+
+            loadLanguage();
+
+            renderPlants();
+
+        }
+    );
+
+</script>
 
 </body>
 

@@ -2,89 +2,780 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Subjects • ALON HISTORYVERSE 24</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Subject Explorer • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Explore subjects, topics and books in ALON HISTORYVERSE 24."
+    >
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           SUBJECT EXPLORER
+        ====================================================== */
+
+        .subject-page {
+            min-height: 100vh;
+            padding: 15px 10px 55px;
+            box-sizing: border-box;
+        }
+
+        .subject-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* =====================================================
+           HERO
+        ====================================================== */
+
+        .subject-hero {
+            position: relative;
+            overflow: hidden;
+
+            padding: 30px 20px;
+            margin-bottom: 15px;
+
+            border: 1px solid rgba(215,179,90,.38);
+            border-radius: 22px;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(215,179,90,.13),
+                    transparent 35%
+                ),
+                rgba(5,8,15,.96);
+        }
+
+        .subject-hero::after {
+            content: "✦";
+            position: absolute;
+            right: 25px;
+            bottom: -25px;
+
+            font-size: 120px;
+            opacity: .04;
+
+            pointer-events: none;
+        }
+
+        .hero-kicker {
+            color: #d7b35a;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .subject-hero h1 {
+            margin: 8px 0;
+
+            color: #f0d27a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 36px;
+            line-height: 1.25;
+        }
+
+        .hero-description {
+            max-width: 750px;
+
+            line-height: 1.7;
+            opacity: .84;
+        }
+
+        /* =====================================================
+           SUBJECT IDENTITY
+        ====================================================== */
+
+        .subject-identity {
+            display: grid;
+
+            grid-template-columns:
+                100px
+                1fr
+                auto;
+
+            gap: 15px;
+            align-items: center;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.22);
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,.025);
+        }
+
+        .subject-icon {
+            width: 100px;
+            height: 100px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 20px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.4);
+
+            background:
+                rgba(215,179,90,.07);
+
+            font-size: 48px;
+        }
+
+        .subject-name {
+            color: #f0d27a;
+            font-family: Georgia, serif;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .subject-code {
+            margin-top: 5px;
+            opacity: .65;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .subject-count {
+            text-align: center;
+            padding: 10px 14px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.3);
+
+            border-radius: 12px;
+        }
+
+        .subject-count strong {
+            display: block;
+            color: #f0d27a;
+            font-size: 22px;
+        }
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .subject-search {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+
+            margin-bottom: 15px;
+        }
+
+        .subject-search input {
+            width: 100%;
+            box-sizing: border-box;
+
+            padding: 14px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.3);
+
+            border-radius: 12px;
+
+            background:
+                rgba(5,8,15,.94);
+
+            color: inherit;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        .subject-search button {
+            padding: 0 18px;
+
+            border:
+                1px solid
+                #d7b35a;
+
+            border-radius: 12px;
+
+            background: #d7b35a;
+            color: #05080f;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           QUICK STATS
+        ====================================================== */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.25);
+
+            border-radius: 14px;
+
+            background:
+                rgba(5,8,15,.92);
+
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 23px;
+        }
+
+        .stat-number {
+            margin-top: 5px;
+
+            color: #f0d27a;
+
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: .65;
+        }
+
+        /* =====================================================
+           SECTION
+        ====================================================== */
+
+        .subject-section {
+            margin-bottom: 15px;
+
+            padding: 20px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.25);
+
+            border-radius: 18px;
+
+            background:
+                rgba(5,8,15,.94);
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 15px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+
+            color: #f0d27a;
+
+            font-family: Georgia, serif;
+
+            font-size: 22px;
+        }
+
+        .section-heading span {
+            font-size: 12px;
+            opacity: .6;
+        }
+
+        /* =====================================================
+           TOPIC CONSTELLATION
+        ====================================================== */
+
+        .topic-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+        .topic-card {
+            position: relative;
+
+            min-height: 130px;
+
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.22);
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(215,179,90,.07),
+                    rgba(255,255,255,.02)
+                );
+
+            cursor: pointer;
+
+            transition:
+                transform .18s ease,
+                border-color .18s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-3px);
+
+            border-color:
+                rgba(215,179,90,.7);
+        }
+
+        .topic-number {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+
+            font-size: 11px;
+            opacity: .4;
+        }
+
+        .topic-icon {
+            font-size: 30px;
+        }
+
+        .topic-title {
+            margin-top: 10px;
+
+            color: #f0d27a;
+
+            font-weight: bold;
+        }
+
+        .topic-description {
+            margin-top: 5px;
+
+            font-size: 12px;
+            line-height: 1.5;
+
+            opacity: .68;
+        }
+
+        /* =====================================================
+           BOOK CARDS
+        ====================================================== */
+
+        .book-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+        .book-card {
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.22);
+
+            border-radius: 15px;
+
+            background:
+                rgba(255,255,255,.025);
+        }
+
+        .book-icon {
+            font-size: 28px;
+        }
+
+        .book-card h3 {
+            color: #f0d27a;
+
+            font-family: Georgia, serif;
+
+            margin: 9px 0 6px;
+
+            font-size: 18px;
+        }
+
+        .book-card p {
+            margin: 0 0 12px;
+
+            font-size: 13px;
+            line-height: 1.55;
+
+            opacity: .72;
+        }
+
+        .book-open {
+            display: inline-block;
+
+            padding: 9px 12px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.4);
+
+            border-radius: 9px;
+
+            color: inherit;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .book-open:hover {
+            border-color: #d7b35a;
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           LEARNING PATH
+        ====================================================== */
+
+        .learning-path {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 7px;
+        }
+
+        .path-step {
+            position: relative;
+
+            padding: 14px 8px;
+
+            text-align: center;
+
+            border:
+                1px solid
+                rgba(215,179,90,.22);
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,.025);
+        }
+
+        .path-step strong {
+            display: block;
+
+            color: #f0d27a;
+
+            font-size: 14px;
+        }
+
+        .path-step span {
+            display: block;
+
+            margin-top: 4px;
+
+            font-size: 11px;
+            opacity: .6;
+        }
+
+        /* =====================================================
+           PROGRESS
+        ====================================================== */
+
+        .progress-card {
+            padding: 15px;
+
+            border:
+                1px solid
+                rgba(215,179,90,.22);
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,.025);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+
+            font-size: 13px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+
+            overflow: hidden;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.08);
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+
+            background: #d7b35a;
+
+            transition: width .3s ease;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
+
+        .subject-nav {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 8px;
+
+            margin-top: 15px;
+        }
+
+        .subject-nav a {
+            padding: 11px 8px;
+
+            text-align: center;
+
+            border:
+                1px solid
+                rgba(215,179,90,.25);
+
+            border-radius: 10px;
+
+            color: inherit;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+        .subject-nav a:hover {
+            border-color: #d7b35a;
+            color: #f0d27a;
+        }
+
+        .empty-state {
+            padding: 20px;
+            text-align: center;
+            opacity: .6;
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 800px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .topic-grid,
+            .book-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .learning-path {
+                grid-template-columns:
+                    repeat(3, 1fr);
+                row-gap: 8px;
+            }
+
+            .subject-nav {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 560px) {
+
+            .subject-page {
+                padding: 10px 8px 40px;
+            }
+
+            .subject-hero {
+                padding: 22px 15px;
+            }
+
+            .subject-hero h1 {
+                font-size: 27px;
+            }
+
+            .subject-identity {
+                grid-template-columns:
+                    70px
+                    1fr;
+            }
+
+            .subject-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 35px;
+            }
+
+            .subject-count {
+                grid-column: 1 / -1;
+            }
+
+            .topic-grid,
+            .book-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .learning-path {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .subject-nav {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .subject-search {
+                grid-template-columns: 1fr;
+            }
+
+            .subject-search button {
+                min-height: 44px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
+<main class="subject-page">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
-
-        <h1 id="subject-page-title">
-            Subjects
-        </h1>
-
-        <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Library.
-        </p>
-
-    </header>
+<div class="subject-container">
 
 
-    <!-- =====================================================
-         SUBJECT INTRO
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         BACK
+    ================================================== -->
 
-        <h2 id="subject-heading">
-            Subjects
-        </h2>
-
-        <p id="subject-description">
-            Explore subjects organized by Knowledge Library
-            departments.
-        </p>
+    <a
+        href="../index.html"
+        class="back-link"
+    >
+        ← Back to ALON HISTORYVERSE 24
+    </a>
 
 
-        <!-- =================================================
-             SEARCH
-        ================================================== -->
-        <div class="search-area">
+    <!-- =================================================
+         HERO
+    ================================================== -->
 
-            <label for="subject-search">
-                Search Subjects
-            </label>
+    <section class="subject-hero">
 
-            <input
-                id="subject-search"
-                class="searchbox"
-                type="search"
-                placeholder="Search subjects..."
-                autocomplete="off"
-            >
-
+        <div class="hero-kicker">
+            KNOWLEDGE SUBJECT EXPLORER
         </div>
 
+        <h1 id="heroTitle">
+            Subject Explorer
+        </h1>
 
-        <!-- =================================================
-             DYNAMIC SUBJECT LIST
-        ================================================== -->
-        <div
-            id="subjects-list"
-            class="grid"
-            aria-live="polite"
+        <p
+            class="hero-description"
+            id="heroDescription"
         >
+            Explore topics, books and knowledge connected
+            with this subject.
+        </p>
 
-            <div class="card">
 
-                <h3>Subjects</h3>
+        <div class="subject-identity">
 
-                <p>
-                    Loading subjects...
-                </p>
+            <div
+                class="subject-icon"
+                id="subjectIcon"
+            >
+                📚
+            </div>
+
+            <div>
+
+                <div
+                    class="subject-name"
+                    id="subjectName"
+                >
+                    Loading Subject...
+                </div>
+
+                <div
+                    class="subject-code"
+                    id="subjectCode"
+                >
+                    SUBJECT
+                </div>
+
+            </div>
+
+            <div class="subject-count">
+
+                <strong id="topicCount">
+                    0
+                </strong>
+
+                Topics
 
             </div>
 
@@ -93,101 +784,1321 @@
     </section>
 
 
-    <!-- =====================================================
-         LIBRARY NAVIGATION
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
 
-        <h2>Knowledge Library</h2>
+    <form
+        class="subject-search"
+        id="subjectSearchForm"
+    >
 
-        <div class="grid">
+        <input
+            type="search"
+            id="subjectSearch"
+            placeholder="Search topics, books or knowledge..."
+            autocomplete="off"
+        >
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Return to the main Knowledge Library.
-                </p>
-            </a>
+        <button type="submit">
+            🔎 Explore
+        </button>
 
-
-            <a class="card" href="department.html">
-                <h3>Departments</h3>
-                <p>
-                    Explore all knowledge departments.
-                </p>
-            </a>
+    </form>
 
 
-            <a class="card" href="book.html">
-                <h3>Books</h3>
-                <p>
-                    Browse books connected to subjects.
-                </p>
-            </a>
+    <!-- =================================================
+         STATS
+    ================================================== -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🧠
+            </div>
+
+            <div
+                class="stat-number"
+                id="statTopics"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Topics
+            </div>
+
+        </div>
 
 
-            <a class="card" href="read.html">
-                <h3>Read</h3>
-                <p>
-                    Open reading materials.
-                </p>
-            </a>
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📖
+            </div>
+
+            <div
+                class="stat-number"
+                id="statBooks"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Books
+            </div>
+
+        </div>
 
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Explore historical and educational articles.
-                </p>
-            </a>
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👁️
+            </div>
+
+            <div
+                class="stat-number"
+                id="statRead"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Read
+            </div>
+
+        </div>
 
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge.
-                </p>
-            </a>
+        <div class="stat-card">
 
+            <div class="stat-icon">
+                🔖
+            </div>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main entry point.
-                </p>
-            </a>
+            <div
+                class="stat-number"
+                id="statSaved"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Saved
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-    <footer class="footer">
+    <!-- =================================================
+         TOPICS
+    ================================================== -->
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <section class="subject-section">
 
-        <br>
+        <div class="section-heading">
 
-        <a href="../index.html">
-            Home
+            <h2>
+                ✦ Explore Topics
+            </h2>
+
+            <span>
+                Tap any topic
+            </span>
+
+        </div>
+
+
+        <div
+            class="topic-grid"
+            id="topicGrid"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         BOOKS
+    ================================================== -->
+
+    <section class="subject-section">
+
+        <div class="section-heading">
+
+            <h2>
+                📚 Featured Books
+            </h2>
+
+            <span>
+                Read & learn
+            </span>
+
+        </div>
+
+
+        <div
+            class="book-grid"
+            id="bookGrid"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         LEARNING PATH
+    ================================================== -->
+
+    <section class="subject-section">
+
+        <div class="section-heading">
+
+            <h2>
+                🧭 Learning Path
+            </h2>
+
+            <span>
+                Recommended order
+            </span>
+
+        </div>
+
+
+        <div class="learning-path">
+
+            <div class="path-step">
+
+                <strong>01</strong>
+
+                <span>
+                    Basics
+                </span>
+
+            </div>
+
+
+            <div class="path-step">
+
+                <strong>02</strong>
+
+                <span>
+                    Concepts
+                </span>
+
+            </div>
+
+
+            <div class="path-step">
+
+                <strong>03</strong>
+
+                <span>
+                    Topics
+                </span>
+
+            </div>
+
+
+            <div class="path-step">
+
+                <strong>04</strong>
+
+                <span>
+                    Books
+                </span>
+
+            </div>
+
+
+            <div class="path-step">
+
+                <strong>05</strong>
+
+                <span>
+                    Mastery
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PERSONAL PROGRESS
+    ================================================== -->
+
+    <section class="subject-section">
+
+        <div class="section-heading">
+
+            <h2>
+                📈 My Learning Progress
+            </h2>
+
+            <span id="progressPercent">
+                0%
+            </span>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-top">
+
+                <span>
+                    Subject completion
+                </span>
+
+                <span id="progressLabel">
+                    Start exploring
+                </span>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         NAVIGATION
+    ================================================== -->
+
+    <nav class="subject-nav">
+
+        <a href="department.html">
+            🏛️ Department
         </a>
 
+        <a href="subject.html">
+            📚 Subjects
+        </a>
+
+        <a href="book.html">
+            📖 Books
+        </a>
+
+        <a href="library.html">
+            🗂️ Library
+        </a>
+
+        <a href="../index.html">
+            🏠 Home
+        </a>
+
+    </nav>
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================== -->
+
+    <footer
+        style="
+            text-align:center;
+            padding:25px 5px;
+            opacity:.65;
+            font-size:12px;
+            line-height:1.7;
+        "
+    >
+
+        © 2026 ALON HISTORYVERSE 24
+        <br>
+        Created by Baba Thecno Guru
+
     </footer>
+
+
+</div>
 
 </main>
 
 
-<!-- =======================================================
-     SUBJECT PAGE SCRIPTS
-======================================================== -->
+<script>
 
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/subject-engine.js"></script>
+/* =============================================================
+   ALON HISTORYVERSE 24
+   SUBJECT EXPLORER ENGINE
+   ============================================================= */
+
+
+/* =============================================================
+   URL PARAMETERS
+   Examples:
+   subject.html?subject=computer-science
+   subject.html?department=computer&subject=programming
+   ============================================================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const subjectParam =
+    params.get("subject") ||
+    "history";
+
+
+const departmentParam =
+    params.get("department") ||
+    "history";
+
+
+/* =============================================================
+   SUBJECT DATABASE
+   ============================================================= */
+
+const SUBJECTS = {
+
+    "history": {
+
+        name: "History",
+
+        hindi: "इतिहास",
+
+        icon: "🏛️",
+
+        description:
+            "Explore civilizations, rulers, wars, societies, cultures and major events of the past.",
+
+        topics: [
+
+            ["Ancient History","🏺","Early civilizations and ancient societies."],
+
+            ["Medieval History","⚔️","Kingdoms, empires and medieval societies."],
+
+            ["Modern History","🌍","The modern transformation of the world."],
+
+            ["Kings & Rulers","👑","Important rulers and dynasties."],
+
+            ["Ancient People","🗿","Important people and personalities of history."],
+
+            ["Wars","⚔️","Major conflicts and their historical impact."],
+
+            ["Culture","🎭","Cultures, traditions and social development."],
+
+            ["Civilizations","🏛️","Great civilizations of world history."],
+
+            ["Heritage","🏰","Historical monuments and heritage sites."],
+
+            ["Old Cities","🏙️","Historic cities and their stories."],
+
+            ["Timeline","⏳","Events arranged through historical time."],
+
+            ["Historical Sources","📜","Documents, inscriptions and archaeological evidence."]
+
+        ]
+
+    },
+
+
+    "computer-science": {
+
+        name: "Computer Science",
+
+        hindi: "कंप्यूटर विज्ञान",
+
+        icon: "💻",
+
+        description:
+            "Understand computers, algorithms, programming, software, networks and modern computing.",
+
+        topics: [
+
+            ["Computer Fundamentals","💻","Basic concepts of computers."],
+
+            ["Programming","⌨️","Learn programming concepts and languages."],
+
+            ["Algorithms","🧠","Step-by-step computational problem solving."],
+
+            ["Data Structures","🗃️","Organizing and managing computer data."],
+
+            ["Web Development","🌐","Build websites and web applications."],
+
+            ["Software","⚙️","Understand software systems and applications."],
+
+            ["Hardware","🖥️","Learn computer hardware and components."],
+
+            ["Networking","📡","Networks, communication and connectivity."],
+
+            ["Cybersecurity","🔐","Security, privacy and safe computing."],
+
+            ["Artificial Intelligence","🤖","AI concepts and intelligent systems."],
+
+            ["Databases","🗄️","Data storage and database concepts."],
+
+            ["Operating Systems","🛠️","How operating systems work."]
+
+        ]
+
+    },
+
+
+    "programming": {
+
+        name: "Programming",
+
+        hindi: "प्रोग्रामिंग",
+
+        icon: "⌨️",
+
+        description:
+            "Explore programming logic, languages, algorithms and software development.",
+
+        topics: [
+
+            ["Programming Basics","💡","Variables, conditions and loops."],
+
+            ["JavaScript","🟨","Modern JavaScript programming."],
+
+            ["Python","🐍","Python programming and problem solving."],
+
+            ["HTML","🌐","Structure of modern websites."],
+
+            ["CSS","🎨","Website design and styling."],
+
+            ["Algorithms","🧠","Programming problem-solving methods."],
+
+            ["Functions","🔧","Reusable programming logic."],
+
+            ["Objects","📦","Objects and structured programming."],
+
+            ["APIs","🔌","Connecting software systems."],
+
+            ["Debugging","🔎","Finding and fixing code problems."],
+
+            ["Projects","🚀","Practical programming projects."],
+
+            ["Careers","💼","Programming career paths."]
+
+        ]
+
+    },
+
+
+    "mathematics": {
+
+        name: "Mathematics",
+
+        hindi: "गणित",
+
+        icon: "∑",
+
+        description:
+            "Explore numbers, algebra, geometry, equations, statistics and mathematical problem solving.",
+
+        topics: [
+
+            ["Arithmetic","➕","Numbers and basic calculations."],
+
+            ["Algebra","🔢","Variables, expressions and equations."],
+
+            ["Geometry","📐","Shapes, measurements and space."],
+
+            ["Trigonometry","📏","Angles, triangles and functions."],
+
+            ["Calculus","∫","Change, limits and mathematical analysis."],
+
+            ["Statistics","📊","Data, averages and probability."],
+
+            ["Probability","🎲","Chance and uncertainty."],
+
+            ["Number Theory","🔢","Properties of numbers."],
+
+            ["Linear Equations","📈","Solve linear mathematical problems."],
+
+            ["Quadratic Equations","✖️","Quadratic equations and roots."],
+
+            ["Matrices","▦","Matrix calculations and applications."],
+
+            ["Math Solver","🧮","Interactive mathematical problem solving."]
+
+        ]
+
+    },
+
+
+    "jobs": {
+
+        name: "Jobs & Careers",
+
+        hindi: "नौकरी और करियर",
+
+        icon: "💼",
+
+        description:
+            "Explore careers, job categories, skills, opportunities and professional development.",
+
+        topics: [
+
+            ["Career Planning","🧭","Plan a career path."],
+
+            ["Technology Jobs","💻","Careers in technology."],
+
+            ["Government Jobs","🏛️","Public-sector career information."],
+
+            ["Education Jobs","🎓","Teaching and education careers."],
+
+            ["Healthcare Jobs","🩺","Healthcare professions."],
+
+            ["Engineering","⚙️","Engineering careers."],
+
+            ["Business","📈","Business and management careers."],
+
+            ["Remote Work","🌐","Remote and digital work."],
+
+            ["Skills","🧠","Skills needed for modern careers."],
+
+            ["Interviews","🗣️","Interview preparation."],
+
+            ["Resume","📄","Resume and professional profile basics."],
+
+            ["Career Growth","🚀","Professional development."]
+
+        ]
+
+    },
+
+
+    "trees": {
+
+        name: "Trees",
+
+        hindi: "पेड़",
+
+        icon: "🌳",
+
+        description:
+            "Explore trees, forests, biodiversity, ecology and the natural world.",
+
+        topics: [
+
+            ["Tree Species","🌳","Different tree species."],
+
+            ["Forests","🌲","Forest ecosystems."],
+
+            ["Medicinal Trees","🌿","Trees with traditional medicinal uses."],
+
+            ["Ancient Trees","🌳","Long-lived and historic trees."],
+
+            ["Ecology","🌍","Trees and ecosystems."],
+
+            ["Biodiversity","🦋","Life supported by forests."],
+
+            ["Climate","☁️","Trees and climate systems."],
+
+            ["Conservation","🛡️","Protecting forests and trees."],
+
+            ["Botany","🔬","Scientific study of plants."],
+
+            ["Fruits","🍎","Fruit-producing trees."],
+
+            ["Wood","🪵","Timber and wood science."],
+
+            ["Nature","🌎","Trees in the natural world."]
+
+        ]
+
+    }
+
+};
+
+
+/* =============================================================
+   ELEMENTS
+   ============================================================= */
+
+const heroTitle =
+    document.getElementById("heroTitle");
+
+const heroDescription =
+    document.getElementById("heroDescription");
+
+const subjectIcon =
+    document.getElementById("subjectIcon");
+
+const subjectName =
+    document.getElementById("subjectName");
+
+const subjectCode =
+    document.getElementById("subjectCode");
+
+const topicCount =
+    document.getElementById("topicCount");
+
+const topicGrid =
+    document.getElementById("topicGrid");
+
+const bookGrid =
+    document.getElementById("bookGrid");
+
+const subjectSearch =
+    document.getElementById("subjectSearch");
+
+const statTopics =
+    document.getElementById("statTopics");
+
+const statBooks =
+    document.getElementById("statBooks");
+
+const statRead =
+    document.getElementById("statRead");
+
+const statSaved =
+    document.getElementById("statSaved");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressPercent =
+    document.getElementById("progressPercent");
+
+const progressLabel =
+    document.getElementById("progressLabel");
+
+
+/* =============================================================
+   SELECT SUBJECT
+   ============================================================= */
+
+const subject =
+    SUBJECTS[subjectParam] ||
+    SUBJECTS[departmentParam] ||
+    SUBJECTS["history"];
+
+
+/* =============================================================
+   SUBJECT DISPLAY
+   ============================================================= */
+
+heroTitle.textContent =
+    `${subject.icon} ${subject.name}`;
+
+heroDescription.textContent =
+    `${subject.description} / ${subject.hindi}`;
+
+subjectIcon.textContent =
+    subject.icon;
+
+subjectName.textContent =
+    `${subject.name} / ${subject.hindi}`;
+
+subjectCode.textContent =
+    `SUBJECT CODE: ${subjectParam.toUpperCase()}`;
+
+topicCount.textContent =
+    subject.topics.length;
+
+statTopics.textContent =
+    subject.topics.length;
+
+
+/* =============================================================
+   TOPIC RENDER
+   ============================================================= */
+
+function renderTopics(list) {
+
+    topicGrid.innerHTML = "";
+
+
+    if (!list.length) {
+
+        topicGrid.innerHTML = `
+            <div class="empty-state">
+                🔎 No matching topics found.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    list.forEach(
+        (topic, index) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "topic-card";
+
+            card.tabIndex = 0;
+
+
+            card.innerHTML = `
+
+                <div class="topic-number">
+                    ${String(index + 1).padStart(2,"0")}
+                </div>
+
+                <div class="topic-icon">
+                    ${topic[1]}
+                </div>
+
+                <div class="topic-title">
+                    ${topic[0]}
+                </div>
+
+                <div class="topic-description">
+                    ${topic[2]}
+                </div>
+
+            `;
+
+
+            card.addEventListener(
+                "click",
+                function() {
+
+                    openTopic(
+                        topic[0]
+                    );
+
+                }
+            );
+
+
+            card.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Enter" ||
+                        event.key === " "
+                    ) {
+
+                        event.preventDefault();
+
+                        openTopic(
+                            topic[0]
+                        );
+
+                    }
+
+                }
+            );
+
+
+            topicGrid.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+renderTopics(
+    subject.topics
+);
+
+
+/* =============================================================
+   TOPIC OPEN
+   ============================================================= */
+
+function openTopic(topicName) {
+
+    /*
+       Preserve the Subject → Book flow.
+       The Book page can later receive the exact topic.
+    */
+
+    window.location.href =
+        `book.html?department=${encodeURIComponent(
+            departmentParam
+        )}&subject=${encodeURIComponent(
+            subjectParam
+        )}&topic=${encodeURIComponent(
+            topicName
+        )}`;
+
+}
+
+
+/* =============================================================
+   BOOK DATABASE
+   ============================================================= */
+
+function loadBooks() {
+
+    try {
+
+        const books =
+            JSON.parse(
+                localStorage.getItem(
+                    "ALON_HISTORYVERSE_BOOKS"
+                )
+            );
+
+        if (
+            Array.isArray(books)
+        ) {
+
+            return books;
+
+        }
+
+    } catch (error) {}
+
+    return [];
+
+}
+
+
+const allBooks =
+    loadBooks();
+
+
+/* =============================================================
+   SUBJECT BOOKS
+   ============================================================= */
+
+const subjectBooks =
+    allBooks.filter(
+        book => {
+
+            const value =
+                String(
+                    book.subject ||
+                    ""
+                )
+                .toLowerCase();
+
+            return (
+                value ===
+                subject.name.toLowerCase()
+            );
+
+        }
+    );
+
+
+/* =============================================================
+   BOOK DISPLAY
+   ============================================================= */
+
+function renderBooks() {
+
+    bookGrid.innerHTML = "";
+
+
+    /*
+       Only books actually stored in the
+       website library are shown.
+    */
+
+    if (!subjectBooks.length) {
+
+        bookGrid.innerHTML = `
+
+            <div class="empty-state">
+
+                📚 No books have been added to this
+                subject yet.
+
+                <br><br>
+
+                Books created through the ALON HISTORYVERSE 24
+                Book system will appear here.
+
+            </div>
+
+        `;
+
+        statBooks.textContent =
+            "0";
+
+        return;
+
+    }
+
+
+    subjectBooks
+        .slice(0, 12)
+        .forEach(book => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "book-card";
+
+
+            const title =
+                book.title ||
+                "Untitled Book";
+
+
+            const code =
+                book.code ||
+                book.id ||
+                "";
+
+
+            card.innerHTML = `
+
+                <div class="book-icon">
+                    📖
+                </div>
+
+                <h3>
+                    ${escapeHTML(title)}
+                </h3>
+
+                <p>
+                    ${escapeHTML(
+                        book.description ||
+                        "ALON HISTORYVERSE 24 knowledge book."
+                    )}
+                </p>
+
+                <a
+                    class="book-open"
+                    href="read.html?code=${encodeURIComponent(code)}"
+                >
+                    📖 Read Book
+                </a>
+
+            `;
+
+
+            bookGrid.appendChild(
+                card
+            );
+
+        });
+
+
+    statBooks.textContent =
+        subjectBooks.length;
+
+}
+
+
+renderBooks();
+
+
+/* =============================================================
+   HTML ESCAPE
+   ============================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =============================================================
+   SEARCH
+   ============================================================= */
+
+document
+    .getElementById(
+        "subjectSearchForm"
+    )
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            performSearch();
+
+        }
+    );
+
+
+subjectSearch.addEventListener(
+    "input",
+    performSearch
+);
+
+
+function performSearch() {
+
+    const query =
+        subjectSearch.value
+        .trim()
+        .toLowerCase();
+
+
+    if (!query) {
+
+        renderTopics(
+            subject.topics
+        );
+
+        return;
+
+    }
+
+
+    const filtered =
+        subject.topics.filter(
+            topic => {
+
+                return (
+
+                    topic[0]
+                    .toLowerCase()
+                    .includes(query)
+
+                    ||
+
+                    topic[2]
+                    .toLowerCase()
+                    .includes(query)
+
+                );
+
+            }
+        );
+
+
+    renderTopics(filtered);
+
+
+    const matchingBooks =
+        subjectBooks.filter(
+            book => {
+
+                return (
+
+                    String(
+                        book.title || ""
+                    )
+                    .toLowerCase()
+                    .includes(query)
+
+                    ||
+
+                    String(
+                        book.description || ""
+                    )
+                    .toLowerCase()
+                    .includes(query)
+
+                );
+
+            }
+        );
+
+
+    if (matchingBooks.length) {
+
+        bookGrid.innerHTML = "";
+
+        matchingBooks.forEach(
+            book => {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "book-card";
+
+
+                const code =
+                    book.code ||
+                    book.id ||
+                    "";
+
+
+                card.innerHTML = `
+
+                    <div class="book-icon">
+                        📖
+                    </div>
+
+                    <h3>
+                        ${escapeHTML(
+                            book.title ||
+                            "Untitled Book"
+                        )}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            book.description || ""
+                        )}
+                    </p>
+
+                    <a
+                        class="book-open"
+                        href="read.html?code=${encodeURIComponent(code)}"
+                    >
+                        📖 Read
+                    </a>
+
+                `;
+
+
+                bookGrid.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =============================================================
+   READING PROGRESS
+   ============================================================= */
+
+function calculateProgress() {
+
+    let readProgress = {};
+
+    let bookmarks = [];
+
+
+    try {
+
+        readProgress =
+            JSON.parse(
+                localStorage.getItem(
+                    "ALON_READ_PROGRESS"
+                )
+            ) || {};
+
+    } catch (error) {}
+
+
+    try {
+
+        bookmarks =
+            JSON.parse(
+                localStorage.getItem(
+                    "ALON_BOOKMARKS"
+                )
+            ) || [];
+
+    } catch (error) {}
+
+
+    const subjectBookKeys =
+        subjectBooks.map(
+            book =>
+                book.code ||
+                book.id ||
+                book.title
+        );
+
+
+    let readCount = 0;
+
+
+    subjectBookKeys.forEach(
+        key => {
+
+            if (
+                readProgress[key]
+            ) {
+
+                readCount++;
+
+            }
+
+        }
+    );
+
+
+    const savedCount =
+        bookmarks.filter(
+            bookmark =>
+                subjectBookKeys.includes(
+                    bookmark.book
+                )
+        ).length;
+
+
+    const total =
+        subjectBookKeys.length;
+
+
+    const percent =
+        total
+            ? Math.round(
+                (
+                    readCount /
+                    total
+                ) * 100
+            )
+            : 0;
+
+
+    statRead.textContent =
+        readCount;
+
+    statSaved.textContent =
+        savedCount;
+
+    progressFill.style.width =
+        `${percent}%`;
+
+    progressPercent.textContent =
+        `${percent}%`;
+
+
+    progressLabel.textContent =
+        total
+            ? `${readCount} of ${total} books explored`
+            : "No books available yet";
+
+}
+
+
+calculateProgress();
+
+
+/* =============================================================
+   REFRESH WHEN RETURNING TO PAGE
+   ============================================================= */
+
+window.addEventListener(
+    "pageshow",
+    calculateProgress
+);
+
+</script>
 
 </body>
-
 </html>

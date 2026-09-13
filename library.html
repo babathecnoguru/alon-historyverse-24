@@ -1,124 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Knowledge Library • ALON HISTORYVERSE 24</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Library • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Read saved books, like, dislike and comment in ALON HISTORYVERSE 24 Library."
+    >
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        .library-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .library-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .library-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .library-panel {
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 22px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .library-search {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+        }
+
+        .library-search input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(0,0,0,.25);
+            color: inherit;
+            font: inherit;
+        }
+
+        .library-btn {
+            border: 1px solid rgba(215,179,90,.5);
+            border-radius: 10px;
+            padding: 11px 18px;
+            cursor: pointer;
+            background: rgba(215,179,90,.1);
+            color: inherit;
+            font: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .library-btn:hover {
+            background: rgba(215,179,90,.2);
+        }
+
+        .library-btn.danger {
+            border-color: #a44;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit,minmax(280px,1fr));
+            gap: 18px;
+        }
+
+        .library-book-card {
+            border: 1px solid rgba(215,179,90,.3);
+            border-radius: 15px;
+            padding: 16px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .library-book-card img {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .book-id {
+            font-size: .8rem;
+            opacity: .7;
+            word-break: break-all;
+        }
+
+        .book-meta {
+            margin: 6px 0;
+            opacity: .85;
+        }
+
+        .reader-area {
+            display: none;
+        }
+
+        .reader-title {
+            margin-top: 0;
+        }
+
+        .reader-content {
+            white-space: pre-wrap;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .reader-image {
+            width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .reader-video {
+            width: 100%;
+            max-height: 500px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .reaction-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 18px 0;
+        }
+
+        .reaction-btn {
+            border: 1px solid rgba(215,179,90,.4);
+            border-radius: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            background: rgba(255,255,255,.03);
+            color: inherit;
+            font: inherit;
+        }
+
+        .reaction-btn.active {
+            background: rgba(215,179,90,.2);
+        }
+
+        .reaction-count {
+            margin-left: 5px;
+        }
+
+        .reader-stat {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.25);
+            margin: 15px 0;
+        }
+
+        .comment-form {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 110px;
+            resize: vertical;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(0,0,0,.25);
+            color: inherit;
+            font: inherit;
+        }
+
+        .comments-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .comment-card {
+            border: 1px solid rgba(215,179,90,.25);
+            border-radius: 12px;
+            padding: 13px;
+        }
+
+        .comment-reader {
+            font-size: .85rem;
+            opacity: .75;
+        }
+
+        .comment-text {
+            white-space: pre-wrap;
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .comment-date {
+            font-size: .75rem;
+            opacity: .6;
+        }
+
+        .empty-library {
+            text-align: center;
+            padding: 30px;
+            opacity: .7;
+        }
+
+        .reader-list {
+            max-height: 250px;
+            overflow-y: auto;
+            margin-top: 12px;
+        }
+
+        .reader-id-row {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(215,179,90,.15);
+            font-size: .9rem;
+        }
+
+        .description-box {
+            padding: 15px;
+            border-left: 3px solid rgba(215,179,90,.7);
+            margin-top: 18px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 650px) {
+
+            .library-page {
+                padding: 12px;
+            }
+
+            .library-search {
+                grid-template-columns: 1fr;
+            }
+
+            .reaction-row {
+                flex-direction: column;
+            }
+
+            .reaction-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="library-page">
+
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <header class="library-header">
+
+        <a
+            href="../index.html"
+            class="back-link"
+        >
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Knowledge Library</h1>
+        <h1>
+            📚 Knowledge Library
+            <br>
+            ज्ञान लाइब्रेरी
+        </h1>
 
         <p>
-            Explore the Knowledge Library of
-            ALON HISTORYVERSE 24 V100.
+            Read • Like • Dislike • Comment
+            <br>
+            पढ़ें • पसंद करें • प्रतिक्रिया दें
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         LIBRARY INTRO
+         BOOK SEARCH
     ====================================================== -->
-    <section class="content">
 
-        <h2>Knowledge Library</h2>
+    <section class="library-panel">
+
+        <h2>
+            🔎 Find Your Book
+            <br>
+            अपनी पुस्तक खोजें
+        </h2>
 
         <p>
-            Discover organized knowledge through departments,
-            subjects, books and reading materials.
+            Enter the Book Name or Book ID / Code.
+            <br>
+            पुस्तक का नाम या Book ID / Code डालें।
         </p>
 
+        <div class="library-search">
 
-        <!-- =================================================
-             LIBRARY CHANNELS
-        ================================================== -->
-        <div class="grid">
+            <input
+                type="search"
+                id="library-search"
+                placeholder="Book name or Book ID / Code..."
+                autocomplete="off"
+            >
 
-            <a class="card" href="department.html">
-                <h3>Departments</h3>
-                <p>
-                    Explore knowledge departments and major
-                    learning categories.
-                </p>
+            <button
+                type="button"
+                class="library-btn"
+                id="search-book"
+            >
+                🔎 Search
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         AVAILABLE BOOKS
+    ====================================================== -->
+
+    <section class="library-panel">
+
+        <h2>
+            📖 Available Books
+            <br>
+            उपलब्ध पुस्तकें
+        </h2>
+
+        <div
+            id="books-list"
+            class="books-grid"
+        ></div>
+
+    </section>
+
+
+    <!-- =====================================================
+         READER
+    ====================================================== -->
+
+    <section
+        id="reader-area"
+        class="library-panel reader-area"
+    >
+
+        <button
+            type="button"
+            class="library-btn"
+            id="close-reader"
+        >
+            ← Back to Books
+        </button>
+
+
+        <div id="reader"></div>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <section class="library-panel">
+
+        <div class="books-grid">
+
+            <a
+                href="department.html"
+                class="library-book-card"
+            >
+                🏛️ Department
+                <br>
+                विभाग
             </a>
 
-
-            <a class="card" href="subject.html">
-                <h3>Subjects</h3>
-                <p>
-                    Browse subjects available inside the
-                    Knowledge Library.
-                </p>
+            <a
+                href="subject.html"
+                class="library-book-card"
+            >
+                📚 Subject
+                <br>
+                विषय
             </a>
 
-
-            <a class="card" href="book.html">
-                <h3>Books</h3>
-                <p>
-                    Explore books and organized learning
-                    resources.
-                </p>
+            <a
+                href="book.html"
+                class="library-book-card"
+            >
+                ✍️ Book Manager
+                <br>
+                पुस्तक प्रबंधन
             </a>
 
-
-            <a class="card" href="read.html">
-                <h3>Read</h3>
-                <p>
-                    Open reading materials and continue
-                    learning.
-                </p>
+            <a
+                href="read.html"
+                class="library-book-card"
+            >
+                📖 Read
+                <br>
+                पढ़ें
             </a>
 
-
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles
-                    from ALON HISTORYVERSE 24.
-                </p>
-            </a>
-
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore history, civilizations, countries,
-                    heritage and more.
-                </p>
-            </a>
-
-
-            <a class="card" href="categories.html">
-                <h3>Categories</h3>
-                <p>
-                    Browse the major knowledge categories of
-                    the platform.
-                </p>
-            </a>
-
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24
-                    entry point.
-                </p>
+            <a
+                href="../index.html"
+                class="library-book-card"
+            >
+                🏠 Home
+                <br>
+                मुख्य पृष्ठ
             </a>
 
         </div>
@@ -129,27 +454,1676 @@
     <!-- =====================================================
          FOOTER
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <footer>
 
-        <br>
-
-        <a href="../index.html">Home</a>
+        <p>
+            © ALON HISTORYVERSE 24
+            • Baba Thecno Guru
+        </p>
 
     </footer>
 
 </main>
 
 
-<!-- =======================================================
-     LIBRARY PAGE SCRIPTS
-     Only required scripts are loaded here.
-======================================================== -->
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       STORAGE
+    ====================================================== */
+
+    const BOOK_KEY =
+        "alon_historyverse_24_books";
+
+    const LIBRARY_KEY =
+        "alon_historyverse_24_library_data";
+
+    const READER_KEY =
+        "alon_historyverse_24_reader_id";
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const searchInput =
+        document.getElementById(
+            "library-search"
+        );
+
+    const searchButton =
+        document.getElementById(
+            "search-book"
+        );
+
+    const booksList =
+        document.getElementById(
+            "books-list"
+        );
+
+    const readerArea =
+        document.getElementById(
+            "reader-area"
+        );
+
+    const reader =
+        document.getElementById(
+            "reader"
+        );
+
+    const closeReader =
+        document.getElementById(
+            "close-reader"
+        );
+
+
+    let books = [];
+
+    let libraryData = {};
+
+    let currentBookId = "";
+
+
+    /* =====================================================
+       READER ID
+    ====================================================== */
+
+    function createReaderId() {
+
+        const chars =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        let result =
+            "READER-";
+
+        for (
+            let i = 0;
+            i < 6;
+            i++
+        ) {
+
+            result +=
+                chars.charAt(
+                    Math.floor(
+                        Math.random() *
+                        chars.length
+                    )
+                );
+
+        }
+
+        return result;
+
+    }
+
+
+    function getReaderId() {
+
+        let id =
+            localStorage.getItem(
+                READER_KEY
+            );
+
+        if (!id) {
+
+            id =
+                createReaderId();
+
+            localStorage.setItem(
+                READER_KEY,
+                id
+            );
+
+        }
+
+        return id;
+
+    }
+
+
+    const readerId =
+        getReaderId();
+
+
+    /* =====================================================
+       LOAD DATA
+    ====================================================== */
+
+    function loadBooks() {
+
+        try {
+
+            books =
+                JSON.parse(
+                    localStorage.getItem(
+                        BOOK_KEY
+                    ) || "[]"
+                );
+
+            if (!Array.isArray(books)) {
+
+                books = [];
+
+            }
+
+        } catch (error) {
+
+            books = [];
+
+        }
+
+    }
+
+
+    function loadLibraryData() {
+
+        try {
+
+            libraryData =
+                JSON.parse(
+                    localStorage.getItem(
+                        LIBRARY_KEY
+                    ) || "{}"
+                );
+
+            if (
+                !libraryData ||
+                typeof libraryData !== "object"
+            ) {
+
+                libraryData = {};
+
+            }
+
+        } catch (error) {
+
+            libraryData = {};
+
+        }
+
+    }
+
+
+    function saveLibraryData() {
+
+        localStorage.setItem(
+            LIBRARY_KEY,
+            JSON.stringify(
+                libraryData
+            )
+        );
+
+    }
+
+
+    /* =====================================================
+       BOOK DATA
+    ====================================================== */
+
+    function getBookData(id) {
+
+        if (!libraryData[id]) {
+
+            libraryData[id] = {
+
+                likes: [],
+
+                dislikes: [],
+
+                readers: [],
+
+                comments: []
+
+            };
+
+        }
+
+        return libraryData[id];
+
+    }
+
+
+    /* =====================================================
+       BOOK CODE
+    ====================================================== */
+
+    function getBookCode(book) {
+
+        return String(
+            book.id || ""
+        );
+
+    }
+
+
+    /* =====================================================
+       SHOW BOOK LIST
+    ====================================================== */
+
+    function renderBooks(
+        query = ""
+    ) {
+
+        const text =
+            query
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            books.filter(
+                function (book) {
+
+                    const name =
+                        String(
+                            book.name || ""
+                        ).toLowerCase();
+
+                    const subject =
+                        String(
+                            book.subject || ""
+                        ).toLowerCase();
+
+                    const id =
+                        String(
+                            book.id || ""
+                        ).toLowerCase();
+
+                    return (
+                        !text ||
+                        name.includes(text) ||
+                        subject.includes(text) ||
+                        id.includes(text)
+                    );
+
+                }
+            );
+
+
+        booksList.innerHTML = "";
+
+
+        if (!filtered.length) {
+
+            booksList.innerHTML =
+                '<div class="empty-library">' +
+                '📚 No book found.' +
+                '<br>' +
+                'इस नाम या Code की कोई saved book नहीं मिली।' +
+                '<br><br>' +
+                'पहले Book Manager में book save करें।' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        filtered.forEach(
+            function (book) {
+
+                const data =
+                    getBookData(
+                        getBookCode(book)
+                    );
+
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "library-book-card";
+
+
+                if (book.image) {
+
+                    const image =
+                        document.createElement(
+                            "img"
+                        );
+
+                    image.src =
+                        book.image;
+
+                    image.alt =
+                        book.name ||
+                        "Book";
+
+                    card.appendChild(
+                        image
+                    );
+
+                }
+
+
+                const title =
+                    document.createElement(
+                        "h3"
+                    );
+
+                title.textContent =
+                    "📖 " +
+                    (
+                        book.name ||
+                        "Untitled Book"
+                    );
+
+                card.appendChild(
+                    title
+                );
+
+
+                const subject =
+                    document.createElement(
+                        "p"
+                    );
+
+                subject.className =
+                    "book-meta";
+
+                subject.textContent =
+                    "📚 Subject: " +
+                    (
+                        book.subject ||
+                        "—"
+                    );
+
+                card.appendChild(
+                    subject
+                );
+
+
+                const id =
+                    document.createElement(
+                        "p"
+                    );
+
+                id.className =
+                    "book-id";
+
+                id.textContent =
+                    "Book ID / Code: " +
+                    getBookCode(book);
+
+                card.appendChild(
+                    id
+                );
+
+
+                const stats =
+                    document.createElement(
+                        "p"
+                    );
+
+                stats.className =
+                    "book-meta";
+
+                stats.textContent =
+                    "❤️ " +
+                    data.likes.length +
+                    "   👎 " +
+                    data.dislikes.length +
+                    "   👁️ " +
+                    data.readers.length;
+
+                card.appendChild(
+                    stats
+                );
+
+
+                const open =
+                    document.createElement(
+                        "button"
+                    );
+
+                open.type =
+                    "button";
+
+                open.className =
+                    "library-btn";
+
+                open.textContent =
+                    "📖 Open / पढ़ें";
+
+                open.addEventListener(
+                    "click",
+                    function () {
+
+                        openBook(
+                            getBookCode(book)
+                        );
+
+                    }
+                );
+
+
+                card.appendChild(
+                    open
+                );
+
+                booksList.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       OPEN BOOK
+    ====================================================== */
+
+    function openBook(id) {
+
+        const book =
+            books.find(
+                function (item) {
+
+                    return String(
+                        item.id
+                    ) === String(id);
+
+                }
+            );
+
+
+        if (!book) {
+
+            alert(
+                "This book does not exist in the website Library."
+            );
+
+            return;
+
+        }
+
+
+        currentBookId =
+            String(id);
+
+
+        const data =
+            getBookData(
+                currentBookId
+            );
+
+
+        /* RECORD READER */
+
+        if (
+            !data.readers.includes(
+                readerId
+            )
+        ) {
+
+            data.readers.push(
+                readerId
+            );
+
+        }
+
+
+        saveLibraryData();
+
+
+        reader.innerHTML = "";
+
+
+        /* BOOK TITLE */
+
+        const title =
+            document.createElement(
+                "h2"
+            );
+
+        title.className =
+            "reader-title";
+
+        title.textContent =
+            "📖 " +
+            (
+                book.name ||
+                "Untitled Book"
+            );
+
+        reader.appendChild(
+            title
+        );
+
+
+        /* BOOK ID */
+
+        const idText =
+            document.createElement(
+                "div"
+            );
+
+        idText.className =
+            "book-id";
+
+        idText.textContent =
+            "Book ID / Code: " +
+            getBookCode(book);
+
+        reader.appendChild(
+            idText
+        );
+
+
+        /* SUBJECT */
+
+        const subject =
+            document.createElement(
+                "p"
+            );
+
+        subject.className =
+            "book-meta";
+
+        subject.textContent =
+            "📚 Subject: " +
+            (
+                book.subject ||
+                "—"
+            );
+
+        reader.appendChild(
+            subject
+        );
+
+
+        /* IMAGE */
+
+        if (book.image) {
+
+            const image =
+                document.createElement(
+                    "img"
+                );
+
+            image.className =
+                "reader-image";
+
+            image.src =
+                book.image;
+
+            image.alt =
+                book.name ||
+                "Book image";
+
+            reader.appendChild(
+                image
+            );
+
+        }
+
+
+        /* VIDEO */
+
+        if (book.video) {
+
+            const video =
+                document.createElement(
+                    "video"
+                );
+
+            video.className =
+                "reader-video";
+
+            video.controls = true;
+
+            video.src =
+                book.video;
+
+            reader.appendChild(
+                video
+            );
+
+        }
+
+
+        /* BOOK CONTENT */
+
+        const contentHeading =
+            document.createElement(
+                "h3"
+            );
+
+        contentHeading.textContent =
+            "📚 Book Content / पुस्तक सामग्री";
+
+        reader.appendChild(
+            contentHeading
+        );
+
+
+        const content =
+            document.createElement(
+                "div"
+            );
+
+        content.className =
+            "reader-content";
+
+        content.textContent =
+            book.content ||
+            "No book content available.";
+
+        reader.appendChild(
+            content
+        );
+
+
+        /* DESCRIPTION */
+
+        if (book.description) {
+
+            const descriptionBox =
+                document.createElement(
+                    "div"
+                );
+
+            descriptionBox.className =
+                "description-box";
+
+            descriptionBox.innerHTML =
+                "<strong>📝 Description / विवरण</strong>";
+
+            const descriptionText =
+                document.createElement(
+                    "p"
+                );
+
+            descriptionText.textContent =
+                book.description;
+
+            descriptionBox.appendChild(
+                descriptionText
+            );
+
+            reader.appendChild(
+                descriptionBox
+            );
+
+        }
+
+
+        /* =================================================
+           READER STATISTICS
+        ================================================== */
+
+        const stats =
+            document.createElement(
+                "div"
+            );
+
+        stats.className =
+            "reader-stat";
+
+        stats.innerHTML =
+            "❤️ Likes: " +
+            data.likes.length +
+            " &nbsp;&nbsp; " +
+
+            "👎 Dislikes: " +
+            data.dislikes.length +
+            " &nbsp;&nbsp; " +
+
+            "👁️ Readers: " +
+            data.readers.length;
+
+        reader.appendChild(
+            stats
+        );
+
+
+        /* =================================================
+           REACTIONS
+        ================================================== */
+
+        const reactionTitle =
+            document.createElement(
+                "h3"
+            );
+
+        reactionTitle.textContent =
+            "❤️ Your Reaction / आपकी प्रतिक्रिया";
+
+        reader.appendChild(
+            reactionTitle
+        );
+
+
+        const reactionRow =
+            document.createElement(
+                "div"
+            );
+
+        reactionRow.className =
+            "reaction-row";
+
+
+        const likeButton =
+            document.createElement(
+                "button"
+            );
+
+        likeButton.type =
+            "button";
+
+        likeButton.className =
+            "reaction-btn";
+
+        likeButton.innerHTML =
+            "❤️ Like <span class='reaction-count'>" +
+            data.likes.length +
+            "</span>";
+
+
+        const dislikeButton =
+            document.createElement(
+                "button"
+            );
+
+        dislikeButton.type =
+            "button";
+
+        dislikeButton.className =
+            "reaction-btn";
+
+        dislikeButton.innerHTML =
+            "👎 Dislike <span class='reaction-count'>" +
+            data.dislikes.length +
+            "</span>";
+
+
+        if (
+            data.likes.includes(
+                readerId
+            )
+        ) {
+
+            likeButton.classList.add(
+                "active"
+            );
+
+        }
+
+
+        if (
+            data.dislikes.includes(
+                readerId
+            )
+        ) {
+
+            dislikeButton.classList.add(
+                "active"
+            );
+
+        }
+
+
+        likeButton.addEventListener(
+            "click",
+            function () {
+
+                toggleReaction(
+                    "like"
+                );
+
+            }
+        );
+
+
+        dislikeButton.addEventListener(
+            "click",
+            function () {
+
+                toggleReaction(
+                    "dislike"
+                );
+
+            }
+        );
+
+
+        reactionRow.appendChild(
+            likeButton
+        );
+
+        reactionRow.appendChild(
+            dislikeButton
+        );
+
+        reader.appendChild(
+            reactionRow
+        );
+
+
+        /* =================================================
+           READER ID
+        ================================================== */
+
+        const readerInfo =
+            document.createElement(
+                "p"
+            );
+
+        readerInfo.className =
+            "book-meta";
+
+        readerInfo.innerHTML =
+            "👤 Your Reader ID: <strong>" +
+            escapeHTML(
+                readerId
+            ) +
+            "</strong>";
+
+        reader.appendChild(
+            readerInfo
+        );
+
+
+        /* =================================================
+           READER LIST
+        ================================================== */
+
+        const readersHeading =
+            document.createElement(
+                "h3"
+            );
+
+        readersHeading.textContent =
+            "👁️ Who Read This Book / किसने पढ़ी";
+
+        reader.appendChild(
+            readersHeading
+        );
+
+
+        const readersList =
+            document.createElement(
+                "div"
+            );
+
+        readersList.className =
+            "reader-list";
+
+
+        data.readers.forEach(
+            function (idValue) {
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+                row.className =
+                    "reader-id-row";
+
+                row.textContent =
+                    "👁️ " +
+                    idValue;
+
+                readersList.appendChild(
+                    row
+                );
+
+            }
+        );
+
+
+        reader.appendChild(
+            readersList
+        );
+
+
+        /* =================================================
+           COMMENT AREA
+        ================================================== */
+
+        const commentHeading =
+            document.createElement(
+                "h3"
+            );
+
+        commentHeading.textContent =
+            "💬 Comments & Feedback / टिप्पणी और प्रतिक्रिया";
+
+        reader.appendChild(
+            commentHeading
+        );
+
+
+        const commentForm =
+            document.createElement(
+                "div"
+            );
+
+        commentForm.className =
+            "comment-form";
+
+
+        const commentInput =
+            document.createElement(
+                "textarea"
+            );
+
+        commentInput.placeholder =
+            "Write your comment or feedback here...
+
+यहां अपनी टिप्पणी या प्रतिक्रिया लिखें...";
+
+
+        const commentButton =
+            document.createElement(
+                "button"
+            );
+
+        commentButton.type =
+            "button";
+
+        commentButton.className =
+            "library-btn";
+
+        commentButton.textContent =
+            "💬 Submit Comment / टिप्पणी भेजें";
+
+
+        commentButton.addEventListener(
+            "click",
+            function () {
+
+                addComment(
+                    commentInput.value
+                );
+
+                commentInput.value =
+                    "";
+
+            }
+        );
+
+
+        commentForm.appendChild(
+            commentInput
+        );
+
+        commentForm.appendChild(
+            commentButton
+        );
+
+        reader.appendChild(
+            commentForm
+        );
+
+
+        /* COMMENTS */
+
+        const commentsList =
+            document.createElement(
+                "div"
+            );
+
+        commentsList.className =
+            "comments-list";
+
+        commentsList.id =
+            "comments-list";
+
+
+        renderComments(
+            data.comments,
+            commentsList
+        );
+
+
+        reader.appendChild(
+            commentsList
+        );
+
+
+        readerArea.style.display =
+            "block";
+
+        booksList.parentElement.style.display =
+            "none";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /* =====================================================
+       REACTION SYSTEM
+    ====================================================== */
+
+    function toggleReaction(
+        type
+    ) {
+
+        if (!currentBookId) return;
+
+
+        const data =
+            getBookData(
+                currentBookId
+            );
+
+
+        const likes =
+            data.likes;
+
+        const dislikes =
+            data.dislikes;
+
+
+        if (type === "like") {
+
+            const index =
+                likes.indexOf(
+                    readerId
+                );
+
+
+            if (index >= 0) {
+
+                likes.splice(
+                    index,
+                    1
+                );
+
+            } else {
+
+                likes.push(
+                    readerId
+                );
+
+
+                const dislikeIndex =
+                    dislikes.indexOf(
+                        readerId
+                    );
+
+
+                if (
+                    dislikeIndex >= 0
+                ) {
+
+                    dislikes.splice(
+                        dislikeIndex,
+                        1
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        if (type === "dislike") {
+
+            const index =
+                dislikes.indexOf(
+                    readerId
+                );
+
+
+            if (index >= 0) {
+
+                dislikes.splice(
+                    index,
+                    1
+                );
+
+            } else {
+
+                dislikes.push(
+                    readerId
+                );
+
+
+                const likeIndex =
+                    likes.indexOf(
+                        readerId
+                    );
+
+
+                if (
+                    likeIndex >= 0
+                ) {
+
+                    likes.splice(
+                        likeIndex,
+                        1
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        saveLibraryData();
+
+        openBook(
+            currentBookId
+        );
+
+    }
+
+
+    /* =====================================================
+       COMMENTS
+    ====================================================== */
+
+    function addComment(
+        text
+    ) {
+
+        const comment =
+            String(text || "")
+                .trim();
+
+
+        if (!comment) {
+
+            alert(
+                "Please write a comment first."
+            );
+
+            return;
+
+        }
+
+
+        if (!currentBookId) return;
+
+
+        const data =
+            getBookData(
+                currentBookId
+            );
+
+
+        data.comments.push({
+
+            id:
+                Date.now().toString(),
+
+            readerId:
+                readerId,
+
+            text:
+                comment,
+
+            createdAt:
+                new Date().toISOString()
+
+        });
+
+
+        saveLibraryData();
+
+
+        openBook(
+            currentBookId
+        );
+
+    }
+
+
+    /* =====================================================
+       RENDER COMMENTS
+    ====================================================== */
+
+    function renderComments(
+        comments,
+        container
+    ) {
+
+        container.innerHTML = "";
+
+
+        if (
+            !comments ||
+            !comments.length
+        ) {
+
+            const empty =
+                document.createElement(
+                    "div"
+                );
+
+            empty.className =
+                "empty-library";
+
+            empty.textContent =
+                "No comments yet. Be the first to respond.";
+
+            container.appendChild(
+                empty
+            );
+
+            return;
+
+        }
+
+
+        comments
+            .slice()
+            .reverse()
+            .forEach(
+                function (comment) {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+                    card.className =
+                        "comment-card";
+
+
+                    const who =
+                        document.createElement(
+                            "div"
+                        );
+
+                    who.className =
+                        "comment-reader";
+
+                    who.textContent =
+                        "👤 " +
+                        comment.readerId;
+
+                    card.appendChild(
+                        who
+                    );
+
+
+                    const text =
+                        document.createElement(
+                            "div"
+                        );
+
+                    text.className =
+                        "comment-text";
+
+                    text.textContent =
+                        comment.text;
+
+                    card.appendChild(
+                        text
+                    );
+
+
+                    const date =
+                        document.createElement(
+                            "div"
+                        );
+
+                    date.className =
+                        "comment-date";
+
+                    date.textContent =
+                        formatDate(
+                            comment.createdAt
+                        );
+
+                    card.appendChild(
+                        date
+                    );
+
+
+                    if (
+                        comment.readerId ===
+                        readerId
+                    ) {
+
+                        const deleteButton =
+                            document.createElement(
+                                "button"
+                            );
+
+                        deleteButton.type =
+                            "button";
+
+                        deleteButton.className =
+                            "library-btn danger";
+
+                        deleteButton.style.marginTop =
+                            "8px";
+
+                        deleteButton.textContent =
+                            "🗑️ Delete My Comment";
+
+
+                        deleteButton.addEventListener(
+                            "click",
+                            function () {
+
+                                deleteComment(
+                                    comment.id
+                                );
+
+                            }
+                        );
+
+
+                        card.appendChild(
+                            deleteButton
+                        );
+
+                    }
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       DELETE OWN COMMENT
+    ====================================================== */
+
+    function deleteComment(
+        commentId
+    ) {
+
+        if (!currentBookId) return;
+
+
+        const data =
+            getBookData(
+                currentBookId
+            );
+
+
+        const comment =
+            data.comments.find(
+                function (item) {
+
+                    return (
+                        item.id ===
+                        commentId
+                    );
+
+                }
+            );
+
+
+        if (!comment) return;
+
+
+        if (
+            comment.readerId !==
+            readerId
+        ) {
+
+            alert(
+                "You can delete only your own comment."
+            );
+
+            return;
+
+        }
+
+
+        const confirmed =
+            confirm(
+                "Delete your comment?\n\n" +
+                "अपनी टिप्पणी मिटानी है?"
+            );
+
+
+        if (!confirmed) return;
+
+
+        data.comments =
+            data.comments.filter(
+                function (item) {
+
+                    return (
+                        item.id !==
+                        commentId
+                    );
+
+                }
+            );
+
+
+        saveLibraryData();
+
+
+        openBook(
+            currentBookId
+        );
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ====================================================== */
+
+    function searchBooks() {
+
+        renderBooks(
+            searchInput.value
+        );
+
+    }
+
+
+    searchButton.addEventListener(
+        "click",
+        searchBooks
+    );
+
+
+    searchInput.addEventListener(
+        "input",
+        searchBooks
+    );
+
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                event.preventDefault();
+
+                searchBooks();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       CLOSE READER
+    ====================================================== */
+
+    closeReader.addEventListener(
+        "click",
+        function () {
+
+            readerArea.style.display =
+                "none";
+
+            booksList.parentElement.style.display =
+                "block";
+
+            currentBookId =
+                "";
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+    );
+
+
+    /* =====================================================
+       DATE
+    ====================================================== */
+
+    function formatDate(
+        value
+    ) {
+
+        if (!value) return "";
+
+        try {
+
+            return new Date(
+                value
+            ).toLocaleString();
+
+        } catch (error) {
+
+            return "";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       HTML ESCAPE
+    ====================================================== */
+
+    function escapeHTML(
+        value
+    ) {
+
+        return String(
+            value || ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    /* =====================================================
+       START
+    ====================================================== */
+
+    loadBooks();
+
+    loadLibraryData();
+
+    renderBooks();
+
+
+    /* =====================================================
+       OPEN BOOK FROM URL
+       Example:
+       library.html?book=BOOK_ID
+    ====================================================== */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const urlBook =
+        params.get("book");
+
+
+    if (urlBook) {
+
+        const exists =
+            books.some(
+                function (book) {
+
+                    return String(
+                        book.id
+                    ) === String(
+                        urlBook
+                    );
+
+                }
+            );
+
+
+        if (exists) {
+
+            openBook(
+                urlBook
+            );
+
+        }
+
+    }
+
+
+})();
+
+</script>
+
+
+<!-- =========================================================
+     EXISTING ALON HISTORYVERSE SYSTEM
+========================================================== -->
 
 <script src="../jss/core.js"></script>
+
 <script src="../jss/system.js"></script>
+
+<script src="../jss/data.js"></script>
+
 <script src="../jss/library-engine.js"></script>
 
+
 </body>
+
 </html>

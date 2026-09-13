@@ -14,6 +14,199 @@
 
     <link rel="stylesheet" href="../css/style.css">
 
+    <style>
+
+        /* =====================================================
+           JOBS & CAREERS V100
+        ====================================================== */
+
+        .jobs-section {
+            margin-top: 25px;
+        }
+
+        .jobs-panel {
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            background: rgba(255,255,255,.025);
+        }
+
+        .jobs-panel h2,
+        .jobs-panel h3 {
+            margin-top: 0;
+        }
+
+        .jobs-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .jobs-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .jobs-field.full {
+            grid-column: 1 / -1;
+        }
+
+        .jobs-field label {
+            font-weight: 700;
+        }
+
+        .jobs-field input,
+        .jobs-field select,
+        .jobs-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(0,0,0,.25);
+            color: inherit;
+            font: inherit;
+        }
+
+        .jobs-field textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .jobs-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .jobs-btn {
+            border: 1px solid rgba(215,179,90,.5);
+            border-radius: 10px;
+            padding: 11px 16px;
+            background: rgba(215,179,90,.12);
+            color: inherit;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .jobs-btn:hover {
+            background: rgba(215,179,90,.22);
+        }
+
+        .jobs-btn.danger {
+            border-color: rgba(220,70,70,.6);
+        }
+
+        .jobs-btn.location {
+            border-color: rgba(80,160,220,.6);
+        }
+
+        .jobs-status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 9px;
+            display: none;
+        }
+
+        .jobs-status.show {
+            display: block;
+        }
+
+        .jobs-location-box {
+            padding: 12px;
+            border: 1px dashed rgba(215,179,90,.35);
+            border-radius: 10px;
+            margin-top: 10px;
+            word-break: break-word;
+        }
+
+        .jobs-image-preview {
+            margin-top: 12px;
+            max-width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            display: none;
+            border: 1px solid rgba(215,179,90,.35);
+        }
+
+        .saved-job {
+            border: 1px solid rgba(215,179,90,.28);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 14px 0;
+            background: rgba(255,255,255,.025);
+        }
+
+        .saved-job img {
+            display: block;
+            max-width: 100%;
+            max-height: 240px;
+            border-radius: 10px;
+            margin-top: 12px;
+        }
+
+        .saved-job-meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .saved-job-meta div {
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255,255,255,.035);
+        }
+
+        .country-note {
+            font-size: .9rem;
+            opacity: .8;
+            margin-top: 5px;
+        }
+
+        .login-badge {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(215,179,90,.35);
+            margin-bottom: 15px;
+        }
+
+        .empty-jobs {
+            opacity: .7;
+            padding: 15px 0;
+        }
+
+        @media (max-width: 700px) {
+
+            .jobs-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .jobs-field.full {
+                grid-column: auto;
+            }
+
+            .saved-job-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .jobs-actions {
+                flex-direction: column;
+            }
+
+            .jobs-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
@@ -24,6 +217,7 @@
     <!-- =====================================================
          HEADER
     ====================================================== -->
+
     <header class="page-header">
 
         <a href="../index.html" class="back-link">
@@ -42,20 +236,429 @@
     <!-- =====================================================
          MAIN CONTENT
     ====================================================== -->
+
     <section class="content">
 
         <h2>Jobs &amp; Careers</h2>
 
         <p>
-            Explore career knowledge, professional skills,
-            employment resources, career planning and
-            educational subjects related to Jobs &amp; Careers.
+            Explore careers, professional skills, employment
+            opportunities and job resources.
         </p>
 
 
         <!-- =================================================
-             SEARCH
+             JOB ACCOUNT / LOGIN
         ================================================== -->
+
+        <section class="jobs-panel">
+
+            <h2>🔐 Job Account</h2>
+
+            <div id="loginBadge" class="login-badge">
+                Not logged in
+            </div>
+
+            <div class="jobs-form-grid">
+
+                <div class="jobs-field">
+
+                    <label for="user-mobile">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="user-mobile"
+                        placeholder="Enter mobile number"
+                        autocomplete="tel"
+                    >
+
+                </div>
+
+
+                <div class="jobs-field">
+
+                    <label for="user-email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="user-email"
+                        placeholder="Enter email address"
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+                <div class="jobs-field full">
+
+                    <label for="user-password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="user-password"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                    >
+
+                    <div class="country-note">
+                        Password is used for the current session and is
+                        not stored in localStorage.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="jobs-actions">
+
+                <button
+                    type="button"
+                    class="jobs-btn"
+                    id="loginBtn"
+                >
+                    Login
+                </button>
+
+                <button
+                    type="button"
+                    class="jobs-btn danger"
+                    id="logoutBtn"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+
+            <div
+                id="loginStatus"
+                class="jobs-status"
+                aria-live="polite"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             CREATE JOB
+        ================================================== -->
+
+        <section class="jobs-panel">
+
+            <h2>💼 Create Job</h2>
+
+            <div class="jobs-form-grid">
+
+
+                <!-- COUNTRY -->
+
+                <div class="jobs-field">
+
+                    <label for="job-country">
+                        Country
+                    </label>
+
+                    <select id="job-country">
+
+                        <option value="">
+                            Select Country
+                        </option>
+
+                    </select>
+
+                    <div class="country-note">
+                        Pakistan 🇵🇰 and Bangladesh 🇧🇩 are excluded.
+                    </div>
+
+                </div>
+
+
+                <!-- COUNTRY CODE -->
+
+                <div class="jobs-field">
+
+                    <label for="job-country-code">
+                        Country Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="job-country-code"
+                        readonly
+                        placeholder="+ Country Code"
+                    >
+
+                </div>
+
+
+                <!-- MOBILE -->
+
+                <div class="jobs-field">
+
+                    <label for="job-mobile">
+                        Job Contact Mobile
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="job-mobile"
+                        placeholder="Enter contact mobile"
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="jobs-field">
+
+                    <label for="job-email">
+                        Job Contact Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="job-email"
+                        placeholder="Enter contact email"
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="jobs-field">
+
+                    <label for="job-category">
+                        Job Category
+                    </label>
+
+                    <select id="job-category">
+
+                        <option value="">
+                            Select Job Category
+                        </option>
+
+                        <option>Technology & IT</option>
+                        <option>Software Development</option>
+                        <option>Computer & Cybersecurity</option>
+                        <option>Engineering</option>
+                        <option>Medical & Healthcare</option>
+                        <option>Education & Teaching</option>
+                        <option>Government Jobs</option>
+                        <option>Business & Management</option>
+                        <option>Finance & Accounting</option>
+                        <option>Banking</option>
+                        <option>Law</option>
+                        <option>Science & Research</option>
+                        <option>Construction</option>
+                        <option>Manufacturing</option>
+                        <option>Retail</option>
+                        <option>Marketing & Sales</option>
+                        <option>Media & Journalism</option>
+                        <option>Design & Creative</option>
+                        <option>Hospitality & Tourism</option>
+                        <option>Transport & Logistics</option>
+                        <option>Agriculture</option>
+                        <option>Skilled Trades</option>
+                        <option>Jobs & Careers</option>
+                        <option>Other</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- JOB TITLE -->
+
+                <div class="jobs-field">
+
+                    <label for="job-title">
+                        Job Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="job-title"
+                        placeholder="Example: Software Developer"
+                    >
+
+                </div>
+
+
+                <!-- SALARY -->
+
+                <div class="jobs-field">
+
+                    <label for="job-salary">
+                        Salary
+                    </label>
+
+                    <input
+                        type="text"
+                        id="job-salary"
+                        placeholder="Example: ₹40,000/month"
+                    >
+
+                </div>
+
+
+                <!-- APPOINTMENT -->
+
+                <div class="jobs-field">
+
+                    <label for="job-appointment">
+                        Appointment / Interview
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="job-appointment"
+                    >
+
+                </div>
+
+
+                <!-- LIVE LOCATION -->
+
+                <div class="jobs-field full">
+
+                    <label>
+                        Live Location
+                    </label>
+
+                    <button
+                        type="button"
+                        class="jobs-btn location"
+                        id="locationBtn"
+                    >
+                        📍 Get Live Location
+                    </button>
+
+                    <div
+                        id="locationBox"
+                        class="jobs-location-box"
+                    >
+                        Location not selected.
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="jobs-field full">
+
+                    <label for="job-description">
+                        Job Description
+                    </label>
+
+                    <textarea
+                        id="job-description"
+                        placeholder="Write complete job description..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="jobs-field full">
+
+                    <label for="job-image">
+                        Job Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="job-image"
+                        accept="image/*"
+                    >
+
+                    <img
+                        id="job-image-preview"
+                        class="jobs-image-preview"
+                        alt="Job image preview"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="jobs-actions">
+
+                <button
+                    type="button"
+                    class="jobs-btn"
+                    id="saveJobBtn"
+                >
+                    💾 Save Job
+                </button>
+
+                <button
+                    type="button"
+                    class="jobs-btn danger"
+                    id="clearFormBtn"
+                >
+                    Clear Form
+                </button>
+
+            </div>
+
+
+            <div
+                id="jobStatus"
+                class="jobs-status"
+                aria-live="polite"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             SAVED JOBS
+        ================================================== -->
+
+        <section class="jobs-panel">
+
+            <h2>📋 Saved Jobs</h2>
+
+            <div class="search-box">
+
+                <label for="job-search">
+                    Search Saved Jobs
+                </label>
+
+                <input
+                    type="search"
+                    id="job-search"
+                    placeholder="Search title, country or category..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div
+                id="savedJobs"
+                aria-live="polite"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             CAREER SEARCH
+        ================================================== -->
+
         <div class="search-box">
 
             <label for="career-search">
@@ -76,6 +679,7 @@
         <!-- =================================================
              CAREER SUBJECTS
         ================================================== -->
+
         <div
             id="career-subjects"
             class="grid"
@@ -87,7 +691,6 @@
                 href="subject.html?department=jobs-careers&subject=career-development"
             >
                 <h3>Career Development</h3>
-
                 <p>
                     Explore career planning and professional growth.
                 </p>
@@ -99,7 +702,6 @@
                 href="subject.html?department=jobs-careers&subject=job-skills"
             >
                 <h3>Job Skills</h3>
-
                 <p>
                     Explore skills useful for modern careers.
                 </p>
@@ -111,7 +713,6 @@
                 href="subject.html?department=jobs-careers&subject=interview"
             >
                 <h3>Interview Preparation</h3>
-
                 <p>
                     Learn about interviews and professional preparation.
                 </p>
@@ -123,7 +724,6 @@
                 href="subject.html?department=jobs-careers&subject=resume"
             >
                 <h3>Resume &amp; CV</h3>
-
                 <p>
                     Explore resume and CV knowledge.
                 </p>
@@ -135,7 +735,6 @@
                 href="subject.html?department=jobs-careers&subject=technology-careers"
             >
                 <h3>Technology Careers</h3>
-
                 <p>
                     Explore careers related to technology and computing.
                 </p>
@@ -147,7 +746,6 @@
                 href="subject.html?department=jobs-careers&subject=business-careers"
             >
                 <h3>Business Careers</h3>
-
                 <p>
                     Explore business and management career subjects.
                 </p>
@@ -159,11 +757,11 @@
         <!-- =================================================
              LIBRARY FLOW
         ================================================== -->
+
         <div class="grid">
 
             <a class="card" href="department.html">
                 <h3>Departments</h3>
-
                 <p>
                     Return to all knowledge departments.
                 </p>
@@ -172,7 +770,6 @@
 
             <a class="card" href="subject.html">
                 <h3>Subjects</h3>
-
                 <p>
                     Explore subjects within Jobs &amp; Careers.
                 </p>
@@ -181,7 +778,6 @@
 
             <a class="card" href="book.html">
                 <h3>Books</h3>
-
                 <p>
                     Explore career and educational books.
                 </p>
@@ -190,7 +786,6 @@
 
             <a class="card" href="read.html">
                 <h3>Read</h3>
-
                 <p>
                     Open reading resources.
                 </p>
@@ -199,7 +794,6 @@
 
             <a class="card" href="library.html">
                 <h3>Library</h3>
-
                 <p>
                     Return to the main knowledge library.
                 </p>
@@ -211,11 +805,11 @@
         <!-- =================================================
              PLATFORM NAVIGATION
         ================================================== -->
+
         <div class="grid">
 
             <a class="card" href="computer.html">
                 <h3>Computer</h3>
-
                 <p>
                     Explore computer and technology knowledge.
                 </p>
@@ -224,7 +818,6 @@
 
             <a class="card" href="articles.html">
                 <h3>Articles</h3>
-
                 <p>
                     Read educational and knowledge articles.
                 </p>
@@ -233,7 +826,6 @@
 
             <a class="card" href="discover.html">
                 <h3>Discover</h3>
-
                 <p>
                     Explore more knowledge across the platform.
                 </p>
@@ -242,7 +834,6 @@
 
             <a class="card" href="../index.html">
                 <h3>Home</h3>
-
                 <p>
                     Return to the main ALON HISTORYVERSE 24 entry point.
                 </p>
@@ -256,6 +847,7 @@
     <!-- =====================================================
          FOOTER
     ====================================================== -->
+
     <footer class="footer">
 
         ALON HISTORYVERSE 24 • Baba Thecno Guru
@@ -273,9 +865,1249 @@
 
 <script src="../jss/core.js"></script>
 <script src="../jss/system.js"></script>
-
-<!-- Library Engine -->
 <script src="../jss/library-engine.js"></script>
+
+
+<!-- =========================================================
+     JOBS V100 SYSTEM
+========================================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       COUNTRY DATABASE
+       Pakistan and Bangladesh intentionally excluded.
+    ====================================================== */
+
+    const countries = [
+
+        ["🇦🇫","Afghanistan","+93"],
+        ["🇦🇱","Albania","+355"],
+        ["🇩🇿","Algeria","+213"],
+        ["🇦🇩","Andorra","+376"],
+        ["🇦🇴","Angola","+244"],
+        ["🇦🇬","Antigua and Barbuda","+1"],
+        ["🇦🇷","Argentina","+54"],
+        ["🇦🇲","Armenia","+374"],
+        ["🇦🇺","Australia","+61"],
+        ["🇦🇹","Austria","+43"],
+        ["🇦🇿","Azerbaijan","+994"],
+        ["🇧🇸","Bahamas","+1"],
+        ["🇧🇭","Bahrain","+973"],
+        ["🇧🇧","Barbados","+1"],
+        ["🇧🇾","Belarus","+375"],
+        ["🇧🇪","Belgium","+32"],
+        ["🇧🇿","Belize","+501"],
+        ["🇧🇯","Benin","+229"],
+        ["🇧🇹","Bhutan","+975"],
+        ["🇧🇴","Bolivia","+591"],
+        ["🇧🇦","Bosnia and Herzegovina","+387"],
+        ["🇧🇼","Botswana","+267"],
+        ["🇧🇷","Brazil","+55"],
+        ["🇧🇳","Brunei","+673"],
+        ["🇧🇬","Bulgaria","+359"],
+        ["🇧🇫","Burkina Faso","+226"],
+        ["🇧🇮","Burundi","+257"],
+        ["🇨🇻","Cabo Verde","+238"],
+        ["🇰🇭","Cambodia","+855"],
+        ["🇨🇲","Cameroon","+237"],
+        ["🇨🇦","Canada","+1"],
+        ["🇨🇫","Central African Republic","+236"],
+        ["🇹🇩","Chad","+235"],
+        ["🇨🇱","Chile","+56"],
+        ["🇨🇳","China","+86"],
+        ["🇨🇴","Colombia","+57"],
+        ["🇰🇲","Comoros","+269"],
+        ["🇨🇬","Congo","+242"],
+        ["🇨🇷","Costa Rica","+506"],
+        ["🇨🇮","Côte d'Ivoire","+225"],
+        ["🇭🇷","Croatia","+385"],
+        ["🇨🇺","Cuba","+53"],
+        ["🇨🇾","Cyprus","+357"],
+        ["🇨🇿","Czechia","+420"],
+        ["🇨🇩","Democratic Republic of the Congo","+243"],
+        ["🇩🇰","Denmark","+45"],
+        ["🇩🇯","Djibouti","+253"],
+        ["🇩🇲","Dominica","+1"],
+        ["🇩🇴","Dominican Republic","+1"],
+        ["🇪🇨","Ecuador","+593"],
+        ["🇪🇬","Egypt","+20"],
+        ["🇸🇻","El Salvador","+503"],
+        ["🇬🇶","Equatorial Guinea","+240"],
+        ["🇪🇷","Eritrea","+291"],
+        ["🇪🇪","Estonia","+372"],
+        ["🇸🇿","Eswatini","+268"],
+        ["🇪🇹","Ethiopia","+251"],
+        ["🇫🇯","Fiji","+679"],
+        ["🇫🇮","Finland","+358"],
+        ["🇫🇷","France","+33"],
+        ["🇬🇦","Gabon","+241"],
+        ["🇬🇲","Gambia","+220"],
+        ["🇬🇪","Georgia","+995"],
+        ["🇩🇪","Germany","+49"],
+        ["🇬🇭","Ghana","+233"],
+        ["🇬🇷","Greece","+30"],
+        ["🇬🇩","Grenada","+1"],
+        ["🇬🇹","Guatemala","+502"],
+        ["🇬🇳","Guinea","+224"],
+        ["🇬🇼","Guinea-Bissau","+245"],
+        ["🇬🇾","Guyana","+592"],
+        ["🇭🇹","Haiti","+509"],
+        ["🇭🇳","Honduras","+504"],
+        ["🇭🇺","Hungary","+36"],
+        ["🇮🇸","Iceland","+354"],
+        ["🇮🇳","India","+91"],
+        ["🇮🇩","Indonesia","+62"],
+        ["🇮🇷","Iran","+98"],
+        ["🇮🇶","Iraq","+964"],
+        ["🇮🇪","Ireland","+353"],
+        ["🇮🇱","Israel","+972"],
+        ["🇮🇹","Italy","+39"],
+        ["🇯🇲","Jamaica","+1"],
+        ["🇯🇵","Japan","+81"],
+        ["🇯🇴","Jordan","+962"],
+        ["🇰🇿","Kazakhstan","+7"],
+        ["🇰🇪","Kenya","+254"],
+        ["🇰🇮","Kiribati","+686"],
+        ["🇰🇼","Kuwait","+965"],
+        ["🇰🇬","Kyrgyzstan","+996"],
+        ["🇱🇦","Laos","+856"],
+        ["🇱🇻","Latvia","+371"],
+        ["🇱🇧","Lebanon","+961"],
+        ["🇱🇸","Lesotho","+266"],
+        ["🇱🇷","Liberia","+231"],
+        ["🇱🇾","Libya","+218"],
+        ["🇱🇮","Liechtenstein","+423"],
+        ["🇱🇹","Lithuania","+370"],
+        ["🇱🇺","Luxembourg","+352"],
+        ["🇲🇬","Madagascar","+261"],
+        ["🇲🇼","Malawi","+265"],
+        ["🇲🇾","Malaysia","+60"],
+        ["🇲🇻","Maldives","+960"],
+        ["🇲🇱","Mali","+223"],
+        ["🇲🇹","Malta","+356"],
+        ["🇲🇭","Marshall Islands","+692"],
+        ["🇲🇷","Mauritania","+222"],
+        ["🇲🇺","Mauritius","+230"],
+        ["🇲🇽","Mexico","+52"],
+        ["🇫🇲","Micronesia","+691"],
+        ["🇲🇩","Moldova","+373"],
+        ["🇲🇨","Monaco","+377"],
+        ["🇲🇳","Mongolia","+976"],
+        ["🇲🇪","Montenegro","+382"],
+        ["🇲🇦","Morocco","+212"],
+        ["🇲🇿","Mozambique","+258"],
+        ["🇲🇲","Myanmar","+95"],
+        ["🇳🇦","Namibia","+264"],
+        ["🇳🇷","Nauru","+674"],
+        ["🇳🇵","Nepal","+977"],
+        ["🇳🇱","Netherlands","+31"],
+        ["🇳🇿","New Zealand","+64"],
+        ["🇳🇮","Nicaragua","+505"],
+        ["🇳🇪","Niger","+227"],
+        ["🇳🇬","Nigeria","+234"],
+        ["🇰🇵","North Korea","+850"],
+        ["🇲🇰","North Macedonia","+389"],
+        ["🇳🇴","Norway","+47"],
+        ["🇴🇲","Oman","+968"],
+        ["🇵🇼","Palau","+680"],
+        ["🇵🇦","Panama","+507"],
+        ["🇵🇬","Papua New Guinea","+675"],
+        ["🇵🇾","Paraguay","+595"],
+        ["🇵🇪","Peru","+51"],
+        ["🇵🇭","Philippines","+63"],
+        ["🇵🇱","Poland","+48"],
+        ["🇵🇹","Portugal","+351"],
+        ["🇶🇦","Qatar","+974"],
+        ["🇷🇴","Romania","+40"],
+        ["🇷🇺","Russia","+7"],
+        ["🇷🇼","Rwanda","+250"],
+        ["🇰🇳","Saint Kitts and Nevis","+1"],
+        ["🇱🇨","Saint Lucia","+1"],
+        ["🇻🇨","Saint Vincent and the Grenadines","+1"],
+        ["🇼🇸","Samoa","+685"],
+        ["🇸🇲","San Marino","+378"],
+        ["🇸🇹","São Tomé and Príncipe","+239"],
+        ["🇸🇦","Saudi Arabia","+966"],
+        ["🇸🇳","Senegal","+221"],
+        ["🇷🇸","Serbia","+381"],
+        ["🇸🇨","Seychelles","+248"],
+        ["🇸🇱","Sierra Leone","+232"],
+        ["🇸🇬","Singapore","+65"],
+        ["🇸🇰","Slovakia","+421"],
+        ["🇸🇮","Slovenia","+386"],
+        ["🇸🇧","Solomon Islands","+677"],
+        ["🇸🇴","Somalia","+252"],
+        ["🇿🇦","South Africa","+27"],
+        ["🇰🇷","South Korea","+82"],
+        ["🇸🇸","South Sudan","+211"],
+        ["🇪🇸","Spain","+34"],
+        ["🇱🇰","Sri Lanka","+94"],
+        ["🇸🇩","Sudan","+249"],
+        ["🇸🇷","Suriname","+597"],
+        ["🇸🇪","Sweden","+46"],
+        ["🇨🇭","Switzerland","+41"],
+        ["🇸🇾","Syria","+963"],
+        ["🇹🇯","Tajikistan","+992"],
+        ["🇹🇿","Tanzania","+255"],
+        ["🇹🇭","Thailand","+66"],
+        ["🇹🇱","Timor-Leste","+670"],
+        ["🇹🇬","Togo","+228"],
+        ["🇹🇴","Tonga","+676"],
+        ["🇹🇹","Trinidad and Tobago","+1"],
+        ["🇹🇳","Tunisia","+216"],
+        ["🇹🇷","Türkiye","+90"],
+        ["🇹🇲","Turkmenistan","+993"],
+        ["🇹🇻","Tuvalu","+688"],
+        ["🇺🇬","Uganda","+256"],
+        ["🇺🇦","Ukraine","+380"],
+        ["🇦🇪","United Arab Emirates","+971"],
+        ["🇬🇧","United Kingdom","+44"],
+        ["🇺🇸","United States","+1"],
+        ["🇺🇾","Uruguay","+598"],
+        ["🇺🇿","Uzbekistan","+998"],
+        ["🇻🇺","Vanuatu","+678"],
+        ["🇻🇦","Vatican City","+39"],
+        ["🇻🇪","Venezuela","+58"],
+        ["🇻🇳","Vietnam","+84"],
+        ["🇾🇪","Yemen","+967"],
+        ["🇿🇲","Zambia","+260"],
+        ["🇿🇼","Zimbabwe","+263"]
+
+    ];
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const countrySelect =
+        document.getElementById("job-country");
+
+    const countryCode =
+        document.getElementById("job-country-code");
+
+    const locationBtn =
+        document.getElementById("locationBtn");
+
+    const locationBox =
+        document.getElementById("locationBox");
+
+    const imageInput =
+        document.getElementById("job-image");
+
+    const imagePreview =
+        document.getElementById("job-image-preview");
+
+    const saveJobBtn =
+        document.getElementById("saveJobBtn");
+
+    const clearFormBtn =
+        document.getElementById("clearFormBtn");
+
+    const savedJobsBox =
+        document.getElementById("savedJobs");
+
+    const jobSearch =
+        document.getElementById("job-search");
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const loginBadge =
+        document.getElementById("loginBadge");
+
+    const loginStatus =
+        document.getElementById("loginStatus");
+
+    const jobStatus =
+        document.getElementById("jobStatus");
+
+
+    /* =====================================================
+       STORAGE
+    ====================================================== */
+
+    const JOB_STORAGE_KEY =
+        "alon_historyverse_24_jobs";
+
+    const SESSION_KEY =
+        "alon_historyverse_24_job_session";
+
+
+    /* =====================================================
+       STATE
+    ====================================================== */
+
+    let currentImage = "";
+
+    let currentLocation = {
+        latitude: "",
+        longitude: "",
+        accuracy: "",
+        timestamp: ""
+    };
+
+
+    /* =====================================================
+       HELPERS
+    ====================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function getJobs() {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(JOB_STORAGE_KEY)
+            ) || [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function saveJobs(jobs) {
+
+        localStorage.setItem(
+            JOB_STORAGE_KEY,
+            JSON.stringify(jobs)
+        );
+
+    }
+
+
+    function showStatus(element, message) {
+
+        element.textContent = message;
+        element.classList.add("show");
+
+    }
+
+
+    function hideStatus(element) {
+
+        element.textContent = "";
+        element.classList.remove("show");
+
+    }
+
+
+    function getSession() {
+
+        try {
+
+            return JSON.parse(
+                sessionStorage.getItem(SESSION_KEY)
+            );
+
+        } catch (error) {
+
+            return null;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       COUNTRY LIST
+    ====================================================== */
+
+    countries.forEach(function (country) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = country[1];
+
+        option.textContent =
+            country[0] + " " +
+            country[1] +
+            " (" +
+            country[2] +
+            ")";
+
+        option.dataset.code = country[2];
+
+        countrySelect.appendChild(option);
+
+    });
+
+
+    countrySelect.addEventListener(
+        "change",
+        function () {
+
+            const selected =
+                countrySelect.options[
+                    countrySelect.selectedIndex
+                ];
+
+            countryCode.value =
+                selected.dataset.code || "";
+
+        }
+    );
+
+
+    /* =====================================================
+       LOGIN
+    ====================================================== */
+
+    function updateLoginUI() {
+
+        const session = getSession();
+
+        if (session) {
+
+            loginBadge.textContent =
+                "Logged in: " + session.email;
+
+        } else {
+
+            loginBadge.textContent =
+                "Not logged in";
+
+        }
+
+    }
+
+
+    loginBtn.addEventListener(
+        "click",
+        function () {
+
+            const mobile =
+                document.getElementById(
+                    "user-mobile"
+                ).value.trim();
+
+            const email =
+                document.getElementById(
+                    "user-email"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "user-password"
+                ).value;
+
+            if (!mobile && !email) {
+
+                showStatus(
+                    loginStatus,
+                    "Enter mobile number or email."
+                );
+
+                return;
+
+            }
+
+
+            if (!password) {
+
+                showStatus(
+                    loginStatus,
+                    "Enter your password."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * Password is intentionally NOT stored.
+             * This is a frontend session demonstration.
+             */
+
+            sessionStorage.setItem(
+                SESSION_KEY,
+                JSON.stringify({
+                    mobile: mobile,
+                    email: email,
+                    loginTime: new Date().toISOString()
+                })
+            );
+
+
+            updateLoginUI();
+
+            showStatus(
+                loginStatus,
+                "Login session started successfully."
+            );
+
+        }
+    );
+
+
+    logoutBtn.addEventListener(
+        "click",
+        function () {
+
+            sessionStorage.removeItem(
+                SESSION_KEY
+            );
+
+            updateLoginUI();
+
+            showStatus(
+                loginStatus,
+                "Logged out successfully."
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       LIVE LOCATION
+    ====================================================== */
+
+    locationBtn.addEventListener(
+        "click",
+        function () {
+
+            hideStatus(jobStatus);
+
+            if (!navigator.geolocation) {
+
+                showStatus(
+                    jobStatus,
+                    "Live location is not supported by this browser."
+                );
+
+                return;
+
+            }
+
+
+            locationBox.textContent =
+                "Requesting location permission...";
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                function (position) {
+
+                    currentLocation = {
+
+                        latitude:
+                            position.coords.latitude,
+
+                        longitude:
+                            position.coords.longitude,
+
+                        accuracy:
+                            position.coords.accuracy,
+
+                        timestamp:
+                            new Date().toISOString()
+
+                    };
+
+
+                    locationBox.innerHTML =
+                        "📍 Location captured<br>" +
+                        "Latitude: " +
+                        escapeHTML(
+                            currentLocation.latitude
+                        ) +
+                        "<br>" +
+                        "Longitude: " +
+                        escapeHTML(
+                            currentLocation.longitude
+                        ) +
+                        "<br>" +
+                        "Accuracy: " +
+                        Math.round(
+                            currentLocation.accuracy
+                        ) +
+                        " meters";
+
+                },
+
+                function (error) {
+
+                    locationBox.textContent =
+                        "Location permission was denied or unavailable.";
+
+                    showStatus(
+                        jobStatus,
+                        "Please allow location permission to use live location."
+                    );
+
+                },
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                }
+
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       IMAGE PREVIEW
+    ====================================================== */
+
+    imageInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                imageInput.files[0];
+
+            if (!file) {
+
+                currentImage = "";
+                imagePreview.style.display = "none";
+
+                return;
+
+            }
+
+
+            if (!file.type.startsWith("image/")) {
+
+                showStatus(
+                    jobStatus,
+                    "Please select an image file."
+                );
+
+                imageInput.value = "";
+
+                return;
+
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    currentImage =
+                        event.target.result;
+
+                    imagePreview.src =
+                        currentImage;
+
+                    imagePreview.style.display =
+                        "block";
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+
+    /* =====================================================
+       SAVE JOB
+    ====================================================== */
+
+    saveJobBtn.addEventListener(
+        "click",
+        function () {
+
+            hideStatus(jobStatus);
+
+
+            const session =
+                getSession();
+
+            if (!session) {
+
+                showStatus(
+                    jobStatus,
+                    "Please login before saving a job."
+                );
+
+                return;
+
+            }
+
+
+            const title =
+                document.getElementById(
+                    "job-title"
+                ).value.trim();
+
+            const category =
+                document.getElementById(
+                    "job-category"
+                ).value;
+
+            const country =
+                countrySelect.value;
+
+            const salary =
+                document.getElementById(
+                    "job-salary"
+                ).value.trim();
+
+            const appointment =
+                document.getElementById(
+                    "job-appointment"
+                ).value;
+
+            const description =
+                document.getElementById(
+                    "job-description"
+                ).value.trim();
+
+            const mobile =
+                document.getElementById(
+                    "job-mobile"
+                ).value.trim();
+
+            const email =
+                document.getElementById(
+                    "job-email"
+                ).value.trim();
+
+
+            if (!title) {
+
+                showStatus(
+                    jobStatus,
+                    "Enter a job title."
+                );
+
+                return;
+
+            }
+
+
+            if (!country) {
+
+                showStatus(
+                    jobStatus,
+                    "Select a country."
+                );
+
+                return;
+
+            }
+
+
+            if (!category) {
+
+                showStatus(
+                    jobStatus,
+                    "Select a job category."
+                );
+
+                return;
+
+            }
+
+
+            if (!description) {
+
+                showStatus(
+                    jobStatus,
+                    "Enter the job description."
+                );
+
+                return;
+
+            }
+
+
+            const job = {
+
+                id:
+                    "JOB-" +
+                    Date.now() +
+                    "-" +
+                    Math.random()
+                        .toString(36)
+                        .substring(2, 8),
+
+                title: title,
+
+                category: category,
+
+                country: country,
+
+                countryCode:
+                    countryCode.value,
+
+                mobile: mobile,
+
+                email: email,
+
+                salary: salary,
+
+                appointment: appointment,
+
+                description: description,
+
+                location: {
+
+                    latitude:
+                        currentLocation.latitude,
+
+                    longitude:
+                        currentLocation.longitude,
+
+                    accuracy:
+                        currentLocation.accuracy,
+
+                    timestamp:
+                        currentLocation.timestamp
+
+                },
+
+                image:
+                    currentImage,
+
+                createdBy:
+                    session.email ||
+                    session.mobile,
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            const jobs =
+                getJobs();
+
+            jobs.unshift(job);
+
+            saveJobs(jobs);
+
+
+            showStatus(
+                jobStatus,
+                "Job saved successfully."
+            );
+
+
+            renderJobs();
+
+            clearJobForm(false);
+
+        }
+    );
+
+
+    /* =====================================================
+       RENDER SAVED JOBS
+    ====================================================== */
+
+    function renderJobs() {
+
+        const query =
+            jobSearch.value
+                .trim()
+                .toLowerCase();
+
+        const jobs =
+            getJobs().filter(
+                function (job) {
+
+                    const text =
+                        (
+                            job.title +
+                            " " +
+                            job.category +
+                            " " +
+                            job.country +
+                            " " +
+                            job.description
+                        ).toLowerCase();
+
+                    return text.includes(query);
+
+                }
+            );
+
+
+        if (!jobs.length) {
+
+            savedJobsBox.innerHTML =
+                '<div class="empty-jobs">' +
+                'No saved jobs found.' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        savedJobsBox.innerHTML =
+            jobs.map(
+                function (job) {
+
+                    const locationText =
+                        job.location &&
+                        job.location.latitude
+                            ? (
+                                "Latitude: " +
+                                escapeHTML(
+                                    job.location.latitude
+                                ) +
+                                ", Longitude: " +
+                                escapeHTML(
+                                    job.location.longitude
+                                )
+                            )
+                            : "Location not provided";
+
+
+                    const appointmentText =
+                        job.appointment
+                            ? new Date(
+                                job.appointment
+                            ).toLocaleString()
+                            : "Not specified";
+
+
+                    return (
+
+                        '<article class="saved-job">' +
+
+                            '<h3>' +
+                                escapeHTML(
+                                    job.title
+                                ) +
+                            '</h3>' +
+
+                            '<div class="saved-job-meta">' +
+
+                                '<div><strong>Category:</strong><br>' +
+                                    escapeHTML(
+                                        job.category
+                                    ) +
+                                '</div>' +
+
+                                '<div><strong>Country:</strong><br>' +
+                                    escapeHTML(
+                                        job.country
+                                    ) +
+                                    ' (' +
+                                    escapeHTML(
+                                        job.countryCode
+                                    ) +
+                                    ')' +
+                                '</div>' +
+
+                                '<div><strong>Salary:</strong><br>' +
+                                    escapeHTML(
+                                        job.salary
+                                    ) +
+                                '</div>' +
+
+                                '<div><strong>Appointment:</strong><br>' +
+                                    escapeHTML(
+                                        appointmentText
+                                    ) +
+                                '</div>' +
+
+                                '<div><strong>Mobile:</strong><br>' +
+                                    escapeHTML(
+                                        job.mobile
+                                    ) +
+                                '</div>' +
+
+                                '<div><strong>Email:</strong><br>' +
+                                    escapeHTML(
+                                        job.email
+                                    ) +
+                                '</div>' +
+
+                            '</div>' +
+
+                            '<p>' +
+                                '<strong>Description:</strong><br>' +
+                                escapeHTML(
+                                    job.description
+                                ) +
+                            '</p>' +
+
+                            '<p>' +
+                                '<strong>Location:</strong><br>' +
+                                locationText +
+                            '</p>' +
+
+                            (
+                                job.image
+                                    ? (
+                                        '<img src="' +
+                                        job.image +
+                                        '" alt="Job image">'
+                                    )
+                                    : ""
+                            ) +
+
+                            '<div class="jobs-actions">' +
+
+                                '<button ' +
+                                    'type="button" ' +
+                                    'class="jobs-btn danger delete-job" ' +
+                                    'data-id="' +
+                                    escapeHTML(job.id) +
+                                '">' +
+                                    '🗑️ Delete Job' +
+                                '</button>' +
+
+                            '</div>' +
+
+                        '</article>'
+
+                    );
+
+                }
+            ).join("");
+
+
+        document
+            .querySelectorAll(".delete-job")
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            deleteJob(
+                                button.dataset.id
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       DELETE JOB
+    ====================================================== */
+
+    function deleteJob(id) {
+
+        const confirmed =
+            window.confirm(
+                "Delete this job?"
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        const jobs =
+            getJobs().filter(
+                function (job) {
+                    return job.id !== id;
+                }
+            );
+
+
+        saveJobs(jobs);
+
+        renderJobs();
+
+
+        showStatus(
+            jobStatus,
+            "Job deleted successfully."
+        );
+
+    }
+
+
+    /* =====================================================
+       CLEAR FORM
+    ====================================================== */
+
+    function clearJobForm(showMessage) {
+
+        document
+            .getElementById("job-title")
+            .value = "";
+
+        document
+            .getElementById("job-category")
+            .value = "";
+
+        countrySelect.value = "";
+
+        countryCode.value = "";
+
+        document
+            .getElementById("job-mobile")
+            .value = "";
+
+        document
+            .getElementById("job-email")
+            .value = "";
+
+        document
+            .getElementById("job-salary")
+            .value = "";
+
+        document
+            .getElementById("job-appointment")
+            .value = "";
+
+        document
+            .getElementById("job-description")
+            .value = "";
+
+        imageInput.value = "";
+
+        currentImage = "";
+
+        imagePreview.src = "";
+
+        imagePreview.style.display =
+            "none";
+
+
+        currentLocation = {
+
+            latitude: "",
+            longitude: "",
+            accuracy: "",
+            timestamp: ""
+
+        };
+
+
+        locationBox.textContent =
+            "Location not selected.";
+
+
+        if (showMessage) {
+
+            showStatus(
+                jobStatus,
+                "Job form cleared."
+            );
+
+        }
+
+    }
+
+
+    clearFormBtn.addEventListener(
+        "click",
+        function () {
+
+            clearJobForm(true);
+
+        }
+    );
+
+
+    /* =====================================================
+       SEARCH SAVED JOBS
+    ====================================================== */
+
+    jobSearch.addEventListener(
+        "input",
+        renderJobs
+    );
+
+
+    /* =====================================================
+       CAREER SUBJECT SEARCH
+    ====================================================== */
+
+    const careerSearch =
+        document.getElementById(
+            "career-search"
+        );
+
+    const careerSubjects =
+        document.querySelectorAll(
+            "#career-subjects .card"
+        );
+
+
+    careerSearch.addEventListener(
+        "input",
+        function () {
+
+            const query =
+                careerSearch.value
+                    .trim()
+                    .toLowerCase();
+
+
+            careerSubjects.forEach(
+                function (card) {
+
+                    const text =
+                        card.textContent
+                            .toLowerCase();
+
+                    card.style.display =
+                        text.includes(query)
+                            ? ""
+                            : "none";
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIALIZE
+    ====================================================== */
+
+    updateLoginUI();
+
+    renderJobs();
+
+})();
+
+</script>
+
 
 </body>
 

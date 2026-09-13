@@ -2,122 +2,502 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Historical Timeline • ALON HISTORYVERSE 24</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>History Timeline • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Explore historical timelines, civilizations, important events and eras on ALON HISTORYVERSE 24."
+    >
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           INTERACTIVE HISTORY TIMELINE
+           ===================================================== */
+
+        .timeline-page {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 18px 14px 60px;
+        }
+
+        .timeline-hero {
+            text-align: center;
+            padding: 30px 16px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 20px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .timeline-hero h1 {
+            margin: 8px 0;
+        }
+
+        .timeline-hero p {
+            line-height: 1.7;
+            opacity: .85;
+        }
+
+        .timeline-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .timeline-btn {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.4);
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .timeline-btn.active {
+            background: rgba(215,179,90,.16);
+            border-color: #d7b35a;
+        }
+
+        .timeline-search {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 20px 0 10px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.3);
+            background: rgba(0,0,0,.18);
+            color: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .timeline-search:focus {
+            border-color: #d7b35a;
+        }
+
+        .timeline-stats {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 10px;
+            margin: 18px 0 30px;
+        }
+
+        .timeline-stat {
+            text-align: center;
+            padding: 15px 8px;
+            border: 1px solid rgba(215,179,90,.22);
+            border-radius: 14px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .timeline-stat strong {
+            display: block;
+            font-size: 1.35rem;
+            margin-bottom: 4px;
+        }
+
+        .timeline-stat span {
+            font-size: .82rem;
+            opacity: .75;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 20px 0;
+            padding: 10px 0;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            transform: translateX(-50%);
+            background: rgba(215,179,90,.35);
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 12px 35px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .timeline-item.left {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 28px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 3px solid #d7b35a;
+            background: #05080f;
+            z-index: 2;
+        }
+
+        .timeline-item.left .timeline-dot {
+            right: -9px;
+        }
+
+        .timeline-item.right .timeline-dot {
+            left: -9px;
+        }
+
+        .timeline-card {
+            padding: 20px;
+            border: 1px solid rgba(215,179,90,.25);
+            border-radius: 16px;
+            background: rgba(255,255,255,.025);
+            transition: transform .2s ease,
+                        border-color .2s ease,
+                        background .2s ease;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(215,179,90,.65);
+            background: rgba(215,179,90,.06);
+        }
+
+        .timeline-year {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(215,179,90,.35);
+            font-weight: 700;
+            font-size: .85rem;
+        }
+
+        .timeline-era {
+            font-size: .78rem;
+            opacity: .65;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .timeline-card h2 {
+            margin: 6px 0 8px;
+            font-size: 1.15rem;
+        }
+
+        .timeline-card p {
+            line-height: 1.65;
+            margin: 7px 0;
+        }
+
+        .timeline-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .timeline-tag {
+            font-size: .75rem;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: rgba(215,179,90,.08);
+            border: 1px solid rgba(215,179,90,.18);
+        }
+
+        .timeline-empty {
+            display: none;
+            text-align: center;
+            padding: 35px 15px;
+            border: 1px dashed rgba(215,179,90,.35);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .timeline-guide {
+            margin-top: 30px;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid rgba(215,179,90,.22);
+            background: rgba(255,255,255,.025);
+        }
+
+        .timeline-guide h2 {
+            margin-top: 0;
+        }
+
+        .timeline-guide li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .timeline-footer {
+            text-align: center;
+            padding: 25px 10px;
+            opacity: .8;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 8px 0 15px;
+        }
+
+        [data-lang="hi"] {
+            display: none;
+        }
+
+        body.hindi [data-lang="en"] {
+            display: none;
+        }
+
+        body.hindi [data-lang="hi"] {
+            display: inline;
+        }
+
+        .lang-block {
+            display: block;
+        }
+
+        body.hindi .lang-block.en {
+            display: none;
+        }
+
+        body:not(.hindi) .lang-block.hi {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .timeline-stats {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .timeline::before {
+                left: 18px;
+            }
+
+            .timeline-item,
+            .timeline-item.left,
+            .timeline-item.right {
+                width: 100%;
+                left: 0;
+                text-align: left;
+                padding-left: 48px;
+                padding-right: 4px;
+            }
+
+            .timeline-item.left .timeline-dot,
+            .timeline-item.right .timeline-dot {
+                left: 10px;
+                right: auto;
+            }
+
+            .timeline-card {
+                padding: 17px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="timeline-page">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <header class="timeline-hero">
+
+        <a
+            href="../index.html"
+            class="back-link"
+        >
+            <span data-lang="en">← Back to Home</span>
+            <span data-lang="hi">← होम पर वापस जाएँ</span>
         </a>
 
-        <h1>Historical Timeline</h1>
+        <h1>
+
+            <span data-lang="en">
+                🕰️ History Timeline
+            </span>
+
+            <span data-lang="hi">
+                🕰️ इतिहास टाइमलाइन
+            </span>
+
+        </h1>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Historical Knowledge
-            Platform.
+
+            <span class="lang-block en">
+                Explore important events, civilizations,
+                discoveries, kingdoms and turning points
+                throughout human history.
+            </span>
+
+            <span class="lang-block hi">
+                मानव इतिहास की महत्वपूर्ण घटनाओं, सभ्यताओं,
+                खोजों, साम्राज्यों और ऐतिहासिक बदलावों को
+                एक टाइमलाइन में देखें।
+            </span>
+
         </p>
+
+
+        <!-- LANGUAGE -->
+
+        <div class="timeline-actions">
+
+            <button
+                class="timeline-btn active"
+                id="englishBtn"
+                onclick="setLanguage('en')"
+            >
+                English
+            </button>
+
+            <button
+                class="timeline-btn"
+                id="hindiBtn"
+                onclick="setLanguage('hi')"
+            >
+                हिन्दी
+            </button>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <input
+            type="search"
+            id="timelineSearch"
+            class="timeline-search"
+            placeholder="Search history, civilization, event..."
+            autocomplete="off"
+        >
 
     </header>
 
 
-    <!-- =====================================================
-         TIMELINE INTRO
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         STATS
+         ================================================= -->
 
-        <h2>Historical Timeline</h2>
+    <section class="timeline-stats">
 
-        <p>
-            Explore important periods, events, civilizations,
-            cultures and milestones throughout human history.
-        </p>
-
-
-        <!-- =================================================
-             TIMELINE SEARCH
-        ================================================== -->
-        <div class="search-area">
-
-            <label for="timeline-search">
-                Search Timeline
-            </label>
-
-            <input
-                id="timeline-search"
-                class="searchbox"
-                type="search"
-                placeholder="Search historical events..."
-                autocomplete="off"
-            >
-
+        <div class="timeline-stat">
+            <strong id="eventCount">0</strong>
+            <span>
+                <span data-lang="en">Events</span>
+                <span data-lang="hi">घटनाएँ</span>
+            </span>
         </div>
 
+        <div class="timeline-stat">
+            <strong id="eraCount">0</strong>
+            <span>
+                <span data-lang="en">Eras</span>
+                <span data-lang="hi">युग</span>
+            </span>
+        </div>
 
-        <!-- =================================================
-             TIMELINE FILTERS
-        ================================================== -->
-        <div class="grid">
+        <div class="timeline-stat">
+            <strong id="ancientCount">0</strong>
+            <span>
+                <span data-lang="en">Ancient</span>
+                <span data-lang="hi">प्राचीन</span>
+            </span>
+        </div>
+
+        <div class="timeline-stat">
+            <strong id="modernCount">0</strong>
+            <span>
+                <span data-lang="en">Modern</span>
+                <span data-lang="hi">आधुनिक</span>
+            </span>
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ERA FILTERS
+         ================================================= -->
+
+    <section>
+
+        <div class="timeline-actions">
 
             <button
-                class="card"
-                type="button"
-                data-timeline-filter="all"
+                class="timeline-btn active era-filter"
+                data-era="all"
             >
-                <h3>All History</h3>
-                <p>
-                    Explore all available timeline events.
-                </p>
+                <span data-lang="en">All</span>
+                <span data-lang="hi">सभी</span>
             </button>
 
-
             <button
-                class="card"
-                type="button"
-                data-timeline-filter="ancient"
+                class="timeline-btn era-filter"
+                data-era="ancient"
             >
-                <h3>Ancient History</h3>
-                <p>
-                    Explore the ancient world and early
-                    civilizations.
-                </p>
+                <span data-lang="en">Ancient</span>
+                <span data-lang="hi">प्राचीन</span>
             </button>
 
-
             <button
-                class="card"
-                type="button"
-                data-timeline-filter="medieval"
+                class="timeline-btn era-filter"
+                data-era="medieval"
             >
-                <h3>Medieval History</h3>
-                <p>
-                    Explore kingdoms, empires and medieval
-                    civilizations.
-                </p>
+                <span data-lang="en">Medieval</span>
+                <span data-lang="hi">मध्यकालीन</span>
             </button>
 
+            <button
+                class="timeline-btn era-filter"
+                data-era="early-modern"
+            >
+                <span data-lang="en">Early Modern</span>
+                <span data-lang="hi">आरंभिक आधुनिक</span>
+            </button>
 
             <button
-                class="card"
-                type="button"
-                data-timeline-filter="modern"
+                class="timeline-btn era-filter"
+                data-era="modern"
             >
-                <h3>Modern History</h3>
-                <p>
-                    Explore major events from the modern era.
-                </p>
+                <span data-lang="en">Modern</span>
+                <span data-lang="hi">आधुनिक</span>
             </button>
 
         </div>
@@ -125,138 +505,1257 @@
     </section>
 
 
-    <!-- =====================================================
-         TIMELINE LIST
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         TIMELINE
+         ================================================= -->
 
-        <h2>Timeline Events</h2>
+    <section class="timeline" id="timeline">
 
-        <div
-            id="timeline-list"
-            class="grid"
-            aria-live="polite"
+        <!-- EVENT 1 -->
+
+        <article
+            class="timeline-item left"
+            data-era="ancient"
+            data-search="agriculture neolithic farming civilization खेती कृषि नवपाषाण"
         >
 
-            <article class="card">
+            <span class="timeline-dot"></span>
 
-                <h3>Historical Timeline</h3>
+            <div class="timeline-card">
 
-                <p id="timeline-status">
-                    Loading historical events...
+                <span class="timeline-year">
+                    c. 10,000 BCE
+                </span>
+
+                <div class="timeline-era">
+                    Ancient • Prehistory
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Rise of Agriculture
+                    </span>
+
+                    <span class="lang-block hi">
+                        कृषि का विकास
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Farming and animal domestication began
+                        transforming human communities and
+                        settlement patterns.
+                    </span>
+
+                    <span class="lang-block hi">
+                        खेती और पशुपालन के विकास ने मानव समाज,
+                        स्थायी बस्तियों और जीवन शैली में बड़े
+                        बदलाव किए।
+                    </span>
+
                 </p>
 
-            </article>
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Agriculture</span>
+                    <span class="timeline-tag">Civilization</span>
+                </div>
 
-        </div>
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 2 -->
+
+        <article
+            class="timeline-item right"
+            data-era="ancient"
+            data-search="mesopotamia cities writing civilization मेसोपोटामिया लेखन नगर सभ्यता"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    c. 3500 BCE
+                </span>
+
+                <div class="timeline-era">
+                    Ancient • Mesopotamia
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Early Cities and Writing
+                    </span>
+
+                    <span class="lang-block hi">
+                        प्रारंभिक नगर और लेखन
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Urban societies developed in Mesopotamia,
+                        with increasingly complex administration
+                        and writing systems.
+                    </span>
+
+                    <span class="lang-block hi">
+                        मेसोपोटामिया में विकसित नगर समाजों के साथ
+                        प्रशासन और लेखन की जटिल प्रणालियाँ
+                        विकसित हुईं।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Mesopotamia</span>
+                    <span class="timeline-tag">Writing</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 3 -->
+
+        <article
+            class="timeline-item left"
+            data-era="ancient"
+            data-search="indus valley harappa civilization सिंधु हड़प्पा सभ्यता"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    c. 2600 BCE
+                </span>
+
+                <div class="timeline-era">
+                    Ancient • South Asia
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Mature Indus Civilization
+                    </span>
+
+                    <span class="lang-block hi">
+                        विकसित सिंधु सभ्यता
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Major urban settlements flourished across
+                        parts of South Asia, known for planned
+                        cities, drainage and long-distance trade.
+                    </span>
+
+                    <span class="lang-block hi">
+                        दक्षिण एशिया के कई क्षेत्रों में बड़े
+                        नगर विकसित हुए, जो नगर नियोजन, जल निकासी
+                        और व्यापार के लिए प्रसिद्ध थे।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Indus</span>
+                    <span class="timeline-tag">Harappa</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 4 -->
+
+        <article
+            class="timeline-item right"
+            data-era="ancient"
+            data-search="classical greece democracy philosophy यूनान लोकतंत्र दर्शन"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    c. 5th Century BCE
+                </span>
+
+                <div class="timeline-era">
+                    Ancient • Greece
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Classical Greek World
+                    </span>
+
+                    <span class="lang-block hi">
+                        शास्त्रीय यूनानी संसार
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Greek city-states became influential in
+                        philosophy, political thought, art,
+                        science and literature.
+                    </span>
+
+                    <span class="lang-block hi">
+                        यूनानी नगर-राज्यों ने दर्शन, राजनीति,
+                        कला, विज्ञान और साहित्य के विकास में
+                        महत्वपूर्ण भूमिका निभाई।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Greece</span>
+                    <span class="timeline-tag">Philosophy</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 5 -->
+
+        <article
+            class="timeline-item left"
+            data-era="ancient"
+            data-search="roman empire rome roman civilization रोम रोमन साम्राज्य"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    27 BCE
+                </span>
+
+                <div class="timeline-era">
+                    Ancient • Rome
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Roman Empire Begins
+                    </span>
+
+                    <span class="lang-block hi">
+                        रोमन साम्राज्य का आरंभ
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Rome entered the imperial period,
+                        becoming one of the most influential
+                        political powers of the ancient world.
+                    </span>
+
+                    <span class="lang-block hi">
+                        रोम साम्राज्यवादी काल में प्रवेश कर
+                        प्राचीन विश्व की सबसे प्रभावशाली
+                        राजनीतिक शक्तियों में से एक बना।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Rome</span>
+                    <span class="timeline-tag">Empire</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 6 -->
+
+        <article
+            class="timeline-item right"
+            data-era="medieval"
+            data-search="gupta india science mathematics गुप्त भारत विज्ञान गणित"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    c. 4th–6th Century CE
+                </span>
+
+                <div class="timeline-era">
+                    Medieval • India
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Gupta Period
+                    </span>
+
+                    <span class="lang-block hi">
+                        गुप्त काल
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        The Gupta period saw important developments
+                        in mathematics, astronomy, literature,
+                        art and political culture.
+                    </span>
+
+                    <span class="lang-block hi">
+                        गुप्त काल में गणित, खगोल विज्ञान, साहित्य,
+                        कला और राजनीतिक संस्कृति के क्षेत्र में
+                        महत्वपूर्ण विकास हुए।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">India</span>
+                    <span class="timeline-tag">Science</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 7 -->
+
+        <article
+            class="timeline-item left"
+            data-era="medieval"
+            data-search="silk road trade asia europe सिल्क रोड व्यापार एशिया यूरोप"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    Medieval Era
+                </span>
+
+                <div class="timeline-era">
+                    Medieval • Eurasia
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Silk Road Networks
+                    </span>
+
+                    <span class="lang-block hi">
+                        सिल्क रोड व्यापार नेटवर्क
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Trade routes connected regions of Asia,
+                        the Middle East and Europe, carrying goods,
+                        technologies, ideas and cultural influences.
+                    </span>
+
+                    <span class="lang-block hi">
+                        व्यापार मार्गों ने एशिया, मध्य पूर्व और
+                        यूरोप के क्षेत्रों को जोड़ा तथा वस्तुओं,
+                        तकनीकों, विचारों और सांस्कृतिक प्रभावों
+                        का आदान-प्रदान कराया।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Trade</span>
+                    <span class="timeline-tag">Culture</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 8 -->
+
+        <article
+            class="timeline-item right"
+            data-era="early-modern"
+            data-search="printing press gutenberg print technology प्रिंटिंग प्रेस गुटेनबर्ग"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    c. 15th Century
+                </span>
+
+                <div class="timeline-era">
+                    Early Modern • Europe
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Printing Revolution
+                    </span>
+
+                    <span class="lang-block hi">
+                        मुद्रण क्रांति
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Movable-type printing helped books and
+                        written information spread much more
+                        widely across Europe.
+                    </span>
+
+                    <span class="lang-block hi">
+                        चल अक्षर मुद्रण तकनीक ने पुस्तकों और
+                        लिखित जानकारी के व्यापक प्रसार में
+                        महत्वपूर्ण भूमिका निभाई।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Technology</span>
+                    <span class="timeline-tag">Books</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 9 -->
+
+        <article
+            class="timeline-item left"
+            data-era="early-modern"
+            data-search="industrial revolution industry machines steam औद्योगिक क्रांति मशीन भाप"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    c. 1760–1840
+                </span>
+
+                <div class="timeline-era">
+                    Early Modern • Britain
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Industrial Revolution
+                    </span>
+
+                    <span class="lang-block hi">
+                        औद्योगिक क्रांति
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Mechanized production, factories and
+                        new technologies transformed economies,
+                        transportation and everyday life.
+                    </span>
+
+                    <span class="lang-block hi">
+                        मशीनों, कारखानों और नई तकनीकों ने
+                        अर्थव्यवस्था, परिवहन और दैनिक जीवन
+                        में बड़े बदलाव किए।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Industry</span>
+                    <span class="timeline-tag">Technology</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 10 -->
+
+        <article
+            class="timeline-item right"
+            data-era="modern"
+            data-search="world war first 1914 1918 प्रथम विश्व युद्ध"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    1914–1918
+                </span>
+
+                <div class="timeline-era">
+                    Modern • World
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        First World War
+                    </span>
+
+                    <span class="lang-block hi">
+                        प्रथम विश्व युद्ध
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        A major global conflict that reshaped
+                        international politics, borders and
+                        societies.
+                    </span>
+
+                    <span class="lang-block hi">
+                        यह एक बड़ा वैश्विक संघर्ष था जिसने
+                        अंतरराष्ट्रीय राजनीति, सीमाओं और
+                        समाजों को गहराई से प्रभावित किया।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">World War</span>
+                    <span class="timeline-tag">1914</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 11 -->
+
+        <article
+            class="timeline-item left"
+            data-era="modern"
+            data-search="world war second 1939 1945 द्वितीय विश्व युद्ध"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    1939–1945
+                </span>
+
+                <div class="timeline-era">
+                    Modern • World
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Second World War
+                    </span>
+
+                    <span class="lang-block hi">
+                        द्वितीय विश्व युद्ध
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        A global conflict that caused enormous
+                        human and political consequences and
+                        reshaped the post-war world order.
+                    </span>
+
+                    <span class="lang-block hi">
+                        इस वैश्विक संघर्ष के बहुत बड़े मानवीय
+                        और राजनीतिक परिणाम हुए तथा युद्ध के बाद
+                        विश्व व्यवस्था में व्यापक बदलाव आया।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">World War</span>
+                    <span class="timeline-tag">1945</span>
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- EVENT 12 -->
+
+        <article
+            class="timeline-item right"
+            data-era="modern"
+            data-search="internet world wide web digital age इंटरनेट डिजिटल युग वेब"
+        >
+
+            <span class="timeline-dot"></span>
+
+            <div class="timeline-card">
+
+                <span class="timeline-year">
+                    Late 20th Century
+                </span>
+
+                <div class="timeline-era">
+                    Modern • Digital Age
+                </div>
+
+                <h2>
+
+                    <span class="lang-block en">
+                        Rise of the Internet
+                    </span>
+
+                    <span class="lang-block hi">
+                        इंटरनेट का विकास
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    <span class="lang-block en">
+                        Digital networks transformed communication,
+                        information sharing, education, commerce
+                        and global connections.
+                    </span>
+
+                    <span class="lang-block hi">
+                        डिजिटल नेटवर्क ने संचार, जानकारी के आदान-
+                        प्रदान, शिक्षा, व्यापार और वैश्विक
+                        संपर्क को बदल दिया।
+                    </span>
+
+                </p>
+
+                <div class="timeline-tags">
+                    <span class="timeline-tag">Internet</span>
+                    <span class="timeline-tag">Digital</span>
+                </div>
+
+            </div>
+
+        </article>
+
 
     </section>
 
 
-    <!-- =====================================================
-         RELATED DISCOVERY
-    ====================================================== -->
-    <section class="content">
+    <!-- =================================================
+         EMPTY RESULT
+         ================================================= -->
 
-        <h2>Explore History</h2>
+    <div
+        id="timelineEmpty"
+        class="timeline-empty"
+    >
 
-        <div class="grid">
+        <span class="lang-block en">
+            No historical event found.
+        </span>
 
-            <a class="card" href="countries.html">
-                <h3>Countries</h3>
-                <p>
-                    Explore the history of countries around
-                    the world.
-                </p>
-            </a>
+        <span class="lang-block hi">
+            कोई ऐतिहासिक घटना नहीं मिली।
+        </span>
 
-
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
-                <p>
-                    Explore ancient and historic civilizations.
-                </p>
-            </a>
+    </div>
 
 
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
-                <p>
-                    Discover historical heritage and cultural
-                    landmarks.
-                </p>
-            </a>
+    <!-- =================================================
+         HOW TO USE
+         ================================================= -->
 
+    <section class="timeline-guide">
 
-            <a class="card" href="gallery.html">
-                <h3>Gallery</h3>
-                <p>
-                    Explore historical visual collections.
-                </p>
-            </a>
+        <h2>
 
+            <span class="lang-block en">
+                🔎 Explore the Timeline
+            </span>
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
-            </a>
+            <span class="lang-block hi">
+                🔎 टाइमलाइन को कैसे देखें
+            </span>
 
+        </h2>
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge.
-                </p>
-            </a>
+        <ul>
 
+            <li>
+                <span class="lang-block en">
+                    Use the search box to find a historical
+                    event, civilization or topic.
+                </span>
 
-            <a class="card" href="library.html">
-                <h3>Knowledge Library</h3>
-                <p>
-                    Open the Knowledge Library.
-                </p>
-            </a>
+                <span class="lang-block hi">
+                    किसी घटना, सभ्यता या विषय को खोजने के लिए
+                    ऊपर दिए गए search box का उपयोग करें।
+                </span>
+            </li>
 
+            <li>
+                <span class="lang-block en">
+                    Use era buttons to focus on a particular
+                    historical period.
+                </span>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main entry point.
-                </p>
-            </a>
+                <span class="lang-block hi">
+                    किसी विशेष ऐतिहासिक काल को देखने के लिए
+                    Era buttons का उपयोग करें।
+                </span>
+            </li>
 
-        </div>
+            <li>
+                <span class="lang-block en">
+                    Tap any timeline card to open its detailed
+                    information.
+                </span>
+
+                <span class="lang-block hi">
+                    किसी भी timeline card को दबाकर उसकी विस्तृत
+                    जानकारी खोली जा सकती है।
+                </span>
+            </li>
+
+            <li>
+                <span class="lang-block en">
+                    More historical events can be added to this
+                    timeline in future updates.
+                </span>
+
+                <span class="lang-block hi">
+                    भविष्य में इस टाइमलाइन में और ऐतिहासिक घटनाएँ
+                    जोड़ी जा सकती हैं।
+                </span>
+            </li>
+
+        </ul>
 
     </section>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-    <footer class="footer">
+    <!-- =================================================
+         NAVIGATION
+         ================================================= -->
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <nav class="timeline-actions">
 
-        <br>
-
-        <a href="../index.html">
-            Home
+        <a
+            href="civilizations.html"
+            class="timeline-btn"
+        >
+            <span data-lang="en">🏛️ Civilizations</span>
+            <span data-lang="hi">🏛️ सभ्यताएँ</span>
         </a>
 
+        <a
+            href="heritage.html"
+            class="timeline-btn"
+        >
+            <span data-lang="en">🏰 Heritage</span>
+            <span data-lang="hi">🏰 विरासत</span>
+        </a>
+
+        <a
+            href="countries.html"
+            class="timeline-btn"
+        >
+            <span data-lang="en">🌍 Countries</span>
+            <span data-lang="hi">🌍 देश</span>
+        </a>
+
+        <a
+            href="library.html"
+            class="timeline-btn"
+        >
+            <span data-lang="en">📚 Library</span>
+            <span data-lang="hi">📚 लाइब्रेरी</span>
+        </a>
+
+        <a
+            href="../index.html"
+            class="timeline-btn"
+        >
+            <span data-lang="en">🏠 Home</span>
+            <span data-lang="hi">🏠 होम</span>
+        </a>
+
+    </nav>
+
+
+    <!-- =================================================
+         FOOTER
+         ================================================= -->
+
+    <footer class="timeline-footer">
+
+        <p>
+            <strong>
+                ALON HISTORYVERSE 24
+            </strong>
+        </p>
+
+        <p>
+            Baba Thecno Guru
+        </p>
+
+        <p>
+
+            <span class="lang-block en">
+                History • Civilizations • Countries • Culture • Heritage
+            </span>
+
+            <span class="lang-block hi">
+                इतिहास • सभ्यताएँ • देश • संस्कृति • विरासत
+            </span>
+
+        </p>
+
     </footer>
+
 
 </main>
 
 
-<!-- =======================================================
-     TIMELINE PAGE SCRIPTS
-======================================================== -->
+<script>
 
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/data.js"></script>
+    /* =====================================================
+       LANGUAGE SYSTEM
+       ===================================================== */
+
+    const LANGUAGE_KEY =
+        "alon_historyverse_language";
+
+
+    function setLanguage(language) {
+
+        if (language !== "en" && language !== "hi") {
+            language = "en";
+        }
+
+        document.documentElement.lang =
+            language;
+
+        if (language === "hi") {
+            document.body.classList.add("hindi");
+        } else {
+            document.body.classList.remove("hindi");
+        }
+
+        const englishBtn =
+            document.getElementById("englishBtn");
+
+        const hindiBtn =
+            document.getElementById("hindiBtn");
+
+        if (englishBtn && hindiBtn) {
+
+            englishBtn.classList.toggle(
+                "active",
+                language === "en"
+            );
+
+            hindiBtn.classList.toggle(
+                "active",
+                language === "hi"
+            );
+
+        }
+
+        try {
+
+            localStorage.setItem(
+                LANGUAGE_KEY,
+                language
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "Language preference could not be saved.",
+                error
+            );
+
+        }
+
+    }
+
+
+    function loadLanguage() {
+
+        let language = "en";
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    LANGUAGE_KEY
+                );
+
+            if (
+                saved === "hi" ||
+                saved === "en"
+            ) {
+                language = saved;
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Saved language could not be read.",
+                error
+            );
+
+        }
+
+        setLanguage(language);
+
+    }
+
+
+    /* =====================================================
+       TIMELINE FILTER SYSTEM
+       ===================================================== */
+
+    const timelineItems =
+        Array.from(
+            document.querySelectorAll(
+                ".timeline-item"
+            )
+        );
+
+    const filterButtons =
+        document.querySelectorAll(
+            ".era-filter"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "timelineSearch"
+        );
+
+    const emptyMessage =
+        document.getElementById(
+            "timelineEmpty"
+        );
+
+
+    let currentEra = "all";
+
+
+    function updateTimeline() {
+
+        const search =
+            searchInput
+                .value
+                .trim()
+                .toLowerCase();
+
+        let visible = 0;
+
+        timelineItems.forEach(
+            item => {
+
+                const era =
+                    item.dataset.era || "";
+
+                const searchable =
+                    item.dataset.search || "";
+
+                const eraMatch =
+                    currentEra === "all" ||
+                    era === currentEra;
+
+                const searchMatch =
+                    !search ||
+                    searchable
+                        .toLowerCase()
+                        .includes(search);
+
+                if (
+                    eraMatch &&
+                    searchMatch
+                ) {
+
+                    item.style.display =
+                        "";
+
+                    visible++;
+
+                } else {
+
+                    item.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+        emptyMessage.style.display =
+            visible === 0
+                ? "block"
+                : "none";
+
+    }
+
+
+    filterButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    filterButtons.forEach(
+                        btn =>
+                            btn.classList.remove(
+                                "active"
+                            )
+                    );
+
+                    this.classList.add(
+                        "active"
+                    );
+
+                    currentEra =
+                        this.dataset.era ||
+                        "all";
+
+                    updateTimeline();
+
+                }
+            );
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "input",
+        updateTimeline
+    );
+
+
+    /* =====================================================
+       STATS
+       ===================================================== */
+
+    function updateStats() {
+
+        const events =
+            timelineItems.length;
+
+        const eras =
+            new Set(
+                timelineItems.map(
+                    item =>
+                        item.dataset.era
+                )
+            ).size;
+
+        const ancient =
+            timelineItems.filter(
+                item =>
+                    item.dataset.era ===
+                    "ancient"
+            ).length;
+
+        const modern =
+            timelineItems.filter(
+                item =>
+                    item.dataset.era ===
+                    "modern"
+            ).length;
+
+        document.getElementById(
+            "eventCount"
+        ).textContent = events;
+
+        document.getElementById(
+            "eraCount"
+        ).textContent = eras;
+
+        document.getElementById(
+            "ancientCount"
+        ).textContent = ancient;
+
+        document.getElementById(
+            "modernCount"
+        ).textContent = modern;
+
+    }
+
+
+    /* =====================================================
+       CLICKABLE TIMELINE CARDS
+       ===================================================== */
+
+    timelineItems.forEach(
+        item => {
+
+            const card =
+                item.querySelector(
+                    ".timeline-card"
+                );
+
+            if (!card) return;
+
+            card.setAttribute(
+                "role",
+                "button"
+            );
+
+            card.setAttribute(
+                "tabindex",
+                "0"
+            );
+
+            function openEvent() {
+
+                const year =
+                    card.querySelector(
+                        ".timeline-year"
+                    )?.textContent
+                    .trim() || "";
+
+                const title =
+                    card.querySelector(
+                        "h2"
+                    )?.textContent
+                    .trim() || "";
+
+                const description =
+                    card.querySelector(
+                        "p"
+                    )?.textContent
+                    .trim() || "";
+
+                alert(
+                    title +
+                    "\n\n" +
+                    year +
+                    "\n\n" +
+                    description
+                );
+
+            }
+
+            card.addEventListener(
+                "click",
+                openEvent
+            );
+
+            card.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter" ||
+                        event.key === " "
+                    ) {
+
+                        event.preventDefault();
+
+                        openEvent();
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       START
+       ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadLanguage();
+
+            updateStats();
+
+            updateTimeline();
+
+        }
+    );
+
+</script>
 
 </body>
 

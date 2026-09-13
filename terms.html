@@ -3,250 +3,1043 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Terms of Use • ALON HISTORYVERSE 24</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Terms & Conditions • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Terms and Conditions of ALON HISTORYVERSE 24 — Baba Thecno Guru"
+    >
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           TERMS PAGE — BILINGUAL SYSTEM
+           ===================================================== */
+
+        .terms-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 14px 60px;
+        }
+
+        .terms-header {
+            text-align: center;
+            padding: 28px 16px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .terms-header h1 {
+            margin: 0 0 8px;
+        }
+
+        .terms-header p {
+            margin: 6px 0;
+            opacity: 0.85;
+        }
+
+        .language-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 18px 0 4px;
+            flex-wrap: wrap;
+        }
+
+        .language-switcher button {
+            min-width: 110px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .language-switcher button.active {
+            background: rgba(215, 179, 90, 0.16);
+            border-color: #d7b35a;
+        }
+
+        .terms-notice {
+            padding: 16px;
+            margin: 18px 0;
+            border-left: 4px solid #d7b35a;
+            border-radius: 10px;
+            background: rgba(215, 179, 90, 0.08);
+        }
+
+        .terms-card {
+            margin: 16px 0;
+            padding: 22px;
+            border: 1px solid rgba(215, 179, 90, 0.22);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .terms-card h2 {
+            margin-top: 0;
+        }
+
+        .terms-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .terms-card p {
+            line-height: 1.75;
+        }
+
+        .terms-card li {
+            margin: 9px 0;
+            line-height: 1.65;
+        }
+
+        .important {
+            border-color: rgba(215, 179, 90, 0.55);
+        }
+
+        .terms-footer {
+            text-align: center;
+            margin-top: 28px;
+            padding: 22px 12px;
+            opacity: 0.85;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 12px 0;
+        }
+
+        [data-lang="hi"] {
+            display: none;
+        }
+
+        body.hindi [data-lang="en"] {
+            display: none;
+        }
+
+        body.hindi [data-lang="hi"] {
+            display: block;
+        }
+
+        .inline-hi,
+        .inline-en {
+            display: inline;
+        }
+
+        body.hindi .inline-en {
+            display: none;
+        }
+
+        body:not(.hindi) .inline-hi {
+            display: none;
+        }
+
+        @media (max-width: 650px) {
+
+            .terms-page {
+                padding: 12px 10px 45px;
+            }
+
+            .terms-header {
+                padding: 22px 12px;
+            }
+
+            .terms-card {
+                padding: 17px 14px;
+            }
+
+            .terms-card h2 {
+                font-size: 1.2rem;
+            }
+
+            .terms-card p,
+            .terms-card li {
+                font-size: 0.95rem;
+            }
+
+            .language-switcher button {
+                min-width: 95px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<main class="page">
+    <main class="terms-page">
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <header class="terms-header">
+
+            <a
+                href="../index.html"
+                class="back-link"
+            >
+                <span class="inline-en">← Back to Home</span>
+                <span class="inline-hi">← होम पर वापस जाएँ</span>
+            </a>
+
+            <h1>
+                <span data-lang="en">Terms & Conditions</span>
+                <span data-lang="hi">नियम एवं शर्तें</span>
+            </h1>
+
+            <p>
+                <span data-lang="en">
+                    ALON HISTORYVERSE 24
+                </span>
+
+                <span data-lang="hi">
+                    ALON HISTORYVERSE 24
+                </span>
+            </p>
+
+            <p>
+                <span data-lang="en">
+                    Baba Thecno Guru
+                </span>
+
+                <span data-lang="hi">
+                    Baba Thecno Guru
+                </span>
+            </p>
+
+            <!-- LANGUAGE BUTTONS -->
+
+            <div class="language-switcher">
+
+                <button
+                    type="button"
+                    id="englishBtn"
+                    class="active"
+                    onclick="setLanguage('en')"
+                >
+                    English
+                </button>
+
+                <button
+                    type="button"
+                    id="hindiBtn"
+                    onclick="setLanguage('hi')"
+                >
+                    हिन्दी
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             ENGLISH TERMS
+             ================================================= -->
+
+        <section data-lang="en">
+
+            <div class="terms-notice">
+                <strong>Important Notice:</strong>
+                ALON HISTORYVERSE 24 is a knowledge and information
+                platform. Content submitted or published by users,
+                contributors, authors or other third parties remains
+                the responsibility of the person or entity that
+                submitted that content.
+            </div>
+
+
+            <article class="terms-card">
+
+                <h2>1. Acceptance of Terms</h2>
+
+                <p>
+                    By accessing or using ALON HISTORYVERSE 24,
+                    you agree to follow these Terms and Conditions.
+                    If you do not agree with these terms, please do
+                    not use the website or its services.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>2. Purpose of the Website</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 is designed as a knowledge
+                    platform covering history, civilizations,
+                    countries, cultures, heritage, timelines,
+                    education and other informational subjects.
+                </p>
+
+                <p>
+                    The website is intended for learning,
+                    exploration, research and general information.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>3. Responsibility for Submitted Content</h2>
+
+                <p>
+                    Any article, historical information, text,
+                    description, image, video, document, book,
+                    comment or other material submitted by a user,
+                    contributor, author or third party is the
+                    responsibility of the person who submitted it.
+                </p>
+
+                <ul>
+
+                    <li>
+                        Contributors are responsible for the
+                        accuracy and legality of the information
+                        they submit.
+                    </li>
+
+                    <li>
+                        Contributors must not knowingly submit
+                        false, misleading or unlawful information.
+                    </li>
+
+                    <li>
+                        Contributors must have the necessary rights
+                        or permission to submit images, videos,
+                        documents and other copyrighted material.
+                    </li>
+
+                    <li>
+                        A contributor must not upload material that
+                        violates another person's rights.
+                    </li>
+
+                    <li>
+                        ALON HISTORYVERSE 24 is not responsible for
+                        statements or claims independently submitted
+                        by users or third parties.
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>4. Historical and Cultural Information</h2>
+
+                <p>
+                    Historical information may differ between
+                    sources, researchers, regions, traditions and
+                    historical interpretations.
+                </p>
+
+                <p>
+                    Information published on the platform should
+                    not automatically be treated as an absolute or
+                    final historical conclusion.
+                </p>
+
+                <p>
+                    Users and contributors are responsible for the
+                    information and sources they submit.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>5. Religion and Cultural Neutrality</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 is not operated under,
+                    controlled by, or officially affiliated with
+                    any particular religion, religious organization,
+                    culture, community, caste, country or ideology.
+                </p>
+
+                <p>
+                    The website may contain information about
+                    different religions, cultures, civilizations,
+                    traditions and communities as part of historical
+                    and educational content.
+                </p>
+
+                <p>
+                    Inclusion of such information does not mean that
+                    ALON HISTORYVERSE 24 officially supports,
+                    rejects, promotes or represents that religion,
+                    culture, tradition or community.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>6. User Articles and Contributions</h2>
+
+                <p>
+                    Users may be allowed to create or submit
+                    articles and other educational material where
+                    the website provides such functionality.
+                </p>
+
+                <p>
+                    The person submitting the material remains
+                    responsible for its content, accuracy, originality,
+                    legality and compliance with applicable rights.
+                </p>
+
+                <p>
+                    ALON HISTORYVERSE 24 may review, edit, restrict,
+                    remove or reject content when necessary to
+                    maintain the quality, safety or legal compliance
+                    of the platform.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>7. Copyright and Intellectual Property</h2>
+
+                <p>
+                    Users must not upload copyrighted material unless
+                    they have permission, ownership or another lawful
+                    basis for using and submitting that material.
+                </p>
+
+                <p>
+                    If a contributor submits material belonging to
+                    another person or organization, the contributor
+                    is responsible for obtaining the necessary rights
+                    and permissions.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>8. Comments and User Reactions</h2>
+
+                <p>
+                    Comments, likes, dislikes and other user reactions
+                    must be used responsibly.
+                </p>
+
+                <ul>
+
+                    <li>No unlawful content.</li>
+                    <li>No deliberate misinformation.</li>
+                    <li>No harassment or threats.</li>
+                    <li>No impersonation.</li>
+                    <li>No infringement of another person's rights.</li>
+
+                </ul>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>9. Accuracy of Information</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 attempts to provide useful
+                    informational material, but it does not guarantee
+                    that every historical, cultural, geographical,
+                    educational or user-submitted statement will
+                    always be complete, current or error-free.
+                </p>
+
+                <p>
+                    Important information should be independently
+                    verified using reliable sources where appropriate.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>10. Website Availability</h2>
+
+                <p>
+                    We may update, modify, temporarily suspend or
+                    remove parts of the website when required for
+                    maintenance, development, security or other
+                    operational reasons.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>11. User Accounts</h2>
+
+                <p>
+                    Where account or login functionality is provided,
+                    users are responsible for providing information
+                    that is accurate and for using their account
+                    responsibly.
+                </p>
+
+                <p>
+                    Users must not attempt to access another person's
+                    account or misuse website functionality.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>12. Prohibited Use</h2>
+
+                <p>
+                    Users must not use ALON HISTORYVERSE 24 for
+                    unlawful activities, malicious activity,
+                    deliberate abuse, unauthorized access, harmful
+                    distribution or infringement of another person's
+                    rights.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>13. Limitation of Responsibility</h2>
+
+                <p>
+                    To the extent permitted by applicable law,
+                    ALON HISTORYVERSE 24 and its owner are not
+                    responsible for independent claims, opinions,
+                    errors or materials submitted by users,
+                    contributors or third parties.
+                </p>
+
+                <p>
+                    Responsibility for submitted material remains
+                    with the person or entity that provided the
+                    material.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>14. Changes to These Terms</h2>
+
+                <p>
+                    These Terms and Conditions may be updated when
+                    the website, its features or its policies change.
+                    Updated terms may be published on this page.
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>15. Contact</h2>
+
+                <p>
+                    For questions, corrections, copyright concerns,
+                    content complaints or other website-related
+                    matters, users may use the contact facilities
+                    provided on ALON HISTORYVERSE 24.
+                </p>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             HINDI TERMS
+             ================================================= -->
+
+        <section data-lang="hi">
+
+            <div class="terms-notice">
+                <strong>महत्वपूर्ण सूचना:</strong>
+                ALON HISTORYVERSE 24 एक ज्ञान एवं जानकारी का मंच है।
+                वेबसाइट पर किसी उपयोगकर्ता, योगदानकर्ता, लेखक या
+                किसी अन्य तीसरे पक्ष द्वारा डाली गई सामग्री की
+                जिम्मेदारी उस सामग्री को डालने वाले व्यक्ति या संस्था
+                की होगी।
+            </div>
+
+
+            <article class="terms-card">
+
+                <h2>1. नियमों की स्वीकृति</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 को इस्तेमाल या एक्सेस करने
+                    का अर्थ है कि आप इन नियम एवं शर्तों को स्वीकार
+                    करते हैं। यदि आप इन शर्तों से सहमत नहीं हैं,
+                    तो वेबसाइट का उपयोग न करें।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>2. वेबसाइट का उद्देश्य</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 इतिहास, सभ्यताओं, देशों,
+                    संस्कृति, विरासत, टाइमलाइन, शिक्षा और अन्य
+                    ज्ञानवर्धक विषयों से संबंधित जानकारी उपलब्ध
+                    कराने के उद्देश्य से बनाया गया है।
+                </p>
+
+                <p>
+                    वेबसाइट का उद्देश्य सीखने, जानकारी प्राप्त करने,
+                    इतिहास को समझने और ज्ञान की खोज में सहायता करना है।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>3. वेबसाइट पर डाली गई सामग्री की जिम्मेदारी</h2>
+
+                <p>
+                    किसी उपयोगकर्ता, लेखक, योगदानकर्ता या तीसरे पक्ष
+                    द्वारा वेबसाइट पर डाला गया कोई भी लेख, इतिहास,
+                    जानकारी, टेक्स्ट, फोटो, वीडियो, दस्तावेज,
+                    किताब, कमेंट या अन्य सामग्री उसी व्यक्ति की
+                    जिम्मेदारी होगी जिसने उसे वेबसाइट पर डाला है।
+                </p>
+
+                <ul>
+
+                    <li>
+                        योगदानकर्ता अपनी डाली गई जानकारी की
+                        सटीकता और वैधता के लिए स्वयं जिम्मेदार होगा।
+                    </li>
+
+                    <li>
+                        जानबूझकर गलत, भ्रामक या गैर-कानूनी जानकारी
+                        डालना प्रतिबंधित है।
+                    </li>
+
+                    <li>
+                        फोटो, वीडियो, किताब, दस्तावेज या अन्य
+                        कॉपीराइट सामग्री डालने से पहले आवश्यक
+                        अधिकार या अनुमति होना जरूरी है।
+                    </li>
+
+                    <li>
+                        किसी दूसरे व्यक्ति के अधिकारों का उल्लंघन
+                        करने वाली सामग्री डालने की जिम्मेदारी
+                        सामग्री डालने वाले की होगी।
+                    </li>
+
+                    <li>
+                        उपयोगकर्ताओं या तीसरे पक्ष द्वारा स्वतंत्र
+                        रूप से डाले गए दावों और बयानों के लिए
+                        ALON HISTORYVERSE 24 जिम्मेदार नहीं होगा।
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>4. इतिहास एवं सांस्कृतिक जानकारी</h2>
+
+                <p>
+                    इतिहास की जानकारी अलग-अलग स्रोतों, शोधकर्ताओं,
+                    क्षेत्रों, परंपराओं और ऐतिहासिक व्याख्याओं के
+                    अनुसार अलग हो सकती है।
+                </p>
+
+                <p>
+                    इसलिए वेबसाइट पर उपलब्ध किसी ऐतिहासिक जानकारी
+                    को हर स्थिति में अंतिम या पूर्ण ऐतिहासिक निष्कर्ष
+                    नहीं माना जाना चाहिए।
+                </p>
+
+                <p>
+                    किसी उपयोगकर्ता या योगदानकर्ता द्वारा डाली गई
+                    ऐतिहासिक जानकारी की जिम्मेदारी उसे डालने वाले
+                    व्यक्ति की होगी।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>5. धर्म एवं संस्कृति के प्रति तटस्थता</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 किसी विशेष धर्म, धार्मिक
+                    संस्था, संस्कृति, समुदाय, जाति, देश या विचारधारा
+                    के अधीन, नियंत्रित या आधिकारिक रूप से संबद्ध
+                    नहीं है।
+                </p>
+
+                <p>
+                    वेबसाइट पर अलग-अलग धर्मों, संस्कृतियों,
+                    सभ्यताओं, परंपराओं और समुदायों से संबंधित
+                    जानकारी ऐतिहासिक एवं ज्ञानवर्धक उद्देश्य से
+                    दिखाई जा सकती है।
+                </p>
+
+                <p>
+                    किसी धर्म, संस्कृति, परंपरा या समुदाय की जानकारी
+                    वेबसाइट पर होने का अर्थ यह नहीं है कि
+                    ALON HISTORYVERSE 24 उसका समर्थन, विरोध,
+                    प्रचार या आधिकारिक प्रतिनिधित्व करता है।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>6. उपयोगकर्ता के लेख एवं योगदान</h2>
+
+                <p>
+                    जहाँ वेबसाइट पर लेख या अन्य सामग्री बनाने और
+                    डालने की सुविधा उपलब्ध होगी, वहाँ उपयोगकर्ता
+                    अपनी सामग्री जमा कर सकता है।
+                </p>
+
+                <p>
+                    सामग्री डालने वाला व्यक्ति उसके कंटेंट,
+                    सटीकता, मौलिकता, वैधता और अधिकारों के अनुपालन
+                    के लिए स्वयं जिम्मेदार रहेगा।
+                </p>
+
+                <p>
+                    वेबसाइट की गुणवत्ता, सुरक्षा या कानूनी
+                    आवश्यकताओं को बनाए रखने के लिए ALON HISTORYVERSE 24
+                    किसी सामग्री की समीक्षा, संपादन, रोक या हटाने
+                    का अधिकार रखता है।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>7. कॉपीराइट एवं बौद्धिक संपदा</h2>
+
+                <p>
+                    किसी अन्य व्यक्ति या संस्था की कॉपीराइट सामग्री
+                    बिना अनुमति या उचित कानूनी अधिकार के वेबसाइट
+                    पर अपलोड नहीं करनी चाहिए।
+                </p>
+
+                <p>
+                    यदि कोई योगदानकर्ता किसी अन्य व्यक्ति या संस्था
+                    की सामग्री डालता है, तो आवश्यक अनुमति और अधिकार
+                    प्राप्त करने की जिम्मेदारी उसी योगदानकर्ता की होगी।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>8. कमेंट एवं उपयोगकर्ता प्रतिक्रिया</h2>
+
+                <p>
+                    कमेंट, लाइक, डिसलाइक और अन्य प्रतिक्रियाओं का
+                    जिम्मेदारी से उपयोग किया जाना चाहिए।
+                </p>
+
+                <ul>
+
+                    <li>गैर-कानूनी सामग्री नहीं।</li>
+                    <li>जानबूझकर गलत जानकारी नहीं।</li>
+                    <li>उत्पीड़न या धमकी नहीं।</li>
+                    <li>किसी की पहचान की नकल नहीं।</li>
+                    <li>दूसरों के अधिकारों का उल्लंघन नहीं।</li>
+
+                </ul>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>9. जानकारी की सटीकता</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 उपयोगी और ज्ञानवर्धक जानकारी
+                    देने का प्रयास करता है, लेकिन वेबसाइट यह
+                    गारंटी नहीं देती कि हर ऐतिहासिक, सांस्कृतिक,
+                    भौगोलिक, शैक्षणिक या उपयोगकर्ता द्वारा डाली गई
+                    जानकारी हमेशा पूर्ण, नवीनतम या त्रुटिरहित होगी।
+                </p>
+
+                <p>
+                    महत्वपूर्ण जानकारी के लिए आवश्यकता पड़ने पर
+                    विश्वसनीय स्रोतों से स्वतंत्र रूप से सत्यापन
+                    करना उचित है।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>10. वेबसाइट की उपलब्धता</h2>
+
+                <p>
+                    रखरखाव, विकास, सुरक्षा या अन्य तकनीकी कारणों
+                    से वेबसाइट के किसी हिस्से को अपडेट, बदल,
+                    अस्थायी रूप से बंद या हटाया जा सकता है।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>11. उपयोगकर्ता खाता</h2>
+
+                <p>
+                    जहाँ लॉगिन या अकाउंट की सुविधा उपलब्ध हो,
+                    वहाँ उपयोगकर्ता द्वारा दी गई जानकारी सही रखना
+                    और अपने अकाउंट का जिम्मेदारी से उपयोग करना
+                    उपयोगकर्ता की जिम्मेदारी होगी।
+                </p>
+
+                <p>
+                    किसी अन्य व्यक्ति के अकाउंट में अनधिकृत प्रवेश
+                    या वेबसाइट की सुविधाओं का गलत उपयोग नहीं किया
+                    जाना चाहिए।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>12. प्रतिबंधित उपयोग</h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 का उपयोग गैर-कानूनी गतिविधि,
+                    जानबूझकर नुकसान, गलत उपयोग, अनधिकृत एक्सेस,
+                    हानिकारक सामग्री फैलाने या किसी अन्य व्यक्ति
+                    के अधिकारों का उल्लंघन करने के लिए नहीं किया
+                    जाना चाहिए।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card important">
+
+                <h2>13. जिम्मेदारी की सीमा</h2>
+
+                <p>
+                    लागू कानून की सीमा तक, ALON HISTORYVERSE 24 और
+                    उसके मालिक उपयोगकर्ताओं, योगदानकर्ताओं या
+                    तीसरे पक्ष द्वारा स्वतंत्र रूप से डाली गई
+                    सामग्री, दावों, विचारों या गलतियों के लिए
+                    जिम्मेदार नहीं होंगे।
+                </p>
+
+                <p>
+                    वेबसाइट पर किसी सामग्री को डालने की जिम्मेदारी
+                    उस व्यक्ति या संस्था की होगी जिसने वह सामग्री
+                    उपलब्ध कराई है।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>14. नियमों में बदलाव</h2>
+
+                <p>
+                    वेबसाइट, उसकी सुविधाओं या नीतियों में बदलाव
+                    होने पर इन नियम एवं शर्तों को अपडेट किया जा
+                    सकता है। अपडेट किए गए नियम इसी पेज पर प्रकाशित
+                    किए जा सकते हैं।
+                </p>
+
+            </article>
+
+
+            <article class="terms-card">
+
+                <h2>15. संपर्क</h2>
+
+                <p>
+                    किसी प्रश्न, सुधार, कॉपीराइट समस्या, सामग्री
+                    संबंधी शिकायत या वेबसाइट से संबंधित अन्य
+                    विषय के लिए ALON HISTORYVERSE 24 पर उपलब्ध
+                    संपर्क सुविधा का उपयोग किया जा सकता है।
+                </p>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <footer class="terms-footer">
+
+            <p>
+                <span class="inline-en">
+                    ALON HISTORYVERSE 24 • Baba Thecno Guru
+                </span>
+
+                <span class="inline-hi">
+                    ALON HISTORYVERSE 24 • Baba Thecno Guru
+                </span>
+            </p>
+
+            <p>
+                <span class="inline-en">
+                    Knowledge • History • Civilizations • Culture • Heritage
+                </span>
+
+                <span class="inline-hi">
+                    ज्ञान • इतिहास • सभ्यताएँ • संस्कृति • विरासत
+                </span>
+            </p>
+
+            <a
+                href="../index.html"
+                class="back-link"
+            >
+                <span class="inline-en">← Back to ALON HISTORYVERSE 24</span>
+                <span class="inline-hi">← ALON HISTORYVERSE 24 पर वापस जाएँ</span>
+            </a>
+
+        </footer>
+
+    </main>
+
 
     <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
+         LANGUAGE SYSTEM
+         ===================================================== -->
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <script>
 
-        <h1>Terms of Use</h1>
+        const LANGUAGE_KEY = "alon_historyverse_language";
 
-        <p>
-            ALON HISTORYVERSE 24 V100 knowledge platform.
-        </p>
+        function setLanguage(language) {
 
-    </header>
+            if (language !== "en" && language !== "hi") {
+                language = "en";
+            }
 
+            document.documentElement.lang = language;
 
-    <!-- =====================================================
-         TERMS CONTENT
-    ====================================================== -->
-    <section class="content">
+            if (language === "hi") {
+                document.body.classList.add("hindi");
+            } else {
+                document.body.classList.remove("hindi");
+            }
 
-        <h2>Terms of Use</h2>
+            const englishBtn =
+                document.getElementById("englishBtn");
 
-        <p>
-            These terms describe the general rules for using
-            ALON HISTORYVERSE 24 and its knowledge resources.
-        </p>
+            const hindiBtn =
+                document.getElementById("hindiBtn");
 
-        <div class="grid">
+            if (englishBtn && hindiBtn) {
 
-            <article class="card">
+                englishBtn.classList.toggle(
+                    "active",
+                    language === "en"
+                );
 
-                <h3>1. Platform Use</h3>
+                hindiBtn.classList.toggle(
+                    "active",
+                    language === "hi"
+                );
 
-                <p>
-                    ALON HISTORYVERSE 24 is intended for
-                    educational, historical and knowledge-sharing
-                    purposes.
-                </p>
+            }
 
-            </article>
+            try {
+                localStorage.setItem(
+                    LANGUAGE_KEY,
+                    language
+                );
+            } catch (error) {
+                console.warn(
+                    "Language preference could not be saved.",
+                    error
+                );
+            }
+        }
 
 
-            <article class="card">
+        function loadLanguage() {
 
-                <h3>2. Accurate Information</h3>
+            let language = "en";
 
-                <p>
-                    Users should make reasonable efforts to provide
-                    accurate information when submitting content
-                    or using platform features.
-                </p>
+            try {
 
-            </article>
+                const saved =
+                    localStorage.getItem(LANGUAGE_KEY);
 
+                if (saved === "hi" || saved === "en") {
+                    language = saved;
+                }
 
-            <article class="card">
+            } catch (error) {
+                console.warn(
+                    "Saved language could not be read.",
+                    error
+                );
+            }
 
-                <h3>3. User Contributions</h3>
+            setLanguage(language);
+        }
 
-                <p>
-                    Submitted content may be reviewed before
-                    publication. Contributors are responsible for
-                    the material they submit.
-                </p>
 
-            </article>
+        document.addEventListener(
+            "DOMContentLoaded",
+            loadLanguage
+        );
 
-
-            <article class="card">
-
-                <h3>4. Copyright</h3>
-
-                <p>
-                    Users must respect copyright and intellectual
-                    property rights. Do not submit material that
-                    you do not have permission to use.
-                </p>
-
-            </article>
-
-
-            <article class="card">
-
-                <h3>5. Prohibited Activities</h3>
-
-                <p>
-                    Users must not misuse the platform, attempt
-                    unauthorized access, distribute harmful code,
-                    spam the service or interfere with its normal
-                    operation.
-                </p>
-
-            </article>
-
-
-            <article class="card">
-
-                <h3>6. Platform Content</h3>
-
-                <p>
-                    Historical and educational information may be
-                    updated, corrected or revised as the platform
-                    develops.
-                </p>
-
-            </article>
-
-
-            <article class="card">
-
-                <h3>7. External Services</h3>
-
-                <p>
-                    Some features may depend on external services.
-                    Their availability and policies may be outside
-                    the direct control of ALON HISTORYVERSE 24.
-                </p>
-
-            </article>
-
-
-            <article class="card">
-
-                <h3>8. Changes to These Terms</h3>
-
-                <p>
-                    These terms may be updated when platform
-                    features, policies or requirements change.
-                </p>
-
-            </article>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         RELATED INFORMATION
-    ====================================================== -->
-    <section class="content">
-
-        <h2>Related Policies</h2>
-
-        <div class="grid">
-
-            <a class="card" href="privacy.html">
-                <h3>Privacy</h3>
-                <p>
-                    Learn how privacy is handled on the platform.
-                </p>
-            </a>
-
-
-            <a class="card" href="privacy-policy.html">
-                <h3>Privacy Policy</h3>
-                <p>
-                    View the detailed privacy policy.
-                </p>
-            </a>
-
-
-            <a class="card" href="copyright.html">
-                <h3>Copyright</h3>
-                <p>
-                    Learn about content and copyright rights.
-                </p>
-            </a>
-
-
-            <a class="card" href="guidelines.html">
-                <h3>Community Guidelines</h3>
-                <p>
-                    Review platform content guidelines.
-                </p>
-            </a>
-
-
-            <a class="card" href="contributor-agreement.html">
-                <h3>Contributor Agreement</h3>
-                <p>
-                    Review the rules for contributors.
-                </p>
-            </a>
-
-
-            <a class="card" href="contact.html">
-                <h3>Contact</h3>
-                <p>
-                    Contact ALON HISTORYVERSE 24.
-                </p>
-            </a>
-
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main entry point.
-                </p>
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-    <footer class="footer">
-
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
-
-        <br>
-
-        <a href="../index.html">
-            Home
-        </a>
-
-    </footer>
-
-</main>
-
-
-<!-- =======================================================
-     STATIC PAGE SCRIPTS
-======================================================== -->
-
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
+    </script>
 
 </body>
 

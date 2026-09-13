@@ -12,132 +12,592 @@
 
     <title>Mathematics • ALON HISTORYVERSE 24</title>
 
+    <meta
+        name="description"
+        content="Mathematics solver for calculations, equations, percentages, powers, roots and mathematical problems."
+    >
+
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        .math-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .math-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .math-panel {
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 22px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .math-panel h2 {
+            margin-top: 0;
+        }
+
+        .math-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.4);
+            background: rgba(0,0,0,.25);
+            color: inherit;
+            font: inherit;
+            font-size: 1.05rem;
+        }
+
+        .math-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .math-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .math-btn {
+            border: 1px solid rgba(215,179,90,.5);
+            border-radius: 10px;
+            padding: 12px 18px;
+            cursor: pointer;
+            background: rgba(215,179,90,.1);
+            color: inherit;
+            font: inherit;
+        }
+
+        .math-btn:hover {
+            background: rgba(215,179,90,.2);
+        }
+
+        .math-result {
+            margin-top: 18px;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.3);
+            white-space: pre-wrap;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .math-result-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .camera-box {
+            display: grid;
+            gap: 14px;
+        }
+
+        .camera-video,
+        .camera-photo {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #000;
+        }
+
+        .camera-video {
+            display: none;
+        }
+
+        .camera-photo {
+            display: none;
+        }
+
+        .camera-status {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.25);
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit,minmax(220px,1fr));
+            gap: 12px;
+        }
+
+        .topic-card {
+            border: 1px solid rgba(215,179,90,.25);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            background: rgba(255,255,255,.025);
+        }
+
+        .topic-card:hover {
+            background: rgba(215,179,90,.1);
+        }
+
+        .history-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .history-item {
+            border: 1px solid rgba(215,179,90,.2);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .history-question {
+            white-space: pre-wrap;
+        }
+
+        .history-answer {
+            margin-top: 7px;
+            white-space: pre-wrap;
+        }
+
+        .small-note {
+            opacity: .72;
+            font-size: .9rem;
+        }
+
+        .math-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit,minmax(300px,1fr));
+            gap: 18px;
+        }
+
+        .fraction-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        @media (max-width: 650px) {
+
+            .math-page {
+                padding: 12px;
+            }
+
+            .math-actions {
+                flex-direction: column;
+            }
+
+            .math-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
 <body>
 
-<main class="page">
+<main class="math-page">
+
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <header class="math-header">
+
+        <a
+            href="../index.html"
+            class="back-link"
+        >
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Mathematics</h1>
+        <h1>
+            🧮 Mathematics Solver
+            <br>
+            गणित सॉल्वर
+        </h1>
 
         <p>
-            ALON HISTORYVERSE 24 V100 knowledge platform.
+            Type a problem or use the camera.
+            <br>
+            सवाल लिखें या कैमरे से फोटो लें।
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MATHEMATICS INTRODUCTION
+         TEXT SOLVER
     ====================================================== -->
-    <section class="content">
 
-        <h2>Mathematics</h2>
+    <section class="math-panel">
 
-        <p>
-            Explore mathematics, numbers, logic, problem solving,
-            mathematical concepts and related learning resources.
+        <h2>
+            ✍️ Solve Mathematics
+            <br>
+            गणित का सवाल हल करें
+        </h2>
+
+        <p class="small-note">
+            Examples:
+            25+75,
+            25% of 800,
+            sqrt(144),
+            2^10,
+            2*x+5=15,
+            5/8
         </p>
 
 
-        <!-- =================================================
-             MATHEMATICS NAVIGATION
-        ================================================== -->
-        <div class="grid">
+        <textarea
+            id="math-question"
+            class="math-input math-textarea"
+            placeholder="Write your math question here...
 
-            <a class="card" href="department.html">
-                <h3>Departments</h3>
+उदाहरण:
+25 + 75
+25% of 800
+sqrt(144)
+2*x + 5 = 15
+x^2 - 5*x + 6 = 0"
+        ></textarea>
 
-                <p>
-                    Explore all Knowledge Library departments.
-                </p>
-            </a>
 
+        <div class="math-actions">
 
-            <a
-                class="card"
-                href="subject.html?department=mathematics"
+            <button
+                type="button"
+                class="math-btn"
+                id="solve-btn"
             >
-                <h3>Subjects</h3>
+                🧮 Solve
+                / हल करें
+            </button>
 
-                <p>
-                    Explore Mathematics subjects and topics.
-                </p>
-            </a>
-
-
-            <a
-                class="card"
-                href="book.html?department=mathematics"
+            <button
+                type="button"
+                class="math-btn"
+                id="clear-btn"
             >
-                <h3>Books</h3>
+                🧹 Clear
+                / साफ करें
+            </button>
 
-                <p>
-                    Browse Mathematics books and learning
-                    resources.
-                </p>
-            </a>
+        </div>
 
 
-            <a
-                class="card"
-                href="read.html?department=mathematics"
+        <div
+            id="math-result"
+            class="math-result"
+        >
+            Answer will appear here.
+            <br>
+            उत्तर यहां दिखाई देगा।
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CAMERA SOLVER
+    ====================================================== -->
+
+    <section class="math-panel">
+
+        <h2>
+            📷 Camera Math Solver
+            <br>
+            कैमरे से गणित हल करें
+        </h2>
+
+        <p>
+            Take a photo of a printed math problem,
+            then process the recognized text.
+            <br>
+            गणित के सवाल की फोटो लें और पहचाने गए
+            text को solve करें।
+        </p>
+
+        <div class="camera-box">
+
+            <video
+                id="camera-video"
+                class="camera-video"
+                autoplay
+                playsinline
+            ></video>
+
+            <canvas
+                id="camera-canvas"
+                style="display:none;"
+            ></canvas>
+
+            <img
+                id="camera-photo"
+                class="camera-photo"
+                alt="Captured math question"
             >
-                <h3>Read</h3>
 
-                <p>
-                    Open Mathematics reading materials.
-                </p>
-            </a>
+            <input
+                type="file"
+                id="math-photo"
+                accept="image/*"
+                capture="environment"
+                class="math-input"
+            >
+
+            <div class="math-actions">
+
+                <button
+                    type="button"
+                    class="math-btn"
+                    id="start-camera"
+                >
+                    📷 Open Camera
+                </button>
+
+                <button
+                    type="button"
+                    class="math-btn"
+                    id="capture-photo"
+                >
+                    📸 Capture
+                </button>
+
+                <button
+                    type="button"
+                    class="math-btn"
+                    id="stop-camera"
+                >
+                    ⛔ Stop Camera
+                </button>
+
+            </div>
+
+            <div
+                id="camera-status"
+                class="camera-status"
+            >
+                Camera is ready.
+            </div>
+
+        </div>
 
 
-            <a class="card" href="library.html">
-                <h3>Knowledge Library</h3>
+        <h3>
+            🔎 Recognized Question
+            <br>
+            पहचाना गया सवाल
+        </h3>
 
-                <p>
-                    Return to the main Knowledge Library.
-                </p>
-            </a>
+        <textarea
+            id="ocr-text"
+            class="math-input math-textarea"
+            placeholder="Recognized question will appear here...
 
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-
-                <p>
-                    Explore other knowledge areas.
-                </p>
-            </a>
+जरूरत हो तो यहां question को ठीक कर सकते हैं।"
+        ></textarea>
 
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
+        <div class="math-actions">
 
-                <p>
-                    Read educational and historical articles.
-                </p>
-            </a>
+            <button
+                type="button"
+                class="math-btn"
+                id="solve-photo-question"
+            >
+                🧮 Solve This
+            </button>
+
+        </div>
+
+        <p class="small-note">
+            Note: Browser-only OCR can vary by device and image quality.
+            For handwritten or complex equations, the recognized text
+            may need correction before solving.
+        </p>
+
+    </section>
 
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
+    <!-- =====================================================
+         QUICK MATH
+    ====================================================== -->
 
-                <p>
-                    Return to the main ALON HISTORYVERSE 24
-                    entry point.
-                </p>
-            </a>
+    <section class="math-panel">
+
+        <h2>
+            ⚡ Quick Mathematics
+            <br>
+            तुरंत गणित
+        </h2>
+
+        <div class="math-grid">
+
+
+            <!-- PERCENTAGE -->
+
+            <div>
+
+                <h3>
+                    Percentage / प्रतिशत
+                </h3>
+
+                <input
+                    id="percent-number"
+                    class="math-input"
+                    type="number"
+                    placeholder="Number"
+                >
+
+                <input
+                    id="percent-value"
+                    class="math-input"
+                    type="number"
+                    placeholder="Percent"
+                    style="margin-top:8px;"
+                >
+
+                <button
+                    type="button"
+                    class="math-btn"
+                    id="percent-btn"
+                    style="margin-top:8px;"
+                >
+                    Calculate
+                </button>
+
+                <div
+                    id="percent-result"
+                    class="math-result"
+                ></div>
+
+            </div>
+
+
+            <!-- POWER -->
+
+            <div>
+
+                <h3>
+                    Power / घात
+                </h3>
+
+                <input
+                    id="power-base"
+                    class="math-input"
+                    type="number"
+                    placeholder="Base"
+                >
+
+                <input
+                    id="power-exponent"
+                    class="math-input"
+                    type="number"
+                    placeholder="Exponent"
+                    style="margin-top:8px;"
+                >
+
+                <button
+                    type="button"
+                    class="math-btn"
+                    id="power-btn"
+                    style="margin-top:8px;"
+                >
+                    Calculate
+                </button>
+
+                <div
+                    id="power-result"
+                    class="math-result"
+                ></div>
+
+            </div>
+
+
+            <!-- ROOT -->
+
+            <div>
+
+                <h3>
+                    Square Root / वर्गमूल
+                </h3>
+
+                <input
+                    id="root-number"
+                    class="math-input"
+                    type="number"
+                    placeholder="Number"
+                >
+
+                <button
+                    type="button"
+                    class="math-btn"
+                    id="root-btn"
+                    style="margin-top:8px;"
+                >
+                    Calculate
+                </button>
+
+                <div
+                    id="root-result"
+                    class="math-result"
+                ></div>
+
+            </div>
+
+
+            <!-- FRACTION -->
+
+            <div>
+
+                <h3>
+                    Fraction / भिन्न
+                </h3>
+
+                <div class="fraction-box">
+
+                    <input
+                        id="fraction-a"
+                        class="math-input"
+                        type="number"
+                        placeholder="Numerator"
+                    >
+
+                    <input
+                        id="fraction-b"
+                        class="math-input"
+                        type="number"
+                        placeholder="Denominator"
+                    >
+
+                </div>
+
+                <button
+                    type="button"
+                    class="math-btn"
+                    id="fraction-btn"
+                    style="margin-top:8px;"
+                >
+                    Calculate
+                </button>
+
+                <div
+                    id="fraction-result"
+                    class="math-result"
+                ></div>
+
+            </div>
 
         </div>
 
@@ -145,30 +605,2046 @@
 
 
     <!-- =====================================================
-         FOOTER
+         MATH TOPICS
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <section class="math-panel">
 
-        <br>
+        <h2>
+            📚 Mathematics Topics
+            <br>
+            गणित के विषय
+        </h2>
 
-        <a href="../index.html">
-            Home
-        </a>
+        <div class="topic-grid">
+
+            <div
+                class="topic-card"
+                data-example="2*x + 5 = 15"
+            >
+                ➗ Algebra
+                <br>
+                बीजगणित
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="3^2 + 4^2"
+            >
+                📐 Geometry
+                <br>
+                ज्यामिति
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="25% of 800"
+            >
+                📊 Percentage
+                <br>
+                प्रतिशत
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="sqrt(144)"
+            >
+                √ Roots
+                <br>
+                वर्गमूल
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="2^10"
+            >
+                🔢 Powers
+                <br>
+                घात
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="5/8"
+            >
+                ➗ Fractions
+                <br>
+                भिन्न
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="factor(60)"
+            >
+                🔢 Factors
+                <br>
+                गुणनखंड
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="gcd(48,18)"
+            >
+                🔗 GCD
+                <br>
+                महत्तम समापवर्तक
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="lcm(12,18)"
+            >
+                🔗 LCM
+                <br>
+                लघुत्तम समापवर्त्य
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="sin(30)"
+            >
+                📐 Trigonometry
+                <br>
+                त्रिकोणमिति
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="mean(10,20,30)"
+            >
+                📊 Statistics
+                <br>
+                सांख्यिकी
+            </div>
+
+            <div
+                class="topic-card"
+                data-example="2*x^2 - 5*x + 2 = 0"
+            >
+                🧮 Quadratic
+                <br>
+                द्विघात समीकरण
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SOLVING HISTORY
+    ====================================================== -->
+
+    <section class="math-panel">
+
+        <h2>
+            🕘 Solving History
+            <br>
+            हल किए गए सवाल
+        </h2>
+
+        <div
+            id="history"
+            class="history-list"
+        ></div>
+
+        <button
+            type="button"
+            class="math-btn"
+            id="clear-history"
+        >
+            🗑️ Clear History
+        </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <section class="math-panel">
+
+        <div class="topic-grid">
+
+            <a
+                href="department.html"
+                class="topic-card"
+            >
+                🏛️ Department
+                <br>
+                विभाग
+            </a>
+
+            <a
+                href="subject.html"
+                class="topic-card"
+            >
+                📚 Subject
+                <br>
+                विषय
+            </a>
+
+            <a
+                href="book.html"
+                class="topic-card"
+            >
+                📖 Books
+                <br>
+                पुस्तकें
+            </a>
+
+            <a
+                href="library.html"
+                class="topic-card"
+            >
+                📚 Library
+                <br>
+                लाइब्रेरी
+            </a>
+
+            <a
+                href="../index.html"
+                class="topic-card"
+            >
+                🏠 Home
+                <br>
+                मुख्य पृष्ठ
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © ALON HISTORYVERSE 24
+            • Baba Thecno Guru
+        </p>
 
     </footer>
 
 </main>
 
 
-<!-- =======================================================
-     MATHEMATICS PAGE SCRIPTS
-======================================================== -->
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const question =
+        document.getElementById(
+            "math-question"
+        );
+
+    const result =
+        document.getElementById(
+            "math-result"
+        );
+
+    const historyElement =
+        document.getElementById(
+            "history"
+        );
+
+
+    const HISTORY_KEY =
+        "alon_historyverse_24_math_history";
+
+
+    /* =====================================================
+       BASIC HELPERS
+    ====================================================== */
+
+    function cleanNumber(
+        number
+    ) {
+
+        if (
+            Number.isInteger(
+                number
+            )
+        ) {
+
+            return String(
+                number
+            );
+
+        }
+
+        return String(
+            Number(
+                number.toFixed(12)
+            )
+        );
+
+    }
+
+
+    function factorial(
+        n
+    ) {
+
+        n = Number(n);
+
+        if (
+            !Number.isInteger(n) ||
+            n < 0 ||
+            n > 170
+        ) {
+
+            throw new Error(
+                "Factorial requires an integer from 0 to 170."
+            );
+
+        }
+
+        let answer = 1;
+
+        for (
+            let i = 2;
+            i <= n;
+            i++
+        ) {
+
+            answer *= i;
+
+        }
+
+        return answer;
+
+    }
+
+
+    function gcd(
+        a,
+        b
+    ) {
+
+        a = Math.abs(
+            Number(a)
+        );
+
+        b = Math.abs(
+            Number(b)
+        );
+
+        while (b !== 0) {
+
+            const temp = b;
+
+            b = a % b;
+
+            a = temp;
+
+        }
+
+        return a;
+
+    }
+
+
+    function lcm(
+        a,
+        b
+    ) {
+
+        a = Number(a);
+
+        b = Number(b);
+
+        if (
+            a === 0 ||
+            b === 0
+        ) {
+
+            return 0;
+
+        }
+
+        return Math.abs(
+            a * b
+        ) / gcd(
+            a,
+            b
+        );
+
+    }
+
+
+    function mean(
+        values
+    ) {
+
+        if (!values.length) {
+
+            throw new Error(
+                "Mean requires numbers."
+            );
+
+        }
+
+        return (
+            values.reduce(
+                (a,b) => a + b,
+                0
+            ) / values.length
+        );
+
+    }
+
+
+    /* =====================================================
+       EXPRESSION NORMALIZATION
+    ====================================================== */
+
+    function normalize(
+        input
+    ) {
+
+        let expression =
+            String(input)
+                .trim()
+                .toLowerCase();
+
+
+        expression =
+            expression
+                .replace(
+                    /×/g,
+                    "*"
+                )
+                .replace(
+                    /÷/g,
+                    "/"
+                )
+                .replace(
+                    /−/g,
+                    "-"
+                )
+                .replace(
+                    /π/g,
+                    "pi"
+                );
+
+
+        /*
+         * "25% of 800"
+         */
+
+        const percentOf =
+            expression.match(
+                /^(-?\d+(?:\.\d+)?)\s*%\s*of\s*(-?\d+(?:\.\d+)?)$/
+            );
+
+
+        if (percentOf) {
+
+            return (
+                "(" +
+                percentOf[1] +
+                "/100)*(" +
+                percentOf[2] +
+                ")"
+            );
+
+        }
+
+
+        /*
+         * Basic percentage:
+         * 25%
+         */
+
+        expression =
+            expression.replace(
+                /(\d+(?:\.\d+)?)%/g,
+                "($1/100)"
+            );
+
+
+        /*
+         * ^ becomes exponent
+         */
+
+        return expression;
+
+    }
+
+
+    /* =====================================================
+       SAFE MATH EXPRESSION
+    ====================================================== */
+
+    function evaluateExpression(
+        expression
+    ) {
+
+        let exp =
+            normalize(
+                expression
+            );
+
+
+        /*
+         * Functions
+         */
+
+        exp =
+            exp.replace(
+                /\bpi\b/g,
+                "Math.PI"
+            );
+
+
+        exp =
+            exp.replace(
+                /\bsqrt\s*\(/g,
+                "Math.sqrt("
+            );
+
+
+        exp =
+            exp.replace(
+                /\bsin\s*\(/g,
+                "Math.sin("
+            );
+
+
+        exp =
+            exp.replace(
+                /\bcos\s*\(/g,
+                "Math.cos("
+            );
+
+
+        exp =
+            exp.replace(
+                /\btan\s*\(/g,
+                "Math.tan("
+            );
+
+
+        exp =
+            exp.replace(
+                /\blog\s*\(/g,
+                "Math.log10("
+            );
+
+
+        exp =
+            exp.replace(
+                /\bln\s*\(/g,
+                "Math.log("
+            );
+
+
+        /*
+         * Degree versions
+         */
+
+        exp =
+            exp.replace(
+                /\bsinD\s*\(([^()]*)\)/g,
+                "Math.sin(($1)*Math.PI/180)"
+            );
+
+
+        exp =
+            exp.replace(
+                /\bcosD\s*\(([^()]*)\)/g,
+                "Math.cos(($1)*Math.PI/180)"
+            );
+
+
+        exp =
+            exp.replace(
+                /\btanD\s*\(([^()]*)\)/g,
+                "Math.tan(($1)*Math.PI/180)"
+            );
+
+
+        /*
+         * Factorial
+         */
+
+        exp =
+            exp.replace(
+                /(\d+(?:\.\d+)?)!/g,
+                "factorial($1)"
+            );
+
+
+        /*
+         * Power
+         */
+
+        exp =
+            exp.replace(
+                /(\([^()]+\)|\d+(?:\.\d+)?)\s*\^\s*(\([^()]+\)|-?\d+(?:\.\d+)?)/g,
+                "Math.pow($1,$2)"
+            );
+
+
+        /*
+         * Security:
+         * allow only mathematical characters/functions.
+         */
+
+        const allowed =
+            /^[0-9+\-*/().,\sA-Za-z_]+$/;
+
+
+        if (!allowed.test(exp)) {
+
+            throw new Error(
+                "Unsupported characters in expression."
+            );
+
+        }
+
+
+        /*
+         * Allowed function names only.
+         */
+
+        const forbidden =
+            /(window|document|constructor|prototype|fetch|eval|Function|localStorage|sessionStorage|alert|prompt|confirm)/i;
+
+
+        if (
+            forbidden.test(exp)
+        ) {
+
+            throw new Error(
+                "Invalid mathematical expression."
+            );
+
+        }
+
+
+        /*
+         * Evaluate mathematical expression.
+         *
+         * This is restricted by the checks above.
+         */
+
+        const fn =
+            new Function(
+                "factorial",
+                "return (" +
+                exp +
+                ");"
+            );
+
+
+        const answer =
+            fn(
+                factorial
+            );
+
+
+        if (
+            typeof answer !==
+            "number" ||
+            !Number.isFinite(answer)
+        ) {
+
+            throw new Error(
+                "No valid numeric answer."
+            );
+
+        }
+
+
+        return answer;
+
+    }
+
+
+    /* =====================================================
+       LINEAR EQUATION
+       ax + b = c
+       ====================================================== */
+
+    function solveLinear(
+        input
+    ) {
+
+        let text =
+            input
+                .replace(
+                    /\s+/g,
+                    ""
+                )
+                .replace(
+                    /−/g,
+                    "-"
+                );
+
+
+        const match =
+            text.match(
+                /^(-?\d*\.?\d*)x([+-]\d*\.?\d+)?=([+-]?\d*\.?\d+)$/
+            );
+
+
+        if (!match) {
+
+            return null;
+
+        }
+
+
+        let a =
+            match[1];
+
+
+        if (
+            a === "" ||
+            a === "+"
+        ) {
+
+            a = 1;
+
+        } else if (
+            a === "-"
+        ) {
+
+            a = -1;
+
+        } else {
+
+            a = Number(a);
+
+        }
+
+
+        const b =
+            match[2]
+                ? Number(
+                    match[2]
+                )
+                : 0;
+
+
+        const c =
+            Number(
+                match[3]
+            );
+
+
+        if (a === 0) {
+
+            throw new Error(
+                "Invalid linear equation."
+            );
+
+        }
+
+
+        const x =
+            (c - b) / a;
+
+
+        return (
+            "x = " +
+            cleanNumber(x)
+        );
+
+    }
+
+
+    /* =====================================================
+       QUADRATIC EQUATION
+       ax² + bx + c = 0
+       ====================================================== */
+
+    function solveQuadratic(
+        input
+    ) {
+
+        let text =
+            input
+                .replace(
+                    /\s+/g,
+                    ""
+                )
+                .replace(
+                    /²/g,
+                    "^2"
+                );
+
+
+        const match =
+            text.match(
+                /^([+-]?\d*\.?\d*)x\^2([+-]\d*\.?\d*)x([+-]\d*\.?\d*)=0$/
+            );
+
+
+        if (!match) {
+
+            return null;
+
+        }
+
+
+        let a =
+            match[1];
+
+
+        let b =
+            match[2];
+
+
+        let c =
+            match[3];
+
+
+        if (
+            a === "" ||
+            a === "+"
+        ) {
+
+            a = 1;
+
+        } else if (
+            a === "-"
+        ) {
+
+            a = -1;
+
+        } else {
+
+            a = Number(a);
+
+        }
+
+
+        if (
+            b === "" ||
+            b === "+"
+        ) {
+
+            b = 1;
+
+        } else if (
+            b === "-"
+        ) {
+
+            b = -1;
+
+        } else {
+
+            b = Number(b);
+
+        }
+
+
+        if (
+            c === "" ||
+            c === "+"
+        ) {
+
+            c = 0;
+
+        } else {
+
+            c = Number(c);
+
+        }
+
+
+        const discriminant =
+            b * b -
+            4 * a * c;
+
+
+        if (
+            discriminant < 0
+        ) {
+
+            const real =
+                -b / (2 * a);
+
+            const imaginary =
+                Math.sqrt(
+                    -discriminant
+                ) / (2 * a);
+
+
+            return (
+                "x₁ = " +
+                cleanNumber(real) +
+                " + " +
+                cleanNumber(imaginary) +
+                "i\n" +
+
+                "x₂ = " +
+                cleanNumber(real) +
+                " - " +
+                cleanNumber(imaginary) +
+                "i"
+            );
+
+        }
+
+
+        const x1 =
+            (
+                -b +
+                Math.sqrt(
+                    discriminant
+                )
+            ) /
+            (2 * a);
+
+
+        const x2 =
+            (
+                -b -
+                Math.sqrt(
+                    discriminant
+                )
+            ) /
+            (2 * a);
+
+
+        return (
+            "x₁ = " +
+            cleanNumber(x1) +
+            "\n" +
+
+            "x₂ = " +
+            cleanNumber(x2)
+        );
+
+    }
+
+
+    /* =====================================================
+       SPECIAL COMMANDS
+    ====================================================== */
+
+    function solveSpecial(
+        text
+    ) {
+
+        let match;
+
+
+        /*
+         * gcd(48,18)
+         */
+
+        match =
+            text.match(
+                /^gcd\s*\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)$/i
+            );
+
+
+        if (match) {
+
+            return (
+                "GCD = " +
+                gcd(
+                    match[1],
+                    match[2]
+                )
+            );
+
+        }
+
+
+        /*
+         * lcm
+         */
+
+        match =
+            text.match(
+                /^lcm\s*\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)$/i
+            );
+
+
+        if (match) {
+
+            return (
+                "LCM = " +
+                lcm(
+                    match[1],
+                    match[2]
+                )
+            );
+
+        }
+
+
+        /*
+         * factor
+         */
+
+        match =
+            text.match(
+                /^factor\s*\(\s*(\d+)\s*\)$/i
+            );
+
+
+        if (match) {
+
+            const n =
+                Number(
+                    match[1]
+                );
+
+
+            if (
+                n < 1 ||
+                n > 100000000
+            ) {
+
+                throw new Error(
+                    "Factor input must be between 1 and 100000000."
+                );
+
+            }
+
+
+            const factors = [];
+
+            let value = n;
+
+
+            for (
+                let p = 2;
+                p * p <= value;
+                p++
+            ) {
+
+                while (
+                    value % p === 0
+                ) {
+
+                    factors.push(p);
+
+                    value /= p;
+
+                }
+
+            }
+
+
+            if (
+                value > 1
+            ) {
+
+                factors.push(value);
+
+            }
+
+
+            return (
+                "Prime Factors = " +
+                factors.join(
+                    " × "
+                )
+            );
+
+        }
+
+
+        /*
+         * mean(10,20,30)
+         */
+
+        match =
+            text.match(
+                /^mean\s*\(([^)]+)\)$/i
+            );
+
+
+        if (match) {
+
+            const values =
+                match[1]
+                    .split(",")
+                    .map(
+                        Number
+                    );
+
+
+            if (
+                values.some(
+                    Number.isNaN
+                )
+            ) {
+
+                throw new Error(
+                    "Invalid mean values."
+                );
+
+            }
+
+
+            return (
+                "Mean = " +
+                cleanNumber(
+                    mean(values)
+                )
+            );
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =====================================================
+       MAIN SOLVER
+    ====================================================== */
+
+    function solve(
+        input
+    ) {
+
+        const text =
+            String(input || "")
+                .trim();
+
+
+        if (!text) {
+
+            throw new Error(
+                "Please enter a mathematics question."
+            );
+
+        }
+
+
+        /*
+         * Special commands first.
+         */
+
+        const special =
+            solveSpecial(
+                text
+            );
+
+
+        if (special) {
+
+            return special;
+
+        }
+
+
+        /*
+         * Linear equation.
+         */
+
+        const linear =
+            solveLinear(
+                text
+            );
+
+
+        if (linear) {
+
+            return linear;
+
+        }
+
+
+        /*
+         * Quadratic equation.
+         */
+
+        const quadratic =
+            solveQuadratic(
+                text
+            );
+
+
+        if (quadratic) {
+
+            return quadratic;
+
+        }
+
+
+        /*
+         * Normal expression.
+         */
+
+        const answer =
+            evaluateExpression(
+                text
+            );
+
+
+        return (
+            "Answer = " +
+            cleanNumber(
+                answer
+            )
+        );
+
+    }
+
+
+    /* =====================================================
+       SAVE HISTORY
+    ====================================================== */
+
+    function loadHistory() {
+
+        try {
+
+            const data =
+                JSON.parse(
+                    localStorage.getItem(
+                        HISTORY_KEY
+                    ) || "[]"
+                );
+
+            return Array.isArray(
+                data
+            )
+                ? data
+                : [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function saveHistory(
+        questionText,
+        answer
+    ) {
+
+        const history =
+            loadHistory();
+
+
+        history.unshift({
+
+            question:
+                questionText,
+
+            answer:
+                answer,
+
+            date:
+                new Date().toISOString()
+
+        });
+
+
+        localStorage.setItem(
+            HISTORY_KEY,
+            JSON.stringify(
+                history.slice(
+                    0,
+                    100
+                )
+            )
+        );
+
+
+        renderHistory();
+
+    }
+
+
+    function renderHistory() {
+
+        const history =
+            loadHistory();
+
+
+        historyElement.innerHTML =
+            "";
+
+
+        if (!history.length) {
+
+            historyElement.innerHTML =
+                '<div class="small-note">' +
+                'No solved questions yet.' +
+                '<br>' +
+                'अभी कोई सवाल solve नहीं हुआ।' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        history.forEach(
+            function (item) {
+
+                const box =
+                    document.createElement(
+                        "div"
+                    );
+
+                box.className =
+                    "history-item";
+
+
+                const q =
+                    document.createElement(
+                        "div"
+                    );
+
+                q.className =
+                    "history-question";
+
+                q.textContent =
+                    "❓ " +
+                    item.question;
+
+
+                const a =
+                    document.createElement(
+                        "div"
+                    );
+
+                a.className =
+                    "history-answer";
+
+                a.textContent =
+                    "✅ " +
+                    item.answer;
+
+
+                box.appendChild(
+                    q
+                );
+
+                box.appendChild(
+                    a
+                );
+
+
+                historyElement.appendChild(
+                    box
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       SOLVE BUTTON
+    ====================================================== */
+
+    document
+        .getElementById(
+            "solve-btn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                const text =
+                    question.value;
+
+
+                try {
+
+                    const answer =
+                        solve(
+                            text
+                        );
+
+
+                    result.textContent =
+                        answer;
+
+
+                    saveHistory(
+                        text,
+                        answer
+                    );
+
+                } catch (error) {
+
+                    result.textContent =
+                        "❌ " +
+                        error.message +
+                        "\n\n" +
+                        "Example:\n" +
+                        "25+75\n" +
+                        "25% of 800\n" +
+                        "sqrt(144)\n" +
+                        "2*x+5=15";
+
+                }
+
+            }
+        );
+
+
+    /* =====================================================
+       CLEAR
+    ====================================================== */
+
+    document
+        .getElementById(
+            "clear-btn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                question.value =
+                    "";
+
+                result.textContent =
+                    "Answer will appear here.";
+
+            }
+        );
+
+
+    /* =====================================================
+       QUICK PERCENT
+    ====================================================== */
+
+    document
+        .getElementById(
+            "percent-btn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                const number =
+                    Number(
+                        document.getElementById(
+                            "percent-number"
+                        ).value
+                    );
+
+                const percent =
+                    Number(
+                        document.getElementById(
+                            "percent-value"
+                        ).value
+                    );
+
+
+                if (
+                    !Number.isFinite(number) ||
+                    !Number.isFinite(percent)
+                ) {
+
+                    document.getElementById(
+                        "percent-result"
+                    ).textContent =
+                        "Enter valid numbers.";
+
+                    return;
+
+                }
+
+
+                document.getElementById(
+                    "percent-result"
+                ).textContent =
+                    cleanNumber(
+                        number *
+                        percent /
+                        100
+                    );
+
+            }
+        );
+
+
+    /* =====================================================
+       POWER
+    ====================================================== */
+
+    document
+        .getElementById(
+            "power-btn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                const base =
+                    Number(
+                        document.getElementById(
+                            "power-base"
+                        ).value
+                    );
+
+                const exponent =
+                    Number(
+                        document.getElementById(
+                            "power-exponent"
+                        ).value
+                    );
+
+
+                if (
+                    !Number.isFinite(base) ||
+                    !Number.isFinite(exponent)
+                ) {
+
+                    document.getElementById(
+                        "power-result"
+                    ).textContent =
+                        "Enter valid numbers.";
+
+                    return;
+
+                }
+
+
+                const answer =
+                    Math.pow(
+                        base,
+                        exponent
+                    );
+
+
+                document.getElementById(
+                    "power-result"
+                ).textContent =
+                    cleanNumber(
+                        answer
+                    );
+
+            }
+        );
+
+
+    /* =====================================================
+       ROOT
+    ====================================================== */
+
+    document
+        .getElementById(
+            "root-btn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                const number =
+                    Number(
+                        document.getElementById(
+                            "root-number"
+                        ).value
+                    );
+
+
+                if (
+                    !Number.isFinite(number)
+                ) {
+
+                    document.getElementById(
+                        "root-result"
+                    ).textContent =
+                        "Enter a valid number.";
+
+                    return;
+
+                }
+
+
+                if (
+                    number < 0
+                ) {
+
+                    document.getElementById(
+                        "root-result"
+                    ).textContent =
+                        "Complex square root required.";
+
+                    return;
+
+                }
+
+
+                document.getElementById(
+                    "root-result"
+                ).textContent =
+                    cleanNumber(
+                        Math.sqrt(
+                            number
+                        )
+                    );
+
+            }
+        );
+
+
+    /* =====================================================
+       FRACTION
+    ====================================================== */
+
+    document
+        .getElementById(
+            "fraction-btn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                const a =
+                    Number(
+                        document.getElementById(
+                            "fraction-a"
+                        ).value
+                    );
+
+                const b =
+                    Number(
+                        document.getElementById(
+                            "fraction-b"
+                        ).value
+                    );
+
+
+                if (
+                    !Number.isFinite(a) ||
+                    !Number.isFinite(b) ||
+                    b === 0
+                ) {
+
+                    document.getElementById(
+                        "fraction-result"
+                    ).textContent =
+                        "Enter a valid fraction.";
+
+                    return;
+
+                }
+
+
+                const divisor =
+                    gcd(
+                        a,
+                        b
+                    );
+
+
+                const numerator =
+                    a / divisor;
+
+                const denominator =
+                    b / divisor;
+
+
+                document.getElementById(
+                    "fraction-result"
+                ).textContent =
+                    numerator +
+                    "/" +
+                    denominator +
+                    " = " +
+                    cleanNumber(
+                        a / b
+                    );
+
+            }
+        );
+
+
+    /* =====================================================
+       TOPIC EXAMPLES
+    ====================================================== */
+
+    document
+        .querySelectorAll(
+            ".topic-card[data-example]"
+        )
+        .forEach(
+            function (card) {
+
+                card.addEventListener(
+                    "click",
+                    function () {
+
+                        question.value =
+                            card.dataset.example;
+
+                        question.focus();
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       CLEAR HISTORY
+    ====================================================== */
+
+    document
+        .getElementById(
+            "clear-history"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                localStorage.removeItem(
+                    HISTORY_KEY
+                );
+
+                renderHistory();
+
+            }
+        );
+
+
+    /* =====================================================
+       CAMERA
+    ====================================================== */
+
+    const video =
+        document.getElementById(
+            "camera-video"
+        );
+
+    const canvas =
+        document.getElementById(
+            "camera-canvas"
+        );
+
+    const photo =
+        document.getElementById(
+            "camera-photo"
+        );
+
+    const photoInput =
+        document.getElementById(
+            "math-photo"
+        );
+
+    const cameraStatus =
+        document.getElementById(
+            "camera-status"
+        );
+
+
+    let cameraStream =
+        null;
+
+
+    /* =====================================================
+       OPEN CAMERA
+    ====================================================== */
+
+    document
+        .getElementById(
+            "start-camera"
+        )
+        .addEventListener(
+            "click",
+            async function () {
+
+                if (
+                    !navigator.mediaDevices ||
+                    !navigator.mediaDevices.getUserMedia
+                ) {
+
+                    cameraStatus.textContent =
+                        "Camera API is not supported on this device/browser.";
+
+                    return;
+
+                }
+
+
+                try {
+
+                    cameraStream =
+                        await navigator.mediaDevices.getUserMedia({
+                            video: {
+                                facingMode: {
+                                    ideal:
+                                        "environment"
+                                }
+                            },
+                            audio: false
+                        });
+
+
+                    video.srcObject =
+                        cameraStream;
+
+                    video.style.display =
+                        "block";
+
+
+                    cameraStatus.textContent =
+                        "Camera is active. Place the math question in view.";
+
+                } catch (error) {
+
+                    cameraStatus.textContent =
+                        "Camera permission was denied or unavailable.";
+
+                }
+
+            }
+        );
+
+
+    /* =====================================================
+       CAPTURE
+    ====================================================== */
+
+    document
+        .getElementById(
+            "capture-photo"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                if (
+                    !cameraStream
+                ) {
+
+                    cameraStatus.textContent =
+                        "Open the camera first.";
+
+                    return;
+
+                }
+
+
+                canvas.width =
+                    video.videoWidth;
+
+                canvas.height =
+                    video.videoHeight;
+
+
+                const context =
+                    canvas.getContext(
+                        "2d"
+                    );
+
+
+                context.drawImage(
+                    video,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+
+                const dataURL =
+                    canvas.toDataURL(
+                        "image/jpeg",
+                        .9
+                    );
+
+
+                photo.src =
+                    dataURL;
+
+                photo.style.display =
+                    "block";
+
+
+                cameraStatus.textContent =
+                    "Photo captured.";
+
+            }
+        );
+
+
+    /* =====================================================
+       STOP CAMERA
+    ====================================================== */
+
+    document
+        .getElementById(
+            "stop-camera"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                if (
+                    cameraStream
+                ) {
+
+                    cameraStream
+                        .getTracks()
+                        .forEach(
+                            function (track) {
+
+                                track.stop();
+
+                            }
+                        );
+
+                    cameraStream =
+                        null;
+
+                }
+
+
+                video.srcObject =
+                    null;
+
+                video.style.display =
+                    "none";
+
+
+                cameraStatus.textContent =
+                    "Camera stopped.";
+
+            }
+        );
+
+
+    /* =====================================================
+       PHOTO FILE
+    ====================================================== */
+
+    photoInput.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                photoInput.files[0];
+
+
+            if (!file) return;
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    photo.src =
+                        event.target.result;
+
+                    photo.style.display =
+                        "block";
+
+
+                    cameraStatus.textContent =
+                        "Photo selected.";
+
+                    /*
+                     * The image is shown here.
+                     *
+                     * Actual handwritten/printed OCR
+                     * needs an OCR engine/service.
+                     */
+
+                    document.getElementById(
+                        "ocr-text"
+                    ).focus();
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       SOLVE PHOTO QUESTION
+    ====================================================== */
+
+    document
+        .getElementById(
+            "solve-photo-question"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                const text =
+                    document.getElementById(
+                        "ocr-text"
+                    ).value;
+
+
+                if (!text.trim()) {
+
+                    alert(
+                        "Enter or correct the recognized math question first."
+                    );
+
+                    return;
+
+                }
+
+
+                question.value =
+                    text;
+
+
+                document
+                    .getElementById(
+                        "solve-btn"
+                    )
+                    .click();
+
+            }
+        );
+
+
+    /* =====================================================
+       INITIAL HISTORY
+    ====================================================== */
+
+    renderHistory();
+
+
+})();
+
+</script>
+
 
 <script src="../jss/core.js"></script>
+
 <script src="../jss/system.js"></script>
+
+<script src="../jss/data.js"></script>
+
 <script src="../jss/library-engine.js"></script>
+
 
 </body>
 
