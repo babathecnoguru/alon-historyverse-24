@@ -36,113 +36,8 @@
 
         /* =====================================================
            ALON HISTORYVERSE 24
-           TOP FOLDER SYSTEM
-        ====================================================== */
-
-        .ah-folder-bar {
-
-            width: 100%;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            overflow-x: auto;
-
-            overflow-y: hidden;
-
-            white-space: nowrap;
-
-            padding: 10px 8px;
-
-            margin: 0;
-
-            border-top: 1px solid rgba(215,179,90,.20);
-
-            border-bottom: 1px solid rgba(215,179,90,.30);
-
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(5,8,15,.98),
-                    rgba(10,14,24,.98)
-                );
-
-            scrollbar-width: thin;
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 900;
-
-        }
-
-
-        .ah-folder-bar::-webkit-scrollbar {
-
-            height: 5px;
-
-        }
-
-
-        .ah-folder-btn {
-
-            flex: 0 0 auto;
-
-            border: 1px solid rgba(215,179,90,.45);
-
-            background: rgba(255,255,255,.035);
-
-            color: #f0d27a;
-
-            border-radius: 999px;
-
-            padding: 9px 15px;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            cursor: pointer;
-
-            transition: .20s ease;
-
-        }
-
-
-        .ah-folder-btn:hover {
-
-            background: rgba(215,179,90,.12);
-
-            border-color: #d7b35a;
-
-        }
-
-
-        .ah-folder-btn.active {
-
-            background: #d7b35a;
-
-            color: #05080f;
-
-            border-color: #f0d27a;
-
-            box-shadow:
-                0 0 14px rgba(215,179,90,.22);
-
-        }
-
-
-        /* =====================================================
-           FOLDER PANELS
+           MENU FOLDER SYSTEM
+           TOP FOLDER BAR REMOVED
         ====================================================== */
 
         .ah-folder-panel {
@@ -179,6 +74,150 @@
                 transform: translateY(0);
 
             }
+
+        }
+
+
+        /* =====================================================
+           MENU FOLDER BUTTONS
+        ====================================================== */
+
+        .ah-menu-folder {
+
+            width: 100%;
+
+            margin: 0 0 8px 0;
+
+            border: 1px solid rgba(215,179,90,.28);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            background: rgba(255,255,255,.025);
+
+        }
+
+
+        .ah-menu-folder-btn {
+
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            border: 0;
+
+            background: transparent;
+
+            color: #f0d27a;
+
+            padding: 13px 14px;
+
+            text-align: left;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+        }
+
+
+        .ah-menu-folder-btn:hover {
+
+            background: rgba(215,179,90,.08);
+
+        }
+
+
+        .ah-menu-folder-btn .ah-folder-arrow {
+
+            font-size: 12px;
+
+            transition: transform .20s ease;
+
+        }
+
+
+        .ah-menu-folder.open
+        .ah-menu-folder-btn {
+
+            background:
+                rgba(215,179,90,.08);
+
+        }
+
+
+        .ah-menu-folder.open
+        .ah-folder-arrow {
+
+            transform: rotate(180deg);
+
+        }
+
+
+        .ah-menu-folder-links {
+
+            display: none;
+
+            padding: 0 10px 10px;
+
+            border-top:
+                1px solid rgba(215,179,90,.16);
+
+        }
+
+
+        .ah-menu-folder.open
+        .ah-menu-folder-links {
+
+            display: block;
+
+        }
+
+
+        .ah-menu-folder-links a {
+
+            display: block;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            padding: 10px 12px;
+
+            margin-top: 6px;
+
+            border:
+                1px solid rgba(215,179,90,.16);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,.025);
+
+        }
+
+
+        .ah-menu-folder-links a:hover {
+
+            border-color:
+                rgba(215,179,90,.55);
+
+            background:
+                rgba(215,179,90,.07);
 
         }
 
@@ -240,13 +279,15 @@
 
             color: inherit;
 
-            border: 1px solid rgba(215,179,90,.28);
+            border:
+                1px solid rgba(215,179,90,.28);
 
             border-radius: 14px;
 
             padding: 18px;
 
-            background: rgba(255,255,255,.035);
+            background:
+                rgba(255,255,255,.035);
 
             transition: .20s ease;
 
@@ -259,7 +300,8 @@
 
             border-color: #d7b35a;
 
-            background: rgba(215,179,90,.08);
+            background:
+                rgba(215,179,90,.08);
 
         }
 
@@ -279,20 +321,19 @@
 
         @media (max-width: 700px) {
 
-            .ah-folder-bar {
+            .ah-menu-folder-btn {
 
-                padding: 8px 6px;
+                font-size: 14px;
 
-                gap: 6px;
+                padding: 12px;
 
             }
 
+            .ah-menu-folder-links a {
 
-            .ah-folder-btn {
+                font-size: 14px;
 
-                font-size: 13px;
-
-                padding: 8px 12px;
+                padding: 9px 10px;
 
             }
 
@@ -362,99 +403,6 @@
 
 
 <!-- =========================================================
-     TOP FOLDER BAR
-========================================================== -->
-
-<nav
-    class="ah-folder-bar"
-    id="ahFolderBar"
-    aria-label="Website folders"
->
-
-    <button
-        class="ah-folder-btn active"
-        type="button"
-        data-folder="explore"
-    >
-        Explore
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="library"
-    >
-        Library
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="history"
-    >
-        History
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="countries"
-    >
-        Countries
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="knowledge"
-    >
-        Knowledge
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="jobs"
-    >
-        Jobs
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="community"
-    >
-        Community
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="information"
-    >
-        Information
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="account"
-    >
-        Account
-    </button>
-
-    <button
-        class="ah-folder-btn"
-        type="button"
-        data-folder="marketplace"
-    >
-        Marketplace
-    </button>
-
-</nav>
-
-
-<!-- =========================================================
      DESKTOP NAVIGATION
 ========================================================== -->
 
@@ -501,6 +449,7 @@
 
 <!-- =========================================================
      MOBILE MENU
+     FOLDERS ARE NOW INSIDE ☰ MENU
 ========================================================== -->
 
 <div
@@ -510,212 +459,422 @@
 >
 
 
-    <div class="mobile-menu-section">
+    <!-- =====================================================
+         EXPLORE FOLDER
+    ====================================================== -->
 
-        <strong>
-            Explore
-        </strong>
+    <div class="ah-menu-folder">
 
-        <a href="./discover.html">
-            Discover
-        </a>
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
 
-        <a href="./categories.html">
-            Categories
-        </a>
+            <span>
+                📂 Explore
+            </span>
 
-        <a href="./gallery.html">
-            Gallery
-        </a>
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
 
-        <a href="./articles.html">
-            Articles
-        </a>
-
-        <a href="./article.html">
-            Article
-        </a>
-
-    </div>
+        </button>
 
 
-    <div class="mobile-menu-section">
+        <div class="ah-menu-folder-links">
 
-        <strong>
-            Library
-        </strong>
+            <a href="./discover.html">
+                Discover
+            </a>
 
-        <a href="./library.html">
-            Library
-        </a>
+            <a href="./categories.html">
+                Categories
+            </a>
 
-        <a href="./department.html">
-            Department
-        </a>
+            <a href="./gallery.html">
+                Gallery
+            </a>
 
-        <a href="./subject.html">
-            Subject
-        </a>
+            <a href="./articles.html">
+                Articles
+            </a>
 
-        <a href="./book.html">
-            Book
-        </a>
+            <a href="./article.html">
+                Article
+            </a>
 
-        <a href="./read.html">
-            Read
-        </a>
+        </div>
 
     </div>
 
 
-    <div class="mobile-menu-section">
+    <!-- =====================================================
+         LIBRARY FOLDER
+    ====================================================== -->
 
-        <strong>
-            History
-        </strong>
+    <div class="ah-menu-folder">
 
-        <a href="./civilizations.html">
-            Civilizations
-        </a>
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
 
-        <a href="./timeline.html">
-            Timeline
-        </a>
+            <span>
+                📚 Library
+            </span>
 
-        <a href="./heritage.html">
-            Heritage
-        </a>
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
 
-    </div>
-
-
-    <div class="mobile-menu-section">
-
-        <strong>
-            Countries
-        </strong>
-
-        <a href="./countries.html">
-            Countries
-        </a>
-
-        <a href="./country.html">
-            Country
-        </a>
-
-    </div>
+        </button>
 
 
-    <div class="mobile-menu-section">
+        <div class="ah-menu-folder-links">
 
-        <strong>
-            Knowledge
-        </strong>
+            <a href="./library.html">
+                Library
+            </a>
 
-        <a href="./mathematics.html">
-            Mathematics
-        </a>
+            <a href="./department.html">
+                Department
+            </a>
 
-        <a href="./computer.html">
-            Computer
-        </a>
+            <a href="./subject.html">
+                Subject
+            </a>
 
-        <a href="./trees.html">
-            Trees
-        </a>
+            <a href="./book.html">
+                Book
+            </a>
+
+            <a href="./read.html">
+                Read
+            </a>
+
+        </div>
 
     </div>
 
 
-    <div class="mobile-menu-section">
+    <!-- =====================================================
+         HISTORY FOLDER
+    ====================================================== -->
 
-        <strong>
-            Jobs
-        </strong>
+    <div class="ah-menu-folder">
 
-        <a href="./jobs.html">
-            Jobs
-        </a>
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
 
-    </div>
+            <span>
+                🏛️ History
+            </span>
 
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
 
-    <div class="mobile-menu-section">
-
-        <strong>
-            Community
-        </strong>
-
-        <a href="./contribute.html">
-            Contribute
-        </a>
-
-        <a href="./guidelines.html">
-            Guidelines
-        </a>
-
-        <a href="./contributor-agreement.html">
-            Contributor Agreement
-        </a>
-
-    </div>
+        </button>
 
 
-    <div class="mobile-menu-section">
+        <div class="ah-menu-folder-links">
 
-        <strong>
-            Information
-        </strong>
+            <a href="./civilizations.html">
+                Civilizations
+            </a>
 
-        <a href="./about.html">
-            About
-        </a>
+            <a href="./timeline.html">
+                Timeline
+            </a>
 
-        <a href="./contact.html">
-            Contact
-        </a>
+            <a href="./heritage.html">
+                Heritage
+            </a>
 
-        <a href="./copyright.html">
-            Copyright
-        </a>
-
-        <a href="./privacy.html">
-            Privacy
-        </a>
-
-        <a href="./terms.html">
-            Terms
-        </a>
+        </div>
 
     </div>
 
 
-    <div class="mobile-menu-section">
+    <!-- =====================================================
+         COUNTRIES FOLDER
+    ====================================================== -->
 
-        <strong>
-            Account
-        </strong>
+    <div class="ah-menu-folder">
 
-        <a href="./login.html">
-            Login
-        </a>
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
 
-        <a href="./admin.html">
-            Admin
-        </a>
+            <span>
+                🌍 Countries
+            </span>
+
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div class="ah-menu-folder-links">
+
+            <a href="./countries.html">
+                Countries
+            </a>
+
+            <a href="./country.html">
+                Country
+            </a>
+
+        </div>
 
     </div>
 
 
-    <div class="mobile-menu-section">
+    <!-- =====================================================
+         KNOWLEDGE FOLDER
+    ====================================================== -->
 
-        <strong>
-            Marketplace
-        </strong>
+    <div class="ah-menu-folder">
 
-        <a href="./marketplace.html">
-            🌍 Global Marketplace
-        </a>
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
+
+            <span>
+                🧠 Knowledge
+            </span>
+
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div class="ah-menu-folder-links">
+
+            <a href="./mathematics.html">
+                Mathematics
+            </a>
+
+            <a href="./computer.html">
+                Computer
+            </a>
+
+            <a href="./trees.html">
+                Trees
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JOBS FOLDER
+    ====================================================== -->
+
+    <div class="ah-menu-folder">
+
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
+
+            <span>
+                💼 Jobs
+            </span>
+
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div class="ah-menu-folder-links">
+
+            <a href="./jobs.html">
+                Jobs
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         COMMUNITY FOLDER
+    ====================================================== -->
+
+    <div class="ah-menu-folder">
+
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
+
+            <span>
+                👥 Community
+            </span>
+
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div class="ah-menu-folder-links">
+
+            <a href="./contribute.html">
+                Contribute
+            </a>
+
+            <a href="./guidelines.html">
+                Guidelines
+            </a>
+
+            <a href="./contributor-agreement.html">
+                Contributor Agreement
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         INFORMATION FOLDER
+    ====================================================== -->
+
+    <div class="ah-menu-folder">
+
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
+
+            <span>
+                ℹ️ Information
+            </span>
+
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div class="ah-menu-folder-links">
+
+            <a href="./about.html">
+                About
+            </a>
+
+            <a href="./contact.html">
+                Contact
+            </a>
+
+            <a href="./copyright.html">
+                Copyright
+            </a>
+
+            <a href="./privacy.html">
+                Privacy
+            </a>
+
+            <a href="./terms.html">
+                Terms
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ACCOUNT FOLDER
+    ====================================================== -->
+
+    <div class="ah-menu-folder">
+
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
+
+            <span>
+                👤 Account
+            </span>
+
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div class="ah-menu-folder-links">
+
+            <a href="./login.html">
+                Login
+            </a>
+
+            <a href="./admin.html">
+                Admin
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MARKETPLACE FOLDER
+    ====================================================== -->
+
+    <div class="ah-menu-folder">
+
+        <button
+            class="ah-menu-folder-btn"
+            type="button"
+            aria-expanded="false"
+        >
+
+            <span>
+                🛒 Marketplace
+            </span>
+
+            <span class="ah-folder-arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div class="ah-menu-folder-links">
+
+            <a href="./marketplace.html">
+                🌍 Global Marketplace
+            </a>
+
+        </div>
 
     </div>
 
@@ -1073,6 +1232,7 @@
                 href="./jobs.html"
             >
                 <h3>💼 Jobs</h3>
+
                 <p>
                     Explore jobs and career information.
                 </p>
@@ -1084,6 +1244,7 @@
                 href="./jobs.html"
             >
                 <h3>📍 Local Jobs</h3>
+
                 <p>
                     Find jobs by local area and location.
                 </p>
@@ -1095,6 +1256,7 @@
                 href="./jobs.html"
             >
                 <h3>🌍 International Jobs</h3>
+
                 <p>
                     Explore international job opportunities.
                 </p>
@@ -1106,6 +1268,7 @@
                 href="./jobs.html"
             >
                 <h3>📂 Job Categories</h3>
+
                 <p>
                     Browse jobs by profession and category.
                 </p>
@@ -1117,6 +1280,7 @@
                 href="./jobs.html"
             >
                 <h3>🔎 Job Search</h3>
+
                 <p>
                     Search for jobs and career opportunities.
                 </p>
@@ -1128,6 +1292,7 @@
                 href="./jobs.html"
             >
                 <h3>📝 Submit Job</h3>
+
                 <p>
                     Submit a job opportunity.
                 </p>
@@ -1139,6 +1304,7 @@
                 href="./jobs.html"
             >
                 <h3>🌐 Jobs by Country</h3>
+
                 <p>
                     Explore jobs by country and location.
                 </p>
@@ -1318,6 +1484,7 @@
                 class="card"
                 href="./marketplace.html"
             >
+
                 <h3>
                     🌍 Global Marketplace
                 </h3>
@@ -1325,6 +1492,7 @@
                 <p>
                     Explore the global marketplace.
                 </p>
+
             </a>
 
         </div>
@@ -1460,14 +1628,99 @@
 
 
     /* =======================================================
-       FOLDER SYSTEM
+       MENU FOLDER SYSTEM
     ======================================================== */
 
-    const folderButtons =
+    const menuFolders =
         document.querySelectorAll(
-            ".ah-folder-btn"
+            ".ah-menu-folder"
         );
 
+
+    menuFolders.forEach(
+        function (folder) {
+
+            const button =
+                folder.querySelector(
+                    ".ah-menu-folder-btn"
+                );
+
+
+            if (!button) {
+
+                return;
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const wasOpen =
+                        folder.classList.contains(
+                            "open"
+                        );
+
+
+                    /*
+                     * Close every other menu folder.
+                     */
+
+                    menuFolders.forEach(
+                        function (otherFolder) {
+
+                            otherFolder.classList.remove(
+                                "open"
+                            );
+
+
+                            const otherButton =
+                                otherFolder.querySelector(
+                                    ".ah-menu-folder-btn"
+                                );
+
+
+                            if (otherButton) {
+
+                                otherButton.setAttribute(
+                                    "aria-expanded",
+                                    "false"
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                    /*
+                     * Open selected folder.
+                     */
+
+                    if (!wasOpen) {
+
+                        folder.classList.add(
+                            "open"
+                        );
+
+                        button.setAttribute(
+                            "aria-expanded",
+                            "true"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =======================================================
+       MAIN FOLDER PANELS
+    ======================================================== */
 
     const folderPanels =
         document.querySelectorAll(
@@ -1476,19 +1729,6 @@
 
 
     function openFolder(folderName) {
-
-        folderButtons.forEach(
-            function (button) {
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.folder ===
-                    folderName
-                );
-
-            }
-        );
-
 
         folderPanels.forEach(
             function (panel) {
@@ -1519,24 +1759,6 @@
     }
 
 
-    folderButtons.forEach(
-        function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    openFolder(
-                        button.dataset.folder
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
     /* =======================================================
        RESTORE LAST FOLDER
     ======================================================== */
@@ -1558,21 +1780,24 @@
     }
 
 
-    const validFolder =
-        Array.from(folderButtons).some(
-            function (button) {
+    const validFolders = [
 
-                return (
-                    button.dataset.folder ===
-                    savedFolder
-                );
+        "explore",
+        "library",
+        "history",
+        "countries",
+        "knowledge",
+        "jobs",
+        "community",
+        "information",
+        "account",
+        "marketplace"
 
-            }
-        );
+    ];
 
 
     openFolder(
-        validFolder
+        validFolders.includes(savedFolder)
             ? savedFolder
             : "explore"
     );
@@ -1809,12 +2034,6 @@
 
                         }
 
-
-                        /*
-                         * Safe fallback.
-                         * Does not break the page if
-                         * the language engine is unavailable.
-                         */
 
                         try {
 
