@@ -3,1138 +3,1106 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Admin Control Center • ALON HISTORYVERSE 24</title>
-
-    <meta
-        name="description"
-        content="ALON HISTORYVERSE 24 administration and content management control center."
-    >
-
-    <link
-        rel="stylesheet"
-        href="../css/style.css"
-    >
-
-    <style>
-
-        /* =====================================================
-           ALON HISTORYVERSE 24
-           ADMIN CONTROL CENTER
-        ====================================================== */
-
-        .admin-page {
-            width: 100%;
-            max-width: 1350px;
-            margin: 0 auto;
-            padding: 18px;
-        }
-
-        .admin-hero {
-            padding: 30px 20px;
-            margin-bottom: 22px;
-            border: 1px solid rgba(215,179,90,0.38);
-            border-radius: 20px;
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(215,179,90,0.10),
-                    rgba(5,8,15,0.97)
-                );
-        }
-
-        .admin-hero h1 {
-            margin: 0 0 8px;
-            color: #f0d27a;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(28px, 6vw, 46px);
-        }
-
-        .admin-hero p {
-            margin: 0;
-            line-height: 1.7;
-            opacity: 0.88;
-        }
-
-        .admin-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 15px;
-            padding: 8px 13px;
-            border: 1px solid rgba(215,179,90,0.35);
-            border-radius: 999px;
-            color: #f0d27a;
-            background: rgba(215,179,90,0.06);
-            font-size: 13px;
-        }
-
-        .admin-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #d7b35a;
-        }
-
-        .admin-section {
-            margin-bottom: 25px;
-        }
-
-        .admin-title {
-            margin: 0 0 14px;
-            color: #f0d27a;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 27px;
-        }
-
-        /* =====================================================
-           STATISTICS
-        ====================================================== */
-
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 14px;
-            margin-bottom: 25px;
-        }
-
-        .admin-stat {
-            padding: 20px;
-            border: 1px solid rgba(215,179,90,0.25);
-            border-radius: 16px;
-            background: rgba(255,255,255,0.025);
-        }
-
-        .admin-stat-icon {
-            font-size: 25px;
-            margin-bottom: 8px;
-        }
-
-        .admin-stat-number {
-            font-size: 28px;
-            color: #f0d27a;
-            font-weight: bold;
-        }
-
-        .admin-stat-label {
-            margin-top: 4px;
-            font-size: 13px;
-            opacity: 0.75;
-        }
-
-        /* =====================================================
-           CONTROL GRID
-        ====================================================== */
-
-        .admin-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 16px;
-        }
-
-        .admin-card {
-            padding: 21px;
-            border: 1px solid rgba(215,179,90,0.27);
-            border-radius: 17px;
-            background: rgba(255,255,255,0.025);
-        }
-
-        .admin-card:hover {
-            border-color: rgba(240,210,122,0.62);
-        }
-
-        .admin-card-icon {
-            font-size: 31px;
-            margin-bottom: 10px;
-        }
-
-        .admin-card h3 {
-            margin: 0 0 8px;
-            color: #f0d27a;
-            font-size: 19px;
-        }
-
-        .admin-card p {
-            margin: 0 0 15px;
-            line-height: 1.6;
-            font-size: 13px;
-            opacity: 0.82;
-        }
-
-        /* =====================================================
-           BUTTONS
-        ====================================================== */
-
-        .admin-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .admin-btn {
-            padding: 10px 13px;
-            border: 1px solid rgba(215,179,90,0.38);
-            border-radius: 9px;
-            background: rgba(215,179,90,0.07);
-            color: #f0d27a;
-            cursor: pointer;
-            font-size: 13px;
-            text-decoration: none;
-        }
-
-        .admin-btn:hover {
-            background: rgba(215,179,90,0.15);
-            border-color: #d7b35a;
-        }
-
-        .admin-btn.primary {
-            background: #d7b35a;
-            color: #05080f;
-            font-weight: bold;
-        }
-
-        .admin-btn.danger {
-            border-color: rgba(220,80,80,0.5);
-            color: #ff9b9b;
-            background: rgba(220,80,80,0.07);
-        }
-
-        .admin-btn.danger:hover {
-            background: rgba(220,80,80,0.14);
-        }
-
-        .admin-btn.success {
-            border-color: rgba(100,190,120,0.45);
-            color: #9ee8aa;
-        }
-
-        /* =====================================================
-           SEARCH
-        ====================================================== */
-
-        .admin-search {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 13px 15px;
-            border: 1px solid rgba(215,179,90,0.35);
-            border-radius: 11px;
-            background: #080d16;
-            color: #ffffff;
-            outline: none;
-            font-size: 14px;
-            margin-bottom: 14px;
-        }
-
-        /* =====================================================
-           CONTENT TABLE
-        ====================================================== */
-
-        .admin-table-wrap {
-            overflow-x: auto;
-            border: 1px solid rgba(215,179,90,0.24);
-            border-radius: 15px;
-        }
-
-        .admin-table {
-            width: 100%;
-            min-width: 750px;
-            border-collapse: collapse;
-        }
-
-        .admin-table th,
-        .admin-table td {
-            padding: 13px;
-            text-align: left;
-            border-bottom: 1px solid rgba(215,179,90,0.13);
-            font-size: 13px;
-        }
-
-        .admin-table th {
-            color: #f0d27a;
-            background: rgba(215,179,90,0.055);
-        }
-
-        .admin-table td {
-            opacity: 0.9;
-        }
-
-        .admin-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .admin-badge {
-            display: inline-block;
-            padding: 5px 8px;
-            border-radius: 999px;
-            border: 1px solid rgba(215,179,90,0.25);
-            color: #f0d27a;
-            font-size: 11px;
-        }
-
-        .empty-state {
-            padding: 30px;
-            text-align: center;
-            opacity: 0.7;
-        }
-
-        /* =====================================================
-           MEDIA MANAGEMENT
-        ====================================================== */
-
-        .media-zone {
-            padding: 20px;
-            border: 1px dashed rgba(215,179,90,0.4);
-            border-radius: 15px;
-            text-align: center;
-            background: rgba(215,179,90,0.025);
-        }
-
-        .media-zone input {
-            width: 100%;
-            max-width: 500px;
-            margin: 12px auto;
-        }
-
-        .media-preview {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .media-item {
-            padding: 10px;
-            border: 1px solid rgba(215,179,90,0.22);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .media-item img,
-        .media-item video {
-            width: 100%;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .media-name {
-            margin-top: 7px;
-            font-size: 11px;
-            word-break: break-word;
-            opacity: 0.75;
-        }
-
-        /* =====================================================
-           LOG / MESSAGE
-        ====================================================== */
-
-        .admin-log {
-            max-height: 260px;
-            overflow-y: auto;
-            padding: 14px;
-            border: 1px solid rgba(215,179,90,0.2);
-            border-radius: 13px;
-            background: #070b12;
-            font-family: monospace;
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        .log-line {
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-
-        /* =====================================================
-           WARNING
-        ====================================================== */
-
-        .admin-warning {
-            padding: 18px;
-            margin-bottom: 22px;
-            border: 1px solid rgba(220,160,70,0.45);
-            border-radius: 15px;
-            background: rgba(220,160,70,0.06);
-            line-height: 1.7;
-            font-size: 13px;
-        }
-
-        .admin-warning strong {
-            color: #f0d27a;
-        }
-
-        /* =====================================================
-           NAVIGATION
-        ====================================================== */
-
-        .admin-bottom-nav {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 9px;
-            margin: 30px 0 15px;
-        }
-
-        .admin-bottom-nav a {
-            padding: 10px 14px;
-            border: 1px solid rgba(215,179,90,0.3);
-            border-radius: 9px;
-            color: #f0d27a;
-            text-decoration: none;
-            background: rgba(255,255,255,0.025);
-        }
-
-        .admin-bottom-nav a:hover {
-            border-color: #d7b35a;
-            background: rgba(215,179,90,0.08);
-        }
-
-        /* =====================================================
-           RESPONSIVE
-        ====================================================== */
-
-        @media (max-width: 1000px) {
-
-            .admin-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .admin-stats {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .media-preview {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-
-        }
-
-        @media (max-width: 620px) {
-
-            .admin-page {
-                padding: 13px;
-            }
-
-            .admin-grid,
-            .admin-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .media-preview {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .admin-hero {
-                padding: 25px 15px;
-            }
-
-            .admin-card {
-                padding: 17px;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Admin Control Center • ALON HISTORYVERSE 24
+</title>
+
+<meta
+    name="description"
+    content="ALON HISTORYVERSE 24 Admin Control Center — Articles, drafts, trash, images and videos."
+>
+
+<link
+    rel="stylesheet"
+    href="../css/style.css"
+>
+
+<style>
+
+/* =========================================================
+   ALON HISTORYVERSE 24
+   ADMIN CONTROL CENTER V100
+   MEDIA LIBRARY
+========================================================= */
+
+.admin-page {
+    min-height: 100vh;
+}
+
+.admin-container {
+    width: min(1200px, 94%);
+    margin: 0 auto;
+    padding: 30px 0 60px;
+}
+
+.admin-hero {
+    padding: 28px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(215,179,90,.35);
+    border-radius: 18px;
+    background: rgba(10,15,25,.88);
+}
+
+.admin-hero h1 {
+    margin: 0 0 8px;
+    color: #f0d27a;
+}
+
+.admin-hero p {
+    margin: 0;
+    color: #eeeeee;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.admin-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.admin-stat {
+    padding: 20px;
+    border: 1px solid rgba(215,179,90,.25);
+    border-radius: 16px;
+    background: rgba(10,15,25,.82);
+    text-align: center;
+}
+
+.admin-stat strong {
+    display: block;
+    font-size: 2rem;
+    color: #f0d27a;
+}
+
+.admin-stat span {
+    color: #eeeeee;
+    font-size: .9rem;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.admin-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 26px;
+}
+
+.admin-card {
+    padding: 22px;
+    border: 1px solid rgba(215,179,90,.28);
+    border-radius: 18px;
+    background: rgba(10,15,25,.88);
+}
+
+.admin-card h2 {
+    margin-top: 0;
+    color: #f0d27a;
+}
+
+.admin-card p,
+.admin-card li,
+.admin-card label {
+    color: #eeeeee;
+}
+
+.admin-card ul {
+    padding-left: 20px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.admin-button,
+.admin-page button,
+.admin-page .button {
+    border: 1px solid #d7b35a;
+    border-radius: 10px;
+    padding: 11px 16px;
+    background: #111827;
+    color: #f0d27a;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.admin-button:hover,
+.admin-page button:hover {
+    background: #d7b35a;
+    color: #05080f;
+}
+
+.danger-button {
+    border-color: #d9534f !important;
+    color: #ff8580 !important;
+}
+
+.danger-button:hover {
+    background: #d9534f !important;
+    color: #ffffff !important;
+}
+
+.success-button {
+    border-color: #67c587 !important;
+    color: #8ee5a7 !important;
+}
+
+/* =========================================================
+   ARTICLE TABLE
+========================================================= */
+
+.admin-table-wrap {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    color: #eeeeee;
+    text-align: left;
+}
+
+.admin-table th {
+    color: #f0d27a;
+}
+
+.admin-table button {
+    margin: 3px;
+}
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.admin-form {
+    display: grid;
+    gap: 14px;
+}
+
+.admin-form label {
+    display: grid;
+    gap: 7px;
+    font-weight: 700;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid rgba(215,179,90,.3);
+    border-radius: 10px;
+    background: #080d16;
+    color: #ffffff;
+}
+
+.admin-form textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* =========================================================
+   MEDIA MANAGER
+========================================================= */
+
+.media-manager {
+    margin-top: 28px;
+}
+
+.media-select-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.media-selected-box {
+    margin-top: 15px;
+    padding: 16px;
+    border: 1px dashed rgba(215,179,90,.45);
+    border-radius: 15px;
+    background: rgba(0,0,0,.2);
+}
+
+.media-selected-box h3 {
+    margin-top: 0;
+    color: #f0d27a;
+}
+
+.media-preview {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.media-preview-item {
+    overflow: hidden;
+    border: 1px solid rgba(215,179,90,.25);
+    border-radius: 14px;
+    background: #080d16;
+}
+
+.media-preview-item img,
+.media-preview-item video {
+    display: block;
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    background: #000;
+}
+
+.media-preview-info {
+    padding: 10px;
+}
+
+.media-preview-info strong {
+    display: block;
+    color: #ffffff;
+    overflow-wrap: anywhere;
+}
+
+.media-preview-info small {
+    display: block;
+    margin-top: 5px;
+    color: #bdbdbd;
+}
+
+.media-preview-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 10px;
+}
+
+/* =========================================================
+   SAVED MEDIA LIBRARY
+========================================================= */
+
+.saved-media-section {
+    margin-top: 25px;
+}
+
+.saved-media-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.saved-media-header h3 {
+    margin: 0;
+    color: #f0d27a;
+}
+
+.saved-media-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.saved-media-card {
+    overflow: hidden;
+    border: 1px solid rgba(215,179,90,.3);
+    border-radius: 16px;
+    background: rgba(5,8,15,.96);
+}
+
+.saved-media-card img,
+.saved-media-card video {
+    display: block;
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    background: #000;
+}
+
+.saved-media-body {
+    padding: 13px;
+}
+
+.saved-media-name {
+    color: #ffffff;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.saved-media-meta {
+    margin-top: 7px;
+    color: #bdbdbd;
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+.saved-media-actions {
+    display: flex;
+    gap: 8px;
+    padding: 0 13px 13px;
+}
+
+.saved-media-actions button {
+    flex: 1;
+}
+
+.empty-media {
+    padding: 30px;
+    border: 1px dashed rgba(255,255,255,.18);
+    border-radius: 14px;
+    text-align: center;
+    color: #bdbdbd;
+}
+
+/* =========================================================
+   LOG
+========================================================= */
+
+.admin-log {
+    max-height: 250px;
+    overflow: auto;
+    padding: 15px;
+    border-radius: 12px;
+    background: #05080f;
+    color: #bdbdbd;
+    font-family: monospace;
+    font-size: .82rem;
+}
+
+.admin-log-entry {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.admin-warning {
+    padding: 15px;
+    border: 1px solid rgba(215,179,90,.25);
+    border-radius: 12px;
+    color: #eeeeee;
+    background: rgba(215,179,90,.06);
+    line-height: 1.6;
+}
+
+/* =========================================================
+   FOOTER NAV
+========================================================= */
+
+.admin-footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.admin-footer-nav a {
+    color: #f0d27a;
+    text-decoration: none;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .admin-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .admin-container {
+        width: 92%;
+        padding-top: 18px;
+    }
+
+    .admin-hero,
+    .admin-card {
+        padding: 16px;
+    }
+
+    .admin-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .admin-stat {
+        padding: 14px 8px;
+    }
+
+    .admin-stat strong {
+        font-size: 1.5rem;
+    }
+
+    .media-select-actions,
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .media-select-actions button,
+    .form-actions button {
+        width: 100%;
+    }
+
+}
+
+</style>
 
 </head>
 
 
-<body>
+<body
+    class="historyverse-app admin-page"
+    data-version="V100"
+    data-page="admin"
+>
 
-<main class="admin-page">
+
+<main class="admin-container">
 
 
-    <!-- =====================================================
-         ADMIN HERO
-    ====================================================== -->
+<!-- =========================================================
+     HERO
+========================================================= -->
 
-    <section class="admin-hero">
+<section class="admin-hero">
 
-        <h1>⚙️ Admin Control Center</h1>
+    <h1>
+        🛡️ Admin Control Center
+    </h1>
+
+    <p>
+        ALON HISTORYVERSE 24
+        • Baba Thecno Guru
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     DASHBOARD STATS
+========================================================= -->
+
+<section
+    class="admin-stats"
+    aria-label="Admin statistics"
+>
+
+    <div class="admin-stat">
+        <strong id="articleCount">0</strong>
+        <span>Articles</span>
+    </div>
+
+    <div class="admin-stat">
+        <strong id="deletedCount">0</strong>
+        <span>Trash</span>
+    </div>
+
+    <div class="admin-stat">
+        <strong id="mediaCount">0</strong>
+        <span>Saved Media</span>
+    </div>
+
+    <div class="admin-stat">
+        <strong id="draftCount">0</strong>
+        <span>Drafts</span>
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADMIN CONTROL CARDS
+========================================================= -->
+
+<section class="admin-grid">
+
+
+    <article class="admin-card">
+
+        <h2>📜 Article Management</h2>
 
         <p>
-            ALON HISTORYVERSE 24 — Website, Articles, Images,
-            Videos, Content and Administration.
+            Create, edit, publish and delete articles.
         </p>
 
-        <div class="admin-status">
-            <span class="admin-dot"></span>
-            Admin Control Panel
+        <ul>
+            <li>Create article</li>
+            <li>Edit article</li>
+            <li>Publish / Draft</li>
+            <li>Move article to trash</li>
+            <li>Restore deleted article</li>
+        </ul>
+
+    </article>
+
+
+    <article class="admin-card">
+
+        <h2>🖼️ Image Management</h2>
+
+        <p>
+            Select images and save them permanently
+            inside this browser's Media Library.
+        </p>
+
+        <button
+            type="button"
+            id="imageSelectBtn"
+            class="admin-button"
+        >
+            🖼️ Select Image
+        </button>
+
+    </article>
+
+
+    <article class="admin-card">
+
+        <h2>🎥 Video Management</h2>
+
+        <p>
+            Select videos, preview them and save them
+            inside the Media Library.
+        </p>
+
+        <button
+            type="button"
+            id="videoSelectBtn"
+            class="admin-button"
+        >
+            🎥 Select Video
+        </button>
+
+    </article>
+
+
+    <article class="admin-card">
+
+        <h2>📝 Draft Management</h2>
+
+        <p>
+            Draft articles remain available until
+            they are published or removed.
+        </p>
+
+        <button
+            type="button"
+            id="saveDraftShortcut"
+            class="admin-button"
+        >
+            💾 Save Current Draft
+        </button>
+
+    </article>
+
+
+    <article class="admin-card">
+
+        <h2>🗑️ Trash / Restore</h2>
+
+        <p>
+            Deleted articles are moved to the trash
+            instead of immediately disappearing.
+        </p>
+
+        <button
+            type="button"
+            id="restoreAllBtn"
+            class="admin-button"
+        >
+            ♻️ Restore All
+        </button>
+
+    </article>
+
+
+    <article class="admin-card">
+
+        <h2>💾 Data Backup</h2>
+
+        <p>
+            Export or import the article database.
+        </p>
+
+        <div class="form-actions">
+
+            <button
+                type="button"
+                id="backupBtn"
+                class="admin-button"
+            >
+                ⬇️ Export Backup
+            </button>
+
+            <button
+                type="button"
+                id="importBtn"
+                class="admin-button"
+            >
+                ⬆️ Import Backup
+            </button>
+
+            <input
+                type="file"
+                id="importFile"
+                accept=".json,application/json"
+                hidden
+            >
+
         </div>
 
-    </section>
+    </article>
 
 
-    <!-- =====================================================
-         IMPORTANT SYSTEM NOTICE
-    ====================================================== -->
+</section>
 
-    <div class="admin-warning">
 
-        <strong>⚠️ Important:</strong>
+<!-- =========================================================
+     ARTICLE DATABASE
+========================================================= -->
 
-        यह Admin page अभी browser-side management के लिए बनाया गया है।
-        इसमें नीचे दिए गए data और actions इस browser के
-        <strong>localStorage</strong> पर काम करेंगे।
+<section class="admin-card">
 
-        GitHub repository की वास्तविक files, GitHub Pages की published
-        files या permanently uploaded images/videos को केवल HTML से
-        delete नहीं किया जा सकता। उसके लिए बाद में secure backend,
-        database और authenticated storage जोड़ना होगा।
+    <h2>
+        📚 Article Database
+    </h2>
+
+    <div style="margin-bottom:15px;">
+
+        <input
+            id="articleSearch"
+            type="search"
+            placeholder="Search articles..."
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:12px;
+                border-radius:10px;
+                border:1px solid rgba(215,179,90,.3);
+                background:#080d16;
+                color:#fff;
+            "
+        >
 
     </div>
 
 
-    <!-- =====================================================
-         STATISTICS
-    ====================================================== -->
+    <div class="admin-table-wrap">
 
-    <section class="admin-section">
+        <table class="admin-table">
 
-        <h2 class="admin-title">
-            📊 Dashboard
-        </h2>
+            <thead>
 
-        <div class="admin-stats">
+                <tr>
 
+                    <th>Title</th>
 
-            <div class="admin-stat">
+                    <th>Category</th>
 
-                <div class="admin-stat-icon">📰</div>
+                    <th>Status</th>
 
-                <div
-                    class="admin-stat-number"
-                    id="articleCount"
-                >
-                    0
-                </div>
+                    <th>Action</th>
 
-                <div class="admin-stat-label">
-                    Articles
-                </div>
+                </tr>
 
-            </div>
+            </thead>
 
+            <tbody id="articleTableBody">
+            </tbody>
 
-            <div class="admin-stat">
+        </table>
 
-                <div class="admin-stat-icon">🗑️</div>
+    </div>
 
-                <div
-                    class="admin-stat-number"
-                    id="deletedCount"
-                >
-                    0
-                </div>
+</section>
 
-                <div class="admin-stat-label">
-                    Deleted / Trash
-                </div>
 
-            </div>
+<!-- =========================================================
+     MEDIA MANAGER
+========================================================= -->
 
+<section class="admin-card media-manager">
 
-            <div class="admin-stat">
+    <h2>
+        🗂️ Media Manager
+    </h2>
 
-                <div class="admin-stat-icon">🖼️</div>
+    <p>
+        Images and videos selected here can be saved
+        into the browser's IndexedDB Media Library.
+    </p>
 
-                <div
-                    class="admin-stat-number"
-                    id="mediaCount"
-                >
-                    0
-                </div>
 
-                <div class="admin-stat-label">
-                    Local Media
-                </div>
+    <div class="admin-warning">
 
-            </div>
+        <strong>Storage information:</strong>
 
+        Saved media is stored locally in this browser/device
+        using IndexedDB. It remains available after refreshing
+        or reopening the page on the same browser.
 
-            <div class="admin-stat">
+        <br><br>
 
-                <div class="admin-stat-icon">📝</div>
+        This does <strong>not</strong> upload files directly
+        into the GitHub repository.
 
-                <div
-                    class="admin-stat-number"
-                    id="draftCount"
-                >
-                    0
-                </div>
+    </div>
 
-                <div class="admin-stat-label">
-                    Drafts
-                </div>
 
-            </div>
+    <!-- HIDDEN FILE INPUT -->
 
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         MAIN ADMIN CONTROLS
-    ====================================================== -->
-
-    <section class="admin-section">
-
-        <h2 class="admin-title">
-            🎛️ Content Controls
-        </h2>
-
-        <div class="admin-grid">
-
-
-            <!-- ARTICLES -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    📰
-                </div>
-
-                <h3>Article Management</h3>
-
-                <p>
-                    Create, edit, save, delete and restore articles
-                    stored by this frontend management system.
-                </p>
-
-                <div class="admin-buttons">
-
-                    <button
-                        class="admin-btn primary"
-                        id="newArticleBtn"
-                    >
-                        + New Article
-                    </button>
-
-                    <a
-                        class="admin-btn"
-                        href="./articles.html"
-                    >
-                        View Articles
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- IMAGES -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    🖼️
-                </div>
-
-                <h3>Image Management</h3>
-
-                <p>
-                    Select images from the device and preview them
-                    before future upload/storage integration.
-                </p>
-
-                <div class="admin-buttons">
-
-                    <button
-                        class="admin-btn"
-                        id="imageSelectBtn"
-                    >
-                        Select Images
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- VIDEOS -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    🎬
-                </div>
-
-                <h3>Video Management</h3>
-
-                <p>
-                    Select local videos and create browser previews.
-                    Permanent online storage requires a media backend.
-                </p>
-
-                <div class="admin-buttons">
-
-                    <button
-                        class="admin-btn"
-                        id="videoSelectBtn"
-                    >
-                        Select Videos
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- DRAFTS -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    📝
-                </div>
-
-                <h3>Draft Management</h3>
-
-                <p>
-                    Save unfinished article work locally and
-                    continue editing later on this browser.
-                </p>
-
-                <div class="admin-buttons">
-
-                    <button
-                        class="admin-btn"
-                        id="clearDraftsBtn"
-                    >
-                        Clear Drafts
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- TRASH -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    🗑️
-                </div>
-
-                <h3>Trash / Restore</h3>
-
-                <p>
-                    Deleted frontend articles are moved to trash
-                    first so they can be restored.
-                </p>
-
-                <div class="admin-buttons">
-
-                    <button
-                        class="admin-btn success"
-                        id="restoreAllBtn"
-                    >
-                        Restore All
-                    </button>
-
-                    <button
-                        class="admin-btn danger"
-                        id="emptyTrashBtn"
-                    >
-                        Empty Trash
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- DATA -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    💾
-                </div>
-
-                <h3>Data Backup</h3>
-
-                <p>
-                    Export the current browser data to a JSON file
-                    or import a previously exported backup.
-                </p>
-
-                <div class="admin-buttons">
-
-                    <button
-                        class="admin-btn primary"
-                        id="exportBtn"
-                    >
-                        Export
-                    </button>
-
-                    <button
-                        class="admin-btn"
-                        id="importBtn"
-                    >
-                        Import
-                    </button>
-
-                </div>
-
-                <input
-                    type="file"
-                    id="importFile"
-                    accept=".json,application/json"
-                    hidden
-                >
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         ARTICLE LIST
-    ====================================================== -->
-
-    <section class="admin-section">
-
-        <h2 class="admin-title">
-            📰 Article Database
-        </h2>
-
-        <input
-            type="search"
-            id="articleSearch"
-            class="admin-search"
-            placeholder="Search articles..."
-            autocomplete="off"
-        >
-
-        <div class="admin-table-wrap">
-
-            <table class="admin-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Title</th>
-
-                        <th>Category</th>
-
-                        <th>Status</th>
-
-                        <th>Created</th>
-
-                        <th>Actions</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="articleTableBody">
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         LOCAL MEDIA MANAGER
-    ====================================================== -->
-
-    <section class="admin-section">
-
-        <h2 class="admin-title">
-            🖼️🎬 Media Manager
-        </h2>
-
-        <div class="media-zone">
-
-            <p>
-                Select images or videos from your device.
-                These previews remain local to this browser.
-            </p>
-
-            <input
-                type="file"
-                id="mediaInput"
-                accept="image/*,video/*"
-                multiple
-            >
-
-            <div
-                class="admin-buttons"
-                style="justify-content:center;"
-            >
-
-                <button
-                    class="admin-btn danger"
-                    id="clearMediaBtn"
-                >
-                    Clear Media Preview
-                </button>
-
-            </div>
-
-            <div
-                class="media-preview"
-                id="mediaPreview"
-            ></div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         ARTICLE EDITOR
-    ====================================================== -->
-
-    <section
-        class="admin-section"
-        id="articleEditorSection"
+    <input
+        type="file"
+        id="mediaInput"
+        accept="image/*,video/*"
+        multiple
+        hidden
     >
 
-        <h2 class="admin-title">
-            ✍️ Article Editor
-        </h2>
 
-        <div class="admin-card">
+    <!-- SELECT BUTTONS -->
 
-            <input
-                type="hidden"
-                id="articleId"
+    <div class="media-select-actions">
+
+        <button
+            type="button"
+            id="imageSelectBtn2"
+            class="admin-button"
+        >
+            🖼️ Choose Images
+        </button>
+
+        <button
+            type="button"
+            id="videoSelectBtn2"
+            class="admin-button"
+        >
+            🎥 Choose Videos
+        </button>
+
+        <button
+            type="button"
+            id="clearMediaBtn"
+            class="admin-button"
+        >
+            ✖️ Clear Selected
+        </button>
+
+    </div>
+
+
+    <!-- SELECTED MEDIA -->
+
+    <div
+        class="media-selected-box"
+        id="selectedMediaBox"
+    >
+
+        <h3>
+            Selected Media
+        </h3>
+
+        <p id="selectedMediaStatus">
+            No media selected.
+        </p>
+
+        <div
+            id="mediaPreview"
+            class="media-preview"
+        >
+        </div>
+
+
+        <div class="form-actions">
+
+            <button
+                type="button"
+                id="saveMediaBtn"
+                class="admin-button success-button"
+                disabled
             >
+                💾 Save Selected Media
+            </button>
 
-            <label>
-                Article Title
-            </label>
+        </div>
+
+    </div>
+
+
+    <!-- SAVED MEDIA -->
+
+    <div class="saved-media-section">
+
+        <div class="saved-media-header">
+
+            <h3>
+                📦 Saved Media Library
+            </h3>
+
+            <button
+                type="button"
+                id="clearAllSavedMediaBtn"
+                class="admin-button danger-button"
+            >
+                🗑️ Delete All Saved Media
+            </button>
+
+        </div>
+
+
+        <div
+            id="savedMediaGrid"
+            class="saved-media-grid"
+        >
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ARTICLE EDITOR
+========================================================= -->
+
+<section class="admin-card">
+
+    <h2>
+        ✍️ Article Editor
+    </h2>
+
+
+    <form
+        id="articleForm"
+        class="admin-form"
+    >
+
+        <input
+            type="hidden"
+            id="articleId"
+        >
+
+
+        <label>
+
+            Article Title
 
             <input
                 type="text"
                 id="articleTitle"
-                class="admin-search"
-                placeholder="Enter article title"
+                required
             >
 
+        </label>
 
-            <label>
-                Category
-            </label>
 
-            <select
+        <label>
+
+            Category
+
+            <input
+                type="text"
                 id="articleCategory"
-                class="admin-search"
+                placeholder="History"
             >
 
-                <option value="History">
-                    History
-                </option>
-
-                <option value="Civilization">
-                    Civilization
-                </option>
-
-                <option value="Country">
-                    Country
-                </option>
-
-                <option value="Heritage">
-                    Heritage
-                </option>
-
-                <option value="Culture">
-                    Culture
-                </option>
-
-                <option value="Timeline">
-                    Timeline
-                </option>
-
-                <option value="Biography">
-                    Biography
-                </option>
-
-                <option value="Educational">
-                    Educational
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
+        </label>
 
 
-            <label>
-                Article Description
-            </label>
+        <label>
+
+            Description
 
             <textarea
                 id="articleDescription"
-                class="admin-search"
-                rows="4"
-                placeholder="Short article description"
             ></textarea>
 
+        </label>
 
-            <label>
-                Article Content
-            </label>
+
+        <label>
+
+            Article Content
 
             <textarea
                 id="articleContent"
-                class="admin-search"
-                rows="12"
-                placeholder="Write the complete article here..."
+                style="min-height:260px;"
             ></textarea>
 
+        </label>
 
-            <label>
-                Source / References
-            </label>
+
+        <label>
+
+            Sources
 
             <textarea
                 id="articleSources"
-                class="admin-search"
-                rows="4"
-                placeholder="Enter reliable sources or references"
+                placeholder="One source per line"
             ></textarea>
 
-
-            <div class="admin-buttons">
-
-                <button
-                    class="admin-btn primary"
-                    id="saveArticleBtn"
-                >
-                    💾 Save Article
-                </button>
-
-                <button
-                    class="admin-btn"
-                    id="draftArticleBtn"
-                >
-                    📝 Save Draft
-                </button>
-
-                <button
-                    class="admin-btn"
-                    id="clearEditorBtn"
-                >
-                    Clear Editor
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
+        </label>
 
 
-    <!-- =====================================================
-         ADMIN LOG
-    ====================================================== -->
+        <div class="form-actions">
 
-    <section class="admin-section">
-
-        <h2 class="admin-title">
-            📋 Admin Activity
-        </h2>
-
-        <div
-            class="admin-log"
-            id="adminLog"
-        ></div>
-
-    </section>
+            <button
+                type="submit"
+                id="saveArticleBtn"
+                class="admin-button success-button"
+            >
+                💾 Save Article
+            </button>
 
 
-    <!-- =====================================================
-         DANGER ZONE
-    ====================================================== -->
+            <button
+                type="button"
+                id="saveDraftBtn"
+                class="admin-button"
+            >
+                📝 Save Draft
+            </button>
 
-    <section class="admin-section">
 
-        <h2 class="admin-title">
-            ⚠️ Danger Zone
-        </h2>
-
-        <div class="admin-card">
-
-            <h3>
-                Clear Local Website Data
-            </h3>
-
-            <p>
-                यह केवल इस browser में ALON HISTORYVERSE 24 के
-                इस Admin system द्वारा बनाया गया local data हटाएगा।
-                GitHub repository की files इससे delete नहीं होंगी।
-            </p>
-
-            <div class="admin-buttons">
-
-                <button
-                    class="admin-btn danger"
-                    id="clearAllDataBtn"
-                >
-                    ⚠️ Clear All Local Admin Data
-                </button>
-
-            </div>
+            <button
+                type="button"
+                id="clearArticleBtn"
+                class="admin-button"
+            >
+                ✖️ Clear
+            </button>
 
         </div>
 
-    </section>
+    </form>
+
+</section>
 
 
-    <!-- =====================================================
-         NAVIGATION
-    ====================================================== -->
+<!-- =========================================================
+     ADMIN LOG
+========================================================= -->
 
-    <nav class="admin-bottom-nav">
+<section class="admin-card">
 
-        <a href="../index.html">
-            🏠 Home
-        </a>
+    <h2>
+        📋 Admin Activity Log
+    </h2>
 
-        <a href="./articles.html">
-            📰 Articles
-        </a>
+    <div
+        id="adminLog"
+        class="admin-log"
+    >
+    </div>
 
-        <a href="./library.html">
-            📚 Library
-        </a>
+</section>
 
-        <a href="./gallery.html">
-            🖼️ Gallery
-        </a>
 
-        <a href="./contribute.html">
-            ✍️ Contribute
-        </a>
+<!-- =========================================================
+     DANGER ZONE
+========================================================= -->
 
-        <a href="./about.html">
-            ℹ️ About
-        </a>
+<section class="admin-card">
 
-        <a href="./contact.html">
-            📩 Contact
-        </a>
+    <h2>
+        ⚠️ Danger Zone
+    </h2>
 
-    </nav>
+    <p>
+        These actions permanently remove local article data.
+    </p>
+
+    <button
+        type="button"
+        id="clearAllDataBtn"
+        class="admin-button danger-button"
+    >
+        🗑️ Clear All Article Data
+    </button>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER NAVIGATION
+========================================================= -->
+
+<nav
+    class="admin-footer-nav"
+    aria-label="Admin navigation"
+>
+
+    <a href="../index.html">
+        🏠 Home
+    </a>
+
+    <a href="./articles.html">
+        📜 Articles
+    </a>
+
+    <a href="./library.html">
+        📚 Library
+    </a>
+
+    <a href="./gallery.html">
+        🖼️ Gallery
+    </a>
+
+    <a href="./contribute.html">
+        ✍️ Contribute
+    </a>
+
+    <a href="./about.html">
+        ℹ️ About
+    </a>
+
+    <a href="./contact.html">
+        📩 Contact
+    </a>
+
+</nav>
 
 
 </main>
@@ -1142,1466 +1110,2368 @@
 
 <script>
 
-    /* =====================================================
-       ALON HISTORYVERSE 24
-       ADMIN DATA SYSTEM
-    ====================================================== */
+/* =========================================================
+   ALON HISTORYVERSE 24
+   ADMIN ARTICLE SYSTEM
+========================================================= */
 
-    const ARTICLE_KEY =
-        "alon_historyverse_articles";
-
-    const TRASH_KEY =
-        "alon_historyverse_article_trash";
-
-    const DRAFT_KEY =
-        "alon_historyverse_article_drafts";
+"use strict";
 
 
-    /* =====================================================
-       HELPERS
-    ====================================================== */
+const ARTICLE_KEY =
+    "alon_historyverse_articles";
 
-    function getData(key) {
+const TRASH_KEY =
+    "alon_historyverse_article_trash";
 
-        try {
+const DRAFT_KEY =
+    "alon_historyverse_article_drafts";
 
-            return JSON.parse(
-                localStorage.getItem(key) || "[]"
-            );
 
-        } catch (error) {
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-            return [];
+const articleCount =
+    document.getElementById("articleCount");
 
+const deletedCount =
+    document.getElementById("deletedCount");
+
+const draftCount =
+    document.getElementById("draftCount");
+
+const mediaCount =
+    document.getElementById("mediaCount");
+
+const articleTableBody =
+    document.getElementById("articleTableBody");
+
+const articleSearch =
+    document.getElementById("articleSearch");
+
+const articleForm =
+    document.getElementById("articleForm");
+
+const articleId =
+    document.getElementById("articleId");
+
+const articleTitle =
+    document.getElementById("articleTitle");
+
+const articleCategory =
+    document.getElementById("articleCategory");
+
+const articleDescription =
+    document.getElementById("articleDescription");
+
+const articleContent =
+    document.getElementById("articleContent");
+
+const articleSources =
+    document.getElementById("articleSources");
+
+const adminLog =
+    document.getElementById("adminLog");
+
+
+/* =========================================================
+   BASIC STORAGE
+========================================================= */
+
+function readJSON(key, fallback) {
+
+    try {
+
+        const value =
+            localStorage.getItem(key);
+
+        if (!value) {
+            return fallback;
         }
 
+        const parsed =
+            JSON.parse(value);
+
+        return parsed;
+
+    } catch (error) {
+
+        console.error(error);
+
+        return fallback;
     }
+}
 
 
-    function saveData(key, data) {
+function writeJSON(key, value) {
 
-        localStorage.setItem(
-            key,
-            JSON.stringify(data)
+    localStorage.setItem(
+        key,
+        JSON.stringify(value)
+    );
+
+}
+
+
+/* =========================================================
+   ARTICLE STORAGE
+========================================================= */
+
+function getArticles() {
+
+    const articles =
+        readJSON(
+            ARTICLE_KEY,
+            []
         );
 
-    }
+    return Array.isArray(articles)
+        ? articles
+        : [];
+
+}
 
 
-    function escapeHTML(value) {
+function saveArticles(articles) {
 
-        return String(value || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+    writeJSON(
+        ARTICLE_KEY,
+        articles
+    );
 
-    }
+}
 
 
-    function createId() {
+function getTrash() {
 
-        return (
-            "article-" +
-            Date.now() +
-            "-" +
-            Math.random()
-                .toString(36)
-                .slice(2, 8)
+    const trash =
+        readJSON(
+            TRASH_KEY,
+            []
         );
 
+    return Array.isArray(trash)
+        ? trash
+        : [];
+
+}
+
+
+function saveTrash(trash) {
+
+    writeJSON(
+        TRASH_KEY,
+        trash
+    );
+
+}
+
+
+function getDrafts() {
+
+    const drafts =
+        readJSON(
+            DRAFT_KEY,
+            []
+        );
+
+    return Array.isArray(drafts)
+        ? drafts
+        : [];
+
+}
+
+
+function saveDrafts(drafts) {
+
+    writeJSON(
+        DRAFT_KEY,
+        drafts
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   ADMIN LOG
+========================================================= */
+
+function adminLogMessage(message) {
+
+    if (!adminLog) {
+        return;
+    }
+
+    const entry =
+        document.createElement("div");
+
+    entry.className =
+        "admin-log-entry";
+
+    entry.textContent =
+        `[${new Date().toLocaleString()}] ${message}`;
+
+    adminLog.prepend(entry);
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+async function updateDashboard() {
+
+    const articles =
+        getArticles();
+
+    const trash =
+        getTrash();
+
+    const drafts =
+        getDrafts();
+
+    articleCount.textContent =
+        articles.length;
+
+    deletedCount.textContent =
+        trash.length;
+
+    draftCount.textContent =
+        drafts.length;
+
+    const count =
+        await getMediaCount();
+
+    mediaCount.textContent =
+        count;
+
+}
+
+
+/* =========================================================
+   ARTICLE RENDER
+========================================================= */
+
+function renderArticles(filter = "") {
+
+    const articles =
+        getArticles();
+
+    const query =
+        String(filter || "")
+            .trim()
+            .toLowerCase();
+
+
+    const results =
+        query
+            ? articles.filter(article => {
+
+                const searchable =
+                    [
+                        article.title,
+                        article.category,
+                        article.description,
+                        article.content
+                    ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                return searchable.includes(query);
+
+            })
+            : articles;
+
+
+    articleTableBody.innerHTML = "";
+
+
+    if (!results.length) {
+
+        articleTableBody.innerHTML = `
+            <tr>
+                <td colspan="4">
+                    No articles found.
+                </td>
+            </tr>
+        `;
+
+        return;
     }
 
 
-    function logAction(message) {
+    results.forEach(article => {
 
-        const log =
-            document.getElementById("adminLog");
+        const row =
+            document.createElement("tr");
 
-        const line =
-            document.createElement("div");
 
-        line.className =
-            "log-line";
+        const status =
+            article.status === "published"
+                ? "Published"
+                : "Draft";
 
-        line.textContent =
-            new Date().toLocaleString() +
-            " — " +
-            message;
 
-        log.prepend(line);
+        row.innerHTML = `
 
+            <td>
+                ${escapeHTML(
+                    article.title ||
+                    "Untitled"
+                )}
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    article.category ||
+                    "History"
+                )}
+            </td>
+
+            <td>
+                ${status}
+            </td>
+
+            <td>
+
+                <button
+                    type="button"
+                    data-edit-article="${escapeHTML(article.id)}"
+                >
+                    Edit
+                </button>
+
+                <button
+                    type="button"
+                    class="danger-button"
+                    data-delete-article="${escapeHTML(article.id)}"
+                >
+                    Delete
+                </button>
+
+            </td>
+
+        `;
+
+
+        articleTableBody.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================================
+   EDIT ARTICLE
+========================================================= */
+
+function editArticle(id) {
+
+    const articles =
+        getArticles();
+
+    const article =
+        articles.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if (!article) {
+        return;
     }
 
 
-    /* =====================================================
-       UPDATE DASHBOARD
-    ====================================================== */
+    articleId.value =
+        article.id || "";
 
-    function updateDashboard() {
+    articleTitle.value =
+        article.title || "";
+
+    articleCategory.value =
+        article.category || "";
+
+    articleDescription.value =
+        article.description || "";
+
+    articleContent.value =
+        article.content || "";
+
+    articleSources.value =
+        Array.isArray(article.sources)
+            ? article.sources.join("\n")
+            : article.sources || "";
+
+
+    window.scrollTo({
+        top:
+            document.querySelector(
+                "#articleForm"
+            ).getBoundingClientRect().top +
+            window.scrollY -
+            20,
+        behavior: "smooth"
+    });
+
+
+    adminLogMessage(
+        `Editing article: ${article.title || "Untitled"}`
+    );
+
+}
+
+
+/* =========================================================
+   SAVE ARTICLE
+========================================================= */
+
+articleForm.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
 
         const articles =
-            getData(ARTICLE_KEY);
+            getArticles();
 
-        const trash =
-            getData(TRASH_KEY);
 
-        const drafts =
-            getData(DRAFT_KEY);
+        const id =
+            articleId.value ||
+            `article-${Date.now()}`;
 
-        const media =
-            JSON.parse(
-                localStorage.getItem(
-                    "alon_historyverse_media_count"
-                ) || "0"
-            );
 
+        const article = {
 
-        document.getElementById(
-            "articleCount"
-        ).textContent =
-            articles.length;
+            id,
 
+            title:
+                articleTitle.value.trim(),
 
-        document.getElementById(
-            "deletedCount"
-        ).textContent =
-            trash.length;
+            category:
+                articleCategory.value.trim() ||
+                "History",
 
+            description:
+                articleDescription.value.trim(),
 
-        document.getElementById(
-            "draftCount"
-        ).textContent =
-            drafts.length;
+            content:
+                articleContent.value.trim(),
 
+            sources:
+                articleSources.value
+                    .split("\n")
+                    .map(item => item.trim())
+                    .filter(Boolean),
 
-        document.getElementById(
-            "mediaCount"
-        ).textContent =
-            media;
+            status:
+                "published",
 
-
-    }
-
-
-    /* =====================================================
-       RENDER ARTICLES
-    ====================================================== */
-
-    function renderArticles(
-        searchTerm = ""
-    ) {
-
-        const body =
-            document.getElementById(
-                "articleTableBody"
-            );
-
-        const articles =
-            getData(ARTICLE_KEY);
-
-        const query =
-            searchTerm
-                .trim()
-                .toLowerCase();
-
-
-        const filtered =
-            articles.filter(function (article) {
-
-                const text =
-                    (
-                        article.title +
-                        " " +
-                        article.category +
-                        " " +
-                        article.description
-                    ).toLowerCase();
-
-                return text.includes(query);
-
-            });
-
-
-        body.innerHTML = "";
-
-
-        if (!filtered.length) {
-
-            body.innerHTML = `
-                <tr>
-                    <td colspan="5">
-                        <div class="empty-state">
-                            No articles found.
-                        </div>
-                    </td>
-                </tr>
-            `;
-
-            return;
-
-        }
-
-
-        filtered.forEach(function (article) {
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML = `
-
-                <td>
-                    <strong>
-                        ${escapeHTML(article.title)}
-                    </strong>
-                </td>
-
-                <td>
-                    <span class="admin-badge">
-                        ${escapeHTML(article.category)}
-                    </span>
-                </td>
-
-                <td>
-                    <span class="admin-badge">
-                        Published
-                    </span>
-                </td>
-
-                <td>
-                    ${escapeHTML(article.createdAt)}
-                </td>
-
-                <td>
-
-                    <div class="admin-buttons">
-
-                        <button
-                            class="admin-btn"
-                            onclick="editArticle('${article.id}')"
-                        >
-                            Edit
-                        </button>
-
-                        <button
-                            class="admin-btn danger"
-                            onclick="deleteArticle('${article.id}')"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
-
-                </td>
-
-            `;
-
-
-            body.appendChild(row);
-
-        });
-
-    }
-
-
-    /* =====================================================
-       NEW ARTICLE
-    ====================================================== */
-
-    document
-        .getElementById("newArticleBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                clearEditor();
-
-                document
-                    .getElementById(
-                        "articleEditorSection"
-                    )
-                    .scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-                logAction(
-                    "New article editor opened."
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       EDIT ARTICLE
-    ====================================================== */
-
-    window.editArticle =
-        function (id) {
-
-            const articles =
-                getData(ARTICLE_KEY);
-
-            const article =
-                articles.find(
-                    item => item.id === id
-                );
-
-
-            if (!article) {
-
-                alert(
-                    "Article not found."
-                );
-
-                return;
-
-            }
-
-
-            document.getElementById(
-                "articleId"
-            ).value =
-                article.id;
-
-
-            document.getElementById(
-                "articleTitle"
-            ).value =
-                article.title || "";
-
-
-            document.getElementById(
-                "articleCategory"
-            ).value =
-                article.category || "History";
-
-
-            document.getElementById(
-                "articleDescription"
-            ).value =
-                article.description || "";
-
-
-            document.getElementById(
-                "articleContent"
-            ).value =
-                article.content || "";
-
-
-            document.getElementById(
-                "articleSources"
-            ).value =
-                article.sources || "";
-
-
-            document
-                .getElementById(
-                    "articleEditorSection"
-                )
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
-
-
-            logAction(
-                "Editing article: " +
-                article.title
-            );
+            updatedAt:
+                new Date().toISOString()
 
         };
 
 
-    /* =====================================================
-       SAVE ARTICLE
-    ====================================================== */
-
-    document
-        .getElementById("saveArticleBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                const id =
-                    document.getElementById(
-                        "articleId"
-                    ).value.trim();
-
-
-                const title =
-                    document.getElementById(
-                        "articleTitle"
-                    ).value.trim();
-
-
-                const category =
-                    document.getElementById(
-                        "articleCategory"
-                    ).value;
-
-
-                const description =
-                    document.getElementById(
-                        "articleDescription"
-                    ).value.trim();
-
-
-                const content =
-                    document.getElementById(
-                        "articleContent"
-                    ).value.trim();
-
-
-                const sources =
-                    document.getElementById(
-                        "articleSources"
-                    ).value.trim();
-
-
-                if (!title) {
-
-                    alert(
-                        "Please enter an article title."
-                    );
-
-                    return;
-
-                }
-
-
-                if (!content) {
-
-                    alert(
-                        "Please enter article content."
-                    );
-
-                    return;
-
-                }
-
-
-                const articles =
-                    getData(ARTICLE_KEY);
-
-
-                const now =
-                    new Date().toLocaleString();
-
-
-                if (id) {
-
-                    const index =
-                        articles.findIndex(
-                            article =>
-                                article.id === id
-                        );
-
-
-                    if (index !== -1) {
-
-                        articles[index] = {
-
-                            ...articles[index],
-
-                            title,
-                            category,
-                            description,
-                            content,
-                            sources,
-
-                            updatedAt: now
-
-                        };
-
-                    }
-
-                    logAction(
-                        "Article updated: " +
-                        title
-                    );
-
-                } else {
-
-                    articles.push({
-
-                        id: createId(),
-
-                        title,
-
-                        category,
-
-                        description,
-
-                        content,
-
-                        sources,
-
-                        createdAt: now,
-
-                        updatedAt: now
-
-                    });
-
-
-                    logAction(
-                        "New article created: " +
-                        title
-                    );
-
-                }
-
-
-                saveData(
-                    ARTICLE_KEY,
-                    articles
-                );
-
-
-                clearEditor();
-
-                renderArticles();
-
-                updateDashboard();
-
-
-                alert(
-                    "Article saved successfully."
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       DELETE ARTICLE → TRASH
-    ====================================================== */
-
-    window.deleteArticle =
-        function (id) {
-
-            const articles =
-                getData(ARTICLE_KEY);
-
-            const index =
-                articles.findIndex(
-                    article =>
-                        article.id === id
-                );
-
-
-            if (index === -1) {
-
-                return;
-
-            }
-
-
-            const article =
-                articles[index];
-
-
-            const confirmed =
-                confirm(
-                    "Delete this article and move it to Trash?"
-                );
-
-
-            if (!confirmed) {
-
-                return;
-
-            }
-
-
-            articles.splice(
-                index,
-                1
+        const index =
+            articles.findIndex(
+                item =>
+                    String(item.id) ===
+                    String(id)
             );
 
 
-            const trash =
-                getData(TRASH_KEY);
+        if (index >= 0) {
 
+            articles[index] = {
+                ...articles[index],
+                ...article
+            };
 
-            trash.push({
-
-                ...article,
-
-                deletedAt:
-                    new Date().toLocaleString()
-
-            });
-
-
-            saveData(
-                ARTICLE_KEY,
-                articles
+            adminLogMessage(
+                `Article updated: ${article.title}`
             );
 
+        } else {
 
-            saveData(
-                TRASH_KEY,
-                trash
+            articles.push(article);
+
+            adminLogMessage(
+                `Article created: ${article.title}`
             );
 
+        }
 
-            renderArticles();
 
-            updateDashboard();
+        saveArticles(articles);
 
+        clearArticleForm();
 
-            logAction(
-                "Article moved to trash: " +
-                article.title
-            );
-
-        };
-
-
-    /* =====================================================
-       RESTORE ALL
-    ====================================================== */
-
-    document
-        .getElementById("restoreAllBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                const trash =
-                    getData(TRASH_KEY);
-
-
-                if (!trash.length) {
-
-                    alert(
-                        "Trash is already empty."
-                    );
-
-                    return;
-
-                }
-
-
-                const articles =
-                    getData(ARTICLE_KEY);
-
-
-                trash.forEach(
-                    function (article) {
-
-                        delete article.deletedAt;
-
-                        articles.push(article);
-
-                    }
-                );
-
-
-                saveData(
-                    ARTICLE_KEY,
-                    articles
-                );
-
-
-                saveData(
-                    TRASH_KEY,
-                    []
-                );
-
-
-                renderArticles();
-
-                updateDashboard();
-
-
-                logAction(
-                    "All trashed articles restored."
-                );
-
-
-                alert(
-                    "All articles restored."
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       EMPTY TRASH
-    ====================================================== */
-
-    document
-        .getElementById("emptyTrashBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                const trash =
-                    getData(TRASH_KEY);
-
-
-                if (!trash.length) {
-
-                    alert(
-                        "Trash is already empty."
-                    );
-
-                    return;
-
-                }
-
-
-                const confirmed =
-                    confirm(
-                        "Permanently remove all articles from local Trash?"
-                    );
-
-
-                if (!confirmed) {
-
-                    return;
-
-                }
-
-
-                saveData(
-                    TRASH_KEY,
-                    []
-                );
-
-
-                updateDashboard();
-
-
-                logAction(
-                    "Local article trash permanently cleared."
-                );
-
-
-                alert(
-                    "Local trash cleared."
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       DRAFT
-    ====================================================== */
-
-    document
-        .getElementById("draftArticleBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                const title =
-                    document.getElementById(
-                        "articleTitle"
-                    ).value.trim();
-
-
-                const category =
-                    document.getElementById(
-                        "articleCategory"
-                    ).value;
-
-
-                const description =
-                    document.getElementById(
-                        "articleDescription"
-                    ).value.trim();
-
-
-                const content =
-                    document.getElementById(
-                        "articleContent"
-                    ).value.trim();
-
-
-                const sources =
-                    document.getElementById(
-                        "articleSources"
-                    ).value.trim();
-
-
-                if (!title && !content) {
-
-                    alert(
-                        "Write something before saving a draft."
-                    );
-
-                    return;
-
-                }
-
-
-                const drafts =
-                    getData(DRAFT_KEY);
-
-
-                drafts.push({
-
-                    id: createId(),
-
-                    title,
-
-                    category,
-
-                    description,
-
-                    content,
-
-                    sources,
-
-                    savedAt:
-                        new Date().toLocaleString()
-
-                });
-
-
-                saveData(
-                    DRAFT_KEY,
-                    drafts
-                );
-
-
-                updateDashboard();
-
-
-                logAction(
-                    "Article draft saved."
-                );
-
-
-                alert(
-                    "Draft saved locally."
-                );
-
-            }
-        );
-
-
-    document
-        .getElementById("clearDraftsBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                const confirmed =
-                    confirm(
-                        "Clear all local article drafts?"
-                    );
-
-
-                if (!confirmed) {
-
-                    return;
-
-                }
-
-
-                saveData(
-                    DRAFT_KEY,
-                    []
-                );
-
-
-                updateDashboard();
-
-
-                logAction(
-                    "All local drafts cleared."
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       CLEAR EDITOR
-    ====================================================== */
-
-    function clearEditor() {
-
-        document.getElementById(
-            "articleId"
-        ).value = "";
-
-
-        document.getElementById(
-            "articleTitle"
-        ).value = "";
-
-
-        document.getElementById(
-            "articleCategory"
-        ).value = "History";
-
-
-        document.getElementById(
-            "articleDescription"
-        ).value = "";
-
-
-        document.getElementById(
-            "articleContent"
-        ).value = "";
-
-
-        document.getElementById(
-            "articleSources"
-        ).value = "";
-
-    }
-
-
-    document
-        .getElementById("clearEditorBtn")
-        .addEventListener(
-            "click",
-            clearEditor
-        );
-
-
-    /* =====================================================
-       ARTICLE SEARCH
-    ====================================================== */
-
-    document
-        .getElementById("articleSearch")
-        .addEventListener(
-            "input",
-            function () {
-
-                renderArticles(
-                    this.value
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       MEDIA PREVIEW
-    ====================================================== */
-
-    let mediaObjectUrls = [];
-
-
-    function showMedia(files) {
-
-        const preview =
-            document.getElementById(
-                "mediaPreview"
-            );
-
-
-        preview.innerHTML = "";
-
-
-        mediaObjectUrls.forEach(
-            url =>
-                URL.revokeObjectURL(url)
-        );
-
-
-        mediaObjectUrls = [];
-
-
-        Array.from(files).forEach(
-            function (file) {
-
-                const item =
-                    document.createElement(
-                        "div"
-                    );
-
-                item.className =
-                    "media-item";
-
-
-                const url =
-                    URL.createObjectURL(
-                        file
-                    );
-
-
-                mediaObjectUrls.push(
-                    url
-                );
-
-
-                if (
-                    file.type.startsWith(
-                        "image/"
-                    )
-                ) {
-
-                    item.innerHTML = `
-
-                        <img
-                            src="${url}"
-                            alt=""
-                        >
-
-                        <div class="media-name">
-                            ${escapeHTML(file.name)}
-                        </div>
-
-                    `;
-
-                } else if (
-                    file.type.startsWith(
-                        "video/"
-                    )
-                ) {
-
-                    item.innerHTML = `
-
-                        <video
-                            controls
-                            src="${url}"
-                        ></video>
-
-                        <div class="media-name">
-                            ${escapeHTML(file.name)}
-                        </div>
-
-                    `;
-
-                }
-
-
-                preview.appendChild(
-                    item
-                );
-
-            }
-        );
-
-
-        localStorage.setItem(
-            "alon_historyverse_media_count",
-            String(files.length)
-        );
-
+        renderArticles();
 
         updateDashboard();
 
+    }
+);
 
-        logAction(
-            files.length +
-            " local media file(s) selected."
+
+/* =========================================================
+   SAVE DRAFT
+========================================================= */
+
+function saveCurrentDraft() {
+
+    const drafts =
+        getDrafts();
+
+
+    const draft = {
+
+        id:
+            articleId.value ||
+            `draft-${Date.now()}`,
+
+        title:
+            articleTitle.value.trim(),
+
+        category:
+            articleCategory.value.trim() ||
+            "History",
+
+        description:
+            articleDescription.value.trim(),
+
+        content:
+            articleContent.value.trim(),
+
+        sources:
+            articleSources.value
+                .split("\n")
+                .map(item => item.trim())
+                .filter(Boolean),
+
+        status:
+            "draft",
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    const index =
+        drafts.findIndex(
+            item =>
+                String(item.id) ===
+                String(draft.id)
         );
+
+
+    if (index >= 0) {
+
+        drafts[index] =
+            draft;
+
+    } else {
+
+        drafts.push(draft);
 
     }
 
 
-    document
-        .getElementById("mediaInput")
-        .addEventListener(
-            "change",
-            function () {
+    saveDrafts(drafts);
 
-                showMedia(
-                    this.files
-                );
+    adminLogMessage(
+        `Draft saved: ${draft.title || "Untitled"}`
+    );
 
-            }
+    updateDashboard();
+
+}
+
+
+document.getElementById(
+    "saveDraftBtn"
+).addEventListener(
+    "click",
+    saveCurrentDraft
+);
+
+
+document.getElementById(
+    "saveDraftShortcut"
+).addEventListener(
+    "click",
+    saveCurrentDraft
+);
+
+
+/* =========================================================
+   CLEAR ARTICLE FORM
+========================================================= */
+
+function clearArticleForm() {
+
+    articleForm.reset();
+
+    articleId.value = "";
+
+}
+
+
+document.getElementById(
+    "clearArticleBtn"
+).addEventListener(
+    "click",
+    clearArticleForm
+);
+
+
+/* =========================================================
+   ARTICLE DELETE
+========================================================= */
+
+function deleteArticle(id) {
+
+    const articles =
+        getArticles();
+
+    const index =
+        articles.findIndex(
+            item =>
+                String(item.id) ===
+                String(id)
         );
 
 
-    document
-        .getElementById("imageSelectBtn")
-        .addEventListener(
-            "click",
-            function () {
+    if (index < 0) {
+        return;
+    }
 
-                const input =
-                    document.getElementById(
-                        "mediaInput"
+
+    const article =
+        articles[index];
+
+
+    if (
+        !confirm(
+            `Move "${article.title || "Untitled"}" to Trash?`
+        )
+    ) {
+        return;
+    }
+
+
+    articles.splice(
+        index,
+        1
+    );
+
+
+    const trash =
+        getTrash();
+
+    trash.push({
+        ...article,
+        deletedAt:
+            new Date().toISOString()
+    });
+
+
+    saveArticles(articles);
+
+    saveTrash(trash);
+
+
+    adminLogMessage(
+        `Article moved to Trash: ${article.title || "Untitled"}`
+    );
+
+
+    renderArticles(
+        articleSearch.value
+    );
+
+    updateDashboard();
+
+}
+
+
+/* =========================================================
+   ARTICLE TABLE ACTIONS
+========================================================= */
+
+articleTableBody.addEventListener(
+    "click",
+    event => {
+
+        const editButton =
+            event.target.closest(
+                "[data-edit-article]"
+            );
+
+
+        if (editButton) {
+
+            editArticle(
+                editButton.dataset.editArticle
+            );
+
+            return;
+        }
+
+
+        const deleteButton =
+            event.target.closest(
+                "[data-delete-article]"
+            );
+
+
+        if (deleteButton) {
+
+            deleteArticle(
+                deleteButton.dataset.deleteArticle
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+articleSearch.addEventListener(
+    "input",
+    () => {
+
+        renderArticles(
+            articleSearch.value
+        );
+
+    }
+);
+
+
+/* =========================================================
+   RESTORE ALL
+========================================================= */
+
+document.getElementById(
+    "restoreAllBtn"
+).addEventListener(
+    "click",
+    () => {
+
+        const trash =
+            getTrash();
+
+
+        if (!trash.length) {
+
+            alert(
+                "Trash is empty."
+            );
+
+            return;
+        }
+
+
+        if (
+            !confirm(
+                "Restore all deleted articles?"
+            )
+        ) {
+            return;
+        }
+
+
+        const articles =
+            getArticles();
+
+
+        trash.forEach(article => {
+
+            const exists =
+                articles.some(
+                    item =>
+                        String(item.id) ===
+                        String(article.id)
+                );
+
+
+            if (!exists) {
+
+                const restored = {
+                    ...article
+                };
+
+                delete restored.deletedAt;
+
+                articles.push(
+                    restored
+                );
+
+            }
+
+        });
+
+
+        saveArticles(articles);
+
+        saveTrash([]);
+
+
+        adminLogMessage(
+            "All deleted articles restored."
+        );
+
+
+        renderArticles();
+
+        updateDashboard();
+
+    }
+);
+
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+document.getElementById(
+    "backupBtn"
+).addEventListener(
+    "click",
+    () => {
+
+        const backup = {
+
+            version:
+                "ALON HISTORYVERSE 24 V100",
+
+            exportedAt:
+                new Date().toISOString(),
+
+            articles:
+                getArticles(),
+
+            trash:
+                getTrash(),
+
+            drafts:
+                getDrafts()
+
+        };
+
+
+        const blob =
+            new Blob(
+                [
+                    JSON.stringify(
+                        backup,
+                        null,
+                        2
+                    )
+                ],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+
+        link.download =
+            `ALON_HISTORYVERSE_24_BACKUP_${Date.now()}.json`;
+
+        link.click();
+
+
+        URL.revokeObjectURL(url);
+
+
+        adminLogMessage(
+            "Article database backup exported."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   IMPORT
+========================================================= */
+
+document.getElementById(
+    "importBtn"
+).addEventListener(
+    "click",
+    () => {
+
+        document.getElementById(
+            "importFile"
+        ).click();
+
+    }
+);
+
+
+document.getElementById(
+    "importFile"
+).addEventListener(
+    "change",
+    event => {
+
+        const file =
+            event.target.files[0];
+
+
+        if (!file) {
+            return;
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            () => {
+
+                try {
+
+                    const backup =
+                        JSON.parse(
+                            reader.result
+                        );
+
+
+                    if (
+                        Array.isArray(
+                            backup.articles
+                        )
+                    ) {
+
+                        saveArticles(
+                            backup.articles
+                        );
+
+                    }
+
+
+                    if (
+                        Array.isArray(
+                            backup.trash
+                        )
+                    ) {
+
+                        saveTrash(
+                            backup.trash
+                        );
+
+                    }
+
+
+                    if (
+                        Array.isArray(
+                            backup.drafts
+                        )
+                    ) {
+
+                        saveDrafts(
+                            backup.drafts
+                        );
+
+                    }
+
+
+                    adminLogMessage(
+                        "Article backup imported."
                     );
 
-                input.accept =
-                    "image/*";
 
-                input.click();
+                    renderArticles();
 
-            }
-        );
+                    updateDashboard();
 
 
-    document
-        .getElementById("videoSelectBtn")
-        .addEventListener(
-            "click",
-            function () {
+                } catch (error) {
 
-                const input =
-                    document.getElementById(
-                        "mediaInput"
+                    alert(
+                        "Invalid backup file."
                     );
 
-                input.accept =
-                    "video/*";
+                    console.error(error);
 
-                input.click();
+                }
 
-            }
+            };
+
+
+        reader.readAsText(file);
+
+    }
+);
+
+
+/* =========================================================
+   CLEAR ALL ARTICLE DATA
+========================================================= */
+
+document.getElementById(
+    "clearAllDataBtn"
+).addEventListener(
+    "click",
+    () => {
+
+        if (
+            !confirm(
+                "This will permanently delete all ARTICLE, TRASH and DRAFT data. Continue?"
+            )
+        ) {
+            return;
+        }
+
+
+        localStorage.removeItem(
+            ARTICLE_KEY
+        );
+
+        localStorage.removeItem(
+            TRASH_KEY
+        );
+
+        localStorage.removeItem(
+            DRAFT_KEY
         );
 
 
-    document
-        .getElementById("clearMediaBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                document.getElementById(
-                    "mediaPreview"
-                ).innerHTML = "";
-
-
-                document.getElementById(
-                    "mediaInput"
-                ).value = "";
-
-
-                mediaObjectUrls.forEach(
-                    url =>
-                        URL.revokeObjectURL(url)
-                );
-
-
-                mediaObjectUrls = [];
-
-
-                localStorage.removeItem(
-                    "alon_historyverse_media_count"
-                );
-
-
-                updateDashboard();
-
-
-                logAction(
-                    "Local media preview cleared."
-                );
-
-            }
+        adminLogMessage(
+            "All article data cleared."
         );
 
 
-    /* =====================================================
-       EXPORT BACKUP
-    ====================================================== */
+        renderArticles();
 
-    document
-        .getElementById("exportBtn")
-        .addEventListener(
-            "click",
-            function () {
+        updateDashboard();
 
-                const backup = {
+    }
+);
 
-                    project:
-                        "ALON HISTORYVERSE 24",
 
-                    exportedAt:
-                        new Date().toISOString(),
+/* =========================================================
+   MEDIA DATABASE
+========================================================= */
 
-                    articles:
-                        getData(ARTICLE_KEY),
+const MEDIA_DB_NAME =
+    "ALON_HISTORYVERSE_24_MEDIA_DB";
 
-                    trash:
-                        getData(TRASH_KEY),
+const MEDIA_DB_VERSION =
+    1;
 
-                    drafts:
-                        getData(DRAFT_KEY)
+const MEDIA_STORE =
+    "media";
+
+
+let mediaDB = null;
+
+let selectedMediaFiles = [];
+
+let selectedObjectURLs = [];
+
+let savedObjectURLs = [];
+
+
+/* =========================================================
+   OPEN INDEXEDDB
+========================================================= */
+
+function openMediaDatabase() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            if (
+                !("indexedDB" in window)
+            ) {
+
+                reject(
+                    new Error(
+                        "IndexedDB is not supported by this browser."
+                    )
+                );
+
+                return;
+            }
+
+
+            const request =
+                indexedDB.open(
+                    MEDIA_DB_NAME,
+                    MEDIA_DB_VERSION
+                );
+
+
+            request.onupgradeneeded =
+                event => {
+
+                    const db =
+                        event.target.result;
+
+
+                    if (
+                        !db.objectStoreNames.contains(
+                            MEDIA_STORE
+                        )
+                    ) {
+
+                        db.createObjectStore(
+                            MEDIA_STORE,
+                            {
+                                keyPath:
+                                    "id"
+                            }
+                        );
+
+                    }
 
                 };
 
 
-                const blob =
-                    new Blob(
-                        [
-                            JSON.stringify(
-                                backup,
-                                null,
-                                2
-                            )
-                        ],
-                        {
-                            type:
-                                "application/json"
-                        }
+            request.onsuccess =
+                event => {
+
+                    mediaDB =
+                        event.target.result;
+
+                    resolve(
+                        mediaDB
                     );
 
+                };
 
-                const url =
-                    URL.createObjectURL(
-                        blob
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
                     );
 
+                };
 
-                const link =
-                    document.createElement(
-                        "a"
-                    );
+        }
+    );
 
-
-                link.href = url;
+}
 
 
-                link.download =
-                    "alon-historyverse-24-admin-backup.json";
+/* =========================================================
+   ADD MEDIA
+========================================================= */
 
+function saveMediaRecord(record) {
 
-                link.click();
+    return new Promise(
+        (resolve, reject) => {
 
+            if (!mediaDB) {
 
-                URL.revokeObjectURL(
-                    url
-                );
-
-
-                logAction(
-                    "Admin data backup exported."
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       IMPORT BACKUP
-    ====================================================== */
-
-    document
-        .getElementById("importBtn")
-        .addEventListener(
-            "click",
-            function () {
-
-                document
-                    .getElementById(
-                        "importFile"
+                reject(
+                    new Error(
+                        "Media database is not ready."
                     )
-                    .click();
+                );
 
+                return;
             }
+
+
+            const transaction =
+                mediaDB.transaction(
+                    MEDIA_STORE,
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    MEDIA_STORE
+                );
+
+
+            const request =
+                store.put(
+                    record
+                );
+
+
+            request.onsuccess =
+                () => resolve(true);
+
+
+            request.onerror =
+                () => reject(
+                    request.error
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GET ALL MEDIA
+========================================================= */
+
+function getAllMedia() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            if (!mediaDB) {
+
+                resolve([]);
+
+                return;
+            }
+
+
+            const transaction =
+                mediaDB.transaction(
+                    MEDIA_STORE,
+                    "readonly"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    MEDIA_STORE
+                );
+
+
+            const request =
+                store.getAll();
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve(
+                        Array.isArray(
+                            request.result
+                        )
+                            ? request.result
+                            : []
+                    );
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MEDIA COUNT
+========================================================= */
+
+async function getMediaCount() {
+
+    const records =
+        await getAllMedia();
+
+    return records.length;
+
+}
+
+
+/* =========================================================
+   DELETE MEDIA
+========================================================= */
+
+function deleteMediaRecord(id) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            if (!mediaDB) {
+
+                reject(
+                    new Error(
+                        "Media database is not ready."
+                    )
+                );
+
+                return;
+            }
+
+
+            const transaction =
+                mediaDB.transaction(
+                    MEDIA_STORE,
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    MEDIA_STORE
+                );
+
+
+            const request =
+                store.delete(
+                    id
+                );
+
+
+            request.onsuccess =
+                () => resolve(true);
+
+
+            request.onerror =
+                () => reject(
+                    request.error
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DELETE ALL MEDIA
+========================================================= */
+
+function deleteAllMediaRecords() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            if (!mediaDB) {
+
+                resolve(true);
+
+                return;
+            }
+
+
+            const transaction =
+                mediaDB.transaction(
+                    MEDIA_STORE,
+                    "readwrite"
+                );
+
+
+            const store =
+                transaction.objectStore(
+                    MEDIA_STORE
+                );
+
+
+            const request =
+                store.clear();
+
+
+            request.onsuccess =
+                () => resolve(true);
+
+
+            request.onerror =
+                () => reject(
+                    request.error
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT FILE SIZE
+========================================================= */
+
+function formatFileSize(bytes) {
+
+    if (!Number(bytes)) {
+        return "0 B";
+    }
+
+
+    const units =
+        [
+            "B",
+            "KB",
+            "MB",
+            "GB"
+        ];
+
+
+    const index =
+        Math.min(
+            Math.floor(
+                Math.log(bytes) /
+                Math.log(1024)
+            ),
+            units.length - 1
         );
 
 
-    document
-        .getElementById("importFile")
-        .addEventListener(
-            "change",
-            function () {
-
-                const file =
-                    this.files[0];
+    const value =
+        bytes /
+        Math.pow(
+            1024,
+            index
+        );
 
 
-                if (!file) {
+    return `${value.toFixed(
+        index === 0 ? 0 : 2
+    )} ${units[index]}`;
 
-                    return;
-
-                }
-
-
-                const reader =
-                    new FileReader();
+}
 
 
-                reader.onload =
-                    function (event) {
+/* =========================================================
+   MEDIA TYPE
+========================================================= */
 
-                        try {
+function getMediaKind(type) {
 
-                            const backup =
-                                JSON.parse(
-                                    event.target.result
-                                );
+    return String(type)
+        .startsWith("video/")
+        ? "video"
+        : "image";
 
-
-                            if (
-                                !backup ||
-                                backup.project !==
-                                "ALON HISTORYVERSE 24"
-                            ) {
-
-                                throw new Error(
-                                    "Invalid backup"
-                                );
-
-                            }
+}
 
 
-                            if (
-                                Array.isArray(
-                                    backup.articles
-                                )
-                            ) {
+/* =========================================================
+   SELECTED MEDIA PREVIEW
+========================================================= */
 
-                                saveData(
-                                    ARTICLE_KEY,
-                                    backup.articles
-                                );
+function clearSelectedObjectURLs() {
 
-                            }
+    selectedObjectURLs.forEach(
+        url =>
+            URL.revokeObjectURL(url)
+    );
 
+    selectedObjectURLs = [];
 
-                            if (
-                                Array.isArray(
-                                    backup.trash
-                                )
-                            ) {
-
-                                saveData(
-                                    TRASH_KEY,
-                                    backup.trash
-                                );
-
-                            }
+}
 
 
-                            if (
-                                Array.isArray(
-                                    backup.drafts
-                                )
-                            ) {
+function renderSelectedMedia() {
 
-                                saveData(
-                                    DRAFT_KEY,
-                                    backup.drafts
-                                );
-
-                            }
+    clearSelectedObjectURLs();
 
 
-                            renderArticles();
+    const preview =
+        document.getElementById(
+            "mediaPreview"
+        );
 
-                            updateDashboard();
+    const status =
+        document.getElementById(
+            "selectedMediaStatus"
+        );
 
-
-                            logAction(
-                                "Admin backup imported."
-                            );
-
-
-                            alert(
-                                "Backup imported successfully."
-                            );
-
-
-                        } catch (error) {
-
-                            alert(
-                                "Invalid backup file."
-                            );
-
-                        }
-
-                    };
+    const saveButton =
+        document.getElementById(
+            "saveMediaBtn"
+        );
 
 
-                reader.readAsText(
+    preview.innerHTML = "";
+
+
+    if (!selectedMediaFiles.length) {
+
+        status.textContent =
+            "No media selected.";
+
+        saveButton.disabled =
+            true;
+
+        return;
+    }
+
+
+    status.textContent =
+        `${selectedMediaFiles.length} file(s) selected.`;
+
+
+    saveButton.disabled =
+        false;
+
+
+    selectedMediaFiles.forEach(
+        (file, index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "media-preview-item";
+
+
+            const url =
+                URL.createObjectURL(
                     file
                 );
 
-            }
-        );
+
+            selectedObjectURLs.push(
+                url
+            );
 
 
-    /* =====================================================
-       CLEAR ALL LOCAL ADMIN DATA
-    ====================================================== */
+            let mediaElement;
 
-    document
-        .getElementById("clearAllDataBtn")
-        .addEventListener(
-            "click",
-            function () {
 
-                const first =
-                    confirm(
-                        "WARNING: This will clear local Admin data, articles, trash and drafts. Continue?"
+            if (
+                file.type.startsWith(
+                    "video/"
+                )
+            ) {
+
+                mediaElement =
+                    document.createElement(
+                        "video"
                     );
 
+                mediaElement.controls =
+                    true;
 
-                if (!first) {
+                mediaElement.preload =
+                    "metadata";
 
-                    return;
+            } else {
 
-                }
-
-
-                const second =
-                    confirm(
-                        "Are you absolutely sure? Export a backup first if needed."
+                mediaElement =
+                    document.createElement(
+                        "img"
                     );
 
-
-                if (!second) {
-
-                    return;
-
-                }
-
-
-                localStorage.removeItem(
-                    ARTICLE_KEY
-                );
-
-                localStorage.removeItem(
-                    TRASH_KEY
-                );
-
-                localStorage.removeItem(
-                    DRAFT_KEY
-                );
-
-                localStorage.removeItem(
-                    "alon_historyverse_media_count"
-                );
-
-
-                renderArticles();
-
-                updateDashboard();
-
-
-                logAction(
-                    "All local Admin data cleared."
-                );
-
-
-                alert(
-                    "Local Admin data cleared."
-                );
+                mediaElement.alt =
+                    file.name;
 
             }
-        );
 
 
-    /* =====================================================
-       INITIALIZE
-    ====================================================== */
+            mediaElement.src =
+                url;
 
-    renderArticles();
 
-    updateDashboard();
+            const info =
+                document.createElement(
+                    "div"
+                );
 
-    logAction(
-        "Admin Control Center initialized."
+            info.className =
+                "media-preview-info";
+
+
+            info.innerHTML = `
+
+                <strong>
+                    ${escapeHTML(file.name)}
+                </strong>
+
+                <small>
+                    ${escapeHTML(file.type)}
+                    •
+                    ${formatFileSize(file.size)}
+                </small>
+
+            `;
+
+
+            const actions =
+                document.createElement(
+                    "div"
+                );
+
+            actions.className =
+                "media-preview-actions";
+
+
+            const removeButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            removeButton.type =
+                "button";
+
+            removeButton.textContent =
+                "✖ Remove";
+
+
+            removeButton.addEventListener(
+                "click",
+                () => {
+
+                    selectedMediaFiles.splice(
+                        index,
+                        1
+                    );
+
+                    renderSelectedMedia();
+
+                }
+            );
+
+
+            actions.appendChild(
+                removeButton
+            );
+
+
+            item.appendChild(
+                mediaElement
+            );
+
+            item.appendChild(
+                info
+            );
+
+            item.appendChild(
+                actions
+            );
+
+
+            preview.appendChild(
+                item
+            );
+
+        }
     );
+
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+const mediaInput =
+    document.getElementById(
+        "mediaInput"
+    );
+
+
+function chooseMedia(type) {
+
+    if (type === "image") {
+
+        mediaInput.accept =
+            "image/*";
+
+    } else {
+
+        mediaInput.accept =
+            "video/*";
+
+    }
+
+
+    mediaInput.multiple =
+        true;
+
+    mediaInput.click();
+
+}
+
+
+/* Existing controls */
+
+document.getElementById(
+    "imageSelectBtn"
+).addEventListener(
+    "click",
+    () =>
+        chooseMedia("image")
+);
+
+
+document.getElementById(
+    "videoSelectBtn"
+).addEventListener(
+    "click",
+    () =>
+        chooseMedia("video")
+);
+
+
+/* Additional media controls */
+
+document.getElementById(
+    "imageSelectBtn2"
+).addEventListener(
+    "click",
+    () =>
+        chooseMedia("image")
+);
+
+
+document.getElementById(
+    "videoSelectBtn2"
+).addEventListener(
+    "click",
+    () =>
+        chooseMedia("video")
+);
+
+
+/* =========================================================
+   FILE CHANGE
+========================================================= */
+
+mediaInput.addEventListener(
+    "change",
+    event => {
+
+        const files =
+            Array.from(
+                event.target.files || []
+            );
+
+
+        selectedMediaFiles =
+            files.filter(
+                file =>
+                    file.type.startsWith(
+                        "image/"
+                    ) ||
+                    file.type.startsWith(
+                        "video/"
+                    )
+            );
+
+
+        renderSelectedMedia();
+
+    }
+);
+
+
+/* =========================================================
+   CLEAR SELECTED
+========================================================= */
+
+document.getElementById(
+    "clearMediaBtn"
+).addEventListener(
+    "click",
+    () => {
+
+        selectedMediaFiles =
+            [];
+
+        mediaInput.value =
+            "";
+
+        renderSelectedMedia();
+
+        adminLogMessage(
+            "Selected media cleared."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SAVE SELECTED MEDIA
+========================================================= */
+
+document.getElementById(
+    "saveMediaBtn"
+).addEventListener(
+    "click",
+    async () => {
+
+        if (
+            !selectedMediaFiles.length
+        ) {
+
+            alert(
+                "Please select an image or video first."
+            );
+
+            return;
+        }
+
+
+        const saveButton =
+            document.getElementById(
+                "saveMediaBtn"
+            );
+
+
+        saveButton.disabled =
+            true;
+
+
+        try {
+
+            for (
+                const file of
+                selectedMediaFiles
+            ) {
+
+                const record = {
+
+                    id:
+                        `media-${Date.now()}-${Math.random()
+                            .toString(36)
+                            .slice(2, 10)}`,
+
+                    name:
+                        file.name,
+
+                    type:
+                        file.type,
+
+                    size:
+                        file.size,
+
+                    createdAt:
+                        new Date().toISOString(),
+
+                    kind:
+                        getMediaKind(
+                            file.type
+                        ),
+
+                    blob:
+                        file
+
+                };
+
+
+                await saveMediaRecord(
+                    record
+                );
+
+            }
+
+
+            adminLogMessage(
+                `${selectedMediaFiles.length} media file(s) saved.`
+            );
+
+
+            selectedMediaFiles =
+                [];
+
+            mediaInput.value =
+                "";
+
+            renderSelectedMedia();
+
+            await renderSavedMedia();
+
+            await updateDashboard();
+
+
+            alert(
+                "Media saved successfully."
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Media save failed. Please check browser storage permission."
+            );
+
+
+            saveButton.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SAVED MEDIA RENDER
+========================================================= */
+
+function clearSavedObjectURLs() {
+
+    savedObjectURLs.forEach(
+        url =>
+            URL.revokeObjectURL(url)
+    );
+
+    savedObjectURLs = [];
+
+}
+
+
+async function renderSavedMedia() {
+
+    clearSavedObjectURLs();
+
+
+    const container =
+        document.getElementById(
+            "savedMediaGrid"
+        );
+
+
+    const records =
+        await getAllMedia();
+
+
+    records.sort(
+        (a, b) =>
+            String(b.createdAt || "")
+                .localeCompare(
+                    String(a.createdAt || "")
+                )
+    );
+
+
+    container.innerHTML =
+        "";
+
+
+    if (!records.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-media">
+
+                📦 No saved media yet.
+
+                <br><br>
+
+                Select an image or video above
+                and press
+                <strong>Save Selected Media</strong>.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    records.forEach(
+        record => {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+            card.className =
+                "saved-media-card";
+
+
+            const url =
+                URL.createObjectURL(
+                    record.blob
+                );
+
+
+            savedObjectURLs.push(
+                url
+            );
+
+
+            let mediaElement;
+
+
+            if (
+                record.kind ===
+                "video"
+            ) {
+
+                mediaElement =
+                    document.createElement(
+                        "video"
+                    );
+
+                mediaElement.controls =
+                    true;
+
+                mediaElement.preload =
+                    "metadata";
+
+            } else {
+
+                mediaElement =
+                    document.createElement(
+                        "img"
+                    );
+
+                mediaElement.alt =
+                    record.name;
+
+                mediaElement.loading =
+                    "lazy";
+
+            }
+
+
+            mediaElement.src =
+                url;
+
+
+            const body =
+                document.createElement(
+                    "div"
+                );
+
+            body.className =
+                "saved-media-body";
+
+
+            body.innerHTML = `
+
+                <div class="saved-media-name">
+                    ${escapeHTML(record.name)}
+                </div>
+
+                <div class="saved-media-meta">
+
+                    ${record.kind === "video"
+                        ? "🎥 Video"
+                        : "🖼️ Image"}
+
+                    <br>
+
+                    Type:
+                    ${escapeHTML(record.type)}
+
+                    <br>
+
+                    Size:
+                    ${formatFileSize(record.size)}
+
+                    <br>
+
+                    Saved:
+                    ${new Date(
+                        record.createdAt
+                    ).toLocaleString()}
+
+                </div>
+
+            `;
+
+
+            const actions =
+                document.createElement(
+                    "div"
+                );
+
+            actions.className =
+                "saved-media-actions";
+
+
+            const deleteButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteButton.type =
+                "button";
+
+            deleteButton.className =
+                "danger-button";
+
+            deleteButton.textContent =
+                "🗑️ Delete";
+
+
+            deleteButton.addEventListener(
+                "click",
+                async () => {
+
+                    if (
+                        !confirm(
+                            `Delete "${record.name}" from Media Library?`
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    try {
+
+                        await deleteMediaRecord(
+                            record.id
+                        );
+
+
+                        adminLogMessage(
+                            `Media deleted: ${record.name}`
+                        );
+
+
+                        await renderSavedMedia();
+
+                        await updateDashboard();
+
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        alert(
+                            "Unable to delete media."
+                        );
+
+                    }
+
+                }
+            );
+
+
+            actions.appendChild(
+                deleteButton
+            );
+
+
+            card.appendChild(
+                mediaElement
+            );
+
+            card.appendChild(
+                body
+            );
+
+            card.appendChild(
+                actions
+            );
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DELETE ALL SAVED MEDIA
+========================================================= */
+
+document.getElementById(
+    "clearAllSavedMediaBtn"
+).addEventListener(
+    "click",
+    async () => {
+
+        const count =
+            await getMediaCount();
+
+
+        if (!count) {
+
+            alert(
+                "There is no saved media to delete."
+            );
+
+            return;
+        }
+
+
+        if (
+            !confirm(
+                `Delete all ${count} saved media file(s)? This cannot be undone.`
+            )
+        ) {
+            return;
+        }
+
+
+        try {
+
+            await deleteAllMediaRecords();
+
+
+            adminLogMessage(
+                `All saved media deleted: ${count} file(s).`
+            );
+
+
+            await renderSavedMedia();
+
+            await updateDashboard();
+
+
+            alert(
+                "All saved media deleted."
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to clear Media Library."
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DATABASE INITIALIZATION
+========================================================= */
+
+async function initializeMediaSystem() {
+
+    try {
+
+        await openMediaDatabase();
+
+        await renderSavedMedia();
+
+        await updateDashboard();
+
+        adminLogMessage(
+            "Media Library initialized."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Media database error:",
+            error
+        );
+
+
+        const container =
+            document.getElementById(
+                "savedMediaGrid"
+            );
+
+
+        container.innerHTML = `
+
+            <div class="empty-media">
+
+                ⚠️ Media Library could not
+                be initialized.
+
+                <br><br>
+
+                Your browser may not support
+                IndexedDB or storage may be blocked.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        renderArticles();
+
+        updateDashboard();
+
+        await initializeMediaSystem();
+
+    }
+);
+
+
+/* =========================================================
+   PAGE EXIT
+========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        clearSelectedObjectURLs();
+
+        clearSavedObjectURLs();
+
+    }
+);
 
 </script>
 

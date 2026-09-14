@@ -181,6 +181,37 @@
             padding: 15px 0;
         }
 
+        .job-type-card {
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 14px;
+            padding: 16px;
+            background: rgba(255,255,255,.02);
+        }
+
+        .job-type-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .job-type-card.active {
+            border-color: rgba(215,179,90,.75);
+            background: rgba(215,179,90,.08);
+        }
+
+        .job-type-description {
+            opacity: .8;
+            font-size: .92rem;
+            margin-bottom: 12px;
+        }
+
+        .job-country-info {
+            margin-top: 8px;
+            padding: 9px 11px;
+            border-radius: 9px;
+            border: 1px dashed rgba(215,179,90,.28);
+            font-size: .9rem;
+            min-height: 20px;
+        }
+
         @media (max-width: 700px) {
 
             .jobs-form-grid {
@@ -354,39 +385,135 @@
 
             <h2>💼 Create Job</h2>
 
+            <p class="country-note">
+                Select whether this is an International Job or a
+                Local Job. Both country lists use the central
+                ALON HISTORYVERSE 24 Marketplace country database.
+            </p>
+
+
+            <!-- =============================================
+                 JOB TYPE
+            ============================================== -->
+
             <div class="jobs-form-grid">
 
+                <div
+                    class="job-type-card active"
+                    id="internationalJobCard"
+                >
 
-                <!-- COUNTRY -->
+                    <h3>🌎 International Job</h3>
 
-                <div class="jobs-field">
+                    <div class="job-type-description">
+                        Jobs and employment opportunities connected
+                        with countries around the world.
+                    </div>
 
-                    <label for="job-country">
-                        Country
-                    </label>
+                    <div class="jobs-field">
 
-                    <select id="job-country">
+                        <label for="international-job-country">
+                            International Job Country
+                        </label>
 
-                        <option value="">
-                            🌍 Select Country
-                        </option>
+                        <select id="international-job-country">
 
-                    </select>
+                            <option value="">
+                                🌍 Select International Country
+                            </option>
 
-                    <div class="country-note">
-                        World countries are loaded from the central
-                        ALON HISTORYVERSE 24 country database.
+                        </select>
+
+                        <div
+                            id="international-country-info"
+                            class="job-country-info"
+                        >
+                            Select a country.
+                        </div>
+
                     </div>
 
                 </div>
 
 
-                <!-- COUNTRY CODE -->
+                <div
+                    class="job-type-card"
+                    id="localJobCard"
+                >
+
+                    <h3>📍 Local Job</h3>
+
+                    <div class="job-type-description">
+                        Jobs and employment opportunities intended
+                        for a local country, city or region.
+                    </div>
+
+                    <div class="jobs-field">
+
+                        <label for="local-job-country">
+                            Local Job Country
+                        </label>
+
+                        <select id="local-job-country">
+
+                            <option value="">
+                                🌍 Select Local Country
+                            </option>
+
+                        </select>
+
+                        <div
+                            id="local-country-info"
+                            class="job-country-info"
+                        >
+                            Select a country.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 ACTIVE JOB TYPE
+            ============================================== -->
+
+            <div class="jobs-form-grid" style="margin-top:16px;">
+
+                <div class="jobs-field">
+
+                    <label for="job-type">
+                        Job Type
+                    </label>
+
+                    <select id="job-type">
+
+                        <option value="international">
+                            🌎 International Job
+                        </option>
+
+                        <option value="local">
+                            📍 Local Job
+                        </option>
+
+                    </select>
+
+                    <div class="country-note">
+                        The selected Job Type determines which
+                        country selector is used when saving.
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVE COUNTRY CODE -->
 
                 <div class="jobs-field">
 
                     <label for="job-country-code">
-                        Country Code
+                        Country Calling Code
                     </label>
 
                     <input
@@ -397,6 +524,11 @@
                     >
 
                 </div>
+
+            </div>
+
+
+            <div class="jobs-form-grid" style="margin-top:16px;">
 
 
                 <!-- MOBILE -->
@@ -447,29 +579,29 @@
                             Select Job Category
                         </option>
 
-                        <option>Technology & IT</option>
+                        <option>Technology &amp; IT</option>
                         <option>Software Development</option>
-                        <option>Computer & Cybersecurity</option>
+                        <option>Computer &amp; Cybersecurity</option>
                         <option>Engineering</option>
-                        <option>Medical & Healthcare</option>
-                        <option>Education & Teaching</option>
+                        <option>Medical &amp; Healthcare</option>
+                        <option>Education &amp; Teaching</option>
                         <option>Government Jobs</option>
-                        <option>Business & Management</option>
-                        <option>Finance & Accounting</option>
+                        <option>Business &amp; Management</option>
+                        <option>Finance &amp; Accounting</option>
                         <option>Banking</option>
                         <option>Law</option>
-                        <option>Science & Research</option>
+                        <option>Science &amp; Research</option>
                         <option>Construction</option>
                         <option>Manufacturing</option>
                         <option>Retail</option>
-                        <option>Marketing & Sales</option>
-                        <option>Media & Journalism</option>
-                        <option>Design & Creative</option>
-                        <option>Hospitality & Tourism</option>
-                        <option>Transport & Logistics</option>
+                        <option>Marketing &amp; Sales</option>
+                        <option>Media &amp; Journalism</option>
+                        <option>Design &amp; Creative</option>
+                        <option>Hospitality &amp; Tourism</option>
+                        <option>Transport &amp; Logistics</option>
                         <option>Agriculture</option>
                         <option>Skilled Trades</option>
-                        <option>Jobs & Careers</option>
+                        <option>Jobs &amp; Careers</option>
                         <option>Other</option>
 
                     </select>
@@ -893,9 +1025,9 @@
 
     /* =====================================================
        CENTRAL COUNTRY DATABASE
-       
-       Do NOT create another country array here.
-       Marketplace Country Database is the single source.
+
+       SINGLE SOURCE OF TRUTH:
+       ../marketplace-countries.js
     ====================================================== */
 
     const countries =
@@ -908,11 +1040,45 @@
        ELEMENTS
     ====================================================== */
 
-    const countrySelect =
-        document.getElementById("job-country");
+    const internationalCountrySelect =
+        document.getElementById(
+            "international-job-country"
+        );
+
+    const localCountrySelect =
+        document.getElementById(
+            "local-job-country"
+        );
+
+    const jobTypeSelect =
+        document.getElementById(
+            "job-type"
+        );
 
     const countryCode =
-        document.getElementById("job-country-code");
+        document.getElementById(
+            "job-country-code"
+        );
+
+    const internationalCountryInfo =
+        document.getElementById(
+            "international-country-info"
+        );
+
+    const localCountryInfo =
+        document.getElementById(
+            "local-country-info"
+        );
+
+    const internationalJobCard =
+        document.getElementById(
+            "internationalJobCard"
+        );
+
+    const localJobCard =
+        document.getElementById(
+            "localJobCard"
+        );
 
     const locationBtn =
         document.getElementById("locationBtn");
@@ -972,10 +1138,12 @@
     let currentImage = "";
 
     let currentLocation = {
+
         latitude: "",
         longitude: "",
         accuracy: "",
         timestamp: ""
+
     };
 
 
@@ -1000,7 +1168,9 @@
         try {
 
             return JSON.parse(
-                localStorage.getItem(JOB_STORAGE_KEY)
+                localStorage.getItem(
+                    JOB_STORAGE_KEY
+                )
             ) || [];
 
         } catch (error) {
@@ -1024,7 +1194,12 @@
 
     function showStatus(element, message) {
 
+        if (!element) {
+            return;
+        }
+
         element.textContent = message;
+
         element.classList.add("show");
 
     }
@@ -1032,7 +1207,12 @@
 
     function hideStatus(element) {
 
+        if (!element) {
+            return;
+        }
+
         element.textContent = "";
+
         element.classList.remove("show");
 
     }
@@ -1043,7 +1223,9 @@
         try {
 
             return JSON.parse(
-                sessionStorage.getItem(SESSION_KEY)
+                sessionStorage.getItem(
+                    SESSION_KEY
+                )
             );
 
         } catch (error) {
@@ -1056,17 +1238,40 @@
 
 
     /* =====================================================
-       CENTRAL COUNTRY LIST
+       COUNTRY LABEL
     ====================================================== */
 
-    function populateJobCountries() {
+    function countryLabel(country) {
 
-        if (!countrySelect) {
+        if (!country) {
+            return "";
+        }
+
+        return (
+            country.flag +
+            " " +
+            country.name +
+            " [" +
+            country.code +
+            "] " +
+            country.callingCode
+        );
+
+    }
+
+
+    /* =====================================================
+       POPULATE INTERNATIONAL COUNTRY LIST
+    ====================================================== */
+
+    function populateInternationalCountries() {
+
+        if (!internationalCountrySelect) {
             return;
         }
 
 
-        countrySelect.innerHTML = "";
+        internationalCountrySelect.innerHTML = "";
 
 
         const placeholder =
@@ -1075,11 +1280,11 @@
         placeholder.value = "";
 
         placeholder.textContent =
-            "🌍 Select Country";
+            "🌍 Select International Country";
 
         placeholder.selected = true;
 
-        countrySelect.appendChild(
+        internationalCountrySelect.appendChild(
             placeholder
         );
 
@@ -1091,33 +1296,31 @@
                     document.createElement("option");
 
 
-                /*
-                 * ISO Alpha-2 country code is used
-                 * as the unique value.
-                 */
-
                 option.value =
                     country.code;
 
 
                 option.textContent =
-                    country.flag +
-                    " " +
-                    country.name +
-                    " (" +
-                    country.callingCode +
-                    ")";
-
-
-                option.dataset.code =
-                    country.callingCode;
+                    countryLabel(country);
 
 
                 option.dataset.countryCode =
                     country.code;
 
 
-                countrySelect.appendChild(
+                option.dataset.callingCode =
+                    country.callingCode;
+
+
+                option.dataset.flag =
+                    country.flag;
+
+
+                option.dataset.countryName =
+                    country.name;
+
+
+                internationalCountrySelect.appendChild(
                     option
                 );
 
@@ -1127,10 +1330,165 @@
     }
 
 
-    populateJobCountries();
+    /* =====================================================
+       POPULATE LOCAL COUNTRY LIST
+    ====================================================== */
+
+    function populateLocalCountries() {
+
+        if (!localCountrySelect) {
+            return;
+        }
 
 
-    countrySelect.addEventListener(
+        localCountrySelect.innerHTML = "";
+
+
+        const placeholder =
+            document.createElement("option");
+
+        placeholder.value = "";
+
+        placeholder.textContent =
+            "🌍 Select Local Country";
+
+        placeholder.selected = true;
+
+        localCountrySelect.appendChild(
+            placeholder
+        );
+
+
+        countries.forEach(
+            function (country) {
+
+                const option =
+                    document.createElement("option");
+
+
+                option.value =
+                    country.code;
+
+
+                option.textContent =
+                    countryLabel(country);
+
+
+                option.dataset.countryCode =
+                    country.code;
+
+
+                option.dataset.callingCode =
+                    country.callingCode;
+
+
+                option.dataset.flag =
+                    country.flag;
+
+
+                option.dataset.countryName =
+                    country.name;
+
+
+                localCountrySelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+
+
+    populateInternationalCountries();
+
+    populateLocalCountries();
+
+
+    /* =====================================================
+       GET SELECTED COUNTRY
+    ====================================================== */
+
+    function getSelectedCountry() {
+
+        const type =
+            jobTypeSelect.value;
+
+
+        const selectedCode =
+            type === "local"
+                ? localCountrySelect.value
+                : internationalCountrySelect.value;
+
+
+        return countries.find(
+            function (country) {
+
+                return country.code ===
+                    selectedCode;
+
+            }
+        ) || null;
+
+    }
+
+
+    /* =====================================================
+       UPDATE COUNTRY CODE
+    ====================================================== */
+
+    function updateActiveCountry() {
+
+        const type =
+            jobTypeSelect.value;
+
+
+        const selectedCountry =
+            getSelectedCountry();
+
+
+        if (selectedCountry) {
+
+            countryCode.value =
+                selectedCountry.callingCode;
+
+        } else {
+
+            countryCode.value = "";
+
+        }
+
+
+        if (type === "international") {
+
+            internationalJobCard.classList.add(
+                "active"
+            );
+
+            localJobCard.classList.remove(
+                "active"
+            );
+
+        } else {
+
+            localJobCard.classList.add(
+                "active"
+            );
+
+            internationalJobCard.classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       INTERNATIONAL COUNTRY CHANGE
+    ====================================================== */
+
+    internationalCountrySelect.addEventListener(
         "change",
         function () {
 
@@ -1139,25 +1497,96 @@
                     function (country) {
 
                         return country.code ===
-                            countrySelect.value;
+                            internationalCountrySelect.value;
 
                     }
                 );
 
 
-            if (
-                selectedCountry &&
-                countryCode
-            ) {
+            if (selectedCountry) {
 
-                countryCode.value =
+                internationalCountryInfo.textContent =
+                    selectedCountry.flag +
+                    " " +
+                    selectedCountry.name +
+                    " • ISO: " +
+                    selectedCountry.code +
+                    " • Calling: " +
                     selectedCountry.callingCode;
 
-            } else if (countryCode) {
+                jobTypeSelect.value =
+                    "international";
 
-                countryCode.value = "";
+            } else {
+
+                internationalCountryInfo.textContent =
+                    "Select a country.";
 
             }
+
+
+            updateActiveCountry();
+
+        }
+    );
+
+
+    /* =====================================================
+       LOCAL COUNTRY CHANGE
+    ====================================================== */
+
+    localCountrySelect.addEventListener(
+        "change",
+        function () {
+
+            const selectedCountry =
+                countries.find(
+                    function (country) {
+
+                        return country.code ===
+                            localCountrySelect.value;
+
+                    }
+                );
+
+
+            if (selectedCountry) {
+
+                localCountryInfo.textContent =
+                    selectedCountry.flag +
+                    " " +
+                    selectedCountry.name +
+                    " • ISO: " +
+                    selectedCountry.code +
+                    " • Calling: " +
+                    selectedCountry.callingCode;
+
+                jobTypeSelect.value =
+                    "local";
+
+            } else {
+
+                localCountryInfo.textContent =
+                    "Select a country.";
+
+            }
+
+
+            updateActiveCountry();
+
+        }
+    );
+
+
+    /* =====================================================
+       JOB TYPE CHANGE
+    ====================================================== */
+
+    jobTypeSelect.addEventListener(
+        "change",
+        function () {
+
+            updateActiveCountry();
 
         }
     );
@@ -1169,12 +1598,19 @@
 
     function updateLoginUI() {
 
-        const session = getSession();
+        const session =
+            getSession();
+
 
         if (session) {
 
             loginBadge.textContent =
-                "Logged in: " + session.email;
+                "Logged in: " +
+                (
+                    session.email ||
+                    session.mobile ||
+                    "User"
+                );
 
         } else {
 
@@ -1195,15 +1631,18 @@
                     "user-mobile"
                 ).value.trim();
 
+
             const email =
                 document.getElementById(
                     "user-email"
                 ).value.trim();
 
+
             const password =
                 document.getElementById(
                     "user-password"
                 ).value;
+
 
             if (!mobile && !email) {
 
@@ -1229,22 +1668,23 @@
             }
 
 
-            /*
-             * Password is intentionally NOT stored.
-             * This is a frontend session demonstration.
-             */
-
             sessionStorage.setItem(
                 SESSION_KEY,
                 JSON.stringify({
+
                     mobile: mobile,
+
                     email: email,
-                    loginTime: new Date().toISOString()
+
+                    loginTime:
+                        new Date().toISOString()
+
                 })
             );
 
 
             updateLoginUI();
+
 
             showStatus(
                 loginStatus,
@@ -1263,7 +1703,9 @@
                 SESSION_KEY
             );
 
+
             updateLoginUI();
+
 
             showStatus(
                 loginStatus,
@@ -1283,6 +1725,7 @@
         function () {
 
             hideStatus(jobStatus);
+
 
             if (!navigator.geolocation) {
 
@@ -1341,10 +1784,12 @@
 
                 },
 
-                function (error) {
+
+                function () {
 
                     locationBox.textContent =
                         "Location permission was denied or unavailable.";
+
 
                     showStatus(
                         jobStatus,
@@ -1353,10 +1798,15 @@
 
                 },
 
+
                 {
+
                     enableHighAccuracy: true,
+
                     timeout: 15000,
+
                     maximumAge: 0
+
                 }
 
             );
@@ -1376,10 +1826,13 @@
             const file =
                 imageInput.files[0];
 
+
             if (!file) {
 
                 currentImage = "";
-                imagePreview.style.display = "none";
+
+                imagePreview.style.display =
+                    "none";
 
                 return;
 
@@ -1410,8 +1863,10 @@
                     currentImage =
                         event.target.result;
 
+
                     imagePreview.src =
                         currentImage;
+
 
                     imagePreview.style.display =
                         "block";
@@ -1439,6 +1894,7 @@
             const session =
                 getSession();
 
+
             if (!session) {
 
                 showStatus(
@@ -1456,33 +1912,44 @@
                     "job-title"
                 ).value.trim();
 
+
             const category =
                 document.getElementById(
                     "job-category"
                 ).value;
 
-            const country =
-                countrySelect.value;
+
+            const jobType =
+                jobTypeSelect.value;
+
+
+            const selectedCountry =
+                getSelectedCountry();
+
 
             const salary =
                 document.getElementById(
                     "job-salary"
                 ).value.trim();
 
+
             const appointment =
                 document.getElementById(
                     "job-appointment"
                 ).value;
+
 
             const description =
                 document.getElementById(
                     "job-description"
                 ).value.trim();
 
+
             const mobile =
                 document.getElementById(
                     "job-mobile"
                 ).value.trim();
+
 
             const email =
                 document.getElementById(
@@ -1502,11 +1969,13 @@
             }
 
 
-            if (!country) {
+            if (!selectedCountry) {
 
                 showStatus(
                     jobStatus,
-                    "Select a country."
+                    jobType === "international"
+                        ? "Select an International Job country."
+                        : "Select a Local Job country."
                 );
 
                 return;
@@ -1538,17 +2007,6 @@
             }
 
 
-            const selectedCountry =
-                countries.find(
-                    function (item) {
-
-                        return item.code ===
-                            country;
-
-                    }
-                );
-
-
             const job = {
 
                 id:
@@ -1559,38 +2017,60 @@
                         .toString(36)
                         .substring(2, 8),
 
-                title: title,
 
-                category: category,
+                jobType:
+                    jobType,
 
-                country: selectedCountry
-                    ? selectedCountry.name
-                    : country,
+
+                jobTypeLabel:
+                    jobType === "international"
+                        ? "International Job"
+                        : "Local Job",
+
+
+                title:
+                    title,
+
+
+                category:
+                    category,
+
+
+                country:
+                    selectedCountry.name,
+
 
                 countryCode:
-                    selectedCountry
-                        ? selectedCountry.callingCode
-                        : countryCode.value,
+                    selectedCountry.callingCode,
+
 
                 countryISO:
-                    selectedCountry
-                        ? selectedCountry.code
-                        : country,
+                    selectedCountry.code,
+
 
                 countryFlag:
-                    selectedCountry
-                        ? selectedCountry.flag
-                        : "",
+                    selectedCountry.flag,
 
-                mobile: mobile,
 
-                email: email,
+                mobile:
+                    mobile,
 
-                salary: salary,
 
-                appointment: appointment,
+                email:
+                    email,
 
-                description: description,
+
+                salary:
+                    salary,
+
+
+                appointment:
+                    appointment,
+
+
+                description:
+                    description,
+
 
                 location: {
 
@@ -1608,12 +2088,15 @@
 
                 },
 
+
                 image:
                     currentImage,
+
 
                 createdBy:
                     session.email ||
                     session.mobile,
+
 
                 createdAt:
                     new Date().toISOString()
@@ -1624,7 +2107,9 @@
             const jobs =
                 getJobs();
 
+
             jobs.unshift(job);
+
 
             saveJobs(jobs);
 
@@ -1636,6 +2121,7 @@
 
 
             renderJobs();
+
 
             clearJobForm(false);
 
@@ -1654,20 +2140,27 @@
                 .trim()
                 .toLowerCase();
 
+
         const jobs =
             getJobs().filter(
                 function (job) {
 
                     const text =
                         (
+                            job.jobTypeLabel ||
+                            "" +
+                            " " +
                             job.title +
                             " " +
                             job.category +
                             " " +
                             job.country +
                             " " +
+                            job.countryISO +
+                            " " +
                             job.description
                         ).toLowerCase();
+
 
                     return text.includes(query);
 
@@ -1719,72 +2212,134 @@
 
                         '<article class="saved-job">' +
 
+
                             '<h3>' +
+
+                                (
+                                    job.jobType ===
+                                    "international"
+
+                                        ? "🌎 "
+
+                                        : "📍 "
+                                ) +
+
                                 escapeHTML(
                                     job.title
                                 ) +
+
                             '</h3>' +
+
 
                             '<div class="saved-job-meta">' +
 
-                                '<div><strong>Category:</strong><br>' +
+
+                                '<div>' +
+                                    '<strong>Job Type:</strong><br>' +
+                                    escapeHTML(
+                                        job.jobTypeLabel ||
+                                        (
+                                            job.jobType ===
+                                            "international"
+                                                ? "International Job"
+                                                : "Local Job"
+                                        )
+                                    ) +
+                                '</div>' +
+
+
+                                '<div>' +
+                                    '<strong>Category:</strong><br>' +
                                     escapeHTML(
                                         job.category
                                     ) +
                                 '</div>' +
 
-                                '<div><strong>Country:</strong><br>' +
+
+                                '<div>' +
+                                    '<strong>Country:</strong><br>' +
+
                                     escapeHTML(
                                         job.countryFlag || ""
                                     ) +
+
                                     " " +
+
                                     escapeHTML(
-                                        job.country
+                                        job.country || ""
                                     ) +
+
                                     ' (' +
+
                                     escapeHTML(
-                                        job.countryCode
+                                        job.countryISO || ""
                                     ) +
+
+                                    ' / ' +
+
+                                    escapeHTML(
+                                        job.countryCode || ""
+                                    ) +
+
                                     ')' +
+
                                 '</div>' +
 
-                                '<div><strong>Salary:</strong><br>' +
+
+                                '<div>' +
+                                    '<strong>Salary:</strong><br>' +
                                     escapeHTML(
                                         job.salary
                                     ) +
                                 '</div>' +
 
-                                '<div><strong>Appointment:</strong><br>' +
+
+                                '<div>' +
+                                    '<strong>Appointment:</strong><br>' +
                                     escapeHTML(
                                         appointmentText
                                     ) +
                                 '</div>' +
 
-                                '<div><strong>Mobile:</strong><br>' +
+
+                                '<div>' +
+                                    '<strong>Mobile:</strong><br>' +
                                     escapeHTML(
                                         job.mobile
                                     ) +
                                 '</div>' +
 
-                                '<div><strong>Email:</strong><br>' +
+
+                                '<div>' +
+                                    '<strong>Email:</strong><br>' +
                                     escapeHTML(
                                         job.email
                                     ) +
                                 '</div>' +
 
+
                             '</div>' +
 
+
                             '<p>' +
+
                                 '<strong>Description:</strong><br>' +
+
                                 escapeHTML(
                                     job.description
                                 ) +
+
                             '</p>' +
 
+
                             '<p>' +
+
                                 '<strong>Location:</strong><br>' +
+
                                 locationText +
+
                             '</p>' +
+
 
                             (
                                 job.image
@@ -1796,18 +2351,29 @@
                                     : ""
                             ) +
 
+
                             '<div class="jobs-actions">' +
 
                                 '<button ' +
+
                                     'type="button" ' +
+
                                     'class="jobs-btn danger delete-job" ' +
+
                                     'data-id="' +
-                                    escapeHTML(job.id) +
+
+                                    escapeHTML(
+                                        job.id
+                                    ) +
+
                                 '">' +
+
                                     '🗑️ Delete Job' +
+
                                 '</button>' +
 
                             '</div>' +
+
 
                         '</article>'
 
@@ -1850,6 +2416,7 @@
                 "Delete this job?"
             );
 
+
         if (!confirmed) {
             return;
         }
@@ -1858,12 +2425,15 @@
         const jobs =
             getJobs().filter(
                 function (job) {
+
                     return job.id !== id;
+
                 }
             );
 
 
         saveJobs(jobs);
+
 
         renderJobs();
 
@@ -1886,39 +2456,72 @@
             .getElementById("job-title")
             .value = "";
 
+
         document
             .getElementById("job-category")
             .value = "";
 
-        countrySelect.value = "";
 
-        countryCode.value = "";
+        internationalCountrySelect.value =
+            "";
+
+
+        localCountrySelect.value =
+            "";
+
+
+        internationalCountryInfo.textContent =
+            "Select a country.";
+
+
+        localCountryInfo.textContent =
+            "Select a country.";
+
+
+        jobTypeSelect.value =
+            "international";
+
+
+        countryCode.value =
+            "";
+
 
         document
             .getElementById("job-mobile")
             .value = "";
 
+
         document
             .getElementById("job-email")
             .value = "";
+
 
         document
             .getElementById("job-salary")
             .value = "";
 
+
         document
             .getElementById("job-appointment")
             .value = "";
+
 
         document
             .getElementById("job-description")
             .value = "";
 
-        imageInput.value = "";
 
-        currentImage = "";
+        imageInput.value =
+            "";
 
-        imagePreview.src = "";
+
+        currentImage =
+            "";
+
+
+        imagePreview.src =
+            "";
+
 
         imagePreview.style.display =
             "none";
@@ -1936,6 +2539,9 @@
 
         locationBox.textContent =
             "Location not selected.";
+
+
+        updateActiveCountry();
 
 
         if (showMessage) {
@@ -1979,6 +2585,7 @@
             "career-search"
         );
 
+
     const careerSubjects =
         document.querySelectorAll(
             "#career-subjects .card"
@@ -2002,6 +2609,7 @@
                         card.textContent
                             .toLowerCase();
 
+
                     card.style.display =
                         text.includes(query)
                             ? ""
@@ -2017,6 +2625,8 @@
     /* =====================================================
        INITIALIZE
     ====================================================== */
+
+    updateActiveCountry();
 
     updateLoginUI();
 

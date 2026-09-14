@@ -24,6 +24,7 @@
         /* =====================================================
            ALON HISTORYVERSE 24
            PRIVACY POLICY PAGE
+           VISIBILITY FIX
         ====================================================== */
 
         .privacy-page {
@@ -31,6 +32,9 @@
             min-height: 100vh;
             padding: 20px 14px 60px;
             box-sizing: border-box;
+
+            /* Force readable text on dark theme */
+            color: #eeeeee;
         }
 
         .privacy-container {
@@ -39,134 +43,284 @@
             margin: 0 auto;
         }
 
+        /* =====================================================
+           GLOBAL PRIVACY TEXT VISIBILITY
+        ====================================================== */
+
+        .privacy-page,
+        .privacy-page p,
+        .privacy-page li,
+        .privacy-page td,
+        .privacy-page th,
+        .privacy-page span,
+        .privacy-page div,
+        .privacy-page label {
+            color: #eeeeee;
+        }
+
+        .privacy-page strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
         .privacy-header {
             text-align: center;
             padding: 25px 15px;
             margin-bottom: 18px;
+
             border: 1px solid rgba(215, 179, 90, .35);
             border-radius: 20px;
+
             background: rgba(5, 8, 15, .94);
+
+            color: #eeeeee;
         }
 
         .privacy-header h1 {
             margin: 0;
+
             color: #f0d27a;
+
             font-family: Georgia, "Times New Roman", serif;
+
             font-size: 31px;
             line-height: 1.3;
         }
 
         .privacy-header p {
             margin: 9px 0 0;
-            opacity: .82;
+
+            color: #eeeeee;
+
+            opacity: 1;
+
             line-height: 1.6;
         }
 
+        .privacy-header .policy-date {
+            color: #cccccc;
+
+            opacity: 1;
+        }
+
+        /* =====================================================
+           PRIVACY CARD
+        ====================================================== */
+
         .privacy-card {
             background: rgba(5, 8, 15, .94);
+
             border: 1px solid rgba(215, 179, 90, .28);
+
             border-radius: 18px;
+
             padding: 22px;
+
             margin-bottom: 15px;
+
+            color: #eeeeee;
         }
 
         .privacy-card h2 {
             margin-top: 0;
+
             color: #f0d27a;
+
             font-family: Georgia, "Times New Roman", serif;
+
             font-size: 22px;
         }
 
         .privacy-card h3 {
             color: #d7b35a;
+
             font-size: 17px;
         }
 
         .privacy-card p,
         .privacy-card li {
+            color: #eeeeee;
+
             line-height: 1.75;
+
             font-size: 15px;
         }
 
         .privacy-card ul {
             padding-left: 22px;
+
+            color: #eeeeee;
         }
+
+        .privacy-card li::marker {
+            color: #d7b35a;
+        }
+
+        /* =====================================================
+           HIGHLIGHT BOX
+        ====================================================== */
 
         .privacy-highlight {
             border-left: 3px solid #d7b35a;
+
             padding: 12px 15px;
+
             margin: 15px 0;
+
             background: rgba(215, 179, 90, .06);
+
             border-radius: 8px;
+
+            color: #eeeeee;
         }
+
+        .privacy-highlight strong {
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
 
         .privacy-table-wrap {
             width: 100%;
+
             overflow-x: auto;
+
             margin-top: 12px;
         }
 
         .privacy-table {
             width: 100%;
+
             min-width: 620px;
+
             border-collapse: collapse;
+
+            color: #eeeeee;
         }
 
         .privacy-table th,
         .privacy-table td {
             border: 1px solid rgba(215, 179, 90, .25);
+
             padding: 11px;
+
             text-align: left;
+
             vertical-align: top;
+
             line-height: 1.5;
+
+            color: #eeeeee;
         }
 
         .privacy-table th {
             color: #f0d27a;
+
             background: rgba(215, 179, 90, .07);
+
+            font-weight: 700;
         }
+
+        .privacy-table td {
+            color: #eeeeee;
+
+            background: rgba(5, 8, 15, .55);
+        }
+
+        /* =====================================================
+           LINKS
+        ====================================================== */
 
         .privacy-link {
             color: #f0d27a;
+
             text-decoration: none;
         }
 
         .privacy-link:hover {
-            text-decoration: underline;
-        }
+            color: #ffffff;
 
-        .privacy-footer {
-            text-align: center;
-            padding: 18px 10px;
-            opacity: .75;
-            font-size: 13px;
-            line-height: 1.7;
+            text-decoration: underline;
         }
 
         .back-link {
             display: inline-block;
+
             margin-bottom: 15px;
+
+            color: #f0d27a;
+
             text-decoration: none;
+
+            font-weight: 600;
         }
+
+        .back-link:hover {
+            color: #ffffff;
+
+            text-decoration: underline;
+        }
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .privacy-footer {
+            text-align: center;
+
+            padding: 18px 10px;
+
+            color: #cccccc;
+
+            opacity: 1;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           DATE
+        ====================================================== */
 
         .policy-date {
             font-size: 13px;
-            opacity: .7;
+
+            color: #cccccc;
+
+            opacity: 1;
         }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
 
         @media (max-width: 600px) {
 
             .privacy-page {
                 padding: 12px 9px 40px;
+
+                color: #eeeeee;
             }
 
             .privacy-card {
                 padding: 17px;
+
                 border-radius: 15px;
+
+                color: #eeeeee;
             }
 
             .privacy-header {
                 padding: 20px 12px;
+
+                color: #eeeeee;
             }
 
             .privacy-header h1 {
@@ -180,6 +334,8 @@
             .privacy-card p,
             .privacy-card li {
                 font-size: 14px;
+
+                color: #eeeeee;
             }
 
         }
@@ -303,83 +459,53 @@
                     <tbody>
 
                         <tr>
-
-                            <td>
-                                Email address
-                            </td>
-
+                            <td>Email address</td>
                             <td>
                                 Login, account identification
                                 and account-related features.
                             </td>
-
                         </tr>
 
                         <tr>
-
-                            <td>
-                                Mobile number
-                            </td>
-
+                            <td>Mobile number</td>
                             <td>
                                 User identification and
                                 account-related features.
                             </td>
-
                         </tr>
 
                         <tr>
-
-                            <td>
-                                Country / Calling Code
-                            </td>
-
+                            <td>Country / Calling Code</td>
                             <td>
                                 International user identification
                                 and country-specific features.
                             </td>
-
                         </tr>
 
                         <tr>
-
-                            <td>
-                                User ID
-                            </td>
-
+                            <td>User ID</td>
                             <td>
                                 Identifying a user's activity
                                 without displaying sensitive
                                 account credentials.
                             </td>
-
                         </tr>
 
                         <tr>
-
-                            <td>
-                                Location
-                            </td>
-
+                            <td>Location</td>
                             <td>
                                 Features that specifically require
                                 live location, only after browser
                                 permission is granted.
                             </td>
-
                         </tr>
 
                         <tr>
-
-                            <td>
-                                Books / Articles / Comments
-                            </td>
-
+                            <td>Books / Articles / Comments</td>
                             <td>
                                 Providing library, reading,
                                 article and community features.
                             </td>
-
                         </tr>
 
                     </tbody>
@@ -498,33 +624,19 @@
 
             <ul>
 
-                <li>
-                    Login session information
-                </li>
+                <li>Login session information</li>
 
-                <li>
-                    Anonymous User ID
-                </li>
+                <li>Anonymous User ID</li>
 
-                <li>
-                    Reading history
-                </li>
+                <li>Reading history</li>
 
-                <li>
-                    Book preferences
-                </li>
+                <li>Book preferences</li>
 
-                <li>
-                    Like / Dislike information
-                </li>
+                <li>Like / Dislike information</li>
 
-                <li>
-                    Comments and reactions
-                </li>
+                <li>Comments and reactions</li>
 
-                <li>
-                    Saved website settings
-                </li>
+                <li>Saved website settings</li>
 
             </ul>
 
