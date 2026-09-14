@@ -15,6 +15,7 @@
    - System events
    - Basic application health
    - Global Marketplace menu integration
+   - Dynamic Marketplace menu detection
 
    This is a frontend system helper.
    It does NOT provide server-side security.
@@ -29,11 +30,18 @@
     ====================================================== */
 
     const CONFIG = {
-        project: "ALON HISTORYVERSE 24",
-        creator: "Baba Thecno Guru",
-        version: "24.0",
+
+        project:
+            "ALON HISTORYVERSE 24",
+
+        creator:
+            "Baba Thecno Guru",
+
+        version:
+            "24.0",
 
         storageKeys: {
+
             systemInfo:
                 "alon_historyverse_system_info",
 
@@ -50,6 +58,7 @@
         ================================================== */
 
         marketplace: {
+
             page:
                 "./marketplace.html",
 
@@ -63,7 +72,8 @@
                 "./marketplace-countries.js"
         },
 
-        maxLogEntries: 100
+        maxLogEntries:
+            100
     };
 
 
@@ -72,41 +82,73 @@
     ====================================================== */
 
     const STATE = {
-        initialized: false,
-        ready: false,
+
+        initialized:
+            false,
+
+        ready:
+            false,
 
         online:
             navigator.onLine,
 
         visible:
-            document.visibilityState === "visible",
+            document.visibilityState ===
+            "visible",
 
-        storageAvailable: false,
+        storageAvailable:
+            false,
 
         device: {
-            mobile: false,
-            tablet: false,
-            desktop: false,
-            touch: false
+
+            mobile:
+                false,
+
+            tablet:
+                false,
+
+            desktop:
+                false,
+
+            touch:
+                false
         },
 
         browser: {
-            name: "Unknown",
-            version: "Unknown"
+
+            name:
+                "Unknown",
+
+            version:
+                "Unknown"
         },
 
         viewport: {
-            width: window.innerWidth,
-            height: window.innerHeight,
+
+            width:
+                window.innerWidth,
+
+            height:
+                window.innerHeight,
+
             devicePixelRatio:
                 window.devicePixelRatio || 1
         },
 
-        errors: 0,
-        warnings: 0,
+        errors:
+            0,
 
-        startedAt: null,
-        lastUpdated: null
+        warnings:
+            0,
+
+        startedAt:
+            null,
+
+        lastUpdated:
+            null,
+
+        marketplaceObserver:
+            null
     };
 
 
@@ -115,12 +157,16 @@
     ====================================================== */
 
     function nowISO() {
+
         return new Date().toISOString();
     }
 
 
     function safeString(value) {
-        return String(value ?? "");
+
+        return String(
+            value ?? ""
+        );
     }
 
 
@@ -169,7 +215,10 @@
         value
     ) {
 
-        if (!STATE.storageAvailable) {
+        if (
+            !STATE.storageAvailable
+        ) {
+
             return false;
         }
 
@@ -194,20 +243,30 @@
         fallback
     ) {
 
-        if (!STATE.storageAvailable) {
+        if (
+            !STATE.storageAvailable
+        ) {
+
             return fallback;
         }
 
         try {
 
             const value =
-                localStorage.getItem(key);
+                localStorage.getItem(
+                    key
+                );
 
-            if (value === null) {
+            if (
+                value === null
+            ) {
+
                 return fallback;
             }
 
-            return JSON.parse(value);
+            return JSON.parse(
+                value
+            );
 
         } catch (error) {
 
@@ -266,7 +325,8 @@
             /Edg\//i.test(ua)
         ) {
 
-            name = "Microsoft Edge";
+            name =
+                "Microsoft Edge";
 
             const match =
                 ua.match(
@@ -274,14 +334,17 @@
                 );
 
             if (match) {
-                version = match[1];
+
+                version =
+                    match[1];
             }
 
         } else if (
             /OPR\//i.test(ua)
         ) {
 
-            name = "Opera";
+            name =
+                "Opera";
 
             const match =
                 ua.match(
@@ -289,7 +352,9 @@
                 );
 
             if (match) {
-                version = match[1];
+
+                version =
+                    match[1];
             }
 
         } else if (
@@ -297,7 +362,8 @@
             !/Edg\//i.test(ua)
         ) {
 
-            name = "Chrome";
+            name =
+                "Chrome";
 
             const match =
                 ua.match(
@@ -305,14 +371,17 @@
                 );
 
             if (match) {
-                version = match[1];
+
+                version =
+                    match[1];
             }
 
         } else if (
             /Firefox\//i.test(ua)
         ) {
 
-            name = "Firefox";
+            name =
+                "Firefox";
 
             const match =
                 ua.match(
@@ -320,7 +389,9 @@
                 );
 
             if (match) {
-                version = match[1];
+
+                version =
+                    match[1];
             }
 
         } else if (
@@ -328,7 +399,8 @@
             !/Chrome\//i.test(ua)
         ) {
 
-            name = "Safari";
+            name =
+                "Safari";
 
             const match =
                 ua.match(
@@ -336,21 +408,26 @@
                 );
 
             if (match) {
-                version = match[1];
+
+                version =
+                    match[1];
             }
 
         } else if (
             /MSIE|Trident/i.test(ua)
         ) {
 
-            name = "Internet Explorer";
+            name =
+                "Internet Explorer";
         }
 
 
         STATE.browser = {
+
             name,
             version
         };
+
 
         return STATE.browser;
     }
@@ -374,6 +451,7 @@
                 window.devicePixelRatio || 1
         };
 
+
         return STATE.viewport;
     }
 
@@ -387,7 +465,9 @@
     ) {
 
         STATE.online =
-            Boolean(online);
+            Boolean(
+                online
+            );
 
         STATE.lastUpdated =
             nowISO();
@@ -600,7 +680,9 @@
                 type || "info",
 
             message:
-                safeString(message),
+                safeString(
+                    message
+                ),
 
             details:
                 details || null,
@@ -614,6 +696,7 @@
             list.slice(
                 -CONFIG.maxLogEntries
             );
+
 
         saveStorage(
             CONFIG.storageKeys.systemLog,
@@ -681,23 +764,55 @@
        GLOBAL MARKETPLACE MENU
     ====================================================== */
 
-    function bindMarketplaceMenu() {
+    function getMarketplaceMenu() {
 
         /*
-         * Existing ALON HISTORYVERSE 24 menu can use
-         * either the data-mobile-menu attribute or the
-         * existing #mobileMenu element.
+         * Primary menu used by current ALON HISTORYVERSE
+         * root index.html.
          */
 
-        const menu =
-            document.querySelector(
-                "[data-mobile-menu]"
-            ) ||
+        const mobileMenu =
             document.getElementById(
                 "mobileMenu"
             );
 
+        if (mobileMenu) {
+
+            return mobileMenu;
+        }
+
+
+        /*
+         * Optional future menu attribute.
+         */
+
+        const dataMenu =
+            document.querySelector(
+                "[data-mobile-menu]"
+            );
+
+        if (dataMenu) {
+
+            return dataMenu;
+        }
+
+
+        return null;
+    }
+
+
+    function bindMarketplaceMenu() {
+
+        const menu =
+            getMarketplaceMenu();
+
+
+        /*
+         * Menu may not exist yet.
+         */
+
         if (!menu) {
+
             return false;
         }
 
@@ -706,38 +821,54 @@
          * Prevent duplicate Marketplace links.
          */
 
-        if (
+        const existing =
             menu.querySelector(
                 "[data-marketplace-link]"
-            )
-        ) {
+            );
+
+
+        if (existing) {
+
             return true;
         }
 
 
+        /*
+         * Create Marketplace menu item.
+         */
+
         const link =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
 
 
         link.href =
             CONFIG.marketplace.page;
+
 
         link.setAttribute(
             "data-menu-link",
             ""
         );
 
+
         link.setAttribute(
             "data-marketplace-link",
-            ""
+            "true"
         );
+
+
+        link.className =
+            "mobile-marketplace-link";
+
 
         link.textContent =
             "🌍 Global Marketplace";
 
 
         /*
-         * If the existing menu has a close button,
+         * If an existing menu close button exists,
          * place Marketplace before it.
          */
 
@@ -762,9 +893,68 @@
         }
 
 
+        /*
+         * When Marketplace is selected, close the
+         * mobile menu if the current site exposes
+         * a standard close mechanism.
+         */
+
+        link.addEventListener(
+            "click",
+            function () {
+
+                try {
+
+                    menu.hidden =
+                        true;
+
+                } catch (error) {
+
+                    /* Safe failure */
+                }
+
+
+                try {
+
+                    menu.classList.remove(
+                        "open"
+                    );
+
+                } catch (error) {
+
+                    /* Safe failure */
+                }
+
+
+                try {
+
+                    menu.classList.remove(
+                        "active"
+                    );
+
+                } catch (error) {
+
+                    /* Safe failure */
+                }
+            }
+        );
+
+
         info(
             "Global Marketplace menu added.",
             {
+                path:
+                    CONFIG.marketplace.page
+            }
+        );
+
+
+        dispatch(
+            "alon:marketplace-menu-ready",
+            {
+                element:
+                    link,
+
                 path:
                     CONFIG.marketplace.page
             }
@@ -776,12 +966,156 @@
 
 
     /* =====================================================
+       MARKETPLACE MENU RETRY
+    ====================================================== */
+
+    function retryMarketplaceMenu() {
+
+        /*
+         * Immediate attempt.
+         */
+
+        if (
+            bindMarketplaceMenu()
+        ) {
+
+            return true;
+        }
+
+
+        /*
+         * Retry shortly after page initialization.
+         */
+
+        setTimeout(
+            function () {
+
+                bindMarketplaceMenu();
+
+            },
+            50
+        );
+
+
+        setTimeout(
+            function () {
+
+                bindMarketplaceMenu();
+
+            },
+            250
+        );
+
+
+        setTimeout(
+            function () {
+
+                bindMarketplaceMenu();
+
+            },
+            750
+        );
+
+
+        setTimeout(
+            function () {
+
+                bindMarketplaceMenu();
+
+            },
+            1500
+        );
+
+
+        return false;
+    }
+
+
+    /* =====================================================
+       MARKETPLACE DOM OBSERVER
+    ====================================================== */
+
+    function observeMarketplaceMenu() {
+
+        /*
+         * Do not create multiple observers.
+         */
+
+        if (
+            STATE.marketplaceObserver
+        ) {
+
+            return true;
+        }
+
+
+        if (
+            !document.body
+        ) {
+
+            return false;
+        }
+
+
+        if (
+            typeof MutationObserver ===
+            "undefined"
+        ) {
+
+            return false;
+        }
+
+
+        try {
+
+            const observer =
+                new MutationObserver(
+                    function () {
+
+                        bindMarketplaceMenu();
+
+                    }
+                );
+
+
+            observer.observe(
+                document.body,
+                {
+                    childList:
+                        true,
+
+                    subtree:
+                        true
+                }
+            );
+
+
+            STATE.marketplaceObserver =
+                observer;
+
+
+            return true;
+
+        } catch (error) {
+
+            warn(
+                "Marketplace menu observer could not start.",
+                error
+            );
+
+            return false;
+        }
+    }
+
+
+    /* =====================================================
        MARKETPLACE PATH INFORMATION
     ====================================================== */
 
     function getMarketplacePaths() {
 
         return {
+
             page:
                 CONFIG.marketplace.page,
 
@@ -916,6 +1250,7 @@
                 ? parts[parts.length - 1]
                 : "";
 
+
         return {
 
             url:
@@ -1009,19 +1344,23 @@
             const key =
                 "__alon_historyverse_session_test__";
 
+
             sessionStorage.setItem(
                 key,
                 "ok"
             );
+
 
             const result =
                 sessionStorage.getItem(
                     key
                 ) === "ok";
 
+
             sessionStorage.removeItem(
                 key
             );
+
 
             return result;
 
@@ -1041,11 +1380,13 @@
         const capabilities =
             getCapabilities();
 
+
         const healthy =
             Boolean(
                 capabilities.fetch &&
                 capabilities.promises
             );
+
 
         return {
 
@@ -1086,16 +1427,21 @@
         STATE.ready =
             true;
 
+
         saveStorage(
             CONFIG.storageKeys.systemReady,
             {
-                ready: true,
+                ready:
+                    true,
+
                 timestamp:
                     nowISO(),
+
                 version:
                     CONFIG.version
             }
         );
+
 
         dispatch(
             "alon:system-ready",
@@ -1113,7 +1459,9 @@
 
     function initialize() {
 
-        if (STATE.initialized) {
+        if (
+            STATE.initialized
+        ) {
 
             /*
              * The menu may be created after system
@@ -1121,7 +1469,9 @@
              * Marketplace menu binding.
              */
 
-            bindMarketplaceMenu();
+            retryMarketplaceMenu();
+
+            observeMarketplaceMenu();
 
             return getSystemInfo();
         }
@@ -1129,6 +1479,7 @@
 
         STATE.startedAt =
             nowISO();
+
 
         checkStorage();
 
@@ -1138,12 +1489,15 @@
 
         updateViewport();
 
+
         STATE.online =
             navigator.onLine;
+
 
         STATE.visible =
             document.visibilityState ===
             "visible";
+
 
         bindEvents();
 
@@ -1153,19 +1507,41 @@
          * No index.html modification is required.
          */
 
-        bindMarketplaceMenu();
+        retryMarketplaceMenu();
+
+        observeMarketplaceMenu();
 
 
         saveSystemInfo();
+
 
         info(
             "ALON HISTORYVERSE 24 system initialized."
         );
 
+
         STATE.initialized =
             true;
 
+
         setReady();
+
+
+        /*
+         * One final delayed check.
+         * This protects against menu creation by
+         * another frontend script after initialization.
+         */
+
+        setTimeout(
+            function () {
+
+                bindMarketplaceMenu();
+
+            },
+            1000
+        );
+
 
         return getSystemInfo();
     }
@@ -1207,50 +1583,72 @@
 
         isOnline:
             function () {
+
                 return STATE.online;
             },
 
         isVisible:
             function () {
+
                 return STATE.visible;
             },
 
         isMobile:
             function () {
+
                 return STATE.device.mobile;
             },
 
         isTablet:
             function () {
+
                 return STATE.device.tablet;
             },
 
         isDesktop:
             function () {
+
                 return STATE.device.desktop;
             },
 
         hasTouch:
             function () {
+
                 return STATE.device.touch;
             },
 
         storageAvailable:
             function () {
+
                 return STATE.storageAvailable;
             },
 
-        /* Marketplace API */
+
+        /* =================================================
+           MARKETPLACE API
+        ================================================== */
 
         bindMarketplaceMenu,
 
+        getMarketplaceMenu,
+
+        retryMarketplaceMenu,
+
+        observeMarketplaceMenu,
+
         getMarketplacePaths,
+
+
+        /* =================================================
+           LOG API
+        ================================================== */
 
         info,
 
         warn,
 
         error,
+
 
         getLogs:
             function () {
@@ -1260,6 +1658,7 @@
                     []
                 );
             },
+
 
         clearLogs:
             function () {
@@ -1295,10 +1694,13 @@
         document.addEventListener(
             "DOMContentLoaded",
             function () {
+
                 initialize();
+
             },
             {
-                once: true
+                once:
+                    true
             }
         );
 
