@@ -5,7 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>ALON HISTORYVERSE 24</title>
 
@@ -24,16 +27,282 @@
         content="#05080f"
     >
 
-    <!-- =====================================================
-         ROOT STYLESHEET
-    ====================================================== -->
+    <link
+        rel="stylesheet"
+        href="./style.css"
+    >
 
-    <link rel="stylesheet" href="./style.css">
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           TOP FOLDER SYSTEM
+        ====================================================== */
+
+        .ah-folder-bar {
+
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            overflow-x: auto;
+
+            overflow-y: hidden;
+
+            white-space: nowrap;
+
+            padding: 10px 8px;
+
+            margin: 0;
+
+            border-top: 1px solid rgba(215,179,90,.20);
+
+            border-bottom: 1px solid rgba(215,179,90,.30);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(5,8,15,.98),
+                    rgba(10,14,24,.98)
+                );
+
+            scrollbar-width: thin;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
+
+        }
+
+
+        .ah-folder-bar::-webkit-scrollbar {
+
+            height: 5px;
+
+        }
+
+
+        .ah-folder-btn {
+
+            flex: 0 0 auto;
+
+            border: 1px solid rgba(215,179,90,.45);
+
+            background: rgba(255,255,255,.035);
+
+            color: #f0d27a;
+
+            border-radius: 999px;
+
+            padding: 9px 15px;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                .20s ease;
+
+        }
+
+
+        .ah-folder-btn:hover {
+
+            background: rgba(215,179,90,.12);
+
+            border-color: #d7b35a;
+
+        }
+
+
+        .ah-folder-btn.active {
+
+            background: #d7b35a;
+
+            color: #05080f;
+
+            border-color: #f0d27a;
+
+            box-shadow:
+                0 0 14px rgba(215,179,90,.22);
+
+        }
+
+
+        /* =====================================================
+           FOLDER PANELS
+        ====================================================== */
+
+        .ah-folder-panel {
+
+            display: none;
+
+            animation:
+                ahFolderOpen .20s ease;
+
+        }
+
+
+        .ah-folder-panel.active {
+
+            display: block;
+
+        }
+
+
+        @keyframes ahFolderOpen {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(5px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           FOLDER TITLE
+        ====================================================== */
+
+        .ah-folder-title {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .ah-folder-title h2 {
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .ah-folder-title p {
+
+            margin-top: 0;
+
+            opacity: .78;
+
+        }
+
+
+        /* =====================================================
+           JOBS
+        ====================================================== */
+
+        .ah-jobs-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(
+                        190px,
+                        1fr
+                    )
+                );
+
+            gap: 14px;
+
+        }
+
+
+        .ah-job-card {
+
+            display: block;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            border: 1px solid rgba(215,179,90,.28);
+
+            border-radius: 14px;
+
+            padding: 18px;
+
+            background: rgba(255,255,255,.035);
+
+            transition: .20s ease;
+
+        }
+
+
+        .ah-job-card:hover {
+
+            transform: translateY(-2px);
+
+            border-color: #d7b35a;
+
+            background: rgba(215,179,90,.08);
+
+        }
+
+
+        .ah-job-card h3 {
+
+            color: #f0d27a;
+
+            margin-top: 0;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 700px) {
+
+            .ah-folder-bar {
+
+                padding: 8px 6px;
+
+                gap: 6px;
+
+            }
+
+
+            .ah-folder-btn {
+
+                font-size: 13px;
+
+                padding: 8px 12px;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
 <body>
+
 
 <!-- =========================================================
      HEADER
@@ -46,26 +315,24 @@
         href="./index.html"
     >
 
-        <!-- =================================================
-             ALON HISTORYVERSE 24 LOGO
-        ================================================== -->
-
         <img
             src="./images/historyverse-logo.svg"
             alt="ALON HISTORYVERSE 24"
             class="ah-logo"
         >
 
-        <strong>ALON HISTORYVERSE 24</strong>
+        <strong>
+            ALON HISTORYVERSE 24
+        </strong>
 
-        <span>Baba Thecno Guru</span>
+        <span>
+            Baba Thecno Guru
+        </span>
 
     </a>
 
 
     <div class="ah-actions">
-
-        <!-- LANGUAGE -->
 
         <button
             class="ah-btn"
@@ -76,8 +343,6 @@
             🌐
         </button>
 
-
-        <!-- MENU -->
 
         <button
             class="ah-btn"
@@ -95,28 +360,148 @@
 
 
 <!-- =========================================================
+     TOP FOLDER BAR
+========================================================== -->
+
+<nav
+    class="ah-folder-bar"
+    id="ahFolderBar"
+    aria-label="Website folders"
+>
+
+    <button
+        class="ah-folder-btn active"
+        type="button"
+        data-folder="explore"
+    >
+        Explore
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="library"
+    >
+        Library
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="history"
+    >
+        History
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="countries"
+    >
+        Countries
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="knowledge"
+    >
+        Knowledge
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="jobs"
+    >
+        Jobs
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="community"
+    >
+        Community
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="information"
+    >
+        Information
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="account"
+    >
+        Account
+    </button>
+
+
+    <button
+        class="ah-folder-btn"
+        type="button"
+        data-folder="marketplace"
+    >
+        Marketplace
+    </button>
+
+</nav>
+
+
+<!-- =========================================================
      DESKTOP NAVIGATION
 ========================================================== -->
 
 <nav class="ah-nav">
 
-    <a href="./index.html">Home</a>
+    <a href="./index.html">
+        Home
+    </a>
 
-    <a href="./discover.html">Explore</a>
+    <a href="./discover.html">
+        Explore
+    </a>
 
-    <a href="./library.html">Library</a>
+    <a href="./library.html">
+        Library
+    </a>
 
-    <a href="./civilizations.html">History</a>
+    <a href="./civilizations.html">
+        History
+    </a>
 
-    <a href="./countries.html">Countries</a>
+    <a href="./countries.html">
+        Countries
+    </a>
 
-    <a href="./heritage.html">Heritage</a>
+    <a href="./heritage.html">
+        Heritage
+    </a>
 
-    <a href="./timeline.html">Timeline</a>
+    <a href="./timeline.html">
+        Timeline
+    </a>
 
-    <a href="./articles.html">Articles</a>
+    <a href="./articles.html">
+        Articles
+    </a>
 
-    <a href="./about.html">About</a>
+    <a href="./about.html">
+        About
+    </a>
 
 </nav>
 
@@ -131,13 +516,12 @@
     hidden
 >
 
-    <!-- =====================================================
-         EXPLORE
-    ====================================================== -->
 
     <div class="mobile-menu-section">
 
-        <strong>Explore</strong>
+        <strong>
+            Explore
+        </strong>
 
         <a href="./discover.html">
             Discover
@@ -162,13 +546,11 @@
     </div>
 
 
-    <!-- =====================================================
-         LIBRARY
-    ====================================================== -->
-
     <div class="mobile-menu-section">
 
-        <strong>Library</strong>
+        <strong>
+            Library
+        </strong>
 
         <a href="./library.html">
             Library
@@ -193,13 +575,11 @@
     </div>
 
 
-    <!-- =====================================================
-         HISTORY
-    ====================================================== -->
-
     <div class="mobile-menu-section">
 
-        <strong>History</strong>
+        <strong>
+            History
+        </strong>
 
         <a href="./civilizations.html">
             Civilizations
@@ -216,13 +596,11 @@
     </div>
 
 
-    <!-- =====================================================
-         COUNTRIES
-    ====================================================== -->
-
     <div class="mobile-menu-section">
 
-        <strong>Countries</strong>
+        <strong>
+            Countries
+        </strong>
 
         <a href="./countries.html">
             Countries
@@ -235,13 +613,11 @@
     </div>
 
 
-    <!-- =====================================================
-         KNOWLEDGE
-    ====================================================== -->
-
     <div class="mobile-menu-section">
 
-        <strong>Knowledge</strong>
+        <strong>
+            Knowledge
+        </strong>
 
         <a href="./mathematics.html">
             Mathematics
@@ -249,10 +625,6 @@
 
         <a href="./computer.html">
             Computer
-        </a>
-
-        <a href="./jobs.html">
-            Jobs &amp; Careers
         </a>
 
         <a href="./trees.html">
@@ -263,12 +635,27 @@
 
 
     <!-- =====================================================
-         COMMUNITY
+         JOBS
     ====================================================== -->
 
     <div class="mobile-menu-section">
 
-        <strong>Community</strong>
+        <strong>
+            Jobs
+        </strong>
+
+        <a href="./jobs.html">
+            Jobs
+        </a>
+
+    </div>
+
+
+    <div class="mobile-menu-section">
+
+        <strong>
+            Community
+        </strong>
 
         <a href="./contribute.html">
             Contribute
@@ -285,13 +672,11 @@
     </div>
 
 
-    <!-- =====================================================
-         INFORMATION
-    ====================================================== -->
-
     <div class="mobile-menu-section">
 
-        <strong>Information</strong>
+        <strong>
+            Information
+        </strong>
 
         <a href="./about.html">
             About
@@ -316,13 +701,11 @@
     </div>
 
 
-    <!-- =====================================================
-         ACCOUNT
-    ====================================================== -->
-
     <div class="mobile-menu-section">
 
-        <strong>Account</strong>
+        <strong>
+            Account
+        </strong>
 
         <a href="./login.html">
             Login
@@ -335,19 +718,13 @@
     </div>
 
 
-    <!-- =====================================================
-         GLOBAL MARKETPLACE
-    ====================================================== -->
-
     <div class="mobile-menu-section">
 
-        <strong>Marketplace</strong>
+        <strong>
+            Marketplace
+        </strong>
 
-        <a
-            href="./marketplace.html"
-            data-menu-link
-            data-marketplace-link="true"
-        >
+        <a href="./marketplace.html">
             🌍 Global Marketplace
         </a>
 
@@ -388,8 +765,6 @@
         class="language-list"
     >
 
-        <!-- JavaScript inserts available languages here -->
-
     </div>
 
 </div>
@@ -418,8 +793,6 @@
         </p>
 
 
-        <!-- SEARCH -->
-
         <form
             id="searchForm"
             class="search-form"
@@ -432,6 +805,7 @@
                 autocomplete="off"
             >
 
+
             <button type="submit">
                 Search
             </button>
@@ -442,12 +816,26 @@
 
 
     <!-- =====================================================
-         EXPLORE
+         EXPLORE FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel active"
+        id="folder-explore"
+        data-folder-panel="explore"
+    >
 
-        <h2>Explore</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                Explore
+            </h2>
+
+            <p>
+                Discover history and knowledge.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -456,10 +844,14 @@
                 class="card"
                 href="./discover.html"
             >
-                <h3>Discover</h3>
+                <h3>
+                    Discover
+                </h3>
+
                 <p>
                     Explore historical knowledge.
                 </p>
+
             </a>
 
 
@@ -467,10 +859,14 @@
                 class="card"
                 href="./categories.html"
             >
-                <h3>Categories</h3>
+                <h3>
+                    Categories
+                </h3>
+
                 <p>
                     Browse knowledge by category.
                 </p>
+
             </a>
 
 
@@ -478,10 +874,14 @@
                 class="card"
                 href="./gallery.html"
             >
-                <h3>Gallery</h3>
+                <h3>
+                    Gallery
+                </h3>
+
                 <p>
                     Explore historical media.
                 </p>
+
             </a>
 
 
@@ -489,10 +889,25 @@
                 class="card"
                 href="./articles.html"
             >
-                <h3>Articles</h3>
+                <h3>
+                    Articles
+                </h3>
+
                 <p>
                     Read historical articles.
                 </p>
+
+            </a>
+
+
+            <a
+                class="card"
+                href="./article.html"
+            >
+                <h3>
+                    Article
+                </h3>
+
             </a>
 
         </div>
@@ -501,12 +916,26 @@
 
 
     <!-- =====================================================
-         LIBRARY
+         LIBRARY FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel"
+        id="folder-library"
+        data-folder-panel="library"
+    >
 
-        <h2>Knowledge Library</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                Knowledge Library
+            </h2>
+
+            <p>
+                Explore books, subjects and knowledge.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -515,10 +944,14 @@
                 class="card"
                 href="./library.html"
             >
-                <h3>Library</h3>
+                <h3>
+                    Library
+                </h3>
+
                 <p>
                     Enter the knowledge library.
                 </p>
+
             </a>
 
 
@@ -526,10 +959,10 @@
                 class="card"
                 href="./department.html"
             >
-                <h3>Departments</h3>
-                <p>
-                    Browse departments.
-                </p>
+                <h3>
+                    Departments
+                </h3>
+
             </a>
 
 
@@ -537,10 +970,10 @@
                 class="card"
                 href="./subject.html"
             >
-                <h3>Subjects</h3>
-                <p>
-                    Explore subjects.
-                </p>
+                <h3>
+                    Subjects
+                </h3>
+
             </a>
 
 
@@ -548,10 +981,10 @@
                 class="card"
                 href="./book.html"
             >
-                <h3>Books</h3>
-                <p>
-                    Browse books.
-                </p>
+                <h3>
+                    Books
+                </h3>
+
             </a>
 
 
@@ -559,10 +992,10 @@
                 class="card"
                 href="./read.html"
             >
-                <h3>Read</h3>
-                <p>
-                    Read knowledge content.
-                </p>
+                <h3>
+                    Read
+                </h3>
+
             </a>
 
         </div>
@@ -571,12 +1004,26 @@
 
 
     <!-- =====================================================
-         HISTORY
+         HISTORY FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel"
+        id="folder-history"
+        data-folder-panel="history"
+    >
 
-        <h2>History</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                History
+            </h2>
+
+            <p>
+                Civilizations, heritage and timelines.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -585,7 +1032,10 @@
                 class="card"
                 href="./civilizations.html"
             >
-                <h3>Civilizations</h3>
+                <h3>
+                    Civilizations
+                </h3>
+
             </a>
 
 
@@ -593,7 +1043,10 @@
                 class="card"
                 href="./heritage.html"
             >
-                <h3>Heritage</h3>
+                <h3>
+                    Heritage
+                </h3>
+
             </a>
 
 
@@ -601,7 +1054,10 @@
                 class="card"
                 href="./timeline.html"
             >
-                <h3>Timeline</h3>
+                <h3>
+                    Timeline
+                </h3>
+
             </a>
 
         </div>
@@ -610,12 +1066,26 @@
 
 
     <!-- =====================================================
-         COUNTRIES
+         COUNTRIES FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel"
+        id="folder-countries"
+        data-folder-panel="countries"
+    >
 
-        <h2>World Countries</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                World Countries
+            </h2>
+
+            <p>
+                Explore countries and country information.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -624,7 +1094,10 @@
                 class="card"
                 href="./countries.html"
             >
-                <h3>Countries</h3>
+
+                <h3>
+                    Countries
+                </h3>
 
                 <p>
                     Explore countries of the world.
@@ -637,7 +1110,10 @@
                 class="card"
                 href="./country.html"
             >
-                <h3>Country</h3>
+
+                <h3>
+                    Country
+                </h3>
 
                 <p>
                     Explore country details.
@@ -651,12 +1127,26 @@
 
 
     <!-- =====================================================
-         SPECIAL DEPARTMENTS
+         KNOWLEDGE FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel"
+        id="folder-knowledge"
+        data-folder-panel="knowledge"
+    >
 
-        <h2>Knowledge Departments</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                Knowledge
+            </h2>
+
+            <p>
+                Educational and knowledge departments.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -665,7 +1155,14 @@
                 class="card"
                 href="./mathematics.html"
             >
-                <h3>Mathematics</h3>
+                <h3>
+                    Mathematics
+                </h3>
+
+                <p>
+                    Mathematics learning and solving system.
+                </p>
+
             </a>
 
 
@@ -673,15 +1170,10 @@
                 class="card"
                 href="./computer.html"
             >
-                <h3>Computer</h3>
-            </a>
+                <h3>
+                    Computer
+                </h3>
 
-
-            <a
-                class="card"
-                href="./jobs.html"
-            >
-                <h3>Jobs &amp; Careers</h3>
             </a>
 
 
@@ -689,7 +1181,10 @@
                 class="card"
                 href="./trees.html"
             >
-                <h3>Trees</h3>
+                <h3>
+                    Trees
+                </h3>
+
             </a>
 
         </div>
@@ -698,12 +1193,167 @@
 
 
     <!-- =====================================================
-         COMMUNITY
+         JOBS FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel"
+        id="folder-jobs"
+        data-folder-panel="jobs"
+    >
 
-        <h2>Community</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                Jobs
+            </h2>
+
+            <p>
+                Jobs and career information.
+            </p>
+
+        </div>
+
+
+        <div class="ah-jobs-grid">
+
+            <a
+                class="ah-job-card"
+                href="./jobs.html"
+            >
+
+                <h3>
+                    💼 Jobs
+                </h3>
+
+                <p>
+                    Explore available jobs and career information.
+                </p>
+
+            </a>
+
+
+            <a
+                class="ah-job-card"
+                href="./jobs.html"
+            >
+
+                <h3>
+                    📍 Local Jobs
+                </h3>
+
+                <p>
+                    Find jobs by local area and location.
+                </p>
+
+            </a>
+
+
+            <a
+                class="ah-job-card"
+                href="./jobs.html"
+            >
+
+                <h3>
+                    🌍 International Jobs
+                </h3>
+
+                <p>
+                    Explore jobs from different countries.
+                </p>
+
+            </a>
+
+
+            <a
+                class="ah-job-card"
+                href="./jobs.html"
+            >
+
+                <h3>
+                    📂 Job Categories
+                </h3>
+
+                <p>
+                    Browse jobs by category and profession.
+                </p>
+
+            </a>
+
+
+            <a
+                class="ah-job-card"
+                href="./jobs.html"
+            >
+
+                <h3>
+                    🔎 Job Search
+                </h3>
+
+                <p>
+                    Search for jobs and career opportunities.
+                </p>
+
+            </a>
+
+
+            <a
+                class="ah-job-card"
+                href="./jobs.html"
+            >
+
+                <h3>
+                    📝 Submit Job
+                </h3>
+
+                <p>
+                    Add or submit a job opportunity.
+                </p>
+
+            </a>
+
+
+            <a
+                class="ah-job-card"
+                href="./jobs.html"
+            >
+
+                <h3>
+                    🌐 Jobs by Country
+                </h3>
+
+                <p>
+                    Explore jobs according to country and location.
+                </p>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         COMMUNITY FOLDER
+    ====================================================== -->
+
+    <section
+        class="section ah-folder-panel"
+        id="folder-community"
+        data-folder-panel="community"
+    >
+
+        <div class="ah-folder-title">
+
+            <h2>
+                Community
+            </h2>
+
+            <p>
+                Participate and contribute to ALON HISTORYVERSE 24.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -712,7 +1362,10 @@
                 class="card"
                 href="./contribute.html"
             >
-                <h3>Contribute</h3>
+                <h3>
+                    Contribute
+                </h3>
+
             </a>
 
 
@@ -720,7 +1373,10 @@
                 class="card"
                 href="./guidelines.html"
             >
-                <h3>Guidelines</h3>
+                <h3>
+                    Guidelines
+                </h3>
+
             </a>
 
 
@@ -728,7 +1384,10 @@
                 class="card"
                 href="./contributor-agreement.html"
             >
-                <h3>Contributor Agreement</h3>
+                <h3>
+                    Contributor Agreement
+                </h3>
+
             </a>
 
         </div>
@@ -737,12 +1396,26 @@
 
 
     <!-- =====================================================
-         INFORMATION
+         INFORMATION FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel"
+        id="folder-information"
+        data-folder-panel="information"
+    >
 
-        <h2>Information</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                Information
+            </h2>
+
+            <p>
+                Website and legal information.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -751,7 +1424,10 @@
                 class="card"
                 href="./about.html"
             >
-                <h3>About</h3>
+                <h3>
+                    About
+                </h3>
+
             </a>
 
 
@@ -759,7 +1435,10 @@
                 class="card"
                 href="./contact.html"
             >
-                <h3>Contact</h3>
+                <h3>
+                    Contact
+                </h3>
+
             </a>
 
 
@@ -767,7 +1446,10 @@
                 class="card"
                 href="./copyright.html"
             >
-                <h3>Copyright</h3>
+                <h3>
+                    Copyright
+                </h3>
+
             </a>
 
 
@@ -775,7 +1457,10 @@
                 class="card"
                 href="./privacy.html"
             >
-                <h3>Privacy</h3>
+                <h3>
+                    Privacy
+                </h3>
+
             </a>
 
 
@@ -783,7 +1468,10 @@
                 class="card"
                 href="./terms.html"
             >
-                <h3>Terms</h3>
+                <h3>
+                    Terms
+                </h3>
+
             </a>
 
         </div>
@@ -792,12 +1480,26 @@
 
 
     <!-- =====================================================
-         ACCOUNT
+         ACCOUNT FOLDER
     ====================================================== -->
 
-    <section class="section">
+    <section
+        class="section ah-folder-panel"
+        id="folder-account"
+        data-folder-panel="account"
+    >
 
-        <h2>Account</h2>
+        <div class="ah-folder-title">
+
+            <h2>
+                Account
+            </h2>
+
+            <p>
+                Account and administration.
+            </p>
+
+        </div>
 
 
         <div class="cards">
@@ -806,7 +1508,10 @@
                 class="card"
                 href="./login.html"
             >
-                <h3>Login</h3>
+                <h3>
+                    Login
+                </h3>
+
             </a>
 
 
@@ -814,7 +1519,55 @@
                 class="card"
                 href="./admin.html"
             >
-                <h3>Admin</h3>
+                <h3>
+                    Admin
+                </h3>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MARKETPLACE FOLDER
+    ====================================================== -->
+
+    <section
+        class="section ah-folder-panel"
+        id="folder-marketplace"
+        data-folder-panel="marketplace"
+    >
+
+        <div class="ah-folder-title">
+
+            <h2>
+                Marketplace
+            </h2>
+
+            <p>
+                Global Marketplace.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <a
+                class="card"
+                href="./marketplace.html"
+            >
+
+                <h3>
+                    🌍 Global Marketplace
+                </h3>
+
+                <p>
+                    Explore the global marketplace.
+                </p>
+
             </a>
 
         </div>
@@ -843,7 +1596,9 @@
 
     <p>
         Creator / Owner:
-        <strong>Baba Thecno Guru</strong>
+        <strong>
+            Baba Thecno Guru
+        </strong>
     </p>
 
 </footer>
@@ -851,7 +1606,6 @@
 
 <!-- =========================================================
      ROOT JAVASCRIPT
-     ALL FILES ARE IN ROOT
 ========================================================== -->
 
 <script src="./core.js"></script>
@@ -897,7 +1651,7 @@
 
 
     /* =======================================================
-       MENU
+       MOBILE MENU
     ======================================================== */
 
     const menuBtn =
@@ -915,6 +1669,7 @@
 
                 const isOpen =
                     !mobileMenu.hasAttribute("hidden");
+
 
                 if (isOpen) {
 
@@ -948,14 +1703,104 @@
 
 
     /* =======================================================
+       FOLDER SYSTEM
+    ======================================================== */
+
+    const folderButtons =
+        document.querySelectorAll(
+            ".ah-folder-btn"
+        );
+
+
+    const folderPanels =
+        document.querySelectorAll(
+            "[data-folder-panel]"
+        );
+
+
+    function openFolder(folderName) {
+
+        folderButtons.forEach(
+            function (button) {
+
+                const active =
+                    button.dataset.folder ===
+                    folderName;
+
+                button.classList.toggle(
+                    "active",
+                    active
+                );
+
+            }
+        );
+
+
+        folderPanels.forEach(
+            function (panel) {
+
+                const active =
+                    panel.dataset.folderPanel ===
+                    folderName;
+
+                panel.classList.toggle(
+                    "active",
+                    active
+                );
+
+            }
+        );
+
+
+        const main =
+            document.querySelector("main.page");
+
+
+        if (main) {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+    }
+
+
+    folderButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const folder =
+                        button.dataset.folder;
+
+                    openFolder(folder);
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =======================================================
        SEARCH
     ======================================================== */
 
     const searchForm =
-        document.getElementById("searchForm");
+        document.getElementById(
+            "searchForm"
+        );
+
 
     const searchInput =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
 
 
     if (searchForm && searchInput) {
@@ -965,6 +1810,7 @@
             function (event) {
 
                 event.preventDefault();
+
 
                 const query =
                     searchInput.value.trim();
@@ -992,16 +1838,27 @@
     ======================================================== */
 
     const languageBtn =
-        document.getElementById("languageBtn");
+        document.getElementById(
+            "languageBtn"
+        );
+
 
     const languagePanel =
-        document.getElementById("languagePanel");
+        document.getElementById(
+            "languagePanel"
+        );
+
 
     const languageList =
-        document.getElementById("languageList");
+        document.getElementById(
+            "languageList"
+        );
+
 
     const closeLanguage =
-        document.getElementById("closeLanguage");
+        document.getElementById(
+            "closeLanguage"
+        );
 
 
     function openLanguagePanel() {
@@ -1012,7 +1869,11 @@
 
         }
 
-        languagePanel.removeAttribute("hidden");
+
+        languagePanel.removeAttribute(
+            "hidden"
+        );
+
 
         buildLanguageList();
 
@@ -1026,6 +1887,7 @@
             return;
 
         }
+
 
         languagePanel.setAttribute(
             "hidden",
@@ -1047,15 +1909,6 @@
         languageList.innerHTML = "";
 
 
-        /*
-         * The current world-language.js exposes:
-         *
-         * window.ALONWorldLanguage
-         *
-         * and its supported array.
-         */
-
-
         const api =
             window.ALONWorldLanguage;
 
@@ -1064,14 +1917,55 @@
             api &&
             Array.isArray(api.supported)
                 ? api.supported
-                : ["en", "hi"];
+                : [
+                    "en",
+                    "hi"
+                ];
 
 
         const names = {
 
             en: "English",
 
-            hi: "हिन्दी"
+            hi: "हिन्दी",
+
+            gu: "ગુજરાતી",
+
+            mr: "मराठी",
+
+            bn: "বাংলা",
+
+            ta: "தமிழ்",
+
+            te: "తెలుగు",
+
+            kn: "ಕನ್ನಡ",
+
+            ml: "മലയാളം",
+
+            pa: "ਪੰਜਾਬੀ",
+
+            ur: "اردو",
+
+            ar: "العربية",
+
+            fr: "Français",
+
+            de: "Deutsch",
+
+            es: "Español",
+
+            it: "Italiano",
+
+            pt: "Português",
+
+            ru: "Русский",
+
+            zh: "中文",
+
+            ja: "日本語",
+
+            ko: "한국어"
 
         };
 
@@ -1080,7 +1974,9 @@
             function (code) {
 
                 const button =
-                    document.createElement("button");
+                    document.createElement(
+                        "button"
+                    );
 
 
                 button.type =
@@ -1092,7 +1988,8 @@
 
 
                 button.textContent =
-                    names[code] || code.toUpperCase();
+                    names[code] ||
+                    code.toUpperCase();
 
 
                 button.addEventListener(
@@ -1101,8 +1998,9 @@
 
                         if (
                             window.ALONWorldLanguage &&
-                            typeof window.ALONWorldLanguage.switchTo ===
-                                "function"
+                            typeof
+                            window.ALONWorldLanguage.switchTo ===
+                            "function"
                         ) {
 
                             const changed =
@@ -1158,7 +2056,9 @@
     ======================================================== */
 
     const status =
-        document.getElementById("ah-status");
+        document.getElementById(
+            "ah-status"
+        );
 
 
     if (status) {
@@ -1172,6 +2072,7 @@
 })();
 
 </script>
+
 
 </body>
 
