@@ -14,6 +14,7 @@
    - Device capability checks
    - System events
    - Basic application health
+   - Global Marketplace menu integration
 
    This is a frontend system helper.
    It does NOT provide server-side security.
@@ -41,6 +42,25 @@
 
             systemLog:
                 "alon_historyverse_system_log"
+        },
+
+        /* =================================================
+           GLOBAL MARKETPLACE PATHS
+           All Marketplace files are kept at ROOT level.
+        ================================================== */
+
+        marketplace: {
+            page:
+                "./marketplace.html",
+
+            style:
+                "./marketplace.css",
+
+            script:
+                "./marketplace.js",
+
+            countries:
+                "./marketplace-countries.js"
         },
 
         maxLogEntries: 100
@@ -211,11 +231,6 @@
 
         STATE.device.touch =
             touch;
-
-        /*
-         * These ranges are practical UI
-         * categories, not exact hardware detection.
-         */
 
         STATE.device.mobile =
             width <= 767;
@@ -663,6 +678,126 @@
 
 
     /* =====================================================
+       GLOBAL MARKETPLACE MENU
+    ====================================================== */
+
+    function bindMarketplaceMenu() {
+
+        /*
+         * Existing ALON HISTORYVERSE 24 menu can use
+         * either the data-mobile-menu attribute or the
+         * existing #mobileMenu element.
+         */
+
+        const menu =
+            document.querySelector(
+                "[data-mobile-menu]"
+            ) ||
+            document.getElementById(
+                "mobileMenu"
+            );
+
+        if (!menu) {
+            return false;
+        }
+
+
+        /*
+         * Prevent duplicate Marketplace links.
+         */
+
+        if (
+            menu.querySelector(
+                "[data-marketplace-link]"
+            )
+        ) {
+            return true;
+        }
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.href =
+            CONFIG.marketplace.page;
+
+        link.setAttribute(
+            "data-menu-link",
+            ""
+        );
+
+        link.setAttribute(
+            "data-marketplace-link",
+            ""
+        );
+
+        link.textContent =
+            "🌍 Global Marketplace";
+
+
+        /*
+         * If the existing menu has a close button,
+         * place Marketplace before it.
+         */
+
+        const closeButton =
+            menu.querySelector(
+                "[data-menu-close]"
+            );
+
+
+        if (closeButton) {
+
+            menu.insertBefore(
+                link,
+                closeButton
+            );
+
+        } else {
+
+            menu.appendChild(
+                link
+            );
+        }
+
+
+        info(
+            "Global Marketplace menu added.",
+            {
+                path:
+                    CONFIG.marketplace.page
+            }
+        );
+
+
+        return true;
+    }
+
+
+    /* =====================================================
+       MARKETPLACE PATH INFORMATION
+    ====================================================== */
+
+    function getMarketplacePaths() {
+
+        return {
+            page:
+                CONFIG.marketplace.page,
+
+            style:
+                CONFIG.marketplace.style,
+
+            script:
+                CONFIG.marketplace.script,
+
+            countries:
+                CONFIG.marketplace.countries
+        };
+    }
+
+
+    /* =====================================================
        SYSTEM EVENTS
     ====================================================== */
 
@@ -979,8 +1114,18 @@
     function initialize() {
 
         if (STATE.initialized) {
+
+            /*
+             * The menu may be created after system
+             * initialization, so safely retry the
+             * Marketplace menu binding.
+             */
+
+            bindMarketplaceMenu();
+
             return getSystemInfo();
         }
+
 
         STATE.startedAt =
             nowISO();
@@ -1001,6 +1146,15 @@
             "visible";
 
         bindEvents();
+
+
+        /*
+         * Global Marketplace integration.
+         * No index.html modification is required.
+         */
+
+        bindMarketplaceMenu();
+
 
         saveSystemInfo();
 
@@ -1085,6 +1239,12 @@
             function () {
                 return STATE.storageAvailable;
             },
+
+        /* Marketplace API */
+
+        bindMarketplaceMenu,
+
+        getMarketplacePaths,
 
         info,
 
