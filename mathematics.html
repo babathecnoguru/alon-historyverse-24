@@ -7,7 +7,7 @@
 <title>Mathematics Solver • ALON HISTORYVERSE 24</title>
 
 <meta name="description"
-      content="ALON HISTORYVERSE 24 Mathematics Solver — Class 1 to Graduate level mathematics, equations, algebra, geometry, trigonometry, calculus, statistics and matrix tools.">
+content="ALON HISTORYVERSE 24 Mathematics Solver — Calculator, large number arithmetic, algebra, equations, geometry, trigonometry, calculus, statistics, matrices and camera OCR mathematics solver.">
 
 <style>
 :root{
@@ -21,6 +21,7 @@
     --muted:#aeb7c5;
     --danger:#ff7777;
     --success:#7ee2a8;
+    --blue:#72b7ff;
 }
 
 *{
@@ -55,7 +56,7 @@ button{
     position:sticky;
     top:0;
     z-index:100;
-    background:rgba(5,8,15,.96);
+    background:rgba(5,8,15,.97);
     border-bottom:1px solid var(--line);
     backdrop-filter:blur(12px);
 }
@@ -116,7 +117,7 @@ button{
 }
 
 .hero p{
-    max-width:800px;
+    max-width:850px;
     margin:12px auto;
     color:var(--muted);
     line-height:1.6;
@@ -154,40 +155,10 @@ button{
     font-size:22px;
 }
 
-.input-wrap{
-    position:relative;
-}
-
-textarea,
-input,
-select{
-    width:100%;
-    background:#060b13;
-    color:var(--text);
-    border:1px solid rgba(215,179,90,.4);
-    border-radius:12px;
-    padding:13px;
-    outline:none;
-}
-
-textarea:focus,
-input:focus,
-select:focus{
-    border-color:var(--gold2);
-    box-shadow:0 0 0 2px rgba(240,210,122,.08);
-}
-
-#question{
-    min-height:150px;
-    resize:vertical;
-    font-size:18px;
-}
-
-.toolbar{
-    display:flex;
-    flex-wrap:wrap;
-    gap:9px;
-    margin-top:12px;
+.status{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:10px;
 }
 
 .btn{
@@ -217,6 +188,111 @@ select:focus{
 
 .btn-success{
     color:var(--success);
+}
+
+
+/* =====================================================
+   TOP CALCULATOR
+===================================================== */
+
+.calculator-card{
+    max-width:600px;
+    margin:0 auto 25px;
+}
+
+.calculator-display{
+    width:100%;
+    min-height:85px;
+    background:#02050a;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:15px;
+    text-align:right;
+    overflow:hidden;
+}
+
+.calc-expression{
+    color:var(--muted);
+    min-height:22px;
+    font-size:14px;
+    word-break:break-all;
+}
+
+.calc-result{
+    color:var(--gold2);
+    font-size:30px;
+    font-weight:bold;
+    margin-top:5px;
+    word-break:break-all;
+}
+
+.calc-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:9px;
+    margin-top:12px;
+}
+
+.calc-btn{
+    min-height:58px;
+    border:1px solid rgba(215,179,90,.3);
+    border-radius:12px;
+    background:#0b1421;
+    color:var(--text);
+    font-size:19px;
+    font-weight:bold;
+}
+
+.calc-btn:hover{
+    border-color:var(--gold2);
+    background:#131e2e;
+}
+
+.calc-operator{
+    color:var(--gold2);
+}
+
+.calc-equals{
+    background:linear-gradient(135deg,#a9822d,#f0d27a);
+    color:#080a0d;
+}
+
+.calc-clear{
+    color:#ffaaaa;
+}
+
+.calc-wide{
+    grid-column:span 2;
+}
+
+
+/* =====================================================
+   MAIN SOLVER
+===================================================== */
+
+#question{
+    width:100%;
+    min-height:150px;
+    resize:vertical;
+    font-size:18px;
+    background:#060b13;
+    color:var(--text);
+    border:1px solid rgba(215,179,90,.4);
+    border-radius:12px;
+    padding:13px;
+    outline:none;
+}
+
+#question:focus{
+    border-color:var(--gold2);
+    box-shadow:0 0 0 2px rgba(240,210,122,.08);
+}
+
+.toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:12px;
 }
 
 .grid{
@@ -250,6 +326,11 @@ select:focus{
     line-height:1.4;
 }
 
+
+/* =====================================================
+   RESULT
+===================================================== */
+
 .result{
     display:none;
 }
@@ -273,8 +354,9 @@ select:focus{
 }
 
 .answer-value{
-    font-size:23px;
+    font-size:24px;
     word-break:break-word;
+    white-space:pre-wrap;
 }
 
 .steps{
@@ -293,9 +375,10 @@ select:focus{
     font-weight:bold;
 }
 
-.error{
-    color:var(--danger);
-}
+
+/* =====================================================
+   CAMERA
+===================================================== */
 
 .camera-box{
     display:grid;
@@ -312,15 +395,30 @@ canvas,
     background:#000;
 }
 
+canvas{
+    display:none;
+}
+
 #preview{
     display:none;
 }
 
-.status{
-    color:var(--muted);
-    font-size:13px;
+.ocr-text{
+    width:100%;
+    min-height:110px;
     margin-top:10px;
+    background:#060b13;
+    color:var(--text);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px;
+    resize:vertical;
 }
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
 
 .history-item{
     padding:12px;
@@ -338,6 +436,11 @@ canvas,
     margin-top:7px;
 }
 
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
 footer{
     text-align:center;
     color:var(--muted);
@@ -347,6 +450,7 @@ footer{
 }
 
 @media(max-width:800px){
+
     .grid{
         grid-template-columns:repeat(2,1fr);
     }
@@ -357,6 +461,7 @@ footer{
 }
 
 @media(max-width:520px){
+
     .grid{
         grid-template-columns:1fr;
     }
@@ -376,6 +481,19 @@ footer{
     .toolbar .btn{
         flex:1 1 45%;
     }
+
+    .calc-grid{
+        gap:6px;
+    }
+
+    .calc-btn{
+        min-height:52px;
+        font-size:17px;
+    }
+
+    .calc-result{
+        font-size:24px;
+    }
 }
 </style>
 </head>
@@ -383,6 +501,7 @@ footer{
 <body>
 
 <header class="ah-header">
+
     <div class="header-inner">
 
         <div class="brand">
@@ -391,15 +510,27 @@ footer{
         </div>
 
         <div class="header-actions">
-            <button class="icon-btn"
-                    onclick="location.href='./index.html'"
-                    title="Home">⌂</button>
+
+            <button
+                class="icon-btn"
+                onclick="location.href='./index.html'"
+                title="Home">
+                ⌂
+            </button>
+
         </div>
 
     </div>
+
 </header>
 
+
 <main class="page">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <section class="hero">
 
@@ -407,17 +538,197 @@ footer{
 
     <p>
         Class 1 to Graduate level mathematics.
-        Solve arithmetic, algebra, equations, geometry,
-        trigonometry, calculus, statistics and advanced problems.
+        Calculate numbers, solve equations, algebra,
+        geometry, trigonometry, calculus, statistics,
+        matrices and mathematical questions from camera images.
     </p>
 
     <div class="badges">
-        <span class="badge">Class 1–5</span>
-        <span class="badge">Class 6–10</span>
-        <span class="badge">Class 11–12</span>
-        <span class="badge">College</span>
-        <span class="badge">Graduate</span>
+
+        <span class="badge">+</span>
+        <span class="badge">−</span>
+        <span class="badge">×</span>
+        <span class="badge">÷</span>
+        <span class="badge">BODMAS</span>
+        <span class="badge">Large Numbers</span>
+        <span class="badge">Algebra</span>
+        <span class="badge">Camera OCR</span>
         <span class="badge">Step-by-Step</span>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     TOP CALCULATOR
+===================================================== -->
+
+<section class="card calculator-card">
+
+    <h2>🧮 Calculator</h2>
+
+    <div class="calculator-display">
+
+        <div
+            id="calcExpression"
+            class="calc-expression">
+        </div>
+
+        <div
+            id="calcResult"
+            class="calc-result">
+            0
+        </div>
+
+    </div>
+
+
+    <div class="calc-grid">
+
+        <button
+            class="calc-btn calc-clear"
+            onclick="calculatorClear()">
+            AC
+        </button>
+
+        <button
+            class="calc-btn calc-clear"
+            onclick="calculatorBackspace()">
+            ⌫
+        </button>
+
+        <button
+            class="calc-btn calc-operator"
+            onclick="calculatorInput('%')">
+            %
+        </button>
+
+        <button
+            class="calc-btn calc-operator"
+            onclick="calculatorInput('/')">
+            ÷
+        </button>
+
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('7')">
+            7
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('8')">
+            8
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('9')">
+            9
+        </button>
+
+        <button
+            class="calc-btn calc-operator"
+            onclick="calculatorInput('*')">
+            ×
+        </button>
+
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('4')">
+            4
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('5')">
+            5
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('6')">
+            6
+        </button>
+
+        <button
+            class="calc-btn calc-operator"
+            onclick="calculatorInput('-')">
+            −
+        </button>
+
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('1')">
+            1
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('2')">
+            2
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('3')">
+            3
+        </button>
+
+        <button
+            class="calc-btn calc-operator"
+            onclick="calculatorInput('+')">
+            +
+        </button>
+
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('(')">
+            (
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('0')">
+            0
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('.')">
+            .
+        </button>
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput(')')">
+            )
+        </button>
+
+
+        <button
+            class="calc-btn"
+            onclick="calculatorInput('^')">
+            xʸ
+        </button>
+
+        <button
+            class="calc-btn calc-wide"
+            onclick="calculatorEquals()">
+            =
+        </button>
+
+    </div>
+
+    <div
+        id="calculatorStatus"
+        class="status">
+        Exact arithmetic engine ready.
     </div>
 
 </section>
@@ -425,51 +736,78 @@ footer{
 
 <!-- =====================================================
      MAIN SOLVER
-====================================================== -->
+===================================================== -->
 
 <section class="card">
 
     <h2>🧮 Solve Mathematics</h2>
 
-    <textarea id="question"
+    <textarea
+        id="question"
         placeholder="Enter your mathematics question here...
 
 Examples:
+
 25 + 75
-12 × 15
-x^2 - 5x + 6 = 0
+999999999999999999999 × 888888888888888888888
+
+1000000000000000000000 − 1
+
+123456789012345678901234567890 ÷ 10
+
+(25 + 75) × 4
+
 2x + 5 = 17
+
+x^2 - 5x + 6 = 0
+
+15% of 250
+
 sin(30)
 sqrt(144)
+
 differentiate x^3 + 2x
-mean: 10,20,30,40
-matrix: [[1,2],[3,4]]"></textarea>
+
+mean: 10,20,30,40,50
+
+matrix [[1,2],[3,4]]
+
+distance between (0,0) and (3,4)">
+    </textarea>
+
 
     <div class="toolbar">
 
-        <button class="btn btn-primary"
-                onclick="solveQuestion()">
+        <button
+            class="btn btn-primary"
+            onclick="solveQuestion()">
             ▶ SOLVE
         </button>
 
-        <button class="btn"
-                onclick="clearQuestion()">
+        <button
+            class="btn"
+            onclick="clearQuestion()">
             Clear
         </button>
 
-        <button class="btn"
-                onclick="insertExample()">
+        <button
+            class="btn"
+            onclick="insertExample()">
             Example
         </button>
 
-        <button class="btn"
-                onclick="speakQuestion()">
+        <button
+            class="btn"
+            onclick="speakQuestion()">
             🔊 Read
         </button>
 
     </div>
 
-    <div id="solverStatus" class="status">
+
+    <div
+        id="solverStatus"
+        class="status">
         Ready.
     </div>
 
@@ -477,8 +815,8 @@ matrix: [[1,2],[3,4]]"></textarea>
 
 
 <!-- =====================================================
-     MATHEMATICS CATEGORIES
-====================================================== -->
+     CATEGORIES
+===================================================== -->
 
 <section class="card">
 
@@ -486,60 +824,122 @@ matrix: [[1,2],[3,4]]"></textarea>
 
     <div class="grid">
 
-        <div class="tool-card"
-             onclick="setQuestion('25 + 75')">
+        <div
+            class="tool-card"
+            onclick="setQuestion('999999999999999999999 + 888888888888888888888')">
+
             <strong>Arithmetic</strong>
-            <span>Addition, subtraction, multiplication,
-            division, percentages and powers.</span>
+
+            <span>
+                Addition, subtraction, multiplication,
+                division, percentages, powers and brackets.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('2x + 5 = 17')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('2x + 5 = 17')">
+
             <strong>Algebra</strong>
-            <span>Expressions, equations, polynomials
-            and unknown variables.</span>
+
+            <span>
+                Expressions, equations, polynomials
+                and unknown variables.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('x^2 - 5x + 6 = 0')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('x^2 - 5x + 6 = 0')">
+
             <strong>Quadratic</strong>
-            <span>Quadratic equations and roots.</span>
+
+            <span>
+                Quadratic equations and roots.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('sin(30)')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('sin(30)')">
+
             <strong>Trigonometry</strong>
-            <span>Sin, cos, tan and inverse functions.</span>
+
+            <span>
+                Sin, cos and tan with degree angles.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('differentiate x^3 + 2x')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('differentiate x^3 + 2x')">
+
             <strong>Calculus</strong>
-            <span>Derivatives, integrals and limits.</span>
+
+            <span>
+                Derivatives and basic polynomial integration.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('mean: 10,20,30,40,50')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('mean: 10,20,30,40,50')">
+
             <strong>Statistics</strong>
-            <span>Mean, median, mode, variance and standard deviation.</span>
+
+            <span>
+                Mean, median and mode.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('matrix [[1,2],[3,4]]')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('matrix [[1,2],[3,4]]')">
+
             <strong>Matrices</strong>
-            <span>Matrix calculations and determinants.</span>
+
+            <span>
+                Matrix parsing and determinants.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('distance between (0,0) and (3,4)')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('distance between (0,0) and (3,4)')">
+
             <strong>Geometry</strong>
-            <span>Distance, area, perimeter and coordinates.</span>
+
+            <span>
+                Coordinate distance calculations.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="setQuestion('probability 2/5')">
+
+        <div
+            class="tool-card"
+            onclick="setQuestion('probability 2/5')">
+
             <strong>Probability</strong>
-            <span>Basic probability calculations.</span>
+
+            <span>
+                Basic probability calculations.
+            </span>
+
         </div>
 
     </div>
@@ -549,11 +949,14 @@ matrix: [[1,2],[3,4]]"></textarea>
 
 <!-- =====================================================
      RESULT
-====================================================== -->
+===================================================== -->
 
-<section id="resultBox" class="card result">
+<section
+    id="resultBox"
+    class="card result">
 
     <h2>✅ Solution</h2>
+
 
     <div class="answer">
 
@@ -561,10 +964,13 @@ matrix: [[1,2],[3,4]]"></textarea>
             Final Answer
         </div>
 
-        <div id="answerValue"
-             class="answer-value"></div>
+        <div
+            id="answerValue"
+            class="answer-value">
+        </div>
 
     </div>
+
 
     <div class="steps">
 
@@ -578,41 +984,48 @@ matrix: [[1,2],[3,4]]"></textarea>
 
 
 <!-- =====================================================
-     CAMERA SYSTEM
-====================================================== -->
+     CAMERA SOLVER
+===================================================== -->
 
 <section class="card">
 
     <h2>📷 Camera Mathematics Solver</h2>
 
     <p class="status">
-        Capture a mathematics question with your camera.
-        The captured image can then be inspected or processed
-        by an OCR engine.
+        Take a picture of a mathematics question or upload
+        an image. OCR will read the visible mathematical text
+        and send it to the solver.
     </p>
+
 
     <div class="camera-box">
 
         <div>
 
-            <video id="camera"
-                   autoplay
-                   playsinline></video>
+            <video
+                id="camera"
+                autoplay
+                playsinline>
+            </video>
+
 
             <div class="toolbar">
 
-                <button class="btn btn-primary"
-                        onclick="startCamera()">
+                <button
+                    class="btn btn-primary"
+                    onclick="startCamera()">
                     Start Camera
                 </button>
 
-                <button class="btn"
-                        onclick="captureImage()">
+                <button
+                    class="btn"
+                    onclick="captureImage()">
                     📸 Capture
                 </button>
 
-                <button class="btn btn-danger"
-                        onclick="stopCamera()">
+                <button
+                    class="btn btn-danger"
+                    onclick="stopCamera()">
                     Stop
                 </button>
 
@@ -620,33 +1033,51 @@ matrix: [[1,2],[3,4]]"></textarea>
 
         </div>
 
+
         <div>
 
             <canvas id="canvas"></canvas>
 
-            <img id="preview"
-                 alt="Captured mathematics question">
+            <img
+                id="preview"
+                alt="Captured mathematics question">
+
 
             <div class="toolbar">
 
-                <button class="btn"
-                        onclick="useCapturedImage()">
-                    Use Image
+                <button
+                    class="btn btn-success"
+                    onclick="runOCR()">
+                    🔎 Read & Solve Image
                 </button>
 
+
                 <label class="btn">
+
                     📁 Upload
-                    <input type="file"
-                           id="imageUpload"
-                           accept="image/*"
-                           capture="environment"
-                           hidden>
+
+                    <input
+                        type="file"
+                        id="imageUpload"
+                        accept="image/*"
+                        capture="environment"
+                        hidden>
+
                 </label>
 
             </div>
 
-            <div id="cameraStatus"
-                 class="status">
+
+            <textarea
+                id="ocrText"
+                class="ocr-text"
+                placeholder="OCR text will appear here...">
+            </textarea>
+
+
+            <div
+                id="cameraStatus"
+                class="status">
                 Camera ready.
             </div>
 
@@ -658,8 +1089,8 @@ matrix: [[1,2],[3,4]]"></textarea>
 
 
 <!-- =====================================================
-     QUICK TOOLS
-====================================================== -->
+     ADVANCED TOOLS
+===================================================== -->
 
 <section class="card">
 
@@ -667,40 +1098,81 @@ matrix: [[1,2],[3,4]]"></textarea>
 
     <div class="grid">
 
-        <div class="tool-card"
-             onclick="openTool('quadratic')">
+        <div
+            class="tool-card"
+            onclick="openTool('quadratic')">
+
             <strong>Quadratic Solver</strong>
-            <span>Solve ax² + bx + c = 0.</span>
+
+            <span>
+                Solve ax² + bx + c = 0.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="openTool('linear')">
+
+        <div
+            class="tool-card"
+            onclick="openTool('linear')">
+
             <strong>Linear Equation</strong>
-            <span>Solve simple equations for x.</span>
+
+            <span>
+                Solve simple equations for x.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="openTool('statistics')">
+
+        <div
+            class="tool-card"
+            onclick="openTool('statistics')">
+
             <strong>Statistics</strong>
-            <span>Mean, median, mode and dispersion.</span>
+
+            <span>
+                Mean, median and mode.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="openTool('matrix')">
+
+        <div
+            class="tool-card"
+            onclick="openTool('matrix')">
+
             <strong>Matrix</strong>
-            <span>Determinant and matrix operations.</span>
+
+            <span>
+                Determinants and matrix calculations.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="openTool('geometry')">
+
+        <div
+            class="tool-card"
+            onclick="openTool('geometry')">
+
             <strong>Geometry</strong>
-            <span>Coordinate and shape calculations.</span>
+
+            <span>
+                Coordinate calculations.
+            </span>
+
         </div>
 
-        <div class="tool-card"
-             onclick="openTool('calculus')">
+
+        <div
+            class="tool-card"
+            onclick="openTool('calculus')">
+
             <strong>Calculus</strong>
-            <span>Derivative and numerical integration.</span>
+
+            <span>
+                Derivative and integration tools.
+            </span>
+
         </div>
 
     </div>
@@ -710,7 +1182,7 @@ matrix: [[1,2],[3,4]]"></textarea>
 
 <!-- =====================================================
      HISTORY
-====================================================== -->
+===================================================== -->
 
 <section class="card">
 
@@ -720,8 +1192,10 @@ matrix: [[1,2],[3,4]]"></textarea>
         No solutions yet.
     </div>
 
-    <button class="btn btn-danger"
-            onclick="clearHistory()">
+
+    <button
+        class="btn btn-danger"
+        onclick="clearHistory()">
         Clear History
     </button>
 
@@ -731,8 +1205,11 @@ matrix: [[1,2],[3,4]]"></textarea>
 
 
 <footer>
-    ALON HISTORYVERSE 24 • Mathematics Solver<br>
+
+    ALON HISTORYVERSE 24 • Mathematics Solver
+    <br>
     Baba Thecno Guru
+
 </footer>
 
 
@@ -742,7 +1219,11 @@ matrix: [[1,2],[3,4]]"></textarea>
    GLOBAL STATE
 ===================================================== */
 
+"use strict";
+
 let cameraStream = null;
+
+let calculatorExpression = "";
 
 
 /* =====================================================
@@ -764,10 +1245,12 @@ function clearQuestion(){
 
     document.getElementById("question").value = "";
 
-    document.getElementById("resultBox")
+    document
+        .getElementById("resultBox")
         .classList.remove("show");
 
-    document.getElementById("solverStatus")
+    document
+        .getElementById("solverStatus")
         .textContent = "Ready.";
 }
 
@@ -775,20 +1258,43 @@ function clearQuestion(){
 function insertExample(){
 
     const examples = [
+
         "25 + 75",
-        "144 / 12",
+
+        "999999999999999999999 × 888888888888888888888",
+
+        "1000000000000000000000 - 1",
+
+        "123456789012345678901234567890 / 10",
+
+        "(25 + 75) × 4",
+
         "2x + 5 = 17",
+
         "x^2 - 5x + 6 = 0",
+
+        "15% of 250",
+
         "sin(30)",
+
         "sqrt(144)",
+
         "differentiate x^3 + 2x",
+
         "mean: 10,20,30,40,50",
+
         "matrix [[1,2],[3,4]]",
+
         "distance between (0,0) and (3,4)"
+
     ];
 
     const item =
-        examples[Math.floor(Math.random()*examples.length)];
+        examples[
+            Math.floor(
+                Math.random()*examples.length
+            )
+        ];
 
     setQuestion(item);
 }
@@ -801,12 +1307,15 @@ function insertExample(){
 function solveQuestion(){
 
     const raw =
-        document.getElementById("question")
-        .value
-        .trim();
+        document
+            .getElementById("question")
+            .value
+            .trim();
 
     const status =
-        document.getElementById("solverStatus");
+        document
+            .getElementById("solverStatus");
+
 
     if(!raw){
 
@@ -816,39 +1325,56 @@ function solveQuestion(){
         return;
     }
 
+
     status.textContent =
         "Solving...";
 
+
     try{
 
-        const result = mathematicsEngine(raw);
+        const result =
+            mathematicsEngine(raw);
+
 
         showResult(
             result.answer,
             result.steps
         );
 
+
         saveHistory(
             raw,
             result.answer
         );
 
+
         status.textContent =
-            "Solved.";
+            "Solved successfully.";
 
     }catch(error){
 
+        console.error(error);
+
+
         showResult(
+
             "Unable to solve automatically",
+
             [
                 "The question was received.",
-                "The current built-in engine could not identify a supported operation.",
-                "Try writing the equation in a simpler mathematical form."
+                "The mathematical format could not be identified.",
+                "Try a standard format such as:",
+                "25 + 75",
+                "100 × 25",
+                "2x + 5 = 17",
+                "x^2 - 5x + 6 = 0"
             ]
+
         );
 
+
         status.textContent =
-            "Solver needs a supported mathematical format.";
+            "Solver could not identify this format.";
     }
 }
 
@@ -861,206 +1387,385 @@ function mathematicsEngine(input){
 
     let q =
         input
-        .replace(/×/g,"*")
-        .replace(/÷/g,"/")
-        .replace(/−/g,"-")
-        .trim();
+            .replace(/×/g,"*")
+            .replace(/÷/g,"/")
+            .replace(/−/g,"-")
+            .replace(/²/g,"^2")
+            .trim();
 
-    const lower = q.toLowerCase();
+
+    const lower =
+        q.toLowerCase();
 
 
-    /* -----------------------------
-       STATISTICS
-    ----------------------------- */
+    /* =================================================
+       PERCENTAGE
+    ================================================= */
+
+    let percentMatch =
+        lower.match(
+            /^\s*(-?\d+(?:\.\d+)?)\s*%\s*(?:of)\s*(-?\d+(?:\.\d+)?)\s*$/
+        );
+
+
+    if(percentMatch){
+
+        const p =
+            Number(percentMatch[1]);
+
+        const base =
+            Number(percentMatch[2]);
+
+        const value =
+            base*p/100;
+
+
+        return {
+
+            answer:
+                formatNumber(value),
+
+            steps:[
+                "Identify the percentage and base value.",
+                p + "% of " + base,
+                "Convert percentage to decimal:",
+                p + " / 100 = " + formatNumber(p/100),
+                "Multiply:",
+                base + " × " + formatNumber(p/100),
+                "Answer = " + formatNumber(value)
+            ]
+
+        };
+    }
+
+
+    /* =================================================
+       MEAN
+    ================================================= */
 
     if(lower.startsWith("mean:")){
 
         const nums =
-            parseNumbers(q.substring(5));
+            parseNumbers(
+                q.substring(5)
+            );
+
+
+        if(!nums.length){
+            throw new Error("No data");
+        }
+
+
+        const total =
+            nums.reduce(
+                (a,b)=>a+b,
+                0
+            );
+
 
         const mean =
-            nums.reduce((a,b)=>a+b,0) / nums.length;
+            total/nums.length;
+
 
         return {
-            answer:formatNumber(mean),
+
+            answer:
+                formatNumber(mean),
+
             steps:[
                 "Read the supplied data values.",
-                "Add all values together.",
-                "Divide the total by the number of values.",
+                "Number of values = " + nums.length,
+                "Total = " + formatNumber(total),
+                "Mean = total ÷ number of values.",
                 "Mean = " + formatNumber(mean)
             ]
+
         };
     }
 
+
+    /* =================================================
+       MEDIAN
+    ================================================= */
 
     if(lower.startsWith("median:")){
 
         const nums =
-            parseNumbers(q.substring(7))
+            parseNumbers(
+                q.substring(7)
+            )
             .sort((a,b)=>a-b);
 
-        const n = nums.length;
+
+        if(!nums.length){
+            throw new Error("No data");
+        }
+
+
+        const n =
+            nums.length;
+
 
         let median;
 
+
         if(n % 2){
-            median = nums[Math.floor(n/2)];
-        }else{
+
             median =
-                (nums[n/2-1] + nums[n/2]) / 2;
+                nums[
+                    Math.floor(n/2)
+                ];
+
+        }else{
+
+            median =
+                (
+                    nums[n/2-1] +
+                    nums[n/2]
+                ) / 2;
+
         }
 
+
         return {
-            answer:formatNumber(median),
+
+            answer:
+                formatNumber(median),
+
             steps:[
                 "Arrange the data in ascending order.",
+                nums.join(", "),
                 "Locate the middle value(s).",
                 "Median = " + formatNumber(median)
             ]
+
         };
     }
 
+
+    /* =================================================
+       MODE
+    ================================================= */
 
     if(lower.startsWith("mode:")){
 
         const nums =
-            parseNumbers(q.substring(5));
+            parseNumbers(
+                q.substring(5)
+            );
+
+
+        if(!nums.length){
+            throw new Error("No data");
+        }
+
 
         const counts = {};
 
-        nums.forEach(n=>{
-            counts[n] = (counts[n] || 0) + 1;
-        });
 
-        let max = 0;
-        let modes = [];
-
-        Object.keys(counts).forEach(n=>{
-
-            if(counts[n] > max){
-
-                max = counts[n];
-                modes = [Number(n)];
-
-            }else if(counts[n] === max){
-
-                modes.push(Number(n));
+        nums.forEach(
+            n=>{
+                const key=String(n);
+                counts[key] =
+                    (counts[key] || 0)+1;
             }
+        );
 
-        });
+
+        let max=0;
+        let modes=[];
+
+
+        Object.keys(counts)
+            .forEach(
+                n=>{
+
+                    if(
+                        counts[n] > max
+                    ){
+
+                        max =
+                            counts[n];
+
+                        modes =
+                            [n];
+
+                    }else if(
+                        counts[n] === max
+                    ){
+
+                        modes.push(n);
+
+                    }
+
+                }
+            );
+
 
         return {
+
             answer:
-                max === 1
+                max===1
                 ? "No repeated mode"
                 : modes.join(", "),
+
             steps:[
-                "Count the frequency of each value.",
-                "Find the value(s) with the highest frequency.",
+                "Count the frequency of every value.",
+                "Highest frequency = " + max,
                 "Mode = " +
-                (max === 1
+                (
+                    max===1
                     ? "No repeated mode"
-                    : modes.join(", "))
+                    : modes.join(", ")
+                )
             ]
+
         };
     }
 
 
-    /* -----------------------------
+    /* =================================================
        PROBABILITY
-    ----------------------------- */
+    ================================================= */
 
     if(lower.startsWith("probability")){
 
         const match =
-            q.match(/(-?\d+(?:\.\d+)?)\s*\/\s*(-?\d+(?:\.\d+)?)/);
+            q.match(
+                /(-?\d+(?:\.\d+)?)\s*\/\s*(-?\d+(?:\.\d+)?)/
+            );
+
 
         if(match){
 
-            const a = Number(match[1]);
-            const b = Number(match[2]);
+            const a =
+                Number(match[1]);
 
-            const value = a/b;
+            const b =
+                Number(match[2]);
+
+
+            if(b===0){
+                throw new Error("Division by zero");
+            }
+
+
+            const value =
+                a/b;
+
 
             return {
+
                 answer:
                     formatNumber(value) +
                     " = " +
                     formatNumber(value*100) +
                     "%",
+
                 steps:[
-                    "Probability = favourable outcomes / total outcomes.",
-                    "Substitute the supplied values.",
-                    "Probability = " +
-                    a + " / " + b,
-                    "Decimal probability = " +
-                    formatNumber(value),
+                    "Probability = favourable outcomes ÷ total outcomes.",
+                    "Probability = " + a + " / " + b,
+                    "Decimal = " + formatNumber(value),
                     "Percentage = " +
-                    formatNumber(value*100) + "%"
+                    formatNumber(value*100) +
+                    "%"
                 ]
+
             };
         }
     }
 
 
-    /* -----------------------------
+    /* =================================================
        DISTANCE
-    ----------------------------- */
+    ================================================= */
 
-    if(lower.includes("distance between")){
+    if(
+        lower.includes(
+            "distance between"
+        )
+    ){
 
         const points =
             q.match(
                 /\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\).*?\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\)/
             );
 
+
         if(points){
 
-            const x1=Number(points[1]);
-            const y1=Number(points[2]);
-            const x2=Number(points[3]);
-            const y2=Number(points[4]);
+            const x1 =
+                Number(points[1]);
 
-            const dx=x2-x1;
-            const dy=y2-y1;
+            const y1 =
+                Number(points[2]);
 
-            const d=Math.sqrt(
-                dx*dx+dy*dy
-            );
+            const x2 =
+                Number(points[3]);
+
+            const y2 =
+                Number(points[4]);
+
+
+            const dx =
+                x2-x1;
+
+            const dy =
+                y2-y1;
+
+
+            const d =
+                Math.sqrt(
+                    dx*dx +
+                    dy*dy
+                );
+
 
             return {
-                answer:formatNumber(d),
+
+                answer:
+                    formatNumber(d),
+
                 steps:[
                     "Use the distance formula:",
                     "d = √((x₂ − x₁)² + (y₂ − y₁)²)",
                     "Δx = " + dx,
                     "Δy = " + dy,
                     "d = √(" +
-                    (dx*dx+dy*dy) +
+                    formatNumber(dx*dx+dy*dy) +
                     ")",
                     "Distance = " +
                     formatNumber(d)
                 ]
+
             };
         }
     }
 
 
-    /* -----------------------------
+    /* =================================================
        DERIVATIVE
-    ----------------------------- */
+    ================================================= */
 
-    if(lower.startsWith("differentiate")){
+    if(
+        lower.startsWith(
+            "differentiate"
+        )
+    ){
 
         const expr =
-            q.substring(13)
-            .trim();
+            q.substring(13).trim();
+
 
         const derivative =
             symbolicDerivative(expr);
 
+
         return {
-            answer:derivative,
+
+            answer:
+                derivative,
+
             steps:[
                 "Identify the polynomial terms.",
                 "Apply the power rule:",
@@ -1068,79 +1773,115 @@ function mathematicsEngine(input){
                 "Differentiate each term.",
                 "Derivative = " + derivative
             ]
+
         };
     }
 
 
-    /* -----------------------------
+    /* =================================================
        INTEGRATION
-    ----------------------------- */
+    ================================================= */
 
-    if(lower.startsWith("integrate")){
+    if(
+        lower.startsWith(
+            "integrate"
+        )
+    ){
 
         const expr =
-            q.substring(9)
-            .trim();
+            q.substring(9).trim();
+
 
         const integral =
             symbolicIntegral(expr);
 
+
         return {
-            answer:integral + " + C",
+
+            answer:
+                integral + " + C",
+
             steps:[
                 "Identify the polynomial terms.",
-                "Apply the power rule for integration:",
+                "Apply the power rule:",
                 "∫xⁿ dx = xⁿ⁺¹/(n+1)",
                 "Integrate each term.",
-                "Add the constant of integration C.",
+                "Add the constant C.",
                 "Integral = " +
-                integral + " + C"
+                integral +
+                " + C"
             ]
+
         };
     }
 
 
-    /* -----------------------------
+    /* =================================================
        SQUARE ROOT
-    ----------------------------- */
+    ================================================= */
 
     const root =
-        lower.match(/^sqrt\s*\(\s*(-?\d+(?:\.\d+)?)\s*\)$/);
+        lower.match(
+            /^sqrt\s*\(\s*(-?\d+(?:\.\d+)?)\s*\)$/
+        );
+
 
     if(root){
 
-        const n=Number(root[1]);
-        const value=Math.sqrt(n);
+        const n =
+            Number(root[1]);
+
+
+        if(n<0){
+            throw new Error("Negative square root");
+        }
+
+
+        const value =
+            Math.sqrt(n);
+
 
         return {
-            answer:formatNumber(value),
+
+            answer:
+                formatNumber(value),
+
             steps:[
                 "Identify the number under the square root.",
-                "Calculate √" + n + ".",
-                "Answer = " + formatNumber(value)
+                "Calculate √" + n,
+                "Answer = " +
+                formatNumber(value)
             ]
+
         };
     }
 
 
-    /* -----------------------------
+    /* =================================================
        TRIGONOMETRY
-    ----------------------------- */
+    ================================================= */
 
     const trig =
         lower.match(
             /^(sin|cos|tan)\s*\(\s*(-?\d+(?:\.\d+)?)\s*\)$/
         );
 
+
     if(trig){
 
-        const fn=trig[1];
-        const degrees=Number(trig[2]);
+        const fn =
+            trig[1];
+
+        const degrees =
+            Number(trig[2]);
+
 
         const radians =
             degrees*Math.PI/180;
 
+
         let value;
+
 
         if(fn==="sin"){
             value=Math.sin(radians);
@@ -1154,29 +1895,46 @@ function mathematicsEngine(input){
             value=Math.tan(radians);
         }
 
+
+        if(
+            Math.abs(value)<1e-12
+        ){
+            value=0;
+        }
+
+
         return {
-            answer:formatNumber(value),
+
+            answer:
+                formatNumber(value),
+
             steps:[
-                "Interpret the angle as degrees.",
+                "Interpret the angle in degrees.",
                 "Convert degrees to radians:",
-                degrees + "° × π / 180",
+                degrees + " × π / 180",
                 "Apply " + fn + ".",
-                fn + "(" + degrees + "°) = " +
+                fn + "(" +
+                degrees +
+                "°) = " +
                 formatNumber(value)
             ]
+
         };
     }
 
 
-    /* -----------------------------
+    /* =================================================
        QUADRATIC
-    ----------------------------- */
+    ================================================= */
 
-    if(q.includes("=") &&
-       q.match(/x\s*\^?\s*2/i)){
+    if(
+        q.includes("=") &&
+        /x\s*(?:\^|\²)\s*2/i.test(q)
+    ){
 
         const quadratic =
             parseQuadratic(q);
+
 
         if(quadratic){
 
@@ -1189,144 +1947,905 @@ function mathematicsEngine(input){
     }
 
 
-    /* -----------------------------
-       LINEAR EQUATION
-    ----------------------------- */
+    /* =================================================
+       LINEAR
+    ================================================= */
 
-    if(q.includes("=") &&
-       /x/i.test(q)){
+    if(
+        q.includes("=") &&
+        /x/i.test(q)
+    ){
 
         const linear =
             solveLinearEquation(q);
 
-        if(linear){
 
+        if(linear){
             return linear;
         }
     }
 
 
-    /* -----------------------------
+    /* =================================================
        MATRIX
-    ----------------------------- */
+    ================================================= */
 
-    if(lower.startsWith("matrix")){
+    if(
+        lower.startsWith("matrix")
+    ){
 
         const match =
-            q.match(/\[\[([\s\S]+)\]\]/);
+            q.match(
+                /\[\[([\s\S]+)\]\]/
+            );
+
 
         if(match){
 
             const matrix =
-                parseMatrix(match[1]);
+                parseMatrix(
+                    match[1]
+                );
+
 
             const determinant =
-                matrixDeterminant(matrix);
+                matrixDeterminant(
+                    matrix
+                );
+
 
             return {
+
                 answer:
                     "Determinant = " +
-                    formatNumber(determinant),
+                    formatNumber(
+                        determinant
+                    ),
 
                 steps:[
                     "Read the matrix.",
                     "Calculate its determinant.",
                     "det(A) = " +
-                    formatNumber(determinant)
+                    formatNumber(
+                        determinant
+                    )
                 ]
+
             };
         }
     }
 
 
-    /* -----------------------------
-       GENERAL EXPRESSION
-    ----------------------------- */
+    /* =================================================
+       GENERAL EXACT EXPRESSION
+    ================================================= */
 
-    const value =
-        evaluateExpression(q);
-
-    if(Number.isFinite(value)){
-
-        return {
-            answer:formatNumber(value),
-            steps:[
-                "Read the mathematical expression.",
-                "Apply the required arithmetic operations.",
-                "Evaluate the expression.",
-                "Final answer = " +
-                formatNumber(value)
-            ]
-        };
-    }
+    const exact =
+        evaluateExactExpression(q);
 
 
-    throw new Error("Unsupported");
+    return {
+
+        answer:
+            exact.display,
+
+        steps:[
+            "Read the mathematical expression.",
+            "Apply brackets and operator precedence.",
+            "Calculate multiplication/division.",
+            "Calculate addition/subtraction.",
+            "Final answer = " +
+            exact.display
+        ]
+
+    };
 }
 
 
 /* =====================================================
-   GENERAL EXPRESSION EVALUATOR
+   EXACT FRACTION ENGINE
 ===================================================== */
 
-function evaluateExpression(expression){
+function gcdBigInt(a,b){
 
-    let e =
-        expression
-        .replace(/\^/g,"**")
-        .replace(/\bsqrt\b/gi,"Math.sqrt")
-        .replace(/\bpi\b/gi,"Math.PI")
-        .replace(/\be\b/g,"Math.E")
-        .replace(/\bsin\b/gi,"Math.sin")
-        .replace(/\bcos\b/gi,"Math.cos")
-        .replace(/\btan\b/gi,"Math.tan")
-        .replace(/\blog\b/gi,"Math.log10")
-        .replace(/\bln\b/gi,"Math.log");
+    a =
+        a < 0n
+        ? -a
+        : a;
 
-    /*
-       Degree-friendly trigonometry.
-    */
+    b =
+        b < 0n
+        ? -b
+        : b;
 
-    e=e.replace(
-        /Math\.(sin|cos|tan)\s*\(\s*(-?\d+(?:\.\d+)?)\s*\)/g,
-        function(_,fn,n){
 
-            return "Math." +
-                fn +
-                "(" +
-                n +
-                "*Math.PI/180)";
-        }
-    );
+    while(b!==0n){
 
-    /*
-       Restrict evaluator to mathematical characters.
-    */
+        const temp=a%b;
 
-    if(!/^[0-9+\-*/%().,\sA-Za-z_*]+$/.test(e)){
-        throw new Error("Invalid expression");
+        a=b;
+
+        b=temp;
     }
+
+
+    return a;
+}
+
+
+function makeFraction(n,d=1n){
+
+    if(d===0n){
+        throw new Error("Division by zero");
+    }
+
+
+    if(d<0n){
+
+        n=-n;
+        d=-d;
+    }
+
+
+    if(n===0n){
+        return {
+            n:0n,
+            d:1n
+        };
+    }
+
+
+    const g =
+        gcdBigInt(n,d);
+
+
+    return {
+        n:n/g,
+        d:d/g
+    };
+}
+
+
+function fractionAdd(a,b){
+
+    return makeFraction(
+        a.n*b.d +
+        b.n*a.d,
+
+        a.d*b.d
+    );
+}
+
+
+function fractionSub(a,b){
+
+    return makeFraction(
+        a.n*b.d -
+        b.n*a.d,
+
+        a.d*b.d
+    );
+}
+
+
+function fractionMul(a,b){
+
+    return makeFraction(
+        a.n*b.n,
+        a.d*b.d
+    );
+}
+
+
+function fractionDiv(a,b){
+
+    if(b.n===0n){
+        throw new Error(
+            "Division by zero"
+        );
+    }
+
+
+    return makeFraction(
+        a.n*b.d,
+        a.d*b.n
+    );
+}
+
+
+function fractionPow(a,p){
+
+    if(p===0){
+        return makeFraction(1n);
+    }
+
+
+    if(
+        !Number.isInteger(p) ||
+        Math.abs(p)>10000
+    ){
+        throw new Error(
+            "Power too large"
+        );
+    }
+
+
+    if(p<0){
+
+        if(a.n===0n){
+            throw new Error(
+                "Division by zero"
+            );
+        }
+
+
+        return makeFraction(
+            a.d ** BigInt(-p),
+            a.n ** BigInt(-p)
+        );
+    }
+
+
+    return makeFraction(
+        a.n ** BigInt(p),
+        a.d ** BigInt(p)
+    );
+}
+
+
+function fractionToString(f){
+
+    if(f.d===1n){
+        return f.n.toString();
+    }
+
+
+    return (
+        f.n.toString() +
+        "/" +
+        f.d.toString()
+    );
+}
+
+
+function decimalToFraction(text){
+
+    text=text.trim();
+
+
+    if(
+        !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(
+            text
+        )
+    ){
+        throw new Error(
+            "Invalid number"
+        );
+    }
+
+
+    let sign=1n;
+
+
+    if(text.startsWith("-")){
+
+        sign=-1n;
+        text=text.substring(1);
+
+    }else if(
+        text.startsWith("+")
+    ){
+
+        text=text.substring(1);
+    }
+
+
+    if(!text.includes(".")){
+
+        return makeFraction(
+            sign*BigInt(text)
+        );
+    }
+
+
+    const parts=text.split(".");
+
+
+    const whole =
+        parts[0] || "0";
+
+    const decimals =
+        parts[1] || "";
+
+
+    const scale =
+        10n ** BigInt(
+            decimals.length
+        );
+
+
+    const numerator =
+        BigInt(whole)*scale +
+        BigInt(decimals || "0");
+
+
+    return makeFraction(
+        sign*numerator,
+        scale
+    );
+}
+
+
+/* =====================================================
+   EXACT EXPRESSION TOKENIZER
+===================================================== */
+
+function tokenizeMath(text){
+
+    text =
+        text
+            .replace(/×/g,"*")
+            .replace(/÷/g,"/")
+            .replace(/−/g,"-")
+            .replace(/,/g,"");
+
+
+    const tokens=[];
+
+    let i=0;
+
+
+    while(i<text.length){
+
+        const ch=text[i];
+
+
+        if(/\s/.test(ch)){
+
+            i++;
+            continue;
+        }
+
+
+        if(
+            /[0-9.]/.test(ch)
+        ){
+
+            let start=i;
+
+            let dots=0;
+
+
+            while(
+                i<text.length &&
+                /[0-9.]/.test(text[i])
+            ){
+
+                if(text[i]==="."){
+                    dots++;
+                }
+
+
+                if(dots>1){
+                    throw new Error(
+                        "Invalid decimal"
+                    );
+                }
+
+
+                i++;
+            }
+
+
+            tokens.push({
+                type:"number",
+                value:
+                    text.slice(
+                        start,
+                        i
+                    )
+            });
+
+            continue;
+        }
+
+
+        if(
+            ch==="+" ||
+            ch==="-" ||
+            ch==="*" ||
+            ch==="/" ||
+            ch==="^" ||
+            ch==="%" ||
+            ch==="(" ||
+            ch===")"
+        ){
+
+            tokens.push({
+                type:"operator",
+                value:ch
+            });
+
+            i++;
+            continue;
+        }
+
+
+        throw new Error(
+            "Invalid character"
+        );
+    }
+
+
+    return tokens;
+}
+
+
+/* =====================================================
+   EXACT EXPRESSION PARSER
+===================================================== */
+
+function evaluateExactExpression(text){
+
+    const tokens =
+        tokenizeMath(text);
+
+
+    if(!tokens.length){
+        throw new Error(
+            "Empty expression"
+        );
+    }
+
+
+    let position=0;
+
+
+    function peek(){
+
+        return tokens[position];
+    }
+
+
+    function consume(){
+
+        return tokens[position++];
+    }
+
+
+    function parseExpression(){
+
+        let value =
+            parseTerm();
+
+
+        while(true){
+
+            const t=peek();
+
+
+            if(!t){
+                break;
+            }
+
+
+            if(t.value==="+"){
+
+                consume();
+
+                value =
+                    fractionAdd(
+                        value,
+                        parseTerm()
+                    );
+
+                continue;
+            }
+
+
+            if(t.value==="-"){
+
+                consume();
+
+                value =
+                    fractionSub(
+                        value,
+                        parseTerm()
+                    );
+
+                continue;
+            }
+
+
+            break;
+        }
+
+
+        return value;
+    }
+
+
+    function parseTerm(){
+
+        let value =
+            parsePower();
+
+
+        while(true){
+
+            const t=peek();
+
+
+            if(!t){
+                break;
+            }
+
+
+            if(t.value==="*"){
+
+                consume();
+
+                value =
+                    fractionMul(
+                        value,
+                        parsePower()
+                    );
+
+                continue;
+            }
+
+
+            if(t.value==="/"){
+
+                consume();
+
+                value =
+                    fractionDiv(
+                        value,
+                        parsePower()
+                    );
+
+                continue;
+            }
+
+
+            /*
+               Percentage:
+               15% means 15/100.
+            */
+
+            if(t.value==="%"){
+
+                consume();
+
+                value =
+                    fractionDiv(
+                        value,
+                        makeFraction(100n)
+                    );
+
+                continue;
+            }
+
+
+            break;
+        }
+
+
+        return value;
+    }
+
+
+    function parsePower(){
+
+        let value =
+            parseUnary();
+
+
+        const t=peek();
+
+
+        if(
+            t &&
+            t.value==="^"
+        ){
+
+            consume();
+
+
+            const exponent =
+                parseUnary();
+
+
+            if(
+                exponent.d!==1n
+            ){
+
+                throw new Error(
+                    "Exponent must be an integer"
+                );
+            }
+
+
+            const p =
+                Number(exponent.n);
+
+
+            value =
+                fractionPow(
+                    value,
+                    p
+                );
+        }
+
+
+        return value;
+    }
+
+
+    function parseUnary(){
+
+        const t=peek();
+
+
+        if(
+            t &&
+            t.value==="+"
+        ){
+
+            consume();
+
+            return parseUnary();
+        }
+
+
+        if(
+            t &&
+            t.value==="-"
+        ){
+
+            consume();
+
+            const value =
+                parseUnary();
+
+
+            return makeFraction(
+                -value.n,
+                value.d
+            );
+        }
+
+
+        return parsePrimary();
+    }
+
+
+    function parsePrimary(){
+
+        const t=peek();
+
+
+        if(!t){
+            throw new Error(
+                "Unexpected end"
+            );
+        }
+
+
+        if(t.type==="number"){
+
+            consume();
+
+            return decimalToFraction(
+                t.value
+            );
+        }
+
+
+        if(t.value==="("){
+
+            consume();
+
+
+            const value =
+                parseExpression();
+
+
+            const close =
+                consume();
+
+
+            if(
+                !close ||
+                close.value!==")"
+            ){
+
+                throw new Error(
+                    "Missing bracket"
+                );
+            }
+
+
+            return value;
+        }
+
+
+        throw new Error(
+            "Unexpected token"
+        );
+    }
+
+
+    const result =
+        parseExpression();
+
+
+    if(position!==tokens.length){
+
+        throw new Error(
+            "Unexpected token"
+        );
+    }
+
+
+    return {
+
+        fraction:result,
+
+        display:
+            fractionToString(result)
+
+    };
+}
+
+
+/* =====================================================
+   CALCULATOR
+===================================================== */
+
+function calculatorInput(value){
+
+    calculatorExpression += value;
+
+    updateCalculatorDisplay();
+}
+
+
+function calculatorClear(){
+
+    calculatorExpression="";
+
+    updateCalculatorDisplay();
+}
+
+
+function calculatorBackspace(){
+
+    calculatorExpression =
+        calculatorExpression.slice(
+            0,-1
+        );
+
+    updateCalculatorDisplay();
+}
+
+
+function calculatorEquals(){
+
+    if(!calculatorExpression){
+        return;
+    }
+
 
     try{
 
         const result =
-            Function(
-                '"use strict"; return (' +
-                e +
-                ')'
-            )();
+            evaluateExactExpression(
+                calculatorExpression
+            );
 
-        if(typeof result !== "number" ||
-           !Number.isFinite(result)){
 
-            throw new Error("Not a number");
-        }
+        document
+            .getElementById(
+                "calcResult"
+            )
+            .textContent =
+                result.display;
 
-        return result;
+
+        document
+            .getElementById(
+                "calcExpression"
+            )
+            .textContent =
+                calculatorExpression;
+
+
+        document
+            .getElementById(
+                "calculatorStatus"
+            )
+            .textContent =
+                "Calculation complete.";
+
+
+        /*
+           Also place answer in main solver.
+        */
+
+        setQuestion(
+            calculatorExpression
+        );
+
 
     }catch(error){
 
-        throw new Error("Evaluation failed");
+        document
+            .getElementById(
+                "calcResult"
+            )
+            .textContent =
+                "Error";
+
+
+        document
+            .getElementById(
+                "calculatorStatus"
+            )
+            .textContent =
+                error.message ||
+                "Invalid calculation.";
+    }
+}
+
+
+function updateCalculatorDisplay(){
+
+    document
+        .getElementById(
+            "calcExpression"
+        )
+        .textContent =
+            calculatorExpression;
+
+
+    if(!calculatorExpression){
+
+        document
+            .getElementById(
+                "calcResult"
+            )
+            .textContent =
+                "0";
+
+        return;
+    }
+
+
+    try{
+
+        const result =
+            evaluateExactExpression(
+                calculatorExpression
+            );
+
+
+        document
+            .getElementById(
+                "calcResult"
+            )
+            .textContent =
+                result.display;
+
+    }catch(error){
+
+        document
+            .getElementById(
+                "calcResult"
+            )
+            .textContent =
+                "…";
     }
 }
 
@@ -1337,59 +2856,91 @@ function evaluateExpression(expression){
 
 function solveLinearEquation(q){
 
-    let parts=q.split("=");
+    const parts =
+        q.split("=");
+
 
     if(parts.length!==2){
         return null;
     }
 
-    const left=parts[0];
-    const right=parts[1];
 
-    const L=parseLinear(left);
-    const R=parseLinear(right);
+    const left =
+        parseLinear(
+            parts[0]
+        );
 
-    if(!L || !R){
+    const right =
+        parseLinear(
+            parts[1]
+        );
+
+
+    if(!left || !right){
         return null;
     }
 
-    const coefficient=L.a-R.a;
-    const constant=R.b-L.b;
 
-    if(coefficient===0){
+    const coefficient =
+        left.a-right.a;
 
-        if(constant===0){
+
+    const constant =
+        right.b-left.b;
+
+
+    if(
+        Math.abs(coefficient)<1e-15
+    ){
+
+        if(
+            Math.abs(constant)<1e-15
+        ){
 
             return {
-                answer:"Infinitely many solutions",
+
+                answer:
+                    "Infinitely many solutions",
+
                 steps:[
                     "Move all x terms to one side.",
-                    "The equation reduces to an identity.",
-                    "Therefore infinitely many values of x satisfy it."
+                    "Move constants to the other side.",
+                    "Both sides become identical.",
+                    "Therefore infinitely many x values satisfy the equation."
                 ]
+
             };
 
-        }else{
-
-            return {
-                answer:"No solution",
-                steps:[
-                    "Move all x terms to one side.",
-                    "The variable terms cancel.",
-                    "A contradiction remains.",
-                    "Therefore there is no solution."
-                ]
-            };
         }
+
+
+        return {
+
+            answer:"No solution",
+
+            steps:[
+                "Move all x terms to one side.",
+                "The x terms cancel.",
+                "A contradiction remains.",
+                "Therefore there is no solution."
+            ]
+
+        };
     }
 
-    const x=constant/coefficient;
+
+    const x =
+        constant/coefficient;
+
 
     return {
-        answer:"x = " + formatNumber(x),
+
+        answer:
+            "x = " +
+            formatNumber(x),
+
         steps:[
-            "Write the equation in the form ax + b = cx + d.",
-            "Move x terms to one side.",
+            "Move all x terms to one side.",
             "Move constants to the other side.",
             "x = " +
             formatNumber(constant) +
@@ -1398,6 +2949,7 @@ function solveLinearEquation(q){
             "Therefore x = " +
             formatNumber(x)
         ]
+
     };
 }
 
@@ -1406,42 +2958,101 @@ function parseLinear(expr){
 
     let e =
         expr
-        .replace(/\s+/g,"")
-        .replace(/\*/g,"");
+            .replace(/\s+/g,"")
+            .replace(/\*/g,"");
 
-    let a=0;
-    let b=0;
+
+    /*
+       Convert subtraction into explicit signed terms.
+    */
+
+    if(
+        e[0]!=="-" &&
+        e[0]!=="+"
+    ){
+        e="+"+e;
+    }
+
 
     const terms =
-        e.match(/[+-]?[^+-]+/g);
+        e.match(
+            /[+-][^+-]+/g
+        );
+
 
     if(!terms){
         return null;
     }
 
-    for(let term of terms){
 
-        if(term.includes("x")){
+    let a=0;
+    let b=0;
+
+
+    for(
+        let term of terms
+    ){
+
+        if(
+            term.includes("x")
+        ){
 
             let coefficient =
-                term.replace("x","");
+                term.replace(
+                    "x",
+                    ""
+                );
 
-            if(coefficient==="" ||
-               coefficient==="+"){
+
+            if(
+                coefficient==="" ||
+                coefficient==="+"
+            ){
                 coefficient="1";
             }
 
-            if(coefficient==="-"){
+
+            if(
+                coefficient==="-"
+            ){
                 coefficient="-1";
             }
 
-            a+=Number(coefficient);
+
+            const number =
+                Number(coefficient);
+
+
+            if(
+                !Number.isFinite(
+                    number
+                )
+            ){
+                return null;
+            }
+
+
+            a+=number;
 
         }else{
 
-            b+=Number(term);
+            const number =
+                Number(term);
+
+
+            if(
+                !Number.isFinite(
+                    number
+                )
+            ){
+                return null;
+            }
+
+
+            b+=number;
         }
     }
+
 
     return {
         a:a,
@@ -1456,92 +3067,179 @@ function parseLinear(expr){
 
 function parseQuadratic(q){
 
-    let sides=q.split("=");
+    const sides =
+        q.split("=");
+
 
     if(sides.length!==2){
         return null;
     }
 
+
     let left =
         sides[0]
-        .replace(/\s+/g,"")
-        .replace(/−/g,"-");
+            .replace(/\s+/g,"")
+            .replace(/²/g,"^2");
+
 
     let right =
         sides[1]
-        .replace(/\s+/g,"")
-        .replace(/−/g,"-");
+            .replace(/\s+/g,"")
+            .replace(/²/g,"^2");
+
 
     /*
-       Move right side to left.
-       Most common school form is supported.
+       Common school form parser.
     */
 
-    let combined =
-        "(" + left + ")-(" + right + ")";
+    function polynomialSide(expr){
 
-    let a=0;
-    let b=0;
-    let c=0;
-
-    const terms =
-        combined
-        .replace(/[()]/g,"")
-        .replace(/--/g,"+")
-        .match(/[+-]?[^+-]+/g);
-
-    if(!terms){
-        return null;
-    }
-
-    for(let term of terms){
-
-        if(term.includes("x^2") ||
-           term.includes("x²")){
-
-            let coefficient =
-                term
-                .replace("x^2","")
-                .replace("x²","");
-
-            if(coefficient==="" ||
-               coefficient==="+"){
-                coefficient="1";
-            }
-
-            if(coefficient==="-"){
-                coefficient="-1";
-            }
-
-            a+=Number(coefficient);
-
-        }else if(term.includes("x")){
-
-            let coefficient =
-                term.replace("x","");
-
-            if(coefficient==="" ||
-               coefficient==="+"){
-                coefficient="1";
-            }
-
-            if(coefficient==="-"){
-                coefficient="-1";
-            }
-
-            b+=Number(coefficient);
-
-        }else{
-
-            c+=Number(term);
+        if(
+            expr.startsWith("+")
+        ){
+            expr=expr.substring(1);
         }
+
+
+        if(
+            !/^[0-9xX^+*.\-]+$/.test(
+                expr
+            )
+        ){
+            return null;
+        }
+
+
+        expr =
+            expr
+                .replace(/\*/g,"")
+                .replace(/X/g,"x");
+
+
+        if(
+            expr[0]!=="-" &&
+            expr[0]!=="+"
+        ){
+            expr="+"+expr;
+        }
+
+
+        const terms =
+            expr.match(
+                /[+-][^+-]+/g
+            );
+
+
+        if(!terms){
+            return null;
+        }
+
+
+        let a=0;
+        let b=0;
+        let c=0;
+
+
+        for(
+            const term of terms
+        ){
+
+            if(
+                /x\^2$/i.test(term)
+            ){
+
+                let coefficient =
+                    term.replace(
+                        /x\^2$/i,
+                        ""
+                    );
+
+
+                if(
+                    coefficient==="" ||
+                    coefficient==="+"
+                ){
+                    coefficient="1";
+                }
+
+
+                if(
+                    coefficient==="-"
+                ){
+                    coefficient="-1";
+                }
+
+
+                a+=Number(
+                    coefficient
+                );
+
+            }else if(
+                /x$/i.test(term)
+            ){
+
+                let coefficient =
+                    term.replace(
+                        /x$/i,
+                        ""
+                    );
+
+
+                if(
+                    coefficient==="" ||
+                    coefficient==="+"
+                ){
+                    coefficient="1";
+                }
+
+
+                if(
+                    coefficient==="-"
+                ){
+                    coefficient="-1";
+                }
+
+
+                b+=Number(
+                    coefficient
+                );
+
+            }else{
+
+                c+=Number(term);
+            }
+        }
+
+
+        return {
+            a:a,
+            b:b,
+            c:c
+        };
     }
 
-    if(a===0){
+
+    const L =
+        polynomialSide(left);
+
+    const R =
+        polynomialSide(right);
+
+
+    if(!L || !R){
         return null;
     }
 
-    return {a,b,c};
+
+    return {
+
+        a:L.a-R.a,
+
+        b:L.b-R.b,
+
+        c:L.c-R.c
+
+    };
 }
 
 
@@ -1551,250 +3249,354 @@ function parseQuadratic(q){
 
 function solveQuadratic(a,b,c){
 
-    const D=b*b-4*a*c;
+    const D =
+        b*b-4*a*c;
+
 
     if(D>0){
 
-        const x1=(-b+Math.sqrt(D))/(2*a);
-        const x2=(-b-Math.sqrt(D))/(2*a);
+        const sqrtD =
+            Math.sqrt(D);
+
+
+        const x1 =
+            (-b+sqrtD)/(2*a);
+
+
+        const x2 =
+            (-b-sqrtD)/(2*a);
+
 
         return {
+
             answer:
                 "x₁ = " +
                 formatNumber(x1) +
-                ",  x₂ = " +
+                ", x₂ = " +
                 formatNumber(x2),
 
             steps:[
-                "Identify coefficients:",
-                "a = " + a +
-                ", b = " + b +
-                ", c = " + c,
-                "Use the discriminant:",
-                "D = b² − 4ac",
+                "a = " + a,
+                "b = " + b,
+                "c = " + c,
+                "Discriminant: D = b² − 4ac",
                 "D = " + formatNumber(D),
-                "Use the quadratic formula:",
+                "Quadratic formula:",
                 "x = (−b ± √D) / 2a",
                 "x₁ = " + formatNumber(x1),
                 "x₂ = " + formatNumber(x2)
             ]
+
         };
     }
 
 
     if(D===0){
 
-        const x=-b/(2*a);
+        const x =
+            -b/(2*a);
+
 
         return {
+
             answer:
-                "x = " + formatNumber(x),
+                "x = " +
+                formatNumber(x),
 
             steps:[
                 "Calculate D = b² − 4ac.",
-                "D = 0, so the equation has one repeated root.",
+                "D = 0.",
+                "Therefore there is one repeated root.",
                 "x = −b / 2a",
                 "x = " + formatNumber(x)
             ]
+
         };
     }
 
 
-    const real=-b/(2*a);
-    const imaginary=
-        Math.sqrt(-D)/(2*a);
+    const real =
+        -b/(2*a);
+
+
+    const imaginary =
+        Math.sqrt(-D)/
+        Math.abs(2*a);
+
 
     return {
+
         answer:
             formatNumber(real) +
             " ± " +
-            formatNumber(Math.abs(imaginary)) +
+            formatNumber(imaginary) +
             "i",
 
         steps:[
             "Calculate D = b² − 4ac.",
             "D = " + formatNumber(D),
-            "Because D < 0, the roots are complex.",
+            "D < 0, so the roots are complex.",
             "Real part = " + formatNumber(real),
             "Imaginary part = " +
-            formatNumber(Math.abs(imaginary)),
+            formatNumber(imaginary),
             "Roots = " +
             formatNumber(real) +
             " ± " +
-            formatNumber(Math.abs(imaginary)) +
+            formatNumber(imaginary) +
             "i"
         ]
+
     };
 }
 
 
 /* =====================================================
-   SYMBOLIC DERIVATIVE
+   DERIVATIVE
 ===================================================== */
 
 function symbolicDerivative(expr){
 
     let clean =
         expr
-        .replace(/\s+/g,"")
-        .replace(/−/g,"-");
+            .replace(/\s+/g,"")
+            .replace(/−/g,"-");
+
+
+    if(
+        clean[0]!=="-" &&
+        clean[0]!=="+"
+    ){
+        clean="+"+clean;
+    }
+
 
     const terms =
-        clean.match(/[+-]?[^+-]+/g);
+        clean.match(
+            /[+-][^+-]+/g
+        );
+
 
     if(!terms){
         return "Derivative unavailable";
     }
 
+
     const result=[];
 
-    terms.forEach(term=>{
 
-        if(!term.includes("x")){
+    terms.forEach(
+        term=>{
 
-            return;
+            if(
+                !term.includes("x")
+            ){
+                return;
+            }
+
+
+            const m =
+                term.match(
+                    /^([+-]?\d*\.?\d*)x(?:\^(\d+))?$/
+                );
+
+
+            if(!m){
+                return;
+            }
+
+
+            let coefficient=1;
+
+
+            if(
+                m[1]!=="" &&
+                m[1]!=="+" &&
+                m[1]!=="-"
+            ){
+
+                coefficient =
+                    Number(m[1]);
+
+            }else if(
+                m[1]==="-"
+            ){
+
+                coefficient=-1;
+            }
+
+
+            const power =
+                m[2]
+                ? Number(m[2])
+                : 1;
+
+
+            const newCoefficient =
+                coefficient*power;
+
+
+            const newPower =
+                power-1;
+
+
+            if(newPower===0){
+
+                result.push(
+                    formatNumber(
+                        newCoefficient
+                    )
+                );
+
+            }else if(
+                newPower===1
+            ){
+
+                result.push(
+                    formatNumber(
+                        newCoefficient
+                    ) +
+                    "x"
+                );
+
+            }else{
+
+                result.push(
+                    formatNumber(
+                        newCoefficient
+                    ) +
+                    "x^" +
+                    newPower
+                );
+            }
         }
+    );
 
-        let coefficient=1;
-        let power=1;
-
-        const m =
-            term.match(
-                /^([+-]?\d*\.?\d*)x(?:\^(\d+))?$/
-            );
-
-        if(!m){
-            return;
-        }
-
-        if(m[1]!=="" &&
-           m[1]!=="+" &&
-           m[1]!=="-"){
-
-            coefficient=Number(m[1]);
-
-        }else if(m[1]==="-"){
-
-            coefficient=-1;
-        }
-
-        if(m[2]){
-            power=Number(m[2]);
-        }
-
-        const newCoefficient=
-            coefficient*power;
-
-        const newPower=
-            power-1;
-
-        if(newPower===0){
-
-            result.push(
-                formatNumber(newCoefficient)
-            );
-
-        }else if(newPower===1){
-
-            result.push(
-                formatNumber(newCoefficient) +
-                "x"
-            );
-
-        }else{
-
-            result.push(
-                formatNumber(newCoefficient) +
-                "x^" +
-                newPower
-            );
-        }
-    });
 
     return result.length
-        ? result.join(" + ").replace(/\+\s-/g,"- ")
+        ? result
+            .join(" + ")
+            .replace(
+                /\+\s-/g,
+                "- "
+            )
         : "Derivative unavailable";
 }
 
 
 /* =====================================================
-   SYMBOLIC INTEGRAL
+   INTEGRATION
 ===================================================== */
 
 function symbolicIntegral(expr){
 
     let clean =
         expr
-        .replace(/\s+/g,"")
-        .replace(/−/g,"-");
+            .replace(/\s+/g,"")
+            .replace(/−/g,"-");
+
+
+    if(
+        clean[0]!=="-" &&
+        clean[0]!=="+"
+    ){
+        clean="+"+clean;
+    }
+
 
     const terms =
-        clean.match(/[+-]?[^+-]+/g);
+        clean.match(
+            /[+-][^+-]+/g
+        );
+
 
     if(!terms){
         return "Integral unavailable";
     }
 
+
     const result=[];
 
-    terms.forEach(term=>{
 
-        if(!term.includes("x")){
+    terms.forEach(
+        term=>{
+
+            if(
+                !term.includes("x")
+            ){
+
+                result.push(
+                    term+"x"
+                );
+
+                return;
+            }
+
+
+            const m =
+                term.match(
+                    /^([+-]?\d*\.?\d*)x(?:\^(\d+))?$/
+                );
+
+
+            if(!m){
+                return;
+            }
+
+
+            let coefficient=1;
+
+
+            if(
+                m[1]!=="" &&
+                m[1]!=="+" &&
+                m[1]!=="-"
+            ){
+
+                coefficient =
+                    Number(m[1]);
+
+            }else if(
+                m[1]==="-"
+            ){
+
+                coefficient=-1;
+            }
+
+
+            const power =
+                m[2]
+                ? Number(m[2])
+                : 1;
+
+
+            const newPower =
+                power+1;
+
+
+            const newCoefficient =
+                coefficient/newPower;
+
+
             result.push(
-                term + "x"
-            );
-            return;
-        }
 
-        const m =
-            term.match(
-                /^([+-]?\d*\.?\d*)x(?:\^(\d+))?$/
-            );
-
-        if(!m){
-            return;
-        }
-
-        let coefficient=1;
-
-        if(m[1]!=="" &&
-           m[1]!=="+" &&
-           m[1]!=="-"){
-
-            coefficient=Number(m[1]);
-
-        }else if(m[1]==="-"){
-
-            coefficient=-1;
-        }
-
-        const power=
-            m[2]
-            ? Number(m[2])
-            : 1;
-
-        const newPower=power+1;
-        const newCoefficient=
-            coefficient/newPower;
-
-        if(newPower===1){
-
-            result.push(
-                formatNumber(newCoefficient)+"x"
-            );
-
-        }else{
-
-            result.push(
-                formatNumber(newCoefficient) +
+                formatNumber(
+                    newCoefficient
+                ) +
                 "x^" +
                 newPower
+
             );
         }
-    });
+    );
+
 
     return result.length
-        ? result.join(" + ").replace(/\+\s-/g,"- ")
+        ? result
+            .join(" + ")
+            .replace(
+                /\+\s-/g,
+                "- "
+            )
         : "Integral unavailable";
 }
 
@@ -1807,19 +3609,26 @@ function parseMatrix(text){
 
     return text
         .split("],")
-        .map(row=>
-            row
-            .replace(/[\[\]]/g,"")
-            .split(",")
-            .map(Number)
+        .map(
+            row=>
+                row
+                    .replace(
+                        /[\[\]]/g,
+                        ""
+                    )
+                    .split(",")
+                    .map(Number)
         );
 }
 
 
 function matrixDeterminant(m){
 
-    if(m.length===2 &&
-       m[0].length===2){
+    if(
+        m.length===2 &&
+        m[0].length===2 &&
+        m[1].length===2
+    ){
 
         return (
             m[0][0]*m[1][1] -
@@ -1827,23 +3636,44 @@ function matrixDeterminant(m){
         );
     }
 
-    if(m.length===3 &&
-       m[0].length===3){
+
+    if(
+        m.length===3 &&
+        m[0].length===3 &&
+        m[1].length===3 &&
+        m[2].length===3
+    ){
 
         return (
-            m[0][0]*
-            (m[1][1]*m[2][2]-m[1][2]*m[2][1])
+
+            m[0][0] *
+            (
+                m[1][1]*m[2][2] -
+                m[1][2]*m[2][1]
+            )
+
             -
-            m[0][1]*
-            (m[1][0]*m[2][2]-m[1][2]*m[2][0])
+
+            m[0][1] *
+            (
+                m[1][0]*m[2][2] -
+                m[1][2]*m[2][0]
+            )
+
             +
-            m[0][2]*
-            (m[1][0]*m[2][1]-m[1][1]*m[2][0])
+
+            m[0][2] *
+            (
+                m[1][0]*m[2][1] -
+                m[1][1]*m[2][0]
+            )
+
         );
     }
 
+
     throw new Error(
-        "Only 2x2 and 3x3 determinants currently supported"
+        "Only 2x2 and 3x3 determinants are supported."
     );
 }
 
@@ -1857,19 +3687,27 @@ function parseNumbers(text){
     return text
         .split(/[,\s]+/)
         .map(Number)
-        .filter(Number.isFinite);
+        .filter(
+            Number.isFinite
+        );
 }
 
 
 function formatNumber(n){
 
-    if(!Number.isFinite(n)){
+    if(
+        !Number.isFinite(n)
+    ){
         return "Undefined";
     }
 
-    if(Math.abs(n)<1e-12){
+
+    if(
+        Math.abs(n)<1e-12
+    ){
         n=0;
     }
+
 
     return Number(
         n.toFixed(12)
@@ -1881,38 +3719,67 @@ function formatNumber(n){
    RESULT DISPLAY
 ===================================================== */
 
-function showResult(answer,steps){
+function showResult(
+    answer,
+    steps
+){
 
     const box =
-        document.getElementById("resultBox");
+        document
+            .getElementById(
+                "resultBox"
+            );
+
 
     const answerValue =
-        document.getElementById("answerValue");
+        document
+            .getElementById(
+                "answerValue"
+            );
+
 
     const container =
-        document.getElementById("stepsContainer");
+        document
+            .getElementById(
+                "stepsContainer"
+            );
 
-    answerValue.textContent=answer;
+
+    answerValue.textContent =
+        answer;
+
 
     container.innerHTML="";
 
-    steps.forEach((step,index)=>{
 
-        const div=
-            document.createElement("div");
+    steps.forEach(
+        (step,index)=>{
 
-        div.className="step";
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-        div.innerHTML=
-            '<span class="step-number">Step '+
-            (index+1)+
-            ':</span> '+
-            escapeHTML(step);
 
-        container.appendChild(div);
-    });
+            div.className="step";
+
+
+            div.innerHTML =
+                '<span class="step-number">Step ' +
+                (index+1) +
+                ':</span> ' +
+                escapeHTML(step);
+
+
+            container.appendChild(
+                div
+            );
+        }
+    );
+
 
     box.classList.add("show");
+
 
     box.scrollIntoView({
         behavior:"smooth",
@@ -1928,11 +3795,26 @@ function showResult(answer,steps){
 function escapeHTML(text){
 
     return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
@@ -1942,34 +3824,57 @@ function escapeHTML(text){
 
 async function startCamera(){
 
-    const video=
-        document.getElementById("camera");
+    const video =
+        document.getElementById(
+            "camera"
+        );
 
-    const status=
-        document.getElementById("cameraStatus");
+
+    const status =
+        document.getElementById(
+            "cameraStatus"
+        );
+
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+    ){
+
+        status.textContent =
+            "Camera is not supported by this browser.";
+
+        return;
+    }
+
 
     try{
 
         cameraStream =
             await navigator.mediaDevices
-            .getUserMedia({
-                video:{
-                    facingMode:{
-                        ideal:"environment"
-                    }
-                },
-                audio:false
-            });
+                .getUserMedia({
 
-        video.srcObject=
+                    video:{
+                        facingMode:{
+                            ideal:"environment"
+                        }
+                    },
+
+                    audio:false
+
+                });
+
+
+        video.srcObject =
             cameraStream;
 
-        status.textContent=
-            "Camera is running.";
+
+        status.textContent =
+            "Camera is running. Point it at the mathematics question.";
 
     }catch(error){
 
-        status.textContent=
+        status.textContent =
             "Camera permission was not granted or camera is unavailable.";
     }
 }
@@ -1977,32 +3882,50 @@ async function startCamera(){
 
 function captureImage(){
 
-    const video=
-        document.getElementById("camera");
+    const video =
+        document.getElementById(
+            "camera"
+        );
 
-    const canvas=
-        document.getElementById("canvas");
 
-    const preview=
-        document.getElementById("preview");
+    const canvas =
+        document.getElementById(
+            "canvas"
+        );
 
-    if(!video.videoWidth){
 
-        document.getElementById("cameraStatus")
-            .textContent=
-            "Start the camera first.";
+    const preview =
+        document.getElementById(
+            "preview"
+        );
+
+
+    if(
+        !video.videoWidth
+    ){
+
+        document
+            .getElementById(
+                "cameraStatus"
+            )
+            .textContent =
+                "Start the camera first.";
 
         return;
     }
 
-    canvas.width=
+
+    canvas.width =
         video.videoWidth;
 
-    canvas.height=
+
+    canvas.height =
         video.videoHeight;
 
-    const ctx=
+
+    const ctx =
         canvas.getContext("2d");
+
 
     ctx.drawImage(
         video,
@@ -2012,14 +3935,23 @@ function captureImage(){
         canvas.height
     );
 
-    preview.src=
-        canvas.toDataURL("image/png");
 
-    preview.style.display="block";
+    preview.src =
+        canvas.toDataURL(
+            "image/png"
+        );
 
-    document.getElementById("cameraStatus")
-        .textContent=
-        "Question captured.";
+
+    preview.style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "cameraStatus"
+        )
+        .textContent =
+            "Question captured. Tap Read & Solve Image.";
 }
 
 
@@ -2029,34 +3961,22 @@ function stopCamera(){
 
         cameraStream
             .getTracks()
-            .forEach(track=>track.stop());
+            .forEach(
+                track=>
+                    track.stop()
+            );
+
 
         cameraStream=null;
     }
 
-    document.getElementById("cameraStatus")
-        .textContent=
-        "Camera stopped.";
-}
 
-
-function useCapturedImage(){
-
-    const preview=
-        document.getElementById("preview");
-
-    if(!preview.src){
-
-        document.getElementById("cameraStatus")
-            .textContent=
-            "Capture or upload an image first.";
-
-        return;
-    }
-
-    document.getElementById("cameraStatus")
-        .textContent=
-        "Image ready. OCR engine can process this image.";
+    document
+        .getElementById(
+            "cameraStatus"
+        )
+        .textContent =
+            "Camera stopped.";
 }
 
 
@@ -2065,35 +3985,324 @@ function useCapturedImage(){
 ===================================================== */
 
 document
-.getElementById("imageUpload")
-.addEventListener("change",function(){
+    .getElementById("imageUpload")
+    .addEventListener(
+        "change",
+        function(){
 
-    const file=this.files[0];
+            const file =
+                this.files[0];
 
-    if(!file){
+
+            if(!file){
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(e){
+
+                    const preview =
+                        document
+                            .getElementById(
+                                "preview"
+                            );
+
+
+                    preview.src =
+                        e.target.result;
+
+
+                    preview.style.display =
+                        "block";
+
+
+                    document
+                        .getElementById(
+                            "cameraStatus"
+                        )
+                        .textContent =
+                            "Image uploaded. Tap Read & Solve Image.";
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+        }
+    );
+
+
+/* =====================================================
+   OCR ENGINE LOADER
+===================================================== */
+
+let tesseractLoading =
+    null;
+
+
+function loadTesseract(){
+
+    if(
+        window.Tesseract
+    ){
+
+        return Promise.resolve(
+            window.Tesseract
+        );
+    }
+
+
+    if(tesseractLoading){
+        return tesseractLoading;
+    }
+
+
+    tesseractLoading =
+        new Promise(
+            (resolve,reject)=>{
+
+                const script =
+                    document.createElement(
+                        "script"
+                    );
+
+
+                script.src =
+                    "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+
+
+                script.onload =
+                    function(){
+
+                        if(
+                            window.Tesseract
+                        ){
+
+                            resolve(
+                                window.Tesseract
+                            );
+
+                        }else{
+
+                            reject(
+                                new Error(
+                                    "OCR engine unavailable"
+                                )
+                            );
+                        }
+                    };
+
+
+                script.onerror =
+                    function(){
+
+                        reject(
+                            new Error(
+                                "Could not load OCR engine"
+                            )
+                        );
+                    };
+
+
+                document
+                    .head
+                    .appendChild(
+                        script
+                    );
+            }
+        );
+
+
+    return tesseractLoading;
+}
+
+
+/* =====================================================
+   OCR IMAGE
+===================================================== */
+
+async function runOCR(){
+
+    const preview =
+        document.getElementById(
+            "preview"
+        );
+
+
+    const status =
+        document.getElementById(
+            "cameraStatus"
+        );
+
+
+    const ocrText =
+        document.getElementById(
+            "ocrText"
+        );
+
+
+    if(
+        !preview.src ||
+        preview.style.display==="none"
+    ){
+
+        status.textContent =
+            "Capture or upload an image first.";
+
         return;
     }
 
-    const reader=
-        new FileReader();
 
-    reader.onload=function(e){
+    try{
 
-        const preview=
-            document.getElementById("preview");
+        status.textContent =
+            "Loading OCR engine...";
 
-        preview.src=
-            e.target.result;
 
-        preview.style.display="block";
+        const Tesseract =
+            await loadTesseract();
 
-        document.getElementById("cameraStatus")
-            .textContent=
-            "Image uploaded successfully. OCR processing can be connected here.";
-    };
 
-    reader.readAsDataURL(file);
-});
+        status.textContent =
+            "Reading mathematics from image...";
+
+
+        const result =
+            await Tesseract.recognize(
+                preview.src,
+                "eng",
+                {
+                    logger:
+                        function(info){
+
+                            if(
+                                info &&
+                                typeof info.progress==="number"
+                            ){
+
+                                const percent =
+                                    Math.round(
+                                        info.progress*100
+                                    );
+
+
+                                status.textContent =
+                                    "OCR progress: " +
+                                    percent +
+                                    "%";
+                            }
+                        }
+                }
+            );
+
+
+        let text =
+            result.data.text
+                .trim();
+
+
+        /*
+           OCR commonly confuses these characters.
+        */
+
+        text =
+            cleanOCRMathText(
+                text
+            );
+
+
+        ocrText.value =
+            text;
+
+
+        if(!text){
+
+            status.textContent =
+                "No readable mathematical text was found.";
+
+            return;
+        }
+
+
+        /*
+           Put OCR result into main solver.
+        */
+
+        setQuestion(text);
+
+
+        status.textContent =
+            "OCR complete. Solving recognized question...";
+
+
+        /*
+           Small delay gives the UI time to update.
+        */
+
+        setTimeout(
+            solveQuestion,
+            150
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        status.textContent =
+            "OCR could not process this image. Check internet connection and image clarity.";
+    }
+}
+
+
+/* =====================================================
+   OCR CLEANUP
+===================================================== */
+
+function cleanOCRMathText(text){
+
+    return text
+
+        .replace(/×/g,"*")
+
+        .replace(/÷/g,"/")
+
+        .replace(/[−–—]/g,"-")
+
+        .replace(/[“”]/g,'"')
+
+        .replace(/[‘’]/g,"'")
+
+        .replace(/\bO(?=\d)/g,"0")
+
+        .replace(
+            /(\d)\s*[xX]\s*(\d)/g,
+            "$1*$2"
+        )
+
+        .replace(
+            /(\d)\s+(\d)/g,
+            "$1$2"
+        )
+
+        .replace(
+            /\n+/g,
+            " "
+        )
+
+        .replace(
+            /\s+/g,
+            " "
+        )
+
+        .trim();
+}
 
 
 /* =====================================================
@@ -2102,23 +4311,36 @@ document
 
 function speakQuestion(){
 
-    const text=
-        document.getElementById("question")
-        .value
-        .trim();
+    const text =
+        document
+            .getElementById(
+                "question"
+            )
+            .value
+            .trim();
+
 
     if(!text){
         return;
     }
 
-    if("speechSynthesis" in window){
+
+    if(
+        "speechSynthesis" in window
+    ){
 
         speechSynthesis.cancel();
 
-        const utterance=
-            new SpeechSynthesisUtterance(text);
 
-        speechSynthesis.speak(utterance);
+        const utterance =
+            new SpeechSynthesisUtterance(
+                text
+            );
+
+
+        speechSynthesis.speak(
+            utterance
+        );
     }
 }
 
@@ -2127,28 +4349,48 @@ function speakQuestion(){
    HISTORY
 ===================================================== */
 
-function saveHistory(question,answer){
+function saveHistory(
+    question,
+    answer
+){
 
-    let history=
+    let history =
         JSON.parse(
             localStorage.getItem(
                 "alon_math_history"
             ) || "[]"
         );
 
+
     history.unshift({
-        question:question,
-        answer:answer,
-        time:new Date().toLocaleString()
+
+        question:
+            question,
+
+        answer:
+            answer,
+
+        time:
+            new Date()
+                .toLocaleString()
+
     });
 
-    history=
-        history.slice(0,30);
+
+    history =
+        history.slice(
+            0,
+            30
+        );
+
 
     localStorage.setItem(
         "alon_math_history",
-        JSON.stringify(history)
+        JSON.stringify(
+            history
+        )
     );
+
 
     renderHistory();
 }
@@ -2156,77 +4398,116 @@ function saveHistory(question,answer){
 
 function renderHistory(){
 
-    const box=
-        document.getElementById("historyList");
+    const box =
+        document
+            .getElementById(
+                "historyList"
+            );
 
-    const history=
+
+    const history =
         JSON.parse(
             localStorage.getItem(
                 "alon_math_history"
             ) || "[]"
         );
 
+
     if(!history.length){
 
-        box.textContent=
+        box.textContent =
             "No solutions yet.";
 
         return;
     }
 
+
     box.innerHTML="";
 
-    history.forEach((item,index)=>{
 
-        const div=
-            document.createElement("div");
+    history.forEach(
+        (item,index)=>{
 
-        div.className=
-            "history-item";
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-        div.innerHTML=
-            "<strong>Question:</strong> " +
-            escapeHTML(item.question) +
-            "<br><strong>Answer:</strong> " +
-            escapeHTML(item.answer) +
-            "<br><small>" +
-            escapeHTML(item.time) +
-            "</small><br>";
 
-        const button=
-            document.createElement("button");
+            div.className =
+                "history-item";
 
-        button.className="btn";
 
-        button.textContent=
-            "Open";
+            div.innerHTML =
+                "<strong>Question:</strong> " +
+                escapeHTML(
+                    item.question
+                ) +
+                "<br><strong>Answer:</strong> " +
+                escapeHTML(
+                    item.answer
+                ) +
+                "<br><small>" +
+                escapeHTML(
+                    item.time
+                ) +
+                "</small><br>";
 
-        button.onclick=function(){
 
-            setQuestion(item.question);
+            const button =
+                document.createElement(
+                    "button"
+                );
 
-            window.scrollTo({
-                top:0,
-                behavior:"smooth"
-            });
-        };
 
-        div.appendChild(button);
+            button.className =
+                "btn";
 
-        box.appendChild(div);
-    });
+
+            button.textContent =
+                "Open";
+
+
+            button.onclick =
+                function(){
+
+                    setQuestion(
+                        item.question
+                    );
+
+
+                    window.scrollTo({
+                        top:0,
+                        behavior:"smooth"
+                    });
+                };
+
+
+            div.appendChild(
+                button
+            );
+
+
+            box.appendChild(
+                div
+            );
+        }
+    );
 }
 
 
 function clearHistory(){
 
-    if(confirm(
-        "Clear all Mathematics Solver history?"
-    )){
+    if(
+        confirm(
+            "Clear all Mathematics Solver history?"
+        )
+    ){
 
         localStorage.removeItem(
             "alon_math_history"
         );
+
 
         renderHistory();
     }
@@ -2234,29 +4515,139 @@ function clearHistory(){
 
 
 /* =====================================================
-   QUICK TOOL
+   QUICK TOOLS
 ===================================================== */
 
 function openTool(type){
 
-    const examples={
-        quadratic:"2x^2 + 5x + 2 = 0",
-        linear:"3x + 7 = 22",
-        statistics:"mean: 10,20,30,40,50",
-        matrix:"matrix [[1,2],[3,4]]",
-        geometry:"distance between (0,0) and (3,4)",
-        calculus:"differentiate x^3 + 2x"
+    const examples = {
+
+        quadratic:
+            "2x^2 + 5x + 2 = 0",
+
+        linear:
+            "3x + 7 = 22",
+
+        statistics:
+            "mean: 10,20,30,40,50",
+
+        matrix:
+            "matrix [[1,2],[3,4]]",
+
+        geometry:
+            "distance between (0,0) and (3,4)",
+
+        calculus:
+            "differentiate x^3 + 2x"
+
     };
 
-    if(examples[type]){
+
+    if(
+        examples[type]
+    ){
 
         setQuestion(
             examples[type]
         );
 
+
         solveQuestion();
     }
 }
+
+
+/* =====================================================
+   KEYBOARD SUPPORT
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        const active =
+            document.activeElement;
+
+
+        /*
+           Main solver:
+           Ctrl + Enter
+        */
+
+        if(
+            active &&
+            active.id==="question" &&
+            event.ctrlKey &&
+            event.key==="Enter"
+        ){
+
+            event.preventDefault();
+
+            solveQuestion();
+
+            return;
+        }
+
+
+        /*
+           Calculator keyboard support.
+        */
+
+        if(
+            active &&
+            (
+                active.tagName==="TEXTAREA" ||
+                active.tagName==="INPUT"
+            )
+        ){
+            return;
+        }
+
+
+        if(
+            /^[0-9+\-*/().%^]$/.test(
+                event.key
+            )
+        ){
+
+            calculatorInput(
+                event.key
+            );
+
+            return;
+        }
+
+
+        if(
+            event.key==="Enter" ||
+            event.key==="="
+        ){
+
+            calculatorEquals();
+
+            return;
+        }
+
+
+        if(
+            event.key==="Backspace"
+        ){
+
+            calculatorBackspace();
+
+            return;
+        }
+
+
+        if(
+            event.key==="Escape"
+        ){
+
+            calculatorClear();
+        }
+
+    }
+);
 
 
 /* =====================================================
@@ -2269,21 +4660,7 @@ document.addEventListener(
 
         renderHistory();
 
-        document
-        .getElementById("question")
-        .addEventListener(
-            "keydown",
-            function(event){
-
-                if(
-                    event.ctrlKey &&
-                    event.key==="Enter"
-                ){
-
-                    solveQuestion();
-                }
-            }
-        );
+        updateCalculatorDisplay();
 
     }
 );

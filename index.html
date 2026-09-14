@@ -35,308 +35,78 @@
     <style>
 
         /* =====================================================
-           ALON HISTORYVERSE 24
-           MENU FOLDER SYSTEM
-           TOP FOLDER BAR REMOVED
+           INDEX MENU ADDITIONS
+           Only for the new Language / Settings / Logout menu.
         ====================================================== */
 
-        .ah-folder-panel {
-
-            display: none;
-
-            animation:
-                ahFolderOpen .20s ease;
-
-        }
-
-
-        .ah-folder-panel.active {
-
+        .ah-menu-action {
+            width: 100%;
             display: block;
-
-        }
-
-
-        @keyframes ahFolderOpen {
-
-            from {
-
-                opacity: 0;
-
-                transform: translateY(5px);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform: translateY(0);
-
-            }
-
-        }
-
-
-        /* =====================================================
-           MENU FOLDER BUTTONS
-        ====================================================== */
-
-        .ah-menu-folder {
-
-            width: 100%;
-
-            margin: 0 0 8px 0;
-
-            border: 1px solid rgba(215,179,90,.28);
-
-            border-radius: 12px;
-
-            overflow: hidden;
-
-            background: rgba(255,255,255,.025);
-
-        }
-
-
-        .ah-menu-folder-btn {
-
-            width: 100%;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-            border: 0;
-
-            background: transparent;
-
-            color: #f0d27a;
-
-            padding: 13px 14px;
-
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(255,255,255,.03);
+            color: inherit;
+            padding: 13px 15px;
+            margin: 7px 0;
+            border-radius: 10px;
             text-align: left;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 15px;
-
-            font-weight: 700;
-
+            font: inherit;
             cursor: pointer;
-
         }
 
-
-        .ah-menu-folder-btn:hover {
-
-            background: rgba(215,179,90,.08);
-
+        .ah-menu-action:hover {
+            background: rgba(215,179,90,.10);
         }
 
-
-        .ah-menu-folder-btn .ah-folder-arrow {
-
-            font-size: 12px;
-
-            transition: transform .20s ease;
-
+        .ah-settings-panel {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0,0,0,.72);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-
-        .ah-menu-folder.open
-        .ah-menu-folder-btn {
-
-            background:
-                rgba(215,179,90,.08);
-
+        .ah-settings-box {
+            width: min(420px, 100%);
+            background: #05080f;
+            border: 1px solid rgba(215,179,90,.55);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,.5);
         }
 
-
-        .ah-menu-folder.open
-        .ah-folder-arrow {
-
-            transform: rotate(180deg);
-
-        }
-
-
-        .ah-menu-folder-links {
-
-            display: none;
-
-            padding: 0 10px 10px;
-
-            border-top:
-                1px solid rgba(215,179,90,.16);
-
-        }
-
-
-        .ah-menu-folder.open
-        .ah-menu-folder-links {
-
-            display: block;
-
-        }
-
-
-        .ah-menu-folder-links a {
-
-            display: block;
-
-            text-decoration: none;
-
-            color: inherit;
-
-            padding: 10px 12px;
-
-            margin-top: 6px;
-
-            border:
-                1px solid rgba(215,179,90,.16);
-
-            border-radius: 9px;
-
-            background:
-                rgba(255,255,255,.025);
-
-        }
-
-
-        .ah-menu-folder-links a:hover {
-
-            border-color:
-                rgba(215,179,90,.55);
-
-            background:
-                rgba(215,179,90,.07);
-
-        }
-
-
-        /* =====================================================
-           FOLDER TITLE
-        ====================================================== */
-
-        .ah-folder-title {
-
-            margin-bottom: 18px;
-
-        }
-
-
-        .ah-folder-title h2 {
-
-            margin-bottom: 5px;
-
-        }
-
-
-        .ah-folder-title p {
-
+        .ah-settings-box h3 {
             margin-top: 0;
-
-            opacity: .78;
-
         }
 
-
-        /* =====================================================
-           JOBS
-        ====================================================== */
-
-        .ah-jobs-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(
-                        190px,
-                        1fr
-                    )
-                );
-
-            gap: 14px;
-
-        }
-
-
-        .ah-job-card {
-
-            display: block;
-
-            text-decoration: none;
-
+        .ah-settings-close,
+        .ah-settings-reset,
+        .ah-settings-logout {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(255,255,255,.04);
             color: inherit;
-
-            border:
-                1px solid rgba(215,179,90,.28);
-
-            border-radius: 14px;
-
-            padding: 18px;
-
-            background:
-                rgba(255,255,255,.035);
-
-            transition: .20s ease;
-
+            cursor: pointer;
+            font: inherit;
         }
 
-
-        .ah-job-card:hover {
-
-            transform: translateY(-2px);
-
-            border-color: #d7b35a;
-
-            background:
-                rgba(215,179,90,.08);
-
+        .ah-settings-logout {
+            border-color: rgba(220,80,80,.55);
         }
 
-
-        .ah-job-card h3 {
-
-            color: #f0d27a;
-
-            margin-top: 0;
-
+        .ah-menu-divider {
+            height: 1px;
+            margin: 12px 0;
+            background: rgba(215,179,90,.18);
         }
 
-
-        /* =====================================================
-           MOBILE
-        ====================================================== */
-
-        @media (max-width: 700px) {
-
-            .ah-menu-folder-btn {
-
-                font-size: 14px;
-
-                padding: 12px;
-
-            }
-
-            .ah-menu-folder-links a {
-
-                font-size: 14px;
-
-                padding: 9px 10px;
-
-            }
-
+        [hidden] {
+            display: none !important;
         }
 
     </style>
@@ -356,6 +126,7 @@
     <a
         class="ah-brand"
         href="./index.html"
+        aria-label="ALON HISTORYVERSE 24 Home"
     >
 
         <img
@@ -377,15 +148,7 @@
 
     <div class="ah-actions">
 
-        <button
-            class="ah-btn"
-            id="languageBtn"
-            type="button"
-            aria-label="Language"
-        >
-            🌐
-        </button>
-
+        <!-- ONLY MENU REMAINS IN HEADER -->
 
         <button
             class="ah-btn"
@@ -448,8 +211,11 @@
 
 
 <!-- =========================================================
-     MOBILE MENU
-     FOLDERS ARE NOW INSIDE ☰ MENU
+     THREE-LINE MENU
+     
+     IMPORTANT:
+     No files are placed here.
+     Only Language / Settings / Logout.
 ========================================================== -->
 
 <div
@@ -458,423 +224,45 @@
     hidden
 >
 
+    <div class="mobile-menu-section">
 
-    <!-- =====================================================
-         EXPLORE FOLDER
-    ====================================================== -->
+        <strong>
+            ALON HISTORYVERSE 24
+        </strong>
 
-    <div class="ah-menu-folder">
+        <div class="ah-menu-divider"></div>
+
+        <!-- LANGUAGE -->
 
         <button
-            class="ah-menu-folder-btn"
+            class="ah-menu-action"
+            id="menuLanguageBtn"
             type="button"
-            aria-expanded="false"
         >
-
-            <span>
-                📂 Explore
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
+            🌐 Language
         </button>
 
 
-        <div class="ah-menu-folder-links">
-
-            <a href="./discover.html">
-                Discover
-            </a>
-
-            <a href="./categories.html">
-                Categories
-            </a>
-
-            <a href="./gallery.html">
-                Gallery
-            </a>
-
-            <a href="./articles.html">
-                Articles
-            </a>
-
-            <a href="./article.html">
-                Article
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         LIBRARY FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
+        <!-- SETTINGS -->
 
         <button
-            class="ah-menu-folder-btn"
+            class="ah-menu-action"
+            id="settingsBtn"
             type="button"
-            aria-expanded="false"
         >
-
-            <span>
-                📚 Library
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
+            ⚙️ Settings
         </button>
 
 
-        <div class="ah-menu-folder-links">
-
-            <a href="./library.html">
-                Library
-            </a>
-
-            <a href="./department.html">
-                Department
-            </a>
-
-            <a href="./subject.html">
-                Subject
-            </a>
-
-            <a href="./book.html">
-                Book
-            </a>
-
-            <a href="./read.html">
-                Read
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         HISTORY FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
+        <!-- LOGOUT -->
 
         <button
-            class="ah-menu-folder-btn"
+            class="ah-menu-action"
+            id="logoutBtn"
             type="button"
-            aria-expanded="false"
         >
-
-            <span>
-                🏛️ History
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
+            🚪 Logout
         </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./civilizations.html">
-                Civilizations
-            </a>
-
-            <a href="./timeline.html">
-                Timeline
-            </a>
-
-            <a href="./heritage.html">
-                Heritage
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         COUNTRIES FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
-
-        <button
-            class="ah-menu-folder-btn"
-            type="button"
-            aria-expanded="false"
-        >
-
-            <span>
-                🌍 Countries
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
-        </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./countries.html">
-                Countries
-            </a>
-
-            <a href="./country.html">
-                Country
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         KNOWLEDGE FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
-
-        <button
-            class="ah-menu-folder-btn"
-            type="button"
-            aria-expanded="false"
-        >
-
-            <span>
-                🧠 Knowledge
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
-        </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./mathematics.html">
-                Mathematics
-            </a>
-
-            <a href="./computer.html">
-                Computer
-            </a>
-
-            <a href="./trees.html">
-                Trees
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         JOBS FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
-
-        <button
-            class="ah-menu-folder-btn"
-            type="button"
-            aria-expanded="false"
-        >
-
-            <span>
-                💼 Jobs
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
-        </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./jobs.html">
-                Jobs
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         COMMUNITY FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
-
-        <button
-            class="ah-menu-folder-btn"
-            type="button"
-            aria-expanded="false"
-        >
-
-            <span>
-                👥 Community
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
-        </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./contribute.html">
-                Contribute
-            </a>
-
-            <a href="./guidelines.html">
-                Guidelines
-            </a>
-
-            <a href="./contributor-agreement.html">
-                Contributor Agreement
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         INFORMATION FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
-
-        <button
-            class="ah-menu-folder-btn"
-            type="button"
-            aria-expanded="false"
-        >
-
-            <span>
-                ℹ️ Information
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
-        </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./about.html">
-                About
-            </a>
-
-            <a href="./contact.html">
-                Contact
-            </a>
-
-            <a href="./copyright.html">
-                Copyright
-            </a>
-
-            <a href="./privacy.html">
-                Privacy
-            </a>
-
-            <a href="./terms.html">
-                Terms
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         ACCOUNT FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
-
-        <button
-            class="ah-menu-folder-btn"
-            type="button"
-            aria-expanded="false"
-        >
-
-            <span>
-                👤 Account
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
-        </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./login.html">
-                Login
-            </a>
-
-            <a href="./admin.html">
-                Admin
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         MARKETPLACE FOLDER
-    ====================================================== -->
-
-    <div class="ah-menu-folder">
-
-        <button
-            class="ah-menu-folder-btn"
-            type="button"
-            aria-expanded="false"
-        >
-
-            <span>
-                🛒 Marketplace
-            </span>
-
-            <span class="ah-folder-arrow">
-                ▼
-            </span>
-
-        </button>
-
-
-        <div class="ah-menu-folder-links">
-
-            <a href="./marketplace.html">
-                🌍 Global Marketplace
-            </a>
-
-        </div>
 
     </div>
 
@@ -911,13 +299,72 @@
     <div
         id="languageList"
         class="language-list"
-    ></div>
+    >
+
+        <!-- Languages inserted by JavaScript -->
+
+    </div>
 
 </div>
 
 
 <!-- =========================================================
-     MAIN
+     SETTINGS PANEL
+========================================================== -->
+
+<div
+    id="settingsPanel"
+    class="ah-settings-panel"
+    hidden
+>
+
+    <div class="ah-settings-box">
+
+        <h3>
+            ⚙️ ALON HISTORYVERSE 24 Settings
+        </h3>
+
+        <p>
+            Website settings and account controls.
+        </p>
+
+
+        <button
+            id="settingsCloseBtn"
+            class="ah-settings-close"
+            type="button"
+        >
+            Close
+        </button>
+
+
+        <button
+            id="settingsResetBtn"
+            class="ah-settings-reset"
+            type="button"
+        >
+            🔄 Reset Website Preferences
+        </button>
+
+
+        <button
+            id="settingsLogoutBtn"
+            class="ah-settings-logout"
+            type="button"
+        >
+            🚪 Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN HOME PAGE
+     
+     ALL FILES / CARDS ARE HERE.
+     Nothing has been moved into the three-line menu.
 ========================================================== -->
 
 <main class="page">
@@ -939,6 +386,8 @@
         </p>
 
 
+        <!-- SEARCH -->
+
         <form
             id="searchForm"
             class="search-form"
@@ -951,7 +400,9 @@
                 autocomplete="off"
             >
 
-            <button type="submit">
+            <button
+                type="submit"
+            >
                 Search
             </button>
 
@@ -964,50 +415,82 @@
          EXPLORE
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel active"
-        id="folder-explore"
-        data-folder-panel="explore"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                Explore
-            </h2>
-
-            <p>
-                Discover history and knowledge.
-            </p>
-
-        </div>
+        <h2>
+            Explore
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./discover.html">
-                <h3>Discover</h3>
-                <p>Explore historical knowledge.</p>
+            <a
+                class="card"
+                href="./discover.html"
+            >
+                <h3>
+                    Discover
+                </h3>
+
+                <p>
+                    Explore historical knowledge.
+                </p>
             </a>
 
-            <a class="card" href="./categories.html">
-                <h3>Categories</h3>
-                <p>Browse knowledge by category.</p>
+
+            <a
+                class="card"
+                href="./categories.html"
+            >
+                <h3>
+                    Categories
+                </h3>
+
+                <p>
+                    Browse knowledge by category.
+                </p>
             </a>
 
-            <a class="card" href="./gallery.html">
-                <h3>Gallery</h3>
-                <p>Explore historical media.</p>
+
+            <a
+                class="card"
+                href="./gallery.html"
+            >
+                <h3>
+                    Gallery
+                </h3>
+
+                <p>
+                    Explore historical media.
+                </p>
             </a>
 
-            <a class="card" href="./articles.html">
-                <h3>Articles</h3>
-                <p>Read historical articles.</p>
+
+            <a
+                class="card"
+                href="./articles.html"
+            >
+                <h3>
+                    Articles
+                </h3>
+
+                <p>
+                    Read historical articles.
+                </p>
             </a>
 
-            <a class="card" href="./article.html">
-                <h3>Article</h3>
-                <p>Open article system.</p>
+
+            <a
+                class="card"
+                href="./article.html"
+            >
+                <h3>
+                    Article
+                </h3>
+
+                <p>
+                    Open article content.
+                </p>
             </a>
 
         </div>
@@ -1019,50 +502,82 @@
          LIBRARY
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-library"
-        data-folder-panel="library"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                Knowledge Library
-            </h2>
-
-            <p>
-                Explore books, subjects and knowledge.
-            </p>
-
-        </div>
+        <h2>
+            Knowledge Library
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./library.html">
-                <h3>Library</h3>
-                <p>Enter the knowledge library.</p>
+            <a
+                class="card"
+                href="./library.html"
+            >
+                <h3>
+                    Library
+                </h3>
+
+                <p>
+                    Enter the knowledge library.
+                </p>
             </a>
 
-            <a class="card" href="./department.html">
-                <h3>Departments</h3>
-                <p>Explore knowledge departments.</p>
+
+            <a
+                class="card"
+                href="./department.html"
+            >
+                <h3>
+                    Departments
+                </h3>
+
+                <p>
+                    Browse departments.
+                </p>
             </a>
 
-            <a class="card" href="./subject.html">
-                <h3>Subjects</h3>
-                <p>Explore subjects.</p>
+
+            <a
+                class="card"
+                href="./subject.html"
+            >
+                <h3>
+                    Subjects
+                </h3>
+
+                <p>
+                    Explore subjects.
+                </p>
             </a>
 
-            <a class="card" href="./book.html">
-                <h3>Books</h3>
-                <p>Explore books.</p>
+
+            <a
+                class="card"
+                href="./book.html"
+            >
+                <h3>
+                    Books
+                </h3>
+
+                <p>
+                    Browse books.
+                </p>
             </a>
 
-            <a class="card" href="./read.html">
-                <h3>Read</h3>
-                <p>Read knowledge content.</p>
+
+            <a
+                class="card"
+                href="./read.html"
+            >
+                <h3>
+                    Read
+                </h3>
+
+                <p>
+                    Read knowledge content.
+                </p>
             </a>
 
         </div>
@@ -1074,40 +589,54 @@
          HISTORY
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-history"
-        data-folder-panel="history"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                History
-            </h2>
-
-            <p>
-                Civilizations, heritage and timelines.
-            </p>
-
-        </div>
+        <h2>
+            History
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./civilizations.html">
-                <h3>Civilizations</h3>
-                <p>Explore world civilizations.</p>
+            <a
+                class="card"
+                href="./civilizations.html"
+            >
+                <h3>
+                    Civilizations
+                </h3>
+
+                <p>
+                    Explore ancient and major civilizations.
+                </p>
             </a>
 
-            <a class="card" href="./heritage.html">
-                <h3>Heritage</h3>
-                <p>Explore cultural and historical heritage.</p>
+
+            <a
+                class="card"
+                href="./heritage.html"
+            >
+                <h3>
+                    Heritage
+                </h3>
+
+                <p>
+                    Explore historical heritage.
+                </p>
             </a>
 
-            <a class="card" href="./timeline.html">
-                <h3>Timeline</h3>
-                <p>Explore history through time.</p>
+
+            <a
+                class="card"
+                href="./timeline.html"
+            >
+                <h3>
+                    Timeline
+                </h3>
+
+                <p>
+                    Explore history through time.
+                </p>
             </a>
 
         </div>
@@ -1119,35 +648,40 @@
          COUNTRIES
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-countries"
-        data-folder-panel="countries"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                World Countries
-            </h2>
-
-            <p>
-                Explore countries and country information.
-            </p>
-
-        </div>
+        <h2>
+            World Countries
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./countries.html">
-                <h3>Countries</h3>
-                <p>Explore countries of the world.</p>
+            <a
+                class="card"
+                href="./countries.html"
+            >
+                <h3>
+                    Countries
+                </h3>
+
+                <p>
+                    Explore countries of the world.
+                </p>
             </a>
 
-            <a class="card" href="./country.html">
-                <h3>Country</h3>
-                <p>Explore country details.</p>
+
+            <a
+                class="card"
+                href="./country.html"
+            >
+                <h3>
+                    Country
+                </h3>
+
+                <p>
+                    Explore country details.
+                </p>
             </a>
 
         </div>
@@ -1156,157 +690,70 @@
 
 
     <!-- =====================================================
-         KNOWLEDGE
+         KNOWLEDGE DEPARTMENTS
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-knowledge"
-        data-folder-panel="knowledge"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                Knowledge
-            </h2>
-
-            <p>
-                Educational and knowledge departments.
-            </p>
-
-        </div>
+        <h2>
+            Knowledge Departments
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./mathematics.html">
-                <h3>Mathematics</h3>
-                <p>
-                    Mathematics learning and solving system.
-                </p>
-            </a>
-
-            <a class="card" href="./computer.html">
-                <h3>Computer</h3>
-                <p>Computer and technology knowledge.</p>
-            </a>
-
-            <a class="card" href="./trees.html">
-                <h3>Trees</h3>
-                <p>Explore trees and plant knowledge.</p>
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         JOBS
-    ====================================================== -->
-
-    <section
-        class="section ah-folder-panel"
-        id="folder-jobs"
-        data-folder-panel="jobs"
-    >
-
-        <div class="ah-folder-title">
-
-            <h2>
-                Jobs
-            </h2>
-
-            <p>
-                Jobs and career information.
-            </p>
-
-        </div>
-
-
-        <div class="ah-jobs-grid">
-
             <a
-                class="ah-job-card"
-                href="./jobs.html"
+                class="card"
+                href="./mathematics.html"
             >
-                <h3>💼 Jobs</h3>
+                <h3>
+                    Mathematics
+                </h3>
 
                 <p>
-                    Explore jobs and career information.
+                    Mathematics and problem solving.
                 </p>
             </a>
 
 
             <a
-                class="ah-job-card"
-                href="./jobs.html"
+                class="card"
+                href="./computer.html"
             >
-                <h3>📍 Local Jobs</h3>
+                <h3>
+                    Computer
+                </h3>
 
                 <p>
-                    Find jobs by local area and location.
+                    Computer knowledge and technology.
                 </p>
             </a>
 
 
             <a
-                class="ah-job-card"
+                class="card"
                 href="./jobs.html"
             >
-                <h3>🌍 International Jobs</h3>
+                <h3>
+                    Jobs &amp; Careers
+                </h3>
 
                 <p>
-                    Explore international job opportunities.
+                    Jobs and career information.
                 </p>
             </a>
 
 
             <a
-                class="ah-job-card"
-                href="./jobs.html"
+                class="card"
+                href="./trees.html"
             >
-                <h3>📂 Job Categories</h3>
+                <h3>
+                    Trees
+                </h3>
 
                 <p>
-                    Browse jobs by profession and category.
-                </p>
-            </a>
-
-
-            <a
-                class="ah-job-card"
-                href="./jobs.html"
-            >
-                <h3>🔎 Job Search</h3>
-
-                <p>
-                    Search for jobs and career opportunities.
-                </p>
-            </a>
-
-
-            <a
-                class="ah-job-card"
-                href="./jobs.html"
-            >
-                <h3>📝 Submit Job</h3>
-
-                <p>
-                    Submit a job opportunity.
-                </p>
-            </a>
-
-
-            <a
-                class="ah-job-card"
-                href="./jobs.html"
-            >
-                <h3>🌐 Jobs by Country</h3>
-
-                <p>
-                    Explore jobs by country and location.
+                    Knowledge about trees and nature.
                 </p>
             </a>
 
@@ -1319,40 +766,54 @@
          COMMUNITY
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-community"
-        data-folder-panel="community"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                Community
-            </h2>
-
-            <p>
-                Participate and contribute to ALON HISTORYVERSE 24.
-            </p>
-
-        </div>
+        <h2>
+            Community
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./contribute.html">
-                <h3>Contribute</h3>
-                <p>Contribute to the project.</p>
+            <a
+                class="card"
+                href="./contribute.html"
+            >
+                <h3>
+                    Contribute
+                </h3>
+
+                <p>
+                    Contribute knowledge to HistoryVerse.
+                </p>
             </a>
 
-            <a class="card" href="./guidelines.html">
-                <h3>Guidelines</h3>
-                <p>Community guidelines.</p>
+
+            <a
+                class="card"
+                href="./guidelines.html"
+            >
+                <h3>
+                    Guidelines
+                </h3>
+
+                <p>
+                    Community guidelines.
+                </p>
             </a>
 
-            <a class="card" href="./contributor-agreement.html">
-                <h3>Contributor Agreement</h3>
-                <p>Contributor information.</p>
+
+            <a
+                class="card"
+                href="./contributor-agreement.html"
+            >
+                <h3>
+                    Contributor Agreement
+                </h3>
+
+                <p>
+                    Contributor information and agreement.
+                </p>
             </a>
 
         </div>
@@ -1364,50 +825,82 @@
          INFORMATION
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-information"
-        data-folder-panel="information"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                Information
-            </h2>
-
-            <p>
-                Website and legal information.
-            </p>
-
-        </div>
+        <h2>
+            Information
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./about.html">
-                <h3>About</h3>
-                <p>About ALON HISTORYVERSE 24.</p>
+            <a
+                class="card"
+                href="./about.html"
+            >
+                <h3>
+                    About
+                </h3>
+
+                <p>
+                    About ALON HISTORYVERSE 24.
+                </p>
             </a>
 
-            <a class="card" href="./contact.html">
-                <h3>Contact</h3>
-                <p>Contact information.</p>
+
+            <a
+                class="card"
+                href="./contact.html"
+            >
+                <h3>
+                    Contact
+                </h3>
+
+                <p>
+                    Contact information.
+                </p>
             </a>
 
-            <a class="card" href="./copyright.html">
-                <h3>Copyright</h3>
-                <p>Copyright information.</p>
+
+            <a
+                class="card"
+                href="./copyright.html"
+            >
+                <h3>
+                    Copyright
+                </h3>
+
+                <p>
+                    Copyright information.
+                </p>
             </a>
 
-            <a class="card" href="./privacy.html">
-                <h3>Privacy</h3>
-                <p>Privacy information.</p>
+
+            <a
+                class="card"
+                href="./privacy.html"
+            >
+                <h3>
+                    Privacy
+                </h3>
+
+                <p>
+                    Privacy information.
+                </p>
             </a>
 
-            <a class="card" href="./terms.html">
-                <h3>Terms</h3>
-                <p>Terms and conditions.</p>
+
+            <a
+                class="card"
+                href="./terms.html"
+            >
+                <h3>
+                    Terms
+                </h3>
+
+                <p>
+                    Terms and conditions.
+                </p>
             </a>
 
         </div>
@@ -1419,35 +912,40 @@
          ACCOUNT
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-account"
-        data-folder-panel="account"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                Account
-            </h2>
-
-            <p>
-                Account and administration.
-            </p>
-
-        </div>
+        <h2>
+            Account
+        </h2>
 
 
         <div class="cards">
 
-            <a class="card" href="./login.html">
-                <h3>Login</h3>
-                <p>Open account login.</p>
+            <a
+                class="card"
+                href="./login.html"
+            >
+                <h3>
+                    Login
+                </h3>
+
+                <p>
+                    Login to your account.
+                </p>
             </a>
 
-            <a class="card" href="./admin.html">
-                <h3>Admin</h3>
-                <p>Open administration.</p>
+
+            <a
+                class="card"
+                href="./admin.html"
+            >
+                <h3>
+                    Admin
+                </h3>
+
+                <p>
+                    Open administration system.
+                </p>
             </a>
 
         </div>
@@ -1456,26 +954,17 @@
 
 
     <!-- =====================================================
-         MARKETPLACE
+         MARKETPLACE / SELL
+         
+         IMPORTANT:
+         This is intentionally the LAST main section.
     ====================================================== -->
 
-    <section
-        class="section ah-folder-panel"
-        id="folder-marketplace"
-        data-folder-panel="marketplace"
-    >
+    <section class="section">
 
-        <div class="ah-folder-title">
-
-            <h2>
-                Marketplace
-            </h2>
-
-            <p>
-                Global Marketplace.
-            </p>
-
-        </div>
+        <h2>
+            Marketplace / Sell
+        </h2>
 
 
         <div class="cards">
@@ -1483,6 +972,7 @@
             <a
                 class="card"
                 href="./marketplace.html"
+                data-marketplace-link="true"
             >
 
                 <h3>
@@ -1490,7 +980,7 @@
                 </h3>
 
                 <p>
-                    Explore the global marketplace.
+                    Marketplace and selling system.
                 </p>
 
             </a>
@@ -1500,11 +990,16 @@
     </section>
 
 
+    <!-- =====================================================
+         STATUS
+    ====================================================== -->
+
     <div
         id="ah-status"
         class="ah-status"
         aria-live="polite"
     ></div>
+
 
 </main>
 
@@ -1531,6 +1026,8 @@
 
 <!-- =========================================================
      ROOT JAVASCRIPT
+     
+     ALL FILES ARE IN ROOT
 ========================================================== -->
 
 <script src="./core.js"></script>
@@ -1576,7 +1073,7 @@
 
 
     /* =======================================================
-       MOBILE MENU
+       ELEMENTS
     ======================================================== */
 
     const menuBtn =
@@ -1586,7 +1083,82 @@
         document.getElementById("mobileMenu");
 
 
-    if (menuBtn && mobileMenu) {
+    const menuLanguageBtn =
+        document.getElementById("menuLanguageBtn");
+
+
+    const settingsBtn =
+        document.getElementById("settingsBtn");
+
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+
+    const settingsLogoutBtn =
+        document.getElementById("settingsLogoutBtn");
+
+
+    const settingsPanel =
+        document.getElementById("settingsPanel");
+
+
+    const settingsCloseBtn =
+        document.getElementById("settingsCloseBtn");
+
+
+    const settingsResetBtn =
+        document.getElementById("settingsResetBtn");
+
+
+    /* =======================================================
+       MENU OPEN / CLOSE
+    ======================================================== */
+
+    function openMenu() {
+
+        if (!mobileMenu) {
+            return;
+        }
+
+        mobileMenu.removeAttribute("hidden");
+
+        if (menuBtn) {
+
+            menuBtn.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+        }
+
+    }
+
+
+    function closeMenu() {
+
+        if (!mobileMenu) {
+            return;
+        }
+
+        mobileMenu.setAttribute(
+            "hidden",
+            ""
+        );
+
+        if (menuBtn) {
+
+            menuBtn.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+
+
+    if (menuBtn) {
 
         menuBtn.addEventListener(
             "click",
@@ -1595,29 +1167,13 @@
                 const isOpen =
                     !mobileMenu.hasAttribute("hidden");
 
-
                 if (isOpen) {
 
-                    mobileMenu.setAttribute(
-                        "hidden",
-                        ""
-                    );
-
-                    menuBtn.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
+                    closeMenu();
 
                 } else {
 
-                    mobileMenu.removeAttribute(
-                        "hidden"
-                    );
-
-                    menuBtn.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
+                    openMenu();
 
                 }
 
@@ -1628,179 +1184,503 @@
 
 
     /* =======================================================
-       MENU FOLDER SYSTEM
+       LANGUAGE
+       
+       Language is now inside the three-line menu.
     ======================================================== */
 
-    const menuFolders =
-        document.querySelectorAll(
-            ".ah-menu-folder"
+    const languagePanel =
+        document.getElementById("languagePanel");
+
+
+    const languageList =
+        document.getElementById("languageList");
+
+
+    const closeLanguage =
+        document.getElementById("closeLanguage");
+
+
+    function openLanguagePanel() {
+
+        closeMenu();
+
+        if (!languagePanel) {
+            return;
+        }
+
+        languagePanel.removeAttribute(
+            "hidden"
         );
 
+        buildLanguageList();
 
-    menuFolders.forEach(
-        function (folder) {
-
-            const button =
-                folder.querySelector(
-                    ".ah-menu-folder-btn"
-                );
+    }
 
 
-            if (!button) {
+    function closeLanguagePanel() {
 
-                return;
+        if (!languagePanel) {
+            return;
+        }
 
-            }
+        languagePanel.setAttribute(
+            "hidden",
+            ""
+        );
 
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const wasOpen =
-                        folder.classList.contains(
-                            "open"
-                        );
+    }
 
 
-                    /*
-                     * Close every other menu folder.
-                     */
+    function buildLanguageList() {
 
-                    menuFolders.forEach(
-                        function (otherFolder) {
+        if (!languageList) {
+            return;
+        }
 
-                            otherFolder.classList.remove(
-                                "open"
-                            );
+        languageList.innerHTML = "";
 
 
-                            const otherButton =
-                                otherFolder.querySelector(
-                                    ".ah-menu-folder-btn"
+        const api =
+            window.ALONWorldLanguage;
+
+
+        const supported =
+            api &&
+            Array.isArray(api.supported)
+                ? api.supported
+                : ["en", "hi"];
+
+
+        const names = {
+
+            en:
+                "English",
+
+            hi:
+                "हिन्दी",
+
+            gu:
+                "ગુજરાતી",
+
+            mr:
+                "मराठी",
+
+            bn:
+                "বাংলা",
+
+            ta:
+                "தமிழ்",
+
+            te:
+                "తెలుగు",
+
+            kn:
+                "ಕನ್ನಡ",
+
+            ml:
+                "മലയാളം",
+
+            pa:
+                "ਪੰਜਾਬੀ",
+
+            ur:
+                "اردو"
+
+        };
+
+
+        supported.forEach(
+            function (code) {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.type =
+                    "button";
+
+
+                button.className =
+                    "language-option";
+
+
+                button.textContent =
+                    names[code] ||
+                    String(code).toUpperCase();
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        if (
+                            window.ALONWorldLanguage &&
+                            typeof window.ALONWorldLanguage.switchTo ===
+                                "function"
+                        ) {
+
+                            const changed =
+                                window.ALONWorldLanguage.switchTo(
+                                    code
                                 );
 
 
-                            if (otherButton) {
+                            if (changed) {
 
-                                otherButton.setAttribute(
-                                    "aria-expanded",
-                                    "false"
-                                );
+                                closeLanguagePanel();
 
                             }
 
                         }
-                    );
-
-
-                    /*
-                     * Open selected folder.
-                     */
-
-                    if (!wasOpen) {
-
-                        folder.classList.add(
-                            "open"
-                        );
-
-                        button.setAttribute(
-                            "aria-expanded",
-                            "true"
-                        );
 
                     }
-
-                }
-            );
-
-        }
-    );
+                );
 
 
-    /* =======================================================
-       MAIN FOLDER PANELS
-    ======================================================== */
-
-    const folderPanels =
-        document.querySelectorAll(
-            ".ah-folder-panel"
-        );
-
-
-    function openFolder(folderName) {
-
-        folderPanels.forEach(
-            function (panel) {
-
-                panel.classList.toggle(
-                    "active",
-                    panel.dataset.folderPanel ===
-                    folderName
+                languageList.appendChild(
+                    button
                 );
 
             }
         );
 
+    }
 
-        try {
 
-            localStorage.setItem(
-                "alon_historyverse_active_folder",
-                folderName
-            );
+    if (menuLanguageBtn) {
 
-        } catch (error) {
+        menuLanguageBtn.addEventListener(
+            "click",
+            openLanguagePanel
+        );
 
-            /* Local storage may be unavailable. */
+    }
 
-        }
+
+    if (closeLanguage) {
+
+        closeLanguage.addEventListener(
+            "click",
+            closeLanguagePanel
+        );
 
     }
 
 
     /* =======================================================
-       RESTORE LAST FOLDER
+       SETTINGS
     ======================================================== */
 
-    let savedFolder = "explore";
+    function openSettings() {
 
+        closeMenu();
 
-    try {
+        if (!settingsPanel) {
+            return;
+        }
 
-        savedFolder =
-            localStorage.getItem(
-                "alon_historyverse_active_folder"
-            ) || "explore";
-
-    } catch (error) {
-
-        savedFolder = "explore";
+        settingsPanel.removeAttribute(
+            "hidden"
+        );
 
     }
 
 
-    const validFolders = [
+    function closeSettings() {
 
-        "explore",
-        "library",
-        "history",
-        "countries",
-        "knowledge",
-        "jobs",
-        "community",
-        "information",
-        "account",
-        "marketplace"
+        if (!settingsPanel) {
+            return;
+        }
 
-    ];
+        settingsPanel.setAttribute(
+            "hidden",
+            ""
+        );
+
+    }
 
 
-    openFolder(
-        validFolders.includes(savedFolder)
-            ? savedFolder
-            : "explore"
-    );
+    if (settingsBtn) {
+
+        settingsBtn.addEventListener(
+            "click",
+            openSettings
+        );
+
+    }
+
+
+    if (settingsCloseBtn) {
+
+        settingsCloseBtn.addEventListener(
+            "click",
+            closeSettings
+        );
+
+    }
+
+
+    /* =======================================================
+       RESET WEBSITE PREFERENCES
+       
+       Only HistoryVerse preference keys are touched.
+       Article/library data is NOT deleted.
+    ======================================================== */
+
+    if (settingsResetBtn) {
+
+        settingsResetBtn.addEventListener(
+            "click",
+            function () {
+
+                const confirmed =
+                    window.confirm(
+                        "Reset ALON HISTORYVERSE 24 website preferences?"
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                const preferenceKeys = [
+
+                    "alon_historyverse_active_folder",
+
+                    "alon_historyverse_language",
+
+                    "ALON_HISTORYVERSE_LANGUAGE",
+
+                    "alon_historyverse_theme",
+
+                    "alon_historyverse_settings"
+
+                ];
+
+
+                preferenceKeys.forEach(
+                    function (key) {
+
+                        try {
+
+                            localStorage.removeItem(
+                                key
+                            );
+
+                        } catch (error) {
+
+                            /* Ignore unavailable storage */
+
+                        }
+
+                    }
+                );
+
+
+                try {
+
+                    sessionStorage.removeItem(
+                        "alon_historyverse_active_folder"
+                    );
+
+                } catch (error) {
+
+                    /* Ignore unavailable storage */
+
+                }
+
+
+                window.location.href =
+                    "./index.html";
+
+            }
+        );
+
+    }
+
+
+    /* =======================================================
+       LOGOUT
+       
+       Works with common local/session auth keys.
+       Also attempts Firebase signOut if available.
+    ======================================================== */
+
+    function clearHistoryVerseAuth() {
+
+        const authKeys = [
+
+            "alon_historyverse_user",
+
+            "alon_historyverse_auth",
+
+            "alon_historyverse_session",
+
+            "alon_user",
+
+            "currentUser",
+
+            "current_user",
+
+            "loggedInUser",
+
+            "logged_in_user",
+
+            "authUser",
+
+            "auth_user",
+
+            "userSession",
+
+            "user_session",
+
+            "isLoggedIn",
+
+            "is_logged_in",
+
+            "loginUser",
+
+            "login_user",
+
+            "user"
+
+        ];
+
+
+        authKeys.forEach(
+            function (key) {
+
+                try {
+
+                    localStorage.removeItem(
+                        key
+                    );
+
+                } catch (error) {
+
+                    /* Ignore */
+
+                }
+
+                try {
+
+                    sessionStorage.removeItem(
+                        key
+                    );
+
+                } catch (error) {
+
+                    /* Ignore */
+
+                }
+
+            }
+        );
+
+    }
+
+
+    async function performLogout() {
+
+        const confirmed =
+            window.confirm(
+                "क्या आप ALON HISTORYVERSE 24 से Logout करना चाहते हैं?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        /*
+         * Try Firebase authentication if the
+         * Firebase API is already available.
+         */
+
+        try {
+
+            if (
+                window.firebase &&
+                window.firebase.auth &&
+                typeof window.firebase.auth ===
+                    "function"
+            ) {
+
+                const auth =
+                    window.firebase.auth();
+
+
+                if (
+                    auth &&
+                    typeof auth.signOut ===
+                        "function"
+                ) {
+
+                    await auth.signOut();
+
+                }
+
+            }
+
+        } catch (error) {
+
+            /*
+             * Local/session logout still continues
+             * even if Firebase is unavailable.
+             */
+
+            console.warn(
+                "Firebase logout:",
+                error
+            );
+
+        }
+
+
+        clearHistoryVerseAuth();
+
+
+        closeMenu();
+
+        closeSettings();
+
+        closeLanguagePanel();
+
+
+        /*
+         * Always return the user to the
+         * root login page.
+         */
+
+        window.location.href =
+            "./login.html";
+
+    }
+
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener(
+            "click",
+            performLogout
+        );
+
+    }
+
+
+    if (settingsLogoutBtn) {
+
+        settingsLogoutBtn.addEventListener(
+            "click",
+            performLogout
+        );
+
+    }
 
 
     /* =======================================================
@@ -1819,7 +1699,10 @@
         );
 
 
-    if (searchForm && searchInput) {
+    if (
+        searchForm &&
+        searchInput
+    ) {
 
         searchForm.addEventListener(
             "submit",
@@ -1833,6 +1716,8 @@
 
 
                 if (!query) {
+
+                    searchInput.focus();
 
                     return;
 
@@ -1852,216 +1737,28 @@
 
 
     /* =======================================================
-       LANGUAGE
-       Compatible with existing world-language.js
+       CLOSE MENU WHEN A NORMAL LINK IS CLICKED
     ======================================================== */
 
-    const languageBtn =
-        document.getElementById(
-            "languageBtn"
-        );
+    if (mobileMenu) {
 
+        mobileMenu.addEventListener(
+            "click",
+            function (event) {
 
-    const languagePanel =
-        document.getElementById(
-            "languagePanel"
-        );
+                const target =
+                    event.target;
 
 
-    const languageList =
-        document.getElementById(
-            "languageList"
-        );
+                if (
+                    target &&
+                    target.tagName ===
+                        "A"
+                ) {
 
+                    closeMenu();
 
-    const closeLanguage =
-        document.getElementById(
-            "closeLanguage"
-        );
-
-
-    const languageNames = {
-
-        en: "English",
-
-        hi: "हिन्दी",
-
-        gu: "ગુજરાતી",
-
-        mr: "मराठी",
-
-        bn: "বাংলা",
-
-        ta: "தமிழ்",
-
-        te: "తెలుగు",
-
-        kn: "ಕನ್ನಡ",
-
-        ml: "മലയാളം",
-
-        pa: "ਪੰਜਾਬੀ",
-
-        ur: "اردو",
-
-        ar: "العربية",
-
-        fr: "Français",
-
-        de: "Deutsch",
-
-        es: "Español",
-
-        it: "Italiano",
-
-        pt: "Português",
-
-        ru: "Русский",
-
-        zh: "中文",
-
-        ja: "日本語",
-
-        ko: "한국어"
-
-    };
-
-
-    const fallbackLanguages = [
-
-        "en",
-        "hi",
-        "gu",
-        "mr",
-        "bn",
-        "ta",
-        "te",
-        "kn",
-        "ml",
-        "pa",
-        "ur",
-        "ar",
-        "fr",
-        "de",
-        "es",
-        "it",
-        "pt",
-        "ru",
-        "zh",
-        "ja",
-        "ko"
-
-    ];
-
-
-    function getAvailableLanguages() {
-
-        const api =
-            window.ALONWorldLanguage;
-
-
-        if (
-            api &&
-            Array.isArray(api.supported)
-        ) {
-
-            return api.supported;
-
-        }
-
-
-        return fallbackLanguages;
-
-    }
-
-
-    function buildLanguageList() {
-
-        if (!languageList) {
-
-            return;
-
-        }
-
-
-        languageList.innerHTML = "";
-
-
-        getAvailableLanguages().forEach(
-            function (code) {
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.type =
-                    "button";
-
-
-                button.className =
-                    "language-option";
-
-
-                button.textContent =
-                    languageNames[code] ||
-                    code.toUpperCase();
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        const api =
-                            window.ALONWorldLanguage;
-
-
-                        if (
-                            api &&
-                            typeof
-                            api.selectLanguage ===
-                            "function"
-                        ) {
-
-                            api.selectLanguage(
-                                code
-                            );
-
-                            closeLanguagePanel();
-
-                            return;
-
-                        }
-
-
-                        try {
-
-                            localStorage.setItem(
-                                "alon_historyverse_language",
-                                code
-                            );
-
-                        } catch (error) {
-
-                            /* Ignore storage errors. */
-
-                        }
-
-
-                        document.documentElement.lang =
-                            code;
-
-
-                        closeLanguagePanel();
-
-                    }
-                );
-
-
-                languageList.appendChild(
-                    button
-                );
+                }
 
             }
         );
@@ -2069,57 +1766,54 @@
     }
 
 
-    function openLanguagePanel() {
+    /* =======================================================
+       CLOSE PANELS WITH ESCAPE
+    ======================================================== */
 
-        if (!languagePanel) {
+    document.addEventListener(
+        "keydown",
+        function (event) {
 
-            return;
+            if (
+                event.key !==
+                "Escape"
+            ) {
+
+                return;
+
+            }
+
+
+            closeMenu();
+
+            closeLanguagePanel();
+
+            closeSettings();
 
         }
+    );
 
 
-        buildLanguageList();
+    /* =======================================================
+       CLICK OUTSIDE SETTINGS
+    ======================================================== */
 
+    if (settingsPanel) {
 
-        languagePanel.removeAttribute(
-            "hidden"
-        );
-
-    }
-
-
-    function closeLanguagePanel() {
-
-        if (!languagePanel) {
-
-            return;
-
-        }
-
-
-        languagePanel.setAttribute(
-            "hidden",
-            ""
-        );
-
-    }
-
-
-    if (languageBtn) {
-
-        languageBtn.addEventListener(
+        settingsPanel.addEventListener(
             "click",
-            openLanguagePanel
-        );
+            function (event) {
 
-    }
+                if (
+                    event.target ===
+                    settingsPanel
+                ) {
 
+                    closeSettings();
 
-    if (closeLanguage) {
+                }
 
-        closeLanguage.addEventListener(
-            "click",
-            closeLanguagePanel
+            }
         );
 
     }
