@@ -702,6 +702,8 @@ function coreGoBack() {
 
 /* =========================================================
    MOBILE MENU
+   ALON HISTORYVERSE 24
+   ROOT INDEX MENU COMPATIBILITY
    ========================================================= */
 
 function coreSetupMobileMenu() {
@@ -714,6 +716,7 @@ function coreSetupMobileMenu() {
             "[data-menu-button]"
         );
 
+
     const mobileMenu =
         coreGetElement(
             "#mobileMenu"
@@ -722,14 +725,209 @@ function coreSetupMobileMenu() {
             "[data-mobile-menu]"
         );
 
+
     if (
         !menuButton ||
         !mobileMenu
     ) {
 
-        return;
+        return false;
 
     }
+
+
+    /* =====================================================
+       ROOT INDEX.HTML MENU
+       
+       The root index.html uses the "hidden" attribute.
+       Therefore Core must NOT add another click handler
+       that toggles the "open" class.
+       ===================================================== */
+
+    if (
+        mobileMenu.id ===
+        "mobileMenu"
+    ) {
+
+        /*
+         * Prevent duplicate Core setup.
+         */
+
+        if (
+            menuButton.dataset.alonRootMenuBound ===
+            "true"
+        ) {
+
+            return true;
+
+        }
+
+
+        menuButton.dataset.alonRootMenuBound =
+            "true";
+
+
+        /*
+         * Accessibility information.
+         */
+
+        menuButton.setAttribute(
+            "aria-controls",
+            "mobileMenu"
+        );
+
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            mobileMenu.hidden
+                ? "false"
+                : "true"
+        );
+
+
+        /*
+         * IMPORTANT:
+         *
+         * We do NOT attach another click event here.
+         *
+         * The root index.html already has its own
+         * menu click controller.
+         *
+         * This prevents two click handlers from fighting.
+         */
+
+
+        /*
+         * Synchronize aria-expanded whenever the
+         * root menu changes its hidden attribute.
+         */
+
+        if (
+            typeof MutationObserver !==
+            "undefined"
+        ) {
+
+            try {
+
+                const menuObserver =
+                    new MutationObserver(
+                        function () {
+
+                            menuButton.setAttribute(
+                                "aria-expanded",
+                                mobileMenu.hidden
+                                    ? "false"
+                                    : "true"
+                            );
+
+                        }
+                    );
+
+
+                menuObserver.observe(
+                    mobileMenu,
+                    {
+                        attributes:
+                            true,
+
+                        attributeFilter:
+                            [
+                                "hidden"
+                            ]
+                    }
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "ALON CORE: menu observer failed.",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+         * Close the root menu after selecting a link.
+         */
+
+        const links =
+            mobileMenu.querySelectorAll(
+                "a"
+            );
+
+
+        links.forEach(
+            function (link) {
+
+                if (
+                    link.dataset.alonRootMenuLinkBound ===
+                    "true"
+                ) {
+
+                    return;
+
+                }
+
+
+                link.dataset.alonRootMenuLinkBound =
+                    "true";
+
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        mobileMenu.hidden =
+                            true;
+
+
+                        mobileMenu.setAttribute(
+                            "hidden",
+                            ""
+                        );
+
+
+                        menuButton.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       GENERIC MENU
+       
+       Used on pages that use the .open class menu
+       system instead of the root index.html hidden
+       attribute system.
+       ===================================================== */
+
+    if (
+        menuButton.dataset.alonGenericMenuBound ===
+        "true"
+    ) {
+
+        return true;
+
+    }
+
+
+    menuButton.dataset.alonGenericMenuBound =
+        "true";
+
 
     menuButton.addEventListener(
         "click",
@@ -739,6 +937,7 @@ function coreSetupMobileMenu() {
                 mobileMenu.classList.toggle(
                     "open"
                 );
+
 
             menuButton.setAttribute(
                 "aria-expanded",
@@ -756,8 +955,23 @@ function coreSetupMobileMenu() {
             "a"
         );
 
+
     links.forEach(
         function (link) {
+
+            if (
+                link.dataset.alonGenericMenuLinkBound ===
+                "true"
+            ) {
+
+                return;
+
+            }
+
+
+            link.dataset.alonGenericMenuLinkBound =
+                "true";
+
 
             link.addEventListener(
                 "click",
@@ -766,6 +980,7 @@ function coreSetupMobileMenu() {
                     mobileMenu.classList.remove(
                         "open"
                     );
+
 
                     menuButton.setAttribute(
                         "aria-expanded",
@@ -777,6 +992,9 @@ function coreSetupMobileMenu() {
 
         }
     );
+
+
+    return true;
 
 }
 
@@ -1256,6 +1474,49 @@ function coreSetupKeyboardShortcuts() {
 
                         }
                     );
+
+
+                /*
+                 * Also close the root index menu.
+                 */
+
+                const rootMenu =
+                    coreGetElement(
+                        "#mobileMenu"
+                    );
+
+
+                const rootButton =
+                    coreGetElement(
+                        "#menuBtn"
+                    );
+
+
+                if (
+                    rootMenu
+                ) {
+
+                    rootMenu.hidden =
+                        true;
+
+                    rootMenu.setAttribute(
+                        "hidden",
+                        ""
+                    );
+
+                }
+
+
+                if (
+                    rootButton
+                ) {
+
+                    rootButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
 
             }
 
