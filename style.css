@@ -172,6 +172,49 @@ select:focus-visible {
 
 
 /* =========================================================
+   ALON HISTORYVERSE 24 LOGO
+   Logo file:
+   images/historyverse-logo.svg
+
+   NOTE:
+   The file path is used in HTML.
+   CSS only controls logo appearance.
+========================================================= */
+
+.ah-logo {
+    width: 220px;
+    max-width: 100%;
+    height: auto;
+
+    display: block;
+
+    object-fit: contain;
+
+    border-radius: 12px;
+
+    margin: 0 0 18px;
+
+    filter:
+        drop-shadow(
+            0 8px 18px rgba(0, 0, 0, 0.28)
+        );
+
+    transition:
+        transform 0.18s ease,
+        filter 0.18s ease;
+}
+
+.ah-logo:hover {
+    transform: translateY(-2px);
+
+    filter:
+        drop-shadow(
+            0 12px 24px rgba(0, 0, 0, 0.38)
+        );
+}
+
+
+/* =========================================================
    CONTENT SECTIONS
 ========================================================= */
 
@@ -595,6 +638,12 @@ hr {
         margin-top: 35px;
         padding: 25px 10px;
     }
+
+    /* Logo on mobile */
+    .ah-logo {
+        width: 190px;
+        margin-bottom: 15px;
+    }
 }
 
 
@@ -626,6 +675,11 @@ hr {
 
     .content h2 {
         font-size: 1.35rem;
+    }
+
+    /* Smaller logo for very small screens */
+    .ah-logo {
+        width: 165px;
     }
 }
 
