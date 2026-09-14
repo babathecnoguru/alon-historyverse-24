@@ -1,340 +1,1392 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contribute • ALON HISTORYVERSE 24</title>
 
-<!-- Global stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-</head><body><main class="page">
+    <title>Contribute • ALON HISTORYVERSE 24</title>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-    <header class="page-header">
+    <meta
+        name="description"
+        content="Contribute knowledge, historical information, corrections, sources and educational content to ALON HISTORYVERSE 24."
+    >
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-        <h1>Contribute</h1>
+    <style>
+
+        .contribute-page {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 24px 16px 60px;
+        }
+
+        .contribute-hero,
+        .contribute-card {
+            border: 1px solid rgba(215,179,90,.25);
+            border-radius: 18px;
+            background: rgba(255,255,255,.018);
+        }
+
+        .contribute-hero {
+            padding: 30px 22px;
+            margin-bottom: 22px;
+        }
+
+        .contribute-hero h1 {
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .contribute-hero p {
+            line-height: 1.8;
+        }
+
+        .contribute-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .contribute-card {
+            padding: 22px;
+        }
+
+        .contribute-card h2 {
+            margin-top: 0;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 7px;
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            font-weight: 700;
+        }
+
+        .required {
+            color: #d7b35a;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border-radius: 9px;
+            border: 1px solid rgba(215,179,90,.30);
+            background: rgba(0,0,0,.18);
+            color: inherit;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #d7b35a;
+        }
+
+        .hint {
+            font-size: .88rem;
+            opacity: .78;
+            line-height: 1.6;
+        }
+
+        .counter {
+            text-align: right;
+            font-size: .84rem;
+            opacity: .75;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-button {
+            padding: 11px 18px;
+            border-radius: 9px;
+            border: 1px solid rgba(215,179,90,.45);
+            background: rgba(215,179,90,.10);
+            color: inherit;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .action-button:hover {
+            background: rgba(215,179,90,.18);
+        }
+
+        .action-button.secondary {
+            background: rgba(255,255,255,.04);
+        }
+
+        .status {
+            min-height: 26px;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        .notice {
+            margin-top: 18px;
+            padding: 15px;
+            border-left: 4px solid #d7b35a;
+            border-radius: 9px;
+            background: rgba(215,179,90,.07);
+            line-height: 1.7;
+        }
+
+        .check-list {
+            padding-left: 20px;
+        }
+
+        .check-list li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .topic-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .topic-list li {
+            padding: 10px;
+            border: 1px solid rgba(215,179,90,.18);
+            border-radius: 8px;
+        }
+
+        details {
+            margin-top: 12px;
+            border: 1px solid rgba(215,179,90,.18);
+            border-radius: 9px;
+        }
+
+        summary {
+            padding: 13px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .details-content {
+            padding: 0 13px 13px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 760px) {
+
+            .contribute-page {
+                padding: 18px 12px 45px;
+            }
+
+            .contribute-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contribute-hero,
+            .contribute-card {
+                padding: 18px;
+            }
+
+            .topic-list {
+                grid-template-columns: 1fr;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<main class="contribute-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="contribute-hero">
+
+        <h1>🤝 Contribute to ALON HISTORYVERSE 24</h1>
 
         <p>
-            Contribute knowledge to
-            ALON HISTORYVERSE 24.
+            Help expand the knowledge collection of
+            <strong>ALON HISTORYVERSE 24</strong>.
         </p>
 
-    </header>
-
-
-    <!-- =========================
-         INTRODUCTION
-    ========================== -->
-    <section class="content">
-
-        <h2>Contribute to ALON HISTORYVERSE 24</h2>
-
         <p>
-            Share historical knowledge, research,
-            cultural information, heritage details,
-            educational resources or corrections
-            with the ALON HISTORYVERSE 24 community.
-        </p>
-
-        <p>
-            Every contribution can be reviewed before
-            it becomes part of the public knowledge
-            platform.
+            You can submit historical information, cultural knowledge,
+            country information, heritage details, corrections,
+            educational material and useful sources for review.
         </p>
 
     </section>
 
 
-    <!-- =========================
-         CONTRIBUTION FORM
-    ========================== -->
-    <section class="content">
+    <!-- =====================================================
+         MAIN GRID
+    ====================================================== -->
 
-        <h2>Submit a Contribution</h2>
-
-        <form
-            id="contribute-form"
-            data-contribute
-            novalidate
-        >
-
-            <div class="form-group">
-
-                <label for="contributor-name">
-                    Name
-                </label>
-
-                <input
-                    class="searchbox"
-                    id="contributor-name"
-                    name="name"
-                    type="text"
-                    required
-                    autocomplete="name"
-                    placeholder="Enter your name"
-                >
-
-            </div>
+    <section class="contribute-grid">
 
 
-            <div class="form-group">
+        <!-- =================================================
+             CONTRIBUTION FORM
+        ================================================== -->
 
-                <label for="contributor-email">
-                    Email
-                </label>
+        <div class="contribute-card">
 
-                <input
-                    class="searchbox"
-                    id="contributor-email"
-                    name="email"
-                    type="email"
-                    required
-                    autocomplete="email"
-                    placeholder="Enter your email"
-                >
+            <h2>📝 Contribution Form</h2>
 
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="contribution-title">
-                    Contribution Title
-                </label>
-
-                <input
-                    class="searchbox"
-                    id="contribution-title"
-                    name="title"
-                    type="text"
-                    required
-                    placeholder="Enter a title"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="contribution-category">
-                    Category
-                </label>
-
-                <select
-                    class="searchbox"
-                    id="contribution-category"
-                    name="category"
-                    required
-                >
-                    <option value="">
-                        Select a category
-                    </option>
-
-                    <option value="history">
-                        History
-                    </option>
-
-                    <option value="civilizations">
-                        Civilizations
-                    </option>
-
-                    <option value="countries">
-                        Countries
-                    </option>
-
-                    <option value="heritage">
-                        Heritage
-                    </option>
-
-                    <option value="culture">
-                        Culture
-                    </option>
-
-                    <option value="science">
-                        Science
-                    </option>
-
-                    <option value="education">
-                        Education
-                    </option>
-
-                    <option value="other">
-                        Other
-                    </option>
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="contribution-content">
-                    Contribution
-                </label>
-
-                <textarea
-                    class="searchbox"
-                    id="contribution-content"
-                    name="content"
-                    rows="10"
-                    required
-                    placeholder="Write your contribution..."
-                ></textarea>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="contribution-source">
-                    Source / Reference
-                </label>
-
-                <input
-                    class="searchbox"
-                    id="contribution-source"
-                    name="source"
-                    type="text"
-                    placeholder="Add a source or reference"
-                >
-
-            </div>
-
-
-            <button
-                class="btn"
-                type="submit"
+            <form
+                id="contributionForm"
+                novalidate
             >
-                Submit Contribution
-            </button>
 
 
-            <!-- Status for submit.js -->
-            <p
-                id="contribute-status"
-                class="form-status"
-                aria-live="polite"
-            ></p>
+                <!-- NAME -->
 
-        </form>
+                <div class="form-group">
 
-    </section>
+                    <label for="contributorName">
+                        Contributor Name
+                        <span class="required">*</span>
+                    </label>
 
+                    <input
+                        type="text"
+                        id="contributorName"
+                        name="contributorName"
+                        maxlength="80"
+                        autocomplete="name"
+                        placeholder="Enter your name"
+                        required
+                    >
 
-    <!-- =========================
-         GUIDELINES
-    ========================== -->
-    <section class="content">
-
-        <h2>Before You Submit</h2>
-
-        <div class="grid">
-
-            <a class="card" href="contributor-agreement.html">
-                <h3>Contributor Agreement</h3>
-                <p>
-                    Review the contributor terms
-                    before submitting content.
-                </p>
-            </a>
+                </div>
 
 
-            <a class="card" href="guidelines.html">
-                <h3>Community Guidelines</h3>
-                <p>
-                    Learn about content and
-                    contribution standards.
-                </p>
-            </a>
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="contributorEmail">
+                        Email
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="email"
+                        id="contributorEmail"
+                        name="contributorEmail"
+                        maxlength="160"
+                        autocomplete="email"
+                        placeholder="Enter your email address"
+                        required
+                    >
+
+                </div>
 
 
-            <a class="card" href="copyright.html">
-                <h3>Copyright</h3>
-                <p>
-                    Review copyright and
-                    content ownership information.
-                </p>
-            </a>
+                <!-- CONTRIBUTION TYPE -->
+
+                <div class="form-group">
+
+                    <label for="contributionType">
+                        Contribution Type
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="contributionType"
+                        name="contributionType"
+                        required
+                    >
+
+                        <option value="">
+                            Select contribution type
+                        </option>
+
+                        <option value="Historical Information">
+                            Historical Information
+                        </option>
+
+                        <option value="Country Information">
+                            Country Information
+                        </option>
+
+                        <option value="Civilization">
+                            Civilization
+                        </option>
+
+                        <option value="Culture">
+                            Culture
+                        </option>
+
+                        <option value="Heritage">
+                            Heritage
+                        </option>
+
+                        <option value="Timeline">
+                            Timeline
+                        </option>
+
+                        <option value="Biography">
+                            Biography
+                        </option>
+
+                        <option value="Correction">
+                            Correction
+                        </option>
+
+                        <option value="Educational Content">
+                            Educational Content
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <div class="form-group">
+
+                    <label for="contributionTitle">
+                        Contribution Title
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contributionTitle"
+                        name="contributionTitle"
+                        maxlength="160"
+                        placeholder="Enter a clear title"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PERIOD -->
+
+                <div class="form-group">
+
+                    <label for="historicalPeriod">
+                        Historical Period / Date
+                    </label>
+
+                    <input
+                        type="text"
+                        id="historicalPeriod"
+                        name="historicalPeriod"
+                        maxlength="100"
+                        placeholder="Example: 500 BCE, Medieval period, 1947"
+                    >
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Country / Region / Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        maxlength="150"
+                        placeholder="Enter relevant location"
+                    >
+
+                </div>
+
+
+                <!-- CONTENT -->
+
+                <div class="form-group">
+
+                    <label for="contributionContent">
+                        Contribution Details
+                        <span class="required">*</span>
+                    </label>
+
+                    <textarea
+                        id="contributionContent"
+                        name="contributionContent"
+                        maxlength="5000"
+                        placeholder="Write the information in detail..."
+                        required
+                    ></textarea>
+
+                    <div
+                        class="counter"
+                        id="contentCounter"
+                    >
+                        0 / 5000
+                    </div>
+
+                </div>
+
+
+                <!-- SOURCES -->
+
+                <div class="form-group">
+
+                    <label for="sources">
+                        Sources / References
+                        <span class="required">*</span>
+                    </label>
+
+                    <textarea
+                        id="sources"
+                        name="sources"
+                        maxlength="2500"
+                        placeholder="Books, archives, museums, academic sources or reliable websites..."
+                        required
+                    ></textarea>
+
+                    <div class="hint">
+                        Please provide sources so submitted information
+                        can be checked before publication.
+                    </div>
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="form-group">
+
+                    <label for="imageReference">
+                        Image Information
+                    </label>
+
+                    <input
+                        type="text"
+                        id="imageReference"
+                        name="imageReference"
+                        maxlength="500"
+                        placeholder="Image URL or description, if applicable"
+                    >
+
+                    <div class="hint">
+                        Only submit media that you have permission
+                        to use or that is appropriately licensed.
+                    </div>
+
+                </div>
+
+
+                <!-- VIDEO -->
+
+                <div class="form-group">
+
+                    <label for="videoReference">
+                        Video Information
+                    </label>
+
+                    <input
+                        type="text"
+                        id="videoReference"
+                        name="videoReference"
+                        maxlength="500"
+                        placeholder="Video URL or description, if applicable"
+                    >
+
+                </div>
+
+
+                <!-- AGREEMENT -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="contributorAgreement"
+                            name="contributorAgreement"
+                            required
+                        >
+
+                        I confirm that the information I submit is
+                        provided for review and that I have the right
+                        to submit any material included.
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div
+                    id="formStatus"
+                    class="status"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-row">
+
+                    <button
+                        type="submit"
+                        class="action-button"
+                    >
+                        Submit Contribution
+                    </button>
+
+                    <button
+                        type="button"
+                        id="saveDraftButton"
+                        class="action-button secondary"
+                    >
+                        Save Draft
+                    </button>
+
+                    <button
+                        type="button"
+                        id="loadDraftButton"
+                        class="action-button secondary"
+                    >
+                        Load Draft
+                    </button>
+
+                    <button
+                        type="button"
+                        id="clearDraftButton"
+                        class="action-button secondary"
+                    >
+                        Clear Draft
+                    </button>
+
+                    <button
+                        type="reset"
+                        id="resetFormButton"
+                        class="action-button secondary"
+                    >
+                        Reset Form
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+            <div class="notice">
+
+                <strong>Important:</strong>
+
+                This standalone page validates and stores a draft
+                locally in the browser. It does not pretend that a
+                contribution has been delivered to a server when no
+                backend is connected.
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CONTRIBUTION INFORMATION
+        ================================================== -->
+
+        <div class="contribute-card">
+
+            <h2>📚 What Can You Contribute?</h2>
+
+            <p>
+                Useful contributions can cover many areas of
+                history and knowledge.
+            </p>
+
+
+            <ul class="topic-list">
+
+                <li>🏛️ Ancient History</li>
+
+                <li>👑 Kings & Rulers</li>
+
+                <li>⚔️ Wars & Conflicts</li>
+
+                <li>🌍 Countries</li>
+
+                <li>🏺 Civilizations</li>
+
+                <li>🎭 Culture</li>
+
+                <li>🏰 Forts</li>
+
+                <li>🏛️ Heritage Sites</li>
+
+                <li>🏙️ Ancient Cities</li>
+
+                <li>👤 Historical People</li>
+
+                <li>📜 Documents</li>
+
+                <li>🗓️ Timelines</li>
+
+            </ul>
+
+
+            <h2 style="margin-top:25px;">
+                ✅ Good Contribution Checklist
+            </h2>
+
+            <ul class="check-list">
+
+                <li>
+                    Give the information a clear title.
+                </li>
+
+                <li>
+                    Explain the subject in enough detail.
+                </li>
+
+                <li>
+                    Mention dates and locations where known.
+                </li>
+
+                <li>
+                    Provide reliable sources or references.
+                </li>
+
+                <li>
+                    Separate established facts from uncertain claims.
+                </li>
+
+                <li>
+                    Do not submit copied copyrighted material without
+                    the necessary permission.
+                </li>
+
+                <li>
+                    Do not submit private or confidential information.
+                </li>
+
+            </ul>
+
+
+            <details>
+
+                <summary>
+                    What happens after submission?
+                </summary>
+
+                <div class="details-content">
+
+                    A future connected contribution system can send
+                    submitted material to an administrative review
+                    area. Content can then be checked, edited,
+                    approved or rejected before publication.
+
+                </div>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Why are sources important?
+                </summary>
+
+                <div class="details-content">
+
+                    Sources allow historical and educational
+                    information to be checked and help improve
+                    the reliability of the knowledge collection.
+
+                </div>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Can images and videos be included?
+                </summary>
+
+                <div class="details-content">
+
+                    Yes, media information can be provided, but
+                    contributors should make sure they have the
+                    appropriate rights or permissions to submit
+                    the material.
+
+                </div>
+
+            </details>
 
         </div>
 
     </section>
 
 
-    <!-- =========================
-         NAVIGATION
-    ========================== -->
-    <section class="content">
+    <!-- =====================================================
+         REVIEW PRINCIPLES
+    ====================================================== -->
 
-        <div class="grid">
+    <section
+        class="contribute-card"
+        style="margin-top:20px;"
+    >
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Explore existing articles.
-                </p>
-            </a>
+        <h2>🔎 Contribution Review Principles</h2>
 
+        <ul class="check-list">
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Explore the knowledge library.
-                </p>
-            </a>
+            <li>
+                Accuracy and clarity should be prioritized.
+            </li>
 
+            <li>
+                Historical claims should be supported by
+                appropriate references whenever possible.
+            </li>
 
-            <a class="card" href="contact.html">
-                <h3>Contact</h3>
-                <p>
-                    Contact ALON HISTORYVERSE 24.
-                </p>
-            </a>
+            <li>
+                Content may require editing before publication.
+            </li>
 
+            <li>
+                Duplicate, misleading, unsafe or unsupported
+                submissions may not be published.
+            </li>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
-                </p>
-            </a>
+            <li>
+                Copyright and licensing should be respected.
+            </li>
 
-        </div>
+        </ul>
 
     </section>
 
 
-    <!-- =========================
+    <!-- =====================================================
          FOOTER
-    ========================== -->
-    <footer class="footer">
+    ====================================================== -->
+
+    <section
+        class="contribute-card"
+        style="margin-top:20px; text-align:center;"
+    >
+
+        <h2>
+            🏛️ ALON HISTORYVERSE 24
+        </h2>
 
         <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
+            History • Civilizations • Countries • Culture • Heritage • Knowledge
         </p>
 
-        <a href="../index.html">
-            Home
-        </a>
+        <p>
+            Creator / Owner:
+            <strong>Baba Thecno Guru</strong>
+        </p>
 
-    </footer>
+    </section>
+
 
 </main>
 
 
-<!-- =========================
-     CORE + SUBMISSION SYSTEM
-========================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/submit.js"></script>
+<!-- =========================================================
+     CONTRIBUTION JAVASCRIPT
+========================================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    const form =
+        document.getElementById("contributionForm");
+
+    const nameInput =
+        document.getElementById("contributorName");
+
+    const emailInput =
+        document.getElementById("contributorEmail");
+
+    const typeInput =
+        document.getElementById("contributionType");
+
+    const titleInput =
+        document.getElementById("contributionTitle");
+
+    const periodInput =
+        document.getElementById("historicalPeriod");
+
+    const locationInput =
+        document.getElementById("location");
+
+    const contentInput =
+        document.getElementById("contributionContent");
+
+    const sourcesInput =
+        document.getElementById("sources");
+
+    const imageInput =
+        document.getElementById("imageReference");
+
+    const videoInput =
+        document.getElementById("videoReference");
+
+    const agreementInput =
+        document.getElementById("contributorAgreement");
+
+    const status =
+        document.getElementById("formStatus");
+
+    const counter =
+        document.getElementById("contentCounter");
+
+    const saveDraftButton =
+        document.getElementById("saveDraftButton");
+
+    const loadDraftButton =
+        document.getElementById("loadDraftButton");
+
+    const clearDraftButton =
+        document.getElementById("clearDraftButton");
+
+    const resetFormButton =
+        document.getElementById("resetFormButton");
+
+
+    const STORAGE_KEY =
+        "alon_historyverse_contribution_draft";
+
+
+    if (!form) {
+        return;
+    }
+
+
+    /* =====================================================
+       EMAIL VALIDATION
+    ====================================================== */
+
+    function isValidEmail(email) {
+
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    }
+
+
+    /* =====================================================
+       STATUS
+    ====================================================== */
+
+    function showStatus(message) {
+
+        status.textContent = message;
+
+    }
+
+
+    /* =====================================================
+       COUNTER
+    ====================================================== */
+
+    function updateCounter() {
+
+        const length =
+            contentInput.value.length;
+
+        counter.textContent =
+            length + " / 5000";
+
+    }
+
+
+    contentInput.addEventListener(
+        "input",
+        updateCounter
+    );
+
+
+    /* =====================================================
+       COLLECT DATA
+    ====================================================== */
+
+    function collectData() {
+
+        return {
+
+            contributorName:
+                nameInput.value.trim(),
+
+            contributorEmail:
+                emailInput.value.trim(),
+
+            contributionType:
+                typeInput.value,
+
+            contributionTitle:
+                titleInput.value.trim(),
+
+            historicalPeriod:
+                periodInput.value.trim(),
+
+            location:
+                locationInput.value.trim(),
+
+            contributionContent:
+                contentInput.value.trim(),
+
+            sources:
+                sourcesInput.value.trim(),
+
+            imageReference:
+                imageInput.value.trim(),
+
+            videoReference:
+                videoInput.value.trim(),
+
+            contributorAgreement:
+                agreementInput.checked,
+
+            savedAt:
+                new Date().toISOString()
+
+        };
+
+    }
+
+
+    /* =====================================================
+       SAVE DRAFT
+    ====================================================== */
+
+    function saveDraft() {
+
+        const data =
+            collectData();
+
+        try {
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(data)
+            );
+
+            showStatus(
+                "Draft saved successfully on this device."
+            );
+
+        } catch (error) {
+
+            showStatus(
+                "Draft could not be saved in this browser."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LOAD DRAFT
+    ====================================================== */
+
+    function loadDraft() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    STORAGE_KEY
+                );
+
+            if (!saved) {
+
+                showStatus(
+                    "No saved contribution draft was found."
+                );
+
+                return;
+            }
+
+
+            const data =
+                JSON.parse(saved);
+
+
+            nameInput.value =
+                data.contributorName || "";
+
+            emailInput.value =
+                data.contributorEmail || "";
+
+            typeInput.value =
+                data.contributionType || "";
+
+            titleInput.value =
+                data.contributionTitle || "";
+
+            periodInput.value =
+                data.historicalPeriod || "";
+
+            locationInput.value =
+                data.location || "";
+
+            contentInput.value =
+                data.contributionContent || "";
+
+            sourcesInput.value =
+                data.sources || "";
+
+            imageInput.value =
+                data.imageReference || "";
+
+            videoInput.value =
+                data.videoReference || "";
+
+            agreementInput.checked =
+                Boolean(
+                    data.contributorAgreement
+                );
+
+
+            updateCounter();
+
+
+            showStatus(
+                "Saved draft loaded successfully."
+            );
+
+        } catch (error) {
+
+            showStatus(
+                "The saved draft could not be loaded."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CLEAR DRAFT
+    ====================================================== */
+
+    function clearDraft() {
+
+        try {
+
+            localStorage.removeItem(
+                STORAGE_KEY
+            );
+
+            showStatus(
+                "Saved draft cleared."
+            );
+
+        } catch (error) {
+
+            showStatus(
+                "The saved draft could not be cleared."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       VALIDATION
+    ====================================================== */
+
+    function validate(data) {
+
+
+        if (!data.contributorName) {
+
+            showStatus(
+                "Please enter your name."
+            );
+
+            nameInput.focus();
+
+            return false;
+
+        }
+
+
+        if (!data.contributorEmail) {
+
+            showStatus(
+                "Please enter your email address."
+            );
+
+            emailInput.focus();
+
+            return false;
+
+        }
+
+
+        if (!isValidEmail(
+            data.contributorEmail
+        )) {
+
+            showStatus(
+                "Please enter a valid email address."
+            );
+
+            emailInput.focus();
+
+            return false;
+
+        }
+
+
+        if (!data.contributionType) {
+
+            showStatus(
+                "Please select a contribution type."
+            );
+
+            typeInput.focus();
+
+            return false;
+
+        }
+
+
+        if (!data.contributionTitle) {
+
+            showStatus(
+                "Please enter a contribution title."
+            );
+
+            titleInput.focus();
+
+            return false;
+
+        }
+
+
+        if (!data.contributionContent) {
+
+            showStatus(
+                "Please enter the contribution details."
+            );
+
+            contentInput.focus();
+
+            return false;
+
+        }
+
+
+        if (
+            data.contributionContent.length < 30
+        ) {
+
+            showStatus(
+                "Please provide more detail in the contribution."
+            );
+
+            contentInput.focus();
+
+            return false;
+
+        }
+
+
+        if (!data.sources) {
+
+            showStatus(
+                "Please provide at least one source or reference."
+            );
+
+            sourcesInput.focus();
+
+            return false;
+
+        }
+
+
+        if (!data.contributorAgreement) {
+
+            showStatus(
+                "Please confirm the contributor agreement."
+            );
+
+            agreementInput.focus();
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       SUBMIT
+    ====================================================== */
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            const data =
+                collectData();
+
+
+            if (!validate(data)) {
+
+                return;
+
+            }
+
+
+            /*
+             * No fake server submission is performed here.
+             * The validated contribution is stored locally
+             * so it can be connected to a real admin/backend
+             * system later.
+             */
+
+            try {
+
+                localStorage.setItem(
+                    "alon_historyverse_pending_contribution",
+                    JSON.stringify(data)
+                );
+
+
+                showStatus(
+                    "Contribution validated and saved locally for review. A real server/backend connection is required for online submission."
+                );
+
+            } catch (error) {
+
+                showStatus(
+                    "Contribution was validated, but local storage is unavailable."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       BUTTON EVENTS
+    ====================================================== */
+
+    saveDraftButton.addEventListener(
+        "click",
+        saveDraft
+    );
+
+
+    loadDraftButton.addEventListener(
+        "click",
+        loadDraft
+    );
+
+
+    clearDraftButton.addEventListener(
+        "click",
+        clearDraft
+    );
+
+
+    resetFormButton.addEventListener(
+        "click",
+        function () {
+
+            setTimeout(
+                function () {
+
+                    updateCounter();
+
+                    showStatus("");
+
+                },
+                0
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIALIZE
+    ====================================================== */
+
+    updateCounter();
+
+})();
+
+</script>
+
 
 </body>
 </html>

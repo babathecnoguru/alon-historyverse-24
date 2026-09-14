@@ -1,108 +1,858 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>About ALON HISTORYVERSE 24</title>
 
-<!-- Global stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-</head><body><main class="page">
+    <title>About • ALON HISTORYVERSE 24</title>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-    <header class="page-header">
+    <meta
+        name="description"
+        content="About ALON HISTORYVERSE 24 — a knowledge platform for history, civilizations, countries, culture, heritage, timelines and education."
+    >
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-        <h1>About ALON HISTORYVERSE 24</h1>
+    <style>
 
-        <p>
-            ALON HISTORYVERSE 24 V100 —
-            A global knowledge and history platform.
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           ABOUT PAGE
+        ====================================================== */
+
+        .about-page {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .about-hero {
+            text-align: center;
+            padding: 42px 20px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 22px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(215,179,90,0.10),
+                    rgba(5,8,15,0.97)
+                );
+        }
+
+        .about-hero h1 {
+            margin: 0 0 12px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(30px, 7vw, 52px);
+        }
+
+        .about-hero .subtitle {
+            max-width: 850px;
+            margin: 0 auto;
+            font-size: 17px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .about-badge {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 8px 14px;
+            border: 1px solid rgba(215,179,90,0.4);
+            border-radius: 999px;
+            color: #f0d27a;
+            background: rgba(215,179,90,0.06);
+            font-size: 13px;
+        }
+
+        .about-section {
+            margin-bottom: 30px;
+        }
+
+        .about-section h2 {
+            margin: 0 0 16px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 29px;
+        }
+
+        .about-section p {
+            line-height: 1.8;
+            margin: 0 0 13px;
+            opacity: 0.9;
+        }
+
+        .about-card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .about-card {
+            padding: 23px;
+            border: 1px solid rgba(215,179,90,0.27);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.025);
+            transition: 0.2s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(240,210,122,0.7);
+            background: rgba(215,179,90,0.055);
+        }
+
+        .about-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(215,179,90,0.3);
+            background: rgba(215,179,90,0.07);
+            font-size: 27px;
+        }
+
+        .about-card h3 {
+            margin: 0 0 9px;
+            color: #f0d27a;
+            font-size: 20px;
+        }
+
+        .about-card p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .about-feature-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 17px;
+            border: 1px solid rgba(215,179,90,0.22);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .about-feature-icon {
+            min-width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: rgba(215,179,90,0.08);
+            border: 1px solid rgba(215,179,90,0.27);
+            font-size: 21px;
+        }
+
+        .about-feature strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #f0d27a;
+        }
+
+        .about-feature span {
+            display: block;
+            line-height: 1.6;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .about-flow {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .about-flow-step {
+            position: relative;
+            padding: 18px 12px;
+            text-align: center;
+            border: 1px solid rgba(215,179,90,0.25);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.025);
+        }
+
+        .about-flow-step .number {
+            display: inline-flex;
+            width: 35px;
+            height: 35px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 9px;
+            border-radius: 50%;
+            border: 1px solid #d7b35a;
+            color: #f0d27a;
+        }
+
+        .about-flow-step strong {
+            display: block;
+            color: #f0d27a;
+            font-size: 14px;
+        }
+
+        .about-principles {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .about-principle {
+            padding: 19px;
+            border-left: 3px solid #d7b35a;
+            border-radius: 0 14px 14px 0;
+            background: rgba(215,179,90,0.045);
+        }
+
+        .about-principle strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #f0d27a;
+        }
+
+        .about-principle span {
+            font-size: 14px;
+            line-height: 1.65;
+            opacity: 0.87;
+        }
+
+        .about-owner {
+            padding: 26px;
+            text-align: center;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 18px;
+            background: rgba(215,179,90,0.055);
+        }
+
+        .about-owner .owner-icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .about-owner h3 {
+            margin: 0 0 7px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 25px;
+        }
+
+        .about-owner p {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .about-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .about-links a {
+            display: inline-block;
+            padding: 11px 16px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 10px;
+            color: #f0d27a;
+            text-decoration: none;
+            background: rgba(255,255,255,0.025);
+            transition: 0.2s ease;
+        }
+
+        .about-links a:hover {
+            border-color: #d7b35a;
+            background: rgba(215,179,90,0.09);
+        }
+
+        .about-disclaimer {
+            padding: 21px;
+            border: 1px dashed rgba(215,179,90,0.35);
+            border-radius: 16px;
+            line-height: 1.7;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .about-bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 35px 0 15px;
+        }
+
+        .about-bottom-nav a {
+            padding: 10px 15px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 10px;
+            text-decoration: none;
+            color: #f0d27a;
+            background: rgba(255,255,255,0.025);
+        }
+
+        .about-bottom-nav a:hover {
+            border-color: #d7b35a;
+            background: rgba(215,179,90,0.08);
+        }
+
+        @media (max-width: 900px) {
+
+            .about-card-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .about-flow {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 620px) {
+
+            .about-page {
+                padding: 14px;
+            }
+
+            .about-hero {
+                padding: 30px 15px;
+            }
+
+            .about-card-grid,
+            .about-principles {
+                grid-template-columns: 1fr;
+            }
+
+            .about-flow {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-feature {
+                padding: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<main class="about-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="about-hero">
+
+        <h1>ALON HISTORYVERSE 24</h1>
+
+        <p class="subtitle">
+            A knowledge platform dedicated to history, civilizations,
+            countries, culture, heritage, timelines and educational
+            exploration.
         </p>
 
-    </header>
+        <span class="about-badge">
+            🌍 History • Civilization • Culture • Heritage • Knowledge
+        </span>
+
+    </section>
 
 
-    <!-- =========================
-         MAIN CONTENT
-    ========================== -->
-    <section class="content">
+    <!-- =====================================================
+         ABOUT THE PROJECT
+    ====================================================== -->
 
-        <h2>About ALON HISTORYVERSE 24</h2>
+    <section class="about-section">
+
+        <h2>📖 About the Project</h2>
 
         <p>
-            ALON HISTORYVERSE 24 is a knowledge platform designed
-            to explore history, civilizations, countries, heritage,
-            timelines, literature, education and human knowledge
-            through an organized digital experience.
+            ALON HISTORYVERSE 24 is a digital knowledge project created
+            to make historical and cultural information easier to
+            explore, understand and connect.
         </p>
 
         <p>
-            The platform is created by
-            <strong>Baba Thecno Guru</strong>.
+            The platform brings different areas of knowledge together,
+            including world history, civilizations, countries,
+            historical places, heritage, culture, timelines and
+            educational resources.
         </p>
 
+        <p>
+            The goal is to provide a structured environment where
+            visitors can move from one topic to another and discover
+            the connections between people, places, civilizations,
+            events and cultures.
+        </p>
 
-        <!-- =========================
-             QUICK NAVIGATION
-        ========================== -->
-        <div class="grid">
+    </section>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
+
+    <!-- =====================================================
+         MAIN AREAS
+    ====================================================== -->
+
+    <section class="about-section">
+
+        <h2>🌍 What You Can Explore</h2>
+
+        <div class="about-card-grid">
+
+
+            <div class="about-card">
+
+                <div class="about-icon">🏺</div>
+
+                <h3>History & Civilizations</h3>
+
                 <p>
-                    Return to the main ALON HISTORYVERSE 24
-                    entry point.
+                    Explore ancient, medieval and modern history,
+                    major civilizations, historical societies,
+                    rulers, people and important events.
                 </p>
-            </a>
+
+            </div>
 
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore historical knowledge,
-                    civilizations and subjects.
-                </p>
-            </a>
+            <div class="about-card">
 
+                <div class="about-icon">🌎</div>
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the ALON HISTORYVERSE 24
-                    knowledge library.
-                </p>
-            </a>
-
-
-            <a class="card" href="countries.html">
                 <h3>Countries</h3>
+
                 <p>
-                    Explore countries and their
-                    historical backgrounds.
+                    Discover countries, capitals, regions,
+                    historical backgrounds, cultures, cities
+                    and important heritage.
                 </p>
+
+            </div>
+
+
+            <div class="about-card">
+
+                <div class="about-icon">🏛️</div>
+
+                <h3>Heritage</h3>
+
+                <p>
+                    Learn about monuments, forts, ancient cities,
+                    archaeological sites, traditions and cultural
+                    heritage around the world.
+                </p>
+
+            </div>
+
+
+            <div class="about-card">
+
+                <div class="about-icon">⏳</div>
+
+                <h3>Historical Timeline</h3>
+
+                <p>
+                    Follow important events and developments across
+                    different periods of human history.
+                </p>
+
+            </div>
+
+
+            <div class="about-card">
+
+                <div class="about-icon">📚</div>
+
+                <h3>Knowledge Library</h3>
+
+                <p>
+                    A structured library system for departments,
+                    subjects, books and readable educational content.
+                </p>
+
+            </div>
+
+
+            <div class="about-card">
+
+                <div class="about-icon">📰</div>
+
+                <h3>Articles</h3>
+
+                <p>
+                    Explore educational articles and, as the platform
+                    develops, contributor-created historical and
+                    knowledge content.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PLATFORM FEATURES
+    ====================================================== -->
+
+    <section class="about-section">
+
+        <h2>⚙️ Platform Features</h2>
+
+        <div class="about-feature-list">
+
+
+            <div class="about-feature">
+
+                <div class="about-feature-icon">🔎</div>
+
+                <div>
+
+                    <strong>Search & Discovery</strong>
+
+                    <span>
+                        Searchable knowledge sections help visitors
+                        find topics and move between related subjects.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="about-feature">
+
+                <div class="about-feature-icon">🌐</div>
+
+                <div>
+
+                    <strong>World Knowledge</strong>
+
+                    <span>
+                        The project is designed around worldwide
+                        history, countries, civilizations and cultures.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="about-feature">
+
+                <div class="about-feature-icon">📱</div>
+
+                <div>
+
+                    <strong>Mobile-Friendly Experience</strong>
+
+                    <span>
+                        Pages are designed to remain easy to navigate
+                        on phones, tablets and desktop screens.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="about-feature">
+
+                <div class="about-feature-icon">🧭</div>
+
+                <div>
+
+                    <strong>Connected Navigation</strong>
+
+                    <span>
+                        History, countries, heritage, library,
+                        articles and timeline sections are connected
+                        through simple navigation paths.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="about-feature">
+
+                <div class="about-feature-icon">🤝</div>
+
+                <div>
+
+                    <strong>Contributor Participation</strong>
+
+                    <span>
+                        Contributors can submit educational material
+                        for review according to the platform's
+                        contribution guidelines.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="about-feature">
+
+                <div class="about-feature-icon">🛡️</div>
+
+                <div>
+
+                    <strong>Quality & Accuracy</strong>
+
+                    <span>
+                        Historical and educational information should
+                        be supported by reliable sources and presented
+                        responsibly.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HOW THE PLATFORM IS ORGANIZED
+    ====================================================== -->
+
+    <section class="about-section">
+
+        <h2>🗂️ How the Knowledge Structure Works</h2>
+
+        <div class="about-flow">
+
+
+            <div class="about-flow-step">
+
+                <span class="number">1</span>
+
+                <strong>Explore</strong>
+
+            </div>
+
+
+            <div class="about-flow-step">
+
+                <span class="number">2</span>
+
+                <strong>Category</strong>
+
+            </div>
+
+
+            <div class="about-flow-step">
+
+                <span class="number">3</span>
+
+                <strong>Topic</strong>
+
+            </div>
+
+
+            <div class="about-flow-step">
+
+                <span class="number">4</span>
+
+                <strong>Knowledge</strong>
+
+            </div>
+
+
+            <div class="about-flow-step">
+
+                <span class="number">5</span>
+
+                <strong>Read</strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROJECT PRINCIPLES
+    ====================================================== -->
+
+    <section class="about-section">
+
+        <h2>📜 Project Principles</h2>
+
+        <div class="about-principles">
+
+
+            <div class="about-principle">
+
+                <strong>Accuracy</strong>
+
+                <span>
+                    Historical information should be researched,
+                    checked and presented carefully.
+                </span>
+
+            </div>
+
+
+            <div class="about-principle">
+
+                <strong>Educational Purpose</strong>
+
+                <span>
+                    Content should help readers learn and understand
+                    history and culture.
+                </span>
+
+            </div>
+
+
+            <div class="about-principle">
+
+                <strong>Respect for Cultures</strong>
+
+                <span>
+                    Different societies, traditions, communities
+                    and historical perspectives should be treated
+                    respectfully.
+                </span>
+
+            </div>
+
+
+            <div class="about-principle">
+
+                <strong>Reliable Sources</strong>
+
+                <span>
+                    Important historical claims should be supported
+                    by credible references whenever possible.
+                </span>
+
+            </div>
+
+
+            <div class="about-principle">
+
+                <strong>Clear Presentation</strong>
+
+                <span>
+                    Complex historical subjects should be organized
+                    in a way that makes them easier to understand.
+                </span>
+
+            </div>
+
+
+            <div class="about-principle">
+
+                <strong>Continuous Improvement</strong>
+
+                <span>
+                    Information can be corrected, expanded and updated
+                    as better evidence and resources become available.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CREATOR
+    ====================================================== -->
+
+    <section class="about-section">
+
+        <div class="about-owner">
+
+            <div class="owner-icon">
+                👤
+            </div>
+
+            <h3>Baba Thecno Guru</h3>
+
+            <p>
+                Creator and owner of ALON HISTORYVERSE 24.
+                The project is being developed as a structured
+                digital knowledge platform focused on history,
+                civilizations, countries, culture, heritage and
+                educational exploration.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTRIBUTION
+    ====================================================== -->
+
+    <section class="about-section">
+
+        <h2>🤝 Contribute to the Project</h2>
+
+        <p>
+            Historical researchers, students, educators, writers
+            and knowledgeable contributors can help expand the
+            platform by submitting useful educational content.
+        </p>
+
+        <p>
+            Contributions should follow the project's content
+            guidelines and contributor agreement. Submitted material
+            may be reviewed before publication.
+        </p>
+
+        <div class="about-links">
+
+            <a href="./contribute.html">
+                ✍️ Contribute
             </a>
 
-
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
-                <p>
-                    Discover ancient and historical
-                    civilizations.
-                </p>
+            <a href="./guidelines.html">
+                📋 Guidelines
             </a>
 
-
-            <a class="card" href="timeline.html">
-                <h3>Timeline</h3>
-                <p>
-                    Explore history through
-                    chronological timelines.
-                </p>
+            <a href="./contributor-agreement.html">
+                🤝 Contributor Agreement
             </a>
 
         </div>
@@ -110,32 +860,100 @@
     </section>
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer class="footer">
+    <!-- =====================================================
+         INFORMATION & LEGAL
+    ====================================================== -->
 
-        <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
-        </p>
+    <section class="about-section">
+
+        <h2>🛡️ Information & Legal</h2>
+
+        <div class="about-disclaimer">
+
+            ALON HISTORYVERSE 24 is intended as an educational
+            knowledge platform. Historical information can contain
+            differing interpretations, incomplete records and
+            evolving research.
+
+            <br><br>
+
+            Users should consult reliable primary and secondary
+            sources for academic, professional or research purposes.
+            Copyright, privacy and other legal matters are governed
+            by the applicable project policies.
+
+        </div>
+
+        <div class="about-links">
+
+            <a href="./copyright.html">
+                ©️ Copyright
+            </a>
+
+            <a href="./privacy.html">
+                🔒 Privacy
+            </a>
+
+            <a href="./privacy-policy.html">
+                🔐 Privacy Policy
+            </a>
+
+            <a href="./terms.html">
+                📄 Terms
+            </a>
+
+            <a href="./contact.html">
+                📩 Contact
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="about-bottom-nav">
 
         <a href="../index.html">
-            Home
+            🏠 Home
         </a>
 
-    </footer>
+        <a href="./discover.html">
+            🔎 Discover
+        </a>
+
+        <a href="./civilizations.html">
+            🏺 Civilizations
+        </a>
+
+        <a href="./countries.html">
+            🌍 Countries
+        </a>
+
+        <a href="./heritage.html">
+            🏛️ Heritage
+        </a>
+
+        <a href="./timeline.html">
+            ⏳ Timeline
+        </a>
+
+        <a href="./library.html">
+            📚 Library
+        </a>
+
+        <a href="./articles.html">
+            📰 Articles
+        </a>
+
+    </nav>
+
 
 </main>
 
-
-<!-- =========================
-     GLOBAL CORE SYSTEM
-========================== -->
-
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/app.js"></script>
-
 </body>
+
 </html>

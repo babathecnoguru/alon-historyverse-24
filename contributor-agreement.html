@@ -1,123 +1,623 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <meta
+        name="description"
+        content="Contributor Agreement for ALON HISTORYVERSE 24 — Baba Thecno Guru"
+    >
 
     <title>Contributor Agreement • ALON HISTORYVERSE 24</title>
 
+    <!-- EXISTING GLOBAL STYLE PATH -->
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           CONTRIBUTOR AGREEMENT PAGE
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #f1f1f1;
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.7;
+        }
+
+        .agreement-page {
+            width: min(1100px, 94%);
+            margin: 0 auto;
+            padding: 30px 0 60px;
+        }
+
+        .agreement-header {
+            text-align: center;
+            padding: 25px 15px 35px;
+            border-bottom: 1px solid rgba(215, 179, 90, 0.35);
+        }
+
+        .agreement-header h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: clamp(28px, 5vw, 48px);
+        }
+
+        .agreement-header h2 {
+            margin: 0;
+            color: #d7b35a;
+            font-size: clamp(18px, 3vw, 26px);
+            font-weight: normal;
+        }
+
+        .agreement-header p {
+            max-width: 760px;
+            margin: 15px auto 0;
+            color: #c9c9c9;
+        }
+
+        .agreement-box {
+            margin-top: 28px;
+            padding: 25px;
+            background: rgba(12, 18, 30, 0.92);
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .agreement-box h3 {
+            margin-top: 0;
+            color: #f0d27a;
+            font-size: 24px;
+        }
+
+        .agreement-box h4 {
+            color: #d7b35a;
+            margin-bottom: 8px;
+            font-size: 19px;
+        }
+
+        .agreement-box p {
+            color: #dddddd;
+        }
+
+        .agreement-box ul,
+        .agreement-box ol {
+            padding-left: 25px;
+        }
+
+        .agreement-box li {
+            margin-bottom: 8px;
+            color: #d6d6d6;
+        }
+
+        .important {
+            margin: 20px 0;
+            padding: 18px;
+            border-left: 4px solid #d7b35a;
+            background: rgba(215, 179, 90, 0.08);
+            border-radius: 8px;
+        }
+
+        .important strong {
+            color: #f0d27a;
+        }
+
+        .section-number {
+            color: #d7b35a;
+            margin-right: 6px;
+        }
+
+        .rights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .rights-card {
+            padding: 18px;
+            border: 1px solid rgba(215, 179, 90, 0.22);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .rights-card h4 {
+            margin-top: 0;
+        }
+
+        .agreement-form {
+            margin-top: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #f0d27a;
+            font-weight: bold;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+            background: #090e18;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .field textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            border-color: #f0d27a;
+            box-shadow: 0 0 0 2px rgba(240, 210, 122, 0.1);
+        }
+
+        .checkbox-area {
+            margin: 22px 0;
+            padding: 18px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 12px;
+            background: rgba(215, 179, 90, 0.05);
+        }
+
+        .checkbox-label {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            cursor: pointer;
+            color: #dddddd;
+        }
+
+        .checkbox-label input {
+            width: 20px;
+            height: 20px;
+            margin-top: 4px;
+            accent-color: #d7b35a;
+            flex-shrink: 0;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            border: 1px solid #d7b35a;
+            border-radius: 10px;
+            padding: 12px 20px;
+            background: #101827;
+            color: #f0d27a;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        .btn-primary {
+            background: #d7b35a;
+            color: #05080f;
+            font-weight: bold;
+        }
+
+        .status {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            background: rgba(215, 179, 90, 0.08);
+            color: #f0d27a;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(215, 179, 90, 0.2);
+            text-align: center;
+            color: #999999;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 16px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 9px;
+            color: #f0d27a;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            background: rgba(215, 179, 90, 0.1);
+        }
+
+        @media (max-width: 700px) {
+
+            .agreement-page {
+                width: 92%;
+                padding-top: 18px;
+            }
+
+            .agreement-box {
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            .rights-grid,
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .agreement-box h3 {
+                font-size: 21px;
+            }
+
+            .agreement-box h4 {
+                font-size: 17px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 
-<main class="page">
+<main class="agreement-page">
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <header class="agreement-header">
 
         <h1>Contributor Agreement</h1>
 
+        <h2>ALON HISTORYVERSE 24</h2>
+
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
+            A contribution and publishing agreement for
+            historical, educational, cultural and knowledge-based
+            content submitted to ALON HISTORYVERSE 24.
+        </p>
+
+        <p>
+            <strong>Creator / Owner:</strong>
+            Baba Thecno Guru
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         INTRODUCTION
     ====================================================== -->
-    <section class="content">
 
-        <h2>Contributor Agreement</h2>
+    <section class="agreement-box">
 
-        <p>
-            This Contributor Agreement explains the basic terms
-            for submitting knowledge, articles, historical
-            information, educational material, and other
-            contributions to ALON HISTORYVERSE 24.
-        </p>
-
-        <h2>Contribution Principles</h2>
+        <h3>
+            <span class="section-number">1.</span>
+            Introduction
+        </h3>
 
         <p>
-            Contributors should submit original, accurate and
-            useful information. Content may be reviewed before
-            publication to maintain quality, authenticity and
-            community standards.
+            ALON HISTORYVERSE 24 is a knowledge platform focused on
+            history, civilizations, countries, culture, heritage,
+            timelines, education and related subjects.
         </p>
-
-        <h2>Content Responsibility</h2>
 
         <p>
-            Contributors are responsible for ensuring that the
-            material they submit does not knowingly violate
-            copyright, privacy, intellectual-property rights or
-            applicable laws.
+            This Contributor Agreement explains the conditions under
+            which a contributor may submit material for consideration,
+            publication, editing, correction or removal on the platform.
         </p>
 
-        <h2>Review & Publication</h2>
+        <div class="important">
+            <strong>Important:</strong>
+            Submitting material does not automatically guarantee
+            publication. Every contribution may be reviewed before
+            appearing publicly.
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ELIGIBILITY
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">2.</span>
+            Contributor Eligibility
+        </h3>
 
         <p>
-            Submitted content may be reviewed, edited, approved,
-            rejected or returned for clarification before it is
-            published on the platform.
+            A contributor submitting content should provide accurate
+            information and should have the necessary rights or
+            permissions to submit the material.
         </p>
 
+        <ul>
+            <li>Provide truthful contributor information.</li>
+            <li>Submit content in good faith.</li>
+            <li>Respect copyright and intellectual property rights.</li>
+            <li>Do not knowingly submit fabricated historical claims.</li>
+            <li>Do not submit unlawful or harmful material.</li>
+        </ul>
 
-        <!-- =================================================
-             RELATED PAGES
-        ================================================== -->
-        <div class="grid">
+    </section>
 
-            <a class="card" href="contribute.html">
-                <h3>Contribute</h3>
+
+    <!-- =====================================================
+         ORIGINALITY
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">3.</span>
+            Originality and Accuracy
+        </h3>
+
+        <p>
+            Contributors are responsible for the material they submit.
+            Historical information should be prepared carefully and,
+            whenever reasonably possible, supported by reliable sources.
+        </p>
+
+        <h4>Contributors should:</h4>
+
+        <ul>
+            <li>Check names, dates and locations before submission.</li>
+            <li>Distinguish historical facts from interpretation.</li>
+            <li>Provide references for important claims.</li>
+            <li>Correct known errors when they are discovered.</li>
+            <li>Avoid deliberately misleading information.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         SOURCES
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">4.</span>
+            Sources and References
+        </h3>
+
+        <p>
+            Contributors are encouraged to provide books, academic
+            publications, archives, museums, official records,
+            educational resources and other reliable references.
+        </p>
+
+        <p>
+            Sources may be used by the review process to verify
+            information before publication.
+        </p>
+
+        <div class="important">
+            <strong>Source rule:</strong>
+            Do not present another person's work as your own.
+            When information comes from another source, identify the
+            source appropriately.
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         COPYRIGHT
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">5.</span>
+            Copyright and Intellectual Property
+        </h3>
+
+        <p>
+            Contributors must have the right to submit any text,
+            photograph, illustration, graphic, video or other material
+            included in their contribution.
+        </p>
+
+        <ul>
+            <li>
+                Do not upload copyrighted material without permission.
+            </li>
+
+            <li>
+                Do not copy complete articles from another website.
+            </li>
+
+            <li>
+                Do not submit pirated books, scans or protected files.
+            </li>
+
+            <li>
+                Provide attribution where attribution is required.
+            </li>
+
+            <li>
+                Clearly identify material that requires a license or
+                permission.
+            </li>
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         IMAGES
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">6.</span>
+            Images, Photographs and Graphics
+        </h3>
+
+        <p>
+            Images submitted with a contribution must be legally
+            usable by the contributor or properly licensed for the
+            intended use.
+        </p>
+
+        <ul>
+            <li>Provide the original creator when known.</li>
+            <li>Provide the source or license information when applicable.</li>
+            <li>Do not upload private photographs without permission.</li>
+            <li>Do not remove copyright notices from protected material.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         VIDEO
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">7.</span>
+            Videos and External Media
+        </h3>
+
+        <p>
+            Contributors may provide information about relevant videos
+            or external media. The contributor should provide the source
+            and appropriate ownership or licensing information.
+        </p>
+
+        <p>
+            ALON HISTORYVERSE 24 may choose whether an external media
+            item is appropriate for the platform.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTRIBUTOR RIGHTS
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">8.</span>
+            Contributor Rights
+        </h3>
+
+        <div class="rights-grid">
+
+            <div class="rights-card">
+
+                <h4>Recognition</h4>
+
                 <p>
-                    Submit historical and educational knowledge.
+                    Where appropriate, contributors may be credited
+                    for accepted material.
                 </p>
-            </a>
 
-            <a class="card" href="guidelines.html">
-                <h3>Community Guidelines</h3>
-                <p>
-                    Review the content and contribution guidelines.
-                </p>
-            </a>
+            </div>
 
-            <a class="card" href="copyright.html">
-                <h3>Copyright</h3>
-                <p>
-                    Learn about copyright and content protection.
-                </p>
-            </a>
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore knowledge across HistoryVerse.
-                </p>
-            </a>
+            <div class="rights-card">
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the ALON HISTORYVERSE 24 knowledge library.
-                </p>
-            </a>
+                <h4>Corrections</h4>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
                 <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
+                    Contributors may report factual errors or request
+                    corrections to information they submitted.
                 </p>
-            </a>
+
+            </div>
+
+
+            <div class="rights-card">
+
+                <h4>Questions</h4>
+
+                <p>
+                    Contributors may contact the project regarding
+                    their submitted material.
+                </p>
+
+            </div>
+
+
+            <div class="rights-card">
+
+                <h4>Review</h4>
+
+                <p>
+                    Submitted material may be reviewed before publication.
+                </p>
+
+            </div>
 
         </div>
 
@@ -125,25 +625,588 @@
 
 
     <!-- =====================================================
-         FOOTER
+         PLATFORM RIGHTS
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <section class="agreement-box">
 
-        • <a href="../index.html">Home</a>
+        <h3>
+            <span class="section-number">9.</span>
+            Platform Review and Editorial Rights
+        </h3>
 
-    </footer>
+        <p>
+            ALON HISTORYVERSE 24 may review, edit, format, categorize,
+            organize or decline submitted material when necessary for
+            accuracy, quality, legal compliance or platform standards.
+        </p>
+
+        <p>
+            Minor editorial changes may include spelling, grammar,
+            formatting, headings, summaries and structural organization.
+        </p>
+
+        <p>
+            Material may also be removed if it is later found to be
+            inaccurate, infringing, inappropriate or inconsistent with
+            platform guidelines.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROHIBITED CONTENT
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">10.</span>
+            Prohibited Contributions
+        </h3>
+
+        <p>
+            Contributors must not knowingly submit:
+        </p>
+
+        <ul>
+            <li>Plagiarized content.</li>
+            <li>False historical information presented as fact.</li>
+            <li>Copyright-infringing material.</li>
+            <li>Malware, malicious files or harmful code.</li>
+            <li>Fraudulent documents or fabricated sources.</li>
+            <li>Spam or unrelated promotional material.</li>
+            <li>Content intended to deceive users.</li>
+            <li>Material that violates applicable law.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         MODERATION
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">11.</span>
+            Moderation and Removal
+        </h3>
+
+        <p>
+            Submitted content may be reviewed by the platform's
+            administrators or editorial process.
+        </p>
+
+        <p>
+            A contribution may be rejected, edited, unpublished,
+            archived or removed when there is a reasonable need to
+            protect accuracy, copyright, users or the integrity of
+            ALON HISTORYVERSE 24.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         PRIVACY
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">12.</span>
+            Contributor Information
+        </h3>
+
+        <p>
+            Information supplied through a contribution form should be
+            limited to information necessary for contribution,
+            communication, verification and administration.
+        </p>
+
+        <p>
+            Contributors should not submit passwords, financial account
+            credentials, government identification numbers or other
+            unnecessary sensitive information through a contribution form.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         RESPONSIBILITY
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">13.</span>
+            Contributor Responsibility
+        </h3>
+
+        <p>
+            The contributor remains responsible for ensuring that the
+            submitted material can lawfully be provided for review and
+            potential publication.
+        </p>
+
+        <p>
+            Contributors should promptly report any copyright issue,
+            factual error or ownership problem concerning their
+            submitted material.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         AGREEMENT
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">14.</span>
+            Agreement Acceptance
+        </h3>
+
+        <p>
+            By checking the acceptance box below, the contributor
+            confirms that they have read and understood this agreement
+            and intend to follow these contribution principles.
+        </p>
+
+        <div class="important">
+            <strong>Note:</strong>
+            This web form records your acknowledgement locally in this
+            browser. A production submission and permanent contributor
+            record require a secure backend/database.
+        </div>
+
+
+        <form
+            class="agreement-form"
+            id="agreementForm"
+        >
+
+            <div class="form-row">
+
+                <div class="field">
+
+                    <label for="contributorName">
+                        Contributor Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contributorName"
+                        name="contributorName"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="contributorEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="contributorEmail"
+                        name="contributorEmail"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="agreementDate">
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    id="agreementDate"
+                    name="agreementDate"
+                    required
+                >
+
+            </div>
+
+
+            <div class="checkbox-area">
+
+                <label class="checkbox-label">
+
+                    <input
+                        type="checkbox"
+                        id="agreementAccepted"
+                        name="agreementAccepted"
+                    >
+
+                    <span>
+                        I have read and understood the ALON HISTORYVERSE 24
+                        Contributor Agreement. I confirm that the information
+                        and material I submit will be provided honestly and,
+                        to the best of my knowledge, will respect applicable
+                        copyright and intellectual property requirements.
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Accept Agreement
+                </button>
+
+                <button
+                    type="button"
+                    class="btn"
+                    id="saveAgreement"
+                >
+                    Save Locally
+                </button>
+
+                <button
+                    type="button"
+                    class="btn"
+                    id="clearAgreement"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+
+            <div
+                class="status"
+                id="agreementStatus"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINAL SECTION
+    ====================================================== -->
+
+    <section class="agreement-box">
+
+        <h3>
+            <span class="section-number">15.</span>
+            Final Understanding
+        </h3>
+
+        <p>
+            The purpose of this agreement is to maintain a reliable,
+            respectful and useful knowledge environment for ALON
+            HISTORYVERSE 24 contributors and readers.
+        </p>
+
+        <p>
+            By contributing, users are encouraged to help preserve
+            historical knowledge while respecting accuracy, sources,
+            copyright and the work of other contributors.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <div style="text-align:center;">
+
+        <a
+            href="./contribute.html"
+            class="back-link"
+        >
+            ← Back to Contribute
+        </a>
+
+        <a
+            href="../index.html"
+            class="back-link"
+        >
+            Home
+        </a>
+
+    </div>
+
+
+    <div class="footer-note">
+
+        ALON HISTORYVERSE 24 • Baba Thecno Guru<br>
+
+        History • Civilizations • Countries • Culture • Heritage • Knowledge
+
+    </div>
 
 </main>
 
 
-<!-- =========================================================
-     CORE V100 SCRIPTS
-========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/app.js"></script>
+<script>
+    /* =====================================================
+       CONTRIBUTOR AGREEMENT
+       LOCAL BROWSER STORAGE ONLY
+    ====================================================== */
+
+    const agreementForm =
+        document.getElementById("agreementForm");
+
+    const agreementStatus =
+        document.getElementById("agreementStatus");
+
+    const saveAgreement =
+        document.getElementById("saveAgreement");
+
+    const clearAgreement =
+        document.getElementById("clearAgreement");
+
+    const agreementDate =
+        document.getElementById("agreementDate");
+
+    const STORAGE_KEY =
+        "alon_historyverse_contributor_agreement";
+
+
+    /* -----------------------------------------------------
+       SET TODAY'S DATE
+    ----------------------------------------------------- */
+
+    if (!agreementDate.value) {
+
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        agreementDate.value = today;
+    }
+
+
+    /* -----------------------------------------------------
+       STATUS MESSAGE
+    ----------------------------------------------------- */
+
+    function showStatus(message) {
+
+        agreementStatus.textContent = message;
+
+        agreementStatus.style.display = "block";
+
+    }
+
+
+    /* -----------------------------------------------------
+       SAVE DATA
+    ----------------------------------------------------- */
+
+    function saveAgreementData() {
+
+        const data = {
+
+            contributorName:
+                document.getElementById("contributorName").value,
+
+            contributorEmail:
+                document.getElementById("contributorEmail").value,
+
+            agreementDate:
+                document.getElementById("agreementDate").value,
+
+            agreementAccepted:
+                document.getElementById("agreementAccepted").checked,
+
+            savedAt:
+                new Date().toISOString()
+
+        };
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(data)
+        );
+
+        showStatus(
+            "Agreement information has been saved locally on this device."
+        );
+    }
+
+
+    /* -----------------------------------------------------
+       LOAD DATA
+    ----------------------------------------------------- */
+
+    function loadAgreementData() {
+
+        const saved =
+            localStorage.getItem(STORAGE_KEY);
+
+        if (!saved) {
+            return;
+        }
+
+        try {
+
+            const data =
+                JSON.parse(saved);
+
+            document.getElementById("contributorName").value =
+                data.contributorName || "";
+
+            document.getElementById("contributorEmail").value =
+                data.contributorEmail || "";
+
+            document.getElementById("agreementDate").value =
+                data.agreementDate || agreementDate.value;
+
+            document.getElementById("agreementAccepted").checked =
+                Boolean(data.agreementAccepted);
+
+        } catch (error) {
+
+            console.warn(
+                "Contributor agreement data could not be loaded.",
+                error
+            );
+        }
+    }
+
+
+    /* -----------------------------------------------------
+       SUBMIT / ACCEPT
+    ----------------------------------------------------- */
+
+    agreementForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            const name =
+                document.getElementById("contributorName").value.trim();
+
+            const email =
+                document.getElementById("contributorEmail").value.trim();
+
+            const accepted =
+                document.getElementById("agreementAccepted").checked;
+
+
+            if (!name) {
+
+                showStatus(
+                    "Please enter your contributor name."
+                );
+
+                return;
+            }
+
+
+            if (!email) {
+
+                showStatus(
+                    "Please enter your email address."
+                );
+
+                return;
+            }
+
+
+            if (!accepted) {
+
+                showStatus(
+                    "Please read and accept the Contributor Agreement."
+                );
+
+                return;
+            }
+
+
+            saveAgreementData();
+
+            showStatus(
+                "Contributor Agreement accepted and saved locally on this device. Online permanent submission will require the project's backend system."
+            );
+
+        }
+    );
+
+
+    /* -----------------------------------------------------
+       SAVE BUTTON
+    ----------------------------------------------------- */
+
+    saveAgreement.addEventListener(
+        "click",
+        function() {
+
+            saveAgreementData();
+
+        }
+    );
+
+
+    /* -----------------------------------------------------
+       CLEAR BUTTON
+    ----------------------------------------------------- */
+
+    clearAgreement.addEventListener(
+        "click",
+        function() {
+
+            agreementForm.reset();
+
+            localStorage.removeItem(
+                STORAGE_KEY
+            );
+
+            const today =
+                new Date().toISOString().split("T")[0];
+
+            agreementDate.value = today;
+
+            showStatus(
+                "Contributor Agreement form and locally saved data have been cleared."
+            );
+
+        }
+    );
+
+
+    /* -----------------------------------------------------
+       LOAD SAVED DATA ON PAGE OPEN
+    ----------------------------------------------------- */
+
+    loadAgreementData();
+
+</script>
 
 </body>
+
 </html>

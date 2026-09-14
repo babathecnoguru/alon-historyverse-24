@@ -10,142 +10,570 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Admin Panel • ALON HISTORYVERSE 24</title>
+    <title>Admin Control Center • ALON HISTORYVERSE 24</title>
 
-    <!-- Global stylesheet -->
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 administration and content management control center."
+    >
+
     <link
         rel="stylesheet"
         href="../css/style.css"
     >
 
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           ADMIN CONTROL CENTER
+        ====================================================== */
+
+        .admin-page {
+            width: 100%;
+            max-width: 1350px;
+            margin: 0 auto;
+            padding: 18px;
+        }
+
+        .admin-hero {
+            padding: 30px 20px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(215,179,90,0.38);
+            border-radius: 20px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(215,179,90,0.10),
+                    rgba(5,8,15,0.97)
+                );
+        }
+
+        .admin-hero h1 {
+            margin: 0 0 8px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(28px, 6vw, 46px);
+        }
+
+        .admin-hero p {
+            margin: 0;
+            line-height: 1.7;
+            opacity: 0.88;
+        }
+
+        .admin-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 8px 13px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 999px;
+            color: #f0d27a;
+            background: rgba(215,179,90,0.06);
+            font-size: 13px;
+        }
+
+        .admin-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #d7b35a;
+        }
+
+        .admin-section {
+            margin-bottom: 25px;
+        }
+
+        .admin-title {
+            margin: 0 0 14px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 27px;
+        }
+
+        /* =====================================================
+           STATISTICS
+        ====================================================== */
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .admin-stat {
+            padding: 20px;
+            border: 1px solid rgba(215,179,90,0.25);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.025);
+        }
+
+        .admin-stat-icon {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .admin-stat-number {
+            font-size: 28px;
+            color: #f0d27a;
+            font-weight: bold;
+        }
+
+        .admin-stat-label {
+            margin-top: 4px;
+            font-size: 13px;
+            opacity: 0.75;
+        }
+
+        /* =====================================================
+           CONTROL GRID
+        ====================================================== */
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .admin-card {
+            padding: 21px;
+            border: 1px solid rgba(215,179,90,0.27);
+            border-radius: 17px;
+            background: rgba(255,255,255,0.025);
+        }
+
+        .admin-card:hover {
+            border-color: rgba(240,210,122,0.62);
+        }
+
+        .admin-card-icon {
+            font-size: 31px;
+            margin-bottom: 10px;
+        }
+
+        .admin-card h3 {
+            margin: 0 0 8px;
+            color: #f0d27a;
+            font-size: 19px;
+        }
+
+        .admin-card p {
+            margin: 0 0 15px;
+            line-height: 1.6;
+            font-size: 13px;
+            opacity: 0.82;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+
+        .admin-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .admin-btn {
+            padding: 10px 13px;
+            border: 1px solid rgba(215,179,90,0.38);
+            border-radius: 9px;
+            background: rgba(215,179,90,0.07);
+            color: #f0d27a;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .admin-btn:hover {
+            background: rgba(215,179,90,0.15);
+            border-color: #d7b35a;
+        }
+
+        .admin-btn.primary {
+            background: #d7b35a;
+            color: #05080f;
+            font-weight: bold;
+        }
+
+        .admin-btn.danger {
+            border-color: rgba(220,80,80,0.5);
+            color: #ff9b9b;
+            background: rgba(220,80,80,0.07);
+        }
+
+        .admin-btn.danger:hover {
+            background: rgba(220,80,80,0.14);
+        }
+
+        .admin-btn.success {
+            border-color: rgba(100,190,120,0.45);
+            color: #9ee8aa;
+        }
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .admin-search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 15px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 11px;
+            background: #080d16;
+            color: #ffffff;
+            outline: none;
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+
+        /* =====================================================
+           CONTENT TABLE
+        ====================================================== */
+
+        .admin-table-wrap {
+            overflow-x: auto;
+            border: 1px solid rgba(215,179,90,0.24);
+            border-radius: 15px;
+        }
+
+        .admin-table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid rgba(215,179,90,0.13);
+            font-size: 13px;
+        }
+
+        .admin-table th {
+            color: #f0d27a;
+            background: rgba(215,179,90,0.055);
+        }
+
+        .admin-table td {
+            opacity: 0.9;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(215,179,90,0.25);
+            color: #f0d27a;
+            font-size: 11px;
+        }
+
+        .empty-state {
+            padding: 30px;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* =====================================================
+           MEDIA MANAGEMENT
+        ====================================================== */
+
+        .media-zone {
+            padding: 20px;
+            border: 1px dashed rgba(215,179,90,0.4);
+            border-radius: 15px;
+            text-align: center;
+            background: rgba(215,179,90,0.025);
+        }
+
+        .media-zone input {
+            width: 100%;
+            max-width: 500px;
+            margin: 12px auto;
+        }
+
+        .media-preview {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .media-item {
+            padding: 10px;
+            border: 1px solid rgba(215,179,90,0.22);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .media-item img,
+        .media-item video {
+            width: 100%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .media-name {
+            margin-top: 7px;
+            font-size: 11px;
+            word-break: break-word;
+            opacity: 0.75;
+        }
+
+        /* =====================================================
+           LOG / MESSAGE
+        ====================================================== */
+
+        .admin-log {
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 14px;
+            border: 1px solid rgba(215,179,90,0.2);
+            border-radius: 13px;
+            background: #070b12;
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .log-line {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        /* =====================================================
+           WARNING
+        ====================================================== */
+
+        .admin-warning {
+            padding: 18px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(220,160,70,0.45);
+            border-radius: 15px;
+            background: rgba(220,160,70,0.06);
+            line-height: 1.7;
+            font-size: 13px;
+        }
+
+        .admin-warning strong {
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
+
+        .admin-bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            margin: 30px 0 15px;
+        }
+
+        .admin-bottom-nav a {
+            padding: 10px 14px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 9px;
+            color: #f0d27a;
+            text-decoration: none;
+            background: rgba(255,255,255,0.025);
+        }
+
+        .admin-bottom-nav a:hover {
+            border-color: #d7b35a;
+            background: rgba(215,179,90,0.08);
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 1000px) {
+
+            .admin-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .media-preview {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 620px) {
+
+            .admin-page {
+                padding: 13px;
+            }
+
+            .admin-grid,
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .media-preview {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-hero {
+                padding: 25px 15px;
+            }
+
+            .admin-card {
+                padding: 17px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
-
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
-
-        <a
-            href="../index.html"
-            class="back-link"
-        >
-            ← ALON HISTORYVERSE 24
-        </a>
-
-        <h1>Admin Panel</h1>
-
-        <p>
-            ALON HISTORYVERSE 24 V100
-            Knowledge Platform
-        </p>
-
-    </header>
+<main class="admin-page">
 
 
     <!-- =====================================================
-         ADMIN CONTENT
+         ADMIN HERO
     ====================================================== -->
-    <section class="content">
 
-        <h2>Admin Panel</h2>
+    <section class="admin-hero">
 
-        <p>
-            Welcome to the administration area of
-            ALON HISTORYVERSE 24.
-        </p>
+        <h1>⚙️ Admin Control Center</h1>
 
         <p>
-            This area will manage platform content,
-            articles, contributions, library resources,
-            moderation and system controls.
+            ALON HISTORYVERSE 24 — Website, Articles, Images,
+            Videos, Content and Administration.
         </p>
 
+        <div class="admin-status">
+            <span class="admin-dot"></span>
+            Admin Control Panel
+        </div>
 
-        <!-- =================================================
-             ADMIN MODULES
-        ================================================== -->
-        <div class="grid">
-
-            <a
-                class="card"
-                href="admin-articles.html"
-            >
-                <h3>Articles</h3>
-
-                <p>
-                    Create, edit, review and manage
-                    HistoryVerse articles.
-                </p>
-            </a>
+    </section>
 
 
-            <a
-                class="card"
-                href="contribute.html"
-            >
-                <h3>Contributions</h3>
+    <!-- =====================================================
+         IMPORTANT SYSTEM NOTICE
+    ====================================================== -->
 
-                <p>
-                    Review and manage submitted
-                    knowledge and contributions.
-                </p>
-            </a>
+    <div class="admin-warning">
 
+        <strong>⚠️ Important:</strong>
 
-            <a
-                class="card"
-                href="library.html"
-            >
-                <h3>Library</h3>
+        यह Admin page अभी browser-side management के लिए बनाया गया है।
+        इसमें नीचे दिए गए data और actions इस browser के
+        <strong>localStorage</strong> पर काम करेंगे।
 
-                <p>
-                    Manage the knowledge library
-                    and its resources.
-                </p>
-            </a>
+        GitHub repository की वास्तविक files, GitHub Pages की published
+        files या permanently uploaded images/videos को केवल HTML से
+        delete नहीं किया जा सकता। उसके लिए बाद में secure backend,
+        database और authenticated storage जोड़ना होगा।
+
+    </div>
 
 
-            <a
-                class="card"
-                href="categories.html"
-            >
-                <h3>Categories</h3>
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
 
-                <p>
-                    Manage platform categories
-                    and knowledge sections.
-                </p>
-            </a>
+    <section class="admin-section">
 
+        <h2 class="admin-title">
+            📊 Dashboard
+        </h2>
 
-            <a
-                class="card"
-                href="guidelines.html"
-            >
-                <h3>Guidelines</h3>
-
-                <p>
-                    View the platform's content
-                    and community guidelines.
-                </p>
-            </a>
+        <div class="admin-stats">
 
 
-            <a
-                class="card"
-                href="../index.html"
-            >
-                <h3>Home</h3>
+            <div class="admin-stat">
 
-                <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
-                </p>
-            </a>
+                <div class="admin-stat-icon">📰</div>
+
+                <div
+                    class="admin-stat-number"
+                    id="articleCount"
+                >
+                    0
+                </div>
+
+                <div class="admin-stat-label">
+                    Articles
+                </div>
+
+            </div>
+
+
+            <div class="admin-stat">
+
+                <div class="admin-stat-icon">🗑️</div>
+
+                <div
+                    class="admin-stat-number"
+                    id="deletedCount"
+                >
+                    0
+                </div>
+
+                <div class="admin-stat-label">
+                    Deleted / Trash
+                </div>
+
+            </div>
+
+
+            <div class="admin-stat">
+
+                <div class="admin-stat-icon">🖼️</div>
+
+                <div
+                    class="admin-stat-number"
+                    id="mediaCount"
+                >
+                    0
+                </div>
+
+                <div class="admin-stat-label">
+                    Local Media
+                </div>
+
+            </div>
+
+
+            <div class="admin-stat">
+
+                <div class="admin-stat-icon">📝</div>
+
+                <div
+                    class="admin-stat-number"
+                    id="draftCount"
+                >
+                    0
+                </div>
+
+                <div class="admin-stat-label">
+                    Drafts
+                </div>
+
+            </div>
 
         </div>
 
@@ -153,33 +581,2030 @@
 
 
     <!-- =====================================================
-         FOOTER
+         MAIN ADMIN CONTROLS
     ====================================================== -->
-    <footer class="footer">
 
-        <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
-        </p>
+    <section class="admin-section">
+
+        <h2 class="admin-title">
+            🎛️ Content Controls
+        </h2>
+
+        <div class="admin-grid">
+
+
+            <!-- ARTICLES -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    📰
+                </div>
+
+                <h3>Article Management</h3>
+
+                <p>
+                    Create, edit, save, delete and restore articles
+                    stored by this frontend management system.
+                </p>
+
+                <div class="admin-buttons">
+
+                    <button
+                        class="admin-btn primary"
+                        id="newArticleBtn"
+                    >
+                        + New Article
+                    </button>
+
+                    <a
+                        class="admin-btn"
+                        href="./articles.html"
+                    >
+                        View Articles
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- IMAGES -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🖼️
+                </div>
+
+                <h3>Image Management</h3>
+
+                <p>
+                    Select images from the device and preview them
+                    before future upload/storage integration.
+                </p>
+
+                <div class="admin-buttons">
+
+                    <button
+                        class="admin-btn"
+                        id="imageSelectBtn"
+                    >
+                        Select Images
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- VIDEOS -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🎬
+                </div>
+
+                <h3>Video Management</h3>
+
+                <p>
+                    Select local videos and create browser previews.
+                    Permanent online storage requires a media backend.
+                </p>
+
+                <div class="admin-buttons">
+
+                    <button
+                        class="admin-btn"
+                        id="videoSelectBtn"
+                    >
+                        Select Videos
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- DRAFTS -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    📝
+                </div>
+
+                <h3>Draft Management</h3>
+
+                <p>
+                    Save unfinished article work locally and
+                    continue editing later on this browser.
+                </p>
+
+                <div class="admin-buttons">
+
+                    <button
+                        class="admin-btn"
+                        id="clearDraftsBtn"
+                    >
+                        Clear Drafts
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRASH -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🗑️
+                </div>
+
+                <h3>Trash / Restore</h3>
+
+                <p>
+                    Deleted frontend articles are moved to trash
+                    first so they can be restored.
+                </p>
+
+                <div class="admin-buttons">
+
+                    <button
+                        class="admin-btn success"
+                        id="restoreAllBtn"
+                    >
+                        Restore All
+                    </button>
+
+                    <button
+                        class="admin-btn danger"
+                        id="emptyTrashBtn"
+                    >
+                        Empty Trash
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- DATA -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    💾
+                </div>
+
+                <h3>Data Backup</h3>
+
+                <p>
+                    Export the current browser data to a JSON file
+                    or import a previously exported backup.
+                </p>
+
+                <div class="admin-buttons">
+
+                    <button
+                        class="admin-btn primary"
+                        id="exportBtn"
+                    >
+                        Export
+                    </button>
+
+                    <button
+                        class="admin-btn"
+                        id="importBtn"
+                    >
+                        Import
+                    </button>
+
+                </div>
+
+                <input
+                    type="file"
+                    id="importFile"
+                    accept=".json,application/json"
+                    hidden
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ARTICLE LIST
+    ====================================================== -->
+
+    <section class="admin-section">
+
+        <h2 class="admin-title">
+            📰 Article Database
+        </h2>
+
+        <input
+            type="search"
+            id="articleSearch"
+            class="admin-search"
+            placeholder="Search articles..."
+            autocomplete="off"
+        >
+
+        <div class="admin-table-wrap">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Title</th>
+
+                        <th>Category</th>
+
+                        <th>Status</th>
+
+                        <th>Created</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="articleTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LOCAL MEDIA MANAGER
+    ====================================================== -->
+
+    <section class="admin-section">
+
+        <h2 class="admin-title">
+            🖼️🎬 Media Manager
+        </h2>
+
+        <div class="media-zone">
+
+            <p>
+                Select images or videos from your device.
+                These previews remain local to this browser.
+            </p>
+
+            <input
+                type="file"
+                id="mediaInput"
+                accept="image/*,video/*"
+                multiple
+            >
+
+            <div
+                class="admin-buttons"
+                style="justify-content:center;"
+            >
+
+                <button
+                    class="admin-btn danger"
+                    id="clearMediaBtn"
+                >
+                    Clear Media Preview
+                </button>
+
+            </div>
+
+            <div
+                class="media-preview"
+                id="mediaPreview"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ARTICLE EDITOR
+    ====================================================== -->
+
+    <section
+        class="admin-section"
+        id="articleEditorSection"
+    >
+
+        <h2 class="admin-title">
+            ✍️ Article Editor
+        </h2>
+
+        <div class="admin-card">
+
+            <input
+                type="hidden"
+                id="articleId"
+            >
+
+            <label>
+                Article Title
+            </label>
+
+            <input
+                type="text"
+                id="articleTitle"
+                class="admin-search"
+                placeholder="Enter article title"
+            >
+
+
+            <label>
+                Category
+            </label>
+
+            <select
+                id="articleCategory"
+                class="admin-search"
+            >
+
+                <option value="History">
+                    History
+                </option>
+
+                <option value="Civilization">
+                    Civilization
+                </option>
+
+                <option value="Country">
+                    Country
+                </option>
+
+                <option value="Heritage">
+                    Heritage
+                </option>
+
+                <option value="Culture">
+                    Culture
+                </option>
+
+                <option value="Timeline">
+                    Timeline
+                </option>
+
+                <option value="Biography">
+                    Biography
+                </option>
+
+                <option value="Educational">
+                    Educational
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label>
+                Article Description
+            </label>
+
+            <textarea
+                id="articleDescription"
+                class="admin-search"
+                rows="4"
+                placeholder="Short article description"
+            ></textarea>
+
+
+            <label>
+                Article Content
+            </label>
+
+            <textarea
+                id="articleContent"
+                class="admin-search"
+                rows="12"
+                placeholder="Write the complete article here..."
+            ></textarea>
+
+
+            <label>
+                Source / References
+            </label>
+
+            <textarea
+                id="articleSources"
+                class="admin-search"
+                rows="4"
+                placeholder="Enter reliable sources or references"
+            ></textarea>
+
+
+            <div class="admin-buttons">
+
+                <button
+                    class="admin-btn primary"
+                    id="saveArticleBtn"
+                >
+                    💾 Save Article
+                </button>
+
+                <button
+                    class="admin-btn"
+                    id="draftArticleBtn"
+                >
+                    📝 Save Draft
+                </button>
+
+                <button
+                    class="admin-btn"
+                    id="clearEditorBtn"
+                >
+                    Clear Editor
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ADMIN LOG
+    ====================================================== -->
+
+    <section class="admin-section">
+
+        <h2 class="admin-title">
+            📋 Admin Activity
+        </h2>
+
+        <div
+            class="admin-log"
+            id="adminLog"
+        ></div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DANGER ZONE
+    ====================================================== -->
+
+    <section class="admin-section">
+
+        <h2 class="admin-title">
+            ⚠️ Danger Zone
+        </h2>
+
+        <div class="admin-card">
+
+            <h3>
+                Clear Local Website Data
+            </h3>
+
+            <p>
+                यह केवल इस browser में ALON HISTORYVERSE 24 के
+                इस Admin system द्वारा बनाया गया local data हटाएगा।
+                GitHub repository की files इससे delete नहीं होंगी।
+            </p>
+
+            <div class="admin-buttons">
+
+                <button
+                    class="admin-btn danger"
+                    id="clearAllDataBtn"
+                >
+                    ⚠️ Clear All Local Admin Data
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="admin-bottom-nav">
 
         <a href="../index.html">
-            Home
+            🏠 Home
         </a>
 
-    </footer>
+        <a href="./articles.html">
+            📰 Articles
+        </a>
+
+        <a href="./library.html">
+            📚 Library
+        </a>
+
+        <a href="./gallery.html">
+            🖼️ Gallery
+        </a>
+
+        <a href="./contribute.html">
+            ✍️ Contribute
+        </a>
+
+        <a href="./about.html">
+            ℹ️ About
+        </a>
+
+        <a href="./contact.html">
+            📩 Contact
+        </a>
+
+    </nav>
+
 
 </main>
 
 
-<!-- =======================================================
-     ADMIN / CORE SYSTEM
-     Scripts will be finalized
-     after all JS files are rebuilt.
-======================================================== -->
+<script>
 
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/admin.js"></script>
+    /* =====================================================
+       ALON HISTORYVERSE 24
+       ADMIN DATA SYSTEM
+    ====================================================== */
+
+    const ARTICLE_KEY =
+        "alon_historyverse_articles";
+
+    const TRASH_KEY =
+        "alon_historyverse_article_trash";
+
+    const DRAFT_KEY =
+        "alon_historyverse_article_drafts";
+
+
+    /* =====================================================
+       HELPERS
+    ====================================================== */
+
+    function getData(key) {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(key) || "[]"
+            );
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function saveData(key, data) {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(data)
+        );
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function createId() {
+
+        return (
+            "article-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .slice(2, 8)
+        );
+
+    }
+
+
+    function logAction(message) {
+
+        const log =
+            document.getElementById("adminLog");
+
+        const line =
+            document.createElement("div");
+
+        line.className =
+            "log-line";
+
+        line.textContent =
+            new Date().toLocaleString() +
+            " — " +
+            message;
+
+        log.prepend(line);
+
+    }
+
+
+    /* =====================================================
+       UPDATE DASHBOARD
+    ====================================================== */
+
+    function updateDashboard() {
+
+        const articles =
+            getData(ARTICLE_KEY);
+
+        const trash =
+            getData(TRASH_KEY);
+
+        const drafts =
+            getData(DRAFT_KEY);
+
+        const media =
+            JSON.parse(
+                localStorage.getItem(
+                    "alon_historyverse_media_count"
+                ) || "0"
+            );
+
+
+        document.getElementById(
+            "articleCount"
+        ).textContent =
+            articles.length;
+
+
+        document.getElementById(
+            "deletedCount"
+        ).textContent =
+            trash.length;
+
+
+        document.getElementById(
+            "draftCount"
+        ).textContent =
+            drafts.length;
+
+
+        document.getElementById(
+            "mediaCount"
+        ).textContent =
+            media;
+
+
+    }
+
+
+    /* =====================================================
+       RENDER ARTICLES
+    ====================================================== */
+
+    function renderArticles(
+        searchTerm = ""
+    ) {
+
+        const body =
+            document.getElementById(
+                "articleTableBody"
+            );
+
+        const articles =
+            getData(ARTICLE_KEY);
+
+        const query =
+            searchTerm
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            articles.filter(function (article) {
+
+                const text =
+                    (
+                        article.title +
+                        " " +
+                        article.category +
+                        " " +
+                        article.description
+                    ).toLowerCase();
+
+                return text.includes(query);
+
+            });
+
+
+        body.innerHTML = "";
+
+
+        if (!filtered.length) {
+
+            body.innerHTML = `
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            No articles found.
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        filtered.forEach(function (article) {
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    <strong>
+                        ${escapeHTML(article.title)}
+                    </strong>
+                </td>
+
+                <td>
+                    <span class="admin-badge">
+                        ${escapeHTML(article.category)}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="admin-badge">
+                        Published
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(article.createdAt)}
+                </td>
+
+                <td>
+
+                    <div class="admin-buttons">
+
+                        <button
+                            class="admin-btn"
+                            onclick="editArticle('${article.id}')"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="admin-btn danger"
+                            onclick="deleteArticle('${article.id}')"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
+
+
+            body.appendChild(row);
+
+        });
+
+    }
+
+
+    /* =====================================================
+       NEW ARTICLE
+    ====================================================== */
+
+    document
+        .getElementById("newArticleBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                clearEditor();
+
+                document
+                    .getElementById(
+                        "articleEditorSection"
+                    )
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                logAction(
+                    "New article editor opened."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       EDIT ARTICLE
+    ====================================================== */
+
+    window.editArticle =
+        function (id) {
+
+            const articles =
+                getData(ARTICLE_KEY);
+
+            const article =
+                articles.find(
+                    item => item.id === id
+                );
+
+
+            if (!article) {
+
+                alert(
+                    "Article not found."
+                );
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "articleId"
+            ).value =
+                article.id;
+
+
+            document.getElementById(
+                "articleTitle"
+            ).value =
+                article.title || "";
+
+
+            document.getElementById(
+                "articleCategory"
+            ).value =
+                article.category || "History";
+
+
+            document.getElementById(
+                "articleDescription"
+            ).value =
+                article.description || "";
+
+
+            document.getElementById(
+                "articleContent"
+            ).value =
+                article.content || "";
+
+
+            document.getElementById(
+                "articleSources"
+            ).value =
+                article.sources || "";
+
+
+            document
+                .getElementById(
+                    "articleEditorSection"
+                )
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+
+            logAction(
+                "Editing article: " +
+                article.title
+            );
+
+        };
+
+
+    /* =====================================================
+       SAVE ARTICLE
+    ====================================================== */
+
+    document
+        .getElementById("saveArticleBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const id =
+                    document.getElementById(
+                        "articleId"
+                    ).value.trim();
+
+
+                const title =
+                    document.getElementById(
+                        "articleTitle"
+                    ).value.trim();
+
+
+                const category =
+                    document.getElementById(
+                        "articleCategory"
+                    ).value;
+
+
+                const description =
+                    document.getElementById(
+                        "articleDescription"
+                    ).value.trim();
+
+
+                const content =
+                    document.getElementById(
+                        "articleContent"
+                    ).value.trim();
+
+
+                const sources =
+                    document.getElementById(
+                        "articleSources"
+                    ).value.trim();
+
+
+                if (!title) {
+
+                    alert(
+                        "Please enter an article title."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!content) {
+
+                    alert(
+                        "Please enter article content."
+                    );
+
+                    return;
+
+                }
+
+
+                const articles =
+                    getData(ARTICLE_KEY);
+
+
+                const now =
+                    new Date().toLocaleString();
+
+
+                if (id) {
+
+                    const index =
+                        articles.findIndex(
+                            article =>
+                                article.id === id
+                        );
+
+
+                    if (index !== -1) {
+
+                        articles[index] = {
+
+                            ...articles[index],
+
+                            title,
+                            category,
+                            description,
+                            content,
+                            sources,
+
+                            updatedAt: now
+
+                        };
+
+                    }
+
+                    logAction(
+                        "Article updated: " +
+                        title
+                    );
+
+                } else {
+
+                    articles.push({
+
+                        id: createId(),
+
+                        title,
+
+                        category,
+
+                        description,
+
+                        content,
+
+                        sources,
+
+                        createdAt: now,
+
+                        updatedAt: now
+
+                    });
+
+
+                    logAction(
+                        "New article created: " +
+                        title
+                    );
+
+                }
+
+
+                saveData(
+                    ARTICLE_KEY,
+                    articles
+                );
+
+
+                clearEditor();
+
+                renderArticles();
+
+                updateDashboard();
+
+
+                alert(
+                    "Article saved successfully."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       DELETE ARTICLE → TRASH
+    ====================================================== */
+
+    window.deleteArticle =
+        function (id) {
+
+            const articles =
+                getData(ARTICLE_KEY);
+
+            const index =
+                articles.findIndex(
+                    article =>
+                        article.id === id
+                );
+
+
+            if (index === -1) {
+
+                return;
+
+            }
+
+
+            const article =
+                articles[index];
+
+
+            const confirmed =
+                confirm(
+                    "Delete this article and move it to Trash?"
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            articles.splice(
+                index,
+                1
+            );
+
+
+            const trash =
+                getData(TRASH_KEY);
+
+
+            trash.push({
+
+                ...article,
+
+                deletedAt:
+                    new Date().toLocaleString()
+
+            });
+
+
+            saveData(
+                ARTICLE_KEY,
+                articles
+            );
+
+
+            saveData(
+                TRASH_KEY,
+                trash
+            );
+
+
+            renderArticles();
+
+            updateDashboard();
+
+
+            logAction(
+                "Article moved to trash: " +
+                article.title
+            );
+
+        };
+
+
+    /* =====================================================
+       RESTORE ALL
+    ====================================================== */
+
+    document
+        .getElementById("restoreAllBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const trash =
+                    getData(TRASH_KEY);
+
+
+                if (!trash.length) {
+
+                    alert(
+                        "Trash is already empty."
+                    );
+
+                    return;
+
+                }
+
+
+                const articles =
+                    getData(ARTICLE_KEY);
+
+
+                trash.forEach(
+                    function (article) {
+
+                        delete article.deletedAt;
+
+                        articles.push(article);
+
+                    }
+                );
+
+
+                saveData(
+                    ARTICLE_KEY,
+                    articles
+                );
+
+
+                saveData(
+                    TRASH_KEY,
+                    []
+                );
+
+
+                renderArticles();
+
+                updateDashboard();
+
+
+                logAction(
+                    "All trashed articles restored."
+                );
+
+
+                alert(
+                    "All articles restored."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       EMPTY TRASH
+    ====================================================== */
+
+    document
+        .getElementById("emptyTrashBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const trash =
+                    getData(TRASH_KEY);
+
+
+                if (!trash.length) {
+
+                    alert(
+                        "Trash is already empty."
+                    );
+
+                    return;
+
+                }
+
+
+                const confirmed =
+                    confirm(
+                        "Permanently remove all articles from local Trash?"
+                    );
+
+
+                if (!confirmed) {
+
+                    return;
+
+                }
+
+
+                saveData(
+                    TRASH_KEY,
+                    []
+                );
+
+
+                updateDashboard();
+
+
+                logAction(
+                    "Local article trash permanently cleared."
+                );
+
+
+                alert(
+                    "Local trash cleared."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       DRAFT
+    ====================================================== */
+
+    document
+        .getElementById("draftArticleBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const title =
+                    document.getElementById(
+                        "articleTitle"
+                    ).value.trim();
+
+
+                const category =
+                    document.getElementById(
+                        "articleCategory"
+                    ).value;
+
+
+                const description =
+                    document.getElementById(
+                        "articleDescription"
+                    ).value.trim();
+
+
+                const content =
+                    document.getElementById(
+                        "articleContent"
+                    ).value.trim();
+
+
+                const sources =
+                    document.getElementById(
+                        "articleSources"
+                    ).value.trim();
+
+
+                if (!title && !content) {
+
+                    alert(
+                        "Write something before saving a draft."
+                    );
+
+                    return;
+
+                }
+
+
+                const drafts =
+                    getData(DRAFT_KEY);
+
+
+                drafts.push({
+
+                    id: createId(),
+
+                    title,
+
+                    category,
+
+                    description,
+
+                    content,
+
+                    sources,
+
+                    savedAt:
+                        new Date().toLocaleString()
+
+                });
+
+
+                saveData(
+                    DRAFT_KEY,
+                    drafts
+                );
+
+
+                updateDashboard();
+
+
+                logAction(
+                    "Article draft saved."
+                );
+
+
+                alert(
+                    "Draft saved locally."
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById("clearDraftsBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const confirmed =
+                    confirm(
+                        "Clear all local article drafts?"
+                    );
+
+
+                if (!confirmed) {
+
+                    return;
+
+                }
+
+
+                saveData(
+                    DRAFT_KEY,
+                    []
+                );
+
+
+                updateDashboard();
+
+
+                logAction(
+                    "All local drafts cleared."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       CLEAR EDITOR
+    ====================================================== */
+
+    function clearEditor() {
+
+        document.getElementById(
+            "articleId"
+        ).value = "";
+
+
+        document.getElementById(
+            "articleTitle"
+        ).value = "";
+
+
+        document.getElementById(
+            "articleCategory"
+        ).value = "History";
+
+
+        document.getElementById(
+            "articleDescription"
+        ).value = "";
+
+
+        document.getElementById(
+            "articleContent"
+        ).value = "";
+
+
+        document.getElementById(
+            "articleSources"
+        ).value = "";
+
+    }
+
+
+    document
+        .getElementById("clearEditorBtn")
+        .addEventListener(
+            "click",
+            clearEditor
+        );
+
+
+    /* =====================================================
+       ARTICLE SEARCH
+    ====================================================== */
+
+    document
+        .getElementById("articleSearch")
+        .addEventListener(
+            "input",
+            function () {
+
+                renderArticles(
+                    this.value
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       MEDIA PREVIEW
+    ====================================================== */
+
+    let mediaObjectUrls = [];
+
+
+    function showMedia(files) {
+
+        const preview =
+            document.getElementById(
+                "mediaPreview"
+            );
+
+
+        preview.innerHTML = "";
+
+
+        mediaObjectUrls.forEach(
+            url =>
+                URL.revokeObjectURL(url)
+        );
+
+
+        mediaObjectUrls = [];
+
+
+        Array.from(files).forEach(
+            function (file) {
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+                item.className =
+                    "media-item";
+
+
+                const url =
+                    URL.createObjectURL(
+                        file
+                    );
+
+
+                mediaObjectUrls.push(
+                    url
+                );
+
+
+                if (
+                    file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    item.innerHTML = `
+
+                        <img
+                            src="${url}"
+                            alt=""
+                        >
+
+                        <div class="media-name">
+                            ${escapeHTML(file.name)}
+                        </div>
+
+                    `;
+
+                } else if (
+                    file.type.startsWith(
+                        "video/"
+                    )
+                ) {
+
+                    item.innerHTML = `
+
+                        <video
+                            controls
+                            src="${url}"
+                        ></video>
+
+                        <div class="media-name">
+                            ${escapeHTML(file.name)}
+                        </div>
+
+                    `;
+
+                }
+
+
+                preview.appendChild(
+                    item
+                );
+
+            }
+        );
+
+
+        localStorage.setItem(
+            "alon_historyverse_media_count",
+            String(files.length)
+        );
+
+
+        updateDashboard();
+
+
+        logAction(
+            files.length +
+            " local media file(s) selected."
+        );
+
+    }
+
+
+    document
+        .getElementById("mediaInput")
+        .addEventListener(
+            "change",
+            function () {
+
+                showMedia(
+                    this.files
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById("imageSelectBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const input =
+                    document.getElementById(
+                        "mediaInput"
+                    );
+
+                input.accept =
+                    "image/*";
+
+                input.click();
+
+            }
+        );
+
+
+    document
+        .getElementById("videoSelectBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const input =
+                    document.getElementById(
+                        "mediaInput"
+                    );
+
+                input.accept =
+                    "video/*";
+
+                input.click();
+
+            }
+        );
+
+
+    document
+        .getElementById("clearMediaBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                document.getElementById(
+                    "mediaPreview"
+                ).innerHTML = "";
+
+
+                document.getElementById(
+                    "mediaInput"
+                ).value = "";
+
+
+                mediaObjectUrls.forEach(
+                    url =>
+                        URL.revokeObjectURL(url)
+                );
+
+
+                mediaObjectUrls = [];
+
+
+                localStorage.removeItem(
+                    "alon_historyverse_media_count"
+                );
+
+
+                updateDashboard();
+
+
+                logAction(
+                    "Local media preview cleared."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       EXPORT BACKUP
+    ====================================================== */
+
+    document
+        .getElementById("exportBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const backup = {
+
+                    project:
+                        "ALON HISTORYVERSE 24",
+
+                    exportedAt:
+                        new Date().toISOString(),
+
+                    articles:
+                        getData(ARTICLE_KEY),
+
+                    trash:
+                        getData(TRASH_KEY),
+
+                    drafts:
+                        getData(DRAFT_KEY)
+
+                };
+
+
+                const blob =
+                    new Blob(
+                        [
+                            JSON.stringify(
+                                backup,
+                                null,
+                                2
+                            )
+                        ],
+                        {
+                            type:
+                                "application/json"
+                        }
+                    );
+
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                link.href = url;
+
+
+                link.download =
+                    "alon-historyverse-24-admin-backup.json";
+
+
+                link.click();
+
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+
+                logAction(
+                    "Admin data backup exported."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       IMPORT BACKUP
+    ====================================================== */
+
+    document
+        .getElementById("importBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                document
+                    .getElementById(
+                        "importFile"
+                    )
+                    .click();
+
+            }
+        );
+
+
+    document
+        .getElementById("importFile")
+        .addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    this.files[0];
+
+
+                if (!file) {
+
+                    return;
+
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function (event) {
+
+                        try {
+
+                            const backup =
+                                JSON.parse(
+                                    event.target.result
+                                );
+
+
+                            if (
+                                !backup ||
+                                backup.project !==
+                                "ALON HISTORYVERSE 24"
+                            ) {
+
+                                throw new Error(
+                                    "Invalid backup"
+                                );
+
+                            }
+
+
+                            if (
+                                Array.isArray(
+                                    backup.articles
+                                )
+                            ) {
+
+                                saveData(
+                                    ARTICLE_KEY,
+                                    backup.articles
+                                );
+
+                            }
+
+
+                            if (
+                                Array.isArray(
+                                    backup.trash
+                                )
+                            ) {
+
+                                saveData(
+                                    TRASH_KEY,
+                                    backup.trash
+                                );
+
+                            }
+
+
+                            if (
+                                Array.isArray(
+                                    backup.drafts
+                                )
+                            ) {
+
+                                saveData(
+                                    DRAFT_KEY,
+                                    backup.drafts
+                                );
+
+                            }
+
+
+                            renderArticles();
+
+                            updateDashboard();
+
+
+                            logAction(
+                                "Admin backup imported."
+                            );
+
+
+                            alert(
+                                "Backup imported successfully."
+                            );
+
+
+                        } catch (error) {
+
+                            alert(
+                                "Invalid backup file."
+                            );
+
+                        }
+
+                    };
+
+
+                reader.readAsText(
+                    file
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       CLEAR ALL LOCAL ADMIN DATA
+    ====================================================== */
+
+    document
+        .getElementById("clearAllDataBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                const first =
+                    confirm(
+                        "WARNING: This will clear local Admin data, articles, trash and drafts. Continue?"
+                    );
+
+
+                if (!first) {
+
+                    return;
+
+                }
+
+
+                const second =
+                    confirm(
+                        "Are you absolutely sure? Export a backup first if needed."
+                    );
+
+
+                if (!second) {
+
+                    return;
+
+                }
+
+
+                localStorage.removeItem(
+                    ARTICLE_KEY
+                );
+
+                localStorage.removeItem(
+                    TRASH_KEY
+                );
+
+                localStorage.removeItem(
+                    DRAFT_KEY
+                );
+
+                localStorage.removeItem(
+                    "alon_historyverse_media_count"
+                );
+
+
+                renderArticles();
+
+                updateDashboard();
+
+
+                logAction(
+                    "All local Admin data cleared."
+                );
+
+
+                alert(
+                    "Local Admin data cleared."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       INITIALIZE
+    ====================================================== */
+
+    renderArticles();
+
+    updateDashboard();
+
+    logAction(
+        "Admin Control Center initialized."
+    );
+
+</script>
+
 
 </body>
 

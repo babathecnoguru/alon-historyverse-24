@@ -1,160 +1,549 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Country Explorer • ALON HISTORYVERSE 24</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <meta
+        name="description"
+        content="Country detail and historical knowledge — ALON HISTORYVERSE 24"
+    >
+
+    <title>Country • ALON HISTORYVERSE 24</title>
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           COUNTRY DETAIL PAGE
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #eeeeee;
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.7;
+        }
+
+        .country-page {
+            width: min(1150px, 94%);
+            margin: 0 auto;
+            padding: 25px 0 60px;
+        }
+
+        /* =====================================================
+           HERO
+        ====================================================== */
+
+        .country-hero {
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid rgba(215, 179, 90, 0.32);
+            border-radius: 20px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 38, 0.98),
+                    rgba(7, 11, 20, 0.98)
+                );
+        }
+
+        .hero-flag {
+            font-size: 70px;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .country-hero h1 {
+            margin: 0;
+            color: #f0d27a;
+            font-size: clamp(32px, 6vw, 58px);
+        }
+
+        .country-official-name {
+            margin-top: 5px;
+            color: #bbbbbb;
+            font-size: 18px;
+        }
+
+        .country-code-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 7px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 20px;
+            color: #d7b35a;
+            background: rgba(215, 179, 90, 0.06);
+            letter-spacing: 1px;
+        }
+
+        .country-description {
+            max-width: 800px;
+            margin: 18px auto 0;
+            color: #d0d0d0;
+        }
+
+        /* =====================================================
+           BASIC FACTS
+        ====================================================== */
+
+        .section {
+            margin-top: 28px;
+            padding: 24px;
+            border: 1px solid rgba(215, 179, 90, 0.28);
+            border-radius: 17px;
+            background: rgba(12, 18, 30, 0.92);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: #f0d27a;
+            font-size: 25px;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .fact-card {
+            padding: 17px;
+            border: 1px solid rgba(215, 179, 90, 0.20);
+            border-radius: 13px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .fact-label {
+            color: #999999;
+            font-size: 13px;
+        }
+
+        .fact-value {
+            margin-top: 4px;
+            color: #f0d27a;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           KNOWLEDGE GRID
+        ====================================================== */
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .knowledge-card {
+            padding: 20px;
+            border: 1px solid rgba(215, 179, 90, 0.22);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .knowledge-card h3 {
+            margin-top: 0;
+            color: #d7b35a;
+        }
+
+        .knowledge-card p {
+            color: #cccccc;
+        }
+
+        /* =====================================================
+           LIST
+        ====================================================== */
+
+        .history-list {
+            padding-left: 24px;
+        }
+
+        .history-list li {
+            margin-bottom: 9px;
+            color: #d1d1d1;
+        }
+
+        /* =====================================================
+           SUBDIVISIONS
+        ====================================================== */
+
+        .subdivision-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .subdivision {
+            display: block;
+            padding: 13px;
+            text-align: center;
+            border: 1px solid rgba(215, 179, 90, 0.22);
+            border-radius: 10px;
+            background: #0b111d;
+            color: #dddddd;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .subdivision:hover {
+            border-color: #d7b35a;
+            color: #f0d27a;
+            background: rgba(215, 179, 90, 0.07);
+        }
+
+        .subdivision small {
+            display: block;
+            margin-top: 3px;
+            color: #888888;
+        }
+
+        /* =====================================================
+           TIMELINE
+        ====================================================== */
+
+        .timeline {
+            position: relative;
+            margin-top: 20px;
+            padding-left: 25px;
+            border-left: 2px solid rgba(215, 179, 90, 0.35);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+            padding-left: 18px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -32px;
+            top: 8px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #d7b35a;
+            border: 2px solid #05080f;
+        }
+
+        .timeline-year {
+            color: #f0d27a;
+            font-weight: bold;
+        }
+
+        .timeline-title {
+            color: #dddddd;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           NOTICE
+        ====================================================== */
+
+        .notice {
+            margin-top: 20px;
+            padding: 17px;
+            border-left: 4px solid #d7b35a;
+            border-radius: 8px;
+            background: rgba(215, 179, 90, 0.07);
+            color: #cccccc;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 11px 17px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 9px;
+            background: #101827;
+            color: #f0d27a;
+            text-decoration: none;
+        }
+
+        .navigation a:hover {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        /* =====================================================
+           ERROR
+        ====================================================== */
+
+        #countryError {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 16px;
+            background: rgba(12, 18, 30, 0.92);
+        }
+
+        #countryError h2 {
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .footer-note {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(215, 179, 90, 0.2);
+            text-align: center;
+            color: #888888;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 900px) {
+
+            .facts-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .subdivision-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .country-page {
+                width: 92%;
+                padding-top: 15px;
+            }
+
+            .country-hero {
+                padding: 24px 15px;
+            }
+
+            .hero-flag {
+                font-size: 55px;
+            }
+
+            .facts-grid,
+            .knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .subdivision-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .section {
+                padding: 18px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .navigation a {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="country-page">
 
     <!-- =====================================================
-         HEADER
+         DYNAMIC COUNTRY HERO
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <section
+        class="country-hero"
+        id="countryHero"
+    >
 
-        <h1>Country Explorer</h1>
-
-        <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
-        </p>
-
-    </header>
-
-
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
-    <section class="content">
-
-        <article
-            id="country-content"
-            class="country-explorer"
-            aria-live="polite"
-        >
-
-            <h2 id="country-name">
-                Country Explorer
-            </h2>
-
-            <p id="country-description">
-                Select a country from the World Countries
-                section to explore its history, culture,
-                civilizations, heritage and important places.
-            </p>
-
-        </article>
-
-
-        <!-- =================================================
-             COUNTRY INFORMATION
-        ================================================== -->
         <div
-            id="country-details"
-            class="grid"
-            aria-live="polite"
+            class="hero-flag"
+            id="countryFlag"
         >
-
-            <div class="card">
-                <h3>History</h3>
-                <p id="country-history">
-                    Country history will appear here.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>Culture</h3>
-                <p id="country-culture">
-                    Cultural information will appear here.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>Civilizations</h3>
-                <p id="country-civilizations">
-                    Civilization information will appear here.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>Heritage</h3>
-                <p id="country-heritage">
-                    Heritage information will appear here.
-                </p>
-            </div>
-
+            🌍
         </div>
 
+        <h1 id="countryName">
+            Country
+        </h1>
 
-        <!-- =================================================
-             RELATED NAVIGATION
-        ================================================== -->
-        <div class="grid">
+        <div
+            class="country-official-name"
+            id="officialName"
+        >
+            ALON HISTORYVERSE 24
+        </div>
 
-            <a class="card" href="countries.html">
-                <h3>World Countries</h3>
-                <p>
-                    Return to the complete country explorer.
-                </p>
-            </a>
+        <div
+            class="country-code-badge"
+            id="countryCode"
+        >
+            COUNTRY
+        </div>
 
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
-                <p>
-                    Explore civilizations connected with world history.
-                </p>
-            </a>
+        <p
+            class="country-description"
+            id="countryDescription"
+        >
+            Explore the history, culture, heritage and knowledge
+            of this country.
+        </p>
 
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
-                <p>
-                    Discover historical heritage and important sites.
-                </p>
-            </a>
+    </section>
 
-            <a class="card" href="timeline.html">
-                <h3>Timeline</h3>
-                <p>
-                    Explore historical events through time.
-                </p>
-            </a>
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
-            </a>
+    <!-- =====================================================
+         BASIC FACTS
+    ====================================================== -->
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the knowledge library.
-                </p>
-            </a>
+    <section class="section">
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge across HistoryVerse.
-                </p>
-            </a>
+        <h2>
+            📌 Basic Information
+        </h2>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
-            </a>
+        <div class="facts-grid">
+
+            <div class="fact-card">
+
+                <div class="fact-label">
+                    Capital
+                </div>
+
+                <div
+                    class="fact-value"
+                    id="capital"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="fact-card">
+
+                <div class="fact-label">
+                    Region
+                </div>
+
+                <div
+                    class="fact-value"
+                    id="region"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="fact-card">
+
+                <div class="fact-label">
+                    Country Code
+                </div>
+
+                <div
+                    class="fact-value"
+                    id="codeFact"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="fact-card">
+
+                <div class="fact-label">
+                    Currency
+                </div>
+
+                <div
+                    class="fact-value"
+                    id="currency"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="fact-card">
+
+                <div class="fact-label">
+                    Official Language
+                </div>
+
+                <div
+                    class="fact-value"
+                    id="language"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="fact-card">
+
+                <div class="fact-label">
+                    Government / State Structure
+                </div>
+
+                <div
+                    class="fact-value"
+                    id="government"
+                >
+                    —
+                </div>
+
+            </div>
 
         </div>
 
@@ -162,28 +551,1589 @@
 
 
     <!-- =====================================================
+         HISTORY
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>
+            🏛️ History
+        </h2>
+
+        <p id="historyText">
+            Country history information will appear here.
+        </p>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+
+                <div class="timeline-year">
+                    Ancient Period
+                </div>
+
+                <div class="timeline-title">
+                    Early settlements and civilizations
+                </div>
+
+                <p id="ancientHistory">
+                    Historical information about early societies,
+                    settlements and civilizations.
+                </p>
+
+            </div>
+
+
+            <div class="timeline-item">
+
+                <div class="timeline-year">
+                    Medieval / Classical Period
+                </div>
+
+                <div class="timeline-title">
+                    Kingdoms, states and cultural development
+                </div>
+
+                <p id="medievalHistory">
+                    Historical information about kingdoms,
+                    political structures and cultural development.
+                </p>
+
+            </div>
+
+
+            <div class="timeline-item">
+
+                <div class="timeline-year">
+                    Modern Period
+                </div>
+
+                <div class="timeline-title">
+                    Modern state and major historical events
+                </div>
+
+                <p id="modernHistory">
+                    Historical information about the modern period.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CIVILIZATION AND CULTURE
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>
+            🏺 Civilization & Culture
+        </h2>
+
+        <div class="knowledge-grid">
+
+            <article class="knowledge-card">
+
+                <h3>
+                    Civilizations
+                </h3>
+
+                <p id="civilizations">
+                    Civilization information will appear here.
+                </p>
+
+            </article>
+
+
+            <article class="knowledge-card">
+
+                <h3>
+                    Culture
+                </h3>
+
+                <p id="culture">
+                    Cultural traditions, languages, arts and customs
+                    will appear here.
+                </p>
+
+            </article>
+
+
+            <article class="knowledge-card">
+
+                <h3>
+                    Heritage
+                </h3>
+
+                <p id="heritage">
+                    Heritage sites, monuments and historical places
+                    will appear here.
+                </p>
+
+            </article>
+
+
+            <article class="knowledge-card">
+
+                <h3>
+                    Important People
+                </h3>
+
+                <p id="people">
+                    Important historical figures and people will
+                    appear here.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAJOR CITIES
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>
+            🏙️ Major Historical Cities
+        </h2>
+
+        <ul
+            class="history-list"
+            id="citiesList"
+        ></ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         ADMINISTRATIVE DIVISIONS
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>
+            🗺️ States, Provinces & Regions
+        </h2>
+
+        <p id="subdivisionIntro">
+            Explore the major administrative divisions of this country.
+        </p>
+
+        <div
+            class="subdivision-grid"
+            id="subdivisionGrid"
+        ></div>
+
+        <div class="notice">
+
+            <strong>
+                Future expansion:
+            </strong>
+
+            Each subdivision can later receive its own detailed page
+            containing history, cities, heritage sites, rulers,
+            culture, maps and timelines.
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HERITAGE
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>
+            🏛️ Heritage & Historical Places
+        </h2>
+
+        <ul
+            class="history-list"
+            id="heritageList"
+        ></ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         MAJOR EVENTS
+    ====================================================== -->
+
+    <section class="section">
+
+        <h2>
+            ⚔️ Major Historical Events
+        </h2>
+
+        <ul
+            class="history-list"
+            id="eventsList"
+        ></ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         ERROR MESSAGE
+    ====================================================== -->
+
+    <section id="countryError">
+
+        <h2>
+            Country Not Found
+        </h2>
+
+        <p>
+            The requested country is not yet available in the
+            current country database.
+        </p>
+
+        <p>
+            Please return to the countries page and select an
+            available country.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="navigation">
+
+        <a href="./countries.html">
+            ← All Countries
+        </a>
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="./civilizations.html">
+            Civilizations
+        </a>
+
+        <a href="./heritage.html">
+            Heritage
+        </a>
+
+        <a href="./timeline.html">
+            Timeline
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
          FOOTER
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <footer class="footer-note">
 
-        • <a href="../index.html">Home</a>
+        ALON HISTORYVERSE 24 • Baba Thecno Guru<br>
+
+        History • Civilizations • Countries • Culture • Heritage • Knowledge
 
     </footer>
 
 </main>
 
 
-<!-- =========================================================
-     CORE V100 SCRIPTS
-========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
+<script>
 
-<!-- Country Explorer Engine -->
-<script src="../jss/country.js"></script>
-<script src="../jss/countries-click.js"></script>
+    /* =====================================================
+       COUNTRY DATABASE
+       This is the initial frontend database.
+       More countries can be added later without changing
+       the root index.html path structure.
+    ====================================================== */
+
+    const COUNTRY_DATA = {
+
+        india: {
+
+            name: "India",
+
+            officialName:
+                "Republic of India",
+
+            flag: "🇮🇳",
+
+            code: "IN • IND",
+
+            capital:
+                "New Delhi",
+
+            region:
+                "Asia",
+
+            currency:
+                "Indian Rupee (INR)",
+
+            language:
+                "Hindi and English at the Union level; many regional languages",
+
+            government:
+                "Federal Parliamentary Republic",
+
+            description:
+                "A historically diverse South Asian country with ancient civilizations, kingdoms, empires, regional cultures, languages, religions, monuments and a rich heritage.",
+
+            history:
+                "India has a long and complex history that includes prehistoric cultures, the Indus Valley Civilization, ancient kingdoms, classical empires, medieval regional states, the Mughal period, European colonial expansion and the modern republic.",
+
+            ancient:
+                "The Indian subcontinent was home to early urban societies including the Indus Valley Civilization, followed by the development of many kingdoms, philosophical traditions, languages and cultural systems.",
+
+            medieval:
+                "Medieval India included many regional kingdoms and major political formations, including the Delhi Sultanates, Vijayanagara and the Mughal Empire, alongside numerous local states and cultures.",
+
+            modern:
+                "The modern period included European colonial expansion, British rule, the Indian independence movement and the establishment of the Republic of India in 1950.",
+
+            civilizations:
+                "Indus Valley Civilization, Mauryan traditions, Gupta-era cultural developments and numerous regional civilizations and kingdoms.",
+
+            culture:
+                "India has diverse languages, literature, music, dance, architecture, food traditions, festivals, crafts and regional cultural practices.",
+
+            heritage:
+                "India contains numerous ancient cities, temples, forts, palaces, monuments, archaeological sites and UNESCO-recognized heritage locations.",
+
+            people:
+                "Historical figures include rulers, scholars, scientists, artists, philosophers, reformers and independence leaders.",
+
+            cities: [
+                "Delhi",
+                "Varanasi",
+                "Agra",
+                "Jaipur",
+                "Ujjain",
+                "Pataliputra / Patna",
+                "Hampi",
+                "Mumbai",
+                "Kolkata",
+                "Hyderabad"
+            ],
+
+            subdivisions: [
+                "Andhra Pradesh",
+                "Arunachal Pradesh",
+                "Assam",
+                "Bihar",
+                "Chhattisgarh",
+                "Goa",
+                "Gujarat",
+                "Haryana",
+                "Himachal Pradesh",
+                "Jharkhand",
+                "Karnataka",
+                "Kerala",
+                "Madhya Pradesh",
+                "Maharashtra",
+                "Manipur",
+                "Meghalaya",
+                "Mizoram",
+                "Nagaland",
+                "Odisha",
+                "Punjab",
+                "Rajasthan",
+                "Sikkim",
+                "Tamil Nadu",
+                "Telangana",
+                "Tripura",
+                "Uttar Pradesh",
+                "Uttarakhand",
+                "West Bengal"
+            ],
+
+            heritageSites: [
+                "Taj Mahal",
+                "Qutb Minar",
+                "Ajanta Caves",
+                "Ellora Caves",
+                "Red Fort",
+                "Sanchi",
+                "Hampi",
+                "Konark Sun Temple"
+            ],
+
+            events: [
+                "Indus Valley urban development",
+                "Mauryan Empire",
+                "Gupta-era developments",
+                "Delhi Sultanates",
+                "Mughal Empire",
+                "British colonial period",
+                "Indian Independence Movement",
+                "Independence in 1947",
+                "Republic of India established in 1950"
+            ]
+
+        },
+
+
+        "united-states": {
+
+            name: "United States",
+
+            officialName:
+                "United States of America",
+
+            flag: "🇺🇸",
+
+            code: "US • USA",
+
+            capital:
+                "Washington, D.C.",
+
+            region:
+                "North America",
+
+            currency:
+                "United States Dollar (USD)",
+
+            language:
+                "English is the predominant language; the country is multilingual",
+
+            government:
+                "Federal Presidential Republic",
+
+            description:
+                "A North American country with a complex history involving Indigenous civilizations, European colonization, independence, expansion, industrialization and modern global influence.",
+
+            history:
+                "The history of the United States includes long-established Indigenous societies, European colonization, the American Revolution, formation of the federal republic, territorial expansion, the Civil War, industrialization and the modern era.",
+
+            ancient:
+                "Indigenous peoples developed diverse societies and civilizations across North America long before European colonization.",
+
+            medieval:
+                "The region contained numerous Indigenous political and cultural systems before European colonial settlements expanded.",
+
+            modern:
+                "The modern United States developed through independence from Britain, constitutional government, territorial expansion, industrialization and major social and political changes.",
+
+            civilizations:
+                "The country includes a wide range of Indigenous civilizations and later cultural formations influenced by migration and global exchange.",
+
+            culture:
+                "American culture includes diverse traditions in literature, music, film, science, technology, food and regional customs.",
+
+            heritage:
+                "Historic sites include Indigenous archaeological locations, colonial settlements, battlefields, monuments and historic cities.",
+
+            people:
+                "Historical figures include Indigenous leaders, presidents, scientists, inventors, writers, activists and military leaders.",
+
+            cities: [
+                "Washington, D.C.",
+                "New York City",
+                "Boston",
+                "Philadelphia",
+                "Charleston",
+                "New Orleans",
+                "Chicago",
+                "San Francisco",
+                "Los Angeles",
+                "Boston"
+            ],
+
+            subdivisions: [
+                "Alabama",
+                "Alaska",
+                "Arizona",
+                "Arkansas",
+                "California",
+                "Colorado",
+                "Connecticut",
+                "Florida",
+                "Georgia",
+                "Illinois",
+                "Massachusetts",
+                "Michigan",
+                "New York",
+                "North Carolina",
+                "Ohio",
+                "Pennsylvania",
+                "Texas",
+                "Virginia",
+                "Washington",
+                "Wisconsin"
+            ],
+
+            heritageSites: [
+                "Independence Hall",
+                "Statue of Liberty",
+                "Mount Rushmore",
+                "Mesa Verde",
+                "Colonial Williamsburg",
+                "Gettysburg National Military Park"
+            ],
+
+            events: [
+                "European colonization",
+                "American Revolution",
+                "United States Constitution",
+                "Westward expansion",
+                "American Civil War",
+                "Industrialization",
+                "World War I",
+                "World War II",
+                "Civil Rights Movement"
+            ]
+
+        },
+
+
+        "united-kingdom": {
+
+            name: "United Kingdom",
+
+            officialName:
+                "United Kingdom of Great Britain and Northern Ireland",
+
+            flag: "🇬🇧",
+
+            code: "GB • GBR • UK",
+
+            capital:
+                "London",
+
+            region:
+                "Europe",
+
+            currency:
+                "Pound Sterling (GBP)",
+
+            language:
+                "English and several recognized regional languages",
+
+            government:
+                "Constitutional Monarchy with Parliamentary Government",
+
+            description:
+                "A European state formed from a long history of kingdoms, unions, parliamentary development, industrialization and global connections.",
+
+            history:
+                "The history of the United Kingdom includes prehistoric communities, Roman Britain, Anglo-Saxon kingdoms, medieval England and Scotland, unions, the British Empire, industrialization and the modern United Kingdom.",
+
+            ancient:
+                "Britain was home to prehistoric communities and later became part of the Roman world for several centuries.",
+
+            medieval:
+                "The medieval period included Anglo-Saxon kingdoms, Norman rule, the development of England and Scotland and major political institutions.",
+
+            modern:
+                "The modern period saw parliamentary development, industrialization, imperial expansion and major changes during the twentieth century.",
+
+            civilizations:
+                "Celtic, Roman, Anglo-Saxon, Norman and later British cultural traditions contributed to the country's historical development.",
+
+            culture:
+                "British culture has major traditions in literature, architecture, music, science, theatre and political institutions.",
+
+            heritage:
+                "Historic castles, cathedrals, archaeological sites, royal buildings and ancient monuments are found throughout the country.",
+
+            people:
+                "Historical figures include monarchs, scientists, writers, politicians, military leaders and artists.",
+
+            cities: [
+                "London",
+                "York",
+                "Edinburgh",
+                "Oxford",
+                "Cambridge",
+                "Bath",
+                "Liverpool",
+                "Manchester"
+            ],
+
+            subdivisions: [
+                "England",
+                "Scotland",
+                "Wales",
+                "Northern Ireland"
+            ],
+
+            heritageSites: [
+                "Stonehenge",
+                "Tower of London",
+                "Westminster Abbey",
+                "Edinburgh Castle",
+                "Bath",
+                "Canterbury Cathedral"
+            ],
+
+            events: [
+                "Roman Britain",
+                "Norman Conquest",
+                "Magna Carta",
+                "Union of the Crowns",
+                "Acts of Union",
+                "Industrial Revolution",
+                "British Empire",
+                "World War I",
+                "World War II"
+            ]
+
+        },
+
+
+        france: {
+
+            name: "France",
+
+            officialName:
+                "French Republic",
+
+            flag: "🇫🇷",
+
+            code: "FR • FRA",
+
+            capital:
+                "Paris",
+
+            region:
+                "Europe",
+
+            currency:
+                "Euro (EUR)",
+
+            language:
+                "French",
+
+            government:
+                "Semi-Presidential Republic",
+
+            description:
+                "A European country with a long history spanning prehistoric cultures, Gaul, Roman rule, medieval kingdoms, monarchy, revolution, empire and the modern republic.",
+
+            history:
+                "France developed through ancient Gaul, Roman rule, medieval kingdoms, the French monarchy, the French Revolution, the Napoleonic period and the modern French Republic.",
+
+            ancient:
+                "Ancient Gaul contained Celtic societies and later became part of the Roman Empire.",
+
+            medieval:
+                "Medieval France developed through Frankish kingdoms, feudal states, the Capetian monarchy and major cultural and political institutions.",
+
+            modern:
+                "Modern France was shaped by the French Revolution, Napoleonic period, industrialization, republics and major twentieth-century events.",
+
+            civilizations:
+                "Gaulish, Roman, Frankish and medieval French traditions shaped the country's historical development.",
+
+            culture:
+                "French culture has major traditions in literature, art, architecture, cuisine, philosophy and science.",
+
+            heritage:
+                "France contains castles, cathedrals, ancient monuments, historic cities and major museums.",
+
+            people:
+                "Historical figures include monarchs, philosophers, artists, scientists, writers and political leaders.",
+
+            cities: [
+                "Paris",
+                "Lyon",
+                "Marseille",
+                "Bordeaux",
+                "Toulouse",
+                "Strasbourg",
+                "Rouen"
+            ],
+
+            subdivisions: [
+                "Île-de-France",
+                "Normandy",
+                "Brittany",
+                "Occitanie",
+                "Nouvelle-Aquitaine",
+                "Grand Est",
+                "Auvergne-Rhône-Alpes"
+            ],
+
+            heritageSites: [
+                "Palace of Versailles",
+                "Mont-Saint-Michel",
+                "Notre-Dame de Paris",
+                "Lascaux",
+                "Carcassonne"
+            ],
+
+            events: [
+                "Roman Gaul",
+                "Frankish Kingdom",
+                "Norman Conquest",
+                "French Revolution",
+                "Napoleonic Era",
+                "French Third Republic",
+                "World War I",
+                "World War II"
+            ]
+
+        },
+
+
+        germany: {
+
+            name: "Germany",
+
+            officialName:
+                "Federal Republic of Germany",
+
+            flag: "🇩🇪",
+
+            code: "DE • DEU",
+
+            capital:
+                "Berlin",
+
+            region:
+                "Europe",
+
+            currency:
+                "Euro (EUR)",
+
+            language:
+                "German",
+
+            government:
+                "Federal Parliamentary Republic",
+
+            description:
+                "A Central European country shaped by ancient Germanic societies, medieval states, the Holy Roman Empire, political unification, industrialization and modern European history.",
+
+            history:
+                "German history includes ancient Germanic societies, medieval political formations, the Holy Roman Empire, early modern states, nineteenth-century unification, the twentieth-century world wars and postwar reunification.",
+
+            ancient:
+                "Various Germanic peoples lived across Central Europe before and during the Roman period.",
+
+            medieval:
+                "The region developed through Frankish kingdoms, the Holy Roman Empire and numerous principalities and cities.",
+
+            modern:
+                "Modern Germany was unified in the nineteenth century and experienced major political changes during the twentieth century.",
+
+            civilizations:
+                "Germanic, Frankish, medieval and Central European traditions contributed to the region's history.",
+
+            culture:
+                "German culture includes major traditions in philosophy, music, literature, science, engineering and architecture.",
+
+            heritage:
+                "Historic castles, cathedrals, medieval cities and archaeological locations are distributed across Germany.",
+
+            people:
+                "Historical figures include rulers, philosophers, composers, scientists, writers and political leaders.",
+
+            cities: [
+                "Berlin",
+                "Cologne",
+                "Munich",
+                "Hamburg",
+                "Nuremberg",
+                "Frankfurt",
+                "Dresden"
+            ],
+
+            subdivisions: [
+                "Bavaria",
+                "Berlin",
+                "Brandenburg",
+                "Hesse",
+                "Lower Saxony",
+                "North Rhine-Westphalia",
+                "Saxony",
+                "Baden-Württemberg"
+            ],
+
+            heritageSites: [
+                "Cologne Cathedral",
+                "Neuschwanstein Castle",
+                "Brandenburg Gate",
+                "Wartburg Castle",
+                "Museum Island Berlin"
+            ],
+
+            events: [
+                "Holy Roman Empire",
+                "Protestant Reformation",
+                "German Confederation",
+                "German Unification",
+                "Industrialization",
+                "World War I",
+                "Weimar Republic",
+                "World War II",
+                "German Reunification"
+            ]
+
+        },
+
+
+        italy: {
+
+            name: "Italy",
+
+            officialName:
+                "Italian Republic",
+
+            flag: "🇮🇹",
+
+            code: "IT • ITA",
+
+            capital:
+                "Rome",
+
+            region:
+                "Europe",
+
+            currency:
+                "Euro (EUR)",
+
+            language:
+                "Italian",
+
+            government:
+                "Parliamentary Republic",
+
+            description:
+                "A Mediterranean European country with major ancient Roman, medieval, Renaissance and modern historical traditions.",
+
+            history:
+                "Italy's history includes prehistoric cultures, ancient Rome, medieval states, city republics, the Renaissance, regional kingdoms and nineteenth-century unification.",
+
+            ancient:
+                "The Italian peninsula contained many ancient peoples and became the center of Roman civilization.",
+
+            medieval:
+                "After the Western Roman Empire, Italy developed through kingdoms, city-states, republics and regional powers.",
+
+            modern:
+                "Modern Italy was unified during the nineteenth century and developed into the present republic after the Second World War.",
+
+            civilizations:
+                "Etruscan, Roman, medieval and Renaissance traditions played major roles in Italian history.",
+
+            culture:
+                "Italian culture is globally influential in art, architecture, literature, music, cuisine and design.",
+
+            heritage:
+                "Italy contains an extraordinary concentration of archaeological sites, historic cities, churches, palaces and museums.",
+
+            people:
+                "Historical figures include Roman leaders, Renaissance artists, scientists, writers, philosophers and political figures.",
+
+            cities: [
+                "Rome",
+                "Florence",
+                "Venice",
+                "Milan",
+                "Naples",
+                "Turin",
+                "Bologna"
+            ],
+
+            subdivisions: [
+                "Lazio",
+                "Tuscany",
+                "Lombardy",
+                "Veneto",
+                "Campania",
+                "Sicily",
+                "Sardinia"
+            ],
+
+            heritageSites: [
+                "Colosseum",
+                "Roman Forum",
+                "Pompeii",
+                "Venice",
+                "Florence Historic Centre",
+                "Leaning Tower of Pisa"
+            ],
+
+            events: [
+                "Roman Republic",
+                "Roman Empire",
+                "Fall of the Western Roman Empire",
+                "Italian Renaissance",
+                "Italian Unification",
+                "World War I",
+                "World War II",
+                "Italian Republic"
+            ]
+
+        },
+
+
+        spain: {
+
+            name: "Spain",
+
+            officialName:
+                "Kingdom of Spain",
+
+            flag: "🇪🇸",
+
+            code: "ES • ESP",
+
+            capital:
+                "Madrid",
+
+            region:
+                "Europe",
+
+            currency:
+                "Euro (EUR)",
+
+            language:
+                "Spanish and several co-official regional languages",
+
+            government:
+                "Parliamentary Constitutional Monarchy",
+
+            description:
+                "A southwestern European country shaped by prehistoric cultures, Roman Hispania, medieval kingdoms, Islamic Al-Andalus, the Spanish monarchy and the modern state.",
+
+            history:
+                "Spain's history includes prehistoric societies, Phoenician and Roman influence, Visigothic rule, Al-Andalus, Christian kingdoms, overseas expansion and modern political development.",
+
+            ancient:
+                "The Iberian Peninsula contained diverse prehistoric and ancient societies before Roman consolidation.",
+
+            medieval:
+                "Medieval Iberia included Al-Andalus and several Christian kingdoms whose histories eventually contributed to the formation of Spain.",
+
+            modern:
+                "Spain developed as a global imperial power and later experienced major political transformations leading to the contemporary constitutional monarchy.",
+
+            civilizations:
+                "Iberian, Roman, Visigothic, Islamic Andalusian and Christian medieval traditions shaped Spanish history.",
+
+            culture:
+                "Spanish culture includes major traditions in architecture, literature, music, art, festivals and regional languages.",
+
+            heritage:
+                "Spain contains Roman remains, medieval castles, Islamic architecture, cathedrals and historic cities.",
+
+            people:
+                "Historical figures include monarchs, explorers, artists, writers, philosophers and scientists.",
+
+            cities: [
+                "Madrid",
+                "Barcelona",
+                "Seville",
+                "Toledo",
+                "Granada",
+                "Córdoba",
+                "Valencia"
+            ],
+
+            subdivisions: [
+                "Andalusia",
+                "Catalonia",
+                "Galicia",
+                "Basque Country",
+                "Madrid",
+                "Valencia",
+                "Castile and León"
+            ],
+
+            heritageSites: [
+                "Alhambra",
+                "Historic Centre of Córdoba",
+                "Sagrada Família",
+                "Toledo",
+                "Segovia Aqueduct"
+            ],
+
+            events: [
+                "Roman Hispania",
+                "Visigothic Kingdom",
+                "Al-Andalus",
+                "Reconquista",
+                "Spanish Unification",
+                "Age of Exploration",
+                "Spanish Civil War",
+                "Modern Constitutional Monarchy"
+            ]
+
+        },
+
+
+        china: {
+
+            name: "China",
+
+            officialName:
+                "People's Republic of China",
+
+            flag: "🇨🇳",
+
+            code: "CN • CHN",
+
+            capital:
+                "Beijing",
+
+            region:
+                "Asia",
+
+            currency:
+                "Renminbi (CNY)",
+
+            language:
+                "Mandarin Chinese and other recognized languages",
+
+            government:
+                "Unitary People's Republic",
+
+            description:
+                "A major East Asian civilization with a long history of dynasties, philosophical traditions, technological developments, cities and cultural achievements.",
+
+            history:
+                "Chinese history includes prehistoric cultures, early dynasties, imperial unification, long periods of dynastic rule, major cultural developments and the modern Chinese state.",
+
+            ancient:
+                "Ancient China developed early agricultural communities, cities, writing systems and complex political institutions.",
+
+            medieval:
+                "Major dynasties such as the Han, Tang and Song contributed to political, economic and cultural development.",
+
+            modern:
+                "The modern period includes the late imperial era, republican revolution, civil conflict and the establishment of the People's Republic of China in 1949.",
+
+            civilizations:
+                "Chinese civilization developed through numerous dynasties and regional cultures with long-standing philosophical and literary traditions.",
+
+            culture:
+                "Chinese culture includes calligraphy, philosophy, literature, architecture, traditional arts, cuisine and technological traditions.",
+
+            heritage:
+                "China contains ancient cities, temples, imperial palaces, tombs, archaeological sites and historic infrastructure.",
+
+            people:
+                "Historical figures include emperors, philosophers, scholars, inventors, generals, artists and writers.",
+
+            cities: [
+                "Beijing",
+                "Xi'an",
+                "Nanjing",
+                "Luoyang",
+                "Shanghai",
+                "Hangzhou",
+                "Kaifeng"
+            ],
+
+            subdivisions: [
+                "Beijing",
+                "Shanghai",
+                "Guangdong",
+                "Sichuan",
+                "Yunnan",
+                "Zhejiang",
+                "Shaanxi"
+            ],
+
+            heritageSites: [
+                "Great Wall of China",
+                "Forbidden City",
+                "Terracotta Army",
+                "Temple of Heaven",
+                "Potala Palace"
+            ],
+
+            events: [
+                "Early Chinese dynasties",
+                "Qin unification",
+                "Han Empire",
+                "Tang Dynasty",
+                "Song Dynasty",
+                "Ming Dynasty",
+                "Qing Dynasty",
+                "Xinhai Revolution",
+                "Establishment of PRC in 1949"
+            ]
+
+        },
+
+
+        japan: {
+
+            name: "Japan",
+
+            officialName:
+                "Japan",
+
+            flag: "🇯🇵",
+
+            code: "JP • JPN",
+
+            capital:
+                "Tokyo",
+
+            region:
+                "Asia",
+
+            currency:
+                "Japanese Yen (JPY)",
+
+            language:
+                "Japanese",
+
+            government:
+                "Constitutional Monarchy with Parliamentary Government",
+
+            description:
+                "An East Asian island country with a distinctive history of ancient court culture, warrior governments, shogunates, modernization and modern technological development.",
+
+            history:
+                "Japan's history includes prehistoric societies, ancient imperial institutions, samurai governments, shogunates, the Meiji Restoration, industrialization and the modern state.",
+
+            ancient:
+                "Early Japanese societies developed through the Jomon, Yayoi and Kofun periods, followed by the formation of centralized institutions.",
+
+            medieval:
+                "Japan experienced long periods of samurai rule, including the Kamakura, Muromachi and Tokugawa political systems.",
+
+            modern:
+                "The Meiji Restoration transformed Japan through political centralization, industrialization and modernization.",
+
+            civilizations:
+                "Japanese civilization developed through indigenous traditions and long periods of interaction with neighboring East Asian cultures.",
+
+            culture:
+                "Japanese culture includes literature, architecture, martial traditions, tea culture, gardens, crafts, theatre and cuisine.",
+
+            heritage:
+                "Japan contains ancient temples, shrines, castles, historic districts and archaeological sites.",
+
+            people:
+                "Historical figures include emperors, shoguns, samurai, scholars, artists and political leaders.",
+
+            cities: [
+                "Tokyo",
+                "Kyoto",
+                "Nara",
+                "Osaka",
+                "Kamakura",
+                "Hiroshima",
+                "Nagasaki"
+            ],
+
+            subdivisions: [
+                "Tokyo",
+                "Kyoto",
+                "Osaka",
+                "Hokkaido",
+                "Aomori",
+                "Okinawa",
+                "Fukuoka"
+            ],
+
+            heritageSites: [
+                "Historic Monuments of Ancient Kyoto",
+                "Himeji Castle",
+                "Historic Monuments of Ancient Nara",
+                "Itsukushima Shrine",
+                "Shirakawa-go"
+            ],
+
+            events: [
+                "Jomon Period",
+                "Formation of imperial institutions",
+                "Kamakura Shogunate",
+                "Tokugawa Shogunate",
+                "Meiji Restoration",
+                "Industrialization",
+                "World War II",
+                "Postwar reconstruction"
+            ]
+
+        },
+
+
+        australia: {
+
+            name: "Australia",
+
+            officialName:
+                "Commonwealth of Australia",
+
+            flag: "🇦🇺",
+
+            code: "AU • AUS",
+
+            capital:
+                "Canberra",
+
+            region:
+                "Oceania",
+
+            currency:
+                "Australian Dollar (AUD)",
+
+            language:
+                "English is the predominant language; Australia is multilingual",
+
+            government:
+                "Federal Parliamentary Constitutional Monarchy",
+
+            description:
+                "A continent-country with tens of thousands of years of Aboriginal and Torres Strait Islander history followed by European colonization and modern development.",
+
+            history:
+                "Australia has deep Indigenous histories and later experienced European exploration, colonization, federation and modern national development.",
+
+            ancient:
+                "Aboriginal Australian cultures have extremely long histories with diverse languages, traditions and connections to Country.",
+
+            medieval:
+                "European medieval categories do not directly describe the Indigenous historical systems of Australia.",
+
+            modern:
+                "European colonization began in the late eighteenth century, followed by federation in 1901 and the development of the modern Australian nation.",
+
+            civilizations:
+                "Australia contains diverse Aboriginal and Torres Strait Islander cultural traditions with distinct societies and knowledge systems.",
+
+            culture:
+                "Australian culture includes Indigenous traditions, migrant influences, literature, sport, art and regional traditions.",
+
+            heritage:
+                "Heritage includes Indigenous cultural landscapes, archaeological sites, colonial buildings and historic cities.",
+
+            people:
+                "Historical figures include Indigenous leaders, explorers, scientists, political leaders and artists.",
+
+            cities: [
+                "Canberra",
+                "Sydney",
+                "Melbourne",
+                "Brisbane",
+                "Perth",
+                "Adelaide",
+                "Hobart"
+            ],
+
+            subdivisions: [
+                "New South Wales",
+                "Victoria",
+                "Queensland",
+                "Western Australia",
+                "South Australia",
+                "Tasmania",
+                "Northern Territory",
+                "Australian Capital Territory"
+            ],
+
+            heritageSites: [
+                "Uluru",
+                "Sydney Opera House",
+                "Great Barrier Reef",
+                "Kakadu",
+                "Port Arthur Historic Site"
+            ],
+
+            events: [
+                "Ancient Aboriginal settlement",
+                "European exploration",
+                "British colonization",
+                "Gold Rush era",
+                "Federation in 1901",
+                "World War I",
+                "World War II",
+                "Modern Australia"
+            ]
+
+        }
+
+    };
+
+
+    /* =====================================================
+       GET COUNTRY FROM URL
+    ====================================================== */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const requestedCountry =
+        (
+            params.get("country") ||
+            "india"
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const country =
+        COUNTRY_DATA[requestedCountry];
+
+
+    /* =====================================================
+       DOM ELEMENTS
+    ====================================================== */
+
+    const errorBox =
+        document.getElementById("countryError");
+
+
+    /* =====================================================
+       COUNTRY NOT FOUND
+    ====================================================== */
+
+    if (!country) {
+
+        errorBox.style.display = "block";
+
+    } else {
+
+        /* -------------------------------------------------
+           HERO
+        ------------------------------------------------- */
+
+        document.getElementById("countryFlag")
+            .textContent = country.flag;
+
+        document.getElementById("countryName")
+            .textContent = country.name;
+
+        document.getElementById("officialName")
+            .textContent = country.officialName;
+
+        document.getElementById("countryCode")
+            .textContent = country.code;
+
+        document.getElementById("countryDescription")
+            .textContent = country.description;
+
+
+        /* -------------------------------------------------
+           BASIC FACTS
+        ------------------------------------------------- */
+
+        document.getElementById("capital")
+            .textContent = country.capital;
+
+        document.getElementById("region")
+            .textContent = country.region;
+
+        document.getElementById("codeFact")
+            .textContent = country.code;
+
+        document.getElementById("currency")
+            .textContent = country.currency;
+
+        document.getElementById("language")
+            .textContent = country.language;
+
+        document.getElementById("government")
+            .textContent = country.government;
+
+
+        /* -------------------------------------------------
+           HISTORY
+        ------------------------------------------------- */
+
+        document.getElementById("historyText")
+            .textContent = country.history;
+
+        document.getElementById("ancientHistory")
+            .textContent = country.ancient;
+
+        document.getElementById("medievalHistory")
+            .textContent = country.medieval;
+
+        document.getElementById("modernHistory")
+            .textContent = country.modern;
+
+
+        /* -------------------------------------------------
+           CULTURE
+        ------------------------------------------------- */
+
+        document.getElementById("civilizations")
+            .textContent = country.civilizations;
+
+        document.getElementById("culture")
+            .textContent = country.culture;
+
+        document.getElementById("heritage")
+            .textContent = country.heritage;
+
+        document.getElementById("people")
+            .textContent = country.people;
+
+
+        /* -------------------------------------------------
+           CITIES
+        ------------------------------------------------- */
+
+        const citiesList =
+            document.getElementById("citiesList");
+
+        country.cities.forEach(
+            function(city) {
+
+                const li =
+                    document.createElement("li");
+
+                li.textContent = city;
+
+                citiesList.appendChild(li);
+
+            }
+        );
+
+
+        /* -------------------------------------------------
+           SUBDIVISIONS
+        ------------------------------------------------- */
+
+        const subdivisionGrid =
+            document.getElementById("subdivisionGrid");
+
+        country.subdivisions.forEach(
+            function(place) {
+
+                const link =
+                    document.createElement("a");
+
+                link.className =
+                    "subdivision";
+
+                link.href =
+                    "#";
+
+                link.innerHTML =
+                    escapeHTML(place) +
+                    "<small>Explore later →</small>";
+
+                link.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.preventDefault();
+
+                        alert(
+                            place +
+                            " detail page will be added to ALON HISTORYVERSE 24."
+                        );
+
+                    }
+                );
+
+                subdivisionGrid.appendChild(link);
+
+            }
+        );
+
+
+        /* -------------------------------------------------
+           HERITAGE
+        ------------------------------------------------- */
+
+        const heritageList =
+            document.getElementById("heritageList");
+
+        country.heritageSites.forEach(
+            function(site) {
+
+                const li =
+                    document.createElement("li");
+
+                li.textContent = site;
+
+                heritageList.appendChild(li);
+
+            }
+        );
+
+
+        /* -------------------------------------------------
+           EVENTS
+        ------------------------------------------------- */
+
+        const eventsList =
+            document.getElementById("eventsList");
+
+        country.events.forEach(
+            function(eventName) {
+
+                const li =
+                    document.createElement("li");
+
+                li.textContent = eventName;
+
+                eventsList.appendChild(li);
+
+            }
+        );
+
+
+        /* -------------------------------------------------
+           PAGE TITLE
+        ------------------------------------------------- */
+
+        document.title =
+            country.name +
+            " • ALON HISTORYVERSE 24";
+
+    }
+
+
+    /* =====================================================
+       SAFE HTML HELPER
+    ====================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+</script>
 
 </body>
+
 </html>

@@ -1,188 +1,1069 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Categories • ALON HISTORYVERSE 24</title>
 
-<!-- Global stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-</head><body><main class="page">
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Categories — History, Civilizations, Countries, Culture, Heritage, People, Wars and Knowledge."
+    >
 
-    <!-- =========================
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <title>Categories • ALON HISTORYVERSE 24</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           CATEGORIES PAGE
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #f1f1f1;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        .categories-page {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .categories-header {
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 18px;
+            background: #090e17;
+        }
+
+        .categories-header h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: 32px;
+        }
+
+        .categories-header p {
+            margin: 0;
+            color: #c7c7c7;
+            line-height: 1.7;
+        }
+
+        .creator {
+            margin-top: 12px;
+            color: #d7b35a;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        .search-box {
+            margin-bottom: 22px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 17px;
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 13px;
+            outline: none;
+            background: #0a0f18;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .search-box input:focus {
+            border-color: #f0d27a;
+        }
+
+        /* =====================================================
+           CATEGORY GRID
+        ===================================================== */
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .category-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 205px;
+            padding: 22px;
+            border: 1px solid rgba(215, 179, 90, 0.38);
+            border-radius: 18px;
+            background: #0a0f18;
+            transition: 0.2s ease;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #d7b35a;
+            opacity: 0.55;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            border-color: #d7b35a;
+            background: #0c1320;
+        }
+
+        .category-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .category-card h2 {
+            margin: 0 0 9px;
+            color: #f0d27a;
+            font-size: 21px;
+        }
+
+        .category-card p {
+            margin: 0;
+            color: #bdbdbd;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .category-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            margin-top: auto;
+            padding: 9px 13px;
+            border: 1px solid rgba(215, 179, 90, 0.38);
+            border-radius: 10px;
+            background: #0d1420;
+            color: #d7b35a;
+            font-size: 14px;
+        }
+
+        .category-link:hover {
+            background: rgba(215, 179, 90, 0.12);
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           SPECIAL TOPICS
+        ===================================================== */
+
+        .section-title {
+            margin: 32px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(215, 179, 90, 0.25);
+            color: #f0d27a;
+            font-size: 25px;
+        }
+
+        .topic-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 52px;
+            padding: 12px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 12px;
+            background: #090e17;
+            color: #d8d8d8;
+            transition: 0.2s ease;
+        }
+
+        .topic-item:hover {
+            color: #f0d27a;
+            border-color: #d7b35a;
+            transform: translateY(-2px);
+        }
+
+        .topic-icon {
+            font-size: 22px;
+        }
+
+        /* =====================================================
+           EMPTY SEARCH
+        ===================================================== */
+
+        .no-results {
+            grid-column: 1 / -1;
+            display: none;
+            padding: 35px 20px;
+            text-align: center;
+            border: 1px dashed rgba(215, 179, 90, 0.4);
+            border-radius: 16px;
+            color: #aaa;
+        }
+
+        .no-results strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #f0d27a;
+            font-size: 20px;
+        }
+
+        /* =====================================================
+           BOTTOM NAV
+        ===================================================== */
+
+        .bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 35px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(215, 179, 90, 0.2);
+        }
+
+        .bottom-nav a {
+            padding: 10px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+            background: #090e17;
+            color: #d7b35a;
+        }
+
+        .bottom-nav a:hover {
+            border-color: #f0d27a;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .topic-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .categories-page {
+                padding: 12px;
+            }
+
+            .categories-header {
+                padding: 18px;
+            }
+
+            .categories-header h1 {
+                font-size: 26px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topic-list {
+                grid-template-columns: 1fr;
+            }
+
+            .category-card {
+                min-height: 190px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<main class="categories-page">
+
+    <!-- =====================================================
          HEADER
-    ========================== -->
-    <header class="page-header">
+    ====================================================== -->
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <header class="categories-header">
 
-        <h1>Categories</h1>
+        <h1>📚 Categories</h1>
 
         <p>
-            Explore knowledge through organized
-            ALON HISTORYVERSE 24 categories.
+            Explore the major knowledge categories of
+            ALON HISTORYVERSE 24 — from ancient civilizations
+            and rulers to countries, heritage, culture, wars,
+            timelines and educational knowledge.
         </p>
+
+        <div class="creator">
+            Created &amp; Managed by <strong>Baba Thecno Guru</strong>
+        </div>
 
     </header>
 
 
-    <!-- =========================
-         CATEGORY CONTENT
-    ========================== -->
-    <section class="content">
+    <!-- =====================================================
+         SEARCH
+    ====================================================== -->
 
-        <h2>Knowledge Categories</h2>
+    <section class="search-box">
 
-        <p>
-            Select a category to explore related
-            historical subjects, articles, books,
-            heritage and educational resources.
-        </p>
-
-
-        <!-- =========================
-             CATEGORY SEARCH
-        ========================== -->
-        <div class="article-tools">
-
-            <label for="category-search">
-                Search Categories
-            </label>
-
-            <input
-                type="search"
-                id="category-search"
-                name="category-search"
-                placeholder="Search categories..."
-                autocomplete="off"
-            >
-
-        </div>
-
-
-        <!-- =========================
-             CATEGORY LIST
-        ========================== -->
-        <div
-            id="categories-list"
-            class="grid categories-grid"
-            aria-live="polite"
+        <input
+            type="search"
+            id="categorySearch"
+            placeholder="🔎 Search categories..."
+            autocomplete="off"
         >
 
-            <!--
-                Categories can be populated dynamically
-                by the central data/category system.
-            -->
+    </section>
 
-            <a class="card" href="countries.html">
-                <h3>Countries</h3>
+
+    <!-- =====================================================
+         MAIN CATEGORIES
+    ====================================================== -->
+
+    <section>
+
+        <div
+            class="category-grid"
+            id="categoryGrid"
+        >
+
+            <!-- HISTORY -->
+
+            <article
+                class="category-card"
+                data-search="history ancient medieval modern historical events"
+            >
+
+                <div class="category-icon">
+                    📜
+                </div>
+
+                <h2>
+                    History
+                </h2>
+
                 <p>
-                    Explore countries, regions
-                    and their histories.
+                    Explore ancient, medieval and modern history,
+                    major events, historical periods and the stories
+                    that shaped civilizations.
                 </p>
-            </a>
+
+                <a
+                    class="category-link"
+                    href="./timeline.html"
+                >
+                    Explore History →
+                </a>
+
+            </article>
 
 
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
+            <!-- CIVILIZATIONS -->
+
+            <article
+                class="category-card"
+                data-search="civilizations ancient civilization empire society"
+            >
+
+                <div class="category-icon">
+                    🏛️
+                </div>
+
+                <h2>
+                    Civilizations
+                </h2>
+
                 <p>
-                    Discover ancient and historical
-                    civilizations.
+                    Discover ancient and historic civilizations,
+                    their societies, achievements, architecture,
+                    knowledge and legacy.
                 </p>
-            </a>
+
+                <a
+                    class="category-link"
+                    href="./civilizations.html"
+                >
+                    Explore Civilizations →
+                </a>
+
+            </article>
 
 
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
+            <!-- COUNTRIES -->
+
+            <article
+                class="category-card"
+                data-search="countries world nations flags geography"
+            >
+
+                <div class="category-icon">
+                    🌍
+                </div>
+
+                <h2>
+                    Countries of the World
+                </h2>
+
                 <p>
-                    Explore cultural and historical
-                    heritage.
+                    Explore countries, flags, capitals, regions,
+                    historical backgrounds, cultures and major
+                    cities around the world.
                 </p>
-            </a>
+
+                <a
+                    class="category-link"
+                    href="./countries.html"
+                >
+                    Explore Countries →
+                </a>
+
+            </article>
 
 
-            <a class="card" href="timeline.html">
-                <h3>Timeline</h3>
+            <!-- HERITAGE -->
+
+            <article
+                class="category-card"
+                data-search="heritage monuments forts temples sites architecture"
+            >
+
+                <div class="category-icon">
+                    🏺
+                </div>
+
+                <h2>
+                    Heritage
+                </h2>
+
                 <p>
-                    Explore events through
-                    historical timelines.
+                    Discover historic monuments, forts, temples,
+                    archaeological sites, old cities and important
+                    heritage places.
                 </p>
-            </a>
+
+                <a
+                    class="category-link"
+                    href="./heritage.html"
+                >
+                    Explore Heritage →
+                </a>
+
+            </article>
 
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
+            <!-- CULTURE -->
+
+            <article
+                class="category-card"
+                data-search="culture traditions language food art music customs"
+            >
+
+                <div class="category-icon">
+                    🎭
+                </div>
+
+                <h2>
+                    Culture
+                </h2>
+
                 <p>
-                    Read knowledge articles
-                    from the platform.
+                    Learn about traditions, languages, arts, music,
+                    food, customs and cultural identities from
+                    different parts of the world.
                 </p>
-            </a>
+
+                <a
+                    class="category-link"
+                    href="./heritage.html"
+                >
+                    Explore Culture →
+                </a>
+
+            </article>
 
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
+            <!-- PEOPLE -->
+
+            <article
+                class="category-card"
+                data-search="people rulers kings queens leaders scientists explorers biography"
+            >
+
+                <div class="category-icon">
+                    👑
+                </div>
+
+                <h2>
+                    People &amp; Rulers
+                </h2>
+
                 <p>
-                    Explore books, subjects
-                    and learning resources.
+                    Explore kings, queens, rulers, leaders,
+                    explorers, scientists, thinkers and other
+                    important historical personalities.
                 </p>
-            </a>
 
-        </div>
+                <a
+                    class="category-link"
+                    href="./articles.html"
+                >
+                    Explore People →
+                </a>
+
+            </article>
 
 
-        <!-- =========================
-             QUICK NAVIGATION
-        ========================== -->
-        <div class="grid">
+            <!-- WARS -->
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
+            <article
+                class="category-card"
+                data-search="wars battles military world war conflicts armies"
+            >
+
+                <div class="category-icon">
+                    ⚔️
+                </div>
+
+                <h2>
+                    Wars &amp; Battles
+                </h2>
+
                 <p>
-                    Explore the wider
-                    HistoryVerse experience.
+                    Study major wars, battles, military campaigns,
+                    historical conflicts and their impact on
+                    countries and civilizations.
                 </p>
-            </a>
+
+                <a
+                    class="category-link"
+                    href="./timeline.html"
+                >
+                    Explore Wars →
+                </a>
+
+            </article>
 
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
+            <!-- TIMELINE -->
+
+            <article
+                class="category-card"
+                data-search="timeline chronology dates events historical periods"
+            >
+
+                <div class="category-icon">
+                    ⏳
+                </div>
+
+                <h2>
+                    Historical Timeline
+                </h2>
+
                 <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
+                    Travel through history using chronological
+                    timelines covering important periods, events,
+                    civilizations and discoveries.
                 </p>
-            </a>
+
+                <a
+                    class="category-link"
+                    href="./timeline.html"
+                >
+                    Open Timeline →
+                </a>
+
+            </article>
+
+
+            <!-- LIBRARY -->
+
+            <article
+                class="category-card"
+                data-search="library books reading knowledge education study"
+            >
+
+                <div class="category-icon">
+                    📚
+                </div>
+
+                <h2>
+                    Knowledge Library
+                </h2>
+
+                <p>
+                    Enter the knowledge library and explore
+                    departments, subjects, books, reading material
+                    and educational resources.
+                </p>
+
+                <a
+                    class="category-link"
+                    href="./library.html"
+                >
+                    Open Library →
+                </a>
+
+            </article>
+
+
+            <!-- ARTICLES -->
+
+            <article
+                class="category-card"
+                data-search="articles article writing research knowledge stories"
+            >
+
+                <div class="category-icon">
+                    📰
+                </div>
+
+                <h2>
+                    Articles
+                </h2>
+
+                <p>
+                    Read historical articles and educational
+                    knowledge or create new articles through the
+                    Article Center.
+                </p>
+
+                <a
+                    class="category-link"
+                    href="./articles.html"
+                >
+                    Read Articles →
+                </a>
+
+            </article>
+
+
+            <!-- TREES -->
+
+            <article
+                class="category-card"
+                data-search="trees nature plants environment forest knowledge"
+            >
+
+                <div class="category-icon">
+                    🌳
+                </div>
+
+                <h2>
+                    Trees &amp; Nature
+                </h2>
+
+                <p>
+                    Learn about trees, nature, forests, plants and
+                    the relationship between people, environment
+                    and civilization.
+                </p>
+
+                <a
+                    class="category-link"
+                    href="./trees.html"
+                >
+                    Explore Nature →
+                </a>
+
+            </article>
+
+
+            <!-- JOBS -->
+
+            <article
+                class="category-card"
+                data-search="jobs careers employment profession work career"
+            >
+
+                <div class="category-icon">
+                    💼
+                </div>
+
+                <h2>
+                    Jobs &amp; Careers
+                </h2>
+
+                <p>
+                    Explore career knowledge, job categories,
+                    professions, employment information and
+                    educational guidance.
+                </p>
+
+                <a
+                    class="category-link"
+                    href="./jobs.html"
+                >
+                    Explore Careers →
+                </a>
+
+            </article>
+
+
+            <!-- NO RESULTS -->
+
+            <div
+                class="no-results"
+                id="noResults"
+            >
+
+                <strong>
+                    No Category Found
+                </strong>
+
+                Try another search term.
+
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer class="footer">
+    <!-- =====================================================
+         POPULAR TOPICS
+    ====================================================== -->
 
-        <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
-        </p>
+    <h2 class="section-title">
+        ⭐ Popular History Topics
+    </h2>
 
-        <a href="../index.html">
-            Home
+    <section class="topic-list">
+
+        <a
+            class="topic-item"
+            href="./civilizations.html"
+        >
+            <span class="topic-icon">🏺</span>
+            Ancient Civilizations
         </a>
 
-    </footer>
+        <a
+            class="topic-item"
+            href="./articles.html"
+        >
+            <span class="topic-icon">👑</span>
+            Kings &amp; Rulers
+        </a>
+
+        <a
+            class="topic-item"
+            href="./heritage.html"
+        >
+            <span class="topic-icon">🏰</span>
+            Old Forts
+        </a>
+
+        <a
+            class="topic-item"
+            href="./heritage.html"
+        >
+            <span class="topic-icon">🏛️</span>
+            Historic Cities
+        </a>
+
+        <a
+            class="topic-item"
+            href="./heritage.html"
+        >
+            <span class="topic-icon">🕌</span>
+            Monuments
+        </a>
+
+        <a
+            class="topic-item"
+            href="./articles.html"
+        >
+            <span class="topic-icon">⚔️</span>
+            Famous Battles
+        </a>
+
+        <a
+            class="topic-item"
+            href="./articles.html"
+        >
+            <span class="topic-icon">🌎</span>
+            Ancient People
+        </a>
+
+        <a
+            class="topic-item"
+            href="./timeline.html"
+        >
+            <span class="topic-icon">⏳</span>
+            Major Historical Events
+        </a>
+
+        <a
+            class="topic-item"
+            href="./heritage.html"
+        >
+            <span class="topic-icon">🎨</span>
+            Art &amp; Culture
+        </a>
+
+        <a
+            class="topic-item"
+            href="./countries.html"
+        >
+            <span class="topic-icon">🏳️</span>
+            World Countries
+        </a>
+
+        <a
+            class="topic-item"
+            href="./civilizations.html"
+        >
+            <span class="topic-icon">🗿</span>
+            Ancient Empires
+        </a>
+
+        <a
+            class="topic-item"
+            href="./timeline.html"
+        >
+            <span class="topic-icon">📅</span>
+            Historical Periods
+        </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         KNOWLEDGE PATH
+    ====================================================== -->
+
+    <h2 class="section-title">
+        🧭 Explore ALON HISTORYVERSE 24
+    </h2>
+
+    <section class="topic-list">
+
+        <a
+            class="topic-item"
+            href="./discover.html"
+        >
+            <span class="topic-icon">🔎</span>
+            Discover
+        </a>
+
+        <a
+            class="topic-item"
+            href="./gallery.html"
+        >
+            <span class="topic-icon">🖼️</span>
+            Images &amp; Videos
+        </a>
+
+        <a
+            class="topic-item"
+            href="./library.html"
+        >
+            <span class="topic-icon">📚</span>
+            Library
+        </a>
+
+        <a
+            class="topic-item"
+            href="./contribute.html"
+        >
+            <span class="topic-icon">🤝</span>
+            Contribute
+        </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         BOTTOM NAV
+    ====================================================== -->
+
+    <nav class="bottom-nav">
+
+        <a href="../index.html">
+            🏠 Home
+        </a>
+
+        <a href="./discover.html">
+            🔎 Discover
+        </a>
+
+        <a href="./articles.html">
+            📰 Articles
+        </a>
+
+        <a href="./library.html">
+            📚 Library
+        </a>
+
+        <a href="./countries.html">
+            🌍 Countries
+        </a>
+
+        <a href="./heritage.html">
+            🏺 Heritage
+        </a>
+
+        <a href="./timeline.html">
+            ⏳ Timeline
+        </a>
+
+    </nav>
 
 </main>
 
 
-<!-- =========================
-     CORE SYSTEM
-========================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/data.js"></script>
+<script>
+
+    /* =====================================================
+       CATEGORY SEARCH
+    ===================================================== */
+
+    "use strict";
+
+    const searchInput =
+        document.getElementById(
+            "categorySearch"
+        );
+
+    const categoryCards =
+        Array.from(
+            document.querySelectorAll(
+                ".category-card"
+            )
+        );
+
+    const noResults =
+        document.getElementById(
+            "noResults"
+        );
+
+
+    function filterCategories() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        let visibleCount = 0;
+
+
+        categoryCards.forEach(
+            function(card) {
+
+                const searchableText =
+                    (
+                        card.dataset.search ||
+                        ""
+                    ).toLowerCase();
+
+                const cardText =
+                    card.textContent
+                        .toLowerCase();
+
+
+                const match =
+                    !query ||
+                    searchableText.includes(query) ||
+                    cardText.includes(query);
+
+
+                if (match) {
+
+                    card.style.display =
+                        "flex";
+
+                    visibleCount++;
+
+                } else {
+
+                    card.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        if (visibleCount === 0) {
+
+            noResults.style.display =
+                "block";
+
+        } else {
+
+            noResults.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterCategories
+    );
+
+</script>
+
 
 </body>
+
 </html>

@@ -1,141 +1,2393 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Article Reader • ALON HISTORYVERSE 24</title>
 
-<!-- Global stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-</head><body><main class="page">
+    <title>Article Center • ALON HISTORYVERSE 24</title>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-    <header class="page-header">
+    <meta
+        name="description"
+        content="Write, edit, read and manage history articles with images, HD pictures and videos."
+    >
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-        <h1>Article Reader</h1>
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           ARTICLE CENTER
+        ====================================================== */
+
+        .article-page {
+            width: 100%;
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 18px;
+        }
+
+        .article-hero {
+            text-align: center;
+            padding: 34px 18px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 20px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(215,179,90,0.10),
+                    rgba(5,8,15,0.97)
+                );
+        }
+
+        .article-hero h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(30px, 7vw, 50px);
+        }
+
+        .article-hero p {
+            max-width: 850px;
+            margin: auto;
+            line-height: 1.75;
+            opacity: 0.88;
+        }
+
+        .login-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(215,179,90,0.35);
+            color: #f0d27a;
+            background: rgba(215,179,90,0.06);
+            font-size: 13px;
+        }
+
+        .login-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #d7b35a;
+        }
+
+        /* =====================================================
+           LOGIN WALL
+        ====================================================== */
+
+        .login-wall {
+            display: none;
+            max-width: 650px;
+            margin: 30px auto;
+            padding: 30px 22px;
+            text-align: center;
+            border: 1px solid rgba(215,179,90,0.4);
+            border-radius: 20px;
+            background: rgba(215,179,90,0.055);
+        }
+
+        .login-wall-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .login-wall h2 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .login-wall p {
+            line-height: 1.7;
+            opacity: 0.85;
+        }
+
+        .login-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            background: #d7b35a;
+            color: #05080f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           SECTIONS
+        ====================================================== */
+
+        .article-section {
+            margin-bottom: 28px;
+        }
+
+        .article-title {
+            margin: 0 0 15px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+        }
+
+        .article-card {
+            padding: 22px;
+            border: 1px solid rgba(215,179,90,0.27);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.025);
+        }
+
+        /* =====================================================
+           EDITOR
+        ====================================================== */
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .editor-full {
+            grid-column: 1 / -1;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #f0d27a;
+            font-size: 14px;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 10px;
+            outline: none;
+            background: #080d16;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 130px;
+            line-height: 1.7;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: #d7b35a;
+        }
+
+        .counter {
+            text-align: right;
+            margin-top: 5px;
+            font-size: 11px;
+            opacity: 0.65;
+        }
+
+        /* =====================================================
+           MEDIA UPLOAD
+        ====================================================== */
+
+        .media-box {
+            padding: 20px;
+            border: 1px dashed rgba(215,179,90,0.4);
+            border-radius: 15px;
+            background: rgba(215,179,90,0.025);
+        }
+
+        .media-box h3 {
+            margin: 0 0 7px;
+            color: #f0d27a;
+        }
+
+        .media-box p {
+            margin: 0 0 14px;
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.78;
+        }
+
+        .media-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 10px;
+            background: #080d16;
+            color: #ffffff;
+        }
+
+        .hd-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 13px;
+            color: #f0d27a;
+            font-size: 13px;
+        }
+
+        .hd-option input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .media-preview {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 13px;
+            margin-top: 17px;
+        }
+
+        .media-preview-item {
+            overflow: hidden;
+            border: 1px solid rgba(215,179,90,0.25);
+            border-radius: 13px;
+            background: #070b12;
+        }
+
+        .media-preview-item img,
+        .media-preview-item video {
+            display: block;
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .media-info {
+            padding: 9px;
+            font-size: 11px;
+            line-height: 1.5;
+            word-break: break-word;
+            opacity: 0.75;
+        }
+
+        .hd-badge {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 3px 7px;
+            border-radius: 999px;
+            border: 1px solid rgba(215,179,90,0.4);
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+
+        .article-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 15px;
+        }
+
+        .article-btn {
+            padding: 11px 15px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 10px;
+            background: rgba(215,179,90,0.06);
+            color: #f0d27a;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .article-btn:hover {
+            background: rgba(215,179,90,0.13);
+            border-color: #d7b35a;
+        }
+
+        .article-btn.primary {
+            background: #d7b35a;
+            color: #05080f;
+            font-weight: bold;
+        }
+
+        .article-btn.danger {
+            color: #ff9b9b;
+            border-color: rgba(220,80,80,0.45);
+        }
+
+        /* =====================================================
+           ARTICLE LIST
+        ====================================================== */
+
+        .article-search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 10px;
+            background: #080d16;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .saved-articles {
+            display: grid;
+            gap: 13px;
+        }
+
+        .saved-article {
+            padding: 18px;
+            border: 1px solid rgba(215,179,90,0.23);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .saved-article h3 {
+            margin: 0 0 7px;
+            color: #f0d27a;
+        }
+
+        .saved-article p {
+            margin: 0 0 10px;
+            font-size: 13px;
+            line-height: 1.65;
+            opacity: 0.82;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 10px;
+        }
+
+        .article-tag {
+            padding: 5px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(215,179,90,0.25);
+            color: #f0d27a;
+            font-size: 11px;
+        }
+
+        .empty-articles {
+            padding: 25px;
+            text-align: center;
+            border: 1px dashed rgba(215,179,90,0.3);
+            border-radius: 14px;
+            opacity: 0.7;
+        }
+
+        /* =====================================================
+           READER
+        ====================================================== */
+
+        .reader {
+            display: none;
+        }
+
+        .reader h2 {
+            margin: 0 0 8px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .reader-meta {
+            margin-bottom: 18px;
+            font-size: 12px;
+            opacity: 0.65;
+        }
+
+        .reader-content {
+            white-space: pre-wrap;
+            line-height: 1.9;
+            font-size: 15px;
+        }
+
+        .reader-description {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 3px solid #d7b35a;
+            background: rgba(215,179,90,0.045);
+            line-height: 1.7;
+        }
+
+        .reader-media {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .reader-media img,
+        .reader-media video {
+            width: 100%;
+            max-height: 650px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #05080f;
+        }
+
+        /* =====================================================
+           NOTICE
+        ====================================================== */
+
+        .article-notice {
+            padding: 17px;
+            border: 1px solid rgba(215,179,90,0.27);
+            border-radius: 14px;
+            background: rgba(215,179,90,0.045);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .article-notice strong {
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
+
+        .article-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            margin: 32px 0 15px;
+        }
+
+        .article-nav a {
+            padding: 10px 14px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 9px;
+            color: #f0d27a;
+            text-decoration: none;
+            background: rgba(255,255,255,0.025);
+        }
+
+        .article-nav a:hover {
+            border-color: #d7b35a;
+            background: rgba(215,179,90,0.08);
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 850px) {
+
+            .editor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .editor-full {
+                grid-column: auto;
+            }
+
+            .media-preview {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 560px) {
+
+            .article-page {
+                padding: 13px;
+            }
+
+            .article-hero {
+                padding: 27px 14px;
+            }
+
+            .article-card {
+                padding: 16px;
+            }
+
+            .media-preview {
+                grid-template-columns: 1fr;
+            }
+
+            .media-preview-item img,
+            .media-preview-item video {
+                height: 210px;
+            }
+
+            .article-buttons {
+                flex-direction: column;
+            }
+
+            .article-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<main class="article-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="article-hero">
+
+        <h1>📰 Article Center</h1>
 
         <p>
-            Explore knowledge and historical articles
-            on ALON HISTORYVERSE 24.
+            Write, edit, read and manage historical and educational
+            articles for ALON HISTORYVERSE 24.
         </p>
 
-    </header>
-
-
-    <!-- =========================
-         ARTICLE READER
-    ========================== -->
-    <section class="content">
-
-        <article
-            id="article-reader"
-            class="article-reader"
-            aria-live="polite"
+        <div
+            class="login-status"
+            id="loginStatus"
         >
-
-            <!-- Article title -->
-            <h2 id="article-title">
-                Article Reader
-            </h2>
-
-
-            <!-- Article metadata -->
-            <div
-                id="article-meta"
-                class="article-meta"
-            ></div>
-
-
-            <!-- Article body -->
-            <div
-                id="article-content"
-                class="article-content"
-            >
-                <p>
-                    Loading article...
-                </p>
-            </div>
-
-        </article>
-
-
-        <!-- =========================
-             NAVIGATION
-        ========================== -->
-        <div class="grid">
-
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Browse all available
-                    ALON HISTORYVERSE 24 articles.
-                </p>
-            </a>
-
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore historical knowledge,
-                    civilizations and subjects.
-                </p>
-            </a>
-
-
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the knowledge library.
-                </p>
-            </a>
-
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
-                </p>
-            </a>
-
+            <span class="login-dot"></span>
+            Checking login...
         </div>
 
     </section>
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer class="footer">
+    <!-- =====================================================
+         LOGIN WALL
+    ====================================================== -->
+
+    <section
+        class="login-wall"
+        id="loginWall"
+    >
+
+        <div class="login-wall-icon">
+            🔐
+        </div>
+
+        <h2>Login Required</h2>
 
         <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
+            Article writing is available only to logged-in users.
+            Please login before creating or editing an article.
         </p>
 
-        <a href="../index.html">
-            Home
+        <a
+            href="./login.html"
+            class="login-button"
+        >
+            🔑 Login to Continue
         </a>
 
-    </footer>
+    </section>
+
+
+    <!-- =====================================================
+         WRITER AREA
+    ====================================================== -->
+
+    <div id="writerArea">
+
+
+        <!-- =================================================
+             EDITOR
+        ================================================== -->
+
+        <section class="article-section">
+
+            <h2 class="article-title">
+                ✍️ Write Article
+            </h2>
+
+            <div class="article-card">
+
+                <div class="editor-grid">
+
+
+                    <div class="field">
+
+                        <label for="articleTitle">
+                            Article Title *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="articleTitle"
+                            placeholder="Enter article title"
+                            maxlength="200"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="articleCategory">
+                            Category *
+                        </label>
+
+                        <select
+                            id="articleCategory"
+                        >
+
+                            <option value="History">
+                                History
+                            </option>
+
+                            <option value="Civilization">
+                                Civilization
+                            </option>
+
+                            <option value="Country">
+                                Country
+                            </option>
+
+                            <option value="Heritage">
+                                Heritage
+                            </option>
+
+                            <option value="Culture">
+                                Culture
+                            </option>
+
+                            <option value="Timeline">
+                                Timeline
+                            </option>
+
+                            <option value="Biography">
+                                Biography
+                            </option>
+
+                            <option value="Educational">
+                                Educational
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field editor-full">
+
+                        <label for="articleDescription">
+                            Short Description
+                        </label>
+
+                        <textarea
+                            id="articleDescription"
+                            rows="4"
+                            maxlength="500"
+                            placeholder="Write a short description..."
+                        ></textarea>
+
+                        <div
+                            class="counter"
+                            id="descriptionCounter"
+                        >
+                            0 / 500
+                        </div>
+
+                    </div>
+
+
+                    <div class="field editor-full">
+
+                        <label for="articleContent">
+                            Article Content *
+                        </label>
+
+                        <textarea
+                            id="articleContent"
+                            rows="14"
+                            placeholder="Write the complete article here..."
+                        ></textarea>
+
+                        <div
+                            class="counter"
+                            id="contentCounter"
+                        >
+                            0 characters
+                        </div>
+
+                    </div>
+
+
+                    <div class="field editor-full">
+
+                        <label for="articleSources">
+                            Sources / References
+                        </label>
+
+                        <textarea
+                            id="articleSources"
+                            rows="5"
+                            placeholder="Add books, websites, archives or other reliable references..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     IMAGE
+                ========================================== -->
+
+                <div class="media-box">
+
+                    <h3>
+                        🖼️ Article Images
+                    </h3>
+
+                    <p>
+                        Select one or more images from your device.
+                        HD mode preserves the selected image for
+                        high-quality article preview.
+                    </p>
+
+                    <input
+                        type="file"
+                        id="imageInput"
+                        class="media-input"
+                        accept="image/*"
+                        multiple
+                    >
+
+                    <label class="hd-option">
+
+                        <input
+                            type="checkbox"
+                            id="hdImage"
+                        >
+
+                        Use HD Picture Mode
+
+                    </label>
+
+                    <div
+                        class="media-preview"
+                        id="imagePreview"
+                    ></div>
+
+                </div>
+
+
+                <br>
+
+
+                <!-- =========================================
+                     VIDEO
+                ========================================== -->
+
+                <div class="media-box">
+
+                    <h3>
+                        🎬 Article Videos
+                    </h3>
+
+                    <p>
+                        Add video files from your device for local
+                        article preview.
+                    </p>
+
+                    <input
+                        type="file"
+                        id="videoInput"
+                        class="media-input"
+                        accept="video/*"
+                        multiple
+                    >
+
+                    <div
+                        class="media-preview"
+                        id="videoPreview"
+                    ></div>
+
+                </div>
+
+
+                <!-- =========================================
+                     BUTTONS
+                ========================================== -->
+
+                <div class="article-buttons">
+
+                    <button
+                        type="button"
+                        class="article-btn primary"
+                        id="saveArticle"
+                    >
+                        💾 Save Article
+                    </button>
+
+                    <button
+                        type="button"
+                        class="article-btn"
+                        id="saveDraft"
+                    >
+                        📝 Save Draft
+                    </button>
+
+                    <button
+                        type="button"
+                        class="article-btn"
+                        id="clearEditor"
+                    >
+                        🧹 Clear
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SAVED ARTICLES
+        ================================================== -->
+
+        <section class="article-section">
+
+            <h2 class="article-title">
+                📚 Published / Saved Articles
+            </h2>
+
+            <div class="article-card">
+
+                <input
+                    type="search"
+                    id="articleSearch"
+                    class="article-search"
+                    placeholder="Search saved articles..."
+                    autocomplete="off"
+                >
+
+                <div
+                    class="saved-articles"
+                    id="savedArticles"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             READER
+        ================================================== -->
+
+        <section
+            class="article-section reader"
+            id="reader"
+        >
+
+            <div class="article-card">
+
+                <h2 id="readerTitle">
+                </h2>
+
+                <div
+                    class="reader-meta"
+                    id="readerMeta"
+                ></div>
+
+                <div
+                    class="reader-description"
+                    id="readerDescription"
+                ></div>
+
+                <div
+                    class="reader-content"
+                    id="readerContent"
+                ></div>
+
+                <div
+                    class="reader-media"
+                    id="readerMedia"
+                ></div>
+
+                <div class="article-buttons">
+
+                    <button
+                        type="button"
+                        class="article-btn"
+                        id="closeReader"
+                    >
+                        ✕ Close Article
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SYSTEM NOTICE
+        ================================================== -->
+
+        <section class="article-section">
+
+            <div class="article-notice">
+
+                <strong>ℹ️ Media & Login Notice</strong>
+
+                <br><br>
+
+                इस frontend version में login state और article
+                information browser storage में रखी जाती है।
+                Device से चुनी गई images/videos का preview इसी
+                browser में बनाया जाता है।
+
+                <br><br>
+
+                वास्तविक secure account authentication, multiple
+                writers, permanent HD image hosting, video hosting,
+                database persistence और server-side delete/restore
+                के लिए backend/database/storage integration आवश्यक होगा।
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="article-nav">
+
+        <a href="../index.html">
+            🏠 Home
+        </a>
+
+        <a href="./articles.html">
+            📰 Articles
+        </a>
+
+        <a href="./admin.html">
+            ⚙️ Admin
+        </a>
+
+        <a href="./library.html">
+            📚 Library
+        </a>
+
+        <a href="./gallery.html">
+            🖼️ Gallery
+        </a>
+
+        <a href="./contribute.html">
+            ✍️ Contribute
+        </a>
+
+        <a href="./login.html">
+            🔐 Login
+        </a>
+
+    </nav>
+
 
 </main>
 
 
-<!-- =========================
-     CORE SYSTEM
-========================== -->
+<script>
 
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
+    /* =====================================================
+       ALON HISTORYVERSE 24
+       ARTICLE CENTER
+    ====================================================== */
 
-<!-- Article engine -->
-<script src="../jss/articles.js"></script>
+    const ARTICLE_KEY =
+        "alon_historyverse_articles";
+
+    const DRAFT_KEY =
+        "alon_historyverse_article_drafts";
+
+    const LOGIN_KEY =
+        "alon_historyverse_logged_in";
+
+
+    let editingArticleId = null;
+
+    let imageFiles = [];
+
+    let videoFiles = [];
+
+    let imageUrls = [];
+
+    let videoUrls = [];
+
+
+    /* =====================================================
+       STORAGE HELPERS
+    ====================================================== */
+
+    function getData(key) {
+
+        try {
+
+            return JSON.parse(
+                localStorage.getItem(key) || "[]"
+            );
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    function saveData(key, data) {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(data)
+        );
+
+    }
+
+
+    function createId() {
+
+        return (
+            "article-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .slice(2, 9)
+        );
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =====================================================
+       LOGIN CHECK
+    ====================================================== */
+
+    function isLoggedIn() {
+
+        return (
+            localStorage.getItem(
+                LOGIN_KEY
+            ) === "true"
+        );
+
+    }
+
+
+    function updateLoginState() {
+
+        const loggedIn =
+            isLoggedIn();
+
+        const wall =
+            document.getElementById(
+                "loginWall"
+            );
+
+        const writer =
+            document.getElementById(
+                "writerArea"
+            );
+
+        const status =
+            document.getElementById(
+                "loginStatus"
+            );
+
+
+        if (loggedIn) {
+
+            wall.style.display =
+                "none";
+
+            writer.style.display =
+                "block";
+
+            status.innerHTML =
+                `
+                <span class="login-dot"></span>
+                Logged in — Article Writing Enabled
+                `;
+
+        } else {
+
+            wall.style.display =
+                "block";
+
+            writer.style.display =
+                "none";
+
+            status.innerHTML =
+                `
+                <span class="login-dot"></span>
+                Login Required
+                `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       TEXT COUNTERS
+    ====================================================== */
+
+    document
+        .getElementById("articleDescription")
+        .addEventListener(
+            "input",
+            function () {
+
+                document.getElementById(
+                    "descriptionCounter"
+                ).textContent =
+                    this.value.length +
+                    " / 500";
+
+            }
+        );
+
+
+    document
+        .getElementById("articleContent")
+        .addEventListener(
+            "input",
+            function () {
+
+                document.getElementById(
+                    "contentCounter"
+                ).textContent =
+                    this.value.length +
+                    " characters";
+
+            }
+        );
+
+
+    /* =====================================================
+       IMAGE PREVIEW
+    ====================================================== */
+
+    function clearImageUrls() {
+
+        imageUrls.forEach(
+            function (url) {
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            }
+        );
+
+        imageUrls = [];
+
+    }
+
+
+    function renderImages() {
+
+        const preview =
+            document.getElementById(
+                "imagePreview"
+            );
+
+
+        preview.innerHTML = "";
+
+        clearImageUrls();
+
+
+        imageFiles.forEach(
+            function (file) {
+
+                const url =
+                    URL.createObjectURL(
+                        file
+                    );
+
+
+                imageUrls.push(url);
+
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+                item.className =
+                    "media-preview-item";
+
+
+                const image =
+                    document.createElement(
+                        "img"
+                    );
+
+
+                image.src = url;
+
+                image.alt =
+                    file.name;
+
+
+                const info =
+                    document.createElement(
+                        "div"
+                    );
+
+                info.className =
+                    "media-info";
+
+
+                const hd =
+                    document.getElementById(
+                        "hdImage"
+                    ).checked;
+
+
+                info.innerHTML =
+                    `
+                    ${escapeHTML(file.name)}
+                    <br>
+                    ${(file.size / 1024 / 1024).toFixed(2)} MB
+                    ${
+                        hd
+                            ? '<br><span class="hd-badge">HD</span>'
+                            : ''
+                    }
+                    `;
+
+
+                item.appendChild(
+                    image
+                );
+
+                item.appendChild(
+                    info
+                );
+
+
+                preview.appendChild(
+                    item
+                );
+
+            }
+        );
+
+    }
+
+
+    document
+        .getElementById("imageInput")
+        .addEventListener(
+            "change",
+            function () {
+
+                imageFiles =
+                    Array.from(
+                        this.files
+                    );
+
+                renderImages();
+
+            }
+        );
+
+
+    document
+        .getElementById("hdImage")
+        .addEventListener(
+            "change",
+            renderImages
+        );
+
+
+    /* =====================================================
+       VIDEO PREVIEW
+    ====================================================== */
+
+    function clearVideoUrls() {
+
+        videoUrls.forEach(
+            function (url) {
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            }
+        );
+
+        videoUrls = [];
+
+    }
+
+
+    function renderVideos() {
+
+        const preview =
+            document.getElementById(
+                "videoPreview"
+            );
+
+
+        preview.innerHTML = "";
+
+        clearVideoUrls();
+
+
+        videoFiles.forEach(
+            function (file) {
+
+                const url =
+                    URL.createObjectURL(
+                        file
+                    );
+
+
+                videoUrls.push(url);
+
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+                item.className =
+                    "media-preview-item";
+
+
+                const video =
+                    document.createElement(
+                        "video"
+                    );
+
+
+                video.controls = true;
+
+                video.src = url;
+
+
+                const info =
+                    document.createElement(
+                        "div"
+                    );
+
+                info.className =
+                    "media-info";
+
+                info.textContent =
+                    file.name +
+                    " — " +
+                    (
+                        file.size /
+                        1024 /
+                        1024
+                    ).toFixed(2) +
+                    " MB";
+
+
+                item.appendChild(
+                    video
+                );
+
+                item.appendChild(
+                    info
+                );
+
+
+                preview.appendChild(
+                    item
+                );
+
+            }
+        );
+
+    }
+
+
+    document
+        .getElementById("videoInput")
+        .addEventListener(
+            "change",
+            function () {
+
+                videoFiles =
+                    Array.from(
+                        this.files
+                    );
+
+                renderVideos();
+
+            }
+        );
+
+
+    /* =====================================================
+       SAVE ARTICLE
+    ====================================================== */
+
+    document
+        .getElementById("saveArticle")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (!isLoggedIn()) {
+
+                    alert(
+                        "Please login before writing an article."
+                    );
+
+                    return;
+
+                }
+
+
+                const title =
+                    document
+                        .getElementById(
+                            "articleTitle"
+                        )
+                        .value
+                        .trim();
+
+
+                const category =
+                    document
+                        .getElementById(
+                            "articleCategory"
+                        )
+                        .value;
+
+
+                const description =
+                    document
+                        .getElementById(
+                            "articleDescription"
+                        )
+                        .value
+                        .trim();
+
+
+                const content =
+                    document
+                        .getElementById(
+                            "articleContent"
+                        )
+                        .value
+                        .trim();
+
+
+                const sources =
+                    document
+                        .getElementById(
+                            "articleSources"
+                        )
+                        .value
+                        .trim();
+
+
+                if (!title) {
+
+                    alert(
+                        "Article title is required."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!content) {
+
+                    alert(
+                        "Article content is required."
+                    );
+
+                    return;
+
+                }
+
+
+                const articles =
+                    getData(
+                        ARTICLE_KEY
+                    );
+
+
+                const now =
+                    new Date().toLocaleString();
+
+
+                if (editingArticleId) {
+
+                    const index =
+                        articles.findIndex(
+                            article =>
+                                article.id ===
+                                editingArticleId
+                        );
+
+
+                    if (index !== -1) {
+
+                        articles[index] = {
+
+                            ...articles[index],
+
+                            title,
+
+                            category,
+
+                            description,
+
+                            content,
+
+                            sources,
+
+                            updatedAt: now
+
+                        };
+
+                    }
+
+                } else {
+
+                    articles.push({
+
+                        id:
+                            createId(),
+
+                        title,
+
+                        category,
+
+                        description,
+
+                        content,
+
+                        sources,
+
+                        createdAt:
+                            now,
+
+                        updatedAt:
+                            now
+
+                    });
+
+                }
+
+
+                saveData(
+                    ARTICLE_KEY,
+                    articles
+                );
+
+
+                alert(
+                    editingArticleId
+                        ? "Article updated successfully."
+                        : "Article saved successfully."
+                );
+
+
+                clearEditor();
+
+                renderArticles();
+
+            }
+        );
+
+
+    /* =====================================================
+       SAVE DRAFT
+    ====================================================== */
+
+    document
+        .getElementById("saveDraft")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (!isLoggedIn()) {
+
+                    alert(
+                        "Please login before saving a draft."
+                    );
+
+                    return;
+
+                }
+
+
+                const title =
+                    document
+                        .getElementById(
+                            "articleTitle"
+                        )
+                        .value
+                        .trim();
+
+
+                const content =
+                    document
+                        .getElementById(
+                            "articleContent"
+                        )
+                        .value
+                        .trim();
+
+
+                if (!title && !content) {
+
+                    alert(
+                        "Write something before saving a draft."
+                    );
+
+                    return;
+
+                }
+
+
+                const drafts =
+                    getData(
+                        DRAFT_KEY
+                    );
+
+
+                drafts.push({
+
+                    id:
+                        createId(),
+
+                    title,
+
+                    category:
+                        document.getElementById(
+                            "articleCategory"
+                        ).value,
+
+                    description:
+                        document.getElementById(
+                            "articleDescription"
+                        ).value,
+
+                    content,
+
+                    sources:
+                        document.getElementById(
+                            "articleSources"
+                        ).value,
+
+                    savedAt:
+                        new Date().toLocaleString()
+
+                });
+
+
+                saveData(
+                    DRAFT_KEY,
+                    drafts
+                );
+
+
+                alert(
+                    "Draft saved locally."
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       CLEAR EDITOR
+    ====================================================== */
+
+    function clearEditor() {
+
+        editingArticleId =
+            null;
+
+
+        document.getElementById(
+            "articleTitle"
+        ).value = "";
+
+
+        document.getElementById(
+            "articleCategory"
+        ).value =
+            "History";
+
+
+        document.getElementById(
+            "articleDescription"
+        ).value = "";
+
+
+        document.getElementById(
+            "articleContent"
+        ).value = "";
+
+
+        document.getElementById(
+            "articleSources"
+        ).value = "";
+
+
+        document.getElementById(
+            "imageInput"
+        ).value = "";
+
+
+        document.getElementById(
+            "videoInput"
+        ).value = "";
+
+
+        document.getElementById(
+            "hdImage"
+        ).checked = false;
+
+
+        imageFiles = [];
+
+        videoFiles = [];
+
+
+        clearImageUrls();
+
+        clearVideoUrls();
+
+
+        document.getElementById(
+            "imagePreview"
+        ).innerHTML = "";
+
+
+        document.getElementById(
+            "videoPreview"
+        ).innerHTML = "";
+
+
+        document.getElementById(
+            "descriptionCounter"
+        ).textContent =
+            "0 / 500";
+
+
+        document.getElementById(
+            "contentCounter"
+        ).textContent =
+            "0 characters";
+
+    }
+
+
+    document
+        .getElementById("clearEditor")
+        .addEventListener(
+            "click",
+            clearEditor
+        );
+
+
+    /* =====================================================
+       RENDER ARTICLE LIST
+    ====================================================== */
+
+    function renderArticles(
+        search = ""
+    ) {
+
+        const container =
+            document.getElementById(
+                "savedArticles"
+            );
+
+
+        const articles =
+            getData(
+                ARTICLE_KEY
+            );
+
+
+        const query =
+            search
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            articles.filter(
+                function (article) {
+
+                    const text =
+                        (
+                            article.title +
+                            " " +
+                            article.category +
+                            " " +
+                            article.description +
+                            " " +
+                            article.content
+                        ).toLowerCase();
+
+
+                    return text.includes(
+                        query
+                    );
+
+                }
+            );
+
+
+        container.innerHTML = "";
+
+
+        if (!filtered.length) {
+
+            container.innerHTML =
+                `
+                <div class="empty-articles">
+                    No saved articles found.
+                </div>
+                `;
+
+            return;
+
+        }
+
+
+        filtered.forEach(
+            function (article) {
+
+                const item =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                item.className =
+                    "saved-article";
+
+
+                const shortContent =
+                    article.description ||
+                    article.content
+                        .slice(0, 220);
+
+
+                item.innerHTML = `
+
+                    <h3>
+                        ${escapeHTML(
+                            article.title
+                        )}
+                    </h3>
+
+                    <div class="article-meta">
+
+                        <span class="article-tag">
+                            ${escapeHTML(
+                                article.category
+                            )}
+                        </span>
+
+                        <span class="article-tag">
+                            ${escapeHTML(
+                                article.createdAt
+                            )}
+                        </span>
+
+                    </div>
+
+                    <p>
+                        ${escapeHTML(
+                            shortContent
+                        )}
+                    </p>
+
+                    <div class="article-buttons">
+
+                        <button
+                            class="article-btn primary"
+                            data-read="${article.id}"
+                        >
+                            📖 Read
+                        </button>
+
+                        <button
+                            class="article-btn"
+                            data-edit="${article.id}"
+                        >
+                            ✏️ Edit
+                        </button>
+
+                        <button
+                            class="article-btn danger"
+                            data-delete="${article.id}"
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    item
+                );
+
+            }
+        );
+
+
+        container
+            .querySelectorAll(
+                "[data-read]"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            readArticle(
+                                this.dataset.read
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        container
+            .querySelectorAll(
+                "[data-edit]"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            editArticle(
+                                this.dataset.edit
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        container
+            .querySelectorAll(
+                "[data-delete]"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            deleteArticle(
+                                this.dataset.delete
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ====================================================== */
+
+    document
+        .getElementById("articleSearch")
+        .addEventListener(
+            "input",
+            function () {
+
+                renderArticles(
+                    this.value
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       READ ARTICLE
+    ====================================================== */
+
+    function readArticle(id) {
+
+        const articles =
+            getData(
+                ARTICLE_KEY
+            );
+
+
+        const article =
+            articles.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (!article) {
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "readerTitle"
+        ).textContent =
+            article.title;
+
+
+        document.getElementById(
+            "readerMeta"
+        ).textContent =
+            article.category +
+            " • " +
+            article.createdAt;
+
+
+        document.getElementById(
+            "readerDescription"
+        ).textContent =
+            article.description ||
+            "";
+
+
+        document.getElementById(
+            "readerContent"
+        ).textContent =
+            article.content;
+
+
+        document.getElementById(
+            "readerMedia"
+        ).innerHTML =
+            "";
+
+
+        document.getElementById(
+            "reader"
+        ).style.display =
+            "block";
+
+
+        document
+            .getElementById(
+                "reader"
+            )
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    document
+        .getElementById("closeReader")
+        .addEventListener(
+            "click",
+            function () {
+
+                document.getElementById(
+                    "reader"
+                ).style.display =
+                    "none";
+
+            }
+        );
+
+
+    /* =====================================================
+       EDIT ARTICLE
+    ====================================================== */
+
+    function editArticle(id) {
+
+        const articles =
+            getData(
+                ARTICLE_KEY
+            );
+
+
+        const article =
+            articles.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (!article) {
+
+            return;
+
+        }
+
+
+        editingArticleId =
+            article.id;
+
+
+        document.getElementById(
+            "articleTitle"
+        ).value =
+            article.title || "";
+
+
+        document.getElementById(
+            "articleCategory"
+        ).value =
+            article.category ||
+            "History";
+
+
+        document.getElementById(
+            "articleDescription"
+        ).value =
+            article.description ||
+            "";
+
+
+        document.getElementById(
+            "articleContent"
+        ).value =
+            article.content ||
+            "";
+
+
+        document.getElementById(
+            "articleSources"
+        ).value =
+            article.sources ||
+            "";
+
+
+        document.getElementById(
+            "descriptionCounter"
+        ).textContent =
+            (
+                article.description ||
+                ""
+            ).length +
+            " / 500";
+
+
+        document.getElementById(
+            "contentCounter"
+        ).textContent =
+            (
+                article.content ||
+                ""
+            ).length +
+            " characters";
+
+
+        document
+            .querySelector(
+                ".article-section"
+            )
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    /* =====================================================
+       DELETE ARTICLE
+    ====================================================== */
+
+    function deleteArticle(id) {
+
+        if (!isLoggedIn()) {
+
+            alert(
+                "Please login before deleting an article."
+            );
+
+            return;
+
+        }
+
+
+        const articles =
+            getData(
+                ARTICLE_KEY
+            );
+
+
+        const article =
+            articles.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (!article) {
+
+            return;
+
+        }
+
+
+        const confirmed =
+            confirm(
+                "Move this article to Trash?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const remaining =
+            articles.filter(
+                item =>
+                    item.id !== id
+            );
+
+
+        const trash =
+            getData(
+                "alon_historyverse_article_trash"
+            );
+
+
+        trash.push({
+
+            ...article,
+
+            deletedAt:
+                new Date().toLocaleString()
+
+        });
+
+
+        saveData(
+            ARTICLE_KEY,
+            remaining
+        );
+
+
+        saveData(
+            "alon_historyverse_article_trash",
+            trash
+        );
+
+
+        renderArticles();
+
+
+        alert(
+            "Article moved to Trash."
+        );
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ====================================================== */
+
+    updateLoginState();
+
+    renderArticles();
+
+
+    /* =====================================================
+       LOGIN STATE REFRESH
+    ====================================================== */
+
+    window.addEventListener(
+        "storage",
+        function () {
+
+            updateLoginState();
+
+            renderArticles();
+
+        }
+    );
+
+
+</script>
+
 
 </body>
+
 </html>

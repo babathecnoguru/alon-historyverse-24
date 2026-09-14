@@ -1,176 +1,687 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
 
     <title>Discover • ALON HISTORYVERSE 24</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="description"
+        content="Discover history, civilizations, countries, culture, heritage, people, events and knowledge with ALON HISTORYVERSE 24."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           DISCOVER PAGE
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #f4f0e6;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .discover-page {
+            width: min(1180px, 94%);
+            margin: auto;
+            padding: 25px 0 60px;
+        }
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .discover-header {
+            padding: 28px 22px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(215, 179, 90, 0.08),
+                    rgba(255, 255, 255, 0.015)
+                );
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 18px;
+            padding: 9px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+            color: #f0d27a;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            background: rgba(215, 179, 90, 0.1);
+        }
+
+        .discover-header h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: clamp(30px, 5vw, 48px);
+            line-height: 1.15;
+        }
+
+        .discover-header p {
+            max-width: 900px;
+            margin: 0;
+            color: #d5d0c4;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .search-area {
+            margin: 22px 0 28px;
+        }
+
+        .search-area input {
+            width: 100%;
+            padding: 15px 17px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 12px;
+            outline: none;
+            background: #0a0f18;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .search-area input::placeholder {
+            color: #888477;
+        }
+
+        .search-area input:focus {
+            border-color: #f0d27a;
+            box-shadow:
+                0 0 0 2px rgba(215, 179, 90, 0.08);
+        }
+
+        /* =====================================================
+           SECTION TITLE
+        ====================================================== */
+
+        .section-title {
+            margin: 0 0 16px;
+            color: #f0d27a;
+            font-size: 25px;
+        }
+
+        /* =====================================================
+           DISCOVER GRID
+        ====================================================== */
+
+        .discover-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .discover-card {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            min-height: 210px;
+            padding: 23px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 17px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18, 24, 36, 0.98),
+                    rgba(7, 11, 18, 0.98)
+                );
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .discover-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(240, 210, 122, 0.75);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .discover-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 14px;
+            background: rgba(215, 179, 90, 0.08);
+            font-size: 28px;
+        }
+
+        .discover-card h3 {
+            margin: 0 0 9px;
+            color: #f0d27a;
+            font-size: 22px;
+        }
+
+        .discover-card p {
+            margin: 0 0 15px;
+            color: #c9c5ba;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .open-text {
+            color: #d7b35a;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           FEATURED TOPICS
+        ====================================================== */
+
+        .topic-section {
+            margin-top: 32px;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 13px;
+        }
+
+        .topic {
+            display: block;
+            padding: 16px;
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 13px;
+            background: rgba(255, 255, 255, 0.015);
+            color: #ddd7c9;
+            transition: 0.2s ease;
+        }
+
+        .topic:hover {
+            border-color: rgba(240, 210, 122, 0.65);
+            background: rgba(215, 179, 90, 0.05);
+        }
+
+        .topic strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #f0d27a;
+        }
+
+        .topic span {
+            color: #aaa69a;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           INFO
+        ====================================================== */
+
+        .info-box {
+            margin-top: 30px;
+            padding: 22px;
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .info-box h2 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: 22px;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #c6c2b7;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           NO RESULT
+        ====================================================== */
+
+        .no-result {
+            display: none;
+            margin-top: 18px;
+            padding: 20px;
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 13px;
+            text-align: center;
+            color: #aaa69a;
+        }
+
+        /* =====================================================
+           BOTTOM NAV
+        ====================================================== */
+
+        .bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .bottom-nav a {
+            padding: 10px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 10px;
+            color: #d7b35a;
+            background: rgba(215, 179, 90, 0.03);
+            font-size: 14px;
+        }
+
+        .bottom-nav a:hover {
+            border-color: #d7b35a;
+            background: rgba(215, 179, 90, 0.09);
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 720px) {
+
+            .discover-page {
+                width: 94%;
+                padding-top: 15px;
+            }
+
+            .discover-header {
+                padding: 22px 17px;
+                border-radius: 15px;
+            }
+
+            .discover-header h1 {
+                font-size: 31px;
+            }
+
+            .discover-header p {
+                font-size: 14px;
+            }
+
+            .discover-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .discover-card {
+                min-height: auto;
+                padding: 20px;
+            }
+
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-box {
+                padding: 18px;
+            }
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="discover-page">
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <header class="discover-header">
+
+        <a
+            class="back-link"
+            href="../index.html"
+        >
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Discover</h1>
+        <h1>
+            Discover
+        </h1>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
+            Discover the world's history, civilizations,
+            countries, cultures, heritage, people, wars,
+            rulers, cities and important events through
+            ALON HISTORYVERSE 24.
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         SEARCH
     ====================================================== -->
-    <section class="content">
 
-        <h2>Discover</h2>
+    <div class="search-area">
 
-        <p>
-            Explore history, civilizations, countries,
-            heritage, timelines, articles and educational
-            resources across ALON HISTORYVERSE 24.
-        </p>
+        <input
+            type="search"
+            id="discoverSearch"
+            placeholder="Search history, countries, civilizations, heritage..."
+            autocomplete="off"
+            aria-label="Search discover topics"
+        >
+
+    </div>
 
 
-        <!-- =================================================
-             DISCOVERY CATEGORIES
-        ================================================== -->
-        <div class="grid">
+    <!-- =====================================================
+         MAIN DISCOVER AREAS
+    ====================================================== -->
 
-            <a class="card" href="countries.html">
-                <h3>World Countries</h3>
-                <p>
-                    Explore countries and their history,
-                    culture and heritage.
-                </p>
+    <h2 class="section-title">
+        Explore Knowledge
+    </h2>
+
+
+    <section
+        class="discover-grid"
+        id="discoverGrid"
+    >
+
+        <!-- HISTORY -->
+
+        <a
+            class="discover-card"
+            href="./civilizations.html"
+            data-search="history ancient medieval modern civilization civilizations rulers kings wars"
+        >
+
+            <div class="discover-icon">
+                🏛️
+            </div>
+
+            <h3>
+                History &amp; Civilizations
+            </h3>
+
+            <p>
+                Explore ancient, medieval and modern history,
+                great civilizations, rulers, kingdoms,
+                societies and major historical developments.
+            </p>
+
+            <span class="open-text">
+                Explore history →
+            </span>
+
+        </a>
+
+
+        <!-- COUNTRIES -->
+
+        <a
+            class="discover-card"
+            href="./countries.html"
+            data-search="countries world nations flags capitals geography states regions"
+        >
+
+            <div class="discover-icon">
+                🌍
+            </div>
+
+            <h3>
+                Countries of the World
+            </h3>
+
+            <p>
+                Discover countries, capitals, flags,
+                regions, geography, people, cultures and
+                historical information from around the world.
+            </p>
+
+            <span class="open-text">
+                Explore countries →
+            </span>
+
+        </a>
+
+
+        <!-- HERITAGE -->
+
+        <a
+            class="discover-card"
+            href="./heritage.html"
+            data-search="heritage monuments forts temples sites architecture culture traditions"
+        >
+
+            <div class="discover-icon">
+                🏺
+            </div>
+
+            <h3>
+                Heritage &amp; Culture
+            </h3>
+
+            <p>
+                Discover historic monuments, forts, cities,
+                architecture, traditions, cultural heritage
+                and important heritage places.
+            </p>
+
+            <span class="open-text">
+                Explore heritage →
+            </span>
+
+        </a>
+
+
+        <!-- TIMELINE -->
+
+        <a
+            class="discover-card"
+            href="./timeline.html"
+            data-search="timeline events dates chronology history important events"
+        >
+
+            <div class="discover-icon">
+                🕰️
+            </div>
+
+            <h3>
+                Historical Timeline
+            </h3>
+
+            <p>
+                Travel through time using chronological
+                timelines of important events, discoveries,
+                civilizations and historical changes.
+            </p>
+
+            <span class="open-text">
+                View timeline →
+            </span>
+
+        </a>
+
+
+        <!-- LIBRARY -->
+
+        <a
+            class="discover-card"
+            href="./library.html"
+            data-search="library books reading knowledge department subject education"
+        >
+
+            <div class="discover-icon">
+                📚
+            </div>
+
+            <h3>
+                Knowledge Library
+            </h3>
+
+            <p>
+                Enter the knowledge library and explore
+                departments, subjects, books and reading
+                resources.
+            </p>
+
+            <span class="open-text">
+                Open library →
+            </span>
+
+        </a>
+
+
+        <!-- ARTICLES -->
+
+        <a
+            class="discover-card"
+            href="./articles.html"
+            data-search="articles article stories research knowledge information"
+        >
+
+            <div class="discover-icon">
+                📰
+            </div>
+
+            <h3>
+                Articles
+            </h3>
+
+            <p>
+                Read historical and educational articles
+                covering people, places, civilizations,
+                culture, events and knowledge.
+            </p>
+
+            <span class="open-text">
+                Read articles →
+            </span>
+
+        </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         NO RESULT
+    ====================================================== -->
+
+    <div
+        class="no-result"
+        id="noResult"
+    >
+        No matching topic found.
+    </div>
+
+
+    <!-- =====================================================
+         FEATURED TOPICS
+    ====================================================== -->
+
+    <section class="topic-section">
+
+        <h2 class="section-title">
+            Popular Topics
+        </h2>
+
+
+        <div class="topic-grid">
+
+            <a
+                class="topic"
+                href="./civilizations.html"
+            >
+                <strong>Ancient Civilizations</strong>
+                <span>Early societies and great civilizations</span>
             </a>
 
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
-                <p>
-                    Discover ancient and historic civilizations.
-                </p>
+
+            <a
+                class="topic"
+                href="./countries.html"
+            >
+                <strong>World Countries</strong>
+                <span>Countries, capitals and regions</span>
             </a>
 
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
-                <p>
-                    Explore historical places, monuments and heritage.
-                </p>
+
+            <a
+                class="topic"
+                href="./heritage.html"
+            >
+                <strong>Historic Heritage</strong>
+                <span>Monuments, forts and historic places</span>
             </a>
 
-            <a class="card" href="timeline.html">
-                <h3>History Timeline</h3>
-                <p>
-                    Explore important events across different periods.
-                </p>
+
+            <a
+                class="topic"
+                href="./timeline.html"
+            >
+                <strong>Important Events</strong>
+                <span>Events arranged through history</span>
             </a>
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
+
+            <a
+                class="topic"
+                href="./articles.html"
+            >
+                <strong>Historical Articles</strong>
+                <span>Stories and educational knowledge</span>
             </a>
 
-            <a class="card" href="categories.html">
-                <h3>Categories</h3>
-                <p>
-                    Browse the major knowledge categories.
-                </p>
-            </a>
 
-        </div>
-
-
-        <!-- =================================================
-             KNOWLEDGE LIBRARY
-        ================================================== -->
-        <div class="grid">
-
-            <a class="card" href="library.html">
-                <h3>Knowledge Library</h3>
-                <p>
-                    Enter the Library and explore departments,
-                    subjects, books and reading resources.
-                </p>
-            </a>
-
-            <a class="card" href="department.html">
-                <h3>Departments</h3>
-                <p>
-                    Explore the Library's knowledge departments.
-                </p>
-            </a>
-
-            <a class="card" href="subject.html">
-                <h3>Subjects</h3>
-                <p>
-                    Explore individual subjects and topics.
-                </p>
-            </a>
-
-            <a class="card" href="book.html">
-                <h3>Books</h3>
-                <p>
-                    Explore books and educational resources.
-                </p>
-            </a>
-
-            <a class="card" href="read.html">
-                <h3>Read</h3>
-                <p>
-                    Open reading material and knowledge content.
-                </p>
-            </a>
-
-        </div>
-
-
-        <!-- =================================================
-             PLATFORM NAVIGATION
-        ================================================== -->
-        <div class="grid">
-
-            <a class="card" href="contribute.html">
-                <h3>Contribute</h3>
-                <p>
-                    Share historical and educational knowledge.
-                </p>
-            </a>
-
-            <a class="card" href="about.html">
-                <h3>About</h3>
-                <p>
-                    Learn more about ALON HISTORYVERSE 24.
-                </p>
-            </a>
-
-            <a class="card" href="contact.html">
-                <h3>Contact</h3>
-                <p>
-                    Contact the ALON HISTORYVERSE 24 team.
-                </p>
-            </a>
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
+            <a
+                class="topic"
+                href="./library.html"
+            >
+                <strong>Knowledge Library</strong>
+                <span>Subjects, books and reading resources</span>
             </a>
 
         </div>
@@ -179,27 +690,157 @@
 
 
     <!-- =====================================================
-         FOOTER
+         INFORMATION
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <section class="info-box">
 
-        • <a href="../index.html">Home</a>
+        <h2>
+            About Discover
+        </h2>
 
-    </footer>
+        <p>
+            Discover is the starting point for exploring
+            ALON HISTORYVERSE 24. From here you can move
+            into history, countries, civilizations, heritage,
+            timelines, articles and the knowledge library.
+            More historical collections and topics can be
+            added to this section in future.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         BOTTOM NAVIGATION
+    ====================================================== -->
+
+    <nav
+        class="bottom-nav"
+        aria-label="Discover navigation"
+    >
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="./categories.html">
+            Categories
+        </a>
+
+        <a href="./gallery.html">
+            Gallery
+        </a>
+
+        <a href="./articles.html">
+            Articles
+        </a>
+
+        <a href="./library.html">
+            Library
+        </a>
+
+        <a href="./countries.html">
+            Countries
+        </a>
+
+    </nav>
 
 </main>
 
 
 <!-- =========================================================
-     CORE V100 SCRIPTS
+     SEARCH SCRIPT
 ========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
 
-<!-- Discover Engine -->
-<script src="../jss/explore.js"></script>
+<script>
+
+(function () {
+
+    "use strict";
+
+    const searchInput =
+        document.getElementById("discoverSearch");
+
+    const cards =
+        Array.from(
+            document.querySelectorAll(".discover-card")
+        );
+
+    const topics =
+        Array.from(
+            document.querySelectorAll(".topic")
+        );
+
+    const noResult =
+        document.getElementById("noResult");
+
+
+    function searchDiscover() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        let visibleCount = 0;
+
+
+        cards.forEach(function (card) {
+
+            const searchableText =
+                (
+                    card.textContent +
+                    " " +
+                    (card.dataset.search || "")
+                ).toLowerCase();
+
+            const matched =
+                query === "" ||
+                searchableText.includes(query);
+
+            card.style.display =
+                matched ? "block" : "none";
+
+            if (matched) {
+                visibleCount++;
+            }
+
+        });
+
+
+        topics.forEach(function (topic) {
+
+            const searchableText =
+                topic.textContent.toLowerCase();
+
+            const matched =
+                query === "" ||
+                searchableText.includes(query);
+
+            topic.style.display =
+                matched ? "block" : "none";
+
+        });
+
+
+        noResult.style.display =
+            visibleCount === 0
+                ? "block"
+                : "none";
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        searchDiscover
+    );
+
+})();
+
+</script>
 
 </body>
+
 </html>

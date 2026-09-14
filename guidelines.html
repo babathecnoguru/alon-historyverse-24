@@ -1,193 +1,927 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Community Guidelines • ALON HISTORYVERSE 24</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <title>Guidelines • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Content and contributor guidelines for ALON HISTORYVERSE 24."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           GUIDELINES PAGE
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #f4f0e6;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .guidelines-page {
+            width: min(1100px, 94%);
+            margin: auto;
+            padding: 25px 0 60px;
+        }
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .guidelines-header {
+            padding: 28px 22px;
+            margin-bottom: 25px;
+
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(215, 179, 90, 0.08),
+                    rgba(255, 255, 255, 0.015)
+                );
+
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            margin-bottom: 18px;
+            padding: 9px 14px;
+
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+
+            color: #f0d27a;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            background: rgba(215, 179, 90, 0.1);
+        }
+
+        .guidelines-header h1 {
+            margin: 0 0 10px;
+
+            color: #f0d27a;
+            font-size: clamp(30px, 5vw, 46px);
+            line-height: 1.15;
+        }
+
+        .guidelines-header p {
+            max-width: 900px;
+            margin: 0;
+
+            color: #d5d0c4;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* =====================================================
+           NOTICE
+        ====================================================== */
+
+        .notice {
+            margin-bottom: 22px;
+            padding: 18px;
+
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-left: 4px solid #d7b35a;
+            border-radius: 12px;
+
+            background: rgba(215, 179, 90, 0.05);
+        }
+
+        .notice strong {
+            color: #f0d27a;
+        }
+
+        .notice p {
+            margin: 7px 0 0;
+
+            color: #c9c5ba;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           CONTENT SECTIONS
+        ====================================================== */
+
+        .guideline-section {
+            margin-bottom: 20px;
+            padding: 22px;
+
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 16px;
+
+            background:
+                rgba(255, 255, 255, 0.015);
+        }
+
+        .guideline-section h2 {
+            margin: 0 0 13px;
+
+            color: #f0d27a;
+            font-size: 23px;
+        }
+
+        .guideline-section p {
+            margin: 0 0 12px;
+
+            color: #c8c4b9;
+            line-height: 1.7;
+        }
+
+        .guideline-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* =====================================================
+           LIST
+        ====================================================== */
+
+        .guideline-list {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .guideline-list li {
+            margin-bottom: 10px;
+
+            color: #c8c4b9;
+            line-height: 1.65;
+        }
+
+        .guideline-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .guideline-list strong {
+            color: #eee3c7;
+        }
+
+        /* =====================================================
+           TWO COLUMN
+        ====================================================== */
+
+        .two-column {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .small-section {
+            padding: 21px;
+
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 15px;
+
+            background:
+                rgba(255, 255, 255, 0.015);
+        }
+
+        .small-section h2 {
+            margin: 0 0 12px;
+
+            color: #f0d27a;
+            font-size: 21px;
+        }
+
+        .small-section ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .small-section li {
+            margin-bottom: 9px;
+
+            color: #c8c4b9;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           CONTRIBUTION FLOW
+        ====================================================== */
+
+        .flow {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 12px;
+
+            margin-top: 18px;
+        }
+
+        .flow-step {
+            padding: 17px;
+
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 12px;
+
+            background: rgba(215, 179, 90, 0.03);
+            text-align: center;
+        }
+
+        .flow-number {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 38px;
+            height: 38px;
+
+            margin: 0 auto 10px;
+
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 50%;
+
+            color: #f0d27a;
+            background: rgba(215, 179, 90, 0.08);
+
+            font-weight: bold;
+        }
+
+        .flow-step strong {
+            display: block;
+            margin-bottom: 5px;
+
+            color: #e9dfc6;
+        }
+
+        .flow-step span {
+            color: #aaa69a;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* =====================================================
+           FAQ
+        ====================================================== */
+
+        .faq {
+            margin-top: 12px;
+        }
+
+        .faq details {
+            margin-bottom: 10px;
+
+            border: 1px solid rgba(215, 179, 90, 0.2);
+            border-radius: 11px;
+
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .faq summary {
+            padding: 14px 16px;
+
+            color: #e8ddc2;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .faq details p {
+            padding: 0 16px 15px;
+            margin: 0;
+
+            color: #aaa69a;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .action-button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 11px 17px;
+
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+
+            color: #f0d27a;
+            background: rgba(215, 179, 90, 0.04);
+
+            font-size: 14px;
+        }
+
+        .action-button:hover {
+            border-color: #d7b35a;
+            background: rgba(215, 179, 90, 0.1);
+        }
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+
+            border-top: 1px solid rgba(215, 179, 90, 0.18);
+
+            text-align: center;
+            color: #858174;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 800px) {
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .guidelines-page {
+                width: 94%;
+                padding-top: 15px;
+            }
+
+            .guidelines-header {
+                padding: 22px 17px;
+            }
+
+            .guidelines-header h1 {
+                font-size: 31px;
+            }
+
+            .guidelines-header p {
+                font-size: 14px;
+            }
+
+            .guideline-section,
+            .small-section {
+                padding: 18px;
+            }
+
+            .flow {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="guidelines-page">
+
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <header class="guidelines-header">
+
+        <a
+            class="back-link"
+            href="../index.html"
+        >
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Community Guidelines</h1>
+        <h1>
+            Content Guidelines
+        </h1>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
+            Guidelines for creating, reviewing and
+            contributing historical, educational and
+            knowledge-based content to ALON HISTORYVERSE 24.
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         NOTICE
     ====================================================== -->
-    <section class="content">
 
-        <h2>Community Guidelines</h2>
+    <div class="notice">
+
+        <strong>
+            Important:
+        </strong>
 
         <p>
-            These guidelines help keep ALON HISTORYVERSE 24
-            informative, respectful, reliable and useful for
-            everyone exploring history and knowledge.
+            ALON HISTORYVERSE 24 aims to provide useful,
+            respectful and well-researched knowledge.
+            Contributors should provide accurate information
+            and reliable references wherever possible.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         1. PURPOSE
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            1. Purpose of These Guidelines
+        </h2>
+
+        <p>
+            These guidelines help keep the project's
+            historical and educational content clear,
+            useful, respectful and organized.
+        </p>
+
+        <p>
+            They apply to articles, country information,
+            civilizations, biographies, timelines, heritage
+            information, educational material, corrections,
+            images, videos and other contributions.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         2. CONTENT QUALITY
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            2. Content Quality
+        </h2>
+
+        <ul class="guideline-list">
+
+            <li>
+                <strong>Accuracy:</strong>
+                Check important facts, names, dates and places
+                before submitting content.
+            </li>
+
+            <li>
+                <strong>Clarity:</strong>
+                Write in a clear and understandable manner.
+            </li>
+
+            <li>
+                <strong>Neutrality:</strong>
+                Historical subjects should be presented fairly
+                and without unnecessary personal attacks.
+            </li>
+
+            <li>
+                <strong>Sources:</strong>
+                Provide references for important historical
+                and factual claims.
+            </li>
+
+            <li>
+                <strong>Structure:</strong>
+                Use useful headings, paragraphs, dates,
+                lists and descriptions where appropriate.
+            </li>
+
+            <li>
+                <strong>Original contribution:</strong>
+                Do not copy protected material from another
+                website, book or publication.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         3. HISTORICAL CONTENT
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            3. Historical Content
+        </h2>
+
+        <ul class="guideline-list">
+
+            <li>
+                Clearly distinguish between established
+                historical facts and interpretations.
+            </li>
+
+            <li>
+                Include approximate dates when exact dates
+                are unknown or disputed.
+            </li>
+
+            <li>
+                Explain historical events in context instead
+                of presenting isolated claims.
+            </li>
+
+            <li>
+                When historians or sources disagree, identify
+                the disagreement instead of presenting one
+                disputed interpretation as unquestionable fact.
+            </li>
+
+            <li>
+                Avoid fabricated historical claims,
+                invented quotations and unsupported stories.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         4. COUNTRIES AND CIVILIZATIONS
+    ====================================================== -->
+
+    <div class="two-column">
+
+
+        <section class="small-section">
+
+            <h2>
+                🌍 Countries
+            </h2>
+
+            <ul>
+
+                <li>Use correct country names.</li>
+
+                <li>
+                    Provide capital and geographical
+                    information carefully.
+                </li>
+
+                <li>
+                    Distinguish current information from
+                    historical information.
+                </li>
+
+                <li>
+                    Avoid offensive stereotypes about people
+                    or cultures.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <section class="small-section">
+
+            <h2>
+                🏛️ Civilizations
+            </h2>
+
+            <ul>
+
+                <li>
+                    Include the approximate historical period.
+                </li>
+
+                <li>
+                    Describe geography and society where useful.
+                </li>
+
+                <li>
+                    Identify major achievements and developments.
+                </li>
+
+                <li>
+                    Avoid presenting myths as established facts
+                    without appropriate context.
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+    <!-- =====================================================
+         5. CULTURE AND HERITAGE
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            5. Culture &amp; Heritage
+        </h2>
+
+        <p>
+            Cultural and heritage content should be presented
+            respectfully. Describe traditions, monuments,
+            architecture, art, languages, customs and historic
+            places without insulting communities or cultures.
+        </p>
+
+        <ul class="guideline-list">
+
+            <li>
+                Use respectful terminology.
+            </li>
+
+            <li>
+                Give historical context to important monuments
+                and cultural traditions.
+            </li>
+
+            <li>
+                Avoid stereotypes and generalizations.
+            </li>
+
+            <li>
+                Identify disputed or sensitive claims when
+                appropriate.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         6. IMAGES AND VIDEOS
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            6. Images &amp; Videos
+        </h2>
+
+        <ul class="guideline-list">
+
+            <li>
+                Use media that you have permission to use,
+                own, or that is appropriately licensed.
+            </li>
+
+            <li>
+                Provide the source or attribution when required.
+            </li>
+
+            <li>
+                Do not upload copyrighted material simply
+                because it is available online.
+            </li>
+
+            <li>
+                Avoid misleading images that do not represent
+                the subject being described.
+            </li>
+
+            <li>
+                Historical photographs should include useful
+                captions whenever possible.
+            </li>
+
+            <li>
+                Videos should be relevant to the historical
+                or educational subject.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         7. PROHIBITED CONTENT
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            7. Content That Should Not Be Submitted
+        </h2>
+
+        <ul class="guideline-list">
+
+            <li>
+                Deliberately false or fabricated information.
+            </li>
+
+            <li>
+                Plagiarized or unauthorized copyrighted content.
+            </li>
+
+            <li>
+                Harassment, threats or personal attacks.
+            </li>
+
+            <li>
+                Hate-based or dehumanizing content targeting
+                people or communities.
+            </li>
+
+            <li>
+                Spam, advertisements unrelated to the project,
+                or malicious links.
+            </li>
+
+            <li>
+                Private or sensitive personal information
+                belonging to other people.
+            </li>
+
+            <li>
+                Content that intentionally misrepresents
+                historical evidence.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         8. CORRECTIONS
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            8. Corrections &amp; Updates
+        </h2>
+
+        <p>
+            If you find an incorrect date, name, location,
+            historical claim, link or other factual problem,
+            provide the corrected information together with
+            a reliable reference whenever possible.
+        </p>
+
+        <p>
+            Corrections may be reviewed before becoming part
+            of the published knowledge base.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         9. CONTRIBUTION PROCESS
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            9. Contribution Process
+        </h2>
+
+        <p>
+            A contribution can generally follow this process:
         </p>
 
 
-        <!-- =================================================
-             GUIDELINE CARDS
-        ================================================== -->
-        <div class="grid">
+        <div class="flow">
 
-            <article class="card">
-                <h3>Accuracy</h3>
-                <p>
-                    Share information carefully and avoid
-                    knowingly presenting false historical or
-                    educational information as fact.
-                </p>
-            </article>
+            <div class="flow-step">
 
-            <article class="card">
-                <h3>Respect</h3>
-                <p>
-                    Discussions and contributions should remain
-                    respectful toward people, cultures,
-                    communities and historical subjects.
-                </p>
-            </article>
+                <div class="flow-number">
+                    1
+                </div>
 
-            <article class="card">
-                <h3>Original Content</h3>
-                <p>
-                    Submit original work or material that you are
-                    legally permitted to share.
-                </p>
-            </article>
+                <strong>
+                    Prepare
+                </strong>
 
-            <article class="card">
-                <h3>Sources</h3>
-                <p>
-                    Provide reliable references and source
-                    information whenever appropriate.
-                </p>
-            </article>
+                <span>
+                    Research and organize the information.
+                </span>
 
-            <article class="card">
-                <h3>No Spam</h3>
-                <p>
-                    Avoid spam, misleading promotions,
-                    repetitive submissions and irrelevant content.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Privacy</h3>
-                <p>
-                    Do not publish private or sensitive personal
-                    information about other people.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Copyright</h3>
-                <p>
-                    Respect copyright, intellectual property and
-                    applicable content licenses.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Quality Review</h3>
-                <p>
-                    Contributions may be reviewed, edited,
-                    approved or rejected to maintain platform
-                    quality.
-                </p>
-            </article>
-
-        </div>
+            </div>
 
 
-        <!-- =================================================
-             CONTRIBUTION INFORMATION
-        ================================================== -->
-        <div class="grid">
+            <div class="flow-step">
 
-            <a class="card" href="contribute.html">
-                <h3>Contribute</h3>
-                <p>
-                    Submit historical and educational knowledge.
-                </p>
-            </a>
+                <div class="flow-number">
+                    2
+                </div>
 
-            <a class="card" href="contributor-agreement.html">
-                <h3>Contributor Agreement</h3>
-                <p>
-                    Review the contribution terms and principles.
-                </p>
-            </a>
+                <strong>
+                    Submit
+                </strong>
 
-            <a class="card" href="copyright.html">
-                <h3>Copyright</h3>
-                <p>
-                    Review copyright and content protection information.
-                </p>
-            </a>
+                <span>
+                    Provide the content and useful sources.
+                </span>
 
-            <a class="card" href="contact.html">
-                <h3>Contact</h3>
-                <p>
-                    Contact the platform regarding questions or concerns.
-                </p>
-            </a>
-
-        </div>
+            </div>
 
 
-        <!-- =================================================
-             PLATFORM NAVIGATION
-        ================================================== -->
-        <div class="grid">
+            <div class="flow-step">
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore knowledge across HistoryVerse.
-                </p>
-            </a>
+                <div class="flow-number">
+                    3
+                </div>
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the knowledge library.
-                </p>
-            </a>
+                <strong>
+                    Review
+                </strong>
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
-            </a>
+                <span>
+                    Content can be checked for quality and accuracy.
+                </span>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
-            </a>
+            </div>
+
+
+            <div class="flow-step">
+
+                <div class="flow-number">
+                    4
+                </div>
+
+                <strong>
+                    Publish
+                </strong>
+
+                <span>
+                    Approved material can become part of the project.
+                </span>
+
+            </div>
 
         </div>
 
@@ -195,24 +929,184 @@
 
 
     <!-- =====================================================
+         10. EDITORIAL REVIEW
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            10. Editorial Review
+        </h2>
+
+        <p>
+            Submitted material may be reviewed for accuracy,
+            clarity, relevance, sourcing, formatting,
+            originality and compliance with project guidelines.
+        </p>
+
+        <p>
+            Content may be edited for spelling, formatting,
+            organization or clarity without changing the
+            intended factual meaning.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         FAQ
+    ====================================================== -->
+
+    <section class="guideline-section">
+
+        <h2>
+            Frequently Asked Questions
+        </h2>
+
+        <div class="faq">
+
+
+            <details>
+
+                <summary>
+                    Can I contribute historical information?
+                </summary>
+
+                <p>
+                    Yes. Historical information can be submitted
+                    through the contribution system, preferably
+                    with reliable references.
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Can I submit corrections?
+                </summary>
+
+                <p>
+                    Yes. Corrections are welcome when they include
+                    enough information to understand and verify
+                    the proposed change.
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Can I submit images and videos?
+                </summary>
+
+                <p>
+                    Yes, provided that the contributor has the
+                    necessary rights or permission to use the
+                    submitted media.
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Will every contribution be published?
+                </summary>
+
+                <p>
+                    No. Contributions may require review and may
+                    be rejected, returned for clarification,
+                    edited or held for later publication.
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Can guidelines change in the future?
+                </summary>
+
+                <p>
+                    Yes. These guidelines may be updated as
+                    ALON HISTORYVERSE 24 develops new content,
+                    technical systems and editorial processes.
+                </p>
+
+            </details>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ACTION LINKS
+    ====================================================== -->
+
+    <div class="action-buttons">
+
+        <a
+            class="action-button"
+            href="./contribute.html"
+        >
+            ✍️ Contribute
+        </a>
+
+        <a
+            class="action-button"
+            href="./contributor-agreement.html"
+        >
+            📜 Contributor Agreement
+        </a>
+
+        <a
+            class="action-button"
+            href="./copyright.html"
+        >
+            © Copyright
+        </a>
+
+        <a
+            class="action-button"
+            href="./contact.html"
+        >
+            ✉️ Contact
+        </a>
+
+        <a
+            class="action-button"
+            href="../index.html"
+        >
+            🏠 Home
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
          FOOTER
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <div class="footer-note">
 
-        • <a href="../index.html">Home</a>
+        ALON HISTORYVERSE 24 — Baba Thecno Guru
 
-    </footer>
+        <br>
+
+        History • Civilizations • Countries • Culture • Heritage • Knowledge
+
+    </div>
+
 
 </main>
 
-
-<!-- =========================================================
-     CORE V100 SCRIPTS
-========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-
 </body>
+
 </html>

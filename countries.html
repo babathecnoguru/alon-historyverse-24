@@ -1,172 +1,1692 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>World Countries • ALON HISTORYVERSE 24</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <meta
+        name="description"
+        content="Explore countries, flags, country codes, capitals, regions and historical information on ALON HISTORYVERSE 24."
+    >
+
+    <title>Countries • ALON HISTORYVERSE 24</title>
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           COUNTRIES PAGE
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #eeeeee;
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.6;
+        }
+
+        .countries-page {
+            width: min(1200px, 94%);
+            margin: 0 auto;
+            padding: 25px 0 60px;
+        }
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .countries-header {
+            text-align: center;
+            padding: 25px 15px 35px;
+            border-bottom: 1px solid rgba(215, 179, 90, 0.35);
+        }
+
+        .countries-header h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: clamp(30px, 5vw, 50px);
+        }
+
+        .countries-header h2 {
+            margin: 0;
+            color: #d7b35a;
+            font-weight: normal;
+            font-size: clamp(18px, 3vw, 27px);
+        }
+
+        .countries-header p {
+            max-width: 850px;
+            margin: 15px auto 0;
+            color: #c9c9c9;
+        }
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .country-search-box {
+            margin: 25px 0;
+            padding: 20px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 16px;
+            background: rgba(12, 18, 30, 0.9);
+        }
+
+        .country-search-box label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f0d27a;
+            font-weight: bold;
+        }
+
+        #countrySearch {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 10px;
+            background: #090e18;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 17px;
+            outline: none;
+        }
+
+        #countrySearch:focus {
+            border-color: #f0d27a;
+            box-shadow: 0 0 0 2px rgba(240, 210, 122, 0.1);
+        }
+
+        .result-count {
+            margin-top: 10px;
+            color: #999999;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           REGION FILTER
+        ====================================================== */
+
+        .region-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .region-button {
+            padding: 9px 15px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 9px;
+            background: #101827;
+            color: #d7b35a;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .region-button:hover,
+        .region-button.active {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        /* =====================================================
+           COUNTRY GRID
+        ====================================================== */
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .country-card {
+            display: block;
+            padding: 20px;
+            border: 1px solid rgba(215, 179, 90, 0.27);
+            border-radius: 16px;
+            background: rgba(12, 18, 30, 0.92);
+            color: #eeeeee;
+            text-decoration: none;
+            transition: transform 0.2s ease,
+                        border-color 0.2s ease,
+                        background 0.2s ease;
+        }
+
+        .country-card:hover {
+            transform: translateY(-3px);
+            border-color: #d7b35a;
+            background: rgba(215, 179, 90, 0.07);
+        }
+
+        .country-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .flag {
+            width: 55px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            background: #101827;
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            font-size: 29px;
+            flex-shrink: 0;
+        }
+
+        .country-name {
+            margin: 0;
+            color: #f0d27a;
+            font-size: 20px;
+        }
+
+        .country-code {
+            color: #999999;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .country-info {
+            display: grid;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .country-info span {
+            color: #bbbbbb;
+        }
+
+        .country-info strong {
+            color: #dddddd;
+        }
+
+        .explore-text {
+            margin-top: 14px;
+            color: #d7b35a;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           NO RESULTS
+        ====================================================== */
+
+        #noResults {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 14px;
+            color: #bbbbbb;
+        }
+
+        /* =====================================================
+           INFO SECTION
+        ====================================================== */
+
+        .info-box {
+            margin-top: 35px;
+            padding: 25px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 17px;
+            background: rgba(12, 18, 30, 0.92);
+        }
+
+        .info-box h3 {
+            margin-top: 0;
+            color: #f0d27a;
+            font-size: 24px;
+        }
+
+        .info-box h4 {
+            color: #d7b35a;
+            margin-bottom: 7px;
+        }
+
+        .info-box p {
+            color: #d1d1d1;
+        }
+
+        .info-box ul {
+            padding-left: 23px;
+        }
+
+        .info-box li {
+            margin-bottom: 7px;
+            color: #cccccc;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 11px 17px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 9px;
+            background: #101827;
+            color: #f0d27a;
+            text-decoration: none;
+        }
+
+        .navigation a:hover {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .footer-note {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(215, 179, 90, 0.2);
+            text-align: center;
+            color: #888888;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 900px) {
+
+            .countries-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .countries-page {
+                width: 92%;
+                padding-top: 15px;
+            }
+
+            .countries-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .country-search-box,
+            .info-box {
+                padding: 18px;
+            }
+
+            .region-filter {
+                justify-content: flex-start;
+            }
+
+            .region-button {
+                flex: 1 1 auto;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .navigation a {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="countries-page">
+
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <header class="countries-header">
 
-        <h1>World Countries</h1>
+        <h1>🌍 Countries of the World</h1>
+
+        <h2>ALON HISTORYVERSE 24</h2>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
+            Explore countries, flags, country codes, capitals,
+            regions and historical knowledge from around the world.
+        </p>
+
+        <p>
+            <strong>Creator / Owner:</strong>
+            Baba Thecno Guru
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         SEARCH
     ====================================================== -->
-    <section class="content">
 
-        <h2>World Countries</h2>
+    <section class="country-search-box">
 
-        <p>
-            Explore countries and regions from around the world,
-            including their history, cultures, civilizations,
-            heritage, important places and historical timelines.
-        </p>
+        <label for="countrySearch">
+            🔎 Search Country
+        </label>
 
-
-        <!-- =================================================
-             COUNTRY SEARCH
-        ================================================== -->
-        <div class="search-box">
-
-            <label for="country-search">
-                Search Country
-            </label>
-
-            <input
-                type="search"
-                id="country-search"
-                name="country-search"
-                placeholder="Search countries..."
-                autocomplete="off"
-            >
-
-        </div>
-
-
-        <!-- =================================================
-             COUNTRY LIST
-        ================================================== -->
-        <div
-            id="countries-list"
-            class="grid"
-            aria-live="polite"
+        <input
+            type="search"
+            id="countrySearch"
+            placeholder="Search by country, code, capital or region..."
+            autocomplete="off"
         >
 
-            <article class="card country-card">
-                <h3>Explore World Countries</h3>
-                <p>
-                    Country information will appear here through
-                    the ALON HISTORYVERSE 24 country engine.
-                </p>
-            </article>
-
-        </div>
-
-
-        <!-- =================================================
-             NAVIGATION
-        ================================================== -->
-        <div class="grid">
-
-            <a class="card" href="categories.html">
-                <h3>Categories</h3>
-                <p>
-                    Explore all major knowledge categories.
-                </p>
-            </a>
-
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
-                <p>
-                    Explore ancient and historic civilizations.
-                </p>
-            </a>
-
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
-                <p>
-                    Discover historical heritage and important sites.
-                </p>
-            </a>
-
-            <a class="card" href="timeline.html">
-                <h3>Timeline</h3>
-                <p>
-                    Explore history through time.
-                </p>
-            </a>
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge across the platform.
-                </p>
-            </a>
-
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the ALON HISTORYVERSE 24 knowledge library.
-                </p>
-            </a>
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
-            </a>
-
+        <div
+            class="result-count"
+            id="resultCount"
+        >
+            Showing countries
         </div>
 
     </section>
 
 
     <!-- =====================================================
+         REGION FILTER
+    ====================================================== -->
+
+    <div
+        class="region-filter"
+        aria-label="Country regions"
+    >
+
+        <button
+            class="region-button active"
+            data-region="All"
+        >
+            All
+        </button>
+
+        <button
+            class="region-button"
+            data-region="Africa"
+        >
+            Africa
+        </button>
+
+        <button
+            class="region-button"
+            data-region="Asia"
+        >
+            Asia
+        </button>
+
+        <button
+            class="region-button"
+            data-region="Europe"
+        >
+            Europe
+        </button>
+
+        <button
+            class="region-button"
+            data-region="North America"
+        >
+            North America
+        </button>
+
+        <button
+            class="region-button"
+            data-region="South America"
+        >
+            South America
+        </button>
+
+        <button
+            class="region-button"
+            data-region="Oceania"
+        >
+            Oceania
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         COUNTRY GRID
+    ====================================================== -->
+
+    <section
+        class="countries-grid"
+        id="countriesGrid"
+    >
+
+
+        <!-- INDIA -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=india"
+            data-name="India"
+            data-code="IN IND"
+            data-capital="New Delhi"
+            data-region="Asia"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇮🇳</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        India
+                    </h3>
+
+                    <div class="country-code">
+                        IN • IND
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>New Delhi</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Asia</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore India →
+            </div>
+
+        </a>
+
+
+        <!-- UNITED STATES -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=united-states"
+            data-name="United States United States of America USA"
+            data-code="US USA"
+            data-capital="Washington DC"
+            data-region="North America"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇺🇸</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        United States
+                    </h3>
+
+                    <div class="country-code">
+                        US • USA
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Washington, D.C.</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>North America</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore United States →
+            </div>
+
+        </a>
+
+
+        <!-- UNITED KINGDOM -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=united-kingdom"
+            data-name="United Kingdom Britain Great Britain UK"
+            data-code="GB GBR UK"
+            data-capital="London"
+            data-region="Europe"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇬🇧</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        United Kingdom
+                    </h3>
+
+                    <div class="country-code">
+                        GB • GBR • UK
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>London</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Europe</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore United Kingdom →
+            </div>
+
+        </a>
+
+
+        <!-- FRANCE -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=france"
+            data-name="France"
+            data-code="FR FRA"
+            data-capital="Paris"
+            data-region="Europe"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇫🇷</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        France
+                    </h3>
+
+                    <div class="country-code">
+                        FR • FRA
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Paris</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Europe</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore France →
+            </div>
+
+        </a>
+
+
+        <!-- GERMANY -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=germany"
+            data-name="Germany Deutschland"
+            data-code="DE DEU"
+            data-capital="Berlin"
+            data-region="Europe"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇩🇪</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Germany
+                    </h3>
+
+                    <div class="country-code">
+                        DE • DEU
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Berlin</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Europe</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Germany →
+            </div>
+
+        </a>
+
+
+        <!-- ITALY -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=italy"
+            data-name="Italy Italia"
+            data-code="IT ITA"
+            data-capital="Rome"
+            data-region="Europe"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇮🇹</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Italy
+                    </h3>
+
+                    <div class="country-code">
+                        IT • ITA
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Rome</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Europe</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Italy →
+            </div>
+
+        </a>
+
+
+        <!-- SPAIN -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=spain"
+            data-name="Spain España"
+            data-code="ES ESP"
+            data-capital="Madrid"
+            data-region="Europe"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇪🇸</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Spain
+                    </h3>
+
+                    <div class="country-code">
+                        ES • ESP
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Madrid</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Europe</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Spain →
+            </div>
+
+        </a>
+
+
+        <!-- CHINA -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=china"
+            data-name="China 中国"
+            data-code="CN CHN"
+            data-capital="Beijing"
+            data-region="Asia"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇨🇳</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        China
+                    </h3>
+
+                    <div class="country-code">
+                        CN • CHN
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Beijing</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Asia</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore China →
+            </div>
+
+        </a>
+
+
+        <!-- JAPAN -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=japan"
+            data-name="Japan 日本"
+            data-code="JP JPN"
+            data-capital="Tokyo"
+            data-region="Asia"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇯🇵</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Japan
+                    </h3>
+
+                    <div class="country-code">
+                        JP • JPN
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Tokyo</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Asia</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Japan →
+            </div>
+
+        </a>
+
+
+        <!-- AUSTRALIA -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=australia"
+            data-name="Australia"
+            data-code="AU AUS"
+            data-capital="Canberra"
+            data-region="Oceania"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇦🇺</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Australia
+                    </h3>
+
+                    <div class="country-code">
+                        AU • AUS
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Canberra</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Oceania</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Australia →
+            </div>
+
+        </a>
+
+
+        <!-- CANADA -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=canada"
+            data-name="Canada"
+            data-code="CA CAN"
+            data-capital="Ottawa"
+            data-region="North America"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇨🇦</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Canada
+                    </h3>
+
+                    <div class="country-code">
+                        CA • CAN
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Ottawa</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>North America</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Canada →
+            </div>
+
+        </a>
+
+
+        <!-- BRAZIL -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=brazil"
+            data-name="Brazil Brasil"
+            data-code="BR BRA"
+            data-capital="Brasília"
+            data-region="South America"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇧🇷</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Brazil
+                    </h3>
+
+                    <div class="country-code">
+                        BR • BRA
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Brasília</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>South America</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Brazil →
+            </div>
+
+        </a>
+
+
+        <!-- EGYPT -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=egypt"
+            data-name="Egypt Misr"
+            data-code="EG EGY"
+            data-capital="Cairo"
+            data-region="Africa"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇪🇬</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Egypt
+                    </h3>
+
+                    <div class="country-code">
+                        EG • EGY
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Cairo</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Africa</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Egypt →
+            </div>
+
+        </a>
+
+
+        <!-- SOUTH AFRICA -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=south-africa"
+            data-name="South Africa"
+            data-code="ZA ZAF"
+            data-capital="Pretoria Cape Town Bloemfontein"
+            data-region="Africa"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇿🇦</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        South Africa
+                    </h3>
+
+                    <div class="country-code">
+                        ZA • ZAF
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Africa</strong>
+                </div>
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Pretoria / Cape Town / Bloemfontein</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore South Africa →
+            </div>
+
+        </a>
+
+
+        <!-- MEXICO -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=mexico"
+            data-name="Mexico México"
+            data-code="MX MEX"
+            data-capital="Mexico City"
+            data-region="North America"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇲🇽</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Mexico
+                    </h3>
+
+                    <div class="country-code">
+                        MX • MEX
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Mexico City</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>North America</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Mexico →
+            </div>
+
+        </a>
+
+
+        <!-- ARGENTINA -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=argentina"
+            data-name="Argentina"
+            data-code="AR ARG"
+            data-capital="Buenos Aires"
+            data-region="South America"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇦🇷</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Argentina
+                    </h3>
+
+                    <div class="country-code">
+                        AR • ARG
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Buenos Aires</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>South America</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Argentina →
+            </div>
+
+        </a>
+
+
+        <!-- NIGERIA -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=nigeria"
+            data-name="Nigeria"
+            data-code="NG NGA"
+            data-capital="Abuja"
+            data-region="Africa"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇳🇬</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        Nigeria
+                    </h3>
+
+                    <div class="country-code">
+                        NG • NGA
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Abuja</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Africa</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore Nigeria →
+            </div>
+
+        </a>
+
+
+        <!-- NEW ZEALAND -->
+
+        <a
+            class="country-card"
+            href="./country.html?country=new-zealand"
+            data-name="New Zealand Aotearoa"
+            data-code="NZ NZL"
+            data-capital="Wellington"
+            data-region="Oceania"
+        >
+
+            <div class="country-top">
+
+                <div class="flag">🇳🇿</div>
+
+                <div>
+
+                    <h3 class="country-name">
+                        New Zealand
+                    </h3>
+
+                    <div class="country-code">
+                        NZ • NZL
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="country-info">
+
+                <div>
+                    <span>Capital:</span>
+                    <strong>Wellington</strong>
+                </div>
+
+                <div>
+                    <span>Region:</span>
+                    <strong>Oceania</strong>
+                </div>
+
+            </div>
+
+            <div class="explore-text">
+                Explore New Zealand →
+            </div>
+
+        </a>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         NO RESULTS
+    ====================================================== -->
+
+    <div id="noResults">
+
+        <h3>No country found</h3>
+
+        <p>
+            Try another country name, country code, capital or region.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         COUNTRY INFORMATION
+    ====================================================== -->
+
+    <section class="info-box">
+
+        <h3>
+            🌎 Explore the World
+        </h3>
+
+        <p>
+            The Countries section of ALON HISTORYVERSE 24 is designed
+            to become a worldwide historical and geographical knowledge
+            system.
+        </p>
+
+        <h4>
+            Country information can include:
+        </h4>
+
+        <ul>
+
+            <li>
+                Country name and flag
+            </li>
+
+            <li>
+                Country codes
+            </li>
+
+            <li>
+                Capital city
+            </li>
+
+            <li>
+                Regions and geographical information
+            </li>
+
+            <li>
+                History and important historical periods
+            </li>
+
+            <li>
+                Civilizations and cultures
+            </li>
+
+            <li>
+                Heritage sites and monuments
+            </li>
+
+            <li>
+                Major cities
+            </li>
+
+            <li>
+                Historical rulers and important people
+            </li>
+
+            <li>
+                Wars and major historical events
+            </li>
+
+            <li>
+                States, provinces or other administrative divisions
+            </li>
+
+        </ul>
+
+        <p>
+            Country detail pages can be expanded as the ALON HISTORYVERSE
+            24 database grows.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="navigation">
+
+        <a href="../index.html">
+            ← Home
+        </a>
+
+        <a href="./country.html">
+            Country Detail
+        </a>
+
+        <a href="./civilizations.html">
+            Civilizations
+        </a>
+
+        <a href="./heritage.html">
+            Heritage
+        </a>
+
+        <a href="./timeline.html">
+            Timeline
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
          FOOTER
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <footer class="footer-note">
 
-        • <a href="../index.html">Home</a>
+        ALON HISTORYVERSE 24 • Baba Thecno Guru<br>
+
+        History • Civilizations • Countries • Culture • Heritage • Knowledge
 
     </footer>
 
 </main>
 
 
-<!-- =========================================================
-     CORE V100 SCRIPTS
-========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
+<script>
 
-<!-- Country system will use these files when rebuilt -->
-<script src="../jss/country.js"></script>
-<script src="../jss/countries-click.js"></script>
+    /* =====================================================
+       COUNTRIES SEARCH AND REGION FILTER
+    ====================================================== */
+
+    const searchInput =
+        document.getElementById("countrySearch");
+
+    const countryCards =
+        Array.from(
+            document.querySelectorAll(".country-card")
+        );
+
+    const resultCount =
+        document.getElementById("resultCount");
+
+    const noResults =
+        document.getElementById("noResults");
+
+    const regionButtons =
+        Array.from(
+            document.querySelectorAll(".region-button")
+        );
+
+
+    let selectedRegion = "All";
+
+
+    /* =====================================================
+       FILTER FUNCTION
+    ====================================================== */
+
+    function filterCountries() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        let visibleCount = 0;
+
+
+        countryCards.forEach(function(card) {
+
+            const searchableText = (
+
+                (card.dataset.name || "") +
+                " " +
+                (card.dataset.code || "") +
+                " " +
+                (card.dataset.capital || "") +
+                " " +
+                (card.dataset.region || "")
+
+            ).toLowerCase();
+
+
+            const regionMatch =
+                selectedRegion === "All" ||
+                card.dataset.region === selectedRegion;
+
+
+            const searchMatch =
+                searchableText.includes(query);
+
+
+            const visible =
+                regionMatch && searchMatch;
+
+
+            card.style.display =
+                visible ? "block" : "none";
+
+
+            if (visible) {
+                visibleCount++;
+            }
+
+        });
+
+
+        resultCount.textContent =
+            "Showing " +
+            visibleCount +
+            " of " +
+            countryCards.length +
+            " countries";
+
+
+        noResults.style.display =
+            visibleCount === 0
+                ? "block"
+                : "none";
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ====================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        filterCountries
+    );
+
+
+    /* =====================================================
+       REGION BUTTONS
+    ====================================================== */
+
+    regionButtons.forEach(function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                regionButtons.forEach(
+                    function(item) {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add("active");
+
+                selectedRegion =
+                    button.dataset.region;
+
+
+                filterCountries();
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       INITIAL COUNT
+    ====================================================== */
+
+    filterCountries();
+
+</script>
 
 </body>
+
 </html>

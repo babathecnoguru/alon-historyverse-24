@@ -3,180 +3,841 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Knowledge Departments • ALON HISTORYVERSE 24</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <title>Departments • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Knowledge departments of ALON HISTORYVERSE 24 — Mathematics, Computer, Jobs & Careers, Trees, History, Countries, Civilizations, Culture and Heritage."
+    >
+
+    <!-- GLOBAL STYLE -->
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           DEPARTMENT PAGE
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #f4f0e6;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .department-page {
+            width: min(1180px, 94%);
+            margin: 0 auto;
+            padding: 25px 0 60px;
+        }
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .department-header {
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 18px;
+            padding: 28px 22px;
+            margin-bottom: 25px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(215, 179, 90, 0.08),
+                    rgba(255, 255, 255, 0.015)
+                );
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 9px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+            color: #f0d27a;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(215, 179, 90, 0.1);
+            border-color: #d7b35a;
+        }
+
+        .department-header h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: clamp(28px, 5vw, 46px);
+            line-height: 1.15;
+        }
+
+        .department-header p {
+            margin: 0;
+            max-width: 850px;
+            color: #d9d4c7;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .search-box {
+            margin: 22px 0 28px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 17px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 12px;
+            outline: none;
+            background: #0a0f18;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .search-box input::placeholder {
+            color: #8f8b80;
+        }
+
+        .search-box input:focus {
+            border-color: #f0d27a;
+            box-shadow: 0 0 0 2px rgba(215, 179, 90, 0.08);
+        }
+
+        /* =====================================================
+           DEPARTMENT GRID
+        ====================================================== */
+
+        .department-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .department-card {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            min-height: 210px;
+            padding: 24px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 17px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18, 24, 36, 0.98),
+                    rgba(7, 11, 18, 0.98)
+                );
+            transition:
+                transform 0.22s ease,
+                border-color 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .department-card::after {
+            content: "";
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            right: -45px;
+            bottom: -55px;
+            border-radius: 50%;
+            background: rgba(215, 179, 90, 0.06);
+            pointer-events: none;
+        }
+
+        .department-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(240, 210, 122, 0.75);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .department-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            height: 58px;
+            margin-bottom: 17px;
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 14px;
+            background: rgba(215, 179, 90, 0.08);
+            color: #f0d27a;
+            font-size: 29px;
+        }
+
+        .department-card h2 {
+            margin: 0 0 9px;
+            color: #f0d27a;
+            font-size: 23px;
+        }
+
+        .department-card p {
+            margin: 0 0 15px;
+            color: #c9c5ba;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .department-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .meta-tag {
+            padding: 5px 9px;
+            border: 1px solid rgba(215, 179, 90, 0.22);
+            border-radius: 8px;
+            color: #aaa69a;
+            background: rgba(255, 255, 255, 0.02);
+            font-size: 12px;
+        }
+
+        .open-label {
+            position: absolute;
+            top: 24px;
+            right: 22px;
+            color: #d7b35a;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           INFORMATION
+        ====================================================== */
+
+        .info-section {
+            margin-top: 30px;
+            padding: 22px;
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .info-section h2 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: 22px;
+        }
+
+        .info-section p {
+            margin: 0;
+            color: #c7c3b8;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           EMPTY RESULT
+        ====================================================== */
+
+        .no-result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 13px;
+            text-align: center;
+            color: #aaa69a;
+        }
+
+        /* =====================================================
+           FOOTER NAVIGATION
+        ====================================================== */
+
+        .bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .bottom-nav a {
+            padding: 10px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 10px;
+            color: #d7b35a;
+            background: rgba(215, 179, 90, 0.03);
+            font-size: 14px;
+        }
+
+        .bottom-nav a:hover {
+            background: rgba(215, 179, 90, 0.09);
+            border-color: #d7b35a;
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 720px) {
+
+            .department-page {
+                width: 94%;
+                padding-top: 15px;
+            }
+
+            .department-header {
+                padding: 22px 17px;
+                border-radius: 15px;
+            }
+
+            .department-header h1 {
+                font-size: 31px;
+            }
+
+            .department-header p {
+                font-size: 14px;
+            }
+
+            .department-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .department-card {
+                min-height: auto;
+                padding: 20px;
+            }
+
+            .open-label {
+                top: 20px;
+                right: 18px;
+            }
+
+            .info-section {
+                padding: 18px;
+            }
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="department-page">
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <header class="department-header">
+
+        <a
+            class="back-link"
+            href="../index.html"
+        >
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Knowledge Departments</h1>
+        <h1>
+            Knowledge Departments
+        </h1>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
+            Explore the major knowledge departments of
+            ALON HISTORYVERSE 24. Select a department to
+            continue into its subjects, books, learning
+            resources and knowledge collections.
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         SEARCH
     ====================================================== -->
-    <section class="content">
 
-        <h2>Knowledge Departments</h2>
+    <div class="search-box">
 
-        <p>
-            Explore the major knowledge departments of
-            ALON HISTORYVERSE 24. Each department can contain
-            subjects, books and reading resources.
-        </p>
-
-
-        <!-- =================================================
-             DEPARTMENT SEARCH
-        ================================================== -->
-        <div class="search-box">
-
-            <label for="department-search">
-                Search Department
-            </label>
-
-            <input
-                type="search"
-                id="department-search"
-                name="department-search"
-                placeholder="Search departments..."
-                autocomplete="off"
-            >
-
-        </div>
-
-
-        <!-- =================================================
-             DEPARTMENT LIST
-        ================================================== -->
-        <div
-            id="departments-list"
-            class="grid"
-            aria-live="polite"
+        <input
+            type="search"
+            id="departmentSearch"
+            placeholder="Search departments..."
+            autocomplete="off"
+            aria-label="Search departments"
         >
 
-            <article class="card department-card">
-
-                <h3>Knowledge Departments</h3>
-
-                <p>
-                    Departments will appear here through the
-                    ALON HISTORYVERSE 24 Library Engine.
-                </p>
-
-            </article>
-
-        </div>
+    </div>
 
 
-        <!-- =================================================
-             LIBRARY NAVIGATION
-        ================================================== -->
-        <div class="grid">
+    <!-- =====================================================
+         DEPARTMENT GRID
+    ====================================================== -->
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Return to the main knowledge library.
-                </p>
-            </a>
+    <section
+        class="department-grid"
+        id="departmentGrid"
+    >
 
+        <!-- MATHEMATICS -->
 
-            <a class="card" href="subject.html">
-                <h3>Subjects</h3>
-                <p>
-                    Explore subjects inside knowledge departments.
-                </p>
-            </a>
+        <a
+            class="department-card"
+            href="./subject.html?department=mathematics"
+            data-search="mathematics math numbers algebra geometry calculus"
+        >
 
+            <span class="open-label">
+                Open →
+            </span>
 
-            <a class="card" href="book.html">
-                <h3>Books</h3>
-                <p>
-                    Explore books and learning resources.
-                </p>
-            </a>
+            <div class="department-icon">
+                ∑
+            </div>
 
+            <h2>
+                Mathematics
+            </h2>
 
-            <a class="card" href="read.html">
-                <h3>Read</h3>
-                <p>
-                    Open reading resources and knowledge content.
-                </p>
-            </a>
+            <p>
+                Explore numbers, arithmetic, algebra,
+                geometry, statistics, calculus, formulas
+                and mathematical problem solving.
+            </p>
 
+            <div class="department-meta">
+                <span class="meta-tag">Numbers</span>
+                <span class="meta-tag">Algebra</span>
+                <span class="meta-tag">Geometry</span>
+                <span class="meta-tag">Calculus</span>
+            </div>
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
-            </a>
-
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge across the platform.
-                </p>
-            </a>
+        </a>
 
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
-            </a>
+        <!-- COMPUTER -->
 
-        </div>
+        <a
+            class="department-card"
+            href="./computer.html"
+            data-search="computer computing technology hardware software internet programming"
+        >
+
+            <span class="open-label">
+                Open →
+            </span>
+
+            <div class="department-icon">
+                💻
+            </div>
+
+            <h2>
+                Computer
+            </h2>
+
+            <p>
+                Learn computer fundamentals, hardware,
+                software, files, Windows, internet,
+                networking, security and advanced concepts.
+            </p>
+
+            <div class="department-meta">
+                <span class="meta-tag">Hardware</span>
+                <span class="meta-tag">Software</span>
+                <span class="meta-tag">Internet</span>
+                <span class="meta-tag">Security</span>
+            </div>
+
+        </a>
+
+
+        <!-- JOBS -->
+
+        <a
+            class="department-card"
+            href="./jobs.html"
+            data-search="jobs careers employment work salary profession career"
+        >
+
+            <span class="open-label">
+                Open →
+            </span>
+
+            <div class="department-icon">
+                💼
+            </div>
+
+            <h2>
+                Jobs &amp; Careers
+            </h2>
+
+            <p>
+                Explore career fields, job categories,
+                professional information, salary concepts,
+                appointments and career knowledge.
+            </p>
+
+            <div class="department-meta">
+                <span class="meta-tag">Careers</span>
+                <span class="meta-tag">Jobs</span>
+                <span class="meta-tag">Salary</span>
+                <span class="meta-tag">Skills</span>
+            </div>
+
+        </a>
+
+
+        <!-- TREES -->
+
+        <a
+            class="department-card"
+            href="./trees.html"
+            data-search="trees nature plants forest environment botanical"
+        >
+
+            <span class="open-label">
+                Open →
+            </span>
+
+            <div class="department-icon">
+                🌳
+            </div>
+
+            <h2>
+                Trees &amp; Nature
+            </h2>
+
+            <p>
+                Discover trees, plants, forests, nature,
+                environmental knowledge and the importance
+                of the natural world.
+            </p>
+
+            <div class="department-meta">
+                <span class="meta-tag">Trees</span>
+                <span class="meta-tag">Plants</span>
+                <span class="meta-tag">Forests</span>
+                <span class="meta-tag">Nature</span>
+            </div>
+
+        </a>
+
+
+        <!-- HISTORY -->
+
+        <a
+            class="department-card"
+            href="./civilizations.html"
+            data-search="history ancient medieval modern civilization historical"
+        >
+
+            <span class="open-label">
+                Open →
+            </span>
+
+            <div class="department-icon">
+                🏛️
+            </div>
+
+            <h2>
+                History &amp; Civilizations
+            </h2>
+
+            <p>
+                Travel through ancient, medieval and modern
+                history and discover civilizations, rulers,
+                societies, wars and historical developments.
+            </p>
+
+            <div class="department-meta">
+                <span class="meta-tag">Ancient</span>
+                <span class="meta-tag">Medieval</span>
+                <span class="meta-tag">Modern</span>
+                <span class="meta-tag">Civilizations</span>
+            </div>
+
+        </a>
+
+
+        <!-- COUNTRIES -->
+
+        <a
+            class="department-card"
+            href="./countries.html"
+            data-search="countries world nations geography capitals flags states regions"
+        >
+
+            <span class="open-label">
+                Open →
+            </span>
+
+            <div class="department-icon">
+                🌍
+            </div>
+
+            <h2>
+                Countries &amp; World
+            </h2>
+
+            <p>
+                Explore countries and regions of the world,
+                flags, capitals, geography, subdivisions,
+                people, culture and historical information.
+            </p>
+
+            <div class="department-meta">
+                <span class="meta-tag">Countries</span>
+                <span class="meta-tag">Flags</span>
+                <span class="meta-tag">Capitals</span>
+                <span class="meta-tag">World</span>
+            </div>
+
+        </a>
+
+
+        <!-- CULTURE -->
+
+        <a
+            class="department-card"
+            href="./heritage.html"
+            data-search="culture heritage traditions monuments architecture art customs"
+        >
+
+            <span class="open-label">
+                Open →
+            </span>
+
+            <div class="department-icon">
+                🏺
+            </div>
+
+            <h2>
+                Culture &amp; Heritage
+            </h2>
+
+            <p>
+                Discover cultural traditions, heritage sites,
+                monuments, architecture, art, customs and
+                the heritage of different societies.
+            </p>
+
+            <div class="department-meta">
+                <span class="meta-tag">Culture</span>
+                <span class="meta-tag">Heritage</span>
+                <span class="meta-tag">Monuments</span>
+                <span class="meta-tag">Traditions</span>
+            </div>
+
+        </a>
+
+
+        <!-- TIMELINE -->
+
+        <a
+            class="department-card"
+            href="./timeline.html"
+            data-search="timeline events dates chronology historical timeline"
+        >
+
+            <span class="open-label">
+                Open →
+            </span>
+
+            <div class="department-icon">
+                🕰️
+            </div>
+
+            <h2>
+                Historical Timeline
+            </h2>
+
+            <p>
+                Follow important events through time with
+                chronological timelines covering civilizations,
+                countries, discoveries and major historical events.
+            </p>
+
+            <div class="department-meta">
+                <span class="meta-tag">Dates</span>
+                <span class="meta-tag">Events</span>
+                <span class="meta-tag">Chronology</span>
+                <span class="meta-tag">History</span>
+            </div>
+
+        </a>
 
     </section>
 
 
     <!-- =====================================================
-         FOOTER
+         NO SEARCH RESULT
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <div
+        class="no-result"
+        id="noResult"
+    >
+        No department found. Try another search.
+    </div>
 
-        • <a href="../index.html">Home</a>
 
-    </footer>
+    <!-- =====================================================
+         INFORMATION
+    ====================================================== -->
+
+    <section class="info-section">
+
+        <h2>
+            How the Library Works
+        </h2>
+
+        <p>
+            Choose a department first. The department can
+            lead to its subjects, books and reading resources.
+            The basic library structure is:
+            <strong>Library → Department → Subject → Book → Read</strong>.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         BOTTOM NAVIGATION
+    ====================================================== -->
+
+    <nav
+        class="bottom-nav"
+        aria-label="Department navigation"
+    >
+
+        <a href="./library.html">
+            Library
+        </a>
+
+        <a href="./subject.html">
+            Subjects
+        </a>
+
+        <a href="./book.html">
+            Books
+        </a>
+
+        <a href="./read.html">
+            Read
+        </a>
+
+        <a href="../index.html">
+            Home
+        </a>
+
+    </nav>
 
 </main>
 
 
 <!-- =========================================================
-     CORE V100 SCRIPTS
+     SEARCH SCRIPT
 ========================================================== -->
 
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
+<script>
 
-<!-- Library Department Engine -->
-<script src="../jss/library-engine.js"></script>
+(function () {
+
+    "use strict";
+
+    const searchInput =
+        document.getElementById("departmentSearch");
+
+    const cards =
+        Array.from(
+            document.querySelectorAll(".department-card")
+        );
+
+    const noResult =
+        document.getElementById("noResult");
+
+
+    function filterDepartments() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        let visibleCount = 0;
+
+
+        cards.forEach(function (card) {
+
+            const searchableText =
+                (
+                    card.textContent +
+                    " " +
+                    (card.dataset.search || "")
+                ).toLowerCase();
+
+
+            const matched =
+                query === "" ||
+                searchableText.includes(query);
+
+
+            card.style.display =
+                matched ? "block" : "none";
+
+
+            if (matched) {
+                visibleCount++;
+            }
+
+        });
+
+
+        noResult.style.display =
+            visibleCount === 0
+                ? "block"
+                : "none";
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterDepartments
+    );
+
+
+})();
+
+</script>
 
 </body>
+
 </html>

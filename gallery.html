@@ -1,196 +1,1023 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Historical Gallery • ALON HISTORYVERSE 24</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <title>Gallery • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Explore historical images and videos from ALON HISTORYVERSE 24."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           GALLERY
+           IMAGE + VIDEO SYSTEM
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #f4f0e6;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .gallery-page {
+            width: min(1200px, 94%);
+            margin: auto;
+            padding: 25px 0 60px;
+        }
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .gallery-header {
+            padding: 28px 22px;
+            margin-bottom: 24px;
+
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(215, 179, 90, 0.08),
+                    rgba(255, 255, 255, 0.015)
+                );
+
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            margin-bottom: 18px;
+            padding: 9px 14px;
+
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+
+            color: #f0d27a;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            background: rgba(215, 179, 90, 0.1);
+        }
+
+        .gallery-header h1 {
+            margin: 0 0 10px;
+
+            color: #f0d27a;
+            font-size: clamp(30px, 5vw, 48px);
+        }
+
+        .gallery-header p {
+            max-width: 900px;
+            margin: 0;
+
+            color: #d5d0c4;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        .search-area {
+            margin: 22px 0;
+        }
+
+        .search-area input {
+            width: 100%;
+            padding: 15px 17px;
+
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 12px;
+            outline: none;
+
+            background: #0a0f18;
+            color: #fff;
+
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .search-area input::placeholder {
+            color: #888477;
+        }
+
+        .search-area input:focus {
+            border-color: #f0d27a;
+
+            box-shadow:
+                0 0 0 2px rgba(215, 179, 90, 0.08);
+        }
+
+        /* =====================================================
+           FILTER BUTTONS
+        ====================================================== */
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 28px;
+        }
+
+        .filter-button {
+            padding: 10px 16px;
+
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 10px;
+
+            background: rgba(215, 179, 90, 0.03);
+            color: #cfc9bb;
+
+            font-family: inherit;
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            border-color: #d7b35a;
+            background: rgba(215, 179, 90, 0.1);
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           SECTION
+        ====================================================== */
+
+        .section-title {
+            margin: 30px 0 16px;
+
+            color: #f0d27a;
+            font-size: 26px;
+        }
+
+        /* =====================================================
+           MEDIA GRID
+        ====================================================== */
+
+        .media-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 17px;
+        }
+
+        .media-card {
+            overflow: hidden;
+
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18, 24, 36, 0.98),
+                    rgba(7, 11, 18, 0.98)
+                );
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .media-card:hover {
+            transform: translateY(-4px);
+
+            border-color:
+                rgba(240, 210, 122, 0.75);
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .media-content {
+            position: relative;
+
+            width: 100%;
+            aspect-ratio: 16 / 10;
+
+            overflow: hidden;
+
+            background: #02050a;
+        }
+
+        .media-content img,
+        .media-content video {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .media-info {
+            padding: 16px;
+        }
+
+        .media-type {
+            display: inline-block;
+
+            margin-bottom: 8px;
+            padding: 5px 9px;
+
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 7px;
+
+            color: #d7b35a;
+
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .media-info h3 {
+            margin: 0 0 7px;
+
+            color: #f0d27a;
+            font-size: 20px;
+        }
+
+        .media-info p {
+            margin: 0;
+
+            color: #aaa69a;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           VIDEO BADGE
+        ====================================================== */
+
+        .video-badge {
+            position: absolute;
+
+            top: 12px;
+            left: 12px;
+
+            padding: 6px 9px;
+
+            border-radius: 8px;
+
+            background: rgba(0, 0, 0, 0.72);
+            color: #f0d27a;
+
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           EMPTY MESSAGE
+        ====================================================== */
+
+        .empty-message {
+            display: none;
+
+            padding: 25px;
+
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 14px;
+
+            text-align: center;
+
+            color: #aaa69a;
+        }
+
+        /* =====================================================
+           UPLOAD / ADD MEDIA
+        ====================================================== */
+
+        .upload-section {
+            margin-top: 35px;
+            padding: 24px;
+
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 17px;
+
+            background:
+                rgba(255, 255, 255, 0.015);
+        }
+
+        .upload-section h2 {
+            margin: 0 0 10px;
+
+            color: #f0d27a;
+            font-size: 24px;
+        }
+
+        .upload-section p {
+            margin: 0 0 18px;
+
+            color: #bdb8ab;
+            line-height: 1.6;
+        }
+
+        .upload-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .upload-label,
+        .clear-button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 45px;
+            padding: 10px 16px;
+
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+
+            background: rgba(215, 179, 90, 0.05);
+            color: #f0d27a;
+
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .upload-label:hover,
+        .clear-button:hover {
+            background: rgba(215, 179, 90, 0.12);
+            border-color: #d7b35a;
+        }
+
+        #mediaInput {
+            display: none;
+        }
+
+        /* =====================================================
+           LOCAL PREVIEW
+        ====================================================== */
+
+        .local-preview {
+            display: none;
+
+            margin-top: 22px;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 15px;
+        }
+
+        .preview-item {
+            overflow: hidden;
+
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 13px;
+
+            background: #080d15;
+        }
+
+        .preview-item img,
+        .preview-item video {
+            display: block;
+
+            width: 100%;
+            max-height: 350px;
+
+            object-fit: contain;
+            background: #000;
+        }
+
+        .preview-name {
+            padding: 10px;
+
+            color: #bdb8ab;
+
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        /* =====================================================
+           INFO BOX
+        ====================================================== */
+
+        .info-box {
+            margin-top: 30px;
+            padding: 22px;
+
+            border: 1px solid rgba(215, 179, 90, 0.25);
+            border-radius: 16px;
+
+            background:
+                rgba(255, 255, 255, 0.015);
+        }
+
+        .info-box h2 {
+            margin: 0 0 10px;
+
+            color: #f0d27a;
+            font-size: 22px;
+        }
+
+        .info-box p {
+            margin: 0;
+
+            color: #c6c2b7;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           BOTTOM NAV
+        ====================================================== */
+
+        .bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .bottom-nav a {
+            padding: 10px 14px;
+
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            border-radius: 10px;
+
+            color: #d7b35a;
+            background: rgba(215, 179, 90, 0.03);
+
+            font-size: 14px;
+        }
+
+        .bottom-nav a:hover {
+            border-color: #d7b35a;
+            background: rgba(215, 179, 90, 0.09);
+        }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 900px) {
+
+            .media-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .gallery-page {
+                width: 94%;
+                padding-top: 15px;
+            }
+
+            .gallery-header {
+                padding: 22px 17px;
+            }
+
+            .gallery-header h1 {
+                font-size: 31px;
+            }
+
+            .gallery-header p {
+                font-size: 14px;
+            }
+
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .local-preview {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-section {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="gallery-page">
+
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
+    <header class="gallery-header">
+
+        <a
+            class="back-link"
+            href="../index.html"
+        >
+            ← Back to ALON HISTORYVERSE 24
         </a>
 
-        <h1>Historical Gallery</h1>
+        <h1>
+            History Gallery
+        </h1>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
+            Explore historical images and videos covering
+            civilizations, countries, people, monuments,
+            heritage, cultures and important events.
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         SEARCH
     ====================================================== -->
-    <section class="content">
 
-        <h2>Historical Gallery</h2>
+    <div class="search-area">
 
-        <p>
-            Explore historical photographs, monuments,
-            civilizations, heritage sites, ancient cities,
-            important personalities and other visual records
-            from world history.
-        </p>
-
-
-        <!-- =================================================
-             GALLERY SEARCH
-        ================================================== -->
-        <div class="search-box">
-
-            <label for="gallery-search">
-                Search Gallery
-            </label>
-
-            <input
-                type="search"
-                id="gallery-search"
-                name="gallery-search"
-                placeholder="Search historical images..."
-                autocomplete="off"
-            >
-
-        </div>
-
-
-        <!-- =================================================
-             GALLERY FILTERS
-        ================================================== -->
-        <div class="grid">
-
-            <button
-                type="button"
-                class="card gallery-filter"
-                data-gallery-filter="all"
-            >
-                <h3>All</h3>
-                <p>View all historical gallery content.</p>
-            </button>
-
-            <button
-                type="button"
-                class="card gallery-filter"
-                data-gallery-filter="civilizations"
-            >
-                <h3>Civilizations</h3>
-                <p>Explore visual records of civilizations.</p>
-            </button>
-
-            <button
-                type="button"
-                class="card gallery-filter"
-                data-gallery-filter="heritage"
-            >
-                <h3>Heritage</h3>
-                <p>Explore monuments and heritage sites.</p>
-            </button>
-
-            <button
-                type="button"
-                class="card gallery-filter"
-                data-gallery-filter="countries"
-            >
-                <h3>Countries</h3>
-                <p>Explore historical visuals by country.</p>
-            </button>
-
-        </div>
-
-
-        <!-- =================================================
-             GALLERY CONTENT
-        ================================================== -->
-        <div
-            id="gallery-list"
-            class="grid"
-            aria-live="polite"
+        <input
+            type="search"
+            id="gallerySearch"
+            placeholder="Search gallery..."
+            autocomplete="off"
+            aria-label="Search gallery"
         >
 
-            <article class="card gallery-item">
-                <h3>Historical Gallery</h3>
+    </div>
+
+
+    <!-- =====================================================
+         FILTERS
+    ====================================================== -->
+
+    <div
+        class="filter-bar"
+        aria-label="Gallery filters"
+    >
+
+        <button
+            class="filter-button active"
+            type="button"
+            data-filter="all"
+        >
+            All
+        </button>
+
+        <button
+            class="filter-button"
+            type="button"
+            data-filter="image"
+        >
+            🖼️ Images
+        </button>
+
+        <button
+            class="filter-button"
+            type="button"
+            data-filter="video"
+        >
+            🎬 Videos
+        </button>
+
+        <button
+            class="filter-button"
+            type="button"
+            data-filter="history"
+        >
+            🏛️ History
+        </button>
+
+        <button
+            class="filter-button"
+            type="button"
+            data-filter="heritage"
+        >
+            🏺 Heritage
+        </button>
+
+        <button
+            class="filter-button"
+            type="button"
+            data-filter="countries"
+        >
+            🌍 Countries
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         IMAGE GALLERY
+    ====================================================== -->
+
+    <h2 class="section-title">
+        🖼️ Historical Images
+    </h2>
+
+
+    <section
+        class="media-grid"
+        id="mediaGrid"
+    >
+
+
+        <!-- IMAGE 1 -->
+
+        <article
+            class="media-card"
+            data-type="image"
+            data-category="history"
+            data-search="ancient civilization history historical"
+        >
+
+            <div class="media-content">
+
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Pyramids_of_Giza_egypt_2010.jpg/640px-Pyramids_of_Giza_egypt_2010.jpg"
+                    alt="Pyramids of Giza"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <div class="media-info">
+
+                <span class="media-type">
+                    Image
+                </span>
+
+                <h3>
+                    Ancient Civilizations
+                </h3>
 
                 <p>
-                    Gallery content will appear here through
-                    the ALON HISTORYVERSE 24 data system.
+                    Explore visual history of the ancient world.
                 </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- IMAGE 2 -->
+
+        <article
+            class="media-card"
+            data-type="image"
+            data-category="heritage"
+            data-search="heritage monument architecture historic building"
+        >
+
+            <div class="media-content">
+
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Taj_Mahal%2C_Agra%2C_India_edit3.jpg/640px-Taj_Mahal%2C_Agra%2C_India_edit3.jpg"
+                    alt="Taj Mahal"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <div class="media-info">
+
+                <span class="media-type">
+                    Image
+                </span>
+
+                <h3>
+                    World Heritage
+                </h3>
+
+                <p>
+                    Historic architecture and cultural heritage.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- IMAGE 3 -->
+
+        <article
+            class="media-card"
+            data-type="image"
+            data-category="countries"
+            data-search="india country world geography culture"
+        >
+
+            <div class="media-content">
+
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Flag_of_India.svg/640px-Flag_of_India.svg.png"
+                    alt="Flag of India"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <div class="media-info">
+
+                <span class="media-type">
+                    Image
+                </span>
+
+                <h3>
+                    Countries of the World
+                </h3>
+
+                <p>
+                    Explore countries, flags and world cultures.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- IMAGE 4 -->
+
+        <article
+            class="media-card"
+            data-type="image"
+            data-category="history"
+            data-search="rome roman empire ancient history civilization"
+        >
+
+            <div class="media-content">
+
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/640px-Colosseo_2020.jpg"
+                    alt="Colosseum in Rome"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <div class="media-info">
+
+                <span class="media-type">
+                    Image
+                </span>
+
+                <h3>
+                    Ancient Rome
+                </h3>
+
+                <p>
+                    A visual journey through Roman history.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- IMAGE 5 -->
+
+        <article
+            class="media-card"
+            data-type="image"
+            data-category="heritage"
+            data-search="fort heritage india architecture history"
+        >
+
+            <div class="media-content">
+
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Red_Fort_in_Delhi_03-2016_img3.jpg/640px-Red_Fort_in_Delhi_03-2016_img3.jpg"
+                    alt="Red Fort"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <div class="media-info">
+
+                <span class="media-type">
+                    Image
+                </span>
+
+                <h3>
+                    Historic Forts
+                </h3>
+
+                <p>
+                    Discover historic forts and important monuments.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- IMAGE 6 -->
+
+        <article
+            class="media-card"
+            data-type="image"
+            data-category="countries"
+            data-search="japan country culture asia flag history"
+        >
+
+            <div class="media-content">
+
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/en/9/9e/Flag_of_Japan.svg"
+                    alt="Flag of Japan"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <div class="media-info">
+
+                <span class="media-type">
+                    Image
+                </span>
+
+                <h3>
+                    World Cultures
+                </h3>
+
+                <p>
+                    Explore countries and their cultural heritage.
+                </p>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         VIDEO GALLERY
+    ====================================================== -->
+
+    <section>
+
+        <h2 class="section-title">
+            🎬 Historical Videos
+        </h2>
+
+
+        <div
+            class="media-grid"
+            id="videoGrid"
+        >
+
+
+            <!-- VIDEO 1 -->
+
+            <article
+                class="media-card"
+                data-type="video"
+                data-category="history"
+                data-search="history ancient civilization documentary video"
+            >
+
+                <div class="media-content">
+
+                    <span class="video-badge">
+                        ▶ VIDEO
+                    </span>
+
+                    <video
+                        controls
+                        preload="metadata"
+                        poster=""
+                    >
+                        <source
+                            src=""
+                            type="video/mp4"
+                        >
+
+                        Your browser does not support
+                        HTML5 video.
+                    </video>
+
+                </div>
+
+                <div class="media-info">
+
+                    <span class="media-type">
+                        Video
+                    </span>
+
+                    <h3>
+                        Historical Video
+                    </h3>
+
+                    <p>
+                        Video slot ready for historical
+                        documentaries and educational content.
+                    </p>
+
+                </div>
+
             </article>
 
-        </div>
 
+            <!-- VIDEO 2 -->
 
-        <!-- =================================================
-             RELATED SECTIONS
-        ================================================== -->
-        <div class="grid">
+            <article
+                class="media-card"
+                data-type="video"
+                data-category="heritage"
+                data-search="heritage monument culture documentary video"
+            >
 
-            <a class="card" href="countries.html">
-                <h3>World Countries</h3>
-                <p>
-                    Explore countries and their history.
-                </p>
-            </a>
+                <div class="media-content">
 
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
-                <p>
-                    Discover ancient and historic civilizations.
-                </p>
-            </a>
+                    <span class="video-badge">
+                        ▶ VIDEO
+                    </span>
 
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
-                <p>
-                    Explore historical heritage and important sites.
-                </p>
-            </a>
+                    <video
+                        controls
+                        preload="metadata"
+                    >
+                        <source
+                            src=""
+                            type="video/mp4"
+                        >
 
-            <a class="card" href="timeline.html">
-                <h3>Timeline</h3>
-                <p>
-                    Explore historical events through time.
-                </p>
-            </a>
+                        Your browser does not support
+                        HTML5 video.
+                    </video>
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
-            </a>
+                </div>
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge across HistoryVerse.
-                </p>
-            </a>
+                <div class="media-info">
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the knowledge library.
-                </p>
-            </a>
+                    <span class="media-type">
+                        Video
+                    </span>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
-            </a>
+                    <h3>
+                        Heritage Documentary
+                    </h3>
+
+                    <p>
+                        Video slot for monuments, heritage
+                        places and cultural history.
+                    </p>
+
+                </div>
+
+            </article>
+
 
         </div>
 
@@ -198,25 +1025,398 @@
 
 
     <!-- =====================================================
-         FOOTER
+         LOCAL MEDIA PREVIEW
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <section class="upload-section">
 
-        • <a href="../index.html">Home</a>
+        <h2>
+            ➕ Add Image or Video Preview
+        </h2>
 
-    </footer>
+        <p>
+            Select an image or video from your device to
+            preview it here. This preview is local to your
+            browser and is not automatically uploaded to
+            the website.
+        </p>
+
+
+        <div class="upload-controls">
+
+            <label
+                class="upload-label"
+                for="mediaInput"
+            >
+                📁 Choose Image / Video
+            </label>
+
+            <button
+                class="clear-button"
+                type="button"
+                id="clearPreview"
+            >
+                Clear Preview
+            </button>
+
+        </div>
+
+
+        <input
+            type="file"
+            id="mediaInput"
+            accept="image/*,video/*"
+            multiple
+        >
+
+
+        <div
+            class="local-preview"
+            id="localPreview"
+        ></div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INFORMATION
+    ====================================================== -->
+
+    <section class="info-box">
+
+        <h2>
+            About the Gallery
+        </h2>
+
+        <p>
+            The ALON HISTORYVERSE 24 Gallery is designed
+            for historical images and videos. New media can
+            later be connected to the Article Management
+            System so that administrators and contributors
+            can add, edit and manage gallery content.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         BOTTOM NAVIGATION
+    ====================================================== -->
+
+    <nav
+        class="bottom-nav"
+        aria-label="Gallery navigation"
+    >
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="./discover.html">
+            Discover
+        </a>
+
+        <a href="./categories.html">
+            Categories
+        </a>
+
+        <a href="./articles.html">
+            Articles
+        </a>
+
+        <a href="./countries.html">
+            Countries
+        </a>
+
+        <a href="./heritage.html">
+            Heritage
+        </a>
+
+        <a href="./library.html">
+            Library
+        </a>
+
+    </nav>
 
 </main>
 
 
 <!-- =========================================================
-     CORE V100 SCRIPTS
+     GALLERY JAVASCRIPT
 ========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/explore.js"></script>
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const searchInput =
+        document.getElementById("gallerySearch");
+
+    const filterButtons =
+        Array.from(
+            document.querySelectorAll(".filter-button")
+        );
+
+    const mediaCards =
+        Array.from(
+            document.querySelectorAll(".media-card")
+        );
+
+    let currentFilter = "all";
+
+
+    /* =====================================================
+       FILTER + SEARCH
+    ====================================================== */
+
+    function updateGallery() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        mediaCards.forEach(function (card) {
+
+            const type =
+                card.dataset.type || "";
+
+            const category =
+                card.dataset.category || "";
+
+            const searchableText =
+                (
+                    card.textContent +
+                    " " +
+                    (card.dataset.search || "")
+                ).toLowerCase();
+
+
+            const filterMatch =
+                currentFilter === "all" ||
+                currentFilter === type ||
+                currentFilter === category;
+
+
+            const searchMatch =
+                query === "" ||
+                searchableText.includes(query);
+
+
+            card.style.display =
+                filterMatch && searchMatch
+                    ? "block"
+                    : "none";
+
+        });
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        updateGallery
+    );
+
+
+    /* =====================================================
+       FILTER BUTTONS
+    ====================================================== */
+
+    filterButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                filterButtons.forEach(function (item) {
+
+                    item.classList.remove("active");
+
+                });
+
+
+                button.classList.add("active");
+
+
+                currentFilter =
+                    button.dataset.filter || "all";
+
+
+                updateGallery();
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       LOCAL IMAGE / VIDEO PREVIEW
+    ====================================================== */
+
+    const mediaInput =
+        document.getElementById("mediaInput");
+
+    const localPreview =
+        document.getElementById("localPreview");
+
+    const clearPreview =
+        document.getElementById("clearPreview");
+
+
+    function clearObjectURLs() {
+
+        const elements =
+            localPreview.querySelectorAll(
+                "[data-object-url]"
+            );
+
+
+        elements.forEach(function (element) {
+
+            URL.revokeObjectURL(
+                element.dataset.objectUrl
+            );
+
+        });
+
+    }
+
+
+    mediaInput.addEventListener(
+        "change",
+        function () {
+
+            clearObjectURLs();
+
+            localPreview.innerHTML = "";
+
+            const files =
+                Array.from(mediaInput.files || []);
+
+
+            if (!files.length) {
+
+                localPreview.style.display = "none";
+
+                return;
+            }
+
+
+            files.forEach(function (file) {
+
+                const url =
+                    URL.createObjectURL(file);
+
+
+                const wrapper =
+                    document.createElement("div");
+
+                wrapper.className =
+                    "preview-item";
+
+
+                let media;
+
+
+                if (
+                    file.type.startsWith("image/")
+                ) {
+
+                    media =
+                        document.createElement("img");
+
+                    media.alt =
+                        file.name;
+
+                }
+
+                else if (
+                    file.type.startsWith("video/")
+                ) {
+
+                    media =
+                        document.createElement("video");
+
+                    media.controls = true;
+                    media.preload = "metadata";
+
+                }
+
+                else {
+
+                    return;
+
+                }
+
+
+                media.src = url;
+
+                media.dataset.objectUrl = url;
+
+
+                const name =
+                    document.createElement("div");
+
+                name.className =
+                    "preview-name";
+
+                name.textContent =
+                    file.name;
+
+
+                wrapper.appendChild(media);
+
+                wrapper.appendChild(name);
+
+                localPreview.appendChild(wrapper);
+
+            });
+
+
+            localPreview.style.display =
+                localPreview.children.length
+                    ? "grid"
+                    : "none";
+
+        }
+    );
+
+
+    /* =====================================================
+       CLEAR LOCAL PREVIEW
+    ====================================================== */
+
+    clearPreview.addEventListener(
+        "click",
+        function () {
+
+            clearObjectURLs();
+
+            localPreview.innerHTML = "";
+
+            localPreview.style.display =
+                "none";
+
+            mediaInput.value = "";
+
+        }
+    );
+
+
+})();
+
+</script>
 
 </body>
+
 </html>

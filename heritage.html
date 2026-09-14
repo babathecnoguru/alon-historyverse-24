@@ -1,202 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Heritage • ALON HISTORYVERSE 24</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Heritage & Culture • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="Explore world heritage, historical monuments, ancient cities, forts, cultural traditions and important heritage sites."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           HERITAGE & CULTURE PAGE
+        ====================================================== */
+
+        .heritage-page {
+            width: 100%;
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .heritage-hero {
+            padding: 35px 20px;
+            margin-bottom: 24px;
+            text-align: center;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 20px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(215,179,90,0.10),
+                    rgba(5,8,15,0.96)
+                );
+        }
+
+        .heritage-hero h1 {
+            margin: 0 0 12px;
+            font-size: clamp(30px, 6vw, 52px);
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .heritage-hero p {
+            max-width: 850px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 16px;
+            opacity: 0.92;
+        }
+
+        .heritage-search {
+            margin: 22px auto 0;
+            max-width: 700px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .heritage-search input {
+            flex: 1;
+            min-width: 0;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,0.45);
+            background: #080d16;
+            color: #ffffff;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .heritage-search button {
+            padding: 14px 20px;
+            border: 1px solid #d7b35a;
+            border-radius: 12px;
+            background: #d7b35a;
+            color: #05080f;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .heritage-search button:hover {
+            background: #f0d27a;
+        }
+
+        .heritage-section {
+            margin-bottom: 30px;
+        }
+
+        .heritage-section-title {
+            margin: 0 0 16px;
+            color: #f0d27a;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+        }
+
+        .heritage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .heritage-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 22px;
+            border: 1px solid rgba(215,179,90,0.28);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.025);
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .heritage-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(240,210,122,0.75);
+            background: rgba(215,179,90,0.07);
+        }
+
+        .heritage-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(215,179,90,0.35);
+            background: rgba(215,179,90,0.08);
+            font-size: 27px;
+        }
+
+        .heritage-card h3 {
+            margin: 0 0 9px;
+            color: #f0d27a;
+            font-size: 20px;
+        }
+
+        .heritage-card p {
+            margin: 0;
+            line-height: 1.65;
+            font-size: 14px;
+            opacity: 0.88;
+        }
+
+        .heritage-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 15px;
+        }
+
+        .heritage-tag {
+            padding: 5px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(215,179,90,0.3);
+            font-size: 12px;
+            color: #f0d27a;
+            background: rgba(215,179,90,0.06);
+        }
+
+        .heritage-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .heritage-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 17px;
+            border: 1px solid rgba(215,179,90,0.22);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.02);
+            text-decoration: none;
+            color: inherit;
+            transition: 0.2s ease;
+        }
+
+        .heritage-row:hover {
+            border-color: rgba(240,210,122,0.7);
+            background: rgba(215,179,90,0.06);
+            transform: translateX(3px);
+        }
+
+        .heritage-row-icon {
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(215,179,90,0.08);
+            border: 1px solid rgba(215,179,90,0.28);
+            font-size: 23px;
+        }
+
+        .heritage-row-content {
+            flex: 1;
+        }
+
+        .heritage-row-content strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #f0d27a;
+        }
+
+        .heritage-row-content span {
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.82;
+        }
+
+        .heritage-arrow {
+            color: #f0d27a;
+            font-size: 20px;
+        }
+
+        .heritage-timeline {
+            position: relative;
+            display: grid;
+            gap: 16px;
+        }
+
+        .heritage-era {
+            padding: 20px;
+            border-left: 3px solid #d7b35a;
+            border-radius: 0 15px 15px 0;
+            background: rgba(215,179,90,0.045);
+        }
+
+        .heritage-era h3 {
+            margin: 0 0 8px;
+            color: #f0d27a;
+        }
+
+        .heritage-era p {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .heritage-note {
+            padding: 20px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 16px;
+            background: rgba(215,179,90,0.055);
+            line-height: 1.7;
+        }
+
+        .heritage-note strong {
+            color: #f0d27a;
+        }
+
+        .heritage-bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 35px 0 15px;
+        }
+
+        .heritage-bottom-nav a {
+            display: inline-block;
+            padding: 10px 15px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 10px;
+            text-decoration: none;
+            color: #f0d27a;
+            background: rgba(255,255,255,0.025);
+        }
+
+        .heritage-bottom-nav a:hover {
+            background: rgba(215,179,90,0.09);
+            border-color: #d7b35a;
+        }
+
+        .no-results {
+            display: none;
+            padding: 22px;
+            text-align: center;
+            border: 1px dashed rgba(215,179,90,0.35);
+            border-radius: 15px;
+            color: #f0d27a;
+        }
+
+        @media (max-width: 900px) {
+
+            .heritage-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 620px) {
+
+            .heritage-page {
+                padding: 14px;
+            }
+
+            .heritage-hero {
+                padding: 28px 15px;
+            }
+
+            .heritage-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .heritage-search {
+                flex-direction: column;
+            }
+
+            .heritage-search button {
+                width: 100%;
+            }
+
+            .heritage-row {
+                padding: 14px;
+            }
+
+            .heritage-arrow {
+                display: none;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
-
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="page-header">
-
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
-
-        <h1>Heritage</h1>
-
-        <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
-        </p>
-
-    </header>
+<main class="heritage-page">
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         HERO
     ====================================================== -->
-    <section class="content">
 
-        <h2>Heritage</h2>
+    <section class="heritage-hero">
+
+        <h1>🏛️ Heritage & Culture</h1>
 
         <p>
-            Explore the world's historical and cultural heritage,
-            including monuments, ancient sites, historic cities,
-            architecture, traditions and important heritage places.
+            Explore the world's historical monuments, ancient cities,
+            forts, archaeological sites, cultural traditions, sacred
+            places and living heritage through ALON HISTORYVERSE 24.
         </p>
 
-
-        <!-- =================================================
-             HERITAGE SEARCH
-        ================================================== -->
-        <div class="search-box">
-
-            <label for="heritage-search">
-                Search Heritage
-            </label>
+        <form
+            class="heritage-search"
+            id="heritageSearchForm"
+        >
 
             <input
                 type="search"
-                id="heritage-search"
-                name="heritage-search"
-                placeholder="Search heritage sites..."
+                id="heritageSearch"
+                placeholder="Search heritage, monument, culture, fort..."
                 autocomplete="off"
             >
 
-        </div>
-
-
-        <!-- =================================================
-             HERITAGE CATEGORIES
-        ================================================== -->
-        <div class="grid">
-
-            <button
-                type="button"
-                class="card heritage-filter"
-                data-heritage-filter="all"
-            >
-                <h3>All Heritage</h3>
-                <p>
-                    Explore all available heritage content.
-                </p>
+            <button type="submit">
+                Search
             </button>
 
-            <button
-                type="button"
-                class="card heritage-filter"
-                data-heritage-filter="monuments"
-            >
-                <h3>Monuments</h3>
-                <p>
-                    Explore historic monuments and structures.
-                </p>
-            </button>
+        </form>
 
-            <button
-                type="button"
-                class="card heritage-filter"
-                data-heritage-filter="cities"
-            >
-                <h3>Historic Cities</h3>
-                <p>
-                    Discover cities with historical importance.
-                </p>
-            </button>
-
-            <button
-                type="button"
-                class="card heritage-filter"
-                data-heritage-filter="culture"
-            >
-                <h3>Cultural Heritage</h3>
-                <p>
-                    Explore traditions, culture and living heritage.
-                </p>
-            </button>
-
-        </div>
+    </section>
 
 
-        <!-- =================================================
-             HERITAGE LIST
-        ================================================== -->
+    <!-- =====================================================
+         HERITAGE CATEGORIES
+    ====================================================== -->
+
+    <section class="heritage-section">
+
+        <h2 class="heritage-section-title">
+            Heritage Categories
+        </h2>
+
         <div
-            id="heritage-list"
-            class="grid"
-            aria-live="polite"
+            class="heritage-grid"
+            id="heritageGrid"
         >
 
-            <article class="card heritage-item">
-                <h3>Heritage Explorer</h3>
+
+            <a
+                class="heritage-card"
+                href="./civilizations.html"
+                data-search="ancient civilizations archaeological heritage"
+            >
+
+                <div class="heritage-icon">🏺</div>
+
+                <h3>Ancient Civilizations</h3>
 
                 <p>
-                    Heritage content will appear here through
-                    the ALON HISTORYVERSE 24 data system.
+                    Explore the heritage of ancient civilizations,
+                    archaeological cultures and early societies.
                 </p>
-            </article>
+
+                <div class="heritage-meta">
+                    <span class="heritage-tag">Ancient</span>
+                    <span class="heritage-tag">Archaeology</span>
+                </div>
+
+            </a>
+
+
+            <a
+                class="heritage-card"
+                href="./heritage.html"
+                data-search="historical monuments monuments heritage"
+            >
+
+                <div class="heritage-icon">🏛️</div>
+
+                <h3>Historical Monuments</h3>
+
+                <p>
+                    Discover famous monuments, architectural landmarks
+                    and places connected with important historical events.
+                </p>
+
+                <div class="heritage-meta">
+                    <span class="heritage-tag">Architecture</span>
+                    <span class="heritage-tag">History</span>
+                </div>
+
+            </a>
+
+
+            <a
+                class="heritage-card"
+                href="./heritage.html"
+                data-search="fort forts castles palace fortress"
+            >
+
+                <div class="heritage-icon">🏰</div>
+
+                <h3>Forts & Castles</h3>
+
+                <p>
+                    Learn about historic forts, castles, defensive walls,
+                    royal residences and military architecture.
+                </p>
+
+                <div class="heritage-meta">
+                    <span class="heritage-tag">Forts</span>
+                    <span class="heritage-tag">Royal History</span>
+                </div>
+
+            </a>
+
+
+            <a
+                class="heritage-card"
+                href="./heritage.html"
+                data-search="ancient cities old cities historical cities"
+            >
+
+                <div class="heritage-icon">🏙️</div>
+
+                <h3>Ancient & Historic Cities</h3>
+
+                <p>
+                    Explore old cities, historic settlements, trading
+                    centers and cities that shaped civilizations.
+                </p>
+
+                <div class="heritage-meta">
+                    <span class="heritage-tag">Cities</span>
+                    <span class="heritage-tag">Settlements</span>
+                </div>
+
+            </a>
+
+
+            <a
+                class="heritage-card"
+                href="./heritage.html"
+                data-search="culture traditions customs festival language"
+            >
+
+                <div class="heritage-icon">🎭</div>
+
+                <h3>Culture & Traditions</h3>
+
+                <p>
+                    Discover traditional customs, languages, festivals,
+                    arts, crafts, clothing, food and cultural practices.
+                </p>
+
+                <div class="heritage-meta">
+                    <span class="heritage-tag">Culture</span>
+                    <span class="heritage-tag">Traditions</span>
+                </div>
+
+            </a>
+
+
+            <a
+                class="heritage-card"
+                href="./heritage.html"
+                data-search="sacred religious heritage temples mosques churches"
+            >
+
+                <div class="heritage-icon">🕌</div>
+
+                <h3>Sacred Heritage</h3>
+
+                <p>
+                    Explore historically significant temples, mosques,
+                    churches, monasteries and other sacred places.
+                </p>
+
+                <div class="heritage-meta">
+                    <span class="heritage-tag">Sacred Sites</span>
+                    <span class="heritage-tag">Architecture</span>
+                </div>
+
+            </a>
 
         </div>
 
+        <div
+            class="no-results"
+            id="noResults"
+        >
+            No matching heritage topic was found.
+        </div>
 
-        <!-- =================================================
-             RELATED SECTIONS
-        ================================================== -->
-        <div class="grid">
+    </section>
 
-            <a class="card" href="countries.html">
-                <h3>World Countries</h3>
-                <p>
-                    Explore countries and their historical heritage.
-                </p>
+
+    <!-- =====================================================
+         WORLD HERITAGE HIGHLIGHTS
+    ====================================================== -->
+
+    <section class="heritage-section">
+
+        <h2 class="heritage-section-title">
+            🌍 World Heritage Highlights
+        </h2>
+
+        <div class="heritage-list">
+
+
+            <a
+                class="heritage-row"
+                href="./country.html?country=india"
+            >
+
+                <div class="heritage-row-icon">🇮🇳</div>
+
+                <div class="heritage-row-content">
+
+                    <strong>India</strong>
+
+                    <span>
+                        Ancient temples, forts, historic cities,
+                        archaeological sites and diverse living traditions.
+                    </span>
+
+                </div>
+
+                <div class="heritage-arrow">›</div>
+
             </a>
 
-            <a class="card" href="civilizations.html">
-                <h3>Civilizations</h3>
-                <p>
-                    Explore civilizations and their cultural legacy.
-                </p>
+
+            <a
+                class="heritage-row"
+                href="./country.html?country=italy"
+            >
+
+                <div class="heritage-row-icon">🇮🇹</div>
+
+                <div class="heritage-row-content">
+
+                    <strong>Italy</strong>
+
+                    <span>
+                        Roman heritage, Renaissance architecture,
+                        historic cities and archaeological landmarks.
+                    </span>
+
+                </div>
+
+                <div class="heritage-arrow">›</div>
+
             </a>
 
-            <a class="card" href="gallery.html">
-                <h3>Historical Gallery</h3>
-                <p>
-                    Explore historical visual records.
-                </p>
+
+            <a
+                class="heritage-row"
+                href="./country.html?country=china"
+            >
+
+                <div class="heritage-row-icon">🇨🇳</div>
+
+                <div class="heritage-row-content">
+
+                    <strong>China</strong>
+
+                    <span>
+                        Imperial heritage, ancient cities, historic
+                        architecture and major archaeological discoveries.
+                    </span>
+
+                </div>
+
+                <div class="heritage-arrow">›</div>
+
             </a>
 
-            <a class="card" href="timeline.html">
-                <h3>Timeline</h3>
-                <p>
-                    Explore historical periods and events.
-                </p>
+
+            <a
+                class="heritage-row"
+                href="./country.html?country=japan"
+            >
+
+                <div class="heritage-row-icon">🇯🇵</div>
+
+                <div class="heritage-row-content">
+
+                    <strong>Japan</strong>
+
+                    <span>
+                        Historic temples, castles, gardens, traditional
+                        architecture and cultural practices.
+                    </span>
+
+                </div>
+
+                <div class="heritage-arrow">›</div>
+
             </a>
 
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read historical and educational articles.
-                </p>
+
+            <a
+                class="heritage-row"
+                href="./country.html?country=france"
+            >
+
+                <div class="heritage-row-icon">🇫🇷</div>
+
+                <div class="heritage-row-content">
+
+                    <strong>France</strong>
+
+                    <span>
+                        Medieval towns, royal heritage, monuments,
+                        cathedrals and historic cultural landscapes.
+                    </span>
+
+                </div>
+
+                <div class="heritage-arrow">›</div>
+
             </a>
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more knowledge across HistoryVerse.
-                </p>
-            </a>
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the knowledge library.
-                </p>
-            </a>
+            <a
+                class="heritage-row"
+                href="./country.html?country=united-kingdom"
+            >
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
+                <div class="heritage-row-icon">🇬🇧</div>
+
+                <div class="heritage-row-content">
+
+                    <strong>United Kingdom</strong>
+
+                    <span>
+                        Castles, historic cities, royal sites,
+                        archaeological landscapes and cultural traditions.
+                    </span>
+
+                </div>
+
+                <div class="heritage-arrow">›</div>
+
             </a>
 
         </div>
@@ -205,27 +707,345 @@
 
 
     <!-- =====================================================
-         FOOTER
+         HERITAGE TYPES
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <section class="heritage-section">
 
-        • <a href="../index.html">Home</a>
+        <h2 class="heritage-section-title">
+            🧭 Types of Heritage
+        </h2>
 
-    </footer>
+        <div class="heritage-grid">
+
+
+            <div class="heritage-card">
+
+                <div class="heritage-icon">🏛️</div>
+
+                <h3>Built Heritage</h3>
+
+                <p>
+                    Buildings, monuments, forts, palaces, bridges,
+                    historic streets and architectural landmarks.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-card">
+
+                <div class="heritage-icon">🏺</div>
+
+                <h3>Archaeological Heritage</h3>
+
+                <p>
+                    Excavated settlements, ruins, artifacts,
+                    ancient structures and archaeological landscapes.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-card">
+
+                <div class="heritage-icon">🎶</div>
+
+                <h3>Intangible Heritage</h3>
+
+                <p>
+                    Oral traditions, music, dance, rituals, festivals,
+                    craftsmanship and traditional knowledge.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-card">
+
+                <div class="heritage-icon">🌳</div>
+
+                <h3>Natural Heritage</h3>
+
+                <p>
+                    Important natural landscapes, forests, mountains,
+                    ecosystems and places with historical significance.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-card">
+
+                <div class="heritage-icon">📜</div>
+
+                <h3>Documentary Heritage</h3>
+
+                <p>
+                    Manuscripts, inscriptions, historical documents,
+                    maps, records and other preserved knowledge.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-card">
+
+                <div class="heritage-icon">🧵</div>
+
+                <h3>Living Heritage</h3>
+
+                <p>
+                    Cultural practices and traditions that continue
+                    to be practiced and passed between generations.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HERITAGE THROUGH TIME
+    ====================================================== -->
+
+    <section class="heritage-section">
+
+        <h2 class="heritage-section-title">
+            ⏳ Heritage Through Time
+        </h2>
+
+        <div class="heritage-timeline">
+
+
+            <div class="heritage-era">
+
+                <h3>Prehistoric & Early Human Heritage</h3>
+
+                <p>
+                    Cave art, early settlements, tools, burial sites
+                    and other evidence of humanity's earliest societies.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-era">
+
+                <h3>Ancient Heritage</h3>
+
+                <p>
+                    Temples, cities, inscriptions, monuments,
+                    roads, water systems and cultural traditions
+                    developed by ancient civilizations.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-era">
+
+                <h3>Medieval Heritage</h3>
+
+                <p>
+                    Forts, castles, palaces, religious buildings,
+                    medieval cities, trade routes and artistic traditions.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-era">
+
+                <h3>Early Modern Heritage</h3>
+
+                <p>
+                    Royal architecture, colonial-era buildings,
+                    trading centers, cultural exchanges and new artistic forms.
+                </p>
+
+            </div>
+
+
+            <div class="heritage-era">
+
+                <h3>Modern Heritage</h3>
+
+                <p>
+                    Industrial sites, historic public buildings,
+                    important political locations and places connected
+                    with modern historical events.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PRESERVATION
+    ====================================================== -->
+
+    <section class="heritage-section">
+
+        <div class="heritage-note">
+
+            <strong>🛡️ Why Heritage Preservation Matters</strong>
+
+            <p>
+                Heritage connects present generations with the people,
+                ideas, technologies, traditions and societies of the past.
+                Preserving historical places, objects and cultural practices
+                helps future generations understand how civilizations developed.
+            </p>
+
+            <p>
+                ALON HISTORYVERSE 24 presents heritage information as an
+                educational knowledge resource. Historical information should
+                be checked against reliable references, archaeological evidence,
+                official records and credible historical research.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="heritage-bottom-nav">
+
+        <a href="../index.html">
+            🏠 Home
+        </a>
+
+        <a href="./discover.html">
+            🔎 Discover
+        </a>
+
+        <a href="./civilizations.html">
+            🏺 Civilizations
+        </a>
+
+        <a href="./countries.html">
+            🌍 Countries
+        </a>
+
+        <a href="./timeline.html">
+            ⏳ Timeline
+        </a>
+
+        <a href="./gallery.html">
+            🖼️ Gallery
+        </a>
+
+        <a href="./articles.html">
+            📰 Articles
+        </a>
+
+        <a href="./library.html">
+            📚 Library
+        </a>
+
+    </nav>
+
 
 </main>
 
 
-<!-- =========================================================
-     CORE V100 SCRIPTS
-========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
+<!-- =====================================================
+     SEARCH SCRIPT
+====================================================== -->
 
-<!-- Heritage / Exploration Engine -->
-<script src="../jss/explore.js"></script>
+<script>
+
+    (function () {
+
+        const searchInput =
+            document.getElementById("heritageSearch");
+
+        const searchForm =
+            document.getElementById("heritageSearchForm");
+
+        const cards =
+            Array.from(
+                document.querySelectorAll(
+                    "#heritageGrid .heritage-card"
+                )
+            );
+
+        const noResults =
+            document.getElementById("noResults");
+
+
+        function performSearch() {
+
+            const query =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+            let visibleCount = 0;
+
+
+            cards.forEach(function (card) {
+
+                const text =
+                    (
+                        card.textContent +
+                        " " +
+                        (card.dataset.search || "")
+                    ).toLowerCase();
+
+                const match =
+                    query === "" ||
+                    text.includes(query);
+
+                card.style.display =
+                    match ? "" : "none";
+
+                if (match) {
+                    visibleCount++;
+                }
+
+            });
+
+
+            noResults.style.display =
+                visibleCount === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+
+        searchInput.addEventListener(
+            "input",
+            performSearch
+        );
+
+
+        searchForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+                performSearch();
+
+            }
+        );
+
+    })();
+
+</script>
 
 </body>
+
 </html>

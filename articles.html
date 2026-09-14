@@ -1,157 +1,1757 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Articles • ALON HISTORYVERSE 24</title>
 
-<!-- Global stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-</head><body><main class="page">
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Articles — History, Civilizations, Countries, Heritage, Culture and Knowledge."
+    >
 
-    <!-- =========================
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <title>Articles • ALON HISTORYVERSE 24</title>
+
+    <!-- GLOBAL STYLE -->
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           ARTICLES CENTER
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #f1f1f1;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        .articles-page {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .articles-header {
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            background: rgba(10, 15, 25, 0.95);
+        }
+
+        .articles-header h1 {
+            margin: 0 0 8px;
+            color: #f0d27a;
+            font-size: 32px;
+        }
+
+        .articles-header p {
+            margin: 0;
+            color: #c9c9c9;
+            line-height: 1.7;
+        }
+
+        .creator {
+            margin-top: 12px;
+            color: #d7b35a;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           TOOLBAR
+        ===================================================== */
+
+        .articles-toolbar {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .articles-toolbar input,
+        .articles-toolbar select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            background: #0a0f18;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .articles-toolbar input:focus,
+        .articles-toolbar select:focus {
+            border-color: #f0d27a;
+        }
+
+        /* =====================================================
+           ACTION BAR
+        ===================================================== */
+
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(215, 179, 90, 0.55);
+            background: #0b111c;
+            color: #f0d27a;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(215, 179, 90, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .action-btn.primary {
+            background: #d7b35a;
+            color: #05080f;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .articles-status {
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(215, 179, 90, 0.3);
+            background: #090e17;
+            color: #cfcfcf;
+        }
+
+        .articles-status strong {
+            color: #f0d27a;
+        }
+
+        /* =====================================================
+           ARTICLE GRID
+        ===================================================== */
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .article-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid rgba(215, 179, 90, 0.38);
+            border-radius: 18px;
+            background: #0a0f18;
+            transition: 0.2s ease;
+        }
+
+        .article-card:hover {
+            border-color: #d7b35a;
+            transform: translateY(-3px);
+        }
+
+        .article-media {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    135deg,
+                    #0c1420,
+                    #05080f
+                );
+            border-bottom: 1px solid rgba(215, 179, 90, 0.25);
+        }
+
+        .article-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .media-placeholder {
+            text-align: center;
+            color: #a9a9a9;
+            padding: 20px;
+        }
+
+        .media-placeholder .icon {
+            display: block;
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .article-content {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .article-category {
+            display: inline-flex;
+            align-self: flex-start;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 20px;
+            color: #f0d27a;
+            font-size: 12px;
+        }
+
+        .article-title {
+            margin: 0 0 10px;
+            color: #ffffff;
+            font-size: 21px;
+            line-height: 1.35;
+        }
+
+        .article-description {
+            margin: 0 0 14px;
+            color: #bdbdbd;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 10px;
+            color: #9f9f9f;
+            font-size: 12px;
+        }
+
+        .media-badge {
+            color: #d7b35a;
+        }
+
+        /* =====================================================
+           CARD BUTTONS
+        ===================================================== */
+
+        .article-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .card-btn {
+            min-height: 40px;
+            padding: 9px 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            background: #0d1420;
+            color: #f0d27a;
+            cursor: pointer;
+        }
+
+        .card-btn:hover {
+            background: rgba(215, 179, 90, 0.12);
+        }
+
+        .card-btn.delete {
+            color: #ffb0b0;
+            border-color: rgba(255, 100, 100, 0.35);
+        }
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px 20px;
+            border: 1px dashed rgba(215, 179, 90, 0.4);
+            border-radius: 18px;
+            background: #090e17;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 52px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h2 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+        }
+
+        .empty-state p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           READ MODAL
+        ===================================================== */
+
+        .read-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            padding: 20px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.82);
+        }
+
+        .read-overlay.active {
+            display: block;
+        }
+
+        .read-box {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto;
+            border: 1px solid rgba(215, 179, 90, 0.5);
+            border-radius: 18px;
+            background: #080d15;
+            padding: 24px;
+        }
+
+        .read-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .read-top h2 {
+            margin: 0;
+            color: #f0d27a;
+            line-height: 1.35;
+        }
+
+        .close-read {
+            min-width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(215, 179, 90, 0.5);
+            background: #0c1320;
+            color: #f0d27a;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .read-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            background: #05080f;
+        }
+
+        .read-category {
+            color: #d7b35a;
+            margin-bottom: 12px;
+        }
+
+        .read-description {
+            color: #c9c9c9;
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .read-body {
+            color: #e2e2e2;
+            font-size: 17px;
+            line-height: 1.9;
+            white-space: pre-wrap;
+        }
+
+        .read-sources {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(215, 179, 90, 0.25);
+            color: #bdbdbd;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        .bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(215, 179, 90, 0.2);
+        }
+
+        .bottom-nav a {
+            padding: 10px 14px;
+            border: 1px solid rgba(215, 179, 90, 0.35);
+            border-radius: 10px;
+            color: #d7b35a;
+            background: #090e17;
+        }
+
+        .bottom-nav a:hover {
+            border-color: #f0d27a;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .article-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .articles-page {
+                padding: 12px;
+            }
+
+            .articles-header {
+                padding: 18px;
+            }
+
+            .articles-header h1 {
+                font-size: 25px;
+            }
+
+            .articles-toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .article-media {
+                height: 190px;
+            }
+
+            .read-box {
+                margin: 10px auto;
+                padding: 17px;
+            }
+
+            .read-top {
+                align-items: flex-start;
+            }
+
+            .read-top h2 {
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<main class="articles-page">
+
+    <!-- =====================================================
          HEADER
-    ========================== -->
-    <header class="page-header">
+    ====================================================== -->
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <header class="articles-header">
 
-        <h1>Articles</h1>
+        <h1>📰 Articles</h1>
 
         <p>
-            Explore historical knowledge, stories,
-            civilizations and discoveries.
+            Explore historical articles, civilizations, countries,
+            heritage, culture, timelines, biographies and educational
+            knowledge from ALON HISTORYVERSE 24.
         </p>
+
+        <div class="creator">
+            Created &amp; Managed by <strong>Baba Thecno Guru</strong>
+        </div>
 
     </header>
 
 
-    <!-- =========================
-         ARTICLES
-    ========================== -->
-    <section class="content">
+    <!-- =====================================================
+         SEARCH + FILTER
+    ====================================================== -->
 
-        <h2>ALON HISTORYVERSE 24 Articles</h2>
+    <section class="articles-toolbar">
 
-        <p>
-            Browse articles from different areas of
-            history, culture, heritage, civilization,
-            science and human knowledge.
-        </p>
-
-
-        <!-- =========================
-             SEARCH
-        ========================== -->
-        <div class="article-tools">
-
-            <label for="article-search">
-                Search Articles
-            </label>
-
-            <input
-                type="search"
-                id="article-search"
-                name="article-search"
-                placeholder="Search articles..."
-                autocomplete="off"
-            >
-
-        </div>
-
-
-        <!-- =========================
-             ARTICLE LIST
-        ========================== -->
-        <div
-            id="articles-list"
-            class="grid articles-grid"
-            aria-live="polite"
+        <input
+            type="search"
+            id="articleSearch"
+            placeholder="🔎 Search articles..."
+            autocomplete="off"
         >
 
-            <!--
-                Article cards will be generated
-                by ../jss/articles.js
-            -->
+        <select id="categoryFilter">
 
-            <p id="articles-loading">
-                Loading articles...
-            </p>
+            <option value="all">
+                All Categories
+            </option>
 
-        </div>
+            <option value="History">
+                History
+            </option>
 
+            <option value="Civilization">
+                Civilization
+            </option>
 
-        <!-- =========================
-             NAVIGATION
-        ========================== -->
-        <div class="grid">
+            <option value="Country">
+                Country
+            </option>
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Discover knowledge across
-                    ALON HISTORYVERSE 24.
-                </p>
-            </a>
+            <option value="Heritage">
+                Heritage
+            </option>
 
+            <option value="Culture">
+                Culture
+            </option>
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Explore the knowledge library.
-                </p>
-            </a>
+            <option value="Timeline">
+                Timeline
+            </option>
 
+            <option value="Biography">
+                Biography
+            </option>
 
-            <a class="card" href="timeline.html">
-                <h3>Timeline</h3>
-                <p>
-                    Explore history chronologically.
-                </p>
-            </a>
+            <option value="Educational">
+                Educational
+            </option>
 
+            <option value="Other">
+                Other
+            </option>
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
-                </p>
-            </a>
-
-        </div>
+        </select>
 
     </section>
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer class="footer">
+    <!-- =====================================================
+         ACTIONS
+    ====================================================== -->
 
-        <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
-        </p>
+    <div class="action-bar">
 
-        <a href="../index.html">
-            Home
+        <a
+            class="action-btn primary"
+            href="./article.html"
+        >
+            ✍️ Write Article
         </a>
 
-    </footer>
+        <a
+            class="action-btn"
+            href="./library.html"
+        >
+            📚 Library
+        </a>
+
+        <a
+            class="action-btn"
+            href="./gallery.html"
+        >
+            🖼️ Gallery
+        </a>
+
+        <a
+            class="action-btn"
+            href="./contribute.html"
+        >
+            🤝 Contribute
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATUS
+    ====================================================== -->
+
+    <div
+        class="articles-status"
+        id="articlesStatus"
+    >
+        Loading articles...
+    </div>
+
+
+    <!-- =====================================================
+         ARTICLE GRID
+    ====================================================== -->
+
+    <section
+        class="article-grid"
+        id="articleGrid"
+    ></section>
+
+
+    <!-- =====================================================
+         BOTTOM NAV
+    ====================================================== -->
+
+    <nav class="bottom-nav">
+
+        <a href="../index.html">
+            🏠 Home
+        </a>
+
+        <a href="./discover.html">
+            🔎 Discover
+        </a>
+
+        <a href="./library.html">
+            📚 Library
+        </a>
+
+        <a href="./countries.html">
+            🌍 Countries
+        </a>
+
+        <a href="./civilizations.html">
+            🏛️ Civilizations
+        </a>
+
+        <a href="./heritage.html">
+            🏺 Heritage
+        </a>
+
+        <a href="./timeline.html">
+            ⏳ Timeline
+        </a>
+
+    </nav>
 
 </main>
 
 
-<!-- =========================
-     CORE SYSTEM
-========================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
+<!-- =========================================================
+     READ ARTICLE OVERLAY
+========================================================= -->
 
-<!-- Articles engine -->
-<script src="../jss/articles.js"></script>
+<div
+    class="read-overlay"
+    id="readOverlay"
+>
+
+    <article class="read-box">
+
+        <div class="read-top">
+
+            <h2 id="readTitle">
+                Article
+            </h2>
+
+            <button
+                class="close-read"
+                id="closeRead"
+                type="button"
+                aria-label="Close article"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="read-category"
+            id="readCategory"
+        ></div>
+
+
+        <img
+            id="readImage"
+            class="read-image"
+            alt="Article image"
+            style="display:none;"
+        >
+
+
+        <div
+            class="read-description"
+            id="readDescription"
+        ></div>
+
+
+        <div
+            class="read-body"
+            id="readBody"
+        ></div>
+
+
+        <div
+            class="read-sources"
+            id="readSources"
+            style="display:none;"
+        ></div>
+
+    </article>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       ALON HISTORYVERSE 24
+       ARTICLES ENGINE
+    ===================================================== */
+
+    "use strict";
+
+
+    /* =====================================================
+       STORAGE KEY
+    ===================================================== */
+
+    const ARTICLES_STORAGE_KEY =
+        "alon_historyverse_articles";
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const articleGrid =
+        document.getElementById("articleGrid");
+
+    const articleSearch =
+        document.getElementById("articleSearch");
+
+    const categoryFilter =
+        document.getElementById("categoryFilter");
+
+    const articlesStatus =
+        document.getElementById("articlesStatus");
+
+    const readOverlay =
+        document.getElementById("readOverlay");
+
+    const closeRead =
+        document.getElementById("closeRead");
+
+    const readTitle =
+        document.getElementById("readTitle");
+
+    const readCategory =
+        document.getElementById("readCategory");
+
+    const readImage =
+        document.getElementById("readImage");
+
+    const readDescription =
+        document.getElementById("readDescription");
+
+    const readBody =
+        document.getElementById("readBody");
+
+    const readSources =
+        document.getElementById("readSources");
+
+
+    /* =====================================================
+       HTML ESCAPE
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        const text =
+            value === null ||
+            value === undefined
+                ? ""
+                : String(value);
+
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =====================================================
+       LOAD ARTICLES
+    ===================================================== */
+
+    function loadArticles() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    ARTICLES_STORAGE_KEY
+                );
+
+            if (!saved) {
+                return [];
+            }
+
+            const parsed =
+                JSON.parse(saved);
+
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "Unable to load articles:",
+                error
+            );
+
+            return [];
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SAVE ARTICLES
+    ===================================================== */
+
+    function saveArticles(articles) {
+
+        try {
+
+            localStorage.setItem(
+                ARTICLES_STORAGE_KEY,
+                JSON.stringify(articles)
+            );
+
+            return true;
+
+        } catch (error) {
+
+            console.error(
+                "Unable to save articles:",
+                error
+            );
+
+            alert(
+                "Articles could not be saved in this browser."
+            );
+
+            return false;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FORMAT DATE
+    ===================================================== */
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "";
+        }
+
+        const date =
+            new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return "";
+        }
+
+        return date.toLocaleDateString(
+            undefined,
+            {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       GET ARTICLE IMAGE
+       Supports future media structures.
+    ===================================================== */
+
+    function getArticleImage(article) {
+
+        if (!article) {
+            return "";
+        }
+
+        if (
+            typeof article.image === "string" &&
+            article.image.trim()
+        ) {
+            return article.image;
+        }
+
+        if (
+            Array.isArray(article.images) &&
+            article.images.length > 0
+        ) {
+
+            const first =
+                article.images[0];
+
+            if (typeof first === "string") {
+                return first;
+            }
+
+            if (
+                first &&
+                typeof first.url === "string"
+            ) {
+                return first.url;
+            }
+
+        }
+
+        return "";
+
+    }
+
+
+    /* =====================================================
+       GET ARTICLE VIDEO COUNT
+    ===================================================== */
+
+    function getVideoCount(article) {
+
+        if (!article) {
+            return 0;
+        }
+
+        if (
+            Array.isArray(article.videos)
+        ) {
+            return article.videos.length;
+        }
+
+        if (
+            article.video
+        ) {
+            return 1;
+        }
+
+        return 0;
+
+    }
+
+
+    /* =====================================================
+       FILTER ARTICLES
+    ===================================================== */
+
+    function getFilteredArticles() {
+
+        const articles =
+            loadArticles();
+
+        const search =
+            articleSearch.value
+                .trim()
+                .toLowerCase();
+
+        const category =
+            categoryFilter.value;
+
+
+        return articles.filter(
+            function(article) {
+
+                const title =
+                    String(
+                        article.title || ""
+                    ).toLowerCase();
+
+                const description =
+                    String(
+                        article.description || ""
+                    ).toLowerCase();
+
+                const content =
+                    String(
+                        article.content || ""
+                    ).toLowerCase();
+
+                const articleCategory =
+                    String(
+                        article.category || "Other"
+                    );
+
+
+                const matchesSearch =
+                    !search ||
+                    title.includes(search) ||
+                    description.includes(search) ||
+                    content.includes(search);
+
+
+                const matchesCategory =
+                    category === "all" ||
+                    articleCategory === category;
+
+
+                return (
+                    matchesSearch &&
+                    matchesCategory
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       RENDER ARTICLES
+    ===================================================== */
+
+    function renderArticles() {
+
+        const allArticles =
+            loadArticles();
+
+        const filteredArticles =
+            getFilteredArticles();
+
+
+        articlesStatus.innerHTML =
+            "<strong>" +
+            filteredArticles.length +
+            "</strong> article(s) shown" +
+            " • " +
+            allArticles.length +
+            " total saved";
+
+
+        articleGrid.innerHTML = "";
+
+
+        if (filteredArticles.length === 0) {
+
+            articleGrid.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📰
+                    </div>
+
+                    <h2>
+                        No Articles Found
+                    </h2>
+
+                    <p>
+                        अभी कोई saved article नहीं है,
+                        या आपकी search/filter से कोई article
+                        match नहीं हुआ।
+                    </p>
+
+                    <a
+                        class="action-btn primary"
+                        href="./article.html"
+                    >
+                        ✍️ Write First Article
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        filteredArticles.forEach(
+            function(article) {
+
+                const originalIndex =
+                    allArticles.indexOf(article);
+
+                const title =
+                    escapeHTML(
+                        article.title ||
+                        "Untitled Article"
+                    );
+
+                const category =
+                    escapeHTML(
+                        article.category ||
+                        "Other"
+                    );
+
+                const description =
+                    escapeHTML(
+                        article.description ||
+                        "No short description available."
+                    );
+
+                const image =
+                    getArticleImage(article);
+
+                const videoCount =
+                    getVideoCount(article);
+
+                const date =
+                    formatDate(
+                        article.createdAt ||
+                        article.updatedAt
+                    );
+
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "article-card";
+
+
+                let mediaHTML = "";
+
+
+                if (image) {
+
+                    mediaHTML = `
+
+                        <div class="article-media">
+
+                            <img
+                                src="${escapeHTML(image)}"
+                                alt="${title}"
+                                loading="lazy"
+                                onerror="
+                                    this.parentElement.innerHTML =
+                                    '<div class=&quot;media-placeholder&quot;><span class=&quot;icon&quot;>📰</span>Image unavailable</div>';
+                                "
+                            >
+
+                        </div>
+
+                    `;
+
+                } else {
+
+                    mediaHTML = `
+
+                        <div class="article-media">
+
+                            <div class="media-placeholder">
+
+                                <span class="icon">
+                                    📰
+                                </span>
+
+                                Article
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                let mediaBadges = "";
+
+
+                if (image) {
+
+                    mediaBadges +=
+                        `<span class="media-badge">🖼️ Image</span>`;
+
+                }
+
+
+                if (videoCount > 0) {
+
+                    mediaBadges +=
+                        `<span class="media-badge">🎥 ${videoCount} Video</span>`;
+
+                }
+
+
+                if (!mediaBadges) {
+
+                    mediaBadges =
+                        "<span>Text Article</span>";
+
+                }
+
+
+                card.innerHTML = `
+
+                    ${mediaHTML}
+
+                    <div class="article-content">
+
+                        <div class="article-category">
+                            ${category}
+                        </div>
+
+                        <h2 class="article-title">
+                            ${title}
+                        </h2>
+
+                        <p class="article-description">
+                            ${description}
+                        </p>
+
+                        <div class="article-meta">
+
+                            ${mediaBadges}
+
+                            ${
+                                date
+                                    ? `<span>📅 ${escapeHTML(date)}</span>`
+                                    : ""
+                            }
+
+                        </div>
+
+                        <div class="article-actions">
+
+                            <button
+                                class="card-btn read-btn"
+                                type="button"
+                            >
+                                📖 Read
+                            </button>
+
+                            <button
+                                class="card-btn edit-btn"
+                                type="button"
+                            >
+                                ✏️ Edit
+                            </button>
+
+                            <button
+                                class="card-btn delete delete-btn"
+                                type="button"
+                            >
+                                🗑️ Delete
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                /* =================================================
+                   READ
+                ================================================= */
+
+                card
+                    .querySelector(".read-btn")
+                    .addEventListener(
+                        "click",
+                        function() {
+
+                            openArticle(
+                                article
+                            );
+
+                        }
+                    );
+
+
+                /* =================================================
+                   EDIT
+                ================================================= */
+
+                card
+                    .querySelector(".edit-btn")
+                    .addEventListener(
+                        "click",
+                        function() {
+
+                            editArticle(
+                                originalIndex
+                            );
+
+                        }
+                    );
+
+
+                /* =================================================
+                   DELETE
+                ================================================= */
+
+                card
+                    .querySelector(".delete-btn")
+                    .addEventListener(
+                        "click",
+                        function() {
+
+                            deleteArticle(
+                                originalIndex
+                            );
+
+                        }
+                    );
+
+
+                articleGrid.appendChild(card);
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       OPEN ARTICLE
+    ===================================================== */
+
+    function openArticle(article) {
+
+        if (!article) {
+            return;
+        }
+
+
+        readTitle.textContent =
+            article.title ||
+            "Untitled Article";
+
+
+        readCategory.textContent =
+            "Category: " +
+            (
+                article.category ||
+                "Other"
+            );
+
+
+        readDescription.textContent =
+            article.description ||
+            "";
+
+
+        readBody.textContent =
+            article.content ||
+            "No article content available.";
+
+
+        const sources =
+            article.sources ||
+            article.references ||
+            "";
+
+
+        if (sources) {
+
+            readSources.style.display =
+                "block";
+
+            readSources.textContent =
+                "Sources / References:\n\n" +
+                sources;
+
+        } else {
+
+            readSources.style.display =
+                "none";
+
+            readSources.textContent =
+                "";
+
+        }
+
+
+        const image =
+            getArticleImage(article);
+
+
+        if (image) {
+
+            readImage.src =
+                image;
+
+            readImage.alt =
+                article.title ||
+                "Article image";
+
+            readImage.style.display =
+                "block";
+
+        } else {
+
+            readImage.removeAttribute(
+                "src"
+            );
+
+            readImage.style.display =
+                "none";
+
+        }
+
+
+        readOverlay.classList.add(
+            "active"
+        );
+
+
+        document.body.style.overflow =
+            "hidden";
+
+    }
+
+
+    /* =====================================================
+       CLOSE ARTICLE
+    ===================================================== */
+
+    function closeArticle() {
+
+        readOverlay.classList.remove(
+            "active"
+        );
+
+        document.body.style.overflow =
+            "";
+
+    }
+
+
+    closeRead.addEventListener(
+        "click",
+        closeArticle
+    );
+
+
+    readOverlay.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                readOverlay
+            ) {
+                closeArticle();
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+                closeArticle();
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       EDIT ARTICLE
+    ===================================================== */
+
+    function editArticle(index) {
+
+        const articles =
+            loadArticles();
+
+        const article =
+            articles[index];
+
+
+        if (!article) {
+
+            alert(
+                "Article could not be found."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            localStorage.setItem(
+                "alon_historyverse_editing_article",
+                JSON.stringify({
+                    index: index,
+                    article: article
+                })
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+
+        window.location.href =
+            "./article.html?edit=" +
+            encodeURIComponent(index);
+
+    }
+
+
+    /* =====================================================
+       DELETE ARTICLE
+       Moves article to local trash.
+    ===================================================== */
+
+    function deleteArticle(index) {
+
+        const articles =
+            loadArticles();
+
+        const article =
+            articles[index];
+
+
+        if (!article) {
+
+            alert(
+                "Article could not be found."
+            );
+
+            return;
+
+        }
+
+
+        const articleTitle =
+            article.title ||
+            "Untitled Article";
+
+
+        const confirmed =
+            window.confirm(
+                "Delete this article?\n\n" +
+                articleTitle +
+                "\n\n" +
+                "The article will be moved to the local browser trash."
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        let trash = [];
+
+
+        try {
+
+            const savedTrash =
+                localStorage.getItem(
+                    "alon_historyverse_article_trash"
+                );
+
+            if (savedTrash) {
+
+                const parsedTrash =
+                    JSON.parse(savedTrash);
+
+                if (
+                    Array.isArray(
+                        parsedTrash
+                    )
+                ) {
+                    trash = parsedTrash;
+                }
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Trash loading error:",
+                error
+            );
+
+        }
+
+
+        article.deletedAt =
+            new Date().toISOString();
+
+
+        trash.push(article);
+
+
+        try {
+
+            localStorage.setItem(
+                "alon_historyverse_article_trash",
+                JSON.stringify(trash)
+            );
+
+        } catch (error) {
+
+            alert(
+                "The article could not be moved to trash."
+            );
+
+            return;
+
+        }
+
+
+        articles.splice(
+            index,
+            1
+        );
+
+
+        if (
+            saveArticles(
+                articles
+            )
+        ) {
+
+            renderArticles();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    articleSearch.addEventListener(
+        "input",
+        renderArticles
+    );
+
+
+    /* =====================================================
+       CATEGORY FILTER
+    ===================================================== */
+
+    categoryFilter.addEventListener(
+        "change",
+        renderArticles
+    );
+
+
+    /* =====================================================
+       STORAGE CHANGE
+       Helps when another tab changes articles.
+    ===================================================== */
+
+    window.addEventListener(
+        "storage",
+        function(event) {
+
+            if (
+                event.key ===
+                ARTICLES_STORAGE_KEY
+            ) {
+                renderArticles();
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
+
+    renderArticles();
+
+</script>
+
 
 </body>
+
 </html>

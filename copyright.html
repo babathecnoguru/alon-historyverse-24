@@ -1,133 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <meta
+        name="description"
+        content="Copyright Policy for ALON HISTORYVERSE 24 — Baba Thecno Guru"
+    >
 
     <title>Copyright • ALON HISTORYVERSE 24</title>
 
+    <!-- EXISTING GLOBAL STYLE PATH -->
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           COPYRIGHT PAGE
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05080f;
+            color: #eeeeee;
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.7;
+        }
+
+        .copyright-page {
+            width: min(1100px, 94%);
+            margin: 0 auto;
+            padding: 30px 0 60px;
+        }
+
+        .copyright-header {
+            text-align: center;
+            padding: 25px 15px 35px;
+            border-bottom: 1px solid rgba(215, 179, 90, 0.35);
+        }
+
+        .copyright-header h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: clamp(28px, 5vw, 48px);
+        }
+
+        .copyright-header h2 {
+            margin: 0;
+            color: #d7b35a;
+            font-size: clamp(18px, 3vw, 26px);
+            font-weight: normal;
+        }
+
+        .copyright-header p {
+            max-width: 780px;
+            margin: 15px auto 0;
+            color: #c9c9c9;
+        }
+
+        .copyright-box {
+            margin-top: 28px;
+            padding: 25px;
+            background: rgba(12, 18, 30, 0.92);
+            border: 1px solid rgba(215, 179, 90, 0.30);
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .copyright-box h3 {
+            margin-top: 0;
+            color: #f0d27a;
+            font-size: 24px;
+        }
+
+        .copyright-box h4 {
+            margin-bottom: 8px;
+            color: #d7b35a;
+            font-size: 19px;
+        }
+
+        .copyright-box p {
+            color: #dddddd;
+        }
+
+        .copyright-box ul,
+        .copyright-box ol {
+            padding-left: 25px;
+        }
+
+        .copyright-box li {
+            margin-bottom: 8px;
+            color: #d6d6d6;
+        }
+
+        .section-number {
+            color: #d7b35a;
+            margin-right: 6px;
+        }
+
+        .important {
+            margin: 20px 0;
+            padding: 18px;
+            border-left: 4px solid #d7b35a;
+            background: rgba(215, 179, 90, 0.08);
+            border-radius: 8px;
+        }
+
+        .important strong {
+            color: #f0d27a;
+        }
+
+        .rights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .rights-card {
+            padding: 18px;
+            border: 1px solid rgba(215, 179, 90, 0.22);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .rights-card h4 {
+            margin-top: 0;
+        }
+
+        .notice {
+            padding: 18px;
+            margin-top: 18px;
+            border: 1px solid rgba(215, 179, 90, 0.28);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .notice-title {
+            color: #f0d27a;
+            font-weight: bold;
+        }
+
+        .contact-box {
+            padding: 20px;
+            border: 1px solid rgba(215, 179, 90, 0.28);
+            border-radius: 14px;
+            background: rgba(215, 179, 90, 0.05);
+        }
+
+        .contact-box strong {
+            color: #f0d27a;
+        }
+
+        .link-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+            justify-content: center;
+        }
+
+        .page-link {
+            display: inline-block;
+            padding: 11px 17px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 9px;
+            color: #f0d27a;
+            text-decoration: none;
+            background: #101827;
+            transition: 0.2s ease;
+        }
+
+        .page-link:hover {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        .footer-note {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(215, 179, 90, 0.2);
+            text-align: center;
+            color: #999999;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+            .copyright-page {
+                width: 92%;
+                padding-top: 18px;
+            }
+
+            .copyright-box {
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            .rights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .copyright-box h3 {
+                font-size: 21px;
+            }
+
+            .copyright-box h4 {
+                font-size: 17px;
+            }
+
+            .link-row {
+                flex-direction: column;
+            }
+
+            .page-link {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<main class="page">
+<main class="copyright-page">
+
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-    <header class="page-header">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <header class="copyright-header">
 
-        <h1>Copyright</h1>
+        <h1>Copyright Policy</h1>
+
+        <h2>ALON HISTORYVERSE 24</h2>
 
         <p>
-            ALON HISTORYVERSE 24 V100 Knowledge Platform
+            Information about copyright, original content,
+            contributor material, images, videos, references
+            and intellectual property on the platform.
+        </p>
+
+        <p>
+            <strong>Creator / Owner:</strong>
+            Baba Thecno Guru
         </p>
 
     </header>
 
 
     <!-- =====================================================
-         MAIN CONTENT
+         INTRODUCTION
     ====================================================== -->
-    <section class="content">
 
-        <h2>Copyright</h2>
+    <section class="copyright-box">
 
-        <p>
-            ALON HISTORYVERSE 24 respects copyright,
-            intellectual property and the rights of content
-            creators.
-        </p>
-
-        <h2>Original Contributions</h2>
+        <h3>
+            <span class="section-number">1.</span>
+            Copyright and ALON HISTORYVERSE 24
+        </h3>
 
         <p>
-            Contributors should submit content that they have
-            created themselves or that they are legally permitted
-            to share. Sources should be acknowledged whenever
-            appropriate.
+            ALON HISTORYVERSE 24 is a knowledge platform covering
+            history, civilizations, countries, culture, heritage,
+            timelines, education and related subjects.
         </p>
-
-        <h2>Third-Party Content</h2>
 
         <p>
-            Historical facts, public-domain information and
-            properly licensed material may be used according to
-            applicable laws and license conditions. Copyrighted
-            material should not be reproduced without appropriate
-            permission or a valid legal basis.
+            Copyright may apply to original text, graphics, designs,
+            photographs, videos, software, page layouts and other
+            creative material depending on the applicable law and
+            ownership of that material.
         </p>
 
-        <h2>Content Review</h2>
+        <div class="important">
 
-        <p>
-            Submitted material may be reviewed for originality,
-            attribution, copyright concerns and compliance with
-            the platform's contribution standards before
-            publication.
-        </p>
+            <strong>Important:</strong>
 
-        <h2>Copyright Concerns</h2>
-
-        <p>
-            If you believe material on ALON HISTORYVERSE 24
-            infringes your copyright, please use the appropriate
-            contact channel to provide sufficient information
-            about the material and your concern.
-        </p>
-
-
-        <!-- =================================================
-             RELATED PAGES
-        ================================================== -->
-        <div class="grid">
-
-            <a class="card" href="contribute.html">
-                <h3>Contribute</h3>
-                <p>
-                    Submit knowledge and educational content.
-                </p>
-            </a>
-
-            <a class="card" href="contributor-agreement.html">
-                <h3>Contributor Agreement</h3>
-                <p>
-                    Review the contributor terms and principles.
-                </p>
-            </a>
-
-            <a class="card" href="guidelines.html">
-                <h3>Community Guidelines</h3>
-                <p>
-                    Review the platform's content guidelines.
-                </p>
-            </a>
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore historical and educational knowledge.
-                </p>
-            </a>
-
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the ALON HISTORYVERSE 24 library.
-                </p>
-            </a>
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main ALON HISTORYVERSE 24 entry point.
-                </p>
-            </a>
+            Historical facts, dates, names, events and general ideas
+            are not automatically owned simply because they appear
+            on a website. However, the particular creative expression
+            used to describe or present those facts may be protected.
 
         </div>
 
@@ -135,25 +310,690 @@
 
 
     <!-- =====================================================
+         ORIGINAL PLATFORM CONTENT
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">2.</span>
+            Original Platform Material
+        </h3>
+
+        <p>
+            Original material created specifically for ALON HISTORYVERSE
+            24 may be protected by applicable copyright and other
+            intellectual property laws.
+        </p>
+
+        <p>
+            This may include original written explanations,
+            original graphics, interface designs, page structures,
+            logos, illustrations, educational presentations and
+            other creative works where applicable.
+        </p>
+
+        <p>
+            Unless permission or another legal basis applies, users
+            should not reproduce substantial original material for
+            commercial or public redistribution.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         HISTORICAL FACTS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">3.</span>
+            Historical Facts and Knowledge
+        </h3>
+
+        <p>
+            ALON HISTORYVERSE 24 may present information about
+            historical events, people, countries, civilizations,
+            cultures, locations and heritage.
+        </p>
+
+        <p>
+            Facts and historical information may be researched from
+            books, archives, museums, academic works, public records
+            and other sources.
+        </p>
+
+        <p>
+            The presentation, wording, organization and original
+            educational explanation of information may be different
+            from the underlying historical facts themselves.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         THIRD PARTY MATERIAL
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">4.</span>
+            Third-Party Material
+        </h3>
+
+        <p>
+            Some material referenced or displayed by the platform
+            may belong to third parties.
+        </p>
+
+        <ul>
+
+            <li>
+                Third-party names, trademarks and logos remain the
+                property of their respective owners.
+            </li>
+
+            <li>
+                External resources may have their own copyright
+                and licensing conditions.
+            </li>
+
+            <li>
+                A reference or link does not automatically mean that
+                ALON HISTORYVERSE 24 owns that material.
+            </li>
+
+            <li>
+                Users should check the original source for applicable
+                permissions and license conditions.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTRIBUTOR CONTENT
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">5.</span>
+            Contributor-Submitted Content
+        </h3>
+
+        <p>
+            Contributors may submit articles, historical information,
+            biographies, country information, timelines, images,
+            references and other educational material.
+        </p>
+
+        <p>
+            Contributors are responsible for ensuring that they have
+            the necessary rights or permissions to submit the material.
+        </p>
+
+        <div class="notice">
+
+            <div class="notice-title">
+                Contributor responsibility
+            </div>
+
+            <p>
+                A contributor must not knowingly submit plagiarized,
+                pirated or copyright-infringing material.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         IMAGES
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">6.</span>
+            Images and Photographs
+        </h3>
+
+        <p>
+            Images can have separate copyright ownership from the
+            historical subject shown in the image.
+        </p>
+
+        <p>
+            For example, the fact that a historical monument is
+            centuries old does not automatically mean that every
+            modern photograph of that monument is free to copy.
+        </p>
+
+        <h4>Before submitting an image, contributors should consider:</h4>
+
+        <ul>
+
+            <li>
+                Who created the image?
+            </li>
+
+            <li>
+                Is the image original?
+            </li>
+
+            <li>
+                Is it licensed for the intended use?
+            </li>
+
+            <li>
+                Is attribution required?
+            </li>
+
+            <li>
+                Are there restrictions on commercial or public use?
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         VIDEOS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">7.</span>
+            Videos and Media
+        </h3>
+
+        <p>
+            Videos, documentaries, audio recordings and other media
+            may be protected by copyright.
+        </p>
+
+        <p>
+            Contributors should preferably provide legitimate sources
+            or links rather than uploading or redistributing protected
+            media without permission.
+        </p>
+
+        <p>
+            Embedding or linking to external content may also be
+            subject to the rules and terms of the original platform.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         PERMITTED USE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">8.</span>
+            Responsible Use
+        </h3>
+
+        <p>
+            Users may access ALON HISTORYVERSE 24 for personal,
+            educational and informational purposes, subject to
+            applicable law and the conditions attached to individual
+            materials.
+        </p>
+
+        <div class="rights-grid">
+
+            <div class="rights-card">
+
+                <h4>Learn</h4>
+
+                <p>
+                    Use the platform to study history, culture,
+                    civilizations and related subjects.
+                </p>
+
+            </div>
+
+
+            <div class="rights-card">
+
+                <h4>Reference</h4>
+
+                <p>
+                    Use information as a starting point for further
+                    research and verification.
+                </p>
+
+            </div>
+
+
+            <div class="rights-card">
+
+                <h4>Share Responsibly</h4>
+
+                <p>
+                    Share links to pages rather than copying entire
+                    protected works.
+                </p>
+
+            </div>
+
+
+            <div class="rights-card">
+
+                <h4>Respect Ownership</h4>
+
+                <p>
+                    Respect the rights of creators, contributors and
+                    third-party copyright owners.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROHIBITED USE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">9.</span>
+            Prohibited Copyright Uses
+        </h3>
+
+        <p>
+            Unless authorized or legally permitted, users should not:
+        </p>
+
+        <ul>
+
+            <li>
+                Copy substantial original articles and republish them
+                as their own.
+            </li>
+
+            <li>
+                Remove copyright or attribution notices.
+            </li>
+
+            <li>
+                Sell or redistribute protected platform material.
+            </li>
+
+            <li>
+                Upload copyrighted third-party material without the
+                necessary permission.
+            </li>
+
+            <li>
+                Claim another contributor's work as their own.
+            </li>
+
+            <li>
+                Circumvent technical restrictions intended to protect
+                platform content.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         ATTRIBUTION
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">10.</span>
+            Attribution
+        </h3>
+
+        <p>
+            Where a source, creator or license requires attribution,
+            the applicable attribution should be retained or provided.
+        </p>
+
+        <p>
+            Contributors are encouraged to include clear source and
+            reference information when submitting educational or
+            historical material.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         COPYRIGHT COMPLAINT
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">11.</span>
+            Copyright Concern or Complaint
+        </h3>
+
+        <p>
+            If you believe material displayed on ALON HISTORYVERSE 24
+            infringes your copyright or other applicable intellectual
+            property rights, you should provide enough information
+            to allow the issue to be reviewed.
+        </p>
+
+        <h4>Useful information may include:</h4>
+
+        <ol>
+
+            <li>
+                Your name and contact information.
+            </li>
+
+            <li>
+                Identification of the copyrighted work.
+            </li>
+
+            <li>
+                The page or material you are concerned about.
+            </li>
+
+            <li>
+                An explanation of the claimed copyright issue.
+            </li>
+
+            <li>
+                Information supporting your ownership or authorization.
+            </li>
+
+        </ol>
+
+        <div class="important">
+
+            <strong>Please note:</strong>
+
+            Do not send passwords, payment information or unnecessary
+            sensitive personal information through a copyright report.
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         REVIEW PROCESS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">12.</span>
+            Review and Corrective Action
+        </h3>
+
+        <p>
+            Copyright concerns may be reviewed by the project owner
+            or appropriate administrators.
+        </p>
+
+        <p>
+            Depending on the circumstances, material may be corrected,
+            credited, replaced, restricted, unpublished or removed.
+        </p>
+
+        <p>
+            Review of a complaint does not by itself constitute an
+            admission that infringement has occurred.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         GOOD FAITH
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">13.</span>
+            Good-Faith Reporting
+        </h3>
+
+        <p>
+            Copyright concerns should be submitted honestly and with
+            sufficient information for meaningful review.
+        </p>
+
+        <p>
+            False or intentionally misleading copyright claims should
+            not be submitted.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         TRADEMARKS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">14.</span>
+            Trademarks and Brand Names
+        </h3>
+
+        <p>
+            Names, logos, symbols and trademarks belonging to other
+            organizations remain the property of their respective
+            owners.
+        </p>
+
+        <p>
+            Mentioning a third-party organization for historical,
+            educational or informational purposes does not necessarily
+            indicate ownership or endorsement.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         EDUCATIONAL DISCLAIMER
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">15.</span>
+            Educational and Informational Purpose
+        </h3>
+
+        <p>
+            ALON HISTORYVERSE 24 is intended as a historical,
+            educational and informational knowledge platform.
+        </p>
+
+        <p>
+            Users should verify important information with reliable
+            primary or authoritative sources, particularly when using
+            information for academic, legal, professional or other
+            high-stakes purposes.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         POLICY UPDATES
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">16.</span>
+            Policy Updates
+        </h3>
+
+        <p>
+            This Copyright Policy may be updated as the ALON HISTORYVERSE
+            24 platform develops, new content systems are introduced,
+            or legal and operational requirements change.
+        </p>
+
+        <p>
+            The latest version published on the platform should be
+            considered the current version of this policy.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTACT
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">17.</span>
+            Copyright Contact
+        </h3>
+
+        <div class="contact-box">
+
+            <p>
+                <strong>Project:</strong>
+                ALON HISTORYVERSE 24
+            </p>
+
+            <p>
+                <strong>Creator / Owner:</strong>
+                Baba Thecno Guru
+            </p>
+
+            <p>
+                For copyright concerns, use the project's contact
+                or contribution channels when they are available.
+            </p>
+
+            <p>
+                Please include enough information to identify the
+                material and explain the concern clearly.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINAL NOTICE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <h3>
+            <span class="section-number">18.</span>
+            Final Notice
+        </h3>
+
+        <p>
+            Copyright ownership can vary depending on the particular
+            material, its creator, its source, its license and the
+            applicable law.
+        </p>
+
+        <p>
+            Nothing on this page should be interpreted as transferring
+            ownership of third-party material to ALON HISTORYVERSE 24.
+        </p>
+
+        <div class="important">
+
+            <strong>
+                ALON HISTORYVERSE 24 • Baba Thecno Guru
+            </strong>
+
+            <p>
+                Respect history. Respect knowledge. Respect creators.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <div class="link-row">
+
+        <a
+            href="../index.html"
+            class="page-link"
+        >
+            ← Home
+        </a>
+
+        <a
+            href="./contribute.html"
+            class="page-link"
+        >
+            Contribute
+        </a>
+
+        <a
+            href="./contributor-agreement.html"
+            class="page-link"
+        >
+            Contributor Agreement
+        </a>
+
+        <a
+            href="./contact.html"
+            class="page-link"
+        >
+            Contact
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
          FOOTER
     ====================================================== -->
-    <footer class="footer">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru
+    <div class="footer-note">
 
-        • <a href="../index.html">Home</a>
+        ALON HISTORYVERSE 24 • Baba Thecno Guru<br>
 
-    </footer>
+        History • Civilizations • Countries • Culture • Heritage • Knowledge
+
+    </div>
 
 </main>
 
-
-<!-- =========================================================
-     CORE V100 SCRIPTS
-========================================================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/app.js"></script>
-
 </body>
+
 </html>

@@ -1,179 +1,1884 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Civilizations • ALON HISTORYVERSE 24</title>
 
-<!-- Global stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-</head><body><main class="page">
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Civilization Explorer — Discover ancient and historic civilizations, empires, people, cities, achievements and legacy."
+    >
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-    <header class="page-header">
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <title>Civilizations • ALON HISTORYVERSE 24</title>
 
-        <h1>Civilizations</h1>
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-        <p>
-            Explore the civilizations that shaped
-            human history.
-        </p>
+    <style>
 
-    </header>
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           CIVILIZATION EXPLORER
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(215,179,90,0.10),
+                    transparent 38%
+                ),
+                #05080f;
+            color: #eeeeee;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        .civilization-page {
+            width: 100%;
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 18px;
+        }
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .civilization-hero {
+            position: relative;
+            overflow: hidden;
+            min-height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 45px 25px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(215,179,90,0.45);
+            border-radius: 24px;
+            background:
+                linear-gradient(
+                    rgba(5,8,15,0.82),
+                    rgba(5,8,15,0.95)
+                ),
+                radial-gradient(
+                    circle at 50% 30%,
+                    rgba(215,179,90,0.18),
+                    transparent 55%
+                );
+        }
+
+        .civilization-hero::before {
+            content: "𓂀";
+            position: absolute;
+            top: -55px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 230px;
+            opacity: 0.035;
+            color: #f0d27a;
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+        }
+
+        .hero-symbol {
+            font-size: 58px;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            margin: 0;
+            color: #f0d27a;
+            font-size: clamp(32px, 6vw, 62px);
+            line-height: 1.05;
+            letter-spacing: 1px;
+        }
+
+        .hero-subtitle {
+            margin: 18px auto 0;
+            max-width: 760px;
+            color: #c9c9c9;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .hero-line {
+            width: 120px;
+            height: 2px;
+            margin: 23px auto 0;
+            background: #d7b35a;
+        }
+
+        .hero-owner {
+            margin-top: 18px;
+            color: #d7b35a;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           EXPLORER CONTROLS
+        ===================================================== */
+
+        .explorer-panel {
+            padding: 18px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 18px;
+            background: #090e17;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr 210px 210px;
+            gap: 10px;
+        }
+
+        .search-row input,
+        .search-row select {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 15px;
+            border: 1px solid rgba(215,179,90,0.4);
+            border-radius: 11px;
+            outline: none;
+            background: #050a12;
+            color: #ffffff;
+        }
+
+        .search-row input:focus,
+        .search-row select:focus {
+            border-color: #f0d27a;
+        }
+
+        .filter-note {
+            margin-top: 12px;
+            color: #888888;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           SECTION TITLE
+        ===================================================== */
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 30px 0 15px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            color: #f0d27a;
+            font-size: 27px;
+        }
+
+        .section-heading span {
+            color: #888888;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           CIVILIZATION GRID
+        ===================================================== */
+
+        .civilization-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .civilization-card {
+            position: relative;
+            min-height: 335px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(215,179,90,0.34);
+            border-radius: 19px;
+            background: #090f18;
+            transition:
+                transform 0.22s ease,
+                border-color 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .civilization-card:hover {
+            transform: translateY(-5px);
+            border-color: #d7b35a;
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,0.35);
+        }
+
+        .card-top {
+            position: relative;
+            min-height: 135px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(215,179,90,0.12),
+                    transparent 65%
+                );
+            border-bottom: 1px solid rgba(215,179,90,0.2);
+        }
+
+        .card-symbol {
+            font-size: 72px;
+            opacity: 0.9;
+        }
+
+        .era-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 5px 9px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 20px;
+            background: rgba(5,8,15,0.8);
+            color: #f0d27a;
+            font-size: 11px;
+        }
+
+        .region-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: rgba(5,8,15,0.8);
+            color: #a9a9a9;
+            font-size: 11px;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 18px;
+        }
+
+        .card-body h3 {
+            margin: 0 0 8px;
+            color: #ffffff;
+            font-size: 22px;
+        }
+
+        .date-range {
+            margin-bottom: 11px;
+            color: #d7b35a;
+            font-size: 12px;
+        }
+
+        .card-description {
+            margin: 0;
+            color: #bdbdbd;
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        .card-facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
+            padding-top: 15px;
+        }
+
+        .fact {
+            padding: 5px 8px;
+            border: 1px solid rgba(215,179,90,0.2);
+            border-radius: 7px;
+            color: #aaa;
+            font-size: 11px;
+        }
+
+        .explore-card {
+            width: 100%;
+            min-height: 42px;
+            margin-top: 14px;
+            border: 1px solid rgba(215,179,90,0.45);
+            border-radius: 10px;
+            background: #0d1420;
+            color: #f0d27a;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .explore-card:hover {
+            background: rgba(215,179,90,0.12);
+        }
+
+        /* =====================================================
+           EMPTY RESULT
+        ===================================================== */
+
+        .no-results {
+            display: none;
+            grid-column: 1 / -1;
+            padding: 55px 20px;
+            text-align: center;
+            border: 1px dashed rgba(215,179,90,0.4);
+            border-radius: 18px;
+            background: #090e17;
+        }
+
+        .no-results .icon {
+            font-size: 48px;
+        }
+
+        .no-results h3 {
+            color: #f0d27a;
+        }
+
+        .no-results p {
+            color: #999;
+        }
+
+        /* =====================================================
+           KNOWLEDGE STRIP
+        ===================================================== */
+
+        .knowledge-strip {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .knowledge-box {
+            padding: 18px;
+            border: 1px solid rgba(215,179,90,0.28);
+            border-radius: 14px;
+            background: #090e17;
+        }
+
+        .knowledge-box strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #f0d27a;
+            font-size: 16px;
+        }
+
+        .knowledge-box span {
+            color: #999;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           DETAIL MODAL
+        ===================================================== */
+
+        .civilization-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            overflow-y: auto;
+            padding: 20px;
+            background:
+                rgba(0,0,0,0.84);
+        }
+
+        .civilization-modal.active {
+            display: block;
+        }
+
+        .detail-box {
+            position: relative;
+            width: 100%;
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 25px;
+            border: 1px solid rgba(215,179,90,0.5);
+            border-radius: 22px;
+            background: #080d15;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(215,179,90,0.45);
+            border-radius: 50%;
+            background: #0d1420;
+            color: #f0d27a;
+            cursor: pointer;
+            font-size: 21px;
+        }
+
+        .detail-header {
+            padding-right: 55px;
+            margin-bottom: 22px;
+        }
+
+        .detail-symbol {
+            font-size: 60px;
+        }
+
+        .detail-header h2 {
+            margin: 7px 0;
+            color: #f0d27a;
+            font-size: 34px;
+        }
+
+        .detail-date {
+            color: #d7b35a;
+            font-size: 14px;
+        }
+
+        .detail-description {
+            color: #cccccc;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 13px;
+            margin: 20px 0;
+        }
+
+        .detail-item {
+            padding: 15px;
+            border: 1px solid rgba(215,179,90,0.25);
+            border-radius: 12px;
+            background: #0a101a;
+        }
+
+        .detail-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #d7b35a;
+            font-size: 12px;
+        }
+
+        .detail-item span {
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+
+        .detail-section {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(215,179,90,0.2);
+        }
+
+        .detail-section h3 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+        }
+
+        .detail-section p {
+            margin: 0;
+            color: #c4c4c4;
+            line-height: 1.8;
+        }
+
+        .detail-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 22px;
+        }
+
+        .detail-links a {
+            padding: 10px 13px;
+            border: 1px solid rgba(215,179,90,0.35);
+            border-radius: 10px;
+            color: #d7b35a;
+            background: #0b111c;
+        }
+
+        .detail-links a:hover {
+            border-color: #f0d27a;
+        }
+
+        /* =====================================================
+           BOTTOM NAV
+        ===================================================== */
+
+        .bottom-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 35px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(215,179,90,0.2);
+        }
+
+        .bottom-nav a {
+            padding: 10px 14px;
+            border: 1px solid rgba(215,179,90,0.3);
+            border-radius: 10px;
+            background: #090e17;
+            color: #d7b35a;
+        }
+
+        .bottom-nav a:hover {
+            border-color: #f0d27a;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .civilization-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .search-row {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .search-row input {
+                grid-column: 1 / -1;
+            }
+
+            .knowledge-strip {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .civilization-page {
+                padding: 11px;
+            }
+
+            .civilization-hero {
+                min-height: 310px;
+                padding: 35px 18px;
+                border-radius: 19px;
+            }
+
+            .hero-title {
+                font-size: 35px;
+            }
+
+            .hero-symbol {
+                font-size: 45px;
+            }
+
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .search-row input {
+                grid-column: auto;
+            }
+
+            .civilization-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .knowledge-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-box {
+                margin: 5px auto;
+                padding: 18px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-header h2 {
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
 
 
-    <!-- =========================
-         CIVILIZATIONS CONTENT
-    ========================== -->
-    <section class="content">
+<body>
 
-        <h2>World Civilizations</h2>
+<main class="civilization-page">
 
-        <p>
-            Discover ancient and historical civilizations,
-            their people, cultures, achievements,
-            cities, rulers and lasting influence.
-        </p>
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
+    <section class="civilization-hero">
 
-        <!-- =========================
-             SEARCH
-        ========================== -->
-        <div class="article-tools">
+        <div class="hero-inner">
 
-            <label for="civilization-search">
-                Search Civilizations
-            </label>
+            <div class="hero-symbol">
+                🏛️
+            </div>
 
-            <input
-                type="search"
-                id="civilization-search"
-                name="civilization-search"
-                placeholder="Search civilizations..."
-                autocomplete="off"
-            >
+            <h1 class="hero-title">
+                CIVILIZATION EXPLORER
+            </h1>
 
-        </div>
+            <div class="hero-line"></div>
 
+            <p class="hero-subtitle">
+                Journey through the great civilizations of
+                human history — their cities, rulers, inventions,
+                cultures, achievements and lasting legacy.
+            </p>
 
-        <!-- =========================
-             CIVILIZATION LIST
-        ========================== -->
-        <div
-            id="civilizations-list"
-            class="grid civilizations-grid"
-            aria-live="polite"
-        >
-
-            <!--
-                Civilization cards can be generated
-                dynamically by the data/engine system.
-            -->
-
-            <a class="card" href="countries.html">
-                <h3>Countries & Regions</h3>
-                <p>
-                    Explore the countries and regions
-                    connected to world civilizations.
-                </p>
-            </a>
-
-
-            <a class="card" href="timeline.html">
-                <h3>Historical Timeline</h3>
-                <p>
-                    Follow civilizations across
-                    different periods of history.
-                </p>
-            </a>
-
-
-            <a class="card" href="heritage.html">
-                <h3>Heritage</h3>
-                <p>
-                    Explore monuments, traditions,
-                    cultures and historical heritage.
-                </p>
-            </a>
-
-
-            <a class="card" href="articles.html">
-                <h3>Articles</h3>
-                <p>
-                    Read detailed articles about
-                    civilizations and their history.
-                </p>
-            </a>
-
-        </div>
-
-
-        <!-- =========================
-             NAVIGATION
-        ========================== -->
-        <div class="grid">
-
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore more areas of
-                    ALON HISTORYVERSE 24.
-                </p>
-            </a>
-
-
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Explore books and educational
-                    knowledge resources.
-                </p>
-            </a>
-
-
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
-                </p>
-            </a>
+            <div class="hero-owner">
+                ALON HISTORYVERSE 24 • Baba Thecno Guru
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer class="footer">
+    <!-- =====================================================
+         SEARCH / FILTER PANEL
+    ====================================================== -->
 
-        <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
-        </p>
+    <section class="explorer-panel">
+
+        <div class="search-row">
+
+            <input
+                type="search"
+                id="civilizationSearch"
+                placeholder="🔎 Search civilization, empire, city..."
+                autocomplete="off"
+            >
+
+
+            <select id="regionFilter">
+
+                <option value="all">
+                    🌍 All Regions
+                </option>
+
+                <option value="Africa">
+                    Africa
+                </option>
+
+                <option value="Asia">
+                    Asia
+                </option>
+
+                <option value="Europe">
+                    Europe
+                </option>
+
+                <option value="Americas">
+                    Americas
+                </option>
+
+                <option value="Middle East">
+                    Middle East
+                </option>
+
+            </select>
+
+
+            <select id="periodFilter">
+
+                <option value="all">
+                    ⏳ All Periods
+                </option>
+
+                <option value="Ancient">
+                    Ancient
+                </option>
+
+                <option value="Classical">
+                    Classical
+                </option>
+
+                <option value="Medieval">
+                    Medieval
+                </option>
+
+                <option value="Pre-Columbian">
+                    Pre-Columbian
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="filter-note">
+            Search and filters work directly in your browser.
+            Select any civilization to open its historical profile.
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SECTION HEADING
+    ====================================================== -->
+
+    <div class="section-heading">
+
+        <h2>
+            🌍 Great Civilizations
+        </h2>
+
+        <span id="resultCount">
+            Loading...
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         CIVILIZATION GRID
+    ====================================================== -->
+
+    <section
+        class="civilization-grid"
+        id="civilizationGrid"
+    ></section>
+
+
+    <!-- =====================================================
+         KNOWLEDGE STRIP
+    ====================================================== -->
+
+    <section class="knowledge-strip">
+
+        <div class="knowledge-box">
+
+            <strong>
+                🏛️ Cities
+            </strong>
+
+            <span>
+                Discover ancient capitals, urban centers
+                and historic cities.
+            </span>
+
+        </div>
+
+
+        <div class="knowledge-box">
+
+            <strong>
+                👑 Rulers
+            </strong>
+
+            <span>
+                Learn about kings, queens, emperors
+                and important leaders.
+            </span>
+
+        </div>
+
+
+        <div class="knowledge-box">
+
+            <strong>
+                ⚙️ Achievements
+            </strong>
+
+            <span>
+                Explore inventions, architecture,
+                science, writing and technology.
+            </span>
+
+        </div>
+
+
+        <div class="knowledge-box">
+
+            <strong>
+                🌎 Legacy
+            </strong>
+
+            <span>
+                Understand how civilizations influenced
+                the modern world.
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BOTTOM NAV
+    ====================================================== -->
+
+    <nav class="bottom-nav">
 
         <a href="../index.html">
-            Home
+            🏠 Home
         </a>
 
-    </footer>
+        <a href="./discover.html">
+            🔎 Discover
+        </a>
+
+        <a href="./categories.html">
+            📚 Categories
+        </a>
+
+        <a href="./articles.html">
+            📰 Articles
+        </a>
+
+        <a href="./countries.html">
+            🌍 Countries
+        </a>
+
+        <a href="./heritage.html">
+            🏺 Heritage
+        </a>
+
+        <a href="./timeline.html">
+            ⏳ Timeline
+        </a>
+
+        <a href="./library.html">
+            📖 Library
+        </a>
+
+    </nav>
 
 </main>
 
 
-<!-- =========================
-     CORE SYSTEM
-========================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/data.js"></script>
+<!-- =========================================================
+     CIVILIZATION DETAIL MODAL
+========================================================= -->
+
+<div
+    class="civilization-modal"
+    id="civilizationModal"
+>
+
+    <article class="detail-box">
+
+        <button
+            type="button"
+            class="close-modal"
+            id="closeModal"
+            aria-label="Close civilization"
+        >
+            ×
+        </button>
+
+
+        <div class="detail-header">
+
+            <div
+                class="detail-symbol"
+                id="detailSymbol"
+            >
+                🏛️
+            </div>
+
+            <h2 id="detailName">
+                Civilization
+            </h2>
+
+            <div
+                class="detail-date"
+                id="detailDate"
+            ></div>
+
+        </div>
+
+
+        <p
+            class="detail-description"
+            id="detailDescription"
+        ></p>
+
+
+        <div
+            class="detail-grid"
+            id="detailFacts"
+        ></div>
+
+
+        <section class="detail-section">
+
+            <h3>
+                👑 Important People
+            </h3>
+
+            <p id="detailPeople"></p>
+
+        </section>
+
+
+        <section class="detail-section">
+
+            <h3>
+                🏙️ Major Cities
+            </h3>
+
+            <p id="detailCities"></p>
+
+        </section>
+
+
+        <section class="detail-section">
+
+            <h3>
+                ⚙️ Major Achievements
+            </h3>
+
+            <p id="detailAchievements"></p>
+
+        </section>
+
+
+        <section class="detail-section">
+
+            <h3>
+                🌎 Historical Legacy
+            </h3>
+
+            <p id="detailLegacy"></p>
+
+        </section>
+
+
+        <div class="detail-links">
+
+            <a href="./heritage.html">
+                🏺 Heritage
+            </a>
+
+            <a href="./timeline.html">
+                ⏳ Timeline
+            </a>
+
+            <a href="./countries.html">
+                🌍 Countries
+            </a>
+
+            <a href="./articles.html">
+                📰 Articles
+            </a>
+
+        </div>
+
+    </article>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       ALON HISTORYVERSE 24
+       CIVILIZATION DATABASE
+    ===================================================== */
+
+    "use strict";
+
+
+    const CIVILIZATIONS = [
+
+        {
+            id: "mesopotamia",
+            name: "Mesopotamian Civilizations",
+            symbol: "𒀭",
+            region: "Middle East",
+            period: "Ancient",
+            date: "c. 3500 BCE – 539 BCE",
+
+            description:
+                "The civilizations of Mesopotamia developed between the Tigris and Euphrates rivers and became some of the earliest urban societies in human history.",
+
+            people:
+                "Sumerian rulers, Sargon of Akkad, Hammurabi and other kings of the ancient Near East.",
+
+            cities:
+                "Ur, Uruk, Babylon, Nineveh and Akkad.",
+
+            achievements:
+                "Early writing systems, city-states, monumental architecture, mathematics, law and complex administration.",
+
+            legacy:
+                "Mesopotamian societies made foundational contributions to writing, law, urban life, mathematics and organized government."
+        },
+
+
+        {
+            id: "ancient-egypt",
+            name: "Ancient Egypt",
+            symbol: "𓂀",
+            region: "Africa",
+            period: "Ancient",
+            date: "c. 3100 BCE – 30 BCE",
+
+            description:
+                "Ancient Egypt developed along the Nile and created one of the world's most enduring civilizations, famous for monumental architecture, writing and royal traditions.",
+
+            people:
+                "Pharaohs, queens, priests, scribes and figures such as Hatshepsut, Akhenaten, Tutankhamun and Cleopatra.",
+
+            cities:
+                "Memphis, Thebes, Alexandria and ancient settlements along the Nile.",
+
+            achievements:
+                "Pyramids, hieroglyphic writing, monumental temples, mathematics, engineering and sophisticated administrative systems.",
+
+            legacy:
+                "Egyptian architecture, art, religion and writing continue to influence historical and archaeological study."
+        },
+
+
+        {
+            id: "indus",
+            name: "Indus Valley Civilization",
+            symbol: "🧱",
+            region: "Asia",
+            period: "Ancient",
+            date: "c. 2600 BCE – 1900 BCE",
+
+            description:
+                "The Indus Valley Civilization developed in parts of South Asia and is known for carefully planned cities, drainage systems, craft production and long-distance trade.",
+
+            people:
+                "Urban communities, craftsmen, merchants, farmers and administrators of the Indus region.",
+
+            cities:
+                "Harappa, Mohenjo-daro, Dholavira, Lothal and other settlements.",
+
+            achievements:
+                "Urban planning, drainage systems, standardized weights, craft production, architecture and extensive trade networks.",
+
+            legacy:
+                "The civilization remains central to the study of early South Asian urbanism and archaeology."
+        },
+
+
+        {
+            id: "ancient-china",
+            name: "Ancient Chinese Civilizations",
+            symbol: "🐉",
+            region: "Asia",
+            period: "Ancient",
+            date: "c. 1600 BCE onward",
+
+            description:
+                "Ancient Chinese civilization developed through successive dynasties and created important traditions in government, philosophy, writing, technology and art.",
+
+            people:
+                "Confucius, Qin Shi Huang and rulers, scholars and engineers of successive dynasties.",
+
+            cities:
+                "Anyang, Chang'an, Luoyang, Kaifeng and other historic capitals.",
+
+            achievements:
+                "Writing, bronze technology, philosophy, bureaucracy, engineering, agriculture and major technological innovations.",
+
+            legacy:
+                "Chinese political philosophy, writing, art, technology and cultural traditions have had an enormous historical influence."
+        },
+
+
+        {
+            id: "ancient-greece",
+            name: "Ancient Greece",
+            symbol: "🏛️",
+            region: "Europe",
+            period: "Classical",
+            date: "c. 800 BCE – 146 BCE",
+
+            description:
+                "Ancient Greek societies developed independent city-states and produced influential traditions in philosophy, politics, science, literature, architecture and art.",
+
+            people:
+                "Socrates, Plato, Aristotle, Pericles, Alexander the Great and many other thinkers and leaders.",
+
+            cities:
+                "Athens, Sparta, Corinth, Thebes and Miletus.",
+
+            achievements:
+                "Philosophy, democracy in Athens, mathematics, literature, theatre, architecture and scientific inquiry.",
+
+            legacy:
+                "Greek intellectual and artistic traditions strongly influenced later European and Mediterranean societies."
+        },
+
+
+        {
+            id: "rome",
+            name: "Roman Civilization",
+            symbol: "🦅",
+            region: "Europe",
+            period: "Classical",
+            date: "c. 753 BCE – 476 CE",
+
+            description:
+                "Rome grew from a city-state into a vast republic and empire whose institutions, infrastructure, law and culture shaped much of Europe and the Mediterranean.",
+
+            people:
+                "Julius Caesar, Augustus, Trajan, Constantine and many senators, generals and citizens.",
+
+            cities:
+                "Rome, Pompeii, Constantinople, Carthage and other major Roman centers.",
+
+            achievements:
+                "Roads, aqueducts, engineering, architecture, law, military organization and administrative systems.",
+
+            legacy:
+                "Roman law, languages, architecture, infrastructure and political ideas remain deeply important to world history."
+        },
+
+
+        {
+            id: "maya",
+            name: "Maya Civilization",
+            symbol: "🌿",
+            region: "Americas",
+            period: "Pre-Columbian",
+            date: "c. 2000 BCE – 1500 CE",
+
+            description:
+                "Maya civilization developed across parts of Mesoamerica and became known for cities, mathematics, astronomy, writing and monumental architecture.",
+
+            people:
+                "Maya rulers, astronomers, mathematicians, scribes, artisans and agricultural communities.",
+
+            cities:
+                "Tikal, Palenque, Copán, Calakmul and Chichén Itzá.",
+
+            achievements:
+                "Hieroglyphic writing, mathematics, astronomy, calendars, architecture and large ceremonial centers.",
+
+            legacy:
+                "Maya intellectual and architectural achievements remain an important part of the history of the Americas."
+        },
+
+
+        {
+            id: "inca",
+            name: "Inca Civilization",
+            symbol: "⛰️",
+            region: "Americas",
+            period: "Pre-Columbian",
+            date: "c. 1400s – 1530s CE",
+
+            description:
+                "The Inca developed a large Andean state with sophisticated administration, roads, agriculture and monumental construction.",
+
+            people:
+                "Inca rulers, administrators, engineers, farmers, artisans and communities across the Andes.",
+
+            cities:
+                "Cusco, Machu Picchu and other Andean settlements.",
+
+            achievements:
+                "Road networks, terrace agriculture, stone construction, administration and communication systems.",
+
+            legacy:
+                "Inca engineering and Andean cultural traditions remain major subjects of archaeology and history."
+        },
+
+
+        {
+            id: "persian",
+            name: "Persian Empires",
+            symbol: "🦁",
+            region: "Middle East",
+            period: "Ancient",
+            date: "c. 550 BCE onward",
+
+            description:
+                "Persian empires created large and diverse political systems across western and central Asia and developed sophisticated administrative traditions.",
+
+            people:
+                "Cyrus the Great, Darius I, Xerxes I and administrators, soldiers and communities of the Persian world.",
+
+            cities:
+                "Pasargadae, Persepolis, Susa and Ecbatana.",
+
+            achievements:
+                "Imperial administration, road networks, monumental architecture and systems for governing diverse regions.",
+
+            legacy:
+                "Persian political, artistic and cultural traditions played a major role in the history of the ancient Near East."
+        },
+
+
+        {
+            id: "aztec",
+            name: "Aztec Civilization",
+            symbol: "🦅",
+            region: "Americas",
+            period: "Pre-Columbian",
+            date: "c. 1300s – 1521 CE",
+
+            description:
+                "The Aztec Empire developed in central Mexico and built a powerful political and economic center around Tenochtitlan.",
+
+            people:
+                "Aztec rulers, warriors, merchants, farmers, priests and artisans.",
+
+            cities:
+                "Tenochtitlan, Texcoco and Tlacopan.",
+
+            achievements:
+                "Urban planning, markets, agriculture, monumental temples, art and complex political organization.",
+
+            legacy:
+                "Aztec history remains important to the understanding of pre-Columbian Mesoamerica."
+        },
+
+
+        {
+            id: "byzantine",
+            name: "Byzantine Civilization",
+            symbol: "☦️",
+            region: "Europe",
+            period: "Medieval",
+            date: "c. 330 – 1453 CE",
+
+            description:
+                "The Byzantine Empire continued many Roman political and cultural traditions while developing a distinctive Greek-speaking Christian civilization centered on Constantinople.",
+
+            people:
+                "Justinian I, Theodora, Constantine XI and generations of emperors, scholars and citizens.",
+
+            cities:
+                "Constantinople, Thessaloniki, Nicaea and Antioch.",
+
+            achievements:
+                "Architecture, law, administration, scholarship, diplomacy and preservation of classical knowledge.",
+
+            legacy:
+                "Byzantine traditions influenced Eastern Europe, Christianity, art, architecture and the preservation of classical learning."
+        },
+
+
+        {
+            id: "islamic-golden-age",
+            name: "Islamic Golden Age",
+            symbol: "☪️",
+            region: "Middle East",
+            period: "Medieval",
+            date: "c. 8th – 13th centuries CE",
+
+            description:
+                "The Islamic Golden Age saw major developments in mathematics, medicine, astronomy, philosophy, geography and literature across a wide connected world.",
+
+            people:
+                "Al-Khwarizmi, Ibn Sina, Al-Biruni, Al-Razi and many scholars, translators and scientists.",
+
+            cities:
+                "Baghdad, Damascus, Cairo, Cordoba and other centers of scholarship.",
+
+            achievements:
+                "Algebra, astronomy, medicine, philosophy, geography, libraries, translation and scientific scholarship.",
+
+            legacy:
+                "Its scholarship helped preserve, develop and transmit knowledge across civilizations."
+        },
+
+        {
+            id: "khmer",
+            name: "Khmer Civilization",
+            symbol: "🛕",
+            region: "Asia",
+            period: "Medieval",
+            date: "c. 802 – 1431 CE",
+
+            description:
+                "The Khmer Empire became a major Southeast Asian civilization known for monumental architecture, water management and the city of Angkor.",
+
+            people:
+                "Khmer kings, engineers, architects, farmers, artisans and religious communities.",
+
+            cities:
+                "Angkor, Yasodharapura and other Khmer centers.",
+
+            achievements:
+                "Angkor Wat, hydraulic engineering, urban planning, temples and sophisticated agricultural systems.",
+
+            legacy:
+                "Khmer architecture and Angkor remain among the most significant cultural achievements of Southeast Asia."
+        }
+
+    ];
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const grid =
+        document.getElementById(
+            "civilizationGrid"
+        );
+
+    const searchInput =
+        document.getElementById(
+            "civilizationSearch"
+        );
+
+    const regionFilter =
+        document.getElementById(
+            "regionFilter"
+        );
+
+    const periodFilter =
+        document.getElementById(
+            "periodFilter"
+        );
+
+    const resultCount =
+        document.getElementById(
+            "resultCount"
+        );
+
+    const modal =
+        document.getElementById(
+            "civilizationModal"
+        );
+
+    const closeModal =
+        document.getElementById(
+            "closeModal"
+        );
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(
+            value ?? ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    /* =====================================================
+       FILTER
+    ===================================================== */
+
+    function getFilteredCivilizations() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        const region =
+            regionFilter.value;
+
+        const period =
+            periodFilter.value;
+
+
+        return CIVILIZATIONS.filter(
+            function(civilization) {
+
+                const searchable =
+                    (
+                        civilization.name +
+                        " " +
+                        civilization.description +
+                        " " +
+                        civilization.people +
+                        " " +
+                        civilization.cities +
+                        " " +
+                        civilization.achievements +
+                        " " +
+                        civilization.legacy
+                    ).toLowerCase();
+
+
+                const matchesSearch =
+                    !query ||
+                    searchable.includes(query);
+
+
+                const matchesRegion =
+                    region === "all" ||
+                    civilization.region === region;
+
+
+                const matchesPeriod =
+                    period === "all" ||
+                    civilization.period === period;
+
+
+                return (
+                    matchesSearch &&
+                    matchesRegion &&
+                    matchesPeriod
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       RENDER
+    ===================================================== */
+
+    function renderCivilizations() {
+
+        const results =
+            getFilteredCivilizations();
+
+
+        grid.innerHTML = "";
+
+
+        resultCount.textContent =
+            results.length +
+            " civilization" +
+            (
+                results.length === 1
+                    ? ""
+                    : "s"
+            );
+
+
+        if (!results.length) {
+
+            grid.innerHTML = `
+
+                <div class="no-results"
+                     style="display:block;">
+
+                    <div class="icon">
+                        🏛️
+                    </div>
+
+                    <h3>
+                        No Civilization Found
+                    </h3>
+
+                    <p>
+                        Try another civilization name,
+                        region or historical period.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        results.forEach(
+            function(civilization) {
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+                card.className =
+                    "civilization-card";
+
+
+                card.innerHTML = `
+
+                    <div class="card-top">
+
+                        <span class="era-badge">
+                            ${escapeHTML(
+                                civilization.period
+                            )}
+                        </span>
+
+                        <span class="region-badge">
+                            ${escapeHTML(
+                                civilization.region
+                            )}
+                        </span>
+
+                        <div class="card-symbol">
+                            ${civilization.symbol}
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <h3>
+                            ${escapeHTML(
+                                civilization.name
+                            )}
+                        </h3>
+
+                        <div class="date-range">
+                            ${escapeHTML(
+                                civilization.date
+                            )}
+                        </div>
+
+                        <p class="card-description">
+                            ${escapeHTML(
+                                civilization.description
+                            )}
+                        </p>
+
+
+                        <div class="card-facts">
+
+                            <span class="fact">
+                                👑 Rulers
+                            </span>
+
+                            <span class="fact">
+                                🏙️ Cities
+                            </span>
+
+                            <span class="fact">
+                                ⚙️ Achievements
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="explore-card"
+                        >
+                            Explore Civilization →
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                card
+                    .querySelector(
+                        ".explore-card"
+                    )
+                    .addEventListener(
+                        "click",
+                        function() {
+
+                            openDetails(
+                                civilization
+                            );
+
+                        }
+                    );
+
+
+                grid.appendChild(card);
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       OPEN DETAILS
+    ===================================================== */
+
+    function openDetails(civilization) {
+
+        document.getElementById(
+            "detailSymbol"
+        ).textContent =
+            civilization.symbol;
+
+
+        document.getElementById(
+            "detailName"
+        ).textContent =
+            civilization.name;
+
+
+        document.getElementById(
+            "detailDate"
+        ).textContent =
+            civilization.date +
+            " • " +
+            civilization.region +
+            " • " +
+            civilization.period;
+
+
+        document.getElementById(
+            "detailDescription"
+        ).textContent =
+            civilization.description;
+
+
+        document.getElementById(
+            "detailPeople"
+        ).textContent =
+            civilization.people;
+
+
+        document.getElementById(
+            "detailCities"
+        ).textContent =
+            civilization.cities;
+
+
+        document.getElementById(
+            "detailAchievements"
+        ).textContent =
+            civilization.achievements;
+
+
+        document.getElementById(
+            "detailLegacy"
+        ).textContent =
+            civilization.legacy;
+
+
+        document.getElementById(
+            "detailFacts"
+        ).innerHTML = `
+
+            <div class="detail-item">
+
+                <strong>
+                    REGION
+                </strong>
+
+                <span>
+                    ${escapeHTML(
+                        civilization.region
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
+                    HISTORICAL PERIOD
+                </strong>
+
+                <span>
+                    ${escapeHTML(
+                        civilization.period
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
+                    TIME PERIOD
+                </strong>
+
+                <span>
+                    ${escapeHTML(
+                        civilization.date
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <strong>
+                    EXPLORER ID
+                </strong>
+
+                <span>
+                    ${escapeHTML(
+                        civilization.id
+                    )}
+                </span>
+
+            </div>
+
+        `;
+
+
+        modal.classList.add(
+            "active"
+        );
+
+
+        document.body.style.overflow =
+            "hidden";
+
+    }
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    function closeDetails() {
+
+        modal.classList.remove(
+            "active"
+        );
+
+        document.body.style.overflow =
+            "";
+
+    }
+
+
+    closeModal.addEventListener(
+        "click",
+        closeDetails
+    );
+
+
+    modal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === modal
+            ) {
+                closeDetails();
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+                closeDetails();
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       FILTER EVENTS
+    ===================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        renderCivilizations
+    );
+
+    regionFilter.addEventListener(
+        "change",
+        renderCivilizations
+    );
+
+    periodFilter.addEventListener(
+        "change",
+        renderCivilizations
+    );
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    renderCivilizations();
+
+</script>
+
 
 </body>
+
 </html>

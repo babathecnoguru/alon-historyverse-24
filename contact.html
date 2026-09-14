@@ -1,205 +1,779 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contact • ALON HISTORYVERSE 24</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<!-- Global stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
+    <title>Contact • ALON HISTORYVERSE 24</title>
 
-</head><body><main class="page">
+    <meta
+        name="description"
+        content="Contact ALON HISTORYVERSE 24 — send questions, suggestions, corrections, feedback and contribution enquiries."
+    >
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-    <header class="page-header">
+    <link rel="stylesheet" href="../css/style.css">
 
-        <a href="../index.html" class="back-link">
-            ← ALON HISTORYVERSE 24
-        </a>
+    <style>
+        .contact-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 16px 60px;
+        }
 
-        <h1>Contact</h1>
+        .contact-hero {
+            padding: 30px 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 18px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .contact-hero h1 {
+            margin: 0 0 12px;
+        }
+
+        .contact-hero p {
+            line-height: 1.8;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .contact-card {
+            padding: 22px;
+            border: 1px solid rgba(215,179,90,.25);
+            border-radius: 16px;
+            background: rgba(255,255,255,.018);
+        }
+
+        .contact-card h2 {
+            margin-top: 0;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 7px;
+        }
+
+        .form-group label {
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid rgba(215,179,90,.3);
+            border-radius: 9px;
+            background: rgba(0,0,0,.18);
+            color: inherit;
+            font: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d7b35a;
+        }
+
+        .required {
+            color: #d7b35a;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .form-btn {
+            border: 1px solid rgba(215,179,90,.45);
+            border-radius: 9px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+            background: rgba(215,179,90,.10);
+            color: inherit;
+        }
+
+        .form-btn:hover {
+            background: rgba(215,179,90,.18);
+        }
+
+        .form-btn.secondary {
+            background: rgba(255,255,255,.04);
+        }
+
+        .form-status {
+            min-height: 24px;
+            padding: 8px 0;
+            line-height: 1.6;
+        }
+
+        .counter {
+            text-align: right;
+            font-size: .85rem;
+            opacity: .75;
+        }
+
+        .info-list {
+            padding-left: 20px;
+        }
+
+        .info-list li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .faq-item {
+            margin: 12px 0;
+            border: 1px solid rgba(215,179,90,.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            cursor: pointer;
+            padding: 14px;
+            font-weight: 700;
+        }
+
+        .faq-answer {
+            padding: 0 14px 14px;
+            line-height: 1.7;
+        }
+
+        .notice {
+            margin-top: 18px;
+            padding: 15px;
+            border-left: 4px solid #d7b35a;
+            border-radius: 9px;
+            background: rgba(215,179,90,.07);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 760px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-page {
+                padding: 18px 12px 45px;
+            }
+
+            .contact-hero,
+            .contact-card {
+                padding: 18px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="contact-page">
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="contact-hero">
+        <h1>📩 Contact ALON HISTORYVERSE 24</h1>
 
         <p>
-            Contact the ALON HISTORYVERSE 24 team.
+            Welcome to the official contact section of
+            <strong>ALON HISTORYVERSE 24</strong>.
         </p>
-
-    </header>
-
-
-    <!-- =========================
-         CONTACT INFORMATION
-    ========================== -->
-    <section class="content">
-
-        <h2>Contact ALON HISTORYVERSE 24</h2>
 
         <p>
-            Have a question, suggestion, correction,
-            feedback or platform-related message?
-            Use the contact form below.
+            Use this page for questions, suggestions, corrections,
+            feedback, content ideas and contribution enquiries.
         </p>
-
     </section>
 
 
-    <!-- =========================
-         CONTACT FORM
-    ========================== -->
-    <section class="content">
+    <!-- =====================================================
+         CONTACT AREA
+    ====================================================== -->
 
-        <h2>Contact Form</h2>
+    <section class="contact-grid">
 
-        <form
-            data-contact
-            id="contact-form"
-            novalidate
-        >
+        <!-- =================================================
+             FORM
+        ================================================== -->
 
-            <div class="form-group">
+        <div class="contact-card">
 
-                <label for="contact-name">
-                    Name
-                </label>
+            <h2>✍️ Send a Message</h2>
 
-                <input
-                    class="searchbox"
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    required
-                    autocomplete="name"
-                    placeholder="Enter your name"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="contact-email">
-                    Email
-                </label>
-
-                <input
-                    class="searchbox"
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    required
-                    autocomplete="email"
-                    placeholder="Enter your email"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="contact-message">
-                    Message
-                </label>
-
-                <textarea
-                    class="searchbox"
-                    id="contact-message"
-                    name="message"
-                    rows="7"
-                    required
-                    placeholder="Write your message..."
-                ></textarea>
-
-            </div>
-
-
-            <button
-                class="btn"
-                type="submit"
+            <form
+                id="contactForm"
+                class="contact-form"
+                novalidate
             >
-                Send Message
-            </button>
+
+                <div class="form-group">
+                    <label for="contactName">
+                        Name <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contactName"
+                        name="name"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        maxlength="80"
+                        required
+                    >
+                </div>
 
 
-            <!-- Status area for contact.js -->
-            <p
-                id="contact-status"
-                class="form-status"
-                aria-live="polite"
-            ></p>
+                <div class="form-group">
+                    <label for="contactEmail">
+                        Email <span class="required">*</span>
+                    </label>
 
-        </form>
-
-    </section>
-
-
-    <!-- =========================
-         NAVIGATION
-    ========================== -->
-    <section class="content">
-
-        <div class="grid">
-
-            <a class="card" href="about.html">
-                <h3>About</h3>
-                <p>
-                    Learn about ALON HISTORYVERSE 24.
-                </p>
-            </a>
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        name="email"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        maxlength="160"
+                        required
+                    >
+                </div>
 
 
-            <a class="card" href="discover.html">
-                <h3>Discover</h3>
-                <p>
-                    Explore the HistoryVerse platform.
-                </p>
-            </a>
+                <div class="form-group">
+                    <label for="contactSubject">
+                        Subject <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="contactSubject"
+                        name="subject"
+                        required
+                    >
+                        <option value="">Select a subject</option>
+                        <option value="General Question">
+                            General Question
+                        </option>
+                        <option value="Website Feedback">
+                            Website Feedback
+                        </option>
+                        <option value="Correction">
+                            Content Correction
+                        </option>
+                        <option value="Contribution">
+                            Contribution
+                        </option>
+                        <option value="Technical Problem">
+                            Technical Problem
+                        </option>
+                        <option value="Other">
+                            Other
+                        </option>
+                    </select>
+                </div>
 
 
-            <a class="card" href="library.html">
-                <h3>Library</h3>
-                <p>
-                    Open the knowledge library.
-                </p>
-            </a>
+                <div class="form-group">
+                    <label for="contactMessage">
+                        Message <span class="required">*</span>
+                    </label>
+
+                    <textarea
+                        id="contactMessage"
+                        name="message"
+                        placeholder="Write your message here..."
+                        maxlength="2000"
+                        required
+                    ></textarea>
+
+                    <div
+                        id="messageCounter"
+                        class="counter"
+                    >
+                        0 / 2000
+                    </div>
+                </div>
 
 
-            <a class="card" href="../index.html">
-                <h3>Home</h3>
-                <p>
-                    Return to the main
-                    ALON HISTORYVERSE 24 page.
-                </p>
-            </a>
+                <div
+                    id="formStatus"
+                    class="form-status"
+                    aria-live="polite"
+                ></div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="form-btn"
+                    >
+                        Send Message
+                    </button>
+
+                    <button
+                        type="reset"
+                        class="form-btn secondary"
+                        id="resetButton"
+                    >
+                        Clear Form
+                    </button>
+
+                </div>
+
+            </form>
+
+            <div class="notice">
+                <strong>Important:</strong>
+                This standalone HTML page performs form validation
+                and prepares the message locally. A real email
+                delivery system requires a server-side or
+                trusted form-service connection. No fake
+                “message sent” claim is made without such a service.
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CONTACT INFORMATION
+        ================================================== -->
+
+        <div class="contact-card">
+
+            <h2>🌐 About Contact</h2>
+
+            <p>
+                ALON HISTORYVERSE 24 is a knowledge project covering
+                history, civilizations, countries, culture, heritage
+                and general knowledge.
+            </p>
+
+            <ul class="info-list">
+
+                <li>
+                    <strong>Project:</strong><br>
+                    ALON HISTORYVERSE 24
+                </li>
+
+                <li>
+                    <strong>Creator / Owner:</strong><br>
+                    Baba Thecno Guru
+                </li>
+
+                <li>
+                    <strong>Topics:</strong><br>
+                    History, Civilizations, Countries, Culture,
+                    Heritage and Knowledge
+                </li>
+
+                <li>
+                    <strong>Feedback:</strong><br>
+                    Website suggestions, corrections and content
+                    improvement ideas are welcome.
+                </li>
+
+            </ul>
+
+            <div class="notice">
+                When reporting a problem, include the page name
+                and describe what happened. This makes technical
+                problems easier to identify.
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- =========================
+    <!-- =====================================================
+         CONTACT GUIDELINES
+    ====================================================== -->
+
+    <section class="contact-card" style="margin-top:20px;">
+
+        <h2>📋 Contact Guidelines</h2>
+
+        <ul class="info-list">
+
+            <li>
+                Be clear and specific when describing your question.
+            </li>
+
+            <li>
+                For a content correction, mention the page,
+                section and information that needs review.
+            </li>
+
+            <li>
+                For a technical problem, describe the device,
+                browser and exact problem when possible.
+            </li>
+
+            <li>
+                Do not submit passwords, verification codes,
+                financial information or other sensitive data.
+            </li>
+
+            <li>
+                For copyright-related matters, provide enough
+                information to identify the relevant content.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- =====================================================
+         FAQ
+    ====================================================== -->
+
+    <section class="contact-card" style="margin-top:20px;">
+
+        <h2>❓ Frequently Asked Questions</h2>
+
+
+        <details class="faq-item">
+            <summary>
+                How can I report an incorrect fact?
+            </summary>
+
+            <div class="faq-answer">
+                Select “Content Correction” as the subject and
+                clearly identify the page and information that
+                needs review.
+            </div>
+        </details>
+
+
+        <details class="faq-item">
+            <summary>
+                Can I contribute historical information?
+            </summary>
+
+            <div class="faq-answer">
+                Yes. Use the contribution subject and describe
+                the material or knowledge you would like to submit.
+            </div>
+        </details>
+
+
+        <details class="faq-item">
+            <summary>
+                What should I include in a technical report?
+            </summary>
+
+            <div class="faq-answer">
+                Include the affected page, what you expected to
+                happen, what actually happened and, when useful,
+                your browser and device type.
+            </div>
+        </details>
+
+
+        <details class="faq-item">
+            <summary>
+                Does this form automatically send an email?
+            </summary>
+
+            <div class="faq-answer">
+                No. This standalone page validates the form locally.
+                Actual email delivery needs a connected backend or
+                trusted form service.
+            </div>
+        </details>
+
+
+        <details class="faq-item">
+            <summary>
+                Can I use this page on a mobile phone?
+            </summary>
+
+            <div class="faq-answer">
+                Yes. The contact layout is designed to adapt to
+                smaller screens and touch devices.
+            </div>
+        </details>
+
+    </section>
+
+
+    <!-- =====================================================
          FOOTER
-    ========================== -->
-    <footer class="footer">
+    ====================================================== -->
+
+    <section
+        class="contact-card"
+        style="margin-top:20px; text-align:center;"
+    >
+
+        <h2>🏛️ ALON HISTORYVERSE 24</h2>
 
         <p>
-            ALON HISTORYVERSE 24
-            • Baba Thecno Guru
+            History • Civilizations • Countries • Culture • Heritage • Knowledge
         </p>
 
-        <a href="../index.html">
-            Home
-        </a>
+        <p>
+            Creator / Owner:
+            <strong>Baba Thecno Guru</strong>
+        </p>
 
-    </footer>
+    </section>
 
 </main>
 
 
-<!-- =========================
-     CORE + CONTACT SYSTEM
-========================== -->
-<script src="../jss/core.js"></script>
-<script src="../jss/system.js"></script>
-<script src="../jss/contact.js"></script>
+<!-- =========================================================
+     CONTACT FORM JAVASCRIPT
+========================================================== -->
+
+<script>
+(function () {
+
+    "use strict";
+
+    const form = document.getElementById("contactForm");
+    const nameInput = document.getElementById("contactName");
+    const emailInput = document.getElementById("contactEmail");
+    const subjectInput = document.getElementById("contactSubject");
+    const messageInput = document.getElementById("contactMessage");
+    const counter = document.getElementById("messageCounter");
+    const status = document.getElementById("formStatus");
+    const resetButton = document.getElementById("resetButton");
+
+    if (!form) {
+        return;
+    }
+
+
+    function updateCounter() {
+
+        const length = messageInput.value.length;
+
+        counter.textContent =
+            length + " / 2000";
+
+    }
+
+
+    function showStatus(message) {
+
+        status.textContent = message;
+
+    }
+
+
+    function isValidEmail(email) {
+
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    }
+
+
+    messageInput.addEventListener(
+        "input",
+        updateCounter
+    );
+
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            const name =
+                nameInput.value.trim();
+
+            const email =
+                emailInput.value.trim();
+
+            const subject =
+                subjectInput.value.trim();
+
+            const message =
+                messageInput.value.trim();
+
+
+            if (!name) {
+
+                showStatus(
+                    "Please enter your name."
+                );
+
+                nameInput.focus();
+
+                return;
+            }
+
+
+            if (!email) {
+
+                showStatus(
+                    "Please enter your email address."
+                );
+
+                emailInput.focus();
+
+                return;
+            }
+
+
+            if (!isValidEmail(email)) {
+
+                showStatus(
+                    "Please enter a valid email address."
+                );
+
+                emailInput.focus();
+
+                return;
+            }
+
+
+            if (!subject) {
+
+                showStatus(
+                    "Please select a subject."
+                );
+
+                subjectInput.focus();
+
+                return;
+            }
+
+
+            if (!message) {
+
+                showStatus(
+                    "Please write your message."
+                );
+
+                messageInput.focus();
+
+                return;
+            }
+
+
+            if (message.length < 10) {
+
+                showStatus(
+                    "Please provide a little more detail in your message."
+                );
+
+                messageInput.focus();
+
+                return;
+            }
+
+
+            /*
+             * This page intentionally does not pretend to send
+             * an email without a real backend.
+             *
+             * The validated information is prepared locally.
+             */
+
+            const contactData = {
+
+                name: name,
+
+                email: email,
+
+                subject: subject,
+
+                message: message,
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            try {
+
+                localStorage.setItem(
+                    "alon_historyverse_contact_draft",
+                    JSON.stringify(contactData)
+                );
+
+            } catch (error) {
+
+                /*
+                 * Local storage may be unavailable in some
+                 * browser/private browsing environments.
+                 */
+
+            }
+
+
+            showStatus(
+                "Your message has been validated and prepared locally. Connect a real email/backend service to deliver it."
+            );
+
+        }
+    );
+
+
+    resetButton.addEventListener(
+        "click",
+        function () {
+
+            setTimeout(
+                function () {
+
+                    updateCounter();
+
+                    showStatus("");
+
+                },
+                0
+            );
+
+        }
+    );
+
+
+    updateCounter();
+
+})();
+</script>
 
 </body>
 </html>
