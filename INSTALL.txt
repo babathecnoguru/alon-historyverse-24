@@ -1,0 +1,401 @@
+ALON HISTORYVERSE 24
+GLOBAL MARKETPLACE MODULE
+INSTALLATION & TEST GUIDE
+
+==================================================
+
+1. FILES
+   ==================================================
+
+Marketplace module contains these files:
+
+marketplace.html
+marketplace.css
+marketplace.js
+marketplace-countries.js
+system.js
+INSTALL.txt
+
+==================================================
+2. FILE LOCATION
+
+The following Marketplace files must be placed in the
+same root level as index.html:
+
+/marketplace.html
+/marketplace.css
+/marketplace.js
+/marketplace-countries.js
+
+Do NOT create another nested Marketplace folder.
+
+Example:
+
+/
+├── index.html
+├── system.js
+├── marketplace.html
+├── marketplace.css
+├── marketplace.js
+├── marketplace-countries.js
+└── ...
+
+==================================================
+3. INDEX.HTML
+
+DO NOT MODIFY index.html for Marketplace.
+
+The Marketplace link is added dynamically through
+system.js.
+
+Existing working ALON HISTORYVERSE 24 index.html
+and the current GitHub Pages path structure must
+remain unchanged.
+
+==================================================
+4. SYSTEM.JS
+
+Keep the existing system.js code.
+
+Only add the Marketplace menu function and call
+described in the Marketplace setup instructions.
+
+The existing website functions must not be removed
+or replaced.
+
+==================================================
+5. THREE-DOT MENU
+
+After installation, open the ALON HISTORYVERSE 24
+website.
+
+Open the existing three-dot menu.
+
+A new option should appear:
+
+🌍 Global Marketplace
+
+Tap it.
+
+It should open:
+
+marketplace.html
+
+==================================================
+6. COUNTRY SYSTEM
+
+Marketplace country selection includes:
+
+- Country flag
+- Country name
+- Country calling code
+
+Country must be selected when creating an account
+or listing.
+
+Every listing must contain a location.
+
+==================================================
+7. LOCATION
+
+Marketplace listings require location information.
+
+Recommended location information:
+
+Country
+State / Province
+City
+Road / Area
+Latitude
+Longitude
+
+The current-location button can use the device's
+location permission when available.
+
+Users should provide accurate listing locations.
+
+==================================================
+8. LISTING CATEGORIES
+
+Marketplace supports categories such as:
+
+Cars
+Bikes
+Trucks
+Tractors
+JCB / Construction Machinery
+House
+Apartment
+Land
+Shop
+Hotel
+Restaurant / Dhaba
+Shopping Mall
+Clothing Shop
+Petrol Pump / CNG Pump
+Garage
+Mechanic
+Local Jobs
+Business
+
+==================================================
+9. FREE CATEGORIES
+
+Vehicles are free.
+
+Garage and mechanic listings are free.
+
+Local job listings can be created according to
+Marketplace rules.
+
+==================================================
+10. INDIA BUSINESS LISTINGS
+
+The planned India promotional listing model may
+include paid business advertisements.
+
+Example planned price:
+
+₹50 for 5 months.
+
+Payment processing is NOT activated by this
+Marketplace frontend module alone.
+
+A secure payment/backend system must be connected
+before collecting real payments.
+
+==================================================
+11. LOCAL JOBS
+
+Local Jobs can include:
+
+Shop jobs
+Hotel jobs
+Restaurant jobs
+Mall jobs
+Petrol pump jobs
+Garage jobs
+Small company jobs
+Other lawful local employment
+
+Job information may include:
+
+Job title
+Employer / Business
+Location
+Salary / Wage
+Full-time / Part-time
+Working hours
+Experience
+Vacancy count
+Description
+Application method
+
+Job posters must provide truthful information.
+
+Fake, fraudulent, illegal or exploitative jobs
+must not be posted.
+
+==================================================
+12. PHOTOS AND VIDEOS
+
+Listings can contain photos and video information.
+
+For permanent shared online media storage, Firebase
+Storage or another secure backend must be configured.
+
+The local browser fallback is not a replacement for
+cloud storage.
+
+==================================================
+13. PUBLIC PROFILE PRIVACY
+
+Public listing cards should show only:
+
+Profile picture
+Name
+
+Do NOT publicly display:
+
+Phone number
+Email address
+Password
+Private account information
+
+Seller communication should use a private contact
+system when the backend/contact system is enabled.
+
+==================================================
+14. PROHIBITED CONTENT
+
+The Marketplace must not be used for:
+
+Illegal goods
+Illegal services
+Weapons
+Drugs
+Stolen goods
+Counterfeit goods
+Explosives
+Human trafficking
+Fraudulent activities
+Other prohibited content
+
+Animals and birds must NOT be sold through the
+Marketplace.
+
+The system may automatically block prohibited
+keywords, but automatic filtering is not a complete
+legal or moderation system.
+
+==================================================
+15. LISTING RESPONSIBILITY
+
+Every listing creator is responsible for:
+
+Accuracy of the listing
+Ownership or permission to advertise
+Legality of the product/service
+Correct location
+Correct price
+Correct photos/videos
+Truthful description
+Compliance with applicable laws
+
+ALON HISTORYVERSE 24 may reject, hide or remove
+prohibited, illegal, fraudulent or misleading
+content.
+
+==================================================
+16. TERMS ACCEPTANCE
+
+A listing creator must accept the Marketplace
+listing rules before publishing a listing.
+
+Do not publish a listing without accepting the
+required rules.
+
+==================================================
+17. ALON MAP
+
+Marketplace contains an ALON-branded map interface.
+
+The current map implementation uses:
+
+Leaflet
+OpenStreetMap map data
+
+This means the interface is branded for
+ALON HISTORYVERSE 24, while the underlying map
+infrastructure currently comes from Leaflet /
+OpenStreetMap.
+
+A future independent ALON map-data service can be
+connected later.
+
+==================================================
+18. FIREBASE
+
+The Marketplace can use the existing
+ALON HISTORYVERSE 24 Firebase integration.
+
+For real shared accounts and cloud Marketplace data,
+Firebase configuration must be completed.
+
+Required backend capabilities include:
+
+Authentication
+Firestore
+Storage
+Security Rules
+
+Without backend configuration, the local browser
+fallback should be treated only as a local prototype.
+
+Do NOT treat localStorage as secure authentication.
+
+==================================================
+19. TESTING
+
+After uploading the files:
+
+1. Open the ALON HISTORYVERSE 24 website.
+
+2. Open the three-dot menu.
+
+3. Confirm:
+   
+   🌍 Global Marketplace
+
+4. Open Marketplace.
+
+5. Check country selection.
+
+6. Check category selection.
+
+7. Check search.
+
+8. Check listing form.
+
+9. Check location fields.
+
+10. Check map.
+
+11. Check current-location button if permission
+    is available.
+
+12. Create a test listing.
+
+13. Check that the listing appears.
+
+14. Open My Listings.
+
+15. Test Edit.
+
+16. Test Delete.
+
+17. Check that public listing information does not
+    expose private email, phone or password.
+
+==================================================
+20. IMPORTANT PATH RULE
+
+Do not change the existing working root
+index.html path structure.
+
+Do not rename existing working folders.
+
+Do not create duplicate index.html files.
+
+Do not move existing project files unless required
+for a separate confirmed upgrade.
+
+==================================================
+21. FUTURE UPGRADES
+
+Possible future Marketplace upgrades:
+
+Private Contact Seller
+Real authentication
+Firebase Firestore listings
+Firebase Storage media
+Admin moderation
+Report Listing
+Save / Favourite
+Nearby search
+Distance filters
+Advanced country filters
+Currency support
+Secure payment system
+Business verification
+Job verification
+Seller verification
+Improved ALON Map
+Notifications
+
+==================================================
+END
+
+ALON HISTORYVERSE 24
+Baba Thecno Guru
+Global Marketplace Module

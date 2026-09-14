@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Global Marketplace • ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Global Marketplace — vehicles, property, businesses, hotels, garages, local jobs and more."
+    >
+
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./marketplace.css">
+
+    <!-- Leaflet Map -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIINfQ3c2xM6gY9Q9l5p4QY8vX6j8V7K0hI="
+        crossorigin=""
+    >
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="mp-header">
+
+        <div class="mp-header-left">
+
+            <a
+                href="./index.html"
+                class="mp-home-btn"
+                aria-label="Back to ALON HISTORYVERSE 24"
+            >
+                ←
+            </a>
+
+            <div class="mp-brand">
+
+                <div class="mp-brand-title">
+                    ALON HISTORYVERSE 24
+                </div>
+
+                <div class="mp-brand-subtitle">
+                    GLOBAL MARKETPLACE
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mp-header-actions">
+
+            <button
+                type="button"
+                id="mpLoginOpenBtn"
+                class="mp-header-btn"
+            >
+                👤 Login / Register
+            </button>
+
+            <button
+                type="button"
+                id="mpMenuBtn"
+                class="mp-header-btn"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="mp-main">
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section class="mp-hero">
+
+            <div class="mp-hero-content">
+
+                <div class="mp-kicker">
+                    🌍 ALON GLOBAL MARKETPLACE
+                </div>
+
+                <h1>
+                    Find. Sell. Work. Connect.
+                </h1>
+
+                <p>
+                    Vehicles, property, businesses, hotels,
+                    garages, local jobs and more —
+                    discover listings around the world.
+                </p>
+
+                <div class="mp-hero-actions">
+
+                    <button
+                        type="button"
+                        id="mpCreateHeroBtn"
+                        class="mp-primary-btn"
+                    >
+                        ＋ Create Listing
+                    </button>
+
+                    <button
+                        type="button"
+                        id="mpMapHeroBtn"
+                        class="mp-secondary-btn"
+                    >
+                        🗺️ ALON Map
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MARKET TOOLBAR
+        ================================================== -->
+
+        <section class="mp-toolbar-panel">
+
+            <div class="mp-toolbar">
+
+                <div class="mp-field">
+
+                    <label for="mpCountryFilter">
+                        🌍 Country
+                    </label>
+
+                    <select id="mpCountryFilter">
+                        <option value="">
+                            All Countries
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div class="mp-field">
+
+                    <label for="mpCategoryFilter">
+                        📂 Category
+                    </label>
+
+                    <select id="mpCategoryFilter">
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+                        <option value="vehicle">
+                            🚗 Vehicles
+                        </option>
+
+                        <option value="property">
+                            🏠 Property
+                        </option>
+
+                        <option value="business">
+                            🏪 Businesses
+                        </option>
+
+                        <option value="hotel">
+                            🏨 Hotels
+                        </option>
+
+                        <option value="fuel">
+                            ⛽ Petrol / CNG
+                        </option>
+
+                        <option value="garage">
+                            🔧 Garage / Mechanic
+                        </option>
+
+                        <option value="job">
+                            📋 Local Jobs
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="mp-field mp-search-field">
+
+                    <label for="mpSearch">
+                        🔎 Search
+                    </label>
+
+                    <input
+                        type="search"
+                        id="mpSearch"
+                        placeholder="Search listings, city, road, business..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="mpSearchBtn"
+                    class="mp-search-btn"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <section class="mp-quick-actions">
+
+            <button
+                type="button"
+                data-market-action="login"
+                class="mp-action-card"
+            >
+                <span class="mp-action-icon">👤</span>
+                <span class="mp-action-title">
+                    Login / Register
+                </span>
+                <span class="mp-action-text">
+                    Create your marketplace account
+                </span>
+            </button>
+
+
+            <button
+                type="button"
+                data-market-action="create"
+                class="mp-action-card"
+            >
+                <span class="mp-action-icon">➕</span>
+                <span class="mp-action-title">
+                    Create Listing
+                </span>
+                <span class="mp-action-text">
+                    Sell, advertise or post a job
+                </span>
+            </button>
+
+
+            <button
+                type="button"
+                data-market-action="jobs"
+                class="mp-action-card"
+            >
+                <span class="mp-action-icon">📋</span>
+                <span class="mp-action-title">
+                    Local Jobs
+                </span>
+                <span class="mp-action-text">
+                    Find work near you
+                </span>
+            </button>
+
+
+            <button
+                type="button"
+                data-market-action="map"
+                class="mp-action-card"
+            >
+                <span class="mp-action-icon">🗺️</span>
+                <span class="mp-action-title">
+                    ALON Map
+                </span>
+                <span class="mp-action-text">
+                    Find listings by location
+                </span>
+            </button>
+
+
+            <button
+                type="button"
+                data-market-action="mine"
+                class="mp-action-card"
+            >
+                <span class="mp-action-icon">📁</span>
+                <span class="mp-action-title">
+                    My Listings
+                </span>
+                <span class="mp-action-text">
+                    Edit or delete your listings
+                </span>
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             ACCOUNT PANEL
+        ================================================== -->
+
+        <section
+            id="mpAccountPanel"
+            class="mp-panel mp-hidden"
+        >
+
+            <div class="mp-panel-header">
+
+                <div>
+                    <span class="mp-panel-kicker">
+                        ACCOUNT
+                    </span>
+
+                    <h2>
+                        Login / Register
+                    </h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="mp-close-btn"
+                    data-close-panel="account"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="mpAccountForm">
+
+                <div class="mp-form-grid">
+
+
+                    <div class="mp-field">
+
+                        <label for="mpAccountCountry">
+                            🌍 Country
+                        </label>
+
+                        <select
+                            id="mpAccountCountry"
+                            required
+                        >
+                            <option value="">
+                                Select Country
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="mp-field">
+
+                        <label for="mpFullName">
+                            👤 Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpFullName"
+                            placeholder="Your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mp-field">
+
+                        <label for="mpEmail">
+                            ✉️ Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="mpEmail"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mp-field">
+
+                        <label for="mpPassword">
+                            🔐 Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="mpPassword"
+                            placeholder="Password"
+                            minlength="6"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mp-field mp-field-full">
+
+                        <label for="mpProfilePhoto">
+                            🖼️ Profile Picture
+                        </label>
+
+                        <input
+                            type="file"
+                            id="mpProfilePhoto"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+
+                    <div class="mp-field mp-field-full">
+
+                        <label class="mp-check-row">
+
+                            <input
+                                type="checkbox"
+                                id="mpAccountTerms"
+                                required
+                            >
+
+                            <span>
+                                I agree to the ALON HISTORYVERSE 24
+                                Marketplace Terms and Rules.
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mp-form-actions">
+
+                    <button
+                        type="submit"
+                        class="mp-primary-btn"
+                    >
+                        Login / Register
+                    </button>
+
+                    <button
+                        type="button"
+                        id="mpLogoutBtn"
+                        class="mp-danger-btn"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </form>
+
+            <div
+                id="mpAccountStatus"
+                class="mp-status"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             CREATE / EDIT LISTING
+        ================================================== -->
+
+        <section
+            id="mpListingPanel"
+            class="mp-panel mp-hidden"
+        >
+
+            <div class="mp-panel-header">
+
+                <div>
+
+                    <span class="mp-panel-kicker">
+                        MARKETPLACE
+                    </span>
+
+                    <h2 id="mpListingFormTitle">
+                        Create Listing
+                    </h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="mp-close-btn"
+                    data-close-panel="listing"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="mpListingForm">
+
+                <input
+                    type="hidden"
+                    id="mpListingId"
+                >
+
+
+                <div class="mp-form-grid">
+
+
+                    <!-- Country -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingCountry">
+                            🌍 Country *
+                        </label>
+
+                        <select
+                            id="mpListingCountry"
+                            required
+                        >
+                            <option value="">
+                                Select Country
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <!-- Category -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingCategory">
+                            📂 Category *
+                        </label>
+
+                        <select
+                            id="mpListingCategory"
+                            required
+                        >
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option value="vehicle">
+                                🚗 Vehicles
+                            </option>
+
+                            <option value="property">
+                                🏠 Property
+                            </option>
+
+                            <option value="business">
+                                🏪 Business
+                            </option>
+
+                            <option value="hotel">
+                                🏨 Hotel
+                            </option>
+
+                            <option value="fuel">
+                                ⛽ Petrol / CNG Pump
+                            </option>
+
+                            <option value="garage">
+                                🔧 Garage / Mechanic
+                            </option>
+
+                            <option value="job">
+                                📋 Local Job
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Title -->
+
+                    <div class="mp-field mp-field-full">
+
+                        <label for="mpListingTitle">
+                            📝 Listing Title *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingTitle"
+                            placeholder="Example: Toyota Corolla 2022"
+                            required
+                            maxlength="150"
+                        >
+
+                    </div>
+
+
+                    <!-- Brand / Company -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingBrand">
+                            🏷️ Brand / Company / Employer
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingBrand"
+                            placeholder="Brand or business name"
+                            maxlength="120"
+                        >
+
+                    </div>
+
+
+                    <!-- Model / Job Role -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingModel">
+                            🔖 Model / Job Role
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingModel"
+                            placeholder="Model or job role"
+                            maxlength="120"
+                        >
+
+                    </div>
+
+
+                    <!-- Year / Experience -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingYear">
+                            📅 Year / Experience
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingYear"
+                            placeholder="2022 / 2 years"
+                            maxlength="50"
+                        >
+
+                    </div>
+
+
+                    <!-- Condition / Work Type -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingCondition">
+                            ⚙️ Condition / Work Type
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingCondition"
+                            placeholder="New / Used / Full-time / Part-time"
+                            maxlength="80"
+                        >
+
+                    </div>
+
+
+                    <!-- Price / Salary -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingPrice">
+                            💰 Price / Salary
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingPrice"
+                            placeholder="Amount / Negotiable"
+                            maxlength="80"
+                        >
+
+                    </div>
+
+
+                    <!-- City -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingCity">
+                            🏙️ City *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingCity"
+                            placeholder="City"
+                            required
+                            maxlength="100"
+                        >
+
+                    </div>
+
+
+                    <!-- State -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingState">
+                            📍 State / Province
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingState"
+                            placeholder="State / Province"
+                            maxlength="100"
+                        >
+
+                    </div>
+
+
+                    <!-- Road / Area -->
+
+                    <div class="mp-field mp-field-full">
+
+                        <label for="mpListingRoad">
+                            🛣️ Road / Area / Location *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mpListingRoad"
+                            placeholder="Road, area, market or locality"
+                            required
+                            maxlength="180"
+                        >
+
+                    </div>
+
+
+                    <!-- Latitude -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingLat">
+                            🌐 Latitude *
+                        </label>
+
+                        <input
+                            type="number"
+                            id="mpListingLat"
+                            step="any"
+                            placeholder="e.g. 22.3039"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Longitude -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingLng">
+                            🌐 Longitude *
+                        </label>
+
+                        <input
+                            type="number"
+                            id="mpListingLng"
+                            step="any"
+                            placeholder="e.g. 70.8022"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Current Location -->
+
+                    <div class="mp-field mp-field-full">
+
+                        <button
+                            type="button"
+                            id="mpCurrentLocationBtn"
+                            class="mp-location-btn"
+                        >
+                            📍 Use Current Location
+                        </button>
+
+                    </div>
+
+
+                    <!-- Description -->
+
+                    <div class="mp-field mp-field-full">
+
+                        <label for="mpListingDescription">
+                            📄 Description *
+                        </label>
+
+                        <textarea
+                            id="mpListingDescription"
+                            rows="6"
+                            placeholder="Write complete and accurate information..."
+                            required
+                            maxlength="5000"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- Photos -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingPhotos">
+                            📷 Photos
+                        </label>
+
+                        <input
+                            type="file"
+                            id="mpListingPhotos"
+                            accept="image/*"
+                            multiple
+                        >
+
+                        <small>
+                            Add clear photos of the listing.
+                        </small>
+
+                    </div>
+
+
+                    <!-- Video -->
+
+                    <div class="mp-field">
+
+                        <label for="mpListingVideo">
+                            🎥 Video
+                        </label>
+
+                        <input
+                            type="file"
+                            id="mpListingVideo"
+                            accept="video/*"
+                        >
+
+                        <small>
+                            Optional listing video.
+                        </small>
+
+                    </div>
+
+
+                    <!-- Legal Agreement -->
+
+                    <div class="mp-field mp-field-full">
+
+                        <label class="mp-check-row">
+
+                            <input
+                                type="checkbox"
+                                id="mpListingLegal"
+                                required
+                            >
+
+                            <span>
+                                I confirm that this listing is legal,
+                                accurate, and that I have the right
+                                or permission to publish it. I understand
+                                that prohibited, illegal, fraudulent,
+                                stolen, counterfeit, harmful or misleading
+                                listings can be rejected or removed.
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mp-form-actions">
+
+                    <button
+                        type="submit"
+                        class="mp-primary-btn"
+                    >
+                        💾 Save Listing
+                    </button>
+
+                    <button
+                        type="button"
+                        id="mpClearListingBtn"
+                        class="mp-secondary-btn"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div
+                id="mpListingStatus"
+                class="mp-status"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             MAP
+        ================================================== -->
+
+        <section
+            id="mpMapPanel"
+            class="mp-panel"
+        >
+
+            <div class="mp-panel-header">
+
+                <div>
+
+                    <span class="mp-panel-kicker">
+                        LOCATION
+                    </span>
+
+                    <h2>
+                        🗺️ ALON Map
+                    </h2>
+
+                    <p>
+                        Find marketplace listings by location.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="mpLocateMeBtn"
+                    class="mp-secondary-btn"
+                >
+                    📍 Locate Me
+                </button>
+
+            </div>
+
+
+            <div
+                id="alonMap"
+                class="mp-map"
+            ></div>
+
+
+            <div class="mp-map-note">
+
+                <strong>ALON Map Interface</strong>
+
+                <span>
+                    Marketplace locations are displayed on the
+                    ALON-branded map interface. Road and map
+                    infrastructure currently uses OpenStreetMap
+                    data through Leaflet.
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MY LISTINGS
+        ================================================== -->
+
+        <section
+            id="mpMyListingsPanel"
+            class="mp-panel mp-hidden"
+        >
+
+            <div class="mp-panel-header">
+
+                <div>
+
+                    <span class="mp-panel-kicker">
+                        ACCOUNT
+                    </span>
+
+                    <h2>
+                        📁 My Listings
+                    </h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="mp-close-btn"
+                    data-close-panel="mine"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div
+                id="mpMyListings"
+                class="mp-listings-grid"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             PUBLIC LISTINGS
+        ================================================== -->
+
+        <section class="mp-listings-section">
+
+            <div class="mp-section-heading">
+
+                <div>
+
+                    <span class="mp-panel-kicker">
+                        DISCOVER
+                    </span>
+
+                    <h2>
+                        🌍 Marketplace Listings
+                    </h2>
+
+                </div>
+
+                <div
+                    id="mpListingCount"
+                    class="mp-count"
+                >
+                    0 listings
+                </div>
+
+            </div>
+
+
+            <div
+                id="mpListingsGrid"
+                class="mp-listings-grid"
+            ></div>
+
+
+            <div
+                id="mpEmptyListings"
+                class="mp-empty"
+            >
+                <div class="mp-empty-icon">
+                    🌍
+                </div>
+
+                <h3>
+                    No listings found
+                </h3>
+
+                <p>
+                    Try another country, category or search term.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MARKETPLACE RULES
+        ================================================== -->
+
+        <section class="mp-rules-panel">
+
+            <div class="mp-panel-kicker">
+                SAFETY & RULES
+            </div>
+
+            <h2>
+                Marketplace Rules
+            </h2>
+
+
+            <div class="mp-rules-grid">
+
+
+                <article class="mp-rule-card">
+
+                    <div class="mp-rule-icon">
+                        📍
+                    </div>
+
+                    <h3>
+                        Location Required
+                    </h3>
+
+                    <p>
+                        Every listing must include a real
+                        country and location so people can
+                        find the listing.
+                    </p>
+
+                </article>
+
+
+                <article class="mp-rule-card">
+
+                    <div class="mp-rule-icon">
+                        👤
+                    </div>
+
+                    <h3>
+                        Public Privacy
+                    </h3>
+
+                    <p>
+                        Public listings show only the seller's
+                        profile picture and name. Private
+                        account information is not displayed.
+                    </p>
+
+                </article>
+
+
+                <article class="mp-rule-card">
+
+                    <div class="mp-rule-icon">
+                        🚫
+                    </div>
+
+                    <h3>
+                        Prohibited Content
+                    </h3>
+
+                    <p>
+                        Illegal goods, weapons, drugs, stolen
+                        goods, counterfeit goods, trafficking
+                        and other prohibited content are not
+                        allowed.
+                    </p>
+
+                </article>
+
+
+                <article class="mp-rule-card">
+
+                    <div class="mp-rule-icon">
+                        🐦
+                    </div>
+
+                    <h3>
+                        Animals & Birds
+                    </h3>
+
+                    <p>
+                        Animals and birds cannot be sold
+                        through the marketplace.
+                    </p>
+
+                </article>
+
+
+                <article class="mp-rule-card">
+
+                    <div class="mp-rule-icon">
+                        ⚖️
+                    </div>
+
+                    <h3>
+                        Seller Responsibility
+                    </h3>
+
+                    <p>
+                        The person creating a listing is
+                        responsible for its legality, accuracy,
+                        ownership and required permissions.
+                    </p>
+
+                </article>
+
+
+                <article class="mp-rule-card">
+
+                    <div class="mp-rule-icon">
+                        🛡️
+                    </div>
+
+                    <h3>
+                        Moderation
+                    </h3>
+
+                    <p>
+                        ALON HISTORYVERSE 24 may reject,
+                        hide or remove listings that violate
+                        marketplace rules or applicable law.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="mp-footer">
+
+        <div>
+            © 2026 ALON HISTORYVERSE 24
+        </div>
+
+        <div>
+            Baba Thecno Guru
+        </div>
+
+        <div>
+            Global Marketplace
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         LEAFLET JS
+    ====================================================== -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+
+
+    <!-- =====================================================
+         COUNTRY DATABASE
+    ====================================================== -->
+
+    <script src="./marketplace-countries.js"></script>
+
+
+    <!-- =====================================================
+         MARKETPLACE ENGINE
+    ====================================================== -->
+
+    <script src="./marketplace.js"></script>
+
+</body>
+
+</html>
