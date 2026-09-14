@@ -1,22 +1,937 @@
-[
 {
-"id": "india",
-"name": "India",
-"region": "Asia"
-},
-{
-"id": "egypt",
-"name": "Egypt",
-"region": "Africa"
-},
-{
-"id": "china",
-"name": "China",
-"region": "Asia"
-},
-{
-"id": "japan",
-"name": "Japan",
-"region": "Asia"
+  "project": "ALON HISTORYVERSE 24",
+  "creator": "Baba Thecno Guru",
+  "version": "24.0",
+  "type": "countries_database",
+  "countries": [
+    {
+      "id": "india",
+      "name": "India",
+      "officialName": "Republic of India",
+      "nativeName": "भारत गणराज्य",
+      "flag": "🇮🇳",
+      "code": "IN",
+      "continent": "Asia",
+      "region": "South Asia",
+      "capital": "New Delhi",
+      "currency": "Indian Rupee (INR)",
+      "languages": [
+        "Hindi",
+        "English",
+        "Bengali",
+        "Telugu",
+        "Marathi",
+        "Tamil",
+        "Gujarati",
+        "Kannada",
+        "Malayalam",
+        "Punjabi",
+        "Odia",
+        "Assamese"
+      ],
+      "government": "Federal Parliamentary Republic",
+      "description": "India is a South Asian country with a long history of civilizations, empires, religions, cultures, languages and traditions.",
+      "history": {
+        "ancient": "India is home to the Indus Valley Civilization and many ancient kingdoms, states and cultural traditions.",
+        "medieval": "The medieval period included major regional kingdoms, the Delhi Sultanate, Vijayanagara Empire and Mughal Empire.",
+        "modern": "Modern Indian history includes European colonial expansion, the British Raj, the independence movement and independence in 1947."
+      },
+      "civilizations": [
+        "Indus Valley Civilization",
+        "Vedic Civilization",
+        "Mauryan Empire",
+        "Gupta Empire",
+        "Chola Civilization",
+        "Mughal Empire"
+      ],
+      "culture": [
+        "Indian Classical Music",
+        "Indian Dance",
+        "Yoga",
+        "Traditional Crafts",
+        "Literature",
+        "Festivals"
+      ],
+      "heritageSites": [
+        "Taj Mahal",
+        "Red Fort",
+        "Qutb Minar",
+        "Ajanta Caves",
+        "Ellora Caves",
+        "Hampi"
+      ],
+      "famousPeople": [
+        "Ashoka",
+        "Chandragupta Maurya",
+        "Akbar",
+        "Mahatma Gandhi",
+        "Rabindranath Tagore",
+        "A. P. J. Abdul Kalam"
+      ],
+      "majorCities": [
+        "New Delhi",
+        "Mumbai",
+        "Kolkata",
+        "Chennai",
+        "Bengaluru",
+        "Hyderabad",
+        "Ahmedabad",
+        "Varanasi"
+      ],
+      "subdivisions": [
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chhattisgarh",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "Nagaland",
+        "Odisha",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal"
+      ],
+      "majorEvents": [
+        {
+          "year": "c. 2500 BCE",
+          "event": "Indus Valley Civilization flourishes"
+        },
+        {
+          "year": "c. 268–232 BCE",
+          "event": "Reign of Emperor Ashoka"
+        },
+        {
+          "year": "1526",
+          "event": "Beginning of the Mughal Empire in India"
+        },
+        {
+          "year": "1858",
+          "event": "Beginning of direct British Crown rule"
+        },
+        {
+          "year": "1947",
+          "event": "India gains independence"
+        },
+        {
+          "year": "1950",
+          "event": "Constitution of India comes into effect"
+        }
+      ]
+    },
+
+    {
+      "id": "united-states",
+      "name": "United States",
+      "officialName": "United States of America",
+      "nativeName": "United States of America",
+      "flag": "🇺🇸",
+      "code": "US",
+      "continent": "North America",
+      "region": "North America",
+      "capital": "Washington, D.C.",
+      "currency": "United States Dollar (USD)",
+      "languages": [
+        "English"
+      ],
+      "government": "Federal Presidential Republic",
+      "description": "The United States is a federal republic in North America with a major role in world history, science, industry, culture and technology.",
+      "history": {
+        "ancient": "North America was home to many Indigenous civilizations and cultures long before European settlement.",
+        "medieval": "Indigenous societies developed complex political, agricultural and cultural traditions.",
+        "modern": "European colonization, the American Revolution, Civil War, industrialization and the modern United States shaped the country's history."
+      },
+      "civilizations": [
+        "Mississippian Culture",
+        "Ancestral Puebloan Culture",
+        "Indigenous North American Cultures"
+      ],
+      "culture": [
+        "American Literature",
+        "Jazz",
+        "Blues",
+        "Cinema",
+        "Popular Culture",
+        "Native American Traditions"
+      ],
+      "heritageSites": [
+        "Independence Hall",
+        "Statue of Liberty",
+        "Grand Canyon",
+        "Yellowstone National Park",
+        "Mesa Verde"
+      ],
+      "famousPeople": [
+        "George Washington",
+        "Abraham Lincoln",
+        "Thomas Jefferson",
+        "Martin Luther King Jr.",
+        "Neil Armstrong",
+        "Mark Twain"
+      ],
+      "majorCities": [
+        "Washington, D.C.",
+        "New York City",
+        "Boston",
+        "Chicago",
+        "Los Angeles",
+        "San Francisco",
+        "Philadelphia",
+        "Houston"
+      ],
+      "subdivisions": [
+        "California",
+        "Texas",
+        "New York",
+        "Florida",
+        "Illinois",
+        "Pennsylvania",
+        "Ohio",
+        "Georgia",
+        "Arizona",
+        "Colorado",
+        "Virginia",
+        "Massachusetts"
+      ],
+      "majorEvents": [
+        {
+          "year": "1776",
+          "event": "Declaration of Independence"
+        },
+        {
+          "year": "1787",
+          "event": "United States Constitution adopted"
+        },
+        {
+          "year": "1861–1865",
+          "event": "American Civil War"
+        },
+        {
+          "year": "1969",
+          "event": "Apollo 11 Moon Landing"
+        }
+      ]
+    },
+
+    {
+      "id": "united-kingdom",
+      "name": "United Kingdom",
+      "officialName": "United Kingdom of Great Britain and Northern Ireland",
+      "nativeName": "United Kingdom",
+      "flag": "🇬🇧",
+      "code": "GB",
+      "continent": "Europe",
+      "region": "Western Europe",
+      "capital": "London",
+      "currency": "Pound Sterling (GBP)",
+      "languages": [
+        "English",
+        "Welsh",
+        "Scottish Gaelic",
+        "Irish"
+      ],
+      "government": "Constitutional Monarchy with Parliamentary Government",
+      "description": "The United Kingdom is an island country with a long history involving Celtic cultures, Roman Britain, medieval kingdoms, the British Empire and modern parliamentary government.",
+      "history": {
+        "ancient": "Britain was inhabited by Celtic peoples and later became part of the Roman Empire.",
+        "medieval": "Anglo-Saxon kingdoms, Viking settlements and Norman rule shaped medieval Britain.",
+        "modern": "The Industrial Revolution and British Empire had a major influence on global history."
+      },
+      "civilizations": [
+        "Celtic Britain",
+        "Roman Britain",
+        "Anglo-Saxon Kingdoms",
+        "Medieval England"
+      ],
+      "culture": [
+        "British Literature",
+        "Theatre",
+        "Classical Music",
+        "Football",
+        "Royal Traditions"
+      ],
+      "heritageSites": [
+        "Stonehenge",
+        "Tower of London",
+        "Westminster Abbey",
+        "Edinburgh Castle",
+        "Roman Baths"
+      ],
+      "famousPeople": [
+        "William Shakespeare",
+        "Isaac Newton",
+        "Charles Darwin",
+        "Winston Churchill",
+        "Jane Austen",
+        "Alan Turing"
+      ],
+      "majorCities": [
+        "London",
+        "Edinburgh",
+        "Manchester",
+        "Liverpool",
+        "Birmingham",
+        "Glasgow",
+        "Oxford",
+        "Cambridge"
+      ],
+      "subdivisions": [
+        "England",
+        "Scotland",
+        "Wales",
+        "Northern Ireland"
+      ],
+      "majorEvents": [
+        {
+          "year": "43 CE",
+          "event": "Roman conquest of Britain begins"
+        },
+        {
+          "year": "1066",
+          "event": "Norman Conquest"
+        },
+        {
+          "year": "1215",
+          "event": "Magna Carta"
+        },
+        {
+          "year": "1760s",
+          "event": "Industrial Revolution develops in Britain"
+        }
+      ]
+    },
+
+    {
+      "id": "france",
+      "name": "France",
+      "officialName": "French Republic",
+      "nativeName": "République française",
+      "flag": "🇫🇷",
+      "code": "FR",
+      "continent": "Europe",
+      "region": "Western Europe",
+      "capital": "Paris",
+      "currency": "Euro (EUR)",
+      "languages": [
+        "French"
+      ],
+      "government": "Semi-Presidential Republic",
+      "description": "France has a long history from prehistoric and Celtic societies through Roman Gaul, medieval kingdoms, the French Revolution and the modern republic.",
+      "history": {
+        "ancient": "The region was home to prehistoric communities and Celtic Gaul before Roman conquest.",
+        "medieval": "Frankish kingdoms and the medieval French monarchy shaped France.",
+        "modern": "The French Revolution, Napoleonic era, industrialization and modern republic transformed France."
+      },
+      "civilizations": [
+        "Gaul",
+        "Frankish Kingdom",
+        "Medieval France"
+      ],
+      "culture": [
+        "French Literature",
+        "Painting",
+        "Cuisine",
+        "Fashion",
+        "Cinema"
+      ],
+      "heritageSites": [
+        "Palace of Versailles",
+        "Mont-Saint-Michel",
+        "Notre-Dame de Paris",
+        "Lascaux Caves",
+        "Carcassonne"
+      ],
+      "famousPeople": [
+        "Charlemagne",
+        "Joan of Arc",
+        "Napoleon Bonaparte",
+        "Victor Hugo",
+        "Claude Monet",
+        "Louis Pasteur"
+      ],
+      "majorCities": [
+        "Paris",
+        "Lyon",
+        "Marseille",
+        "Toulouse",
+        "Bordeaux",
+        "Nice",
+        "Strasbourg"
+      ],
+      "subdivisions": [
+        "Île-de-France",
+        "Auvergne-Rhône-Alpes",
+        "Provence-Alpes-Côte d'Azur",
+        "Occitanie",
+        "Nouvelle-Aquitaine",
+        "Brittany",
+        "Normandy"
+      ],
+      "majorEvents": [
+        {
+          "year": "52 BCE",
+          "event": "Battle of Alesia"
+        },
+        {
+          "year": "843",
+          "event": "Treaty of Verdun"
+        },
+        {
+          "year": "1789",
+          "event": "French Revolution begins"
+        },
+        {
+          "year": "1804",
+          "event": "Napoleon becomes Emperor"
+        }
+      ]
+    },
+
+    {
+      "id": "germany",
+      "name": "Germany",
+      "officialName": "Federal Republic of Germany",
+      "nativeName": "Bundesrepublik Deutschland",
+      "flag": "🇩🇪",
+      "code": "DE",
+      "continent": "Europe",
+      "region": "Central Europe",
+      "capital": "Berlin",
+      "currency": "Euro (EUR)",
+      "languages": [
+        "German"
+      ],
+      "government": "Federal Parliamentary Republic",
+      "description": "Germany has a complex history involving Germanic peoples, the Holy Roman Empire, Prussia, unification, world wars and modern European integration.",
+      "history": {
+        "ancient": "Germanic peoples inhabited large parts of Central Europe and interacted with the Roman Empire.",
+        "medieval": "The Holy Roman Empire became a major political structure in Central Europe.",
+        "modern": "German unification in 1871 was followed by major political, industrial and social changes."
+      },
+      "civilizations": [
+        "Germanic Cultures",
+        "Holy Roman Empire",
+        "Prussian State"
+      ],
+      "culture": [
+        "German Literature",
+        "Classical Music",
+        "Philosophy",
+        "Science",
+        "Engineering"
+      ],
+      "heritageSites": [
+        "Cologne Cathedral",
+        "Wartburg Castle",
+        "Sanssouci Palace",
+        "Museum Island Berlin"
+      ],
+      "famousPeople": [
+        "Martin Luther",
+        "Johann Wolfgang von Goethe",
+        "Johann Sebastian Bach",
+        "Albert Einstein",
+        "Karl Marx"
+      ],
+      "majorCities": [
+        "Berlin",
+        "Munich",
+        "Hamburg",
+        "Frankfurt",
+        "Cologne",
+        "Dresden",
+        "Leipzig"
+      ],
+      "subdivisions": [
+        "Bavaria",
+        "Berlin",
+        "Brandenburg",
+        "Hesse",
+        "Saxony",
+        "Saxony-Anhalt",
+        "North Rhine-Westphalia",
+        "Baden-Württemberg"
+      ],
+      "majorEvents": [
+        {
+          "year": "800",
+          "event": "Charlemagne crowned Emperor"
+        },
+        {
+          "year": "1517",
+          "event": "Martin Luther's Reformation begins"
+        },
+        {
+          "year": "1871",
+          "event": "German Empire established"
+        },
+        {
+          "year": "1990",
+          "event": "German reunification"
+        }
+      ]
+    },
+
+    {
+      "id": "italy",
+      "name": "Italy",
+      "officialName": "Italian Republic",
+      "nativeName": "Repubblica Italiana",
+      "flag": "🇮🇹",
+      "code": "IT",
+      "continent": "Europe",
+      "region": "Southern Europe",
+      "capital": "Rome",
+      "currency": "Euro (EUR)",
+      "languages": [
+        "Italian"
+      ],
+      "government": "Parliamentary Republic",
+      "description": "Italy is home to ancient Roman civilization, Renaissance culture and numerous historic cities and heritage sites.",
+      "history": {
+        "ancient": "Rome developed from a city-state into one of the largest empires of the ancient world.",
+        "medieval": "Italy became divided among kingdoms, city-states, republics and religious territories.",
+        "modern": "The Renaissance and Italian unification were major turning points in Italian history."
+      },
+      "civilizations": [
+        "Etruscan Civilization",
+        "Roman Civilization",
+        "Italian Renaissance"
+      ],
+      "culture": [
+        "Renaissance Art",
+        "Opera",
+        "Architecture",
+        "Cuisine",
+        "Fashion"
+      ],
+      "heritageSites": [
+        "Colosseum",
+        "Roman Forum",
+        "Pompeii",
+        "Leaning Tower of Pisa",
+        "Historic Centre of Florence"
+      ],
+      "famousPeople": [
+        "Julius Caesar",
+        "Augustus",
+        "Leonardo da Vinci",
+        "Michelangelo",
+        "Galileo Galilei",
+        "Dante Alighieri"
+      ],
+      "majorCities": [
+        "Rome",
+        "Milan",
+        "Florence",
+        "Venice",
+        "Naples",
+        "Turin",
+        "Bologna"
+      ],
+      "subdivisions": [
+        "Lazio",
+        "Lombardy",
+        "Tuscany",
+        "Veneto",
+        "Campania",
+        "Sicily",
+        "Sardinia"
+      ],
+      "majorEvents": [
+        {
+          "year": "753 BCE",
+          "event": "Traditional founding date of Rome"
+        },
+        {
+          "year": "27 BCE",
+          "event": "Roman Empire traditionally begins"
+        },
+        {
+          "year": "14th–16th centuries",
+          "event": "Italian Renaissance"
+        },
+        {
+          "year": "1861",
+          "event": "Kingdom of Italy proclaimed"
+        }
+      ]
+    },
+
+    {
+      "id": "spain",
+      "name": "Spain",
+      "officialName": "Kingdom of Spain",
+      "nativeName": "Reino de España",
+      "flag": "🇪🇸",
+      "code": "ES",
+      "continent": "Europe",
+      "region": "Southern Europe",
+      "capital": "Madrid",
+      "currency": "Euro (EUR)",
+      "languages": [
+        "Spanish",
+        "Catalan",
+        "Galician",
+        "Basque"
+      ],
+      "government": "Parliamentary Constitutional Monarchy",
+      "description": "Spain has a diverse history involving Iberian peoples, Roman Hispania, Islamic Al-Andalus, Christian kingdoms and the Spanish Empire.",
+      "history": {
+        "ancient": "Iberian, Celtic, Phoenician, Greek and Carthaginian cultures existed in the Iberian Peninsula before Roman rule.",
+        "medieval": "Visigothic rule, Al-Andalus and Christian kingdoms shaped medieval Spain.",
+        "modern": "Spanish unification, overseas expansion and modern constitutional development shaped Spain."
+      },
+      "civilizations": [
+        "Iberian Cultures",
+        "Roman Hispania",
+        "Al-Andalus",
+        "Spanish Empire"
+      ],
+      "culture": [
+        "Flamenco",
+        "Spanish Literature",
+        "Architecture",
+        "Cuisine",
+        "Painting"
+      ],
+      "heritageSites": [
+        "Alhambra",
+        "Sagrada Família",
+        "Historic Centre of Córdoba",
+        "Toledo",
+        "Cathedral of Santiago de Compostela"
+      ],
+      "famousPeople": [
+        "Miguel de Cervantes",
+        "Christopher Columbus",
+        "Diego Velázquez",
+        "Francisco Goya",
+        "Antoni Gaudí"
+      ],
+      "majorCities": [
+        "Madrid",
+        "Barcelona",
+        "Seville",
+        "Valencia",
+        "Granada",
+        "Toledo",
+        "Bilbao"
+      ],
+      "subdivisions": [
+        "Andalusia",
+        "Catalonia",
+        "Galicia",
+        "Basque Country",
+        "Valencia",
+        "Castile and León",
+        "Madrid"
+      ],
+      "majorEvents": [
+        {
+          "year": "218 BCE",
+          "event": "Roman conquest of Hispania begins"
+        },
+        {
+          "year": "711",
+          "event": "Muslim conquest of Iberia"
+        },
+        {
+          "year": "1492",
+          "event": "Granada falls to the Catholic Monarchs"
+        },
+        {
+          "year": "1492",
+          "event": "Columbus begins voyage across the Atlantic"
+        }
+      ]
+    },
+
+    {
+      "id": "china",
+      "name": "China",
+      "officialName": "People's Republic of China",
+      "nativeName": "中华人民共和国",
+      "flag": "🇨🇳",
+      "code": "CN",
+      "continent": "Asia",
+      "region": "East Asia",
+      "capital": "Beijing",
+      "currency": "Renminbi (CNY)",
+      "languages": [
+        "Standard Chinese",
+        "Regional Chinese Languages"
+      ],
+      "government": "Unitary Socialist Republic",
+      "description": "China has one of the world's longest continuous recorded histories, with major dynasties, philosophies, technologies and cultural traditions.",
+      "history": {
+        "ancient": "Early Chinese states and dynasties developed agriculture, writing, bronze technology and complex political systems.",
+        "medieval": "The Han, Sui, Tang, Song, Yuan and other dynasties shaped Chinese civilization.",
+        "modern": "The Qing period, revolutionary movements and establishment of the People's Republic shaped modern China."
+      },
+      "civilizations": [
+        "Shang Civilization",
+        "Zhou Civilization",
+        "Han Civilization",
+        "Tang Civilization",
+        "Song Civilization"
+      ],
+      "culture": [
+        "Chinese Philosophy",
+        "Calligraphy",
+        "Traditional Medicine",
+        "Martial Arts",
+        "Chinese Literature"
+      ],
+      "heritageSites": [
+        "Great Wall of China",
+        "Forbidden City",
+        "Terracotta Army",
+        "Temple of Heaven",
+        "Mogao Caves"
+      ],
+      "famousPeople": [
+        "Confucius",
+        "Qin Shi Huang",
+        "Sun Tzu",
+        "Cai Lun",
+        "Zheng He"
+      ],
+      "majorCities": [
+        "Beijing",
+        "Shanghai",
+        "Xi'an",
+        "Nanjing",
+        "Guangzhou",
+        "Chengdu",
+        "Hangzhou"
+      ],
+      "subdivisions": [
+        "Beijing",
+        "Shanghai",
+        "Guangdong",
+        "Sichuan",
+        "Yunnan",
+        "Zhejiang",
+        "Hunan",
+        "Shaanxi"
+      ],
+      "majorEvents": [
+        {
+          "year": "c. 1600 BCE",
+          "event": "Shang Dynasty develops"
+        },
+        {
+          "year": "221 BCE",
+          "event": "Qin unification of China"
+        },
+        {
+          "year": "618–907",
+          "event": "Tang Dynasty"
+        },
+        {
+          "year": "1368–1644",
+          "event": "Ming Dynasty"
+        },
+        {
+          "year": "1949",
+          "event": "People's Republic of China established"
+        }
+      ]
+    },
+
+    {
+      "id": "japan",
+      "name": "Japan",
+      "officialName": "Japan",
+      "nativeName": "日本",
+      "flag": "🇯🇵",
+      "code": "JP",
+      "continent": "Asia",
+      "region": "East Asia",
+      "capital": "Tokyo",
+      "currency": "Japanese Yen (JPY)",
+      "languages": [
+        "Japanese"
+      ],
+      "government": "Constitutional Monarchy with Parliamentary Government",
+      "description": "Japan has a long history of imperial traditions, samurai culture, shogunates, technological development and distinctive arts.",
+      "history": {
+        "ancient": "Jōmon and Yayoi cultures formed early Japanese society, followed by the development of centralized states.",
+        "medieval": "Samurai governments and shogunates dominated much of medieval Japanese history.",
+        "modern": "The Meiji Restoration transformed Japan into a modern industrial state."
+      },
+      "civilizations": [
+        "Jōmon Culture",
+        "Yayoi Culture",
+        "Yamato State",
+        "Heian Culture",
+        "Samurai Culture"
+      ],
+      "culture": [
+        "Japanese Tea Ceremony",
+        "Kabuki",
+        "Noh Theatre",
+        "Calligraphy",
+        "Martial Arts",
+        "Anime and Manga"
+      ],
+      "heritageSites": [
+        "Himeji Castle",
+        "Historic Monuments of Ancient Kyoto",
+        "Itsukushima Shrine",
+        "Nara",
+        "Mount Fuji"
+      ],
+      "famousPeople": [
+        "Prince Shōtoku",
+        "Murasaki Shikibu",
+        "Miyamoto Musashi",
+        "Oda Nobunaga",
+        "Tokugawa Ieyasu"
+      ],
+      "majorCities": [
+        "Tokyo",
+        "Kyoto",
+        "Osaka",
+        "Nara",
+        "Hiroshima",
+        "Yokohama",
+        "Nagoya"
+      ],
+      "subdivisions": [
+        "Tokyo",
+        "Osaka",
+        "Kyoto",
+        "Hokkaido",
+        "Aichi",
+        "Fukuoka",
+        "Okinawa"
+      ],
+      "majorEvents": [
+        {
+          "year": "c. 300 BCE",
+          "event": "Yayoi culture develops"
+        },
+        {
+          "year": "794",
+          "event": "Heian period begins"
+        },
+        {
+          "year": "1603",
+          "event": "Tokugawa shogunate established"
+        },
+        {
+          "year": "1868",
+          "event": "Meiji Restoration"
+        },
+        {
+          "year": "1945",
+          "event": "End of World War II for Japan"
+        }
+      ]
+    },
+
+    {
+      "id": "australia",
+      "name": "Australia",
+      "officialName": "Commonwealth of Australia",
+      "nativeName": "Australia",
+      "flag": "🇦🇺",
+      "code": "AU",
+      "continent": "Oceania",
+      "region": "Australasia",
+      "capital": "Canberra",
+      "currency": "Australian Dollar (AUD)",
+      "languages": [
+        "English",
+        "Australian Indigenous Languages"
+      ],
+      "government": "Federal Parliamentary Constitutional Monarchy",
+      "description": "Australia has ancient Indigenous cultures and a modern history shaped by European exploration, colonization and federation.",
+      "history": {
+        "ancient": "Aboriginal Australian cultures have extremely deep histories extending back tens of thousands of years.",
+        "medieval": "Indigenous societies developed diverse traditions and knowledge systems across the continent.",
+        "modern": "European exploration and settlement led to colonial development and the federation of Australia."
+      },
+      "civilizations": [
+        "Aboriginal Australian Cultures",
+        "Torres Strait Islander Cultures"
+      ],
+      "culture": [
+        "Indigenous Australian Art",
+        "Australian Literature",
+        "Sport",
+        "Music",
+        "Outback Culture"
+      ],
+      "heritageSites": [
+        "Sydney Opera House",
+        "Uluru",
+        "Great Barrier Reef",
+        "Kakadu National Park",
+        "Royal Exhibition Building"
+      ],
+      "famousPeople": [
+        "Eddie Mabo",
+        "Ned Kelly",
+        "Donald Bradman",
+        "Cathy Freeman",
+        "Banjo Paterson"
+      ],
+      "majorCities": [
+        "Canberra",
+        "Sydney",
+        "Melbourne",
+        "Brisbane",
+        "Perth",
+        "Adelaide",
+        "Hobart"
+      ],
+      "subdivisions": [
+        "New South Wales",
+        "Victoria",
+        "Queensland",
+        "Western Australia",
+        "South Australia",
+        "Tasmania",
+        "Northern Territory",
+        "Australian Capital Territory"
+      ],
+      "majorEvents": [
+        {
+          "year": "c. 65,000+ years ago",
+          "event": "Ancient Indigenous cultures established across Australia"
+        },
+        {
+          "year": "1770",
+          "event": "James Cook charts eastern Australia for Britain"
+        },
+        {
+          "year": "1788",
+          "event": "British colony established at Sydney Cove"
+        },
+        {
+          "year": "1901",
+          "event": "Commonwealth of Australia established"
+        }
+      ]
+    }
+  ]
 }
-]

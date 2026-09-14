@@ -1,14 +1,562 @@
-[
 {
-"id": "forts",
-"title": "Forts"
-},
-{
-"id": "monuments",
-"title": "Monuments"
-},
-{
-"id": "cities",
-"title": "Old Cities"
+  "project": "ALON HISTORYVERSE 24",
+  "creator": "Baba Thecno Guru",
+  "version": "24.0",
+  "type": "heritage_database",
+  "heritage": [
+    {
+      "id": "taj-mahal",
+      "name": "Taj Mahal",
+      "country": "India",
+      "countryCode": "IN",
+      "location": "Agra, Uttar Pradesh",
+      "region": "Asia",
+      "category": "Monument",
+      "period": "Mughal Period",
+      "date": "1632–1653",
+      "status": "World Heritage Site",
+      "description": "The Taj Mahal is a monumental mausoleum complex in Agra, built during the Mughal period and renowned for its architecture, marble work and gardens.",
+      "historicalSignificance": "It is one of the best-known monuments associated with Mughal architecture and the cultural history of India.",
+      "architecture": "Mughal architecture with Persian, Central Asian and Indian influences.",
+      "materials": [
+        "White marble",
+        "Red sandstone",
+        "Precious and semi-precious stone inlay"
+      ],
+      "relatedPeople": [
+        "Shah Jahan",
+        "Mumtaz Mahal"
+      ],
+      "tags": [
+        "India",
+        "Mughal",
+        "Architecture",
+        "Monument",
+        "Agra"
+      ]
+    },
+    {
+      "id": "red-fort",
+      "name": "Red Fort",
+      "country": "India",
+      "countryCode": "IN",
+      "location": "Delhi",
+      "region": "Asia",
+      "category": "Fort",
+      "period": "Mughal Period",
+      "date": "1638–1648",
+      "status": "World Heritage Site",
+      "description": "The Red Fort is a major historic fort complex in Delhi constructed under the Mughal emperor Shah Jahan.",
+      "historicalSignificance": "The fort was a major political and ceremonial center of the Mughal Empire and later became an important symbol of modern India.",
+      "architecture": "Mughal architecture featuring red sandstone structures, gardens, halls and decorative work.",
+      "materials": [
+        "Red sandstone",
+        "Marble"
+      ],
+      "relatedPeople": [
+        "Shah Jahan",
+        "Aurangzeb"
+      ],
+      "tags": [
+        "India",
+        "Delhi",
+        "Mughal",
+        "Fort"
+      ]
+    },
+    {
+      "id": "qutub-minar",
+      "name": "Qutb Minar",
+      "country": "India",
+      "countryCode": "IN",
+      "location": "Delhi",
+      "region": "Asia",
+      "category": "Monument",
+      "period": "Medieval",
+      "date": "12th–13th century",
+      "status": "World Heritage Site",
+      "description": "Qutb Minar is a monumental minaret complex in Delhi associated with the early Delhi Sultanate.",
+      "historicalSignificance": "The complex preserves important evidence of medieval architecture and the early Delhi Sultanate period.",
+      "architecture": "Indo-Islamic architecture using sandstone and carved decorative elements.",
+      "materials": [
+        "Red sandstone",
+        "Marble"
+      ],
+      "relatedPeople": [
+        "Qutb al-Din Aibak",
+        "Iltutmish"
+      ],
+      "tags": [
+        "India",
+        "Delhi",
+        "Delhi Sultanate",
+        "Architecture"
+      ]
+    },
+    {
+      "id": "ajanta-caves",
+      "name": "Ajanta Caves",
+      "country": "India",
+      "countryCode": "IN",
+      "location": "Maharashtra",
+      "region": "Asia",
+      "category": "Cave Heritage",
+      "period": "Ancient",
+      "date": "2nd century BCE–6th century CE",
+      "status": "World Heritage Site",
+      "description": "Ajanta is a group of rock-cut Buddhist caves famous for murals, sculptures and monastic architecture.",
+      "historicalSignificance": "The caves provide important evidence of ancient Indian Buddhist art, architecture and religious life.",
+      "architecture": "Rock-cut Buddhist cave architecture.",
+      "materials": [
+        "Basalt rock",
+        "Mineral pigments"
+      ],
+      "relatedPeople": [
+        "Ancient Buddhist monks",
+        "Satavahana patrons",
+        "Vakataka patrons"
+      ],
+      "tags": [
+        "India",
+        "Maharashtra",
+        "Buddhist",
+        "Caves",
+        "Ancient Art"
+      ]
+    },
+    {
+      "id": "ellora-caves",
+      "name": "Ellora Caves",
+      "country": "India",
+      "countryCode": "IN",
+      "location": "Maharashtra",
+      "region": "Asia",
+      "category": "Cave Heritage",
+      "period": "Ancient and Medieval",
+      "date": "6th–10th century CE",
+      "status": "World Heritage Site",
+      "description": "Ellora is a large complex of rock-cut monuments representing Buddhist, Hindu and Jain traditions.",
+      "historicalSignificance": "The caves demonstrate the coexistence of different religious and artistic traditions in historical India.",
+      "architecture": "Rock-cut architecture including temples, monasteries and sculptural complexes.",
+      "materials": [
+        "Basalt rock"
+      ],
+      "relatedPeople": [
+        "Rashtrakuta patrons",
+        "Ancient Buddhist communities",
+        "Hindu communities",
+        "Jain communities"
+      ],
+      "tags": [
+        "India",
+        "Maharashtra",
+        "Buddhist",
+        "Hindu",
+        "Jain",
+        "Caves"
+      ]
+    },
+    {
+      "id": "hampi",
+      "name": "Group of Monuments at Hampi",
+      "country": "India",
+      "countryCode": "IN",
+      "location": "Karnataka",
+      "region": "Asia",
+      "category": "Historic City",
+      "period": "Medieval",
+      "date": "14th–16th century",
+      "status": "World Heritage Site",
+      "description": "Hampi contains the remains of the historic capital of the Vijayanagara Empire.",
+      "historicalSignificance": "The monuments reveal the political, economic, religious and artistic importance of the Vijayanagara Empire.",
+      "architecture": "South Indian temple and imperial architecture.",
+      "materials": [
+        "Granite",
+        "Stone"
+      ],
+      "relatedPeople": [
+        "Krishnadevaraya",
+        "Vijayanagara rulers"
+      ],
+      "tags": [
+        "India",
+        "Karnataka",
+        "Vijayanagara",
+        "Temple",
+        "Historic City"
+      ]
+    },
+    {
+      "id": "great-wall",
+      "name": "Great Wall of China",
+      "country": "China",
+      "countryCode": "CN",
+      "location": "Northern China",
+      "region": "Asia",
+      "category": "Fortification",
+      "period": "Ancient and Medieval",
+      "date": "Various periods",
+      "status": "World Heritage Site",
+      "description": "The Great Wall is a vast system of fortifications constructed and expanded by successive Chinese states and dynasties.",
+      "historicalSignificance": "It represents centuries of military, political and engineering history in China.",
+      "architecture": "Walls, watchtowers, gates and defensive structures.",
+      "materials": [
+        "Stone",
+        "Brick",
+        "Earth",
+        "Wood"
+      ],
+      "relatedPeople": [
+        "Qin Shi Huang",
+        "Ming Dynasty rulers"
+      ],
+      "tags": [
+        "China",
+        "Fortification",
+        "Wall",
+        "Ancient",
+        "Ming"
+      ]
+    },
+    {
+      "id": "forbidden-city",
+      "name": "Forbidden City",
+      "country": "China",
+      "countryCode": "CN",
+      "location": "Beijing",
+      "region": "Asia",
+      "category": "Palace",
+      "period": "Imperial China",
+      "date": "1406–1420",
+      "status": "World Heritage Site",
+      "description": "The Forbidden City is a vast imperial palace complex in Beijing that served as the center of Chinese imperial government for centuries.",
+      "historicalSignificance": "It preserves the architectural and political heritage of China's imperial dynasties.",
+      "architecture": "Traditional Chinese imperial palace architecture.",
+      "materials": [
+        "Wood",
+        "Brick",
+        "Stone",
+        "Glazed tiles"
+      ],
+      "relatedPeople": [
+        "Yongle Emperor",
+        "Ming Dynasty emperors",
+        "Qing Dynasty emperors"
+      ],
+      "tags": [
+        "China",
+        "Beijing",
+        "Palace",
+        "Ming",
+        "Qing"
+      ]
+    },
+    {
+      "id": "terracotta-army",
+      "name": "Terracotta Army",
+      "country": "China",
+      "countryCode": "CN",
+      "location": "Xi'an, Shaanxi",
+      "region": "Asia",
+      "category": "Archaeological Site",
+      "period": "Qin Dynasty",
+      "date": "3rd century BCE",
+      "status": "World Heritage Site",
+      "description": "The Terracotta Army is a large collection of life-size clay military figures associated with the mausoleum of Qin Shi Huang.",
+      "historicalSignificance": "The figures provide important evidence about Qin military organization, craftsmanship and funerary practices.",
+      "architecture": "Underground burial pits and monumental mausoleum complex.",
+      "materials": [
+        "Terracotta",
+        "Wood",
+        "Metal"
+      ],
+      "relatedPeople": [
+        "Qin Shi Huang"
+      ],
+      "tags": [
+        "China",
+        "Qin",
+        "Archaeology",
+        "Terracotta",
+        "Ancient"
+      ]
+    },
+    {
+      "id": "colosseum",
+      "name": "Colosseum",
+      "country": "Italy",
+      "countryCode": "IT",
+      "location": "Rome",
+      "region": "Europe",
+      "category": "Amphitheatre",
+      "period": "Roman Empire",
+      "date": "1st century CE",
+      "status": "World Heritage Site",
+      "description": "The Colosseum is a monumental Roman amphitheatre in the center of Rome.",
+      "historicalSignificance": "It is one of the most important surviving monuments of Roman imperial architecture and public entertainment.",
+      "architecture": "Roman amphitheatre architecture using arches, vaults and multiple levels.",
+      "materials": [
+        "Travertine",
+        "Tuff",
+        "Concrete",
+        "Brick"
+      ],
+      "relatedPeople": [
+        "Vespasian",
+        "Titus",
+        "Domitian"
+      ],
+      "tags": [
+        "Italy",
+        "Rome",
+        "Roman Empire",
+        "Amphitheatre"
+      ]
+    },
+    {
+      "id": "pompeii",
+      "name": "Pompeii",
+      "country": "Italy",
+      "countryCode": "IT",
+      "location": "Campania",
+      "region": "Europe",
+      "category": "Archaeological City",
+      "period": "Roman",
+      "date": "79 CE",
+      "status": "World Heritage Site",
+      "description": "Pompeii is an ancient Roman city preserved by the eruption of Mount Vesuvius in 79 CE.",
+      "historicalSignificance": "The site provides an unusually detailed view of everyday Roman urban life.",
+      "architecture": "Roman streets, houses, temples, baths, theatres and public buildings.",
+      "materials": [
+        "Stone",
+        "Brick",
+        "Roman concrete",
+        "Plaster"
+      ],
+      "relatedPeople": [
+        "Pliny the Younger",
+        "Roman citizens of Pompeii"
+      ],
+      "tags": [
+        "Italy",
+        "Pompeii",
+        "Rome",
+        "Archaeology",
+        "Volcano"
+      ]
+    },
+    {
+      "id": "stonehenge",
+      "name": "Stonehenge",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "location": "Wiltshire, England",
+      "region": "Europe",
+      "category": "Prehistoric Monument",
+      "period": "Prehistoric",
+      "date": "c. 3000–2000 BCE",
+      "status": "World Heritage Site",
+      "description": "Stonehenge is a prehistoric monument consisting of large stones arranged in a distinctive ceremonial landscape.",
+      "historicalSignificance": "It provides evidence of complex prehistoric construction, ceremonial activity and social organization.",
+      "architecture": "Megalithic stone monument.",
+      "materials": [
+        "Sarsen stone",
+        "Bluestone"
+      ],
+      "relatedPeople": [
+        "Prehistoric communities of Britain"
+      ],
+      "tags": [
+        "United Kingdom",
+        "England",
+        "Prehistoric",
+        "Megalith",
+        "Stone Circle"
+      ]
+    },
+    {
+      "id": "tower-of-london",
+      "name": "Tower of London",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "location": "London, England",
+      "region": "Europe",
+      "category": "Castle",
+      "period": "Medieval",
+      "date": "11th century onward",
+      "status": "World Heritage Site",
+      "description": "The Tower of London is a historic castle complex founded after the Norman Conquest.",
+      "historicalSignificance": "The Tower served as a royal palace, fortress, prison, treasury and important political site.",
+      "architecture": "Norman and later medieval fortress architecture.",
+      "materials": [
+        "Stone",
+        "Brick"
+      ],
+      "relatedPeople": [
+        "William the Conqueror",
+        "Henry III",
+        "Edward I"
+      ],
+      "tags": [
+        "United Kingdom",
+        "England",
+        "London",
+        "Castle",
+        "Norman"
+      ]
+    },
+    {
+      "id": "alhambra",
+      "name": "Alhambra",
+      "country": "Spain",
+      "countryCode": "ES",
+      "location": "Granada",
+      "region": "Europe",
+      "category": "Palace and Fortress",
+      "period": "Islamic Spain",
+      "date": "13th–14th century",
+      "status": "World Heritage Site",
+      "description": "The Alhambra is a historic palace and fortress complex associated with the Nasrid dynasty of Granada.",
+      "historicalSignificance": "It is one of the most significant surviving examples of medieval Islamic architecture in the Iberian Peninsula.",
+      "architecture": "Islamic palace architecture featuring courtyards, gardens, geometric decoration and water features.",
+      "materials": [
+        "Stucco",
+        "Wood",
+        "Tile",
+        "Stone"
+      ],
+      "relatedPeople": [
+        "Nasrid rulers",
+        "Muhammad I of Granada"
+      ],
+      "tags": [
+        "Spain",
+        "Granada",
+        "Al-Andalus",
+        "Islamic Architecture",
+        "Palace"
+      ]
+    },
+    {
+      "id": "mont-saint-michel",
+      "name": "Mont-Saint-Michel",
+      "country": "France",
+      "countryCode": "FR",
+      "location": "Normandy",
+      "region": "Europe",
+      "category": "Abbey and Historic Site",
+      "period": "Medieval",
+      "date": "8th century onward",
+      "status": "World Heritage Site",
+      "description": "Mont-Saint-Michel is a historic tidal island and abbey complex on the Normandy coast.",
+      "historicalSignificance": "It became an important medieval religious and pilgrimage center.",
+      "architecture": "Medieval Romanesque and Gothic architecture.",
+      "materials": [
+        "Granite",
+        "Stone"
+      ],
+      "relatedPeople": [
+        "Medieval Benedictine communities"
+      ],
+      "tags": [
+        "France",
+        "Normandy",
+        "Medieval",
+        "Abbey",
+        "Pilgrimage"
+      ]
+    },
+    {
+      "id": "acropolis-athens",
+      "name": "Acropolis of Athens",
+      "country": "Greece",
+      "countryCode": "GR",
+      "location": "Athens",
+      "region": "Europe",
+      "category": "Ancient Monument",
+      "period": "Classical Greece",
+      "date": "5th century BCE",
+      "status": "World Heritage Site",
+      "description": "The Acropolis is an ancient fortified hill containing major monuments of Classical Greek architecture.",
+      "historicalSignificance": "It represents the architectural, artistic and cultural achievements of Classical Athens.",
+      "architecture": "Classical Greek architecture.",
+      "materials": [
+        "Pentelic marble",
+        "Limestone"
+      ],
+      "relatedPeople": [
+        "Pericles",
+        "Phidias",
+        "Ictinus",
+        "Callicrates"
+      ],
+      "tags": [
+        "Greece",
+        "Athens",
+        "Ancient Greece",
+        "Parthenon",
+        "Classical"
+      ]
+    },
+    {
+      "id": "kyoto-historic-monuments",
+      "name": "Historic Monuments of Ancient Kyoto",
+      "country": "Japan",
+      "countryCode": "JP",
+      "location": "Kyoto",
+      "region": "Asia",
+      "category": "Historic City",
+      "period": "Classical and Medieval Japan",
+      "date": "8th century onward",
+      "status": "World Heritage Site",
+      "description": "The historic monuments of Kyoto include temples, shrines, gardens and other structures reflecting Japanese cultural history.",
+      "historicalSignificance": "Kyoto was a major political, religious and cultural center of Japan for centuries.",
+      "architecture": "Traditional Japanese temple, shrine and garden architecture.",
+      "materials": [
+        "Wood",
+        "Stone",
+        "Ceramic tile"
+      ],
+      "relatedPeople": [
+        "Japanese imperial court",
+        "Buddhist communities",
+        "Shinto communities"
+      ],
+      "tags": [
+        "Japan",
+        "Kyoto",
+        "Temple",
+        "Shrine",
+        "Japanese Culture"
+      ]
+    },
+    {
+      "id": "uluru",
+      "name": "Uluru",
+      "country": "Australia",
+      "countryCode": "AU",
+      "location": "Northern Territory",
+      "region": "Oceania",
+      "category": "Natural and Cultural Heritage",
+      "period": "Ancient Indigenous Heritage",
+      "date": "Ancient",
+      "status": "World Heritage Site",
+      "description": "Uluru is a massive sandstone formation with deep cultural significance to the Anangu people.",
+      "historicalSignificance": "The site is an important part of Indigenous Australian cultural traditions and landscape knowledge.",
+      "architecture": "Natural geological formation rather than built architecture.",
+      "materials": [
+        "Sandstone"
+      ],
+      "relatedPeople": [
+        "Anangu people"
+      ],
+      "tags": [
+        "Australia",
+        "Indigenous Heritage",
+        "Nature",
+        "Uluru",
+        "Anangu"
+      ]
+    }
+  ]
 }
-]

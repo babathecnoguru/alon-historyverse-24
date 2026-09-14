@@ -1,18 +1,554 @@
-[
 {
-"id": "history",
-"title": "History"
-},
-{
-"id": "computer",
-"title": "Computer"
-},
-{
-"id": "mathematics",
-"title": "Mathematics"
-},
-{
-"id": "jobs",
-"title": "Jobs & Careers"
+  "project": "ALON HISTORYVERSE 24",
+  "creator": "Baba Thecno Guru",
+  "version": "24.0",
+  "type": "knowledge_library_database",
+
+  "library": {
+    "title": "ALON HISTORYVERSE 24 Knowledge Library",
+    "description": "A structured knowledge library covering history, civilizations, countries, culture, heritage, education, mathematics, computers, jobs and nature.",
+
+    "departments": [
+      {
+        "id": "history-civilizations",
+        "name": "History & Civilizations",
+        "icon": "🏛️",
+        "description": "Explore ancient civilizations, empires, kingdoms, rulers and major historical events.",
+        "path": "../html/civilizations.html",
+        "subjects": [
+          {
+            "id": "ancient-civilizations",
+            "name": "Ancient Civilizations",
+            "books": [
+              {
+                "id": "mesopotamia",
+                "title": "Mesopotamian Civilizations",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Ancient History",
+                "level": "Beginner",
+                "description": "Introduction to the civilizations that developed in ancient Mesopotamia.",
+                "path": "../html/read.html?book=mesopotamia"
+              },
+              {
+                "id": "ancient-egypt",
+                "title": "Ancient Egypt",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Ancient History",
+                "level": "Beginner",
+                "description": "Explore ancient Egyptian civilization, pharaohs, religion, architecture and culture.",
+                "path": "../html/read.html?book=ancient-egypt"
+              },
+              {
+                "id": "indus-valley",
+                "title": "Indus Valley Civilization",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Ancient History",
+                "level": "Beginner",
+                "description": "Discover the cities, culture, technology and historical importance of the Indus Valley Civilization.",
+                "path": "../html/read.html?book=indus-valley"
+              },
+              {
+                "id": "ancient-china",
+                "title": "Ancient Chinese Civilizations",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Ancient History",
+                "level": "Intermediate",
+                "description": "Learn about early Chinese states, dynasties, philosophy and technological achievements.",
+                "path": "../html/read.html?book=ancient-china"
+              },
+              {
+                "id": "ancient-greece",
+                "title": "Ancient Greece",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Classical History",
+                "level": "Intermediate",
+                "description": "Explore Greek city-states, philosophy, mythology, science, art and democracy.",
+                "path": "../html/read.html?book=ancient-greece"
+              },
+              {
+                "id": "roman-civilization",
+                "title": "Roman Civilization",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Classical History",
+                "level": "Intermediate",
+                "description": "Study the Roman Republic, Roman Empire, society, military and legacy.",
+                "path": "../html/read.html?book=roman-civilization"
+              }
+            ]
+          },
+
+          {
+            "id": "medieval-history",
+            "name": "Medieval History",
+            "books": [
+              {
+                "id": "medieval-india",
+                "title": "Medieval India",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Medieval History",
+                "level": "Intermediate",
+                "description": "Overview of major kingdoms, sultanates, empires and cultural developments in medieval India.",
+                "path": "../html/read.html?book=medieval-india"
+              },
+              {
+                "id": "mughal-empire",
+                "title": "Mughal Empire",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Empire",
+                "level": "Intermediate",
+                "description": "Explore the Mughal rulers, administration, architecture, culture and historical legacy.",
+                "path": "../html/read.html?book=mughal-empire"
+              },
+              {
+                "id": "european-medieval",
+                "title": "Medieval Europe",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "European History",
+                "level": "Intermediate",
+                "description": "Discover kingdoms, castles, religion, society and political changes in medieval Europe.",
+                "path": "../html/read.html?book=european-medieval"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "countries-world",
+        "name": "Countries & World",
+        "icon": "🌍",
+        "description": "Explore countries, capitals, regions, history, cultures, cities and heritage.",
+        "path": "../html/countries.html",
+        "subjects": [
+          {
+            "id": "world-countries",
+            "name": "Countries of the World",
+            "books": [
+              {
+                "id": "india",
+                "title": "India",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "History, geography, culture, civilizations, heritage and major cities of India.",
+                "path": "../html/country.html?country=india"
+              },
+              {
+                "id": "united-states",
+                "title": "United States",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "History, culture, cities, states and heritage of the United States.",
+                "path": "../html/country.html?country=united-states"
+              },
+              {
+                "id": "united-kingdom",
+                "title": "United Kingdom",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Explore the history, nations, cities, culture and heritage of the United Kingdom.",
+                "path": "../html/country.html?country=united-kingdom"
+              },
+              {
+                "id": "france",
+                "title": "France",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Discover French history, culture, cities, monuments and heritage.",
+                "path": "../html/country.html?country=france"
+              },
+              {
+                "id": "germany",
+                "title": "Germany",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Explore German history, culture, cities and major historical developments.",
+                "path": "../html/country.html?country=germany"
+              },
+              {
+                "id": "italy",
+                "title": "Italy",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Discover Roman heritage, Renaissance culture, cities and historic monuments of Italy.",
+                "path": "../html/country.html?country=italy"
+              },
+              {
+                "id": "spain",
+                "title": "Spain",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Explore Spanish history, Al-Andalus, culture, cities and heritage.",
+                "path": "../html/country.html?country=spain"
+              },
+              {
+                "id": "china",
+                "title": "China",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Explore Chinese dynasties, civilization, culture, cities and heritage.",
+                "path": "../html/country.html?country=china"
+              },
+              {
+                "id": "japan",
+                "title": "Japan",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Discover Japanese history, samurai culture, traditions, cities and heritage.",
+                "path": "../html/country.html?country=japan"
+              },
+              {
+                "id": "australia",
+                "title": "Australia",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Country",
+                "level": "Beginner",
+                "description": "Explore Indigenous heritage, Australian history, cities and culture.",
+                "path": "../html/country.html?country=australia"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "culture-heritage",
+        "name": "Culture & Heritage",
+        "icon": "🏺",
+        "description": "Explore monuments, forts, temples, historic cities, traditions and cultural heritage.",
+        "path": "../html/heritage.html",
+        "subjects": [
+          {
+            "id": "world-heritage",
+            "name": "World Heritage",
+            "books": [
+              {
+                "id": "taj-mahal",
+                "title": "Taj Mahal",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Heritage",
+                "level": "Beginner",
+                "description": "Explore the history and architecture of the Taj Mahal.",
+                "path": "../html/heritage.html?heritage=taj-mahal"
+              },
+              {
+                "id": "red-fort",
+                "title": "Red Fort",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Heritage",
+                "level": "Beginner",
+                "description": "Learn about the history and architecture of Delhi's Red Fort.",
+                "path": "../html/heritage.html?heritage=red-fort"
+              },
+              {
+                "id": "great-wall",
+                "title": "Great Wall of China",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Heritage",
+                "level": "Beginner",
+                "description": "Discover the history and engineering of the Great Wall of China.",
+                "path": "../html/heritage.html?heritage=great-wall"
+              },
+              {
+                "id": "colosseum",
+                "title": "Colosseum",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Heritage",
+                "level": "Beginner",
+                "description": "Explore the Roman Colosseum and its historical significance.",
+                "path": "../html/heritage.html?heritage=colosseum"
+              },
+              {
+                "id": "stonehenge",
+                "title": "Stonehenge",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Heritage",
+                "level": "Beginner",
+                "description": "Learn about the prehistoric monument of Stonehenge.",
+                "path": "../html/heritage.html?heritage=stonehenge"
+              },
+              {
+                "id": "alhambra",
+                "title": "Alhambra",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Heritage",
+                "level": "Intermediate",
+                "description": "Explore the palace and fortress complex of Granada.",
+                "path": "../html/heritage.html?heritage=alhambra"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "mathematics",
+        "name": "Mathematics",
+        "icon": "📐",
+        "description": "A learning department covering mathematics from basic concepts to advanced topics.",
+        "path": "../html/mathematics.html",
+        "subjects": [
+          {
+            "id": "basic-mathematics",
+            "name": "Basic Mathematics",
+            "books": [
+              {
+                "id": "numbers",
+                "title": "Numbers",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Mathematics",
+                "level": "Beginner",
+                "description": "Numbers, counting, place value and basic numerical concepts.",
+                "path": "../html/read.html?book=numbers"
+              },
+              {
+                "id": "arithmetic",
+                "title": "Basic Arithmetic",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Mathematics",
+                "level": "Beginner",
+                "description": "Addition, subtraction, multiplication, division and arithmetic rules.",
+                "path": "../html/read.html?book=arithmetic"
+              },
+              {
+                "id": "fractions",
+                "title": "Fractions",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Mathematics",
+                "level": "Beginner",
+                "description": "Understand fractions, equivalent fractions and basic operations.",
+                "path": "../html/read.html?book=fractions"
+              }
+            ]
+          },
+          {
+            "id": "advanced-mathematics",
+            "name": "Advanced Mathematics",
+            "books": [
+              {
+                "id": "algebra",
+                "title": "Algebra",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Mathematics",
+                "level": "Intermediate",
+                "description": "Variables, equations, expressions and algebraic concepts.",
+                "path": "../html/read.html?book=algebra"
+              },
+              {
+                "id": "geometry",
+                "title": "Geometry",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Mathematics",
+                "level": "Intermediate",
+                "description": "Shapes, angles, lines, areas, volumes and geometric reasoning.",
+                "path": "../html/read.html?book=geometry"
+              },
+              {
+                "id": "calculus",
+                "title": "Introduction to Calculus",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Mathematics",
+                "level": "Advanced",
+                "description": "An introduction to limits, derivatives and integrals.",
+                "path": "../html/read.html?book=calculus"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "computer",
+        "name": "Computer & Technology",
+        "icon": "💻",
+        "description": "Learn computer fundamentals, hardware, software, internet, security and advanced concepts.",
+        "path": "../html/computer.html",
+        "subjects": [
+          {
+            "id": "computer-basics",
+            "name": "Computer Basics",
+            "books": [
+              {
+                "id": "computer-fundamentals",
+                "title": "Computer Fundamentals",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Computer",
+                "level": "Beginner",
+                "description": "Learn what computers are, how they work and their main components.",
+                "path": "../html/computer.html"
+              },
+              {
+                "id": "computer-hardware",
+                "title": "Computer Hardware",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Computer",
+                "level": "Beginner",
+                "description": "Learn about CPU, RAM, storage, monitor, keyboard, mouse and other hardware.",
+                "path": "../html/computer.html"
+              },
+              {
+                "id": "internet-basics",
+                "title": "Internet Basics",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Technology",
+                "level": "Beginner",
+                "description": "Understand websites, browsers, downloads, uploads, email and internet safety.",
+                "path": "../html/computer.html"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "jobs-careers",
+        "name": "Jobs & Careers",
+        "icon": "💼",
+        "description": "Explore careers, job categories, skills and educational pathways.",
+        "path": "../html/jobs.html",
+        "subjects": [
+          {
+            "id": "career-basics",
+            "name": "Career Knowledge",
+            "books": [
+              {
+                "id": "career-planning",
+                "title": "Career Planning",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Career",
+                "level": "Beginner",
+                "description": "Learn the basics of career planning, skills and career choices.",
+                "path": "../html/jobs.html"
+              },
+              {
+                "id": "technology-careers",
+                "title": "Technology Careers",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Career",
+                "level": "Intermediate",
+                "description": "Explore career paths in computers, software and technology.",
+                "path": "../html/jobs.html"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "trees-nature",
+        "name": "Trees & Nature",
+        "icon": "🌳",
+        "description": "Explore trees, plants, forests, ecosystems and natural knowledge.",
+        "path": "../html/trees.html",
+        "subjects": [
+          {
+            "id": "trees",
+            "name": "Trees",
+            "books": [
+              {
+                "id": "tree-basics",
+                "title": "Tree Basics",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Nature",
+                "level": "Beginner",
+                "description": "Learn about trees, their parts, growth and ecological importance.",
+                "path": "../html/trees.html"
+              },
+              {
+                "id": "forest-ecosystems",
+                "title": "Forest Ecosystems",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Nature",
+                "level": "Intermediate",
+                "description": "Understand forests, biodiversity and ecosystem relationships.",
+                "path": "../html/trees.html"
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "historical-timeline",
+        "name": "Historical Timeline",
+        "icon": "🕰️",
+        "description": "Explore important events from ancient history to the modern era.",
+        "path": "../html/timeline.html",
+        "subjects": [
+          {
+            "id": "world-history-timeline",
+            "name": "World History Timeline",
+            "books": [
+              {
+                "id": "ancient-world-timeline",
+                "title": "Ancient World Timeline",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Timeline",
+                "level": "Beginner",
+                "description": "Major events and civilizations of the ancient world.",
+                "path": "../html/timeline.html"
+              },
+              {
+                "id": "medieval-world-timeline",
+                "title": "Medieval World Timeline",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Timeline",
+                "level": "Intermediate",
+                "description": "Important events from the medieval period around the world.",
+                "path": "../html/timeline.html"
+              },
+              {
+                "id": "modern-world-timeline",
+                "title": "Modern World Timeline",
+                "author": "ALON HISTORYVERSE 24",
+                "category": "Timeline",
+                "level": "Intermediate",
+                "description": "Major developments from the early modern period to the contemporary world.",
+                "path": "../html/timeline.html"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+
+    "features": [
+      "Department browsing",
+      "Subject browsing",
+      "Book browsing",
+      "Reading interface",
+      "Library search",
+      "Category filtering",
+      "Beginner to advanced learning",
+      "History and civilization knowledge",
+      "Country knowledge",
+      "Culture and heritage",
+      "Mathematics learning",
+      "Computer education",
+      "Jobs and career information",
+      "Trees and nature knowledge",
+      "Historical timelines"
+    ],
+
+    "navigation": {
+      "home": "../index.html",
+      "library": "../html/library.html",
+      "department": "../html/department.html",
+      "subject": "../html/subject.html",
+      "book": "../html/book.html",
+      "read": "../html/read.html",
+      "countries": "../html/countries.html",
+      "civilizations": "../html/civilizations.html",
+      "heritage": "../html/heritage.html",
+      "timeline": "../html/timeline.html"
+    }
+  }
 }
-]

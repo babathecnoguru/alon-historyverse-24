@@ -1,14 +1,691 @@
-[
 {
-"id": "indus",
-"name": "Indus Valley Civilization"
-},
-{
-"id": "egyptian",
-"name": "Ancient Egyptian Civilization"
-},
-{
-"id": "roman",
-"name": "Roman Civilization"
+  "project": "ALON HISTORYVERSE 24",
+  "creator": "Baba Thecno Guru",
+  "version": "24.0",
+  "type": "civilizations_database",
+
+  "civilizations": [
+
+    {
+      "id": "mesopotamia",
+      "name": "Mesopotamian Civilizations",
+      "nativeNames": [
+        "Sumer",
+        "Akkad",
+        "Babylon",
+        "Assyria"
+      ],
+      "symbol": "𒀭",
+      "region": "Middle East",
+      "period": "Ancient",
+      "date": "c. 3500 BCE – 539 BCE",
+
+      "description": "The civilizations of Mesopotamia developed between the Tigris and Euphrates rivers and became some of the earliest urban societies in human history.",
+
+      "importantPeople": [
+        "Sargon of Akkad",
+        "Hammurabi",
+        "Ashurbanipal"
+      ],
+
+      "majorCities": [
+        "Ur",
+        "Uruk",
+        "Babylon",
+        "Nineveh",
+        "Akkad"
+      ],
+
+      "achievements": [
+        "Cuneiform writing",
+        "Urban civilization",
+        "Law codes",
+        "Mathematics",
+        "Astronomy",
+        "Monumental architecture"
+      ],
+
+      "legacy": "Mesopotamian societies made foundational contributions to writing, law, urban life, mathematics and organized government."
+    },
+
+
+    {
+      "id": "ancient-egypt",
+      "name": "Ancient Egypt",
+      "nativeNames": [
+        "Kemet"
+      ],
+      "symbol": "𓂀",
+      "region": "Africa",
+      "period": "Ancient",
+      "date": "c. 3100 BCE – 30 BCE",
+
+      "description": "Ancient Egypt developed along the Nile and created one of the world's most enduring civilizations, famous for monumental architecture, writing and royal traditions.",
+
+      "importantPeople": [
+        "Hatshepsut",
+        "Akhenaten",
+        "Tutankhamun",
+        "Cleopatra VII"
+      ],
+
+      "majorCities": [
+        "Memphis",
+        "Thebes",
+        "Alexandria",
+        "Heliopolis"
+      ],
+
+      "achievements": [
+        "Pyramids",
+        "Hieroglyphic writing",
+        "Temples",
+        "Engineering",
+        "Medicine",
+        "Mathematics"
+      ],
+
+      "legacy": "Egyptian architecture, art, writing and cultural traditions remain central to the study of ancient history."
+    },
+
+
+    {
+      "id": "indus-valley",
+      "name": "Indus Valley Civilization",
+      "nativeNames": [
+        "Harappan Civilization"
+      ],
+      "symbol": "🧱",
+      "region": "Asia",
+      "period": "Ancient",
+      "date": "c. 2600 BCE – 1900 BCE",
+
+      "description": "The Indus Valley Civilization developed in parts of South Asia and is known for carefully planned cities, drainage systems, craft production and long-distance trade.",
+
+      "importantPeople": [
+        "Urban communities",
+        "Craft specialists",
+        "Merchants",
+        "Farmers",
+        "Administrators"
+      ],
+
+      "majorCities": [
+        "Harappa",
+        "Mohenjo-daro",
+        "Dholavira",
+        "Lothal",
+        "Kalibangan"
+      ],
+
+      "achievements": [
+        "Urban planning",
+        "Drainage systems",
+        "Standardized weights",
+        "Craft production",
+        "Trade networks",
+        "Brick architecture"
+      ],
+
+      "legacy": "The Indus Valley Civilization is fundamental to the study of early South Asian urbanism and archaeology."
+    },
+
+
+    {
+      "id": "ancient-china",
+      "name": "Ancient Chinese Civilizations",
+      "nativeNames": [
+        "Shang",
+        "Zhou",
+        "Qin",
+        "Han"
+      ],
+      "symbol": "🐉",
+      "region": "Asia",
+      "period": "Ancient",
+      "date": "c. 1600 BCE onward",
+
+      "description": "Ancient Chinese civilization developed through successive dynasties and created important traditions in government, philosophy, writing, technology and art.",
+
+      "importantPeople": [
+        "Confucius",
+        "Qin Shi Huang",
+        "Sima Qian"
+      ],
+
+      "majorCities": [
+        "Anyang",
+        "Chang'an",
+        "Luoyang",
+        "Kaifeng"
+      ],
+
+      "achievements": [
+        "Chinese writing",
+        "Bronze technology",
+        "Philosophy",
+        "Bureaucracy",
+        "Engineering",
+        "Agriculture"
+      ],
+
+      "legacy": "Chinese political philosophy, writing, art, technology and cultural traditions have had an enormous historical influence."
+    },
+
+
+    {
+      "id": "ancient-greece",
+      "name": "Ancient Greece",
+      "nativeNames": [
+        "Hellenic Civilization"
+      ],
+      "symbol": "🏛️",
+      "region": "Europe",
+      "period": "Classical",
+      "date": "c. 800 BCE – 146 BCE",
+
+      "description": "Ancient Greek societies developed independent city-states and produced influential traditions in philosophy, politics, science, literature, architecture and art.",
+
+      "importantPeople": [
+        "Socrates",
+        "Plato",
+        "Aristotle",
+        "Pericles",
+        "Alexander the Great"
+      ],
+
+      "majorCities": [
+        "Athens",
+        "Sparta",
+        "Corinth",
+        "Thebes",
+        "Miletus"
+      ],
+
+      "achievements": [
+        "Philosophy",
+        "Democratic institutions",
+        "Mathematics",
+        "Theatre",
+        "Architecture",
+        "Scientific inquiry"
+      ],
+
+      "legacy": "Greek intellectual and artistic traditions strongly influenced later European and Mediterranean societies."
+    },
+
+
+    {
+      "id": "roman-civilization",
+      "name": "Roman Civilization",
+      "nativeNames": [
+        "Roman Republic",
+        "Roman Empire"
+      ],
+      "symbol": "🦅",
+      "region": "Europe",
+      "period": "Classical",
+      "date": "c. 753 BCE – 476 CE",
+
+      "description": "Rome grew from a city-state into a vast republic and empire whose institutions, infrastructure, law and culture shaped much of Europe and the Mediterranean.",
+
+      "importantPeople": [
+        "Julius Caesar",
+        "Augustus",
+        "Trajan",
+        "Constantine the Great"
+      ],
+
+      "majorCities": [
+        "Rome",
+        "Pompeii",
+        "Carthage",
+        "Constantinople"
+      ],
+
+      "achievements": [
+        "Roman law",
+        "Road networks",
+        "Aqueducts",
+        "Engineering",
+        "Architecture",
+        "Administration"
+      ],
+
+      "legacy": "Roman law, languages, architecture, infrastructure and political ideas remain deeply important to world history."
+    },
+
+
+    {
+      "id": "persian-empires",
+      "name": "Persian Empires",
+      "nativeNames": [
+        "Achaemenid Empire",
+        "Parthian Empire",
+        "Sasanian Empire"
+      ],
+      "symbol": "🦁",
+      "region": "Middle East",
+      "period": "Ancient",
+      "date": "c. 550 BCE onward",
+
+      "description": "Persian empires created large and diverse political systems across western and central Asia and developed sophisticated administrative traditions.",
+
+      "importantPeople": [
+        "Cyrus the Great",
+        "Darius I",
+        "Xerxes I"
+      ],
+
+      "majorCities": [
+        "Pasargadae",
+        "Persepolis",
+        "Susa",
+        "Ecbatana"
+      ],
+
+      "achievements": [
+        "Imperial administration",
+        "Royal roads",
+        "Monumental architecture",
+        "Postal systems",
+        "Engineering",
+        "Cultural exchange"
+      ],
+
+      "legacy": "Persian political, artistic and cultural traditions played a major role in the history of the ancient Near East."
+    },
+
+
+    {
+      "id": "maya",
+      "name": "Maya Civilization",
+      "nativeNames": [
+        "Maya"
+      ],
+      "symbol": "🌿",
+      "region": "Americas",
+      "period": "Pre-Columbian",
+      "date": "c. 2000 BCE – 1500 CE",
+
+      "description": "Maya civilization developed across parts of Mesoamerica and became known for cities, mathematics, astronomy, writing and monumental architecture.",
+
+      "importantPeople": [
+        "Maya rulers",
+        "Astronomers",
+        "Mathematicians",
+        "Scribes",
+        "Architects"
+      ],
+
+      "majorCities": [
+        "Tikal",
+        "Palenque",
+        "Copán",
+        "Calakmul",
+        "Chichén Itzá"
+      ],
+
+      "achievements": [
+        "Hieroglyphic writing",
+        "Mathematics",
+        "Astronomy",
+        "Calendars",
+        "Architecture",
+        "Urban centers"
+      ],
+
+      "legacy": "Maya intellectual and architectural achievements remain an important part of the history of the Americas."
+    },
+
+
+    {
+      "id": "inca",
+      "name": "Inca Civilization",
+      "nativeNames": [
+        "Tawantinsuyu"
+      ],
+      "symbol": "⛰️",
+      "region": "Americas",
+      "period": "Pre-Columbian",
+      "date": "c. 1400s – 1530s CE",
+
+      "description": "The Inca developed a large Andean state with sophisticated administration, roads, agriculture and monumental construction.",
+
+      "importantPeople": [
+        "Pachacuti",
+        "Inca rulers",
+        "Engineers",
+        "Administrators"
+      ],
+
+      "majorCities": [
+        "Cusco",
+        "Machu Picchu",
+        "Ollantaytambo"
+      ],
+
+      "achievements": [
+        "Road networks",
+        "Terrace agriculture",
+        "Stone construction",
+        "Administration",
+        "Communication systems"
+      ],
+
+      "legacy": "Inca engineering and Andean cultural traditions remain major subjects of archaeology and history."
+    },
+
+
+    {
+      "id": "aztec",
+      "name": "Aztec Civilization",
+      "nativeNames": [
+        "Mexica"
+      ],
+      "symbol": "🦅",
+      "region": "Americas",
+      "period": "Pre-Columbian",
+      "date": "c. 1300s – 1521 CE",
+
+      "description": "The Aztec Empire developed in central Mexico and built a powerful political and economic center around Tenochtitlan.",
+
+      "importantPeople": [
+        "Moctezuma I",
+        "Moctezuma II",
+        "Aztec rulers",
+        "Merchants",
+        "Warriors"
+      ],
+
+      "majorCities": [
+        "Tenochtitlan",
+        "Texcoco",
+        "Tlacopan"
+      ],
+
+      "achievements": [
+        "Urban planning",
+        "Markets",
+        "Agriculture",
+        "Monumental temples",
+        "Art",
+        "Political organization"
+      ],
+
+      "legacy": "Aztec history remains important to the understanding of pre-Columbian Mesoamerica."
+    },
+
+
+    {
+      "id": "byzantine",
+      "name": "Byzantine Civilization",
+      "nativeNames": [
+        "Eastern Roman Empire"
+      ],
+      "symbol": "☦️",
+      "region": "Europe",
+      "period": "Medieval",
+      "date": "c. 330 – 1453 CE",
+
+      "description": "The Byzantine Empire continued many Roman political and cultural traditions while developing a distinctive Greek-speaking Christian civilization centered on Constantinople.",
+
+      "importantPeople": [
+        "Justinian I",
+        "Theodora",
+        "Constantine XI"
+      ],
+
+      "majorCities": [
+        "Constantinople",
+        "Thessaloniki",
+        "Nicaea",
+        "Antioch"
+      ],
+
+      "achievements": [
+        "Architecture",
+        "Law",
+        "Diplomacy",
+        "Scholarship",
+        "Administration",
+        "Religious art"
+      ],
+
+      "legacy": "Byzantine traditions influenced Eastern Europe, Christianity, art, architecture and preservation of classical learning."
+    },
+
+
+    {
+      "id": "islamic-golden-age",
+      "name": "Islamic Golden Age",
+      "nativeNames": [
+        "Golden Age of Islamic Civilization"
+      ],
+      "symbol": "☪️",
+      "region": "Middle East",
+      "period": "Medieval",
+      "date": "c. 8th – 13th centuries CE",
+
+      "description": "The Islamic Golden Age saw major developments in mathematics, medicine, astronomy, philosophy, geography and literature across a wide connected world.",
+
+      "importantPeople": [
+        "Al-Khwarizmi",
+        "Ibn Sina",
+        "Al-Biruni",
+        "Al-Razi"
+      ],
+
+      "majorCities": [
+        "Baghdad",
+        "Damascus",
+        "Cairo",
+        "Cordoba"
+      ],
+
+      "achievements": [
+        "Algebra",
+        "Astronomy",
+        "Medicine",
+        "Philosophy",
+        "Geography",
+        "Translation and scholarship"
+      ],
+
+      "legacy": "Its scholarship helped preserve, develop and transmit knowledge across civilizations."
+    },
+
+
+    {
+      "id": "khmer",
+      "name": "Khmer Civilization",
+      "nativeNames": [
+        "Khmer Empire"
+      ],
+      "symbol": "🛕",
+      "region": "Asia",
+      "period": "Medieval",
+      "date": "c. 802 – 1431 CE",
+
+      "description": "The Khmer Empire became a major Southeast Asian civilization known for monumental architecture, water management and the city of Angkor.",
+
+      "importantPeople": [
+        "Jayavarman II",
+        "Suryavarman II",
+        "Jayavarman VII"
+      ],
+
+      "majorCities": [
+        "Angkor",
+        "Yasodharapura",
+        "Angkor Thom"
+      ],
+
+      "achievements": [
+        "Angkor Wat",
+        "Hydraulic engineering",
+        "Urban planning",
+        "Temple architecture",
+        "Agricultural systems"
+      ],
+
+      "legacy": "Khmer architecture and Angkor remain among the most significant cultural achievements of Southeast Asia."
+    },
+
+
+    {
+      "id": "mesoamerica",
+      "name": "Mesoamerican Civilizations",
+      "nativeNames": [
+        "Mesoamerica"
+      ],
+      "symbol": "🗿",
+      "region": "Americas",
+      "period": "Pre-Columbian",
+      "date": "c. 2000 BCE – 16th century CE",
+
+      "description": "Mesoamerica was home to interconnected civilizations with rich traditions in agriculture, architecture, writing, astronomy, trade and political organization.",
+
+      "importantPeople": [
+        "Maya rulers",
+        "Olmec communities",
+        "Aztec rulers",
+        "Mesoamerican scholars"
+      ],
+
+      "majorCities": [
+        "Teotihuacan",
+        "Tikal",
+        "Tenochtitlan",
+        "Palenque"
+      ],
+
+      "achievements": [
+        "Writing systems",
+        "Calendars",
+        "Astronomy",
+        "Architecture",
+        "Agriculture",
+        "Trade"
+      ],
+
+      "legacy": "Mesoamerican civilizations created some of the most important urban and intellectual traditions of pre-Columbian America."
+    },
+
+
+    {
+      "id": "nubia",
+      "name": "Nubian Civilizations",
+      "nativeNames": [
+        "Kush",
+        "Nubia"
+      ],
+      "symbol": "🏺",
+      "region": "Africa",
+      "period": "Ancient",
+      "date": "c. 2000 BCE – 350 CE",
+
+      "description": "Nubian civilizations developed along the Nile south of Egypt and created powerful kingdoms with their own political, cultural and architectural traditions.",
+
+      "importantPeople": [
+        "Kushite kings",
+        "Kandakes",
+        "Nubian rulers"
+      ],
+
+      "majorCities": [
+        "Kerma",
+        "Napata",
+        "Meroë"
+      ],
+
+      "achievements": [
+        "Iron production",
+        "Pyramids",
+        "Trade",
+        "Architecture",
+        "Writing traditions"
+      ],
+
+      "legacy": "Nubian kingdoms played an important role in the history of the Nile Valley and ancient Africa."
+    },
+
+
+    {
+      "id": "olmec",
+      "name": "Olmec Civilization",
+      "nativeNames": [
+        "Olmec"
+      ],
+      "symbol": "🗿",
+      "region": "Americas",
+      "period": "Pre-Columbian",
+      "date": "c. 1500 BCE – 400 BCE",
+
+      "description": "The Olmec civilization developed in the Gulf Coast region of present-day Mexico and is known for monumental sculpture and early Mesoamerican cultural traditions.",
+
+      "importantPeople": [
+        "Olmec rulers",
+        "Artisans",
+        "Priests",
+        "Agricultural communities"
+      ],
+
+      "majorCities": [
+        "San Lorenzo",
+        "La Venta",
+        "Tres Zapotes"
+      ],
+
+      "achievements": [
+        "Colossal heads",
+        "Monumental art",
+        "Ceremonial centers",
+        "Agriculture",
+        "Trade networks"
+      ],
+
+      "legacy": "Olmec traditions are important to the study of early Mesoamerican civilization and cultural development."
+    },
+
+
+    {
+      "id": "japanese-classical",
+      "name": "Classical Japanese Civilization",
+      "nativeNames": [
+        "Yamato",
+        "Heian"
+      ],
+      "symbol": "⛩️",
+      "region": "Asia",
+      "period": "Classical",
+      "date": "c. 300 – 1185 CE",
+
+      "description": "Early Japanese civilization developed through evolving political institutions, cultural traditions, Buddhism, Shinto practices and court culture.",
+
+      "importantPeople": [
+        "Prince Shōtoku",
+        "Emperor Kanmu",
+        "Court scholars",
+        "Heian aristocracy"
+      ],
+
+      "majorCities": [
+        "Nara",
+        "Heian-kyō",
+        "Asuka"
+      ],
+
+      "achievements": [
+        "Court culture",
+        "Japanese writing traditions",
+        "Buddhist architecture",
+        "Literature",
+        "Political institutions"
+      ],
+
+      "legacy": "Classical Japanese culture shaped later traditions in literature, architecture, religion, art and governance."
+    }
+
+  ]
 }
-]

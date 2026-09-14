@@ -1,14 +1,871 @@
-[
 {
-"id": "ancient",
-"title": "Ancient Era"
-},
-{
-"id": "medieval",
-"title": "Medieval Era"
-},
-{
-"id": "modern",
-"title": "Modern Era"
+  "project": "ALON HISTORYVERSE 24",
+  "creator": "Baba Thecno Guru",
+  "version": "24.0",
+  "type": "historical_timeline_database",
+
+  "timeline": [
+    {
+      "id": "indus-valley",
+      "year": "c. 2600 BCE",
+      "yearValue": -2600,
+      "title": "Indus Valley Civilization",
+      "category": "Civilization",
+      "region": "South Asia",
+      "country": "India and Pakistan",
+      "description": "The mature urban phase of the Indus Valley Civilization developed major cities, planned streets, drainage systems, craft production and long-distance trade.",
+      "importance": "One of the world's earliest major urban civilizations.",
+      "tags": [
+        "Indus Valley",
+        "Ancient India",
+        "Harappan",
+        "Civilization"
+      ]
+    },
+
+    {
+      "id": "ancient-egypt",
+      "year": "c. 3100 BCE",
+      "yearValue": -3100,
+      "title": "Unification of Ancient Egypt",
+      "category": "Civilization",
+      "region": "North Africa",
+      "country": "Egypt",
+      "description": "The political unification of Upper and Lower Egypt marked the beginning of the early dynastic period of ancient Egyptian civilization.",
+      "importance": "Established one of the longest-lasting civilizations of the ancient world.",
+      "tags": [
+        "Egypt",
+        "Pharaohs",
+        "Ancient Egypt"
+      ]
+    },
+
+    {
+      "id": "mesopotamia",
+      "year": "c. 3000 BCE",
+      "yearValue": -3000,
+      "title": "Rise of Sumerian Cities",
+      "category": "Civilization",
+      "region": "Middle East",
+      "country": "Iraq",
+      "description": "Sumerian city-states such as Uruk, Ur and Lagash became important centers of urban life, writing, administration and trade.",
+      "importance": "Mesopotamia became one of the earliest centers of cities and writing.",
+      "tags": [
+        "Mesopotamia",
+        "Sumer",
+        "Uruk",
+        "Writing"
+      ]
+    },
+
+    {
+      "id": "first-writing",
+      "year": "c. 3200 BCE",
+      "yearValue": -3200,
+      "title": "Early Writing Systems",
+      "category": "Knowledge",
+      "region": "Middle East",
+      "country": "Iraq",
+      "description": "Cuneiform developed in Mesopotamia as a system for recording economic, administrative and later literary information.",
+      "importance": "Writing transformed record keeping, administration and the transmission of knowledge.",
+      "tags": [
+        "Writing",
+        "Cuneiform",
+        "Mesopotamia"
+      ]
+    },
+
+    {
+      "id": "pyramids-giza",
+      "year": "c. 2560 BCE",
+      "yearValue": -2560,
+      "title": "Great Pyramid of Giza",
+      "category": "Architecture",
+      "region": "North Africa",
+      "country": "Egypt",
+      "description": "The Great Pyramid was constructed during Egypt's Fourth Dynasty and became the largest of the Giza pyramids.",
+      "importance": "One of the most famous surviving monuments of the ancient world.",
+      "tags": [
+        "Egypt",
+        "Pyramids",
+        "Architecture"
+      ]
+    },
+
+    {
+      "id": "hammurabi",
+      "year": "c. 1754 BCE",
+      "yearValue": -1754,
+      "title": "Code of Hammurabi",
+      "category": "Law",
+      "region": "Middle East",
+      "country": "Babylonia",
+      "description": "The Code of Hammurabi is an ancient Babylonian collection of laws associated with King Hammurabi.",
+      "importance": "An important surviving example of an ancient written legal tradition.",
+      "tags": [
+        "Babylon",
+        "Law",
+        "Hammurabi"
+      ]
+    },
+
+    {
+      "id": "vedic-period",
+      "year": "c. 1500 BCE",
+      "yearValue": -1500,
+      "title": "Vedic Period",
+      "category": "Civilization",
+      "region": "South Asia",
+      "country": "India",
+      "description": "The Vedic period saw the development and transmission of Vedic traditions, Sanskrit literature and changing social and political institutions.",
+      "importance": "A foundational period in the development of ancient Indian culture and intellectual traditions.",
+      "tags": [
+        "India",
+        "Vedic",
+        "Sanskrit",
+        "Ancient History"
+      ]
+    },
+
+    {
+      "id": "qin-unification",
+      "year": "221 BCE",
+      "yearValue": -221,
+      "title": "Unification of China",
+      "category": "Empire",
+      "region": "East Asia",
+      "country": "China",
+      "description": "Qin Shi Huang unified several major Chinese states and established the Qin imperial dynasty.",
+      "importance": "Created the first centralized imperial state that unified much of the Chinese heartland.",
+      "tags": [
+        "China",
+        "Qin",
+        "Empire",
+        "Qin Shi Huang"
+      ]
+    },
+
+    {
+      "id": "maurya-empire",
+      "year": "c. 322 BCE",
+      "yearValue": -322,
+      "title": "Rise of the Mauryan Empire",
+      "category": "Empire",
+      "region": "South Asia",
+      "country": "India",
+      "description": "Chandragupta Maurya established the Mauryan Empire, which became one of the largest political formations in ancient South Asia.",
+      "importance": "Marked a major period of political consolidation in ancient Indian history.",
+      "tags": [
+        "India",
+        "Maurya",
+        "Chandragupta Maurya"
+      ]
+    },
+
+    {
+      "id": "ashoka",
+      "year": "c. 268 BCE",
+      "yearValue": -268,
+      "title": "Reign of Emperor Ashoka",
+      "category": "Empire",
+      "region": "South Asia",
+      "country": "India",
+      "description": "Ashoka became one of the most prominent Mauryan rulers. His inscriptions provide important evidence about his policies and ideas.",
+      "importance": "Ashoka's reign is a major chapter in ancient Indian political and cultural history.",
+      "tags": [
+        "Ashoka",
+        "Mauryan Empire",
+        "India",
+        "Buddhism"
+      ]
+    },
+
+    {
+      "id": "athens-classical",
+      "year": "5th century BCE",
+      "yearValue": -450,
+      "title": "Classical Athens",
+      "category": "Civilization",
+      "region": "Europe",
+      "country": "Greece",
+      "description": "Classical Athens became a major center of philosophy, drama, art, architecture and political experimentation.",
+      "importance": "Its intellectual and artistic traditions had a lasting influence on world history.",
+      "tags": [
+        "Greece",
+        "Athens",
+        "Philosophy",
+        "Classical Greece"
+      ]
+    },
+
+    {
+      "id": "alexander",
+      "year": "336 BCE",
+      "yearValue": -336,
+      "title": "Alexander the Great Begins His Reign",
+      "category": "Empire",
+      "region": "Europe and Asia",
+      "country": "Macedonia",
+      "description": "Alexander became king of Macedon and later established a vast empire stretching from Greece toward Egypt and parts of Asia.",
+      "importance": "His campaigns accelerated cultural interactions across a large part of the ancient world.",
+      "tags": [
+        "Alexander",
+        "Macedonia",
+        "Hellenistic World"
+      ]
+    },
+
+    {
+      "id": "roman-republic",
+      "year": "509 BCE",
+      "yearValue": -509,
+      "title": "Roman Republic",
+      "category": "Government",
+      "region": "Europe",
+      "country": "Italy",
+      "description": "Rome traditionally dates the establishment of its Republic to 509 BCE after the end of its monarchy.",
+      "importance": "The Roman Republic developed institutions that influenced later Roman government and political thought.",
+      "tags": [
+        "Rome",
+        "Roman Republic",
+        "Italy"
+      ]
+    },
+
+    {
+      "id": "roman-empire",
+      "year": "27 BCE",
+      "yearValue": -27,
+      "title": "Beginning of the Roman Empire",
+      "category": "Empire",
+      "region": "Europe",
+      "country": "Italy",
+      "description": "Octavian became Augustus, traditionally marking the beginning of the Roman imperial period.",
+      "importance": "The Roman Empire became one of the most influential political and cultural systems of antiquity.",
+      "tags": [
+        "Rome",
+        "Roman Empire",
+        "Augustus"
+      ]
+    },
+
+    {
+      "id": "pompeii",
+      "year": "79 CE",
+      "yearValue": 79,
+      "title": "Eruption of Mount Vesuvius",
+      "category": "Disaster",
+      "region": "Europe",
+      "country": "Italy",
+      "description": "Mount Vesuvius erupted and buried Pompeii and nearby settlements under volcanic material.",
+      "importance": "The destruction preserved buildings, objects and evidence of everyday Roman life.",
+      "tags": [
+        "Pompeii",
+        "Rome",
+        "Vesuvius",
+        "Archaeology"
+      ]
+    },
+
+    {
+      "id": "gupta-empire",
+      "year": "c. 320 CE",
+      "yearValue": 320,
+      "title": "Rise of the Gupta Empire",
+      "category": "Empire",
+      "region": "South Asia",
+      "country": "India",
+      "description": "The Gupta dynasty established a powerful kingdom in northern India and presided over important developments in science, mathematics, literature and art.",
+      "importance": "The Gupta period is often remembered as an important era of classical Indian culture.",
+      "tags": [
+        "India",
+        "Gupta",
+        "Mathematics",
+        "Science"
+      ]
+    },
+
+    {
+      "id": "constantinople",
+      "year": "330 CE",
+      "yearValue": 330,
+      "title": "Constantinople Becomes Imperial Capital",
+      "category": "Empire",
+      "region": "Europe and Asia",
+      "country": "Roman Empire",
+      "description": "Constantine established Constantinople as a major imperial capital on the site of Byzantium.",
+      "importance": "The city later became the center of the Byzantine Empire.",
+      "tags": [
+        "Constantinople",
+        "Byzantine",
+        "Roman Empire"
+      ]
+    },
+
+    {
+      "id": "angkor",
+      "year": "9th century CE",
+      "yearValue": 850,
+      "title": "Rise of the Khmer Empire",
+      "category": "Civilization",
+      "region": "Southeast Asia",
+      "country": "Cambodia",
+      "description": "The Khmer Empire developed into a major Southeast Asian power and created an extensive network of temples and water-management systems.",
+      "importance": "Khmer architecture and urban planning left a major cultural legacy.",
+      "tags": [
+        "Khmer",
+        "Cambodia",
+        "Angkor"
+      ]
+    },
+
+    {
+      "id": "magna-carta",
+      "year": "1215",
+      "yearValue": 1215,
+      "title": "Magna Carta",
+      "category": "Law",
+      "region": "Europe",
+      "country": "England",
+      "description": "King John accepted Magna Carta at Runnymede in 1215.",
+      "importance": "It became an important historical document in the development of ideas about law and limits on government power.",
+      "tags": [
+        "England",
+        "Magna Carta",
+        "Law"
+      ]
+    },
+
+    {
+      "id": "mongol-empire",
+      "year": "1206",
+      "yearValue": 1206,
+      "title": "Rise of the Mongol Empire",
+      "category": "Empire",
+      "region": "Asia",
+      "country": "Mongolia",
+      "description": "Temüjin was proclaimed Genghis Khan and began the political consolidation that led to the Mongol Empire.",
+      "importance": "The Mongol Empire became the largest contiguous land empire in recorded history.",
+      "tags": [
+        "Mongol Empire",
+        "Genghis Khan",
+        "Mongolia"
+      ]
+    },
+
+    {
+      "id": "vijayanagara",
+      "year": "1336",
+      "yearValue": 1336,
+      "title": "Foundation of Vijayanagara",
+      "category": "Empire",
+      "region": "South Asia",
+      "country": "India",
+      "description": "The Vijayanagara Empire was founded in southern India and later became a major political and cultural center.",
+      "importance": "Its capital region at Hampi contains major examples of South Indian architecture and urban heritage.",
+      "tags": [
+        "India",
+        "Vijayanagara",
+        "Hampi"
+      ]
+    },
+
+    {
+      "id": "printing-press",
+      "year": "c. 1450",
+      "yearValue": 1450,
+      "title": "Gutenberg Printing Revolution",
+      "category": "Technology",
+      "region": "Europe",
+      "country": "Germany",
+      "description": "Johannes Gutenberg's printing technology helped make the large-scale production of books more practical in Europe.",
+      "importance": "Printing transformed the spread of knowledge, education and ideas.",
+      "tags": [
+        "Printing",
+        "Gutenberg",
+        "Germany",
+        "Technology"
+      ]
+    },
+
+    {
+      "id": "fall-constantinople",
+      "year": "1453",
+      "yearValue": 1453,
+      "title": "Fall of Constantinople",
+      "category": "Empire",
+      "region": "Europe and Asia",
+      "country": "Byzantine Empire",
+      "description": "Ottoman forces under Mehmed II captured Constantinople in 1453.",
+      "importance": "The event marked the end of the Byzantine Empire and a major transition in Eurasian history.",
+      "tags": [
+        "Constantinople",
+        "Ottoman Empire",
+        "Byzantine Empire"
+      ]
+    },
+
+    {
+      "id": "columbus-voyage",
+      "year": "1492",
+      "yearValue": 1492,
+      "title": "Columbus Reaches the Americas",
+      "category": "Exploration",
+      "region": "Atlantic World",
+      "country": "Spain",
+      "description": "Christopher Columbus's 1492 expedition reached islands in the Caribbean, beginning a new phase of sustained contact between Europe and the Americas.",
+      "importance": "The voyages contributed to major demographic, economic, political and cultural changes across the Atlantic world.",
+      "tags": [
+        "Exploration",
+        "Columbus",
+        "Atlantic"
+      ]
+    },
+
+    {
+      "id": "renaissance",
+      "year": "14th–16th centuries",
+      "yearValue": 1500,
+      "title": "European Renaissance",
+      "category": "Culture",
+      "region": "Europe",
+      "country": "Italy and Europe",
+      "description": "The Renaissance was a broad cultural movement associated with renewed interest in classical learning, art, literature and scientific inquiry.",
+      "importance": "It profoundly influenced European art, education and intellectual history.",
+      "tags": [
+        "Renaissance",
+        "Art",
+        "Europe",
+        "Italy"
+      ]
+    },
+
+    {
+      "id": "mughal-empire",
+      "year": "1526",
+      "yearValue": 1526,
+      "title": "Beginning of the Mughal Empire",
+      "category": "Empire",
+      "region": "South Asia",
+      "country": "India",
+      "description": "Babur defeated Ibrahim Lodi at the First Battle of Panipat and established Mughal rule in northern India.",
+      "importance": "The Mughal Empire became one of the major imperial powers in South Asian history.",
+      "tags": [
+        "India",
+        "Mughal Empire",
+        "Babur"
+      ]
+    },
+
+    {
+      "id": "reformation",
+      "year": "1517",
+      "yearValue": 1517,
+      "title": "Protestant Reformation",
+      "category": "Religion and Society",
+      "region": "Europe",
+      "country": "Germany",
+      "description": "Martin Luther's challenge to aspects of church practice became a major catalyst for the Protestant Reformation.",
+      "importance": "The Reformation transformed European religious, political and social history.",
+      "tags": [
+        "Reformation",
+        "Martin Luther",
+        "Europe"
+      ]
+    },
+
+    {
+      "id": "scientific-revolution",
+      "year": "16th–17th centuries",
+      "yearValue": 1600,
+      "title": "Scientific Revolution",
+      "category": "Science",
+      "region": "Europe",
+      "country": "Europe",
+      "description": "European scholars developed new approaches to observation, experimentation and mathematical description of nature.",
+      "importance": "The movement helped shape modern scientific methods and institutions.",
+      "tags": [
+        "Science",
+        "Astronomy",
+        "Scientific Revolution"
+      ]
+    },
+
+    {
+      "id": "tokugawa",
+      "year": "1603",
+      "yearValue": 1603,
+      "title": "Tokugawa Shogunate",
+      "category": "Government",
+      "region": "East Asia",
+      "country": "Japan",
+      "description": "Tokugawa Ieyasu established the Tokugawa shogunate, which governed Japan for more than two centuries.",
+      "importance": "The period brought political stability and major developments in Japanese society and culture.",
+      "tags": [
+        "Japan",
+        "Tokugawa",
+        "Samurai"
+      ]
+    },
+
+    {
+      "id": "industrial-revolution",
+      "year": "c. 1760–1840",
+      "yearValue": 1760,
+      "title": "Industrial Revolution",
+      "category": "Technology",
+      "region": "Europe",
+      "country": "Britain",
+      "description": "Mechanized production, new energy systems, factories and transportation transformed economic and social life.",
+      "importance": "The Industrial Revolution reshaped the modern global economy and urban society.",
+      "tags": [
+        "Industrial Revolution",
+        "Britain",
+        "Technology",
+        "Industry"
+      ]
+    },
+
+    {
+      "id": "american-independence",
+      "year": "1776",
+      "yearValue": 1776,
+      "title": "United States Declaration of Independence",
+      "category": "Politics",
+      "region": "North America",
+      "country": "United States",
+      "description": "The Continental Congress adopted the Declaration of Independence on July 4, 1776.",
+      "importance": "The declaration became a foundational document of the United States.",
+      "tags": [
+        "United States",
+        "Independence",
+        "1776"
+      ]
+    },
+
+    {
+      "id": "french-revolution",
+      "year": "1789",
+      "yearValue": 1789,
+      "title": "French Revolution",
+      "category": "Revolution",
+      "region": "Europe",
+      "country": "France",
+      "description": "The French Revolution began a period of profound political and social transformation in France.",
+      "importance": "Its ideas and political consequences influenced modern concepts of citizenship, government and rights.",
+      "tags": [
+        "France",
+        "Revolution",
+        "1789"
+      ]
+    },
+
+    {
+      "id": "haitian-revolution",
+      "year": "1791–1804",
+      "yearValue": 1791,
+      "title": "Haitian Revolution",
+      "category": "Revolution",
+      "region": "Caribbean",
+      "country": "Haiti",
+      "description": "The Haitian Revolution was a successful revolutionary struggle that led to the establishment of independent Haiti.",
+      "importance": "It was a major event in Atlantic history and the history of emancipation.",
+      "tags": [
+        "Haiti",
+        "Revolution",
+        "Atlantic History"
+      ]
+    },
+
+    {
+      "id": "napoleon",
+      "year": "1804",
+      "yearValue": 1804,
+      "title": "Napoleon Becomes Emperor",
+      "category": "Empire",
+      "region": "Europe",
+      "country": "France",
+      "description": "Napoleon Bonaparte was crowned Emperor of the French in 1804.",
+      "importance": "Napoleonic rule transformed European politics, warfare and law.",
+      "tags": [
+        "Napoleon",
+        "France",
+        "Europe"
+      ]
+    },
+
+    {
+      "id": "latin-american-independence",
+      "year": "19th century",
+      "yearValue": 1820,
+      "title": "Latin American Independence Movements",
+      "category": "Independence",
+      "region": "Americas",
+      "country": "Latin America",
+      "description": "A series of independence movements transformed Spanish and Portuguese colonial rule across much of Latin America.",
+      "importance": "These movements created numerous independent states in the Americas.",
+      "tags": [
+        "Latin America",
+        "Independence",
+        "Americas"
+      ]
+    },
+
+    {
+      "id": "indian-rebellion",
+      "year": "1857",
+      "yearValue": 1857,
+      "title": "Indian Rebellion of 1857",
+      "category": "Rebellion",
+      "region": "South Asia",
+      "country": "India",
+      "description": "A major uprising against East India Company rule began in northern and central parts of India in 1857.",
+      "importance": "The rebellion led to major changes in the structure of British rule in India.",
+      "tags": [
+        "India",
+        "1857",
+        "British India"
+      ]
+    },
+
+    {
+      "id": "german-unification",
+      "year": "1871",
+      "yearValue": 1871,
+      "title": "German Unification",
+      "category": "Politics",
+      "region": "Europe",
+      "country": "Germany",
+      "description": "The German Empire was proclaimed in 1871 following a series of political and military developments led by Prussia.",
+      "importance": "German unification changed the political balance of Europe.",
+      "tags": [
+        "Germany",
+        "Prussia",
+        "Unification"
+      ]
+    },
+
+    {
+      "id": "telephone",
+      "year": "1876",
+      "yearValue": 1876,
+      "title": "Telephone Patent Era",
+      "category": "Technology",
+      "region": "North America",
+      "country": "United States",
+      "description": "Alexander Graham Bell received a U.S. patent for an apparatus for transmitting vocal or other sounds telegraphically.",
+      "importance": "Telephone technology transformed long-distance communication.",
+      "tags": [
+        "Telephone",
+        "Technology",
+        "Communication"
+      ]
+    },
+
+    {
+      "id": "world-war-one",
+      "year": "1914–1918",
+      "yearValue": 1914,
+      "title": "World War I",
+      "category": "War",
+      "region": "Europe and World",
+      "country": "Multiple Countries",
+      "description": "World War I was a global conflict involving major powers and their allies.",
+      "importance": "The war caused enormous human and political changes and reshaped the international order.",
+      "tags": [
+        "World War I",
+        "War",
+        "20th Century"
+      ]
+    },
+
+    {
+      "id": "indian-independence-movement",
+      "year": "1915–1947",
+      "yearValue": 1915,
+      "title": "Indian Independence Movement",
+      "category": "Independence",
+      "region": "South Asia",
+      "country": "India",
+      "description": "Indian political and social movements campaigned for independence from British rule through diverse strategies and organizations.",
+      "importance": "The movement culminated in the independence of India in 1947.",
+      "tags": [
+        "India",
+        "Independence",
+        "Freedom Movement"
+      ]
+    },
+
+    {
+      "id": "world-war-two",
+      "year": "1939–1945",
+      "yearValue": 1939,
+      "title": "World War II",
+      "category": "War",
+      "region": "World",
+      "country": "Multiple Countries",
+      "description": "World War II was a global conflict fought across Europe, Asia, Africa and the Pacific.",
+      "importance": "The war profoundly changed global politics, borders, economies and international institutions.",
+      "tags": [
+        "World War II",
+        "War",
+        "20th Century"
+      ]
+    },
+
+    {
+      "id": "united-nations",
+      "year": "1945",
+      "yearValue": 1945,
+      "title": "United Nations Established",
+      "category": "International Organization",
+      "region": "World",
+      "country": "International",
+      "description": "The United Nations was established in 1945 following the Second World War.",
+      "importance": "It became a central international organization for diplomacy, peace and cooperation.",
+      "tags": [
+        "United Nations",
+        "International Relations",
+        "1945"
+      ]
+    },
+
+    {
+      "id": "india-independence",
+      "year": "1947",
+      "yearValue": 1947,
+      "title": "Indian Independence",
+      "category": "Independence",
+      "region": "South Asia",
+      "country": "India",
+      "description": "India became independent from British rule on August 15, 1947.",
+      "importance": "Indian independence was a major event in the history of decolonization.",
+      "tags": [
+        "India",
+        "Independence",
+        "1947"
+      ]
+    },
+
+    {
+      "id": "india-republic",
+      "year": "1950",
+      "yearValue": 1950,
+      "title": "India Becomes a Republic",
+      "category": "Government",
+      "region": "South Asia",
+      "country": "India",
+      "description": "The Constitution of India came into effect on January 26, 1950, establishing India as a republic.",
+      "importance": "It established the constitutional framework of the Republic of India.",
+      "tags": [
+        "India",
+        "Constitution",
+        "Republic"
+      ]
+    },
+
+    {
+      "id": "moon-landing",
+      "year": "1969",
+      "yearValue": 1969,
+      "title": "Apollo 11 Moon Landing",
+      "category": "Space",
+      "region": "North America",
+      "country": "United States",
+      "description": "NASA's Apollo 11 mission landed humans on the Moon, with Neil Armstrong and Buzz Aldrin walking on the lunar surface.",
+      "importance": "It marked a landmark achievement in human space exploration.",
+      "tags": [
+        "Moon",
+        "Apollo 11",
+        "Space",
+        "NASA"
+      ]
+    },
+
+    {
+      "id": "internet-era",
+      "year": "1980s–1990s",
+      "yearValue": 1990,
+      "title": "Rise of the Internet",
+      "category": "Technology",
+      "region": "World",
+      "country": "International",
+      "description": "Computer networking developed into the global Internet, followed by the rapid expansion of the World Wide Web.",
+      "importance": "The Internet transformed communication, information access, education, commerce and culture.",
+      "tags": [
+        "Internet",
+        "Technology",
+        "World Wide Web"
+      ]
+    },
+
+    {
+      "id": "berlin-wall",
+      "year": "1989",
+      "yearValue": 1989,
+      "title": "Fall of the Berlin Wall",
+      "category": "Politics",
+      "region": "Europe",
+      "country": "Germany",
+      "description": "The Berlin Wall opened in November 1989, becoming a major symbol of the end of the Cold War division in Europe.",
+      "importance": "The event preceded German reunification and major changes in European politics.",
+      "tags": [
+        "Berlin",
+        "Germany",
+        "Cold War"
+      ]
+    },
+
+    {
+      "id": "german-reunification",
+      "year": "1990",
+      "yearValue": 1990,
+      "title": "German Reunification",
+      "category": "Politics",
+      "region": "Europe",
+      "country": "Germany",
+      "description": "East and West Germany were reunified on October 3, 1990.",
+      "importance": "Reunification became a major turning point in modern European history.",
+      "tags": [
+        "Germany",
+        "Reunification",
+        "Europe"
+      ]
+    },
+
+    {
+      "id": "world-wide-web",
+      "year": "1991",
+      "yearValue": 1991,
+      "title": "World Wide Web Becomes Public",
+      "category": "Technology",
+      "region": "World",
+      "country": "International",
+      "description": "The World Wide Web was developed by Tim Berners-Lee and became publicly accessible in the early 1990s.",
+      "importance": "The Web became one of the most important systems for sharing information over the Internet.",
+      "tags": [
+        "Web",
+        "Internet",
+        "Tim Berners-Lee"
+      ]
+    },
+
+    {
+      "id": "digital-era",
+      "year": "21st century",
+      "yearValue": 2000,
+      "title": "Global Digital Era",
+      "category": "Technology",
+      "region": "World",
+      "country": "International",
+      "description": "Smartphones, cloud computing, social platforms, digital services and artificial intelligence increasingly transformed everyday life.",
+      "importance": "Digital technologies became central to communication, education, business and global culture.",
+      "tags": [
+        "Digital",
+        "Internet",
+        "Artificial Intelligence",
+        "Technology"
+      ]
+    }
+  ]
 }
-]
