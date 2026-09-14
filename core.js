@@ -704,6 +704,7 @@ function coreGoBack() {
    MOBILE MENU
    ALON HISTORYVERSE 24
    ROOT INDEX MENU COMPATIBILITY
+   MARKETPLACE SUPPORT
    ========================================================= */
 
 function coreSetupMobileMenu() {
@@ -785,6 +786,98 @@ function coreSetupMobileMenu() {
         );
 
 
+        /* =================================================
+           MARKETPLACE SUPPORT
+           
+           If the Marketplace link already exists in
+           index.html, keep it untouched.
+
+           If it does not exist, create it automatically.
+           ================================================= */
+
+        let marketplaceLink =
+            mobileMenu.querySelector(
+                '[data-marketplace-link="true"]'
+            );
+
+
+        if (
+            !marketplaceLink
+        ) {
+
+            const marketplaceSection =
+                document.createElement(
+                    "div"
+                );
+
+
+            marketplaceSection.className =
+                "mobile-menu-section";
+
+
+            marketplaceSection.setAttribute(
+                "data-marketplace-section",
+                "true"
+            );
+
+
+            const marketplaceTitle =
+                document.createElement(
+                    "strong"
+                );
+
+
+            marketplaceTitle.textContent =
+                "Marketplace";
+
+
+            marketplaceLink =
+                document.createElement(
+                    "a"
+                );
+
+
+            marketplaceLink.href =
+                "./marketplace.html";
+
+
+            marketplaceLink.setAttribute(
+                "data-menu-link",
+                ""
+            );
+
+
+            marketplaceLink.setAttribute(
+                "data-marketplace-link",
+                "true"
+            );
+
+
+            marketplaceLink.className =
+                "mobile-marketplace-link";
+
+
+            marketplaceLink.textContent =
+                "🌍 Global Marketplace";
+
+
+            marketplaceSection.appendChild(
+                marketplaceTitle
+            );
+
+
+            marketplaceSection.appendChild(
+                marketplaceLink
+            );
+
+
+            mobileMenu.appendChild(
+                marketplaceSection
+            );
+
+        }
+
+
         /*
          * IMPORTANT:
          *
@@ -797,10 +890,9 @@ function coreSetupMobileMenu() {
          */
 
 
-        /*
-         * Synchronize aria-expanded whenever the
-         * root menu changes its hidden attribute.
-         */
+        /* =================================================
+           SYNCHRONIZE aria-expanded
+           ================================================= */
 
         if (
             typeof MutationObserver !==
@@ -849,9 +941,9 @@ function coreSetupMobileMenu() {
         }
 
 
-        /*
-         * Close the root menu after selecting a link.
-         */
+        /* =================================================
+           CLOSE MENU AFTER LINK CLICK
+           ================================================= */
 
         const links =
             mobileMenu.querySelectorAll(
