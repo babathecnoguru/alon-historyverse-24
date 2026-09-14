@@ -22,7 +22,7 @@
 
     <title>Countries • ALON HISTORYVERSE 24</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="./style.css">
 
     <style>
 
@@ -35,6 +35,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             background: #05080f;
@@ -42,6 +46,57 @@
             font-family: Georgia, "Times New Roman", serif;
             line-height: 1.6;
         }
+
+        /* =====================================================
+           TOP FOLDER / PAGE NAVIGATION
+        ====================================================== */
+
+        .ah-folder-bar {
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            background: rgba(5, 8, 15, 0.97);
+            border-bottom: 1px solid rgba(215, 179, 90, 0.35);
+            scrollbar-width: thin;
+        }
+
+        .ah-folder-bar-inner {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: max-content;
+            min-width: 100%;
+            padding: 10px 12px;
+        }
+
+        .ah-folder-bar a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 7px 13px;
+            border: 1px solid rgba(215, 179, 90, 0.32);
+            border-radius: 9px;
+            background: #101827;
+            color: #d7b35a;
+            text-decoration: none;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .ah-folder-bar a:hover,
+        .ah-folder-bar a.active {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        /* =====================================================
+           MAIN PAGE
+        ====================================================== */
 
         .countries-page {
             width: min(1200px, 94%);
@@ -167,9 +222,10 @@
             background: rgba(12, 18, 30, 0.92);
             color: #eeeeee;
             text-decoration: none;
-            transition: transform 0.2s ease,
-                        border-color 0.2s ease,
-                        background 0.2s ease;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
         }
 
         .country-card:hover {
@@ -365,6 +421,16 @@
                 text-align: center;
             }
 
+            .ah-folder-bar-inner {
+                padding: 8px 10px;
+            }
+
+            .ah-folder-bar a {
+                font-size: 13px;
+                min-height: 36px;
+                padding: 6px 11px;
+            }
+
         }
 
     </style>
@@ -373,6 +439,78 @@
 
 
 <body>
+
+
+<!-- =========================================================
+     ONE-LINE PAGE / FOLDER NAVIGATION
+========================================================== -->
+
+<nav
+    class="ah-folder-bar"
+    aria-label="ALON HISTORYVERSE 24 navigation"
+>
+
+    <div class="ah-folder-bar-inner">
+
+        <a href="./index.html">
+            🏠 Home
+        </a>
+
+        <a href="./discover.html">
+            🔎 Explore
+        </a>
+
+        <a href="./library.html">
+            📚 Library
+        </a>
+
+        <a href="./civilizations.html">
+            🏛 History
+        </a>
+
+        <a
+            href="./countries.html"
+            class="active"
+        >
+            🌍 Countries
+        </a>
+
+        <a href="./heritage.html">
+            🏺 Heritage
+        </a>
+
+        <a href="./timeline.html">
+            📜 Timeline
+        </a>
+
+        <a href="./articles.html">
+            📰 Articles
+        </a>
+
+        <a href="./mathematics.html">
+            🧮 Mathematics
+        </a>
+
+        <a href="./jobs.html">
+            💼 Jobs
+        </a>
+
+        <a href="./trees.html">
+            🌳 Trees
+        </a>
+
+        <a href="./about.html">
+            ℹ️ About
+        </a>
+
+        <a href="./marketplace.html">
+            🛒 Marketplace
+        </a>
+
+    </div>
+
+</nav>
+
 
 <main class="countries-page">
 
@@ -1498,7 +1636,7 @@
 
     <nav class="navigation">
 
-        <a href="../index.html">
+        <a href="./index.html">
             ← Home
         </a>
 
