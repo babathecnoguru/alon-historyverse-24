@@ -24,11 +24,111 @@
         content="#05080f"
     >
 
-    <!-- Existing project stylesheet -->
     <link
         rel="stylesheet"
         href="../css/style.css"
     >
+
+    <style>
+
+        /* =================================================
+           MARKETPLACE ACCOUNT
+           ================================================= */
+
+        .marketplace-account {
+
+            margin-bottom: 20px;
+
+        }
+
+        .marketplace-login-box {
+
+            display: block;
+
+        }
+
+        .marketplace-profile-box {
+
+            display: none;
+
+        }
+
+        .marketplace-profile-email {
+
+            word-break: break-word;
+
+            font-weight: bold;
+
+            margin: 10px 0;
+
+        }
+
+        .marketplace-status {
+
+            margin-top: 12px;
+
+            padding: 10px;
+
+            border-radius: 10px;
+
+            display: none;
+
+        }
+
+        .marketplace-status.show {
+
+            display: block;
+
+        }
+
+        .marketplace-media-preview {
+
+            display: grid;
+
+            gap: 10px;
+
+            margin-top: 12px;
+
+        }
+
+        .marketplace-media-preview img,
+        .marketplace-media-preview video {
+
+            width: 100%;
+
+            max-width: 420px;
+
+            border-radius: 12px;
+
+            display: block;
+
+        }
+
+        .marketplace-ad-card {
+
+            margin-top: 16px;
+
+        }
+
+        .marketplace-ad-actions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 12px;
+
+        }
+
+        .marketplace-hidden {
+
+            display: none !important;
+
+        }
+
+    </style>
 
 </head>
 
@@ -83,6 +183,123 @@
      ===================================================== -->
 
 <main class="ah-container">
+
+
+    <!-- =================================================
+         ACCOUNT
+         ================================================= -->
+
+    <section
+        class="ah-card marketplace-account"
+        id="marketplaceAccount"
+    >
+
+        <!-- LOGIN -->
+
+        <div
+            id="marketplaceLoginBox"
+            class="marketplace-login-box"
+        >
+
+            <h2>
+                🔐 Marketplace Login
+            </h2>
+
+            <p>
+                Login to create and manage your
+                advertisements.
+            </p>
+
+
+            <label for="marketplaceLoginMobile">
+                Mobile
+            </label>
+
+            <input
+                id="marketplaceLoginMobile"
+                type="tel"
+                placeholder="Mobile number"
+                autocomplete="tel"
+            >
+
+
+            <label for="marketplaceLoginEmail">
+                Email
+            </label>
+
+            <input
+                id="marketplaceLoginEmail"
+                type="email"
+                placeholder="Email address"
+                autocomplete="email"
+            >
+
+
+            <label for="marketplaceLoginPassword">
+                Password
+            </label>
+
+            <input
+                id="marketplaceLoginPassword"
+                type="password"
+                placeholder="Password"
+                autocomplete="current-password"
+            >
+
+
+            <button
+                type="button"
+                id="marketplaceLoginButton"
+            >
+                🔐 Login
+            </button>
+
+
+            <div
+                id="marketplaceLoginStatus"
+                class="marketplace-status"
+                aria-live="polite"
+            ></div>
+
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <div
+            id="marketplaceProfileBox"
+            class="marketplace-profile-box"
+        >
+
+            <h2>
+                👤 Marketplace Profile
+            </h2>
+
+            <p>
+                Logged in as:
+            </p>
+
+            <div
+                id="marketplaceProfileEmail"
+                class="marketplace-profile-email"
+            ></div>
+
+
+            <p>
+                Your marketplace account is active.
+            </p>
+
+
+            <button
+                type="button"
+                id="marketplaceLogoutButton"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </section>
 
 
     <!-- =================================================
@@ -146,6 +363,7 @@
         <h2>
             🌎 Find by Country
         </h2>
+
 
         <label for="country">
             Country
@@ -249,10 +467,6 @@
         >
 
 
-            <!-- -----------------------------------------
-                 BASIC INFORMATION
-                 ----------------------------------------- -->
-
             <h3>
                 Business / Advertisement Information
             </h3>
@@ -351,10 +565,6 @@
             ></textarea>
 
 
-            <!-- -----------------------------------------
-                 COUNTRY
-                 ----------------------------------------- -->
-
             <h3>
                 🌎 Location
             </h3>
@@ -396,10 +606,6 @@
                 placeholder="City"
             >
 
-
-            <!-- -----------------------------------------
-                 PRODUCT / OFFER
-                 ----------------------------------------- -->
 
             <h3>
                 💰 Product / Offer
@@ -471,10 +677,6 @@
             >
 
 
-            <!-- -----------------------------------------
-                 IMAGES
-                 ----------------------------------------- -->
-
             <h3>
                 🖼️ Images
             </h3>
@@ -491,10 +693,6 @@
                 multiple
             >
 
-
-            <!-- -----------------------------------------
-                 VIDEO
-                 ----------------------------------------- -->
 
             <h3>
                 🎥 Video
@@ -523,10 +721,6 @@
                 placeholder="https://..."
             >
 
-
-            <!-- -----------------------------------------
-                 CONTACT
-                 ----------------------------------------- -->
 
             <h3>
                 📞 Contact Information
@@ -581,10 +775,6 @@
             >
 
 
-            <!-- -----------------------------------------
-                 ACTIONS
-                 ----------------------------------------- -->
-
             <div>
 
                 <button
@@ -602,7 +792,6 @@
                 </button>
 
             </div>
-
 
         </form>
 
@@ -627,9 +816,7 @@
         </p>
 
 
-        <div
-            id="myAdsList"
-        >
+        <div id="myAdsList">
 
             <div>
                 No advertisements created yet.
@@ -650,9 +837,7 @@
             🛍️ Global Products
         </h2>
 
-        <div
-            id="productsList"
-        >
+        <div id="productsList">
 
             <div>
                 No products available yet.
@@ -673,9 +858,7 @@
             🛠️ Global Services
         </h2>
 
-        <div
-            id="servicesList"
-        >
+        <div id="servicesList">
 
             <div>
                 No services available yet.
@@ -696,9 +879,7 @@
             💼 Global Jobs
         </h2>
 
-        <div
-            id="jobsList"
-        >
+        <div id="jobsList">
 
             <div>
                 No jobs available yet.
@@ -739,7 +920,7 @@
 
 
 <!-- =====================================================
-     MARKETPLACE DATABASE
+     COUNTRY DATABASE
      ===================================================== -->
 
 <script
@@ -754,773 +935,6 @@
 <script
     src="../marketplace.js"
 ></script>
-
-
-<!-- =====================================================
-     LIGHTWEIGHT ADVERTISEMENT UI
-     ===================================================== -->
-
-<script>
-
-"use strict";
-
-
-/*
- * Advertisement data used by the Marketplace UI.
- * The main marketplace engine remains in marketplace.js.
- */
-
-const MARKETPLACE_AD_STORAGE =
-    "alon_historyverse_marketplace_ads";
-
-
-function loadMarketplaceAds() {
-
-    try {
-
-        const saved =
-            localStorage.getItem(
-                MARKETPLACE_AD_STORAGE
-            );
-
-        if (!saved) {
-
-            return [];
-
-        }
-
-        const data =
-            JSON.parse(saved);
-
-        return Array.isArray(data)
-            ? data
-            : [];
-
-    } catch (error) {
-
-        console.warn(
-            "Advertisement data could not be loaded."
-        );
-
-        return [];
-
-    }
-
-}
-
-
-function saveMarketplaceAds(ads) {
-
-    try {
-
-        localStorage.setItem(
-            MARKETPLACE_AD_STORAGE,
-            JSON.stringify(ads)
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.warn(
-            "Advertisement data could not be saved."
-        );
-
-        return false;
-
-    }
-
-}
-
-
-function createMarketplaceAdId() {
-
-    return (
-
-        "ad_" +
-        Date.now() +
-        "_" +
-        Math.random()
-            .toString(36)
-            .substring(2, 7)
-
-    );
-
-}
-
-
-function escapeMarketplaceText(value) {
-
-    return String(
-        value || ""
-    )
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-
-
-function renderMyMarketplaceAds() {
-
-    const container =
-        document.getElementById(
-            "myAdsList"
-        );
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    const ads =
-        loadMarketplaceAds();
-
-
-    if (!ads.length) {
-
-        container.innerHTML =
-            "<div>No advertisements created yet.</div>";
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    ads.forEach(function(ad) {
-
-        const card =
-            document.createElement("article");
-
-
-        card.className =
-            "ah-card";
-
-
-        card.innerHTML = `
-
-            <h3>
-                ${escapeMarketplaceText(ad.title)}
-            </h3>
-
-            <p>
-                ${escapeMarketplaceText(
-                    ad.description
-                )}
-            </p>
-
-            <p>
-                <strong>
-                    Business:
-                </strong>
-
-                ${escapeMarketplaceText(
-                    ad.businessName
-                )}
-            </p>
-
-            <p>
-                <strong>
-                    Location:
-                </strong>
-
-                ${escapeMarketplaceText(
-                    ad.country
-                )}
-
-                ${ad.city
-                    ? " • " +
-                      escapeMarketplaceText(
-                          ad.city
-                      )
-                    : ""
-                }
-            </p>
-
-            <p>
-                <strong>
-                    Price:
-                </strong>
-
-                ${escapeMarketplaceText(
-                    ad.currency
-                )}
-
-                ${escapeMarketplaceText(
-                    ad.price
-                )}
-            </p>
-
-            <div>
-
-                <button
-                    type="button"
-                    data-edit-ad="${ad.id}"
-                >
-                    ✏️ Edit
-                </button>
-
-                <button
-                    type="button"
-                    data-delete-ad="${ad.id}"
-                >
-                    🗑️ Delete
-                </button>
-
-                <button
-                    type="button"
-                    data-preview-ad="${ad.id}"
-                >
-                    👁️ Preview
-                </button>
-
-            </div>
-
-        `;
-
-
-        container.appendChild(card);
-
-    });
-
-}
-
-
-function readAdvertisementForm() {
-
-    return {
-
-        id:
-            createMarketplaceAdId(),
-
-        title:
-            document.getElementById(
-                "adTitle"
-            ).value.trim(),
-
-        businessName:
-            document.getElementById(
-                "businessName"
-            ).value.trim(),
-
-        category:
-            document.getElementById(
-                "adCategory"
-            ).value,
-
-        description:
-            document.getElementById(
-                "adDescription"
-            ).value.trim(),
-
-        country:
-            document.getElementById(
-                "adCountry"
-            ).value,
-
-        state:
-            document.getElementById(
-                "adState"
-            ).value.trim(),
-
-        city:
-            document.getElementById(
-                "adCity"
-            ).value.trim(),
-
-        price:
-            document.getElementById(
-                "adPrice"
-            ).value.trim(),
-
-        currency:
-            document.getElementById(
-                "adCurrency"
-            ).value,
-
-        offer:
-            document.getElementById(
-                "adOffer"
-            ).value.trim(),
-
-        phone:
-            document.getElementById(
-                "adPhone"
-            ).value.trim(),
-
-        email:
-            document.getElementById(
-                "adEmail"
-            ).value.trim(),
-
-        website:
-            document.getElementById(
-                "adWebsite"
-            ).value.trim(),
-
-        social:
-            document.getElementById(
-                "adSocial"
-            ).value.trim(),
-
-        videoURL:
-            document.getElementById(
-                "adVideoURL"
-            ).value.trim(),
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-}
-
-
-function clearAdvertisementForm() {
-
-    const form =
-        document.getElementById(
-            "advertisementForm"
-        );
-
-    if (form) {
-
-        form.reset();
-
-    }
-
-}
-
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-
-        /* ---------------------------------------------
-           COUNTRY DATABASE
-           --------------------------------------------- */
-
-        const adCountry =
-            document.getElementById(
-                "adCountry"
-            );
-
-
-        if (
-            adCountry &&
-            typeof MARKETPLACE_COUNTRIES !==
-            "undefined" &&
-            Array.isArray(
-                MARKETPLACE_COUNTRIES
-            )
-        ) {
-
-            MARKETPLACE_COUNTRIES.forEach(
-                function(country) {
-
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-                    const code =
-                        country.code ||
-                        country.iso ||
-                        country.isoCode ||
-                        "";
-
-                    const name =
-                        country.name ||
-                        country.country ||
-                        "";
-
-                    option.value =
-                        code;
-
-                    option.textContent =
-                        (
-                            country.flag
-                                ? country.flag + " "
-                                : ""
-                        ) +
-                        name;
-
-                    adCountry.appendChild(
-                        option
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* ---------------------------------------------
-           LOAD ADS
-           --------------------------------------------- */
-
-        renderMyMarketplaceAds();
-
-
-        /* ---------------------------------------------
-           SAVE AD
-           --------------------------------------------- */
-
-        const form =
-            document.getElementById(
-                "advertisementForm"
-            );
-
-
-        if (form) {
-
-            form.addEventListener(
-                "submit",
-                function(event) {
-
-                    event.preventDefault();
-
-
-                    const ad =
-                        readAdvertisementForm();
-
-
-                    if (!ad.title) {
-
-                        alert(
-                            "Please enter an advertisement title."
-                        );
-
-                        return;
-
-                    }
-
-
-                    const ads =
-                        loadMarketplaceAds();
-
-
-                    ads.push(ad);
-
-
-                    if (
-                        saveMarketplaceAds(
-                            ads
-                        )
-                    ) {
-
-                        alert(
-                            "Advertisement saved successfully."
-                        );
-
-                        clearAdvertisementForm();
-
-                        renderMyMarketplaceAds();
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* ---------------------------------------------
-           EDIT / DELETE / PREVIEW
-           --------------------------------------------- */
-
-        const adsContainer =
-            document.getElementById(
-                "myAdsList"
-            );
-
-
-        if (adsContainer) {
-
-            adsContainer.addEventListener(
-                "click",
-                function(event) {
-
-
-                    const editButton =
-                        event.target.closest(
-                            "[data-edit-ad]"
-                        );
-
-
-                    const deleteButton =
-                        event.target.closest(
-                            "[data-delete-ad]"
-                        );
-
-
-                    const previewButton =
-                        event.target.closest(
-                            "[data-preview-ad]"
-                        );
-
-
-                    const ads =
-                        loadMarketplaceAds();
-
-
-                    if (deleteButton) {
-
-                        const id =
-                            deleteButton.dataset.deleteAd;
-
-
-                        const filtered =
-                            ads.filter(
-                                function(ad) {
-
-                                    return ad.id !== id;
-
-                                }
-                            );
-
-
-                        saveMarketplaceAds(
-                            filtered
-                        );
-
-
-                        renderMyMarketplaceAds();
-
-                        return;
-
-                    }
-
-
-                    if (editButton) {
-
-                        const id =
-                            editButton.dataset.editAd;
-
-
-                        const ad =
-                            ads.find(
-                                function(item) {
-
-                                    return item.id === id;
-
-                                }
-                            );
-
-
-                        if (!ad) {
-
-                            return;
-
-                        }
-
-
-                        document.getElementById(
-                            "adTitle"
-                        ).value =
-                            ad.title || "";
-
-
-                        document.getElementById(
-                            "businessName"
-                        ).value =
-                            ad.businessName || "";
-
-
-                        document.getElementById(
-                            "adCategory"
-                        ).value =
-                            ad.category || "business";
-
-
-                        document.getElementById(
-                            "adDescription"
-                        ).value =
-                            ad.description || "";
-
-
-                        document.getElementById(
-                            "adCountry"
-                        ).value =
-                            ad.country || "";
-
-
-                        document.getElementById(
-                            "adState"
-                        ).value =
-                            ad.state || "";
-
-
-                        document.getElementById(
-                            "adCity"
-                        ).value =
-                            ad.city || "";
-
-
-                        document.getElementById(
-                            "adPrice"
-                        ).value =
-                            ad.price || "";
-
-
-                        document.getElementById(
-                            "adCurrency"
-                        ).value =
-                            ad.currency || "USD";
-
-
-                        document.getElementById(
-                            "adOffer"
-                        ).value =
-                            ad.offer || "";
-
-
-                        document.getElementById(
-                            "adPhone"
-                        ).value =
-                            ad.phone || "";
-
-
-                        document.getElementById(
-                            "adEmail"
-                        ).value =
-                            ad.email || "";
-
-
-                        document.getElementById(
-                            "adWebsite"
-                        ).value =
-                            ad.website || "";
-
-
-                        document.getElementById(
-                            "adSocial"
-                        ).value =
-                            ad.social || "";
-
-
-                        document.getElementById(
-                            "adVideoURL"
-                        ).value =
-                            ad.videoURL || "";
-
-
-                        document.getElementById(
-                            "createAd"
-                        ).scrollIntoView({
-                            behavior: "smooth"
-                        });
-
-
-                        /*
-                         * Remove old record.
-                         * Saving the edited version will create
-                         * the updated advertisement.
-                         */
-
-                        const remaining =
-                            ads.filter(
-                                function(item) {
-
-                                    return item.id !== id;
-
-                                }
-                            );
-
-
-                        saveMarketplaceAds(
-                            remaining
-                        );
-
-
-                        renderMyMarketplaceAds();
-
-                        return;
-
-                    }
-
-
-                    if (previewButton) {
-
-                        const id =
-                            previewButton.dataset.previewAd;
-
-
-                        const ad =
-                            ads.find(
-                                function(item) {
-
-                                    return item.id === id;
-
-                                }
-                            );
-
-
-                        if (!ad) {
-
-                            return;
-
-                        }
-
-
-                        alert(
-
-                            ad.title +
-                            "\n\n" +
-                            ad.description +
-                            "\n\n" +
-                            (
-                                ad.businessName
-                                    ? "Business: " +
-                                      ad.businessName +
-                                      "\n"
-                                    : ""
-                            ) +
-                            (
-                                ad.country
-                                    ? "Country: " +
-                                      ad.country +
-                                      "\n"
-                                    : ""
-                            ) +
-                            (
-                                ad.city
-                                    ? "City: " +
-                                      ad.city +
-                                      "\n"
-                                    : ""
-                            ) +
-                            (
-                                ad.price
-                                    ? "Price: " +
-                                      ad.currency +
-                                      " " +
-                                      ad.price
-                                    : ""
-                            )
-
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
-    }
-);
-
-</script>
 
 
 </body>
