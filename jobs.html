@@ -455,7 +455,7 @@ class="jobs-database-error"
 <strong>⚠️ Country database could not be loaded.</strong>
 <br>
 Please make sure the file is exactly:
-<strong>world-countries.js</strong>
+<strong>marketplace-countries.js</strong>
 and is located in the project root.
 </div>
 
@@ -901,6 +901,8 @@ autocomplete="off"
 
 <!-- =====================================================
      CAREER SUBJECTS
+     ALL FOUR MAIN CAREER OPTIONS NOW USE
+     career-center.html
 ====================================================== -->
 
 <div
@@ -909,68 +911,69 @@ class="grid"
 aria-live="polite"
 >
 
+
 <a
 class="card"
-href="subject.html?department=jobs-careers&subject=career-development"
+href="./career-center.html#careerDevelopment"
 >
 <h3>Career Development</h3>
 <p>
-Explore career planning and professional growth.
+Plan your career, set goals and build a professional roadmap.
 </p>
 </a>
 
 
 <a
 class="card"
-href="subject.html?department=jobs-careers&subject=job-skills"
+href="./career-center.html#jobSkills"
 >
 <h3>Job Skills</h3>
 <p>
-Explore skills useful for modern careers.
+Explore practical skills useful for modern careers and jobs.
 </p>
 </a>
 
 
 <a
 class="card"
-href="subject.html?department=jobs-careers&subject=interview"
+href="./career-center.html#interview"
 >
 <h3>Interview Preparation</h3>
 <p>
-Learn about interviews and professional preparation.
+Practice HR and professional interview questions.
 </p>
 </a>
 
 
 <a
 class="card"
-href="subject.html?department=jobs-careers&subject=resume"
+href="./career-center.html#resume"
 >
 <h3>Resume &amp; CV</h3>
 <p>
-Explore resume and CV knowledge.
+Create, save, edit and prepare a professional Resume or CV.
 </p>
 </a>
 
 
 <a
 class="card"
-href="subject.html?department=jobs-careers&subject=technology-careers"
+href="./career-center.html#jobSkills"
 >
 <h3>Technology Careers</h3>
 <p>
-Explore technology and computing careers.
+Explore technology careers and the skills required for them.
 </p>
 </a>
 
 
 <a
 class="card"
-href="subject.html?department=jobs-careers&subject=business-careers"
+href="./career-center.html#jobSkills"
 >
 <h3>Business Careers</h3>
 <p>
-Explore business and management careers.
+Explore business, management and professional career skills.
 </p>
 </a>
 
@@ -983,27 +986,27 @@ Explore business and management careers.
 
 <div class="grid">
 
-<a class="card" href="department.html">
+<a class="card" href="./department.html">
 <h3>Departments</h3>
 <p>Return to all knowledge departments.</p>
 </a>
 
-<a class="card" href="subject.html">
+<a class="card" href="./subject.html">
 <h3>Subjects</h3>
 <p>Explore subjects within Jobs &amp; Careers.</p>
 </a>
 
-<a class="card" href="book.html">
+<a class="card" href="./book.html">
 <h3>Books</h3>
 <p>Explore career and educational books.</p>
 </a>
 
-<a class="card" href="read.html">
+<a class="card" href="./read.html">
 <h3>Read</h3>
 <p>Open reading resources.</p>
 </a>
 
-<a class="card" href="library.html">
+<a class="card" href="./library.html">
 <h3>Library</h3>
 <p>Return to the main knowledge library.</p>
 </a>
@@ -1017,17 +1020,17 @@ Explore business and management careers.
 
 <div class="grid">
 
-<a class="card" href="computer.html">
+<a class="card" href="./computer.html">
 <h3>Computer</h3>
 <p>Explore computer and technology knowledge.</p>
 </a>
 
-<a class="card" href="articles.html">
+<a class="card" href="./articles.html">
 <h3>Articles</h3>
 <p>Read educational and knowledge articles.</p>
 </a>
 
-<a class="card" href="discover.html">
+<a class="card" href="./discover.html">
 <h3>Discover</h3>
 <p>Explore more knowledge across the platform.</p>
 </a>
@@ -1054,16 +1057,18 @@ ALON HISTORYVERSE 24 • Baba Thecno Guru
 
 
 <!-- =========================================================
-     CORRECT ROOT PROJECT PATHS
-     jobs.html IS CURRENTLY IN PROJECT ROOT
+     ROOT PROJECT JS PATHS
 ========================================================== -->
 
 <script src="./core.js"></script>
 <script src="./system.js"></script>
 <script src="./library-engine.js"></script>
 
-<!-- WORLD COUNTRIES DATABASE -->
-<script src="./world-countries.js"></script>
+<!-- =========================================================
+     CENTRAL WORLD / MARKETPLACE COUNTRY DATABASE
+========================================================== -->
+
+<script src="./marketplace-countries.js"></script>
 
 
 <!-- =========================================================
@@ -1081,10 +1086,27 @@ ALON HISTORYVERSE 24 • Baba Thecno Guru
    DATABASE CHECK
 ========================================================= */
 
+/*
+   Primary database:
+   window.MARKETPLACE_COUNTRIES
+
+   Safe fallbacks are included so the Jobs page can also
+   work if another compatible country database exposes
+   WORLD_COUNTRIES or COUNTRIES.
+*/
+
 const countries =
     Array.isArray(window.MARKETPLACE_COUNTRIES)
         ? window.MARKETPLACE_COUNTRIES
-        : [];
+        : (
+            Array.isArray(window.WORLD_COUNTRIES)
+                ? window.WORLD_COUNTRIES
+                : (
+                    Array.isArray(window.COUNTRIES)
+                        ? window.COUNTRIES
+                        : []
+                )
+        );
 
 
 const countryDatabaseError =
@@ -1391,32 +1413,175 @@ function getSession() {
 }
 
 
+/* =========================================================
+   COUNTRY NORMALIZATION
+========================================================= */
+
+function countryValue(country, keys) {
+
+    for (
+        let i = 0;
+        i < keys.length;
+        i++
+    ) {
+
+        const key =
+            keys[i];
+
+        if (
+            country &&
+            country[key] !== undefined &&
+            country[key] !== null &&
+            String(country[key]).trim() !== ""
+        ) {
+
+            return String(
+                country[key]
+            );
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+function normalizeCountry(country) {
+
+    if (!country) {
+        return null;
+    }
+
+    const name =
+        countryValue(
+            country,
+            [
+                "name",
+                "country",
+                "countryName",
+                "country_name"
+            ]
+        );
+
+
+    const code =
+        countryValue(
+            country,
+            [
+                "code",
+                "iso",
+                "isoCode",
+                "iso_code",
+                "cca2",
+                "alpha2"
+            ]
+        ).toUpperCase();
+
+
+    const callingCode =
+        countryValue(
+            country,
+            [
+                "callingCode",
+                "calling",
+                "dialCode",
+                "dial_code",
+                "phoneCode",
+                "phone_code"
+            ]
+        );
+
+
+    const flag =
+        countryValue(
+            country,
+            [
+                "flag",
+                "emoji",
+                "flagEmoji"
+            ]
+        );
+
+
+    if (!name || !code) {
+        return null;
+    }
+
+
+    return {
+
+        name:
+            name,
+
+        code:
+            code,
+
+        callingCode:
+            callingCode,
+
+        flag:
+            flag
+
+    };
+
+}
+
+
+const normalizedCountries =
+    countries
+        .map(normalizeCountry)
+        .filter(Boolean);
+
+
+/* =========================================================
+   COUNTRY LABEL
+========================================================= */
+
 function countryLabel(country) {
 
     if (!country) {
         return "";
     }
 
+    const flag =
+        country.flag
+            ? country.flag + " "
+            : "";
+
+    const calling =
+        country.callingCode
+            ? " • " + country.callingCode
+            : "";
+
     return (
-        country.flag +
-        " " +
+        flag +
         country.name +
         " [" +
         country.code +
-        "] " +
-        country.callingCode
+        "]" +
+        calling
     );
 
 }
 
 
+/* =========================================================
+   FIND COUNTRY
+========================================================= */
+
 function findCountry(code) {
 
-    return countries.find(
+    if (!code) {
+        return null;
+    }
+
+    return normalizedCountries.find(
         function (country) {
 
             return country.code ===
-                code;
+                String(code).toUpperCase();
 
         }
     ) || null;
@@ -1439,6 +1604,7 @@ function populateCountrySelect(
 
     select.innerHTML = "";
 
+
     const first =
         document.createElement(
             "option"
@@ -1452,7 +1618,7 @@ function populateCountrySelect(
     select.appendChild(first);
 
 
-    countries.forEach(
+    normalizedCountries.forEach(
         function (country) {
 
             const option =
@@ -1509,10 +1675,12 @@ function getSelectedCountry() {
     const type =
         jobTypeSelect.value;
 
+
     const selectedCode =
         type === "local"
             ? localCountrySelect.value
             : internationalCountrySelect.value;
+
 
     return findCountry(
         selectedCode
@@ -1532,6 +1700,7 @@ function updateCountryInfo() {
             internationalCountrySelect.value
         );
 
+
     const local =
         findCountry(
             localCountrySelect.value
@@ -1541,13 +1710,20 @@ function updateCountryInfo() {
     if (international) {
 
         internationalCountryInfo.textContent =
-            international.flag +
-            " " +
+            (
+                international.flag
+                    ? international.flag + " "
+                    : ""
+            ) +
             international.name +
             " • ISO: " +
             international.code +
-            " • Calling: " +
-            international.callingCode;
+            (
+                international.callingCode
+                    ? " • Calling: " +
+                      international.callingCode
+                    : ""
+            );
 
     } else {
 
@@ -1560,13 +1736,20 @@ function updateCountryInfo() {
     if (local) {
 
         localCountryInfo.textContent =
-            local.flag +
-            " " +
+            (
+                local.flag
+                    ? local.flag + " "
+                    : ""
+            ) +
             local.name +
             " • ISO: " +
             local.code +
-            " • Calling: " +
-            local.callingCode;
+            (
+                local.callingCode
+                    ? " • Calling: " +
+                      local.callingCode
+                    : ""
+            );
 
     } else {
 
@@ -1577,6 +1760,10 @@ function updateCountryInfo() {
 
 }
 
+
+/* =========================================================
+   ACTIVE COUNTRY / CALLING CODE
+========================================================= */
 
 function updateActiveCountry() {
 
@@ -1632,6 +1819,7 @@ internationalCountrySelect.addEventListener(
         }
 
         updateCountryInfo();
+
         updateActiveCountry();
 
     }
@@ -1652,6 +1840,7 @@ localCountrySelect.addEventListener(
         }
 
         updateCountryInfo();
+
         updateActiveCountry();
 
     }
