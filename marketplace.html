@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,1282 +10,1518 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Global Marketplace • ALON HISTORYVERSE 24</title>
+    <title>
+        Global Marketplace • ALON HISTORYVERSE 24
+    </title>
 
     <meta
         name="description"
-        content="ALON HISTORYVERSE 24 Global Marketplace — vehicles, property, businesses, hotels, garages, local jobs and more."
+        content="ALON HISTORYVERSE 24 Global Marketplace — create business advertisements, sell products, offer services and reach customers worldwide."
     >
 
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./marketplace.css">
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
 
-    <!-- Leaflet Map -->
+    <!-- Existing project stylesheet -->
     <link
         rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIINfQ3c2xM6gY9Q9l5p4QY8vX6j8V7K0hI="
-        crossorigin=""
+        href="../css/style.css"
     >
+
 </head>
+
 
 <body>
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
 
-    <header class="mp-header">
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
 
-        <div class="mp-header-left">
+<header class="ah-header">
 
-            <a
-                href="./index.html"
-                class="mp-home-btn"
-                aria-label="Back to ALON HISTORYVERSE 24"
+    <div class="ah-brand">
+
+        <a href="../index.html">
+
+            <strong>
+                ALON HISTORYVERSE 24
+            </strong>
+
+            <small>
+                Global Marketplace
+            </small>
+
+        </a>
+
+    </div>
+
+
+    <nav class="ah-nav">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="#createAd">
+            Create Ad
+        </a>
+
+        <a href="#myAds">
+            My Ads
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main class="ah-container">
+
+
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <section class="ah-card">
+
+        <h1>
+            🌍 Global Marketplace
+        </h1>
+
+        <p>
+            Sell your products, promote your small or large
+            business, offer services and reach customers
+            around the world.
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         SEARCH
+         ================================================= -->
+
+    <section class="ah-card">
+
+        <h2>
+            🔎 Search Marketplace
+        </h2>
+
+        <form
+            id="marketplaceSearchForm"
+        >
+
+            <input
+                id="marketplaceSearch"
+                name="search"
+                type="search"
+                placeholder="Search business, product, service or job..."
+                autocomplete="off"
             >
-                ←
-            </a>
 
-            <div class="mp-brand">
+            <button
+                type="submit"
+            >
+                Search
+            </button>
 
-                <div class="mp-brand-title">
-                    ALON HISTORYVERSE 24
-                </div>
+        </form>
 
-                <div class="mp-brand-subtitle">
-                    GLOBAL MARKETPLACE
-                </div>
+    </section>
 
+
+    <!-- =================================================
+         COUNTRY + CATEGORY
+         ================================================= -->
+
+    <section class="ah-card">
+
+        <h2>
+            🌎 Find by Country
+        </h2>
+
+        <label for="country">
+            Country
+        </label>
+
+        <select id="country">
+
+            <option value="">
+                All Countries
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label for="marketplaceCategory">
+            Category
+        </label>
+
+        <select
+            id="marketplaceCategory"
+        >
+
+            <option value="">
+                All Categories
+            </option>
+
+            <option value="business">
+                Business
+            </option>
+
+            <option value="products">
+                Products
+            </option>
+
+            <option value="services">
+                Services
+            </option>
+
+            <option value="jobs">
+                Jobs
+            </option>
+
+            <option value="technology">
+                Technology
+            </option>
+
+            <option value="education">
+                Education
+            </option>
+
+            <option value="food">
+                Food
+            </option>
+
+            <option value="fashion">
+                Fashion
+            </option>
+
+            <option value="electronics">
+                Electronics
+            </option>
+
+            <option value="agriculture">
+                Agriculture
+            </option>
+
+            <option value="other">
+                Other
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- =================================================
+         CREATE AD
+         ================================================= -->
+
+    <section
+        class="ah-card"
+        id="createAd"
+    >
+
+        <h2>
+            📢 Create Your Advertisement
+        </h2>
+
+        <p>
+            Create an advertisement for your business,
+            product, shop or service.
+        </p>
+
+
+        <form
+            id="advertisementForm"
+            enctype="multipart/form-data"
+        >
+
+
+            <!-- -----------------------------------------
+                 BASIC INFORMATION
+                 ----------------------------------------- -->
+
+            <h3>
+                Business / Advertisement Information
+            </h3>
+
+
+            <label for="adTitle">
+                Advertisement Title
+            </label>
+
+            <input
+                id="adTitle"
+                name="title"
+                type="text"
+                placeholder="Example: Handmade Furniture Shop"
+                required
+            >
+
+
+            <label for="businessName">
+                Business / Shop Name
+            </label>
+
+            <input
+                id="businessName"
+                name="businessName"
+                type="text"
+                placeholder="Your business name"
+            >
+
+
+            <label for="adCategory">
+                Category
+            </label>
+
+            <select
+                id="adCategory"
+                name="category"
+            >
+
+                <option value="business">
+                    Business
+                </option>
+
+                <option value="products">
+                    Products
+                </option>
+
+                <option value="services">
+                    Services
+                </option>
+
+                <option value="jobs">
+                    Jobs
+                </option>
+
+                <option value="technology">
+                    Technology
+                </option>
+
+                <option value="education">
+                    Education
+                </option>
+
+                <option value="food">
+                    Food
+                </option>
+
+                <option value="fashion">
+                    Fashion
+                </option>
+
+                <option value="electronics">
+                    Electronics
+                </option>
+
+                <option value="agriculture">
+                    Agriculture
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label for="adDescription">
+                Advertisement Description
+            </label>
+
+            <textarea
+                id="adDescription"
+                name="description"
+                rows="6"
+                placeholder="Describe your business, product or service..."
+            ></textarea>
+
+
+            <!-- -----------------------------------------
+                 COUNTRY
+                 ----------------------------------------- -->
+
+            <h3>
+                🌎 Location
+            </h3>
+
+
+            <label for="adCountry">
+                Country
+            </label>
+
+            <select id="adCountry">
+
+                <option value="">
+                    Select Country
+                </option>
+
+            </select>
+
+
+            <label for="adState">
+                State / Province
+            </label>
+
+            <input
+                id="adState"
+                name="state"
+                type="text"
+                placeholder="State / Province"
+            >
+
+
+            <label for="adCity">
+                City
+            </label>
+
+            <input
+                id="adCity"
+                name="city"
+                type="text"
+                placeholder="City"
+            >
+
+
+            <!-- -----------------------------------------
+                 PRODUCT / OFFER
+                 ----------------------------------------- -->
+
+            <h3>
+                💰 Product / Offer
+            </h3>
+
+
+            <label for="adPrice">
+                Price
+            </label>
+
+            <input
+                id="adPrice"
+                name="price"
+                type="text"
+                placeholder="Example: 500"
+            >
+
+
+            <label for="adCurrency">
+                Currency
+            </label>
+
+            <select id="adCurrency">
+
+                <option value="USD">
+                    USD
+                </option>
+
+                <option value="INR">
+                    INR
+                </option>
+
+                <option value="EUR">
+                    EUR
+                </option>
+
+                <option value="GBP">
+                    GBP
+                </option>
+
+                <option value="AED">
+                    AED
+                </option>
+
+                <option value="CAD">
+                    CAD
+                </option>
+
+                <option value="AUD">
+                    AUD
+                </option>
+
+                <option value="JPY">
+                    JPY
+                </option>
+
+            </select>
+
+
+            <label for="adOffer">
+                Special Offer
+            </label>
+
+            <input
+                id="adOffer"
+                name="offer"
+                type="text"
+                placeholder="Example: 20% discount"
+            >
+
+
+            <!-- -----------------------------------------
+                 IMAGES
+                 ----------------------------------------- -->
+
+            <h3>
+                🖼️ Images
+            </h3>
+
+            <p>
+                Add images of your business, shop or product.
+            </p>
+
+            <input
+                id="adImages"
+                name="images"
+                type="file"
+                accept="image/*"
+                multiple
+            >
+
+
+            <!-- -----------------------------------------
+                 VIDEO
+                 ----------------------------------------- -->
+
+            <h3>
+                🎥 Video
+            </h3>
+
+            <p>
+                Add a promotional video.
+            </p>
+
+            <input
+                id="adVideo"
+                name="video"
+                type="file"
+                accept="video/*"
+            >
+
+
+            <label for="adVideoURL">
+                Or Video URL
+            </label>
+
+            <input
+                id="adVideoURL"
+                name="videoURL"
+                type="url"
+                placeholder="https://..."
+            >
+
+
+            <!-- -----------------------------------------
+                 CONTACT
+                 ----------------------------------------- -->
+
+            <h3>
+                📞 Contact Information
+            </h3>
+
+
+            <label for="adPhone">
+                Phone / WhatsApp
+            </label>
+
+            <input
+                id="adPhone"
+                name="phone"
+                type="tel"
+                placeholder="Phone or WhatsApp number"
+            >
+
+
+            <label for="adEmail">
+                Email
+            </label>
+
+            <input
+                id="adEmail"
+                name="email"
+                type="email"
+                placeholder="Business email"
+            >
+
+
+            <label for="adWebsite">
+                Website
+            </label>
+
+            <input
+                id="adWebsite"
+                name="website"
+                type="url"
+                placeholder="https://yourwebsite.com"
+            >
+
+
+            <label for="adSocial">
+                Social Media / Business Link
+            </label>
+
+            <input
+                id="adSocial"
+                name="social"
+                type="url"
+                placeholder="https://..."
+            >
+
+
+            <!-- -----------------------------------------
+                 ACTIONS
+                 ----------------------------------------- -->
+
+            <div>
+
+                <button
+                    type="submit"
+                    id="saveAdButton"
+                >
+                    💾 Save Advertisement
+                </button>
+
+                <button
+                    type="reset"
+                    id="clearAdButton"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- =================================================
+         MY ADS
+         ================================================= -->
+
+    <section
+        class="ah-card"
+        id="myAds"
+    >
+
+        <h2>
+            📋 My Advertisements
+        </h2>
+
+        <p>
+            Your saved advertisements will appear here.
+        </p>
+
+
+        <div
+            id="myAdsList"
+        >
+
+            <div>
+                No advertisements created yet.
             </div>
 
         </div>
 
-        <div class="mp-header-actions">
+    </section>
 
-            <button
-                type="button"
-                id="mpLoginOpenBtn"
-                class="mp-header-btn"
-            >
-                👤 Login / Register
-            </button>
 
-            <button
-                type="button"
-                id="mpMenuBtn"
-                class="mp-header-btn"
-            >
-                ☰
-            </button>
+    <!-- =================================================
+         PRODUCTS
+         ================================================= -->
+
+    <section class="ah-card">
+
+        <h2>
+            🛍️ Global Products
+        </h2>
+
+        <div
+            id="productsList"
+        >
+
+            <div>
+                No products available yet.
+            </div>
 
         </div>
 
-    </header>
+    </section>
 
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
+    <!-- =================================================
+         SERVICES
+         ================================================= -->
 
-    <main class="mp-main">
+    <section class="ah-card">
 
+        <h2>
+            🛠️ Global Services
+        </h2>
 
-        <!-- =================================================
-             HERO
-        ================================================== -->
-
-        <section class="mp-hero">
-
-            <div class="mp-hero-content">
-
-                <div class="mp-kicker">
-                    🌍 ALON GLOBAL MARKETPLACE
-                </div>
-
-                <h1>
-                    Find. Sell. Work. Connect.
-                </h1>
-
-                <p>
-                    Vehicles, property, businesses, hotels,
-                    garages, local jobs and more —
-                    discover listings around the world.
-                </p>
-
-                <div class="mp-hero-actions">
-
-                    <button
-                        type="button"
-                        id="mpCreateHeroBtn"
-                        class="mp-primary-btn"
-                    >
-                        ＋ Create Listing
-                    </button>
-
-                    <button
-                        type="button"
-                        id="mpMapHeroBtn"
-                        class="mp-secondary-btn"
-                    >
-                        🗺️ ALON Map
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             MARKET TOOLBAR
-        ================================================== -->
-
-        <section class="mp-toolbar-panel">
-
-            <div class="mp-toolbar">
-
-                <div class="mp-field">
-
-                    <label for="mpCountryFilter">
-                        🌍 Country
-                    </label>
-
-                    <select id="mpCountryFilter">
-                        <option value="">
-                            All Countries
-                        </option>
-                    </select>
-
-                </div>
-
-
-                <div class="mp-field">
-
-                    <label for="mpCategoryFilter">
-                        📂 Category
-                    </label>
-
-                    <select id="mpCategoryFilter">
-
-                        <option value="">
-                            All Categories
-                        </option>
-
-                        <option value="vehicle">
-                            🚗 Vehicles
-                        </option>
-
-                        <option value="property">
-                            🏠 Property
-                        </option>
-
-                        <option value="business">
-                            🏪 Businesses
-                        </option>
-
-                        <option value="hotel">
-                            🏨 Hotels
-                        </option>
-
-                        <option value="fuel">
-                            ⛽ Petrol / CNG
-                        </option>
-
-                        <option value="garage">
-                            🔧 Garage / Mechanic
-                        </option>
-
-                        <option value="job">
-                            📋 Local Jobs
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="mp-field mp-search-field">
-
-                    <label for="mpSearch">
-                        🔎 Search
-                    </label>
-
-                    <input
-                        type="search"
-                        id="mpSearch"
-                        placeholder="Search listings, city, road, business..."
-                        autocomplete="off"
-                    >
-
-                </div>
-
-
-                <button
-                    type="button"
-                    id="mpSearchBtn"
-                    class="mp-search-btn"
-                >
-                    Search
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             QUICK ACTIONS
-        ================================================== -->
-
-        <section class="mp-quick-actions">
-
-            <button
-                type="button"
-                data-market-action="login"
-                class="mp-action-card"
-            >
-                <span class="mp-action-icon">👤</span>
-                <span class="mp-action-title">
-                    Login / Register
-                </span>
-                <span class="mp-action-text">
-                    Create your marketplace account
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                data-market-action="create"
-                class="mp-action-card"
-            >
-                <span class="mp-action-icon">➕</span>
-                <span class="mp-action-title">
-                    Create Listing
-                </span>
-                <span class="mp-action-text">
-                    Sell, advertise or post a job
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                data-market-action="jobs"
-                class="mp-action-card"
-            >
-                <span class="mp-action-icon">📋</span>
-                <span class="mp-action-title">
-                    Local Jobs
-                </span>
-                <span class="mp-action-text">
-                    Find work near you
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                data-market-action="map"
-                class="mp-action-card"
-            >
-                <span class="mp-action-icon">🗺️</span>
-                <span class="mp-action-title">
-                    ALON Map
-                </span>
-                <span class="mp-action-text">
-                    Find listings by location
-                </span>
-            </button>
-
-
-            <button
-                type="button"
-                data-market-action="mine"
-                class="mp-action-card"
-            >
-                <span class="mp-action-icon">📁</span>
-                <span class="mp-action-title">
-                    My Listings
-                </span>
-                <span class="mp-action-text">
-                    Edit or delete your listings
-                </span>
-            </button>
-
-        </section>
-
-
-        <!-- =================================================
-             ACCOUNT PANEL
-        ================================================== -->
-
-        <section
-            id="mpAccountPanel"
-            class="mp-panel mp-hidden"
+        <div
+            id="servicesList"
         >
 
-            <div class="mp-panel-header">
-
-                <div>
-                    <span class="mp-panel-kicker">
-                        ACCOUNT
-                    </span>
-
-                    <h2>
-                        Login / Register
-                    </h2>
-                </div>
-
-                <button
-                    type="button"
-                    class="mp-close-btn"
-                    data-close-panel="account"
-                    aria-label="Close"
-                >
-                    ×
-                </button>
-
+            <div>
+                No services available yet.
             </div>
 
-
-            <form id="mpAccountForm">
-
-                <div class="mp-form-grid">
-
-
-                    <div class="mp-field">
-
-                        <label for="mpAccountCountry">
-                            🌍 Country
-                        </label>
-
-                        <select
-                            id="mpAccountCountry"
-                            required
-                        >
-                            <option value="">
-                                Select Country
-                            </option>
-                        </select>
-
-                    </div>
-
-
-                    <div class="mp-field">
-
-                        <label for="mpFullName">
-                            👤 Full Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpFullName"
-                            placeholder="Your name"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="mp-field">
-
-                        <label for="mpEmail">
-                            ✉️ Email
-                        </label>
-
-                        <input
-                            type="email"
-                            id="mpEmail"
-                            placeholder="you@example.com"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="mp-field">
-
-                        <label for="mpPassword">
-                            🔐 Password
-                        </label>
-
-                        <input
-                            type="password"
-                            id="mpPassword"
-                            placeholder="Password"
-                            minlength="6"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="mp-field mp-field-full">
-
-                        <label for="mpProfilePhoto">
-                            🖼️ Profile Picture
-                        </label>
-
-                        <input
-                            type="file"
-                            id="mpProfilePhoto"
-                            accept="image/*"
-                        >
-
-                    </div>
-
-
-                    <div class="mp-field mp-field-full">
-
-                        <label class="mp-check-row">
-
-                            <input
-                                type="checkbox"
-                                id="mpAccountTerms"
-                                required
-                            >
-
-                            <span>
-                                I agree to the ALON HISTORYVERSE 24
-                                Marketplace Terms and Rules.
-                            </span>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                <div class="mp-form-actions">
-
-                    <button
-                        type="submit"
-                        class="mp-primary-btn"
-                    >
-                        Login / Register
-                    </button>
-
-                    <button
-                        type="button"
-                        id="mpLogoutBtn"
-                        class="mp-danger-btn"
-                    >
-                        Logout
-                    </button>
-
-                </div>
-
-            </form>
-
-            <div
-                id="mpAccountStatus"
-                class="mp-status"
-            ></div>
-
-        </section>
-
-
-        <!-- =================================================
-             CREATE / EDIT LISTING
-        ================================================== -->
-
-        <section
-            id="mpListingPanel"
-            class="mp-panel mp-hidden"
-        >
-
-            <div class="mp-panel-header">
-
-                <div>
-
-                    <span class="mp-panel-kicker">
-                        MARKETPLACE
-                    </span>
-
-                    <h2 id="mpListingFormTitle">
-                        Create Listing
-                    </h2>
-
-                </div>
-
-                <button
-                    type="button"
-                    class="mp-close-btn"
-                    data-close-panel="listing"
-                    aria-label="Close"
-                >
-                    ×
-                </button>
-
-            </div>
-
-
-            <form id="mpListingForm">
-
-                <input
-                    type="hidden"
-                    id="mpListingId"
-                >
-
-
-                <div class="mp-form-grid">
-
-
-                    <!-- Country -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingCountry">
-                            🌍 Country *
-                        </label>
-
-                        <select
-                            id="mpListingCountry"
-                            required
-                        >
-                            <option value="">
-                                Select Country
-                            </option>
-                        </select>
-
-                    </div>
-
-
-                    <!-- Category -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingCategory">
-                            📂 Category *
-                        </label>
-
-                        <select
-                            id="mpListingCategory"
-                            required
-                        >
-
-                            <option value="">
-                                Select Category
-                            </option>
-
-                            <option value="vehicle">
-                                🚗 Vehicles
-                            </option>
-
-                            <option value="property">
-                                🏠 Property
-                            </option>
-
-                            <option value="business">
-                                🏪 Business
-                            </option>
-
-                            <option value="hotel">
-                                🏨 Hotel
-                            </option>
-
-                            <option value="fuel">
-                                ⛽ Petrol / CNG Pump
-                            </option>
-
-                            <option value="garage">
-                                🔧 Garage / Mechanic
-                            </option>
-
-                            <option value="job">
-                                📋 Local Job
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- Title -->
-
-                    <div class="mp-field mp-field-full">
-
-                        <label for="mpListingTitle">
-                            📝 Listing Title *
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingTitle"
-                            placeholder="Example: Toyota Corolla 2022"
-                            required
-                            maxlength="150"
-                        >
-
-                    </div>
-
-
-                    <!-- Brand / Company -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingBrand">
-                            🏷️ Brand / Company / Employer
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingBrand"
-                            placeholder="Brand or business name"
-                            maxlength="120"
-                        >
-
-                    </div>
-
-
-                    <!-- Model / Job Role -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingModel">
-                            🔖 Model / Job Role
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingModel"
-                            placeholder="Model or job role"
-                            maxlength="120"
-                        >
-
-                    </div>
-
-
-                    <!-- Year / Experience -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingYear">
-                            📅 Year / Experience
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingYear"
-                            placeholder="2022 / 2 years"
-                            maxlength="50"
-                        >
-
-                    </div>
-
-
-                    <!-- Condition / Work Type -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingCondition">
-                            ⚙️ Condition / Work Type
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingCondition"
-                            placeholder="New / Used / Full-time / Part-time"
-                            maxlength="80"
-                        >
-
-                    </div>
-
-
-                    <!-- Price / Salary -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingPrice">
-                            💰 Price / Salary
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingPrice"
-                            placeholder="Amount / Negotiable"
-                            maxlength="80"
-                        >
-
-                    </div>
-
-
-                    <!-- City -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingCity">
-                            🏙️ City *
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingCity"
-                            placeholder="City"
-                            required
-                            maxlength="100"
-                        >
-
-                    </div>
-
-
-                    <!-- State -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingState">
-                            📍 State / Province
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingState"
-                            placeholder="State / Province"
-                            maxlength="100"
-                        >
-
-                    </div>
-
-
-                    <!-- Road / Area -->
-
-                    <div class="mp-field mp-field-full">
-
-                        <label for="mpListingRoad">
-                            🛣️ Road / Area / Location *
-                        </label>
-
-                        <input
-                            type="text"
-                            id="mpListingRoad"
-                            placeholder="Road, area, market or locality"
-                            required
-                            maxlength="180"
-                        >
-
-                    </div>
-
-
-                    <!-- Latitude -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingLat">
-                            🌐 Latitude *
-                        </label>
-
-                        <input
-                            type="number"
-                            id="mpListingLat"
-                            step="any"
-                            placeholder="e.g. 22.3039"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- Longitude -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingLng">
-                            🌐 Longitude *
-                        </label>
-
-                        <input
-                            type="number"
-                            id="mpListingLng"
-                            step="any"
-                            placeholder="e.g. 70.8022"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- Current Location -->
-
-                    <div class="mp-field mp-field-full">
-
-                        <button
-                            type="button"
-                            id="mpCurrentLocationBtn"
-                            class="mp-location-btn"
-                        >
-                            📍 Use Current Location
-                        </button>
-
-                    </div>
-
-
-                    <!-- Description -->
-
-                    <div class="mp-field mp-field-full">
-
-                        <label for="mpListingDescription">
-                            📄 Description *
-                        </label>
-
-                        <textarea
-                            id="mpListingDescription"
-                            rows="6"
-                            placeholder="Write complete and accurate information..."
-                            required
-                            maxlength="5000"
-                        ></textarea>
-
-                    </div>
-
-
-                    <!-- Photos -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingPhotos">
-                            📷 Photos
-                        </label>
-
-                        <input
-                            type="file"
-                            id="mpListingPhotos"
-                            accept="image/*"
-                            multiple
-                        >
-
-                        <small>
-                            Add clear photos of the listing.
-                        </small>
-
-                    </div>
-
-
-                    <!-- Video -->
-
-                    <div class="mp-field">
-
-                        <label for="mpListingVideo">
-                            🎥 Video
-                        </label>
-
-                        <input
-                            type="file"
-                            id="mpListingVideo"
-                            accept="video/*"
-                        >
-
-                        <small>
-                            Optional listing video.
-                        </small>
-
-                    </div>
-
-
-                    <!-- Legal Agreement -->
-
-                    <div class="mp-field mp-field-full">
-
-                        <label class="mp-check-row">
-
-                            <input
-                                type="checkbox"
-                                id="mpListingLegal"
-                                required
-                            >
-
-                            <span>
-                                I confirm that this listing is legal,
-                                accurate, and that I have the right
-                                or permission to publish it. I understand
-                                that prohibited, illegal, fraudulent,
-                                stolen, counterfeit, harmful or misleading
-                                listings can be rejected or removed.
-                            </span>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                <div class="mp-form-actions">
-
-                    <button
-                        type="submit"
-                        class="mp-primary-btn"
-                    >
-                        💾 Save Listing
-                    </button>
-
-                    <button
-                        type="button"
-                        id="mpClearListingBtn"
-                        class="mp-secondary-btn"
-                    >
-                        Clear
-                    </button>
-
-                </div>
-
-            </form>
-
-
-            <div
-                id="mpListingStatus"
-                class="mp-status"
-            ></div>
-
-        </section>
-
-
-        <!-- =================================================
-             MAP
-        ================================================== -->
-
-        <section
-            id="mpMapPanel"
-            class="mp-panel"
-        >
-
-            <div class="mp-panel-header">
-
-                <div>
-
-                    <span class="mp-panel-kicker">
-                        LOCATION
-                    </span>
-
-                    <h2>
-                        🗺️ ALON Map
-                    </h2>
-
-                    <p>
-                        Find marketplace listings by location.
-                    </p>
-
-                </div>
-
-                <button
-                    type="button"
-                    id="mpLocateMeBtn"
-                    class="mp-secondary-btn"
-                >
-                    📍 Locate Me
-                </button>
-
-            </div>
-
-
-            <div
-                id="alonMap"
-                class="mp-map"
-            ></div>
-
-
-            <div class="mp-map-note">
-
-                <strong>ALON Map Interface</strong>
-
-                <span>
-                    Marketplace locations are displayed on the
-                    ALON-branded map interface. Road and map
-                    infrastructure currently uses OpenStreetMap
-                    data through Leaflet.
-                </span>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             MY LISTINGS
-        ================================================== -->
-
-        <section
-            id="mpMyListingsPanel"
-            class="mp-panel mp-hidden"
-        >
-
-            <div class="mp-panel-header">
-
-                <div>
-
-                    <span class="mp-panel-kicker">
-                        ACCOUNT
-                    </span>
-
-                    <h2>
-                        📁 My Listings
-                    </h2>
-
-                </div>
-
-                <button
-                    type="button"
-                    class="mp-close-btn"
-                    data-close-panel="mine"
-                    aria-label="Close"
-                >
-                    ×
-                </button>
-
-            </div>
-
-
-            <div
-                id="mpMyListings"
-                class="mp-listings-grid"
-            ></div>
-
-        </section>
-
-
-        <!-- =================================================
-             PUBLIC LISTINGS
-        ================================================== -->
-
-        <section class="mp-listings-section">
-
-            <div class="mp-section-heading">
-
-                <div>
-
-                    <span class="mp-panel-kicker">
-                        DISCOVER
-                    </span>
-
-                    <h2>
-                        🌍 Marketplace Listings
-                    </h2>
-
-                </div>
-
-                <div
-                    id="mpListingCount"
-                    class="mp-count"
-                >
-                    0 listings
-                </div>
-
-            </div>
-
-
-            <div
-                id="mpListingsGrid"
-                class="mp-listings-grid"
-            ></div>
-
-
-            <div
-                id="mpEmptyListings"
-                class="mp-empty"
-            >
-                <div class="mp-empty-icon">
-                    🌍
-                </div>
-
-                <h3>
-                    No listings found
-                </h3>
-
-                <p>
-                    Try another country, category or search term.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             MARKETPLACE RULES
-        ================================================== -->
-
-        <section class="mp-rules-panel">
-
-            <div class="mp-panel-kicker">
-                SAFETY & RULES
-            </div>
-
-            <h2>
-                Marketplace Rules
-            </h2>
-
-
-            <div class="mp-rules-grid">
-
-
-                <article class="mp-rule-card">
-
-                    <div class="mp-rule-icon">
-                        📍
-                    </div>
-
-                    <h3>
-                        Location Required
-                    </h3>
-
-                    <p>
-                        Every listing must include a real
-                        country and location so people can
-                        find the listing.
-                    </p>
-
-                </article>
-
-
-                <article class="mp-rule-card">
-
-                    <div class="mp-rule-icon">
-                        👤
-                    </div>
-
-                    <h3>
-                        Public Privacy
-                    </h3>
-
-                    <p>
-                        Public listings show only the seller's
-                        profile picture and name. Private
-                        account information is not displayed.
-                    </p>
-
-                </article>
-
-
-                <article class="mp-rule-card">
-
-                    <div class="mp-rule-icon">
-                        🚫
-                    </div>
-
-                    <h3>
-                        Prohibited Content
-                    </h3>
-
-                    <p>
-                        Illegal goods, weapons, drugs, stolen
-                        goods, counterfeit goods, trafficking
-                        and other prohibited content are not
-                        allowed.
-                    </p>
-
-                </article>
-
-
-                <article class="mp-rule-card">
-
-                    <div class="mp-rule-icon">
-                        🐦
-                    </div>
-
-                    <h3>
-                        Animals & Birds
-                    </h3>
-
-                    <p>
-                        Animals and birds cannot be sold
-                        through the marketplace.
-                    </p>
-
-                </article>
-
-
-                <article class="mp-rule-card">
-
-                    <div class="mp-rule-icon">
-                        ⚖️
-                    </div>
-
-                    <h3>
-                        Seller Responsibility
-                    </h3>
-
-                    <p>
-                        The person creating a listing is
-                        responsible for its legality, accuracy,
-                        ownership and required permissions.
-                    </p>
-
-                </article>
-
-
-                <article class="mp-rule-card">
-
-                    <div class="mp-rule-icon">
-                        🛡️
-                    </div>
-
-                    <h3>
-                        Moderation
-                    </h3>
-
-                    <p>
-                        ALON HISTORYVERSE 24 may reject,
-                        hide or remove listings that violate
-                        marketplace rules or applicable law.
-                    </p>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-    </main>
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
-    <footer class="mp-footer">
-
-        <div>
-            © 2026 ALON HISTORYVERSE 24
         </div>
 
-        <div>
+    </section>
+
+
+    <!-- =================================================
+         JOBS
+         ================================================= -->
+
+    <section class="ah-card">
+
+        <h2>
+            💼 Global Jobs
+        </h2>
+
+        <div
+            id="jobsList"
+        >
+
+            <div>
+                No jobs available yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer class="ah-footer">
+
+    <p>
+        <strong>
+            ALON HISTORYVERSE 24
+        </strong>
+    </p>
+
+    <p>
+        Global Marketplace
+    </p>
+
+    <p>
+        Creator:
+        <strong>
             Baba Thecno Guru
-        </div>
+        </strong>
+    </p>
 
-        <div>
-            Global Marketplace
-        </div>
-
-    </footer>
+</footer>
 
 
-    <!-- =====================================================
-         LEAFLET JS
-    ====================================================== -->
+<!-- =====================================================
+     MARKETPLACE DATABASE
+     ===================================================== -->
 
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""
-    ></script>
+<script
+    src="../marketplace-countries.js"
+></script>
 
 
-    <!-- =====================================================
-         COUNTRY DATABASE
-    ====================================================== -->
+<!-- =====================================================
+     MARKETPLACE ENGINE
+     ===================================================== -->
 
-    <script src="./marketplace-countries.js"></script>
+<script
+    src="../marketplace.js"
+></script>
 
 
-    <!-- =====================================================
-         MARKETPLACE ENGINE
-    ====================================================== -->
+<!-- =====================================================
+     LIGHTWEIGHT ADVERTISEMENT UI
+     ===================================================== -->
 
-    <script src="./marketplace.js"></script>
+<script>
+
+"use strict";
+
+
+/*
+ * Advertisement data used by the Marketplace UI.
+ * The main marketplace engine remains in marketplace.js.
+ */
+
+const MARKETPLACE_AD_STORAGE =
+    "alon_historyverse_marketplace_ads";
+
+
+function loadMarketplaceAds() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                MARKETPLACE_AD_STORAGE
+            );
+
+        if (!saved) {
+
+            return [];
+
+        }
+
+        const data =
+            JSON.parse(saved);
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    } catch (error) {
+
+        console.warn(
+            "Advertisement data could not be loaded."
+        );
+
+        return [];
+
+    }
+
+}
+
+
+function saveMarketplaceAds(ads) {
+
+    try {
+
+        localStorage.setItem(
+            MARKETPLACE_AD_STORAGE,
+            JSON.stringify(ads)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.warn(
+            "Advertisement data could not be saved."
+        );
+
+        return false;
+
+    }
+
+}
+
+
+function createMarketplaceAdId() {
+
+    return (
+
+        "ad_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .substring(2, 7)
+
+    );
+
+}
+
+
+function escapeMarketplaceText(value) {
+
+    return String(
+        value || ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function renderMyMarketplaceAds() {
+
+    const container =
+        document.getElementById(
+            "myAdsList"
+        );
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    const ads =
+        loadMarketplaceAds();
+
+
+    if (!ads.length) {
+
+        container.innerHTML =
+            "<div>No advertisements created yet.</div>";
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    ads.forEach(function(ad) {
+
+        const card =
+            document.createElement("article");
+
+
+        card.className =
+            "ah-card";
+
+
+        card.innerHTML = `
+
+            <h3>
+                ${escapeMarketplaceText(ad.title)}
+            </h3>
+
+            <p>
+                ${escapeMarketplaceText(
+                    ad.description
+                )}
+            </p>
+
+            <p>
+                <strong>
+                    Business:
+                </strong>
+
+                ${escapeMarketplaceText(
+                    ad.businessName
+                )}
+            </p>
+
+            <p>
+                <strong>
+                    Location:
+                </strong>
+
+                ${escapeMarketplaceText(
+                    ad.country
+                )}
+
+                ${ad.city
+                    ? " • " +
+                      escapeMarketplaceText(
+                          ad.city
+                      )
+                    : ""
+                }
+            </p>
+
+            <p>
+                <strong>
+                    Price:
+                </strong>
+
+                ${escapeMarketplaceText(
+                    ad.currency
+                )}
+
+                ${escapeMarketplaceText(
+                    ad.price
+                )}
+            </p>
+
+            <div>
+
+                <button
+                    type="button"
+                    data-edit-ad="${ad.id}"
+                >
+                    ✏️ Edit
+                </button>
+
+                <button
+                    type="button"
+                    data-delete-ad="${ad.id}"
+                >
+                    🗑️ Delete
+                </button>
+
+                <button
+                    type="button"
+                    data-preview-ad="${ad.id}"
+                >
+                    👁️ Preview
+                </button>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+function readAdvertisementForm() {
+
+    return {
+
+        id:
+            createMarketplaceAdId(),
+
+        title:
+            document.getElementById(
+                "adTitle"
+            ).value.trim(),
+
+        businessName:
+            document.getElementById(
+                "businessName"
+            ).value.trim(),
+
+        category:
+            document.getElementById(
+                "adCategory"
+            ).value,
+
+        description:
+            document.getElementById(
+                "adDescription"
+            ).value.trim(),
+
+        country:
+            document.getElementById(
+                "adCountry"
+            ).value,
+
+        state:
+            document.getElementById(
+                "adState"
+            ).value.trim(),
+
+        city:
+            document.getElementById(
+                "adCity"
+            ).value.trim(),
+
+        price:
+            document.getElementById(
+                "adPrice"
+            ).value.trim(),
+
+        currency:
+            document.getElementById(
+                "adCurrency"
+            ).value,
+
+        offer:
+            document.getElementById(
+                "adOffer"
+            ).value.trim(),
+
+        phone:
+            document.getElementById(
+                "adPhone"
+            ).value.trim(),
+
+        email:
+            document.getElementById(
+                "adEmail"
+            ).value.trim(),
+
+        website:
+            document.getElementById(
+                "adWebsite"
+            ).value.trim(),
+
+        social:
+            document.getElementById(
+                "adSocial"
+            ).value.trim(),
+
+        videoURL:
+            document.getElementById(
+                "adVideoURL"
+            ).value.trim(),
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+}
+
+
+function clearAdvertisementForm() {
+
+    const form =
+        document.getElementById(
+            "advertisementForm"
+        );
+
+    if (form) {
+
+        form.reset();
+
+    }
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+
+        /* ---------------------------------------------
+           COUNTRY DATABASE
+           --------------------------------------------- */
+
+        const adCountry =
+            document.getElementById(
+                "adCountry"
+            );
+
+
+        if (
+            adCountry &&
+            typeof MARKETPLACE_COUNTRIES !==
+            "undefined" &&
+            Array.isArray(
+                MARKETPLACE_COUNTRIES
+            )
+        ) {
+
+            MARKETPLACE_COUNTRIES.forEach(
+                function(country) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    const code =
+                        country.code ||
+                        country.iso ||
+                        country.isoCode ||
+                        "";
+
+                    const name =
+                        country.name ||
+                        country.country ||
+                        "";
+
+                    option.value =
+                        code;
+
+                    option.textContent =
+                        (
+                            country.flag
+                                ? country.flag + " "
+                                : ""
+                        ) +
+                        name;
+
+                    adCountry.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ---------------------------------------------
+           LOAD ADS
+           --------------------------------------------- */
+
+        renderMyMarketplaceAds();
+
+
+        /* ---------------------------------------------
+           SAVE AD
+           --------------------------------------------- */
+
+        const form =
+            document.getElementById(
+                "advertisementForm"
+            );
+
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const ad =
+                        readAdvertisementForm();
+
+
+                    if (!ad.title) {
+
+                        alert(
+                            "Please enter an advertisement title."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const ads =
+                        loadMarketplaceAds();
+
+
+                    ads.push(ad);
+
+
+                    if (
+                        saveMarketplaceAds(
+                            ads
+                        )
+                    ) {
+
+                        alert(
+                            "Advertisement saved successfully."
+                        );
+
+                        clearAdvertisementForm();
+
+                        renderMyMarketplaceAds();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* ---------------------------------------------
+           EDIT / DELETE / PREVIEW
+           --------------------------------------------- */
+
+        const adsContainer =
+            document.getElementById(
+                "myAdsList"
+            );
+
+
+        if (adsContainer) {
+
+            adsContainer.addEventListener(
+                "click",
+                function(event) {
+
+
+                    const editButton =
+                        event.target.closest(
+                            "[data-edit-ad]"
+                        );
+
+
+                    const deleteButton =
+                        event.target.closest(
+                            "[data-delete-ad]"
+                        );
+
+
+                    const previewButton =
+                        event.target.closest(
+                            "[data-preview-ad]"
+                        );
+
+
+                    const ads =
+                        loadMarketplaceAds();
+
+
+                    if (deleteButton) {
+
+                        const id =
+                            deleteButton.dataset.deleteAd;
+
+
+                        const filtered =
+                            ads.filter(
+                                function(ad) {
+
+                                    return ad.id !== id;
+
+                                }
+                            );
+
+
+                        saveMarketplaceAds(
+                            filtered
+                        );
+
+
+                        renderMyMarketplaceAds();
+
+                        return;
+
+                    }
+
+
+                    if (editButton) {
+
+                        const id =
+                            editButton.dataset.editAd;
+
+
+                        const ad =
+                            ads.find(
+                                function(item) {
+
+                                    return item.id === id;
+
+                                }
+                            );
+
+
+                        if (!ad) {
+
+                            return;
+
+                        }
+
+
+                        document.getElementById(
+                            "adTitle"
+                        ).value =
+                            ad.title || "";
+
+
+                        document.getElementById(
+                            "businessName"
+                        ).value =
+                            ad.businessName || "";
+
+
+                        document.getElementById(
+                            "adCategory"
+                        ).value =
+                            ad.category || "business";
+
+
+                        document.getElementById(
+                            "adDescription"
+                        ).value =
+                            ad.description || "";
+
+
+                        document.getElementById(
+                            "adCountry"
+                        ).value =
+                            ad.country || "";
+
+
+                        document.getElementById(
+                            "adState"
+                        ).value =
+                            ad.state || "";
+
+
+                        document.getElementById(
+                            "adCity"
+                        ).value =
+                            ad.city || "";
+
+
+                        document.getElementById(
+                            "adPrice"
+                        ).value =
+                            ad.price || "";
+
+
+                        document.getElementById(
+                            "adCurrency"
+                        ).value =
+                            ad.currency || "USD";
+
+
+                        document.getElementById(
+                            "adOffer"
+                        ).value =
+                            ad.offer || "";
+
+
+                        document.getElementById(
+                            "adPhone"
+                        ).value =
+                            ad.phone || "";
+
+
+                        document.getElementById(
+                            "adEmail"
+                        ).value =
+                            ad.email || "";
+
+
+                        document.getElementById(
+                            "adWebsite"
+                        ).value =
+                            ad.website || "";
+
+
+                        document.getElementById(
+                            "adSocial"
+                        ).value =
+                            ad.social || "";
+
+
+                        document.getElementById(
+                            "adVideoURL"
+                        ).value =
+                            ad.videoURL || "";
+
+
+                        document.getElementById(
+                            "createAd"
+                        ).scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+
+                        /*
+                         * Remove old record.
+                         * Saving the edited version will create
+                         * the updated advertisement.
+                         */
+
+                        const remaining =
+                            ads.filter(
+                                function(item) {
+
+                                    return item.id !== id;
+
+                                }
+                            );
+
+
+                        saveMarketplaceAds(
+                            remaining
+                        );
+
+
+                        renderMyMarketplaceAds();
+
+                        return;
+
+                    }
+
+
+                    if (previewButton) {
+
+                        const id =
+                            previewButton.dataset.previewAd;
+
+
+                        const ad =
+                            ads.find(
+                                function(item) {
+
+                                    return item.id === id;
+
+                                }
+                            );
+
+
+                        if (!ad) {
+
+                            return;
+
+                        }
+
+
+                        alert(
+
+                            ad.title +
+                            "\n\n" +
+                            ad.description +
+                            "\n\n" +
+                            (
+                                ad.businessName
+                                    ? "Business: " +
+                                      ad.businessName +
+                                      "\n"
+                                    : ""
+                            ) +
+                            (
+                                ad.country
+                                    ? "Country: " +
+                                      ad.country +
+                                      "\n"
+                                    : ""
+                            ) +
+                            (
+                                ad.city
+                                    ? "City: " +
+                                      ad.city +
+                                      "\n"
+                                    : ""
+                            ) +
+                            (
+                                ad.price
+                                    ? "Price: " +
+                                      ad.currency +
+                                      " " +
+                                      ad.price
+                                    : ""
+                            )
+
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+    }
+);
+
+</script>
+
 
 </body>
 

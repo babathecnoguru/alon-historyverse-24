@@ -1,4169 +1,3358 @@
 /* =========================================================
    ALON HISTORYVERSE 24
-   GLOBAL MARKETPLACE ENGINE V1
+   GLOBAL MARKETPLACE ENGINE
+   Creator: Baba Thecno Guru
+   Version: 24.0
+   File: marketplace.js
+
+   FEATURES
+   ---------------------------------------------------------
+   • Global advertisements
+   • Business / Shop listings
+   • Products
+   • Jobs
+   • Services
+   • Country database integration
+   • Search
+   • Category filtering
+   • Save
+   • Edit
+   • Delete
+   • Preview
+   • Image storage through IndexedDB
+   • Video storage through IndexedDB
+   • Local persistent data
+   • Mobile-friendly
+   • No external libraries
    ========================================================= */
 
-(function () {
-
-    "use strict";
+"use strict";
 
 
-    /* =====================================================
-       STORAGE KEYS
-    ====================================================== */
+/* =========================================================
+   GLOBAL CONFIGURATION
+   ========================================================= */
 
-    const LISTINGS_KEY =
-        "alon_historyverse_marketplace_listings_v1";
+const ALON_MARKETPLACE_CONFIG = {
 
-    const PROFILE_KEY =
-        "alon_historyverse_marketplace_profile_v1";
+    project:
+        "ALON HISTORYVERSE 24",
+
+    creator:
+        "Baba Thecno Guru",
+
+    version:
+        "24.0",
+
+    dataStorage:
+        "alon_historyverse_marketplace",
+
+    countryStorage:
+        "alon_marketplace_country",
+
+    databaseName:
+        "ALON_HISTORYVERSE_MARKETPLACE_DB",
+
+    databaseVersion:
+        1,
+
+    mediaStore:
+        "media",
+
+    currency:
+        "USD"
+
+};
 
 
-    /* =====================================================
-       GLOBAL STATE
-    ====================================================== */
+/* =========================================================
+   MARKETPLACE STATE
+   ========================================================= */
 
-    let listings = [];
+const MARKETPLACE_STATE = {
 
-    let currentProfile = null;
+    products: [],
 
-    let editingListingId = null;
+    jobs: [],
 
-    let alonMap = null;
+    services: [],
 
-    let mapMarkers = [];
+    advertisements: [],
 
-    let selectedCountry = "";
+    selectedCountry: "",
+
+    searchText: "",
+
+    category: "",
+
+    editingAdvertisementId: null,
+
+    initialized: false,
+
+    databaseReady: false
+
+};
 
 
-    /* =====================================================
-       CATEGORY NAMES
-    ====================================================== */
+/* =========================================================
+   SAFE JSON STORAGE
+   ========================================================= */
 
-    const CATEGORY_NAMES = {
+function marketplaceLoadJSON(key, fallback) {
 
-        vehicle: "🚗 Vehicle",
+    try {
 
-        property: "🏠 Property",
+        const saved =
+            localStorage.getItem(key);
 
-        business: "🏪 Business",
+        if (!saved) {
 
-        hotel: "🏨 Hotel",
+            return fallback;
 
-        fuel: "⛽ Petrol / CNG",
+        }
 
-        garage: "🔧 Garage / Mechanic",
+        const parsed =
+            JSON.parse(saved);
 
-        job: "📋 Local Job"
+        return parsed;
+
+    } catch (error) {
+
+        console.warn(
+            "Marketplace storage read error:",
+            error
+        );
+
+        return fallback;
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE JSON
+   ========================================================= */
+
+function marketplaceSaveJSON(key, value) {
+
+    try {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Marketplace storage save error:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD MARKETPLACE DATA
+   ========================================================= */
+
+function marketplaceLoadData() {
+
+    const data =
+        marketplaceLoadJSON(
+
+            ALON_MARKETPLACE_CONFIG.dataStorage,
+
+            {
+                products: [],
+                jobs: [],
+                services: [],
+                advertisements: []
+            }
+
+        );
+
+
+    return {
+
+        products:
+            Array.isArray(data.products)
+                ? data.products
+                : [],
+
+        jobs:
+            Array.isArray(data.jobs)
+                ? data.jobs
+                : [],
+
+        services:
+            Array.isArray(data.services)
+                ? data.services
+                : [],
+
+        advertisements:
+            Array.isArray(data.advertisements)
+                ? data.advertisements
+                : []
 
     };
 
+}
 
-    /* =====================================================
-       PROHIBITED CONTENT
-    ====================================================== */
 
-    const FORBIDDEN_PATTERN = new RegExp(
-        [
-            "weapon",
-            "firearm",
-            "gun",
-            "rifle",
-            "pistol",
-            "ammunition",
-            "explosive",
-            "bomb",
-            "grenade",
-            "drug",
-            "cocaine",
-            "heroin",
-            "meth",
-            "narcotic",
-            "stolen",
-            "counterfeit",
-            "fake passport",
-            "human trafficking",
-            "trafficking",
-            "child abuse",
-            "sexual exploitation",
-            "illegal service",
-            "terrorist",
-            "terrorism",
+/* =========================================================
+   SAVE MARKETPLACE DATA
+   ========================================================= */
 
-            /* Animals / birds */
-            "dog for sale",
-            "cat for sale",
-            "bird for sale",
-            "parrot for sale",
-            "animal for sale",
-            "animals for sale",
-            "wildlife for sale",
-            "pet for sale",
-            "pets for sale"
-        ].join("|"),
-        "i"
+function marketplaceSaveData() {
+
+    return marketplaceSaveJSON(
+
+        ALON_MARKETPLACE_CONFIG.dataStorage,
+
+        {
+
+            products:
+                MARKETPLACE_STATE.products,
+
+            jobs:
+                MARKETPLACE_STATE.jobs,
+
+            services:
+                MARKETPLACE_STATE.services,
+
+            advertisements:
+                MARKETPLACE_STATE.advertisements
+
+        }
+
     );
 
+}
 
-    /* =====================================================
-       DOM HELPERS
-    ====================================================== */
 
-    function $(selector) {
+/* =========================================================
+   UNIQUE ID
+   ========================================================= */
 
-        return document.querySelector(selector);
+function marketplaceCreateId(prefix) {
 
-    }
+    return (
 
+        String(prefix || "item") +
 
-    function $all(selector) {
+        "_" +
 
-        return Array.from(
-            document.querySelectorAll(selector)
-        );
+        Date.now() +
 
-    }
+        "_" +
 
+        Math.random()
+            .toString(36)
+            .substring(2, 9)
 
-    function escapeHTML(value) {
+    );
 
-        return String(value == null ? "" : value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+}
 
-    }
 
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
 
-    function safeText(value) {
+function marketplaceEscapeHTML(value) {
 
-        return String(value == null ? "" : value)
-            .trim();
-
-    }
-
-
-    /* =====================================================
-       COUNTRY DATABASE
-    ====================================================== */
-
-    function getCountries() {
-
-        if (
-            Array.isArray(window.MARKETPLACE_COUNTRIES)
-        ) {
-
-            return window.MARKETPLACE_COUNTRIES;
-
-        }
-
-        return [];
-
-    }
-
-
-    function countryByCode(code) {
-
-        const countries = getCountries();
-
-        return countries.find(
-            country =>
-                country.code === code
-        ) || null;
-
-    }
-
-
-    function countryLabel(country) {
-
-        if (!country) {
-
-            return "";
-
-        }
-
-        return (
-            country.flag +
-            " " +
-            country.name +
-            " " +
-            country.callingCode
-        );
-
-    }
-
-
-    /* =====================================================
-       COUNTRY SELECTS
-    ====================================================== */
-
-    function populateCountries() {
-
-        const countries =
-            getCountries();
-
-        const selects = [
-
-            $("#mpCountryFilter"),
-
-            $("#mpAccountCountry"),
-
-            $("#mpListingCountry")
-
-        ];
-
-        selects.forEach(select => {
-
-            if (!select) {
-
-                return;
-
-            }
-
-            const current =
-                select.value;
-
-            const firstOption =
-                select.options[0];
-
-            select.innerHTML = "";
-
-            if (firstOption) {
-
-                const option =
-                    document.createElement("option");
-
-                option.value =
-                    firstOption.value;
-
-                option.textContent =
-                    firstOption.textContent;
-
-                select.appendChild(option);
-
-            }
-
-            countries.forEach(country => {
-
-                const option =
-                    document.createElement("option");
-
-                option.value =
-                    country.code;
-
-                option.textContent =
-                    countryLabel(country);
-
-                select.appendChild(option);
-
-            });
-
-            if (current) {
-
-                select.value =
-                    current;
-
-            }
-
-        });
-
-    }
-
-
-    /* =====================================================
-       LOCAL STORAGE
-    ====================================================== */
-
-    function loadListings() {
-
-        try {
-
-            const raw =
-                localStorage.getItem(
-                    LISTINGS_KEY
-                );
-
-            if (!raw) {
-
-                listings = [];
-
-                return;
-
-            }
-
-            const parsed =
-                JSON.parse(raw);
-
-            listings =
-                Array.isArray(parsed)
-                    ? parsed
-                    : [];
-
-        } catch (error) {
-
-            console.error(
-                "Marketplace listings load error:",
-                error
-            );
-
-            listings = [];
-
-        }
-
-    }
-
-
-    function saveListings() {
-
-        try {
-
-            localStorage.setItem(
-                LISTINGS_KEY,
-                JSON.stringify(listings)
-            );
-
-            return true;
-
-        } catch (error) {
-
-            console.error(
-                "Marketplace listings save error:",
-                error
-            );
-
-            return false;
-
-        }
-
-    }
-
-
-    function loadProfile() {
-
-        try {
-
-            const raw =
-                localStorage.getItem(
-                    PROFILE_KEY
-                );
-
-            if (!raw) {
-
-                currentProfile = null;
-
-                return;
-
-            }
-
-            currentProfile =
-                JSON.parse(raw);
-
-        } catch (error) {
-
-            console.error(
-                "Marketplace profile load error:",
-                error
-            );
-
-            currentProfile = null;
-
-        }
-
-    }
-
-
-    function saveProfile(profile) {
-
-        currentProfile =
-            profile;
-
-        try {
-
-            localStorage.setItem(
-                PROFILE_KEY,
-                JSON.stringify(profile)
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Marketplace profile save error:",
-                error
-            );
-
-        }
-
-    }
-
-
-    function clearProfile() {
-
-        currentProfile = null;
-
-        try {
-
-            localStorage.removeItem(
-                PROFILE_KEY
-            );
-
-        } catch (error) {
-
-            console.error(error);
-
-        }
-
-    }
-
-
-    /* =====================================================
-       USER ID
-    ====================================================== */
-
-    function getUserId() {
-
-        if (
-            currentProfile &&
-            currentProfile.uid
-        ) {
-
-            return currentProfile.uid;
-
-        }
+    if (
+        value === null ||
+        value === undefined
+    ) {
 
         return "";
 
     }
 
+    return String(value)
 
-    function makeLocalUserId() {
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-        return (
-            "local_" +
-            Date.now() +
-            "_" +
-            Math.random()
-                .toString(36)
-                .slice(2, 10)
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
         );
+
+}
+
+
+/* =========================================================
+   URL SAFETY
+   ========================================================= */
+
+function marketplaceSafeURL(value) {
+
+    const text =
+        String(value || "").trim();
+
+    if (!text) {
+
+        return "";
 
     }
 
+    try {
 
-    /* =====================================================
-       FIREBASE DETECTION
-    ====================================================== */
+        const url =
+            new URL(text);
 
-    function firebaseReady() {
+        if (
+            url.protocol === "http:" ||
+            url.protocol === "https:"
+        ) {
 
-        return (
-            window.HistoryVerseFirebase &&
-            typeof window.HistoryVerseFirebase.login ===
-                "function"
-        );
-
-    }
-
-
-    /* =====================================================
-       FILE TO DATA URL
-    ====================================================== */
-
-    function fileToDataURL(file) {
-
-        return new Promise(
-            function (resolve, reject) {
-
-                if (!file) {
-
-                    resolve("");
-
-                    return;
-
-                }
-
-                const reader =
-                    new FileReader();
-
-                reader.onload =
-                    function () {
-
-                        resolve(
-                            reader.result
-                        );
-
-                    };
-
-                reader.onerror =
-                    function () {
-
-                        reject(
-                            reader.error
-                        );
-
-                    };
-
-                reader.readAsDataURL(file);
-
-            }
-        );
-
-    }
-
-
-    async function filesToDataURLs(files) {
-
-        const result = [];
-
-        if (!files) {
-
-            return result;
+            return url.href;
 
         }
 
-        for (
-            const file of Array.from(files)
-        ) {
+    } catch (error) {
 
-            /*
-             * Keep local fallback media small.
-             * Real Firebase Storage should be used
-             * when cloud storage is configured.
-             */
+        return "";
+
+    }
+
+    return "";
+
+}
+
+
+/* =========================================================
+   COUNTRY DATABASE
+   ========================================================= */
+
+function marketplaceGetCountries() {
+
+    if (
+
+        typeof MARKETPLACE_COUNTRIES !==
+        "undefined" &&
+
+        Array.isArray(
+            MARKETPLACE_COUNTRIES
+        )
+
+    ) {
+
+        return MARKETPLACE_COUNTRIES;
+
+    }
+
+    return [];
+
+}
+
+
+/* =========================================================
+   COUNTRY FINDER
+   ========================================================= */
+
+function marketplaceFindCountry(code) {
+
+    const countries =
+        marketplaceGetCountries();
+
+    const target =
+        String(code || "")
+            .toUpperCase();
+
+
+    return countries.find(
+
+        function(country) {
+
+            const countryCode =
+
+                country.code ||
+                country.iso ||
+                country.isoCode ||
+                "";
+
+            return (
+
+                String(countryCode)
+                    .toUpperCase() ===
+                target
+
+            );
+
+        }
+
+    ) || null;
+
+}
+
+
+/* =========================================================
+   COUNTRY SELECTOR
+   ========================================================= */
+
+function marketplacePopulateCountrySelect(
+    selector,
+    includeAll
+) {
+
+    const select =
+        document.querySelector(selector);
+
+    if (!select) {
+
+        return;
+
+    }
+
+
+    const countries =
+        marketplaceGetCountries();
+
+
+    if (!countries.length) {
+
+        return;
+
+    }
+
+
+    const current =
+        select.value;
+
+
+    if (includeAll) {
+
+        select.innerHTML =
+
+            '<option value="">All Countries</option>';
+
+    } else {
+
+        select.innerHTML =
+
+            '<option value="">Select Country</option>';
+
+    }
+
+
+    countries.forEach(
+
+        function(country) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            const code =
+
+                country.code ||
+                country.iso ||
+                country.isoCode ||
+                "";
+
+
+            const name =
+
+                country.name ||
+                country.country ||
+                "Unknown Country";
+
+
+            const flag =
+                country.flag ||
+                "";
+
+
+            const callingCode =
+
+                country.callingCode ||
+                country.dialCode ||
+                "";
+
+
+            option.value =
+                code;
+
+
+            option.textContent =
+
+                (
+                    flag
+                        ? flag + " "
+                        : ""
+                ) +
+
+                name +
+
+                (
+                    callingCode
+                        ? " (" +
+                          callingCode +
+                          ")"
+                        : ""
+                );
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+
+    );
+
+
+    if (current) {
+
+        select.value =
+            current;
+
+    }
+
+}
+
+
+/* =========================================================
+   INDEXEDDB
+   ---------------------------------------------------------
+   Used for images and videos so large media files are not
+   unnecessarily placed inside localStorage.
+   ========================================================= */
+
+let MARKETPLACE_DB = null;
+
+
+function marketplaceOpenDatabase() {
+
+    return new Promise(
+
+        function(resolve, reject) {
 
             if (
-                file.size >
-                2 * 1024 * 1024
+                !("indexedDB" in window)
             ) {
 
-                continue;
-
-            }
-
-            try {
-
-                const data =
-                    await fileToDataURL(file);
-
-                if (data) {
-
-                    result.push(data);
-
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Media conversion error:",
-                    error
-                );
-
-            }
-
-        }
-
-        return result;
-
-    }
-
-
-    /* =====================================================
-       CONTENT SAFETY
-    ====================================================== */
-
-    function containsForbiddenContent(values) {
-
-        const text =
-            values
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-        return FORBIDDEN_PATTERN.test(
-            text
-        );
-
-    }
-
-
-    function validateListingContent(data) {
-
-        const values = [
-
-            data.title,
-
-            data.brand,
-
-            data.model,
-
-            data.condition,
-
-            data.price,
-
-            data.description,
-
-            data.city,
-
-            data.state,
-
-            data.road,
-
-            data.category
-
-        ];
-
-        if (
-            containsForbiddenContent(
-                values
-            )
-        ) {
-
-            return {
-                valid: false,
-
-                message:
-                    "This listing appears to contain prohibited or restricted content."
-            };
-
-        }
-
-
-        /*
-         * Animals and birds are not allowed.
-         */
-
-        const animalPattern =
-            /\b(animal|animals|bird|birds|parrot|dog|dogs|cat|cats|horse|horses|cow|cows|goat|goats|sheep|livestock|wildlife)\b/i;
-
-        const combined =
-            values
-                .filter(Boolean)
-                .join(" ");
-
-        if (
-            animalPattern.test(
-                combined
-            )
-        ) {
-
-            return {
-                valid: false,
-
-                message:
-                    "Animals and birds cannot be sold or listed in the ALON Marketplace."
-            };
-
-        }
-
-
-        return {
-            valid: true,
-            message: ""
-        };
-
-    }
-
-
-    /* =====================================================
-       LOCATION VALIDATION
-    ====================================================== */
-
-    function validCoordinates(lat, lng) {
-
-        const latitude =
-            Number(lat);
-
-        const longitude =
-            Number(lng);
-
-        if (
-            !Number.isFinite(latitude) ||
-            !Number.isFinite(longitude)
-        ) {
-
-            return false;
-
-        }
-
-        if (
-            latitude < -90 ||
-            latitude > 90
-        ) {
-
-            return false;
-
-        }
-
-        if (
-            longitude < -180 ||
-            longitude > 180
-        ) {
-
-            return false;
-
-        }
-
-        return true;
-
-    }
-
-
-    /* =====================================================
-       LISTING NORMALIZATION
-    ====================================================== */
-
-    function normalizeListing(listing) {
-
-        return {
-
-            id:
-                listing.id ||
-                (
-                    "listing_" +
-                    Date.now() +
-                    "_" +
-                    Math.random()
-                        .toString(36)
-                        .slice(2, 9)
-                ),
-
-            ownerId:
-                listing.ownerId ||
-                "",
-
-            sellerName:
-                listing.sellerName ||
-                "Marketplace User",
-
-            sellerPhoto:
-                listing.sellerPhoto ||
-                "",
-
-            country:
-                listing.country ||
-                "",
-
-            category:
-                listing.category ||
-                "",
-
-            title:
-                listing.title ||
-                "",
-
-            brand:
-                listing.brand ||
-                "",
-
-            model:
-                listing.model ||
-                "",
-
-            year:
-                listing.year ||
-                "",
-
-            condition:
-                listing.condition ||
-                "",
-
-            price:
-                listing.price ||
-                "",
-
-            description:
-                listing.description ||
-                "",
-
-            city:
-                listing.city ||
-                "",
-
-            state:
-                listing.state ||
-                "",
-
-            road:
-                listing.road ||
-                "",
-
-            lat:
-                Number(
-                    listing.lat
-                ),
-
-            lng:
-                Number(
-                    listing.lng
-                ),
-
-            photos:
-                Array.isArray(
-                    listing.photos
-                )
-                    ? listing.photos
-                    : [],
-
-            video:
-                listing.video ||
-                "",
-
-            createdAt:
-                listing.createdAt ||
-                Date.now(),
-
-            updatedAt:
-                listing.updatedAt ||
-                Date.now(),
-
-            status:
-                listing.status ||
-                "published"
-
-        };
-
-    }
-
-
-    /* =====================================================
-       COUNTRY NAME
-    ====================================================== */
-
-    function getCountryName(code) {
-
-        const country =
-            countryByCode(code);
-
-        return country
-            ? countryLabel(country)
-            : code || "Unknown";
-
-    }
-
-
-    /* =====================================================
-       FILTER LISTINGS
-    ====================================================== */
-
-    function getFilteredListings() {
-
-        const country =
-            safeText(
-                $("#mpCountryFilter")?.value
-            ).toUpperCase();
-
-        const category =
-            safeText(
-                $("#mpCategoryFilter")?.value
-            );
-
-        const search =
-            safeText(
-                $("#mpSearch")?.value
-            ).toLowerCase();
-
-
-        return listings
-            .filter(
-                listing =>
-                    listing.status !==
-                    "deleted"
-            )
-            .filter(
-                listing =>
-                    !country ||
-                    listing.country === country
-            )
-            .filter(
-                listing =>
-                    !category ||
-                    listing.category === category
-            )
-            .filter(
-                listing => {
-
-                    if (!search) {
-
-                        return true;
-
-                    }
-
-                    const text = [
-
-                        listing.title,
-
-                        listing.brand,
-
-                        listing.model,
-
-                        listing.description,
-
-                        listing.city,
-
-                        listing.state,
-
-                        listing.road,
-
-                        listing.country
-
-                    ]
-                        .filter(Boolean)
-                        .join(" ")
-                        .toLowerCase();
-
-                    return text.includes(
-                        search
-                    );
-
-                }
-            )
-            .sort(
-                (a, b) =>
-                    Number(b.createdAt) -
-                    Number(a.createdAt)
-            );
-
-    }
-
-
-    /* =====================================================
-       RENDER LISTINGS
-    ====================================================== */
-
-    function renderListings() {
-
-        const grid =
-            $("#mpListingsGrid");
-
-        const empty =
-            $("#mpEmptyListings");
-
-        const count =
-            $("#mpListingCount");
-
-        if (!grid) {
-
-            return;
-
-        }
-
-        const filtered =
-            getFilteredListings();
-
-        grid.innerHTML = "";
-
-        if (count) {
-
-            count.textContent =
-                filtered.length +
-                (
-                    filtered.length === 1
-                        ? " listing"
-                        : " listings"
-                );
-
-        }
-
-        if (
-            empty
-        ) {
-
-            empty.style.display =
-                filtered.length
-                    ? "none"
-                    : "";
-
-        }
-
-
-        filtered.forEach(
-            listing => {
-
-                grid.appendChild(
-                    createListingCard(
-                        listing,
-                        false
+                reject(
+                    new Error(
+                        "IndexedDB is not supported."
                     )
                 );
 
+                return;
+
             }
+
+
+            const request =
+                indexedDB.open(
+
+                    ALON_MARKETPLACE_CONFIG
+                        .databaseName,
+
+                    ALON_MARKETPLACE_CONFIG
+                        .databaseVersion
+
+                );
+
+
+            request.onupgradeneeded =
+                function(event) {
+
+                    const db =
+                        event.target.result;
+
+
+                    if (
+                        !db.objectStoreNames
+                            .contains(
+                                ALON_MARKETPLACE_CONFIG
+                                    .mediaStore
+                            )
+                    ) {
+
+                        db.createObjectStore(
+
+                            ALON_MARKETPLACE_CONFIG
+                                .mediaStore,
+
+                            {
+                                keyPath:
+                                    "id"
+                            }
+
+                        );
+
+                    }
+
+                };
+
+
+            request.onsuccess =
+                function(event) {
+
+                    MARKETPLACE_DB =
+                        event.target.result;
+
+                    MARKETPLACE_STATE
+                        .databaseReady = true;
+
+                    resolve(
+                        MARKETPLACE_DB
+                    );
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   STORE MEDIA
+   ========================================================= */
+
+function marketplaceStoreMedia(
+    file,
+    adId,
+    type
+) {
+
+    return new Promise(
+
+        function(resolve, reject) {
+
+            if (
+                !file ||
+                !MARKETPLACE_DB
+            ) {
+
+                resolve(null);
+
+                return;
+
+            }
+
+
+            const mediaId =
+                marketplaceCreateId(
+                    type || "media"
+                );
+
+
+            const transaction =
+                MARKETPLACE_DB.transaction(
+
+                    [
+                        ALON_MARKETPLACE_CONFIG
+                            .mediaStore
+                    ],
+
+                    "readwrite"
+
+                );
+
+
+            const store =
+                transaction.objectStore(
+
+                    ALON_MARKETPLACE_CONFIG
+                        .mediaStore
+
+                );
+
+
+            const record = {
+
+                id:
+                    mediaId,
+
+                advertisementId:
+                    adId,
+
+                type:
+                    type,
+
+                name:
+                    file.name || "",
+
+                mime:
+                    file.type || "",
+
+                size:
+                    file.size || 0,
+
+                blob:
+                    file,
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            const request =
+                store.put(record);
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve(
+                        mediaId
+                    );
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   GET MEDIA
+   ========================================================= */
+
+function marketplaceGetMedia(
+    mediaId
+) {
+
+    return new Promise(
+
+        function(resolve, reject) {
+
+            if (
+                !MARKETPLACE_DB ||
+                !mediaId
+            ) {
+
+                resolve(null);
+
+                return;
+
+            }
+
+
+            const transaction =
+                MARKETPLACE_DB.transaction(
+
+                    [
+                        ALON_MARKETPLACE_CONFIG
+                            .mediaStore
+                    ],
+
+                    "readonly"
+
+                );
+
+
+            const store =
+                transaction.objectStore(
+
+                    ALON_MARKETPLACE_CONFIG
+                        .mediaStore
+
+                );
+
+
+            const request =
+                store.get(mediaId);
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve(
+                        request.result || null
+                    );
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   DELETE MEDIA
+   ========================================================= */
+
+function marketplaceDeleteMedia(
+    mediaId
+) {
+
+    return new Promise(
+
+        function(resolve) {
+
+            if (
+                !MARKETPLACE_DB ||
+                !mediaId
+            ) {
+
+                resolve(false);
+
+                return;
+
+            }
+
+
+            const transaction =
+                MARKETPLACE_DB.transaction(
+
+                    [
+                        ALON_MARKETPLACE_CONFIG
+                            .mediaStore
+                    ],
+
+                    "readwrite"
+
+                );
+
+
+            const store =
+                transaction.objectStore(
+
+                    ALON_MARKETPLACE_CONFIG
+                        .mediaStore
+
+                );
+
+
+            const request =
+                store.delete(mediaId);
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve(true);
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    resolve(false);
+
+                };
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   DELETE ALL MEDIA FOR AD
+   ========================================================= */
+
+function marketplaceDeleteAdvertisementMedia(
+    ad
+) {
+
+    return Promise.all(
+
+        [
+
+            ...(Array.isArray(ad.imageIds)
+                ? ad.imageIds
+                : []),
+
+            ad.videoId || null
+
+        ]
+
+        .filter(Boolean)
+
+        .map(
+
+            function(id) {
+
+                return marketplaceDeleteMedia(
+                    id
+                );
+
+            }
+
+        )
+
+    );
+
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW URL
+   ========================================================= */
+
+function marketplaceBlobURL(
+    blob
+) {
+
+    if (!blob) {
+
+        return "";
+
+    }
+
+    try {
+
+        return URL.createObjectURL(
+            blob
         );
 
-        updateMap(
-            filtered
+    } catch (error) {
+
+        return "";
+
+    }
+
+}
+
+
+/* =========================================================
+   ADVERTISEMENT FORM
+   ========================================================= */
+
+function marketplaceGetAdvertisementForm() {
+
+    function value(id) {
+
+        const element =
+            document.getElementById(id);
+
+        return element
+            ? String(
+                element.value || ""
+              ).trim()
+            : "";
+
+    }
+
+
+    return {
+
+        title:
+            value("adTitle"),
+
+        businessName:
+            value("businessName"),
+
+        category:
+            value("adCategory"),
+
+        description:
+            value("adDescription"),
+
+        country:
+            value("adCountry"),
+
+        state:
+            value("adState"),
+
+        city:
+            value("adCity"),
+
+        price:
+            value("adPrice"),
+
+        currency:
+            value("adCurrency") ||
+            ALON_MARKETPLACE_CONFIG.currency,
+
+        offer:
+            value("adOffer"),
+
+        phone:
+            value("adPhone"),
+
+        email:
+            value("adEmail"),
+
+        website:
+            value("adWebsite"),
+
+        social:
+            value("adSocial"),
+
+        videoURL:
+            value("adVideoURL")
+
+    };
+
+}
+
+
+/* =========================================================
+   GET FILE INPUTS
+   ========================================================= */
+
+function marketplaceGetAdvertisementFiles() {
+
+    const imageInput =
+        document.getElementById(
+            "adImages"
+        );
+
+
+    const videoInput =
+        document.getElementById(
+            "adVideo"
+        );
+
+
+    return {
+
+        images:
+            imageInput &&
+            imageInput.files
+                ? Array.from(
+                    imageInput.files
+                  )
+                : [],
+
+        video:
+            videoInput &&
+            videoInput.files &&
+            videoInput.files.length
+                ? videoInput.files[0]
+                : null
+
+    };
+
+}
+
+
+/* =========================================================
+   SAVE ADVERTISEMENT
+   ========================================================= */
+
+async function marketplaceSaveAdvertisement() {
+
+    const form =
+        marketplaceGetAdvertisementForm();
+
+
+    if (!form.title) {
+
+        alert(
+            "Please enter an advertisement title."
+        );
+
+        return null;
+
+    }
+
+
+    const ads =
+        MARKETPLACE_STATE.advertisements;
+
+
+    let adId =
+        MARKETPLACE_STATE
+            .editingAdvertisementId;
+
+
+    let existing =
+        null;
+
+
+    if (adId) {
+
+        existing =
+            ads.find(
+
+                function(ad) {
+
+                    return ad.id === adId;
+
+                }
+
+            ) || null;
+
+    }
+
+
+    if (!adId) {
+
+        adId =
+            marketplaceCreateId(
+                "ad"
+            );
+
+    }
+
+
+    const files =
+        marketplaceGetAdvertisementFiles();
+
+
+    const ad = {
+
+        id:
+            adId,
+
+        title:
+            form.title,
+
+        businessName:
+            form.businessName,
+
+        category:
+            form.category,
+
+        description:
+            form.description,
+
+        country:
+            form.country,
+
+        state:
+            form.state,
+
+        city:
+            form.city,
+
+        price:
+            form.price,
+
+        currency:
+            form.currency,
+
+        offer:
+            form.offer,
+
+        phone:
+            form.phone,
+
+        email:
+            form.email,
+
+        website:
+            marketplaceSafeURL(
+                form.website
+            ),
+
+        social:
+            marketplaceSafeURL(
+                form.social
+            ),
+
+        videoURL:
+            marketplaceSafeURL(
+                form.videoURL
+            ),
+
+        imageIds:
+            existing &&
+            Array.isArray(
+                existing.imageIds
+            )
+                ? existing.imageIds
+                : [],
+
+        videoId:
+            existing
+                ? existing.videoId || null
+                : null,
+
+        createdAt:
+            existing
+                ? existing.createdAt
+                : new Date().toISOString(),
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    /* ---------------------------------------------
+       STORE NEW IMAGES
+       --------------------------------------------- */
+
+    if (
+        files.images.length &&
+        MARKETPLACE_DB
+    ) {
+
+        for (
+            const image of files.images
+        ) {
+
+            const imageId =
+                await marketplaceStoreMedia(
+
+                    image,
+                    adId,
+                    "image"
+
+                );
+
+
+            if (imageId) {
+
+                ad.imageIds.push(
+                    imageId
+                );
+
+            }
+
+        }
+
+    }
+
+
+    /* ---------------------------------------------
+       STORE VIDEO
+       --------------------------------------------- */
+
+    if (
+        files.video &&
+        MARKETPLACE_DB
+    ) {
+
+        if (ad.videoId) {
+
+            await marketplaceDeleteMedia(
+                ad.videoId
+            );
+
+        }
+
+
+        ad.videoId =
+            await marketplaceStoreMedia(
+
+                files.video,
+                adId,
+                "video"
+
+            );
+
+    }
+
+
+    /* ---------------------------------------------
+       REPLACE OR ADD
+       --------------------------------------------- */
+
+    if (existing) {
+
+        const index =
+            ads.findIndex(
+
+                function(item) {
+
+                    return item.id === adId;
+
+                }
+
+            );
+
+
+        if (index !== -1) {
+
+            ads[index] =
+                ad;
+
+        }
+
+    } else {
+
+        ads.push(
+            ad
         );
 
     }
 
 
-    /* =====================================================
-       CREATE LISTING CARD
-    ====================================================== */
+    MARKETPLACE_STATE
+        .advertisements = ads;
 
-    function createListingCard(
-        listing,
-        ownerView
-    ) {
 
-        const card =
-            document.createElement(
-                "article"
+    marketplaceSaveData();
+
+
+    MARKETPLACE_STATE
+        .editingAdvertisementId = null;
+
+
+    marketplaceClearAdvertisementForm();
+
+
+    marketplaceRenderAdvertisements();
+
+
+    alert(
+
+        existing
+            ? "Advertisement updated successfully."
+            : "Advertisement saved successfully."
+
+    );
+
+
+    return ad;
+
+}
+
+
+/* =========================================================
+   CLEAR ADVERTISEMENT FORM
+   ========================================================= */
+
+function marketplaceClearAdvertisementForm() {
+
+    const form =
+        document.getElementById(
+            "advertisementForm"
+        );
+
+
+    if (form) {
+
+        form.reset();
+
+    }
+
+
+    MARKETPLACE_STATE
+        .editingAdvertisementId = null;
+
+
+    const saveButton =
+        document.getElementById(
+            "saveAdButton"
+        );
+
+
+    if (saveButton) {
+
+        saveButton.textContent =
+            "💾 Save Advertisement";
+
+    }
+
+}
+
+
+/* =========================================================
+   EDIT ADVERTISEMENT
+   ========================================================= */
+
+async function marketplaceEditAdvertisement(
+    id
+) {
+
+    const ad =
+        MARKETPLACE_STATE
+            .advertisements
+            .find(
+
+                function(item) {
+
+                    return item.id === id;
+
+                }
+
             );
 
-        card.className =
-            "mp-listing-card";
 
-        const category =
-            CATEGORY_NAMES[
-                listing.category
-            ] ||
-            "Marketplace";
+    if (!ad) {
 
-        const photo =
-            listing.photos &&
-            listing.photos.length
-                ? listing.photos[0]
-                : "";
+        return;
 
-        const sellerPhoto =
-            listing.sellerPhoto ||
-            "";
+    }
 
-        const location =
-            [
-                getCountryName(
-                    listing.country
-                ),
-                listing.city,
-                listing.state,
-                listing.road
+
+    function setValue(
+        elementId,
+        value
+    ) {
+
+        const element =
+            document.getElementById(
+                elementId
+            );
+
+        if (element) {
+
+            element.value =
+                value || "";
+
+        }
+
+    }
+
+
+    setValue(
+        "adTitle",
+        ad.title
+    );
+
+    setValue(
+        "businessName",
+        ad.businessName
+    );
+
+    setValue(
+        "adCategory",
+        ad.category
+    );
+
+    setValue(
+        "adDescription",
+        ad.description
+    );
+
+    setValue(
+        "adCountry",
+        ad.country
+    );
+
+    setValue(
+        "adState",
+        ad.state
+    );
+
+    setValue(
+        "adCity",
+        ad.city
+    );
+
+    setValue(
+        "adPrice",
+        ad.price
+    );
+
+    setValue(
+        "adCurrency",
+        ad.currency
+    );
+
+    setValue(
+        "adOffer",
+        ad.offer
+    );
+
+    setValue(
+        "adPhone",
+        ad.phone
+    );
+
+    setValue(
+        "adEmail",
+        ad.email
+    );
+
+    setValue(
+        "adWebsite",
+        ad.website
+    );
+
+    setValue(
+        "adSocial",
+        ad.social
+    );
+
+    setValue(
+        "adVideoURL",
+        ad.videoURL
+    );
+
+
+    MARKETPLACE_STATE
+        .editingAdvertisementId = id;
+
+
+    const saveButton =
+        document.getElementById(
+            "saveAdButton"
+        );
+
+
+    if (saveButton) {
+
+        saveButton.textContent =
+            "✏️ Update Advertisement";
+
+    }
+
+
+    const section =
+        document.getElementById(
+            "createAd"
+        );
+
+
+    if (section) {
+
+        section.scrollIntoView({
+
+            behavior:
+                "smooth",
+
+            block:
+                "start"
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   DELETE ADVERTISEMENT
+   ========================================================= */
+
+async function marketplaceDeleteAdvertisement(
+    id
+) {
+
+    const index =
+        MARKETPLACE_STATE
+            .advertisements
+            .findIndex(
+
+                function(ad) {
+
+                    return ad.id === id;
+
+                }
+
+            );
+
+
+    if (index === -1) {
+
+        return;
+
+    }
+
+
+    const ad =
+        MARKETPLACE_STATE
+            .advertisements[index];
+
+
+    const confirmed =
+        window.confirm(
+
+            "Delete this advertisement?"
+
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    await marketplaceDeleteAdvertisementMedia(
+        ad
+    );
+
+
+    MARKETPLACE_STATE
+        .advertisements
+        .splice(
+            index,
+            1
+        );
+
+
+    marketplaceSaveData();
+
+
+    if (
+        MARKETPLACE_STATE
+            .editingAdvertisementId === id
+    ) {
+
+        marketplaceClearAdvertisementForm();
+
+    }
+
+
+    marketplaceRenderAdvertisements();
+
+}
+
+
+/* =========================================================
+   PREVIEW ADVERTISEMENT
+   ========================================================= */
+
+async function marketplacePreviewAdvertisement(
+    id
+) {
+
+    const ad =
+        MARKETPLACE_STATE
+            .advertisements
+            .find(
+
+                function(item) {
+
+                    return item.id === id;
+
+                }
+
+            );
+
+
+    if (!ad) {
+
+        return;
+
+    }
+
+
+    let imageText =
+        "";
+
+
+    if (
+        Array.isArray(
+            ad.imageIds
+        ) &&
+        ad.imageIds.length
+    ) {
+
+        imageText =
+            "\nImages: " +
+            ad.imageIds.length;
+
+    }
+
+
+    let videoText =
+        "";
+
+
+    if (
+        ad.videoId ||
+        ad.videoURL
+    ) {
+
+        videoText =
+            "\nVideo: Available";
+
+    }
+
+
+    alert(
+
+        ad.title +
+
+        "\n\n" +
+
+        (
+            ad.businessName
+                ? "Business: " +
+                  ad.businessName +
+                  "\n"
+                : ""
+        ) +
+
+        (
+            ad.description
+                ? "\n" +
+                  ad.description +
+                  "\n"
+                : ""
+        ) +
+
+        (
+            ad.country
+                ? "\nCountry: " +
+                  ad.country
+                : ""
+        ) +
+
+        (
+            ad.city
+                ? "\nCity: " +
+                  ad.city
+                : ""
+        ) +
+
+        (
+            ad.price
+                ? "\nPrice: " +
+                  ad.currency +
+                  " " +
+                  ad.price
+                : ""
+        ) +
+
+        (
+            ad.offer
+                ? "\nOffer: " +
+                  ad.offer
+                : ""
+        ) +
+
+        imageText +
+
+        videoText
+
+    );
+
+}
+
+
+/* =========================================================
+   RENDER ADVERTISEMENT CARDS
+   ========================================================= */
+
+function marketplaceRenderAdvertisements() {
+
+    const container =
+        document.getElementById(
+            "myAdsList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    const ads =
+        MARKETPLACE_STATE
+            .advertisements;
+
+
+    if (!ads.length) {
+
+        container.innerHTML =
+
+            "<div>No advertisements created yet.</div>";
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    ads.forEach(
+
+        function(ad) {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            card.className =
+                "ah-card";
+
+
+            const location = [
+
+                ad.country,
+
+                ad.state,
+
+                ad.city
+
             ]
+
                 .filter(Boolean)
-                .join(" • ");
+
+                .join(
+                    " • "
+                );
 
 
-        const mediaHTML =
-            photo
-                ? `
-                    <div class="mp-listing-media">
-                        <img
-                            src="${escapeHTML(photo)}"
-                            alt="${escapeHTML(listing.title)}"
-                            loading="lazy"
-                        >
-                        <span class="mp-listing-category">
-                            ${escapeHTML(category)}
-                        </span>
-                    </div>
-                `
-                : `
-                    <div class="mp-listing-media">
-                        <div class="mp-listing-no-media">
-                            📷
-                        </div>
-                        <span class="mp-listing-category">
-                            ${escapeHTML(category)}
-                        </span>
-                    </div>
-                `;
+            const mediaInfo =
+
+                (
+                    Array.isArray(
+                        ad.imageIds
+                    ) &&
+                    ad.imageIds.length
+                )
+
+                    ? (
+                        "<p>🖼️ " +
+                        ad.imageIds.length +
+                        " image(s)</p>"
+                      )
+
+                    : "";
 
 
-        const videoButton =
-            listing.video
-                ? `
+            const videoInfo =
+
+                (
+                    ad.videoId ||
+                    ad.videoURL
+                )
+
+                    ? "<p>🎥 Video available</p>"
+
+                    : "";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${marketplaceEscapeHTML(
+                        ad.title
+                    )}
+                </h3>
+
+                ${
+                    ad.businessName
+                        ? `
+                            <p>
+                                <strong>
+                                    Business:
+                                </strong>
+
+                                ${marketplaceEscapeHTML(
+                                    ad.businessName
+                                )}
+                            </p>
+                          `
+                        : ""
+                }
+
+                ${
+                    ad.description
+                        ? `
+                            <p>
+                                ${marketplaceEscapeHTML(
+                                    ad.description
+                                )}
+                            </p>
+                          `
+                        : ""
+                }
+
+                ${
+                    location
+                        ? `
+                            <p>
+                                <strong>
+                                    📍
+                                </strong>
+
+                                ${marketplaceEscapeHTML(
+                                    location
+                                )}
+                            </p>
+                          `
+                        : ""
+                }
+
+                ${
+                    ad.price
+                        ? `
+                            <p>
+                                <strong>
+                                    💰
+                                </strong>
+
+                                ${marketplaceEscapeHTML(
+                                    ad.currency
+                                )}
+
+                                ${marketplaceEscapeHTML(
+                                    ad.price
+                                )}
+                            </p>
+                          `
+                        : ""
+                }
+
+                ${
+                    ad.offer
+                        ? `
+                            <p>
+                                <strong>
+                                    Offer:
+                                </strong>
+
+                                ${marketplaceEscapeHTML(
+                                    ad.offer
+                                )}
+                            </p>
+                          `
+                        : ""
+                }
+
+                ${mediaInfo}
+
+                ${videoInfo}
+
+                <div>
+
                     <button
                         type="button"
-                        class="mp-small-btn"
-                        data-video-id="${escapeHTML(listing.id)}"
-                    >
-                        🎥 Video
-                    </button>
-                `
-                : "";
-
-
-        const ownerButtons =
-            ownerView
-                ? `
-                    <button
-                        type="button"
-                        class="mp-small-btn"
-                        data-edit-id="${escapeHTML(listing.id)}"
+                        data-marketplace-edit-ad="${marketplaceEscapeHTML(
+                            ad.id
+                        )}"
                     >
                         ✏️ Edit
                     </button>
 
                     <button
                         type="button"
-                        class="mp-small-btn danger"
-                        data-delete-id="${escapeHTML(listing.id)}"
+                        data-marketplace-delete-ad="${marketplaceEscapeHTML(
+                            ad.id
+                        )}"
                     >
                         🗑️ Delete
                     </button>
-                `
-                : "";
-
-
-        card.innerHTML = `
-
-            ${mediaHTML}
-
-            <div class="mp-listing-body">
-
-                <h3 class="mp-listing-title">
-                    ${escapeHTML(listing.title)}
-                </h3>
-
-                ${
-                    listing.price
-                        ? `
-                            <div class="mp-listing-price">
-                                ${escapeHTML(listing.price)}
-                            </div>
-                        `
-                        : ""
-                }
-
-                <div class="mp-listing-meta">
-
-                    ${
-                        listing.brand
-                            ? `
-                                <span>
-                                    🏷️ ${escapeHTML(listing.brand)}
-                                </span>
-                            `
-                            : ""
-                    }
-
-                    ${
-                        listing.model
-                            ? `
-                                <span>
-                                    🔖 ${escapeHTML(listing.model)}
-                                </span>
-                            `
-                            : ""
-                    }
-
-                    ${
-                        listing.year
-                            ? `
-                                <span>
-                                    📅 ${escapeHTML(listing.year)}
-                                </span>
-                            `
-                            : ""
-                    }
-
-                    <span>
-                        📍 ${escapeHTML(location)}
-                    </span>
-
-                </div>
-
-                <div class="mp-listing-description">
-                    ${escapeHTML(listing.description)}
-                </div>
-
-                <div class="mp-seller">
-
-                    <div class="mp-seller-photo">
-
-                        ${
-                            sellerPhoto
-                                ? `
-                                    <img
-                                        src="${escapeHTML(sellerPhoto)}"
-                                        alt=""
-                                    >
-                                `
-                                : "👤"
-                        }
-
-                    </div>
-
-                    <div class="mp-seller-info">
-
-                        <div class="mp-seller-name">
-                            ${escapeHTML(listing.sellerName)}
-                        </div>
-
-                        <div class="mp-seller-label">
-                            Seller
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="mp-listing-actions">
 
                     <button
                         type="button"
-                        class="mp-small-btn"
-                        data-map-id="${escapeHTML(listing.id)}"
+                        data-marketplace-preview-ad="${marketplaceEscapeHTML(
+                            ad.id
+                        )}"
                     >
-                        🗺️ Map
+                        👁️ Preview
                     </button>
 
-                    ${
-                        !ownerView
-                            ? `
-                                <button
-                                    type="button"
-                                    class="mp-small-btn"
-                                    data-contact-id="${escapeHTML(listing.id)}"
-                                >
-                                    💬 Contact Seller
-                                </button>
-                            `
-                            : ""
-                    }
-
-                    ${videoButton}
-
-                    ${ownerButtons}
-
                 </div>
 
-            </div>
-        `;
-
-
-        return card;
-
-    }
-
-
-    /* =====================================================
-       MY LISTINGS
-    ====================================================== */
-
-    function renderMyListings() {
-
-        const container =
-            $("#mpMyListings");
-
-        if (!container) {
-
-            return;
-
-        }
-
-        container.innerHTML = "";
-
-
-        if (!currentProfile) {
-
-            container.innerHTML = `
-                <div class="mp-empty">
-                    <div class="mp-empty-icon">
-                        👤
-                    </div>
-
-                    <h3>
-                        Login required
-                    </h3>
-
-                    <p>
-                        Login or register to see your listings.
-                    </p>
-                </div>
             `;
 
-            return;
 
-        }
-
-
-        const userId =
-            getUserId();
-
-        const mine =
-            listings.filter(
-                listing =>
-                    listing.ownerId ===
-                    userId &&
-                    listing.status !==
-                    "deleted"
-            );
-
-
-        if (!mine.length) {
-
-            container.innerHTML = `
-                <div class="mp-empty">
-                    <div class="mp-empty-icon">
-                        📁
-                    </div>
-
-                    <h3>
-                        No listings yet
-                    </h3>
-
-                    <p>
-                        Create your first marketplace listing.
-                    </p>
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        mine.forEach(
-            listing => {
-
-                container.appendChild(
-                    createListingCard(
-                        listing,
-                        true
-                    )
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       OPEN / CLOSE PANELS
-    ====================================================== */
-
-    function openPanel(panelName) {
-
-        const map = {
-
-            account:
-                "#mpAccountPanel",
-
-            listing:
-                "#mpListingPanel",
-
-            mine:
-                "#mpMyListingsPanel",
-
-            map:
-                "#mpMapPanel"
-
-        };
-
-
-        const selector =
-            map[panelName];
-
-        if (!selector) {
-
-            return;
-
-        }
-
-        const panel =
-            $(selector);
-
-        if (!panel) {
-
-            return;
-
-        }
-
-
-        panel.classList.remove(
-            "mp-hidden"
-        );
-
-
-        panel.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-
-    }
-
-
-    function closePanel(panelName) {
-
-        const map = {
-
-            account:
-                "#mpAccountPanel",
-
-            listing:
-                "#mpListingPanel",
-
-            mine:
-                "#mpMyListingsPanel"
-
-        };
-
-
-        const selector =
-            map[panelName];
-
-        if (!selector) {
-
-            return;
-
-        }
-
-
-        const panel =
-            $(selector);
-
-        if (panel) {
-
-            panel.classList.add(
-                "mp-hidden"
+            container.appendChild(
+                card
             );
 
         }
 
-    }
+    );
 
+}
 
-    /* =====================================================
-       ACCOUNT STATUS
-    ====================================================== */
 
-    function setAccountStatus(
-        message,
-        type
-    ) {
+/* =========================================================
+   PRODUCT ADD
+   ========================================================= */
 
-        const box =
-            $("#mpAccountStatus");
+function marketplaceAddProduct(
+    product
+) {
 
-        if (!box) {
+    const item = {
 
-            return;
+        id:
+            product.id ||
+            marketplaceCreateId(
+                "product"
+            ),
 
-        }
+        title:
+            product.title ||
+            product.name ||
+            "Untitled Product",
 
-        box.textContent =
-            message || "";
-
-        box.className =
-            "mp-status" +
-            (
-                type
-                    ? " " + type
-                    : ""
-            );
-
-    }
-
-
-    /* =====================================================
-       LISTING STATUS
-    ====================================================== */
-
-    function setListingStatus(
-        message,
-        type
-    ) {
-
-        const box =
-            $("#mpListingStatus");
-
-        if (!box) {
-
-            return;
-
-        }
-
-        box.textContent =
-            message || "";
-
-        box.className =
-            "mp-status" +
-            (
-                type
-                    ? " " + type
-                    : ""
-            );
-
-    }
-
-
-    /* =====================================================
-       ACCOUNT FORM
-    ====================================================== */
-
-    async function handleAccountSubmit(
-        event
-    ) {
-
-        event.preventDefault();
-
-
-        const country =
-            safeText(
-                $("#mpAccountCountry")?.value
-            ).toUpperCase();
-
-        const fullName =
-            safeText(
-                $("#mpFullName")?.value
-            );
-
-        const email =
-            safeText(
-                $("#mpEmail")?.value
-            ).toLowerCase();
-
-        const password =
-            $("#mpPassword")?.value || "";
-
-        const terms =
-            $("#mpAccountTerms")?.checked;
-
-
-        if (!country) {
-
-            setAccountStatus(
-                "Please select your country.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!fullName) {
-
-            setAccountStatus(
-                "Please enter your full name.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!email) {
-
-            setAccountStatus(
-                "Please enter your email.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            password.length < 6
-        ) {
-
-            setAccountStatus(
-                "Password must contain at least 6 characters.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!terms) {
-
-            setAccountStatus(
-                "You must accept the Marketplace Terms.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const photoInput =
-            $("#mpProfilePhoto");
-
-        let profilePhoto =
-            currentProfile?.photo ||
-            "";
-
-
-        if (
-            photoInput &&
-            photoInput.files &&
-            photoInput.files[0]
-        ) {
-
-            const file =
-                photoInput.files[0];
-
-            /*
-             * Local fallback profile images are
-             * intentionally limited in size.
-             */
-
-            if (
-                file.size <=
-                2 * 1024 * 1024
-            ) {
-
-                try {
-
-                    profilePhoto =
-                        await fileToDataURL(
-                            file
-                        );
-
-                } catch (error) {
-
-                    console.error(
-                        error
-                    );
-
-                }
-
-            }
-
-        }
-
-
-        setAccountStatus(
-            "Processing account...",
-            ""
-        );
-
-
-        /*
-         * Firebase authentication.
-         *
-         * The existing project Firebase module is
-         * used only when it is actually configured.
-         */
-
-        if (
-            firebaseReady()
-        ) {
-
-            try {
-
-                const firebase =
-                    window.HistoryVerseFirebase;
-
-
-                let result = null;
-
-
-                if (
-                    typeof firebase.login ===
-                    "function"
-                ) {
-
-                    result =
-                        await firebase.login(
-                            email,
-                            password
-                        );
-
-                }
-
-
-                const firebaseUser =
-                    result?.user ||
-                    result ||
-                    null;
-
-
-                saveProfile({
-
-                    uid:
-                        firebaseUser?.uid ||
-                        makeLocalUserId(),
-
-                    name:
-                        fullName,
-
-                    email:
-                        email,
-
-                    country:
-                        country,
-
-                    photo:
-                        profilePhoto,
-
-                    loggedIn:
-                        true,
-
-                    updatedAt:
-                        Date.now()
-
-                });
-
-
-                setAccountStatus(
-                    "Account login successful.",
-                    "success"
-                );
-
-
-                renderMyListings();
-
-                renderListings();
-
-                return;
-
-            } catch (error) {
-
-                console.warn(
-                    "Firebase login was not completed:",
-                    error
-                );
-
-                /*
-                 * If Firebase is not configured,
-                 * safely fall through to the local
-                 * marketplace profile mode.
-                 */
-
-            }
-
-        }
-
-
-        /*
-         * Local fallback.
-         *
-         * Password is intentionally NOT saved
-         * in localStorage.
-         */
-
-        const existingId =
-            currentProfile?.uid ||
-            makeLocalUserId();
-
-
-        saveProfile({
-
-            uid:
-                existingId,
-
-            name:
-                fullName,
-
-            email:
-                email,
-
-            country:
-                country,
-
-            photo:
-                profilePhoto,
-
-            loggedIn:
-                true,
-
-            updatedAt:
-                Date.now()
-
-        });
-
-
-        setAccountStatus(
-            "Marketplace profile is ready on this device. Cloud account login will activate when Firebase is configured.",
-            "success"
-        );
-
-
-        renderMyListings();
-
-        renderListings();
-
-    }
-
-
-    /* =====================================================
-       LOGOUT
-    ====================================================== */
-
-    async function logout() {
-
-        if (
-            firebaseReady() &&
-            typeof window.HistoryVerseFirebase.logout ===
-                "function"
-        ) {
-
-            try {
-
-                await window.HistoryVerseFirebase.logout();
-
-            } catch (error) {
-
-                console.warn(
-                    "Firebase logout:",
-                    error
-                );
-
-            }
-
-        }
-
-
-        clearProfile();
-
-        renderMyListings();
-
-        renderListings();
-
-        setAccountStatus(
-            "Logged out.",
-            "success"
-        );
-
-    }
-
-
-    /* =====================================================
-       FILL ACCOUNT FORM
-    ====================================================== */
-
-    function fillAccountForm() {
-
-        if (!currentProfile) {
-
-            return;
-
-        }
-
-
-        const country =
-            $("#mpAccountCountry");
-
-        const name =
-            $("#mpFullName");
-
-        const email =
-            $("#mpEmail");
-
-
-        if (country) {
-
-            country.value =
-                currentProfile.country ||
-                "";
-
-        }
-
-
-        if (name) {
-
-            name.value =
-                currentProfile.name ||
-                "";
-
-        }
-
-
-        if (email) {
-
-            email.value =
-                currentProfile.email ||
-                "";
-
-        }
-
-    }
-
-
-    /* =====================================================
-       OPEN NEW LISTING
-    ====================================================== */
-
-    function openNewListing() {
-
-        if (!currentProfile) {
-
-            openPanel(
-                "account"
-            );
-
-            setAccountStatus(
-                "Login or register before creating a listing.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        editingListingId = null;
-
-        clearListingForm();
-
-        const title =
-            $("#mpListingFormTitle");
-
-        if (title) {
-
-            title.textContent =
-                "Create Listing";
-
-        }
-
-
-        const country =
-            $("#mpListingCountry");
-
-        if (
-            country &&
-            currentProfile.country
-        ) {
-
-            country.value =
-                currentProfile.country;
-
-        }
-
-
-        openPanel(
-            "listing"
-        );
-
-    }
-
-
-    /* =====================================================
-       CLEAR LISTING FORM
-    ====================================================== */
-
-    function clearListingForm() {
-
-        const form =
-            $("#mpListingForm");
-
-        if (!form) {
-
-            return;
-
-        }
-
-        form.reset();
-
-        const id =
-            $("#mpListingId");
-
-        if (id) {
-
-            id.value = "";
-
-        }
-
-        editingListingId =
-            null;
-
-        setListingStatus(
+        description:
+            product.description ||
             "",
-            ""
-        );
 
-    }
-
-
-    /* =====================================================
-       EDIT LISTING
-    ====================================================== */
-
-    function editListing(
-        listingId
-    ) {
-
-        if (!currentProfile) {
-
-            return;
-
-        }
-
-
-        const listing =
-            listings.find(
-                item =>
-                    item.id ===
-                    listingId
-            );
-
-
-        if (!listing) {
-
-            return;
-
-        }
-
-
-        if (
-            listing.ownerId !==
-            getUserId()
-        ) {
-
-            return;
-
-        }
-
-
-        editingListingId =
-            listing.id;
-
-
-        const title =
-            $("#mpListingFormTitle");
-
-        if (title) {
-
-            title.textContent =
-                "Edit Listing";
-
-        }
-
-
-        setValue(
-            "#mpListingId",
-            listing.id
-        );
-
-        setValue(
-            "#mpListingCountry",
-            listing.country
-        );
-
-        setValue(
-            "#mpListingCategory",
-            listing.category
-        );
-
-        setValue(
-            "#mpListingTitle",
-            listing.title
-        );
-
-        setValue(
-            "#mpListingBrand",
-            listing.brand
-        );
-
-        setValue(
-            "#mpListingModel",
-            listing.model
-        );
-
-        setValue(
-            "#mpListingYear",
-            listing.year
-        );
-
-        setValue(
-            "#mpListingCondition",
-            listing.condition
-        );
-
-        setValue(
-            "#mpListingPrice",
-            listing.price
-        );
-
-        setValue(
-            "#mpListingCity",
-            listing.city
-        );
-
-        setValue(
-            "#mpListingState",
-            listing.state
-        );
-
-        setValue(
-            "#mpListingRoad",
-            listing.road
-        );
-
-        setValue(
-            "#mpListingLat",
-            listing.lat
-        );
-
-        setValue(
-            "#mpListingLng",
-            listing.lng
-        );
-
-        setValue(
-            "#mpListingDescription",
-            listing.description
-        );
-
-
-        const legal =
-            $("#mpListingLegal");
-
-        if (legal) {
-
-            legal.checked =
-                true;
-
-        }
-
-
-        openPanel(
-            "listing"
-        );
-
-    }
-
-
-    function setValue(
-        selector,
-        value
-    ) {
-
-        const element =
-            $(selector);
-
-        if (element) {
-
-            element.value =
-                value == null
-                    ? ""
-                    : value;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       SAVE LISTING
-    ====================================================== */
-
-    async function handleListingSubmit(
-        event
-    ) {
-
-        event.preventDefault();
-
-
-        if (!currentProfile) {
-
-            openPanel(
-                "account"
-            );
-
-            setListingStatus(
-                "Login or register before publishing a listing.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const country =
-            safeText(
-                $("#mpListingCountry")?.value
-            ).toUpperCase();
-
-        const category =
-            safeText(
-                $("#mpListingCategory")?.value
-            );
-
-        const title =
-            safeText(
-                $("#mpListingTitle")?.value
-            );
-
-        const brand =
-            safeText(
-                $("#mpListingBrand")?.value
-            );
-
-        const model =
-            safeText(
-                $("#mpListingModel")?.value
-            );
-
-        const year =
-            safeText(
-                $("#mpListingYear")?.value
-            );
-
-        const condition =
-            safeText(
-                $("#mpListingCondition")?.value
-            );
-
-        const price =
-            safeText(
-                $("#mpListingPrice")?.value
-            );
-
-        const city =
-            safeText(
-                $("#mpListingCity")?.value
-            );
-
-        const state =
-            safeText(
-                $("#mpListingState")?.value
-            );
-
-        const road =
-            safeText(
-                $("#mpListingRoad")?.value
-            );
-
-        const lat =
-            Number(
-                $("#mpListingLat")?.value
-            );
-
-        const lng =
-            Number(
-                $("#mpListingLng")?.value
-            );
-
-        const description =
-            safeText(
-                $("#mpListingDescription")?.value
-            );
-
-        const legal =
-            $("#mpListingLegal")?.checked;
-
-
-        /* -------------------------------------------------
-           Required fields
-        -------------------------------------------------- */
-
-        if (!country) {
-
-            setListingStatus(
-                "Country is required.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!category) {
-
-            setListingStatus(
-                "Please select a category.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!title) {
-
-            setListingStatus(
-                "Listing title is required.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!city) {
-
-            setListingStatus(
-                "City is required.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!road) {
-
-            setListingStatus(
-                "Road / Area / Location is required.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !validCoordinates(
-                lat,
-                lng
-            )
-        ) {
-
-            setListingStatus(
-                "Valid latitude and longitude are required.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!description) {
-
-            setListingStatus(
-                "Description is required.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!legal) {
-
-            setListingStatus(
-                "You must accept the listing responsibility rules.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        /* -------------------------------------------------
-           Safety check
-        -------------------------------------------------- */
-
-        const safety =
-            validateListingContent({
-
-                title,
-
-                brand,
-
-                model,
-
-                condition,
-
-                price,
-
-                description,
-
-                city,
-
-                state,
-
-                road,
-
-                category
-
-            });
-
-
-        if (!safety.valid) {
-
-            setListingStatus(
-                safety.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        setListingStatus(
-            "Preparing listing...",
-            ""
-        );
-
-
-        /* -------------------------------------------------
-           Existing listing
-        -------------------------------------------------- */
-
-        let existing =
-            editingListingId
-                ? listings.find(
-                    item =>
-                        item.id ===
-                        editingListingId
-                )
-                : null;
-
-
-        /* -------------------------------------------------
-           Photos
-        -------------------------------------------------- */
-
-        let photos =
-            existing?.photos || [];
-
-
-        const photoInput =
-            $("#mpListingPhotos");
-
-
-        if (
-            photoInput &&
-            photoInput.files &&
-            photoInput.files.length
-        ) {
-
-            const selectedPhotos =
-                await filesToDataURLs(
-                    photoInput.files
-                );
-
-
-            if (
-                selectedPhotos.length
-            ) {
-
-                photos =
-                    selectedPhotos;
-
-            }
-
-        }
-
-
-        /* -------------------------------------------------
-           Video
-        -------------------------------------------------- */
-
-        let video =
-            existing?.video || "";
-
-
-        const videoInput =
-            $("#mpListingVideo");
-
-
-        if (
-            videoInput &&
-            videoInput.files &&
-            videoInput.files[0]
-        ) {
-
-            const videoFile =
-                videoInput.files[0];
-
-
-            /*
-             * Local fallback video limit.
-             */
-
-            if (
-                videoFile.size <=
-                4 * 1024 * 1024
-            ) {
-
-                try {
-
-                    video =
-                        await fileToDataURL(
-                            videoFile
-                        );
-
-                } catch (error) {
-
-                    console.error(
-                        error
-                    );
-
-                }
-
-            } else {
-
-                setListingStatus(
-                    "Local fallback videos are limited to 4 MB. Configure cloud storage for larger media.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        /* -------------------------------------------------
-           Listing object
-        -------------------------------------------------- */
-
-        const now =
-            Date.now();
-
-
-        const listing =
-            normalizeListing({
-
-                id:
-                    existing?.id ||
-                    undefined,
-
-                ownerId:
-                    getUserId(),
-
-                sellerName:
-                    currentProfile.name ||
-                    "Marketplace User",
-
-                sellerPhoto:
-                    currentProfile.photo ||
-                    "",
-
-                country,
-
-                category,
-
-                title,
-
-                brand,
-
-                model,
-
-                year,
-
-                condition,
-
-                price,
-
-                description,
-
-                city,
-
-                state,
-
-                road,
-
-                lat,
-
-                lng,
-
-                photos,
-
-                video,
-
-                createdAt:
-                    existing?.createdAt ||
-                    now,
-
-                updatedAt:
-                    now,
-
-                status:
-                    "published"
-
-            });
-
-
-        /* -------------------------------------------------
-           Save
-        -------------------------------------------------- */
-
-        if (existing) {
-
-            const index =
-                listings.findIndex(
-                    item =>
-                        item.id ===
-                        existing.id
-                );
-
-
-            if (index >= 0) {
-
-                listings[index] =
-                    listing;
-
-            }
-
-        } else {
-
-            listings.unshift(
-                listing
-            );
-
-        }
-
-
-        const saved =
-            saveListings();
-
-
-        if (!saved) {
-
-            setListingStatus(
-                "Could not save the listing on this device.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        setListingStatus(
-            "Listing saved successfully.",
-            "success"
-        );
-
-
-        editingListingId =
-            null;
-
-
-        renderListings();
-
-        renderMyListings();
-
-
-        /*
-         * Clear form after a short delay,
-         * so the success message can be seen.
-         */
-
-        setTimeout(
-            function () {
-
-                clearListingForm();
-
-                closePanel(
-                    "listing"
-                );
-
-            },
-            700
-        );
-
-    }
-
-
-    /* =====================================================
-       DELETE LISTING
-    ====================================================== */
-
-    function deleteListing(
-        listingId
-    ) {
-
-        if (!currentProfile) {
-
-            return;
-
-        }
-
-
-        const listing =
-            listings.find(
-                item =>
-                    item.id ===
-                    listingId
-            );
-
-
-        if (!listing) {
-
-            return;
-
-        }
-
-
-        if (
-            listing.ownerId !==
-            getUserId()
-        ) {
-
-            return;
-
-        }
-
-
-        const confirmed =
-            window.confirm(
-                "Delete this listing?"
-            );
-
-
-        if (!confirmed) {
-
-            return;
-
-        }
-
-
-        listings =
-            listings.filter(
-                item =>
-                    item.id !==
-                    listingId
-            );
-
-
-        saveListings();
-
-        renderListings();
-
-        renderMyListings();
-
-    }
-
-
-    /* =====================================================
-       CONTACT SELLER
-    ====================================================== */
-
-    function contactSeller(
-        listingId
-    ) {
-
-        const listing =
-            listings.find(
-                item =>
-                    item.id ===
-                    listingId
-            );
-
-
-        if (!listing) {
-
-            return;
-
-        }
-
-
-        /*
-         * Do not expose seller phone/email.
-         *
-         * This prototype opens a private
-         * contact message prompt. A future
-         * server-backed messaging system can
-         * store and deliver the message.
-         */
-
-        if (!currentProfile) {
-
-            openPanel(
-                "account"
-            );
-
-            setAccountStatus(
-                "Login or register to contact a seller privately.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const message =
-            window.prompt(
-                "Write your private message to " +
-                listing.sellerName +
-                ":"
-            );
-
-
-        if (!message) {
-
-            return;
-
-        }
-
-
-        /*
-         * For now we keep the message only as a
-         * local pending message record.
-         *
-         * No private seller contact data is exposed.
-         */
-
-        const messagesKey =
-            "alon_historyverse_marketplace_messages_v1";
-
-
-        let messages = [];
-
-
-        try {
-
-            messages =
-                JSON.parse(
-                    localStorage.getItem(
-                        messagesKey
-                    ) || "[]"
-                );
-
-        } catch (error) {
-
-            messages = [];
-
-        }
-
-
-        messages.push({
-
-            id:
-                "msg_" +
-                Date.now(),
-
-            listingId:
-                listing.id,
-
-            senderId:
-                getUserId(),
-
-            senderName:
-                currentProfile.name,
-
-            message:
-                message,
-
-            createdAt:
-                Date.now(),
-
-            status:
-                "pending"
-
-        });
-
-
-        try {
-
-            localStorage.setItem(
-                messagesKey,
-                JSON.stringify(messages)
-            );
-
-        } catch (error) {
-
-            console.error(
-                error
-            );
-
-        }
-
-
-        window.alert(
-            "Your private contact request was saved. Seller contact details were not publicly exposed."
-        );
-
-    }
-
-
-    /* =====================================================
-       VIDEO VIEWER
-    ====================================================== */
-
-    function showVideo(
-        listingId
-    ) {
-
-        const listing =
-            listings.find(
-                item =>
-                    item.id ===
-                    listingId
-            );
-
-
-        if (
-            !listing ||
-            !listing.video
-        ) {
-
-            return;
-
-        }
-
-
-        const overlay =
-            document.createElement(
-                "div"
-            );
-
-
-        overlay.style.position =
-            "fixed";
-
-        overlay.style.inset =
-            "0";
-
-        overlay.style.zIndex =
-            "99999";
-
-        overlay.style.background =
-            "rgba(0,0,0,0.9)";
-
-        overlay.style.display =
-            "flex";
-
-        overlay.style.alignItems =
-            "center";
-
-        overlay.style.justifyContent =
-            "center";
-
-        overlay.style.padding =
-            "20px";
-
-
-        overlay.innerHTML = `
-
-            <div
-                style="
-                    width:min(900px,100%);
-                    background:#0b111c;
-                    border:1px solid #d7b35a;
-                    border-radius:14px;
-                    padding:14px;
-                "
-            >
-
-                <button
-                    type="button"
-                    id="mpVideoClose"
-                    style="
-                        float:right;
-                        background:transparent;
-                        border:1px solid #d7b35a;
-                        color:#f0d27a;
-                        border-radius:8px;
-                        padding:6px 10px;
-                        cursor:pointer;
-                        font-size:20px;
-                    "
-                >
-                    ×
-                </button>
-
-                <video
-                    src="${escapeHTML(listing.video)}"
-                    controls
-                    playsinline
-                    style="
-                        width:100%;
-                        max-height:75vh;
-                        margin-top:35px;
-                        border-radius:10px;
-                        background:#000;
-                    "
-                ></video>
-
-            </div>
-        `;
-
-
-        document.body.appendChild(
-            overlay
-        );
-
-
-        const close =
-            $("#mpVideoClose");
-
-
-        if (close) {
-
-            close.addEventListener(
-                "click",
-                function () {
-
-                    overlay.remove();
-
-                }
-            );
-
-        }
-
-
-        overlay.addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target ===
-                    overlay
-                ) {
-
-                    overlay.remove();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       MAP INITIALIZATION
-    ====================================================== */
-
-    function initMap() {
-
-        if (
-            !window.L ||
-            !$("#alonMap")
-        ) {
-
-            return;
-
-        }
-
-
-        if (alonMap) {
-
-            return;
-
-        }
-
-
-        alonMap =
-            window.L.map(
-                "alonMap",
-                {
-                    zoomControl: true
-                }
-            ).setView(
-                [20, 0],
-                2
-            );
-
-
-        window.L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            {
-                maxZoom: 19,
-
-                attribution:
-                    "&copy; OpenStreetMap contributors"
-            }
-        ).addTo(
-            alonMap
-        );
-
-
-        updateMap(
-            getFilteredListings()
-        );
-
-    }
-
-
-    /* =====================================================
-       UPDATE MAP
-    ====================================================== */
-
-    function updateMap(
-        mapListings
-    ) {
-
-        if (!alonMap) {
-
-            return;
-
-        }
-
-
-        mapMarkers.forEach(
-            marker => {
-
-                try {
-
-                    alonMap.removeLayer(
-                        marker
-                    );
-
-                } catch (error) {
-
-                    console.warn(
-                        error
-                    );
-
-                }
-
-            }
-        );
-
-
-        mapMarkers = [];
-
-
-        const bounds = [];
-
-
-        mapListings.forEach(
-            listing => {
-
-                if (
-                    !validCoordinates(
-                        listing.lat,
-                        listing.lng
-                    )
-                ) {
-
-                    return;
-
-                }
-
-
-                const marker =
-                    window.L.marker([
-                        Number(listing.lat),
-                        Number(listing.lng)
-                    ]).addTo(
-                        alonMap
-                    );
-
-
-                const country =
-                    getCountryName(
-                        listing.country
-                    );
-
-
-                marker.bindPopup(`
-                    <div>
-                        <strong>
-                            ${escapeHTML(listing.title)}
-                        </strong>
-
-                        <br>
-
-                        <span>
-                            ${escapeHTML(country)}
-                        </span>
-
-                        <br>
-
-                        <span>
-                            📍 ${escapeHTML(listing.city)}
-                        </span>
-
-                        ${
-                            listing.price
-                                ? `
-                                    <br>
-                                    <strong>
-                                        ${escapeHTML(listing.price)}
-                                    </strong>
-                                `
-                                : ""
-                        }
-                    </div>
-                `);
-
-
-                mapMarkers.push(
-                    marker
-                );
-
-
-                bounds.push([
-                    Number(listing.lat),
-                    Number(listing.lng)
-                ]);
-
-            }
-        );
-
-
-        if (
-            bounds.length === 1
-        ) {
-
-            alonMap.setView(
-                bounds[0],
-                13
-            );
-
-        } else if (
-            bounds.length > 1
-        ) {
-
-            alonMap.fitBounds(
-                bounds,
-                {
-                    padding: [
-                        35,
-                        35
-                    ]
-                }
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       FOCUS MAP LISTING
-    ====================================================== */
-
-    function focusListingOnMap(
-        listingId
-    ) {
-
-        const listing =
-            listings.find(
-                item =>
-                    item.id ===
-                    listingId
-            );
-
-
-        if (
-            !listing ||
-            !validCoordinates(
-                listing.lat,
-                listing.lng
-            )
-        ) {
-
-            return;
-
-        }
-
-
-        openPanel(
-            "map"
-        );
-
-
-        setTimeout(
-            function () {
-
-                initMap();
-
-
-                if (!alonMap) {
-
-                    return;
-
-                }
-
-
-                alonMap.setView(
-                    [
-                        Number(listing.lat),
-                        Number(listing.lng)
-                    ],
-                    14
-                );
-
-
-                const marker =
-                    mapMarkers.find(
-                        item => {
-
-                            const position =
-                                item.getLatLng();
-
-                            return (
-                                Math.abs(
-                                    position.lat -
-                                    Number(listing.lat)
-                                ) < 0.000001 &&
-                                Math.abs(
-                                    position.lng -
-                                    Number(listing.lng)
-                                ) < 0.000001
-                            );
-
-                        }
-                    );
-
-
-                if (marker) {
-
-                    marker.openPopup();
-
-                }
-
-            },
-            250
-        );
-
-    }
-
-
-    /* =====================================================
-       CURRENT LOCATION
-    ====================================================== */
-
-    function useCurrentLocation() {
-
-        if (
-            !navigator.geolocation
-        ) {
-
-            setListingStatus(
-                "Geolocation is not supported by this browser.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        setListingStatus(
-            "Finding your location...",
-            ""
-        );
-
-
-        navigator.geolocation.getCurrentPosition(
-
-            function (position) {
-
-                const lat =
-                    position.coords.latitude;
-
-                const lng =
-                    position.coords.longitude;
-
-
-                setValue(
-                    "#mpListingLat",
-                    lat
-                );
-
-                setValue(
-                    "#mpListingLng",
-                    lng
-                );
-
-
-                setListingStatus(
-                    "Current location added.",
-                    "success"
-                );
-
-
-                if (alonMap) {
-
-                    alonMap.setView(
-                        [
-                            lat,
-                            lng
-                        ],
-                        14
-                    );
-
-                }
-
-            },
-
-            function (error) {
-
-                console.warn(
-                    "Geolocation error:",
-                    error
-                );
-
-
-                setListingStatus(
-                    "Could not get your location. Please enter coordinates manually.",
-                    "error"
-                );
-
-            },
-
-            {
-                enableHighAccuracy: true,
-
-                timeout: 10000,
-
-                maximumAge: 60000
-
-            }
-
-        );
-
-    }
-
-
-    /* =====================================================
-       MAP CURRENT LOCATION
-    ====================================================== */
-
-    function locateUserOnMap() {
-
-        if (
-            !navigator.geolocation
-        ) {
-
-            return;
-
-        }
-
-
-        navigator.geolocation.getCurrentPosition(
-
-            function (position) {
-
-                const lat =
-                    position.coords.latitude;
-
-                const lng =
-                    position.coords.longitude;
-
-
-                initMap();
-
-
-                if (!alonMap) {
-
-                    return;
-
-                }
-
-
-                alonMap.setView(
-                    [
-                        lat,
-                        lng
-                    ],
-                    14
-                );
-
-
-                window.L.circleMarker(
-                    [
-                        lat,
-                        lng
-                    ],
-                    {
-                        radius: 8
-                    }
-                )
-                    .addTo(alonMap)
-                    .bindPopup(
-                        "📍 Your current location"
-                    )
-                    .openPopup();
-
-            },
-
-            function () {
-
-                window.alert(
-                    "Could not access your location."
-                );
-
-            },
-
-            {
-                enableHighAccuracy: true,
-
-                timeout: 10000,
-
-                maximumAge: 60000
-
-            }
-
-        );
-
-    }
-
-
-    /* =====================================================
-       EVENT DELEGATION
-    ====================================================== */
-
-    function bindListingActions() {
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-                const target =
-                    event.target.closest(
-                        "[data-map-id], [data-edit-id], [data-delete-id], [data-contact-id], [data-video-id]"
-                    );
-
-
-                if (!target) {
-
-                    return;
-
-                }
-
-
-                if (
-                    target.dataset.mapId
-                ) {
-
-                    focusListingOnMap(
-                        target.dataset.mapId
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    target.dataset.editId
-                ) {
-
-                    editListing(
-                        target.dataset.editId
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    target.dataset.deleteId
-                ) {
-
-                    deleteListing(
-                        target.dataset.deleteId
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    target.dataset.contactId
-                ) {
-
-                    contactSeller(
-                        target.dataset.contactId
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    target.dataset.videoId
-                ) {
-
-                    showVideo(
-                        target.dataset.videoId
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       FILTER EVENTS
-    ====================================================== */
-
-    function bindFilters() {
-
-        const country =
-            $("#mpCountryFilter");
-
-        const category =
-            $("#mpCategoryFilter");
-
-        const search =
-            $("#mpSearch");
-
-        const searchBtn =
-            $("#mpSearchBtn");
-
-
-        if (country) {
-
-            country.addEventListener(
-                "change",
-                renderListings
-            );
-
-        }
-
-
-        if (category) {
-
-            category.addEventListener(
-                "change",
-                renderListings
-            );
-
-        }
-
-
-        if (search) {
-
-            search.addEventListener(
-                "input",
-                function () {
-
-                    renderListings();
-
-                }
-            );
-
-            search.addEventListener(
-                "keydown",
-                function (event) {
-
-                    if (
-                        event.key ===
-                        "Enter"
-                    ) {
-
-                        event.preventDefault();
-
-                        renderListings();
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        if (searchBtn) {
-
-            searchBtn.addEventListener(
-                "click",
-                renderListings
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       ACTION BUTTONS
-    ====================================================== */
-
-    function bindActions() {
-
-        $all(
-            "[data-market-action]"
-        ).forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        const action =
-                            button.dataset.marketAction;
-
-
-                        if (
-                            action ===
-                            "login"
-                        ) {
-
-                            fillAccountForm();
-
-                            openPanel(
-                                "account"
-                            );
-
-                            return;
-
-                        }
-
-
-                        if (
-                            action ===
-                            "create"
-                        ) {
-
-                            openNewListing();
-
-                            return;
-
-                        }
-
-
-                        if (
-                            action ===
-                            "jobs"
-                        ) {
-
-                            if (
-                                $("#mpCategoryFilter")
-                            ) {
-
-                                $("#mpCategoryFilter").value =
-                                    "job";
-
-                            }
-
-                            renderListings();
-
-                            document
-                                .querySelector(
-                                    ".mp-listings-section"
-                                )
-                                ?.scrollIntoView({
-                                    behavior: "smooth"
-                                });
-
-                            return;
-
-                        }
-
-
-                        if (
-                            action ===
-                            "map"
-                        ) {
-
-                            openPanel(
-                                "map"
-                            );
-
-                            setTimeout(
-                                initMap,
-                                250
-                            );
-
-                            return;
-
-                        }
-
-
-                        if (
-                            action ===
-                            "mine"
-                        ) {
-
-                            renderMyListings();
-
-                            openPanel(
-                                "mine"
-                            );
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-        const loginOpen =
-            $("#mpLoginOpenBtn");
-
-        if (loginOpen) {
-
-            loginOpen.addEventListener(
-                "click",
-                function () {
-
-                    fillAccountForm();
-
-                    openPanel(
-                        "account"
-                    );
-
-                }
-            );
-
-        }
-
-
-        const createHero =
-            $("#mpCreateHeroBtn");
-
-        if (createHero) {
-
-            createHero.addEventListener(
-                "click",
-                openNewListing
-            );
-
-        }
-
-
-        const mapHero =
-            $("#mpMapHeroBtn");
-
-        if (mapHero) {
-
-            mapHero.addEventListener(
-                "click",
-                function () {
-
-                    openPanel(
-                        "map"
-                    );
-
-                    setTimeout(
-                        initMap,
-                        250
-                    );
-
-                }
-            );
-
-        }
-
-
-        const logout =
-            $("#mpLogoutBtn");
-
-        if (logout) {
-
-            logout.addEventListener(
-                "click",
-                logoutHandler
-            );
-
-        }
-
-
-        const currentLocation =
-            $("#mpCurrentLocationBtn");
-
-        if (currentLocation) {
-
-            currentLocation.addEventListener(
-                "click",
-                useCurrentLocation
-            );
-
-        }
-
-
-        const locate =
-            $("#mpLocateMeBtn");
-
-        if (locate) {
-
-            locate.addEventListener(
-                "click",
-                locateUserOnMap
-            );
-
-        }
-
-
-        const clear =
-            $("#mpClearListingBtn");
-
-        if (clear) {
-
-            clear.addEventListener(
-                "click",
-                clearListingForm
-            );
-
-        }
-
-    }
-
-
-    async function logoutHandler() {
-
-        await logout();
-
-    }
-
-
-    /* =====================================================
-       CLOSE BUTTONS
-    ====================================================== */
-
-    function bindCloseButtons() {
-
-        $all(
-            "[data-close-panel]"
-        ).forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        closePanel(
-                            button.dataset.closePanel
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       FORBIDDEN CATEGORY CHECK
-    ====================================================== */
-
-    function bindCategorySafety() {
-
-        const category =
-            $("#mpListingCategory");
-
-
-        if (!category) {
-
-            return;
-
-        }
-
-
-        category.addEventListener(
-            "change",
-            function () {
-
-                /*
-                 * No animal/bird category exists.
-                 * This extra check keeps the system
-                 * protected if a category is later
-                 * added incorrectly.
-                 */
-
-                const value =
-                    category.value.toLowerCase();
-
-
-                if (
-                    /animal|bird|wildlife|pet/.test(
-                        value
-                    )
-                ) {
-
-                    category.value = "";
-
-                    setListingStatus(
-                        "Animals and birds are not allowed in the marketplace.",
-                        "error"
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       ACCOUNT PROFILE DISPLAY
-    ====================================================== */
-
-    function updateAccountButton() {
-
-        const button =
-            $("#mpLoginOpenBtn");
-
-        if (!button) {
-
-            return;
-
-        }
-
-
-        if (
-            currentProfile &&
-            currentProfile.name
-        ) {
-
-            button.textContent =
-                "👤 " +
-                currentProfile.name;
-
-        } else {
-
-            button.textContent =
-                "👤 Login / Register";
-
-        }
-
-    }
-
-
-    /* =====================================================
-       INITIALIZATION
-    ====================================================== */
-
-    function init() {
-
-        populateCountries();
-
-        loadListings();
-
-        loadProfile();
-
-        fillAccountForm();
-
-        updateAccountButton();
-
-        renderListings();
-
-        renderMyListings();
-
-        bindFilters();
-
-        bindActions();
-
-        bindCloseButtons();
-
-        bindListingActions();
-
-        bindCategorySafety();
-
-
-        const accountForm =
-            $("#mpAccountForm");
-
-        if (accountForm) {
-
-            accountForm.addEventListener(
-                "submit",
-                handleAccountSubmit
-            );
-
-        }
-
-
-        const listingForm =
-            $("#mpListingForm");
-
-        if (listingForm) {
-
-            listingForm.addEventListener(
-                "submit",
-                handleListingSubmit
-            );
-
-        }
-
-
-        /*
-         * Initialize the map after the page
-         * becomes visible.
-         */
-
-        setTimeout(
-            function () {
-
-                if (
-                    $("#mpMapPanel") &&
-                    !$("#mpMapPanel").classList.contains(
-                        "mp-hidden"
-                    )
-                ) {
-
-                    initMap();
-
-                }
-
-            },
-            300
-        );
-
-
-        console.log(
-            "ALON HISTORYVERSE 24 Global Marketplace initialized."
-        );
-
-    }
-
-
-    /* =====================================================
-       DOM READY
-    ====================================================== */
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            init
-        );
-
-    } else {
-
-        init();
-
-    }
-
-
-    /* =====================================================
-       PUBLIC API
-    ====================================================== */
-
-    window.ALONMarketplace = {
-
-        getListings:
-            function () {
-
-                return listings.slice();
-
-            },
-
-        refresh:
-            function () {
-
-                loadListings();
-
-                renderListings();
-
-                renderMyListings();
-
-            },
-
-        openCreate:
-            openNewListing,
-
-        openMap:
-            function () {
-
-                openPanel("map");
-
-                setTimeout(
-                    initMap,
-                    250
-                );
-
-            }
+        category:
+            product.category ||
+            "General",
+
+        price:
+            product.price !== undefined
+                ? product.price
+                : "",
+
+        currency:
+            product.currency ||
+            ALON_MARKETPLACE_CONFIG.currency,
+
+        country:
+            product.country ||
+            MARKETPLACE_STATE.selectedCountry ||
+            "",
+
+        image:
+            product.image ||
+            "",
+
+        seller:
+            product.seller ||
+            "",
+
+        phone:
+            product.phone ||
+            "",
+
+        email:
+            product.email ||
+            "",
+
+        url:
+            product.url ||
+            "",
+
+        createdAt:
+            new Date().toISOString()
 
     };
 
 
-})();
+    MARKETPLACE_STATE.products.push(
+        item
+    );
+
+
+    marketplaceSaveData();
+
+
+    marketplaceRenderAll();
+
+
+    return item;
+
+}
+
+
+/* =========================================================
+   JOB ADD
+   ========================================================= */
+
+function marketplaceAddJob(
+    job
+) {
+
+    const item = {
+
+        id:
+            job.id ||
+            marketplaceCreateId(
+                "job"
+            ),
+
+        title:
+            job.title ||
+            job.position ||
+            "Untitled Job",
+
+        company:
+            job.company ||
+            "",
+
+        description:
+            job.description ||
+            "",
+
+        category:
+            job.category ||
+            "General",
+
+        country:
+            job.country ||
+            MARKETPLACE_STATE.selectedCountry ||
+            "",
+
+        city:
+            job.city ||
+            "",
+
+        salary:
+            job.salary ||
+            "",
+
+        type:
+            job.type ||
+            "Full Time",
+
+        email:
+            job.email ||
+            "",
+
+        phone:
+            job.phone ||
+            "",
+
+        url:
+            job.url ||
+            "",
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    MARKETPLACE_STATE.jobs.push(
+        item
+    );
+
+
+    marketplaceSaveData();
+
+
+    marketplaceRenderAll();
+
+
+    return item;
+
+}
+
+
+/* =========================================================
+   SERVICE ADD
+   ========================================================= */
+
+function marketplaceAddService(
+    service
+) {
+
+    const item = {
+
+        id:
+            service.id ||
+            marketplaceCreateId(
+                "service"
+            ),
+
+        title:
+            service.title ||
+            service.name ||
+            "Untitled Service",
+
+        description:
+            service.description ||
+            "",
+
+        category:
+            service.category ||
+            "General",
+
+        price:
+            service.price !== undefined
+                ? service.price
+                : "",
+
+        currency:
+            service.currency ||
+            ALON_MARKETPLACE_CONFIG.currency,
+
+        country:
+            service.country ||
+            MARKETPLACE_STATE.selectedCountry ||
+            "",
+
+        city:
+            service.city ||
+            "",
+
+        provider:
+            service.provider ||
+            "",
+
+        phone:
+            service.phone ||
+            "",
+
+        email:
+            service.email ||
+            "",
+
+        url:
+            service.url ||
+            "",
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    MARKETPLACE_STATE.services.push(
+        item
+    );
+
+
+    marketplaceSaveData();
+
+
+    marketplaceRenderAll();
+
+
+    return item;
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function marketplaceSearch(
+    text
+) {
+
+    MARKETPLACE_STATE.searchText =
+
+        String(text || "")
+            .trim()
+            .toLowerCase();
+
+
+    marketplaceRenderAll();
+
+}
+
+
+/* =========================================================
+   CATEGORY
+   ========================================================= */
+
+function marketplaceSetCategory(
+    category
+) {
+
+    MARKETPLACE_STATE.category =
+
+        String(category || "")
+            .trim()
+            .toLowerCase();
+
+
+    marketplaceRenderAll();
+
+}
+
+
+/* =========================================================
+   COUNTRY
+   ========================================================= */
+
+function marketplaceSetCountry(
+    country
+) {
+
+    MARKETPLACE_STATE.selectedCountry =
+
+        String(country || "")
+            .trim()
+            .toUpperCase();
+
+
+    marketplaceSaveJSON(
+
+        ALON_MARKETPLACE_CONFIG
+            .countryStorage,
+
+        MARKETPLACE_STATE
+            .selectedCountry
+
+    );
+
+
+    marketplaceRenderAll();
+
+}
+
+
+/* =========================================================
+   COMMON FILTER
+   ========================================================= */
+
+function marketplaceFilterItem(
+    item
+) {
+
+    const search =
+        MARKETPLACE_STATE.searchText;
+
+
+    const category =
+        MARKETPLACE_STATE.category;
+
+
+    const country =
+        MARKETPLACE_STATE.selectedCountry;
+
+
+    const searchable = [
+
+        item.title,
+
+        item.name,
+
+        item.description,
+
+        item.category,
+
+        item.company,
+
+        item.provider,
+
+        item.seller,
+
+        item.city,
+
+        item.state,
+
+        item.country
+
+    ]
+
+        .filter(Boolean)
+
+        .join(" ")
+
+        .toLowerCase();
+
+
+    if (
+        search &&
+        !searchable.includes(
+            search
+        )
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        category &&
+        String(
+            item.category || ""
+        ).toLowerCase() !==
+        category
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        country &&
+        String(
+            item.country || ""
+        ).toUpperCase() !==
+        country
+    ) {
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   FILTERED DATA
+   ========================================================= */
+
+function marketplaceGetProducts() {
+
+    return MARKETPLACE_STATE
+        .products
+        .filter(
+            marketplaceFilterItem
+        );
+
+}
+
+
+function marketplaceGetJobs() {
+
+    return MARKETPLACE_STATE
+        .jobs
+        .filter(
+            marketplaceFilterItem
+        );
+
+}
+
+
+function marketplaceGetServices() {
+
+    return MARKETPLACE_STATE
+        .services
+        .filter(
+            marketplaceFilterItem
+        );
+
+}
+
+
+/* =========================================================
+   RENDER PRODUCTS
+   ========================================================= */
+
+function marketplaceRenderProducts() {
+
+    const container =
+        document.getElementById(
+            "productsList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    const products =
+        marketplaceGetProducts();
+
+
+    if (!products.length) {
+
+        container.innerHTML =
+            "<div>No products available yet.</div>";
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        products.map(
+
+            function(product) {
+
+                return `
+
+                    <article class="ah-card">
+
+                        <h3>
+                            ${marketplaceEscapeHTML(
+                                product.title
+                            )}
+                        </h3>
+
+                        <p>
+                            ${marketplaceEscapeHTML(
+                                product.description
+                            )}
+                        </p>
+
+                        ${
+                            product.price
+                                ? `
+                                    <strong>
+                                        ${marketplaceEscapeHTML(
+                                            product.currency
+                                        )}
+                                        ${marketplaceEscapeHTML(
+                                            product.price
+                                        )}
+                                    </strong>
+                                  `
+                                : ""
+                        }
+
+                        <p>
+                            ${marketplaceEscapeHTML(
+                                product.country
+                            )}
+                        </p>
+
+                    </article>
+
+                `;
+
+            }
+
+        ).join("");
+
+}
+
+
+/* =========================================================
+   RENDER JOBS
+   ========================================================= */
+
+function marketplaceRenderJobs() {
+
+    const container =
+        document.getElementById(
+            "jobsList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    const jobs =
+        marketplaceGetJobs();
+
+
+    if (!jobs.length) {
+
+        container.innerHTML =
+            "<div>No jobs available yet.</div>";
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        jobs.map(
+
+            function(job) {
+
+                return `
+
+                    <article class="ah-card">
+
+                        <h3>
+                            ${marketplaceEscapeHTML(
+                                job.title
+                            )}
+                        </h3>
+
+                        ${
+                            job.company
+                                ? `
+                                    <p>
+                                        <strong>
+                                            ${marketplaceEscapeHTML(
+                                                job.company
+                                            )}
+                                        </strong>
+                                    </p>
+                                  `
+                                : ""
+                        }
+
+                        <p>
+                            ${marketplaceEscapeHTML(
+                                job.description
+                            )}
+                        </p>
+
+                        <p>
+                            ${marketplaceEscapeHTML(
+                                job.country
+                            )}
+
+                            ${
+                                job.city
+                                    ? " • " +
+                                      marketplaceEscapeHTML(
+                                          job.city
+                                      )
+                                    : ""
+                            }
+                        </p>
+
+                    </article>
+
+                `;
+
+            }
+
+        ).join("");
+
+}
+
+
+/* =========================================================
+   RENDER SERVICES
+   ========================================================= */
+
+function marketplaceRenderServices() {
+
+    const container =
+        document.getElementById(
+            "servicesList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    const services =
+        marketplaceGetServices();
+
+
+    if (!services.length) {
+
+        container.innerHTML =
+            "<div>No services available yet.</div>";
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        services.map(
+
+            function(service) {
+
+                return `
+
+                    <article class="ah-card">
+
+                        <h3>
+                            ${marketplaceEscapeHTML(
+                                service.title
+                            )}
+                        </h3>
+
+                        <p>
+                            ${marketplaceEscapeHTML(
+                                service.description
+                            )}
+                        </p>
+
+                        ${
+                            service.price
+                                ? `
+                                    <strong>
+                                        ${marketplaceEscapeHTML(
+                                            service.currency
+                                        )}
+                                        ${marketplaceEscapeHTML(
+                                            service.price
+                                        )}
+                                    </strong>
+                                  `
+                                : ""
+                        }
+
+                        <p>
+                            ${marketplaceEscapeHTML(
+                                service.country
+                            )}
+                        </p>
+
+                    </article>
+
+                `;
+
+            }
+
+        ).join("");
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+   ========================================================= */
+
+function marketplaceRenderAll() {
+
+    marketplaceRenderAdvertisements();
+
+    marketplaceRenderProducts();
+
+    marketplaceRenderJobs();
+
+    marketplaceRenderServices();
+
+}
+
+
+/* =========================================================
+   SEARCH FORM
+   ========================================================= */
+
+function marketplaceBindSearch() {
+
+    const form =
+        document.getElementById(
+            "marketplaceSearchForm"
+        );
+
+
+    if (!form) {
+
+        return;
+
+    }
+
+
+    form.addEventListener(
+
+        "submit",
+
+        function(event) {
+
+            event.preventDefault();
+
+
+            const input =
+                document.getElementById(
+                    "marketplaceSearch"
+                );
+
+
+            marketplaceSearch(
+
+                input
+                    ? input.value
+                    : ""
+
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   COUNTRY EVENTS
+   ========================================================= */
+
+function marketplaceBindCountryEvents() {
+
+    const country =
+        document.getElementById(
+            "country"
+        );
+
+
+    if (country) {
+
+        country.addEventListener(
+
+            "change",
+
+            function() {
+
+                marketplaceSetCountry(
+                    this.value
+                );
+
+            }
+
+        );
+
+    }
+
+
+    const adCountry =
+        document.getElementById(
+            "adCountry"
+        );
+
+
+    if (adCountry) {
+
+        adCountry.addEventListener(
+
+            "change",
+
+            function() {
+
+                const mainCountry =
+                    document.getElementById(
+                        "country"
+                    );
+
+
+                if (mainCountry) {
+
+                    mainCountry.value =
+                        this.value;
+
+                }
+
+
+                marketplaceSetCountry(
+                    this.value
+                );
+
+            }
+
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CATEGORY EVENTS
+   ========================================================= */
+
+function marketplaceBindCategoryEvents() {
+
+    const category =
+        document.getElementById(
+            "marketplaceCategory"
+        );
+
+
+    if (!category) {
+
+        return;
+
+    }
+
+
+    category.addEventListener(
+
+        "change",
+
+        function() {
+
+            marketplaceSetCategory(
+                this.value
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   AD FORM EVENTS
+   ========================================================= */
+
+function marketplaceBindAdvertisementEvents() {
+
+    const form =
+        document.getElementById(
+            "advertisementForm"
+        );
+
+
+    if (form) {
+
+        form.addEventListener(
+
+            "submit",
+
+            async function(event) {
+
+                event.preventDefault();
+
+                await marketplaceSaveAdvertisement();
+
+            }
+
+        );
+
+
+        form.addEventListener(
+
+            "reset",
+
+            function() {
+
+                setTimeout(
+
+                    function() {
+
+                        MARKETPLACE_STATE
+                            .editingAdvertisementId =
+                            null;
+
+
+                        const button =
+                            document.getElementById(
+                                "saveAdButton"
+                            );
+
+
+                        if (button) {
+
+                            button.textContent =
+                                "💾 Save Advertisement";
+
+                        }
+
+                    },
+
+                    0
+
+                );
+
+            }
+
+        );
+
+    }
+
+
+    const clearButton =
+        document.getElementById(
+            "clearAdButton"
+        );
+
+
+    if (clearButton) {
+
+        clearButton.addEventListener(
+
+            "click",
+
+            function() {
+
+                MARKETPLACE_STATE
+                    .editingAdvertisementId =
+                    null;
+
+            }
+
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   AD CARD EVENTS
+   ========================================================= */
+
+function marketplaceBindAdvertisementListEvents() {
+
+    const container =
+        document.getElementById(
+            "myAdsList"
+        );
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    container.addEventListener(
+
+        "click",
+
+        async function(event) {
+
+
+            const editButton =
+                event.target.closest(
+
+                    "[data-marketplace-edit-ad]"
+
+                );
+
+
+            const deleteButton =
+                event.target.closest(
+
+                    "[data-marketplace-delete-ad]"
+
+                );
+
+
+            const previewButton =
+                event.target.closest(
+
+                    "[data-marketplace-preview-ad]"
+
+                );
+
+
+            if (editButton) {
+
+                await marketplaceEditAdvertisement(
+
+                    editButton.dataset
+                        .marketplaceEditAd
+
+                );
+
+                return;
+
+            }
+
+
+            if (deleteButton) {
+
+                await marketplaceDeleteAdvertisement(
+
+                    deleteButton.dataset
+                        .marketplaceDeleteAd
+
+                );
+
+                return;
+
+            }
+
+
+            if (previewButton) {
+
+                await marketplacePreviewAdvertisement(
+
+                    previewButton.dataset
+                        .marketplacePreviewAd
+
+                );
+
+            }
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   LOAD SAVED COUNTRY
+   ========================================================= */
+
+function marketplaceLoadSavedCountry() {
+
+    const saved =
+        marketplaceLoadJSON(
+
+            ALON_MARKETPLACE_CONFIG
+                .countryStorage,
+
+            ""
+
+        );
+
+
+    MARKETPLACE_STATE.selectedCountry =
+
+        String(
+            saved || ""
+        ).toUpperCase();
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+async function marketplaceInit() {
+
+    if (
+        MARKETPLACE_STATE.initialized
+    ) {
+
+        return;
+
+    }
+
+
+    /* ---------------------------------------------
+       LOAD SAVED DATA
+       --------------------------------------------- */
+
+    const data =
+        marketplaceLoadData();
+
+
+    MARKETPLACE_STATE.products =
+        data.products;
+
+
+    MARKETPLACE_STATE.jobs =
+        data.jobs;
+
+
+    MARKETPLACE_STATE.services =
+        data.services;
+
+
+    MARKETPLACE_STATE.advertisements =
+        data.advertisements;
+
+
+    /* ---------------------------------------------
+       LOAD COUNTRY
+       --------------------------------------------- */
+
+    marketplaceLoadSavedCountry();
+
+
+    /* ---------------------------------------------
+       OPEN MEDIA DATABASE
+       --------------------------------------------- */
+
+    try {
+
+        await marketplaceOpenDatabase();
+
+    } catch (error) {
+
+        console.warn(
+
+            "Marketplace media database unavailable. " +
+            "Text data will still be saved."
+
+        );
+
+    }
+
+
+    /* ---------------------------------------------
+       COUNTRY SELECTORS
+       --------------------------------------------- */
+
+    marketplacePopulateCountrySelect(
+
+        "#country",
+
+        true
+
+    );
+
+
+    marketplacePopulateCountrySelect(
+
+        "#adCountry",
+
+        false
+
+    );
+
+
+    /* ---------------------------------------------
+       RESTORE COUNTRY UI
+       --------------------------------------------- */
+
+    const country =
+        document.getElementById(
+            "country"
+        );
+
+
+    if (
+        country &&
+        MARKETPLACE_STATE.selectedCountry
+    ) {
+
+        country.value =
+            MARKETPLACE_STATE.selectedCountry;
+
+    }
+
+
+    /* ---------------------------------------------
+       EVENTS
+       --------------------------------------------- */
+
+    marketplaceBindSearch();
+
+    marketplaceBindCountryEvents();
+
+    marketplaceBindCategoryEvents();
+
+    marketplaceBindAdvertisementEvents();
+
+    marketplaceBindAdvertisementListEvents();
+
+
+    /* ---------------------------------------------
+       RENDER
+       --------------------------------------------- */
+
+    marketplaceRenderAll();
+
+
+    MARKETPLACE_STATE.initialized =
+        true;
+
+
+    console.log(
+        "ALON HISTORYVERSE 24 Marketplace loaded successfully."
+    );
+
+}
+
+
+/* =========================================================
+   AUTO START
+   ========================================================= */
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+
+        "DOMContentLoaded",
+
+        function() {
+
+            marketplaceInit();
+
+        }
+
+    );
+
+} else {
+
+    marketplaceInit();
+
+}
+
+
+/* =========================================================
+   PUBLIC GLOBAL API
+   ========================================================= */
+
+window.ALON_MARKETPLACE = {
+
+    init:
+        marketplaceInit,
+
+    saveAdvertisement:
+        marketplaceSaveAdvertisement,
+
+    editAdvertisement:
+        marketplaceEditAdvertisement,
+
+    deleteAdvertisement:
+        marketplaceDeleteAdvertisement,
+
+    previewAdvertisement:
+        marketplacePreviewAdvertisement,
+
+    addProduct:
+        marketplaceAddProduct,
+
+    addJob:
+        marketplaceAddJob,
+
+    addService:
+        marketplaceAddService,
+
+    search:
+        marketplaceSearch,
+
+    setCountry:
+        marketplaceSetCountry,
+
+    setCategory:
+        marketplaceSetCategory,
+
+    render:
+        marketplaceRenderAll,
+
+    getProducts:
+        marketplaceGetProducts,
+
+    getJobs:
+        marketplaceGetJobs,
+
+    getServices:
+        marketplaceGetServices,
+
+    getAdvertisements:
+        function() {
+
+            return MARKETPLACE_STATE
+                .advertisements;
+
+        }
+
+};
