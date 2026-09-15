@@ -2,11 +2,13 @@
    ALON HISTORYVERSE 24
    GLOBAL MARKETPLACE ENGINE
    Creator: Baba Thecno Guru
-   Version: 24.0
+   Version: 24.1
    File: marketplace.js
 
    FEATURES
    ---------------------------------------------------------
+   • Marketplace login / profile
+   • Logout
    • Global advertisements
    • Business / Shop listings
    • Products
@@ -30,7 +32,7 @@
 
 
 /* =========================================================
-   GLOBAL CONFIGURATION
+   CONFIGURATION
    ========================================================= */
 
 const ALON_MARKETPLACE_CONFIG = {
@@ -42,13 +44,19 @@ const ALON_MARKETPLACE_CONFIG = {
         "Baba Thecno Guru",
 
     version:
-        "24.0",
+        "24.1",
 
     dataStorage:
         "alon_historyverse_marketplace",
 
     countryStorage:
         "alon_marketplace_country",
+
+    accountStorage:
+        "alon_historyverse_marketplace_account",
+
+    sessionStorage:
+        "alon_historyverse_marketplace_session",
 
     databaseName:
         "ALON_HISTORYVERSE_MARKETPLACE_DB",
@@ -66,7 +74,7 @@ const ALON_MARKETPLACE_CONFIG = {
 
 
 /* =========================================================
-   MARKETPLACE STATE
+   STATE
    ========================================================= */
 
 const MARKETPLACE_STATE = {
@@ -89,16 +97,29 @@ const MARKETPLACE_STATE = {
 
     initialized: false,
 
-    databaseReady: false
+    databaseReady: false,
+
+    loggedIn: false,
+
+    account: {
+
+        mobile: "",
+
+        email: ""
+
+    }
 
 };
 
 
 /* =========================================================
-   SAFE JSON STORAGE
+   JSON STORAGE
    ========================================================= */
 
-function marketplaceLoadJSON(key, fallback) {
+function marketplaceLoadJSON(
+    key,
+    fallback
+) {
 
     try {
 
@@ -111,10 +132,7 @@ function marketplaceLoadJSON(key, fallback) {
 
         }
 
-        const parsed =
-            JSON.parse(saved);
-
-        return parsed;
+        return JSON.parse(saved);
 
     } catch (error) {
 
@@ -130,11 +148,10 @@ function marketplaceLoadJSON(key, fallback) {
 }
 
 
-/* =========================================================
-   SAVE JSON
-   ========================================================= */
-
-function marketplaceSaveJSON(key, value) {
+function marketplaceSaveJSON(
+    key,
+    value
+) {
 
     try {
 
@@ -160,7 +177,7 @@ function marketplaceSaveJSON(key, value) {
 
 
 /* =========================================================
-   LOAD MARKETPLACE DATA
+   MARKETPLACE DATA
    ========================================================= */
 
 function marketplaceLoadData() {
@@ -168,13 +185,19 @@ function marketplaceLoadData() {
     const data =
         marketplaceLoadJSON(
 
-            ALON_MARKETPLACE_CONFIG.dataStorage,
+            ALON_MARKETPLACE_CONFIG
+                .dataStorage,
 
             {
+
                 products: [],
+
                 jobs: [],
+
                 services: [],
+
                 advertisements: []
+
             }
 
         );
@@ -207,15 +230,12 @@ function marketplaceLoadData() {
 }
 
 
-/* =========================================================
-   SAVE MARKETPLACE DATA
-   ========================================================= */
-
 function marketplaceSaveData() {
 
     return marketplaceSaveJSON(
 
-        ALON_MARKETPLACE_CONFIG.dataStorage,
+        ALON_MARKETPLACE_CONFIG
+            .dataStorage,
 
         {
 
@@ -239,10 +259,12 @@ function marketplaceSaveData() {
 
 
 /* =========================================================
-   UNIQUE ID
+   ID
    ========================================================= */
 
-function marketplaceCreateId(prefix) {
+function marketplaceCreateId(
+    prefix
+) {
 
     return (
 
@@ -267,7 +289,9 @@ function marketplaceCreateId(prefix) {
    HTML ESCAPE
    ========================================================= */
 
-function marketplaceEscapeHTML(value) {
+function marketplaceEscapeHTML(
+    value
+) {
 
     if (
         value === null ||
@@ -312,10 +336,13 @@ function marketplaceEscapeHTML(value) {
    URL SAFETY
    ========================================================= */
 
-function marketplaceSafeURL(value) {
+function marketplaceSafeURL(
+    value
+) {
 
     const text =
         String(value || "").trim();
+
 
     if (!text) {
 
@@ -323,14 +350,19 @@ function marketplaceSafeURL(value) {
 
     }
 
+
     try {
 
         const url =
             new URL(text);
 
+
         if (
+
             url.protocol === "http:" ||
+
             url.protocol === "https:"
+
         ) {
 
             return url.href;
@@ -342,6 +374,7 @@ function marketplaceSafeURL(value) {
         return "";
 
     }
+
 
     return "";
 
@@ -369,6 +402,23 @@ function marketplaceGetCountries() {
 
     }
 
+
+    if (
+
+        typeof window.MARKETPLACE_COUNTRIES !==
+        "undefined" &&
+
+        Array.isArray(
+            window.MARKETPLACE_COUNTRIES
+        )
+
+    ) {
+
+        return window.MARKETPLACE_COUNTRIES;
+
+    }
+
+
     return [];
 
 }
@@ -378,10 +428,13 @@ function marketplaceGetCountries() {
    COUNTRY FINDER
    ========================================================= */
 
-function marketplaceFindCountry(code) {
+function marketplaceFindCountry(
+    code
+) {
 
     const countries =
         marketplaceGetCountries();
+
 
     const target =
         String(code || "")
@@ -397,7 +450,9 @@ function marketplaceFindCountry(code) {
                 country.code ||
                 country.iso ||
                 country.isoCode ||
+                country.cca2 ||
                 "";
+
 
             return (
 
@@ -415,7 +470,75 @@ function marketplaceFindCountry(code) {
 
 
 /* =========================================================
-   COUNTRY SELECTOR
+   COUNTRY NAME
+   ========================================================= */
+
+function marketplaceCountryName(
+    code
+) {
+
+    const country =
+        marketplaceFindCountry(code);
+
+
+    if (!country) {
+
+        return String(code || "");
+
+    }
+
+
+    return (
+
+        country.name ||
+
+        country.country ||
+
+        country.countryName ||
+
+        String(code || "")
+
+    );
+
+}
+
+
+/* =========================================================
+   COUNTRY FLAG
+   ========================================================= */
+
+function marketplaceCountryFlag(
+    code
+) {
+
+    const country =
+        marketplaceFindCountry(code);
+
+
+    if (!country) {
+
+        return "";
+
+    }
+
+
+    return (
+
+        country.flag ||
+
+        country.emoji ||
+
+        country.flagEmoji ||
+
+        ""
+
+    );
+
+}
+
+
+/* =========================================================
+   COUNTRY SELECT
    ========================================================= */
 
 function marketplacePopulateCountrySelect(
@@ -424,7 +547,10 @@ function marketplacePopulateCountrySelect(
 ) {
 
     const select =
-        document.querySelector(selector);
+        document.querySelector(
+            selector
+        );
+
 
     if (!select) {
 
@@ -439,6 +565,10 @@ function marketplacePopulateCountrySelect(
 
     if (!countries.length) {
 
+        console.warn(
+            "Country database could not be loaded."
+        );
+
         return;
 
     }
@@ -448,19 +578,13 @@ function marketplacePopulateCountrySelect(
         select.value;
 
 
-    if (includeAll) {
+    select.innerHTML =
 
-        select.innerHTML =
+        includeAll
 
-            '<option value="">All Countries</option>';
+            ? '<option value="">All Countries</option>'
 
-    } else {
-
-        select.innerHTML =
-
-            '<option value="">Select Country</option>';
-
-    }
+            : '<option value="">Select Country</option>';
 
 
     countries.forEach(
@@ -478,6 +602,7 @@ function marketplacePopulateCountrySelect(
                 country.code ||
                 country.iso ||
                 country.isoCode ||
+                country.cca2 ||
                 "";
 
 
@@ -485,11 +610,15 @@ function marketplacePopulateCountrySelect(
 
                 country.name ||
                 country.country ||
+                country.countryName ||
                 "Unknown Country";
 
 
             const flag =
+
                 country.flag ||
+                country.emoji ||
+                country.flagEmoji ||
                 "";
 
 
@@ -497,7 +626,15 @@ function marketplacePopulateCountrySelect(
 
                 country.callingCode ||
                 country.dialCode ||
+                country.phoneCode ||
                 "";
+
+
+            if (!code) {
+
+                return;
+
+            }
 
 
             option.value =
@@ -513,6 +650,10 @@ function marketplacePopulateCountrySelect(
                 ) +
 
                 name +
+
+                " [" +
+                code +
+                "]" +
 
                 (
                     callingCode
@@ -544,9 +685,6 @@ function marketplacePopulateCountrySelect(
 
 /* =========================================================
    INDEXEDDB
-   ---------------------------------------------------------
-   Used for images and videos so large media files are not
-   unnecessarily placed inside localStorage.
    ========================================================= */
 
 let MARKETPLACE_DB = null;
@@ -593,11 +731,15 @@ function marketplaceOpenDatabase() {
 
 
                     if (
+
                         !db.objectStoreNames
                             .contains(
+
                                 ALON_MARKETPLACE_CONFIG
                                     .mediaStore
+
                             )
+
                     ) {
 
                         db.createObjectStore(
@@ -606,8 +748,10 @@ function marketplaceOpenDatabase() {
                                 .mediaStore,
 
                             {
+
                                 keyPath:
                                     "id"
+
                             }
 
                         );
@@ -623,8 +767,10 @@ function marketplaceOpenDatabase() {
                     MARKETPLACE_DB =
                         event.target.result;
 
+
                     MARKETPLACE_STATE
                         .databaseReady = true;
+
 
                     resolve(
                         MARKETPLACE_DB
@@ -885,7 +1031,9 @@ function marketplaceDeleteMedia(
 
 
             const request =
-                store.delete(mediaId);
+                store.delete(
+                    mediaId
+                );
 
 
             request.onsuccess =
@@ -911,28 +1059,29 @@ function marketplaceDeleteMedia(
 
 
 /* =========================================================
-   DELETE ALL MEDIA FOR AD
+   DELETE AD MEDIA
    ========================================================= */
 
 function marketplaceDeleteAdvertisementMedia(
     ad
 ) {
 
+    const ids = [
+
+        ...(Array.isArray(ad.imageIds)
+            ? ad.imageIds
+            : []),
+
+        ad.videoId || null
+
+    ]
+
+        .filter(Boolean);
+
+
     return Promise.all(
 
-        [
-
-            ...(Array.isArray(ad.imageIds)
-                ? ad.imageIds
-                : []),
-
-            ad.videoId || null
-
-        ]
-
-        .filter(Boolean)
-
-        .map(
+        ids.map(
 
             function(id) {
 
@@ -950,30 +1099,644 @@ function marketplaceDeleteAdvertisementMedia(
 
 
 /* =========================================================
-   IMAGE PREVIEW URL
+   LOGIN / ACCOUNT
    ========================================================= */
 
-function marketplaceBlobURL(
-    blob
-) {
+function marketplaceGetAccount() {
 
-    if (!blob) {
+    const account =
+        marketplaceLoadJSON(
 
-        return "";
+            ALON_MARKETPLACE_CONFIG
+                .accountStorage,
 
-    }
+            null
 
-    try {
-
-        return URL.createObjectURL(
-            blob
         );
 
-    } catch (error) {
 
-        return "";
+    if (
+        !account ||
+        typeof account !== "object"
+    ) {
+
+        return {
+
+            mobile: "",
+
+            email: ""
+
+        };
 
     }
+
+
+    return {
+
+        mobile:
+            String(
+                account.mobile || ""
+            ),
+
+        email:
+            String(
+                account.email || ""
+            )
+
+    };
+
+}
+
+
+function marketplaceGetSession() {
+
+    const session =
+        marketplaceLoadJSON(
+
+            ALON_MARKETPLACE_CONFIG
+                .sessionStorage,
+
+            null
+
+        );
+
+
+    if (
+        !session ||
+        typeof session !== "object"
+    ) {
+
+        return null;
+
+    }
+
+
+    if (!session.active) {
+
+        return null;
+
+    }
+
+
+    return session;
+
+}
+
+
+/* =========================================================
+   UPDATE ACCOUNT UI
+   ========================================================= */
+
+function marketplaceUpdateAccountUI(
+    statusMessage
+) {
+
+    const loginBox =
+        document.getElementById(
+            "marketplaceLoginBox"
+        );
+
+
+    const profileBox =
+        document.getElementById(
+            "marketplaceProfileBox"
+        );
+
+
+    const profileEmail =
+        document.getElementById(
+            "marketplaceProfileEmail"
+        );
+
+
+    const status =
+        document.getElementById(
+            "marketplaceLoginStatus"
+        );
+
+
+    if (
+        MARKETPLACE_STATE.loggedIn
+    ) {
+
+        if (loginBox) {
+
+            loginBox.style.display =
+                "none";
+
+        }
+
+
+        if (profileBox) {
+
+            profileBox.style.display =
+                "block";
+
+        }
+
+
+        if (profileEmail) {
+
+            profileEmail.textContent =
+
+                MARKETPLACE_STATE
+                    .account
+                    .email ||
+
+                MARKETPLACE_STATE
+                    .account
+                    .mobile ||
+
+                "Marketplace User";
+
+        }
+
+
+        if (status) {
+
+            status.textContent =
+                "";
+
+            status.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    if (loginBox) {
+
+        loginBox.style.display =
+            "block";
+
+    }
+
+
+    if (profileBox) {
+
+        profileBox.style.display =
+            "none";
+
+    }
+
+
+    if (
+        statusMessage &&
+        status
+    ) {
+
+        status.textContent =
+            statusMessage;
+
+        status.classList.add(
+            "show"
+        );
+
+
+        window.setTimeout(
+
+            function() {
+
+                status.textContent =
+                    "";
+
+                status.classList.remove(
+                    "show"
+                );
+
+            },
+
+            2500
+
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGIN
+   ---------------------------------------------------------
+   This is a local browser session.
+   Password is never stored.
+   ========================================================= */
+
+function marketplaceLogin() {
+
+    const mobileInput =
+        document.getElementById(
+            "marketplaceLoginMobile"
+        );
+
+
+    const emailInput =
+        document.getElementById(
+            "marketplaceLoginEmail"
+        );
+
+
+    const passwordInput =
+        document.getElementById(
+            "marketplaceLoginPassword"
+        );
+
+
+    const mobile =
+        mobileInput
+            ? String(
+                mobileInput.value || ""
+              ).trim()
+            : "";
+
+
+    const email =
+        emailInput
+            ? String(
+                emailInput.value || ""
+              ).trim()
+              .toLowerCase()
+            : "";
+
+
+    const password =
+        passwordInput
+            ? String(
+                passwordInput.value || ""
+              )
+            : "";
+
+
+    if (!email) {
+
+        marketplaceUpdateAccountUI(
+            "Please enter your email."
+        );
+
+        return false;
+
+    }
+
+
+    if (
+        !email.includes("@") ||
+        !email.includes(".")
+    ) {
+
+        marketplaceUpdateAccountUI(
+            "Please enter a valid email."
+        );
+
+        return false;
+
+    }
+
+
+    if (!password) {
+
+        marketplaceUpdateAccountUI(
+            "Please enter your password."
+        );
+
+        return false;
+
+    }
+
+
+    if (password.length < 4) {
+
+        marketplaceUpdateAccountUI(
+            "Password must contain at least 4 characters."
+        );
+
+        return false;
+
+    }
+
+
+    const account = {
+
+        mobile:
+            mobile,
+
+        email:
+            email,
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    /*
+     * Only account identity is saved.
+     * Password is intentionally NOT saved.
+     */
+
+    marketplaceSaveJSON(
+
+        ALON_MARKETPLACE_CONFIG
+            .accountStorage,
+
+        account
+
+    );
+
+
+    marketplaceSaveJSON(
+
+        ALON_MARKETPLACE_CONFIG
+            .sessionStorage,
+
+        {
+
+            active:
+                true,
+
+            mobile:
+                mobile,
+
+            email:
+                email,
+
+            loginTime:
+                new Date().toISOString()
+
+        }
+
+    );
+
+
+    MARKETPLACE_STATE.loggedIn =
+        true;
+
+
+    MARKETPLACE_STATE.account = {
+
+        mobile:
+            mobile,
+
+        email:
+            email
+
+    };
+
+
+    if (passwordInput) {
+
+        passwordInput.value =
+            "";
+
+    }
+
+
+    marketplaceUpdateAccountUI();
+
+
+    marketplaceRenderAdvertisements();
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+function marketplaceLogout() {
+
+    marketplaceSaveJSON(
+
+        ALON_MARKETPLACE_CONFIG
+            .sessionStorage,
+
+        {
+
+            active:
+                false
+
+        }
+
+    );
+
+
+    MARKETPLACE_STATE.loggedIn =
+        false;
+
+
+    MARKETPLACE_STATE.account = {
+
+        mobile: "",
+
+        email: ""
+
+    };
+
+
+    marketplaceUpdateAccountUI(
+        "You have been logged out."
+    );
+
+
+    marketplaceRenderAdvertisements();
+
+}
+
+
+/* =========================================================
+   RESTORE LOGIN
+   ========================================================= */
+
+function marketplaceRestoreLogin() {
+
+    const session =
+        marketplaceGetSession();
+
+
+    if (
+        session &&
+        session.email
+    ) {
+
+        MARKETPLACE_STATE.loggedIn =
+            true;
+
+
+        MARKETPLACE_STATE.account = {
+
+            mobile:
+                String(
+                    session.mobile || ""
+                ),
+
+            email:
+                String(
+                    session.email || ""
+                )
+
+        };
+
+
+        marketplaceUpdateAccountUI();
+
+
+        return true;
+
+    }
+
+
+    MARKETPLACE_STATE.loggedIn =
+        false;
+
+
+    MARKETPLACE_STATE.account =
+        marketplaceGetAccount();
+
+
+    marketplaceUpdateAccountUI();
+
+
+    return false;
+
+}
+
+
+/* =========================================================
+   LOGIN EVENTS
+   ========================================================= */
+
+function marketplaceBindLoginEvents() {
+
+    const loginButton =
+        document.getElementById(
+            "marketplaceLoginButton"
+        );
+
+
+    if (loginButton) {
+
+        loginButton.addEventListener(
+
+            "click",
+
+            function() {
+
+                marketplaceLogin();
+
+            }
+
+        );
+
+    }
+
+
+    const logoutButton =
+        document.getElementById(
+            "marketplaceLogoutButton"
+        );
+
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+
+            "click",
+
+            function() {
+
+                marketplaceLogout();
+
+            }
+
+        );
+
+    }
+
+
+    const passwordInput =
+        document.getElementById(
+            "marketplaceLoginPassword"
+        );
+
+
+    if (passwordInput) {
+
+        passwordInput.addEventListener(
+
+            "keydown",
+
+            function(event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    marketplaceLogin();
+
+                }
+
+            }
+
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   REQUIRE LOGIN
+   ========================================================= */
+
+function marketplaceRequireLogin() {
+
+    if (
+        MARKETPLACE_STATE.loggedIn
+    ) {
+
+        return true;
+
+    }
+
+
+    marketplaceUpdateAccountUI(
+
+        "Please login first to manage your advertisements."
+
+    );
+
+
+    const account =
+        document.getElementById(
+            "marketplaceAccount"
+        );
+
+
+    if (account) {
+
+        account.scrollIntoView({
+
+            behavior:
+                "smooth",
+
+            block:
+                "start"
+
+        });
+
+    }
+
+
+    return false;
 
 }
 
@@ -987,12 +1750,17 @@ function marketplaceGetAdvertisementForm() {
     function value(id) {
 
         const element =
-            document.getElementById(id);
+            document.getElementById(
+                id
+            );
+
 
         return element
+
             ? String(
                 element.value || ""
               ).trim()
+
             : "";
 
     }
@@ -1026,7 +1794,8 @@ function marketplaceGetAdvertisementForm() {
 
         currency:
             value("adCurrency") ||
-            ALON_MARKETPLACE_CONFIG.currency,
+            ALON_MARKETPLACE_CONFIG
+                .currency,
 
         offer:
             value("adOffer"),
@@ -1052,7 +1821,7 @@ function marketplaceGetAdvertisementForm() {
 
 
 /* =========================================================
-   GET FILE INPUTS
+   FILE INPUTS
    ========================================================= */
 
 function marketplaceGetAdvertisementFiles() {
@@ -1072,18 +1841,24 @@ function marketplaceGetAdvertisementFiles() {
     return {
 
         images:
+
             imageInput &&
             imageInput.files
+
                 ? Array.from(
                     imageInput.files
                   )
+
                 : [],
 
         video:
+
             videoInput &&
             videoInput.files &&
             videoInput.files.length
+
                 ? videoInput.files[0]
+
                 : null
 
     };
@@ -1096,6 +1871,15 @@ function marketplaceGetAdvertisementFiles() {
    ========================================================= */
 
 async function marketplaceSaveAdvertisement() {
+
+    if (
+        !marketplaceRequireLogin()
+    ) {
+
+        return null;
+
+    }
+
 
     const form =
         marketplaceGetAdvertisementForm();
@@ -1113,7 +1897,8 @@ async function marketplaceSaveAdvertisement() {
 
 
     const ads =
-        MARKETPLACE_STATE.advertisements;
+        MARKETPLACE_STATE
+            .advertisements;
 
 
     let adId =
@@ -1212,21 +1997,45 @@ async function marketplaceSaveAdvertisement() {
             ),
 
         imageIds:
+
             existing &&
             Array.isArray(
                 existing.imageIds
             )
-                ? existing.imageIds
+
+                ? [
+                    ...existing.imageIds
+                  ]
+
                 : [],
 
         videoId:
+
             existing
-                ? existing.videoId || null
+
+                ? (
+                    existing.videoId ||
+                    null
+                  )
+
                 : null,
 
+        ownerEmail:
+            MARKETPLACE_STATE
+                .account
+                .email,
+
+        ownerMobile:
+            MARKETPLACE_STATE
+                .account
+                .mobile,
+
         createdAt:
+
             existing
+
                 ? existing.createdAt
+
                 : new Date().toISOString(),
 
         updatedAt:
@@ -1236,7 +2045,7 @@ async function marketplaceSaveAdvertisement() {
 
 
     /* ---------------------------------------------
-       STORE NEW IMAGES
+       NEW IMAGES
        --------------------------------------------- */
 
     if (
@@ -1248,11 +2057,24 @@ async function marketplaceSaveAdvertisement() {
             const image of files.images
         ) {
 
+            if (
+                !image.type.startsWith(
+                    "image/"
+                )
+            ) {
+
+                continue;
+
+            }
+
+
             const imageId =
                 await marketplaceStoreMedia(
 
                     image,
+
                     adId,
+
                     "image"
 
                 );
@@ -1272,7 +2094,7 @@ async function marketplaceSaveAdvertisement() {
 
 
     /* ---------------------------------------------
-       STORE VIDEO
+       VIDEO
        --------------------------------------------- */
 
     if (
@@ -1293,7 +2115,9 @@ async function marketplaceSaveAdvertisement() {
             await marketplaceStoreMedia(
 
                 files.video,
+
                 adId,
+
                 "video"
 
             );
@@ -1302,7 +2126,7 @@ async function marketplaceSaveAdvertisement() {
 
 
     /* ---------------------------------------------
-       REPLACE OR ADD
+       REPLACE / ADD
        --------------------------------------------- */
 
     if (existing) {
@@ -1336,14 +2160,26 @@ async function marketplaceSaveAdvertisement() {
 
 
     MARKETPLACE_STATE
-        .advertisements = ads;
+        .advertisements =
+        ads;
 
 
-    marketplaceSaveData();
+    if (
+        !marketplaceSaveData()
+    ) {
+
+        alert(
+            "Advertisement could not be saved. Browser storage may be full."
+        );
+
+        return null;
+
+    }
 
 
     MARKETPLACE_STATE
-        .editingAdvertisementId = null;
+        .editingAdvertisementId =
+        null;
 
 
     marketplaceClearAdvertisementForm();
@@ -1355,7 +2191,9 @@ async function marketplaceSaveAdvertisement() {
     alert(
 
         existing
+
             ? "Advertisement updated successfully."
+
             : "Advertisement saved successfully."
 
     );
@@ -1367,7 +2205,7 @@ async function marketplaceSaveAdvertisement() {
 
 
 /* =========================================================
-   CLEAR ADVERTISEMENT FORM
+   CLEAR FORM
    ========================================================= */
 
 function marketplaceClearAdvertisementForm() {
@@ -1386,18 +2224,19 @@ function marketplaceClearAdvertisementForm() {
 
 
     MARKETPLACE_STATE
-        .editingAdvertisementId = null;
+        .editingAdvertisementId =
+        null;
 
 
-    const saveButton =
+    const button =
         document.getElementById(
             "saveAdButton"
         );
 
 
-    if (saveButton) {
+    if (button) {
 
-        saveButton.textContent =
+        button.textContent =
             "💾 Save Advertisement";
 
     }
@@ -1412,6 +2251,15 @@ function marketplaceClearAdvertisementForm() {
 async function marketplaceEditAdvertisement(
     id
 ) {
+
+    if (
+        !marketplaceRequireLogin()
+    ) {
+
+        return;
+
+    }
+
 
     const ad =
         MARKETPLACE_STATE
@@ -1434,6 +2282,30 @@ async function marketplaceEditAdvertisement(
     }
 
 
+    /*
+     * Only the owner can edit.
+     */
+
+    if (
+
+        ad.ownerEmail &&
+
+        ad.ownerEmail !==
+            MARKETPLACE_STATE
+                .account
+                .email
+
+    ) {
+
+        alert(
+            "You can edit only your own advertisement."
+        );
+
+        return;
+
+    }
+
+
     function setValue(
         elementId,
         value
@@ -1443,6 +2315,7 @@ async function marketplaceEditAdvertisement(
             document.getElementById(
                 elementId
             );
+
 
         if (element) {
 
@@ -1459,70 +2332,84 @@ async function marketplaceEditAdvertisement(
         ad.title
     );
 
+
     setValue(
         "businessName",
         ad.businessName
     );
+
 
     setValue(
         "adCategory",
         ad.category
     );
 
+
     setValue(
         "adDescription",
         ad.description
     );
+
 
     setValue(
         "adCountry",
         ad.country
     );
 
+
     setValue(
         "adState",
         ad.state
     );
+
 
     setValue(
         "adCity",
         ad.city
     );
 
+
     setValue(
         "adPrice",
         ad.price
     );
+
 
     setValue(
         "adCurrency",
         ad.currency
     );
 
+
     setValue(
         "adOffer",
         ad.offer
     );
+
 
     setValue(
         "adPhone",
         ad.phone
     );
 
+
     setValue(
         "adEmail",
         ad.email
     );
+
 
     setValue(
         "adWebsite",
         ad.website
     );
 
+
     setValue(
         "adSocial",
         ad.social
     );
+
 
     setValue(
         "adVideoURL",
@@ -1531,7 +2418,8 @@ async function marketplaceEditAdvertisement(
 
 
     MARKETPLACE_STATE
-        .editingAdvertisementId = id;
+        .editingAdvertisementId =
+        id;
 
 
     const saveButton =
@@ -1579,6 +2467,15 @@ async function marketplaceDeleteAdvertisement(
     id
 ) {
 
+    if (
+        !marketplaceRequireLogin()
+    ) {
+
+        return;
+
+    }
+
+
     const index =
         MARKETPLACE_STATE
             .advertisements
@@ -1603,6 +2500,26 @@ async function marketplaceDeleteAdvertisement(
     const ad =
         MARKETPLACE_STATE
             .advertisements[index];
+
+
+    if (
+
+        ad.ownerEmail &&
+
+        ad.ownerEmail !==
+            MARKETPLACE_STATE
+                .account
+                .email
+
+    ) {
+
+        alert(
+            "You can delete only your own advertisement."
+        );
+
+        return;
+
+    }
 
 
     const confirmed =
@@ -1637,8 +2554,10 @@ async function marketplaceDeleteAdvertisement(
 
 
     if (
+
         MARKETPLACE_STATE
             .editingAdvertisementId === id
+
     ) {
 
         marketplaceClearAdvertisementForm();
@@ -1652,7 +2571,7 @@ async function marketplaceDeleteAdvertisement(
 
 
 /* =========================================================
-   PREVIEW ADVERTISEMENT
+   PREVIEW
    ========================================================= */
 
 async function marketplacePreviewAdvertisement(
@@ -1680,37 +2599,39 @@ async function marketplacePreviewAdvertisement(
     }
 
 
-    let imageText =
-        "";
+    let imageText = "";
 
 
     if (
+
         Array.isArray(
             ad.imageIds
         ) &&
+
         ad.imageIds.length
+
     ) {
 
         imageText =
+
             "\nImages: " +
             ad.imageIds.length;
 
     }
 
 
-    let videoText =
-        "";
+    const videoText =
 
+        (
 
-    if (
-        ad.videoId ||
-        ad.videoURL
-    ) {
+            ad.videoId ||
+            ad.videoURL
 
-        videoText =
-            "\nVideo: Available";
+        )
 
-    }
+            ? "\nVideo: Available"
+
+            : "";
 
 
     alert(
@@ -1720,49 +2641,86 @@ async function marketplacePreviewAdvertisement(
         "\n\n" +
 
         (
+
             ad.businessName
+
                 ? "Business: " +
                   ad.businessName +
                   "\n"
+
                 : ""
+
         ) +
 
         (
+
             ad.description
+
                 ? "\n" +
                   ad.description +
                   "\n"
+
                 : ""
+
         ) +
 
         (
+
             ad.country
+
                 ? "\nCountry: " +
-                  ad.country
+                  marketplaceCountryName(
+                      ad.country
+                  )
+
                 : ""
+
         ) +
 
         (
+
+            ad.state
+
+                ? "\nState: " +
+                  ad.state
+
+                : ""
+
+        ) +
+
+        (
+
             ad.city
+
                 ? "\nCity: " +
                   ad.city
+
                 : ""
+
         ) +
 
         (
+
             ad.price
+
                 ? "\nPrice: " +
                   ad.currency +
                   " " +
                   ad.price
+
                 : ""
+
         ) +
 
         (
+
             ad.offer
+
                 ? "\nOffer: " +
                   ad.offer
+
                 : ""
+
         ) +
 
         imageText +
@@ -1775,7 +2733,7 @@ async function marketplacePreviewAdvertisement(
 
 
 /* =========================================================
-   RENDER ADVERTISEMENT CARDS
+   RENDER ADVERTISEMENTS
    ========================================================= */
 
 function marketplaceRenderAdvertisements() {
@@ -1793,16 +2751,64 @@ function marketplaceRenderAdvertisements() {
     }
 
 
-    const ads =
+    let ads =
         MARKETPLACE_STATE
             .advertisements;
+
+
+    /*
+     * When logged in, My Ads shows the user's ads.
+     */
+
+    if (
+        MARKETPLACE_STATE.loggedIn
+    ) {
+
+        const email =
+            MARKETPLACE_STATE
+                .account
+                .email;
+
+
+        ads =
+            ads.filter(
+
+                function(ad) {
+
+                    /*
+                     * Old ads without ownerEmail are
+                     * still displayed for compatibility.
+                     */
+
+                    return (
+
+                        !ad.ownerEmail ||
+
+                        ad.ownerEmail ===
+                            email
+
+                    );
+
+                }
+
+            );
+
+    } else {
+
+        ads = [];
+
+    }
 
 
     if (!ads.length) {
 
         container.innerHTML =
 
-            "<div>No advertisements created yet.</div>";
+            MARKETPLACE_STATE.loggedIn
+
+                ? "<div>No advertisements created yet.</div>"
+
+                : "<div>Login to view and manage your advertisements.</div>";
 
         return;
 
@@ -1824,12 +2830,14 @@ function marketplaceRenderAdvertisements() {
 
 
             card.className =
-                "ah-card";
+                "ah-card marketplace-ad-card";
 
 
             const location = [
 
-                ad.country,
+                marketplaceCountryName(
+                    ad.country
+                ),
 
                 ad.state,
 
@@ -1847,31 +2855,42 @@ function marketplaceRenderAdvertisements() {
             const mediaInfo =
 
                 (
+
                     Array.isArray(
                         ad.imageIds
                     ) &&
+
                     ad.imageIds.length
+
                 )
 
-                    ? (
+                    ?
+
                         "<p>🖼️ " +
                         ad.imageIds.length +
                         " image(s)</p>"
-                      )
 
-                    : "";
+                    :
+
+                        "";
 
 
             const videoInfo =
 
                 (
+
                     ad.videoId ||
                     ad.videoURL
+
                 )
 
-                    ? "<p>🎥 Video available</p>"
+                    ?
 
-                    : "";
+                        "<p>🎥 Video available</p>"
+
+                    :
+
+                        "";
 
 
             card.innerHTML = `
@@ -1882,9 +2901,12 @@ function marketplaceRenderAdvertisements() {
                     )}
                 </h3>
 
+
                 ${
                     ad.businessName
+
                         ? `
+
                             <p>
                                 <strong>
                                     Business:
@@ -1894,25 +2916,56 @@ function marketplaceRenderAdvertisements() {
                                     ad.businessName
                                 )}
                             </p>
+
                           `
+
                         : ""
                 }
 
+
+                ${
+                    ad.category
+
+                        ? `
+
+                            <p>
+                                <strong>
+                                    Category:
+                                </strong>
+
+                                ${marketplaceEscapeHTML(
+                                    ad.category
+                                )}
+                            </p>
+
+                          `
+
+                        : ""
+                }
+
+
                 ${
                     ad.description
+
                         ? `
+
                             <p>
                                 ${marketplaceEscapeHTML(
                                     ad.description
                                 )}
                             </p>
+
                           `
+
                         : ""
                 }
 
+
                 ${
                     location
+
                         ? `
+
                             <p>
                                 <strong>
                                     📍
@@ -1922,13 +2975,18 @@ function marketplaceRenderAdvertisements() {
                                     location
                                 )}
                             </p>
+
                           `
+
                         : ""
                 }
 
+
                 ${
                     ad.price
+
                         ? `
+
                             <p>
                                 <strong>
                                     💰
@@ -1942,13 +3000,18 @@ function marketplaceRenderAdvertisements() {
                                     ad.price
                                 )}
                             </p>
+
                           `
+
                         : ""
                 }
 
+
                 ${
                     ad.offer
+
                         ? `
+
                             <p>
                                 <strong>
                                     Offer:
@@ -1958,15 +3021,55 @@ function marketplaceRenderAdvertisements() {
                                     ad.offer
                                 )}
                             </p>
+
                           `
+
                         : ""
                 }
+
 
                 ${mediaInfo}
 
                 ${videoInfo}
 
-                <div>
+
+                ${
+                    ad.email
+
+                        ? `
+
+                            <p>
+                                📧
+                                ${marketplaceEscapeHTML(
+                                    ad.email
+                                )}
+                            </p>
+
+                          `
+
+                        : ""
+                }
+
+
+                ${
+                    ad.phone
+
+                        ? `
+
+                            <p>
+                                📞
+                                ${marketplaceEscapeHTML(
+                                    ad.phone
+                                )}
+                            </p>
+
+                          `
+
+                        : ""
+                }
+
+
+                <div class="marketplace-ad-actions">
 
                     <button
                         type="button"
@@ -1977,6 +3080,7 @@ function marketplaceRenderAdvertisements() {
                         ✏️ Edit
                     </button>
 
+
                     <button
                         type="button"
                         data-marketplace-delete-ad="${marketplaceEscapeHTML(
@@ -1985,6 +3089,7 @@ function marketplaceRenderAdvertisements() {
                     >
                         🗑️ Delete
                     </button>
+
 
                     <button
                         type="button"
@@ -2012,7 +3117,7 @@ function marketplaceRenderAdvertisements() {
 
 
 /* =========================================================
-   PRODUCT ADD
+   PRODUCTS
    ========================================================= */
 
 function marketplaceAddProduct(
@@ -2047,11 +3152,13 @@ function marketplaceAddProduct(
 
         currency:
             product.currency ||
-            ALON_MARKETPLACE_CONFIG.currency,
+            ALON_MARKETPLACE_CONFIG
+                .currency,
 
         country:
             product.country ||
-            MARKETPLACE_STATE.selectedCountry ||
+            MARKETPLACE_STATE
+                .selectedCountry ||
             "",
 
         image:
@@ -2080,13 +3187,14 @@ function marketplaceAddProduct(
     };
 
 
-    MARKETPLACE_STATE.products.push(
-        item
-    );
+    MARKETPLACE_STATE
+        .products
+        .push(
+            item
+        );
 
 
     marketplaceSaveData();
-
 
     marketplaceRenderAll();
 
@@ -2097,7 +3205,7 @@ function marketplaceAddProduct(
 
 
 /* =========================================================
-   JOB ADD
+   JOBS
    ========================================================= */
 
 function marketplaceAddJob(
@@ -2131,7 +3239,8 @@ function marketplaceAddJob(
 
         country:
             job.country ||
-            MARKETPLACE_STATE.selectedCountry ||
+            MARKETPLACE_STATE
+                .selectedCountry ||
             "",
 
         city:
@@ -2164,13 +3273,14 @@ function marketplaceAddJob(
     };
 
 
-    MARKETPLACE_STATE.jobs.push(
-        item
-    );
+    MARKETPLACE_STATE
+        .jobs
+        .push(
+            item
+        );
 
 
     marketplaceSaveData();
-
 
     marketplaceRenderAll();
 
@@ -2181,7 +3291,7 @@ function marketplaceAddJob(
 
 
 /* =========================================================
-   SERVICE ADD
+   SERVICES
    ========================================================= */
 
 function marketplaceAddService(
@@ -2216,11 +3326,13 @@ function marketplaceAddService(
 
         currency:
             service.currency ||
-            ALON_MARKETPLACE_CONFIG.currency,
+            ALON_MARKETPLACE_CONFIG
+                .currency,
 
         country:
             service.country ||
-            MARKETPLACE_STATE.selectedCountry ||
+            MARKETPLACE_STATE
+                .selectedCountry ||
             "",
 
         city:
@@ -2249,13 +3361,14 @@ function marketplaceAddService(
     };
 
 
-    MARKETPLACE_STATE.services.push(
-        item
-    );
+    MARKETPLACE_STATE
+        .services
+        .push(
+            item
+        );
 
 
     marketplaceSaveData();
-
 
     marketplaceRenderAll();
 
@@ -2337,7 +3450,7 @@ function marketplaceSetCountry(
 
 
 /* =========================================================
-   COMMON FILTER
+   FILTER
    ========================================================= */
 
 function marketplaceFilterItem(
@@ -2345,15 +3458,18 @@ function marketplaceFilterItem(
 ) {
 
     const search =
-        MARKETPLACE_STATE.searchText;
+        MARKETPLACE_STATE
+            .searchText;
 
 
     const category =
-        MARKETPLACE_STATE.category;
+        MARKETPLACE_STATE
+            .category;
 
 
     const country =
-        MARKETPLACE_STATE.selectedCountry;
+        MARKETPLACE_STATE
+            .selectedCountry;
 
 
     const searchable = [
@@ -2376,7 +3492,15 @@ function marketplaceFilterItem(
 
         item.state,
 
-        item.country
+        item.country,
+
+        item.email,
+
+        item.phone,
+
+        item.salary,
+
+        item.price
 
     ]
 
@@ -2388,10 +3512,13 @@ function marketplaceFilterItem(
 
 
     if (
+
         search &&
+
         !searchable.includes(
             search
         )
+
     ) {
 
         return false;
@@ -2400,11 +3527,14 @@ function marketplaceFilterItem(
 
 
     if (
+
         category &&
+
         String(
             item.category || ""
         ).toLowerCase() !==
         category
+
     ) {
 
         return false;
@@ -2413,11 +3543,14 @@ function marketplaceFilterItem(
 
 
     if (
+
         country &&
+
         String(
             item.country || ""
         ).toUpperCase() !==
         country
+
     ) {
 
         return false;
@@ -2501,6 +3634,7 @@ function marketplaceRenderProducts() {
 
 
     container.innerHTML =
+
         products.map(
 
             function(product) {
@@ -2523,22 +3657,29 @@ function marketplaceRenderProducts() {
 
                         ${
                             product.price
+
                                 ? `
+
                                     <strong>
                                         ${marketplaceEscapeHTML(
                                             product.currency
                                         )}
+
                                         ${marketplaceEscapeHTML(
                                             product.price
                                         )}
                                     </strong>
+
                                   `
+
                                 : ""
                         }
 
                         <p>
                             ${marketplaceEscapeHTML(
-                                product.country
+                                marketplaceCountryName(
+                                    product.country
+                                )
                             )}
                         </p>
 
@@ -2587,6 +3728,7 @@ function marketplaceRenderJobs() {
 
 
     container.innerHTML =
+
         jobs.map(
 
             function(job) {
@@ -2603,7 +3745,9 @@ function marketplaceRenderJobs() {
 
                         ${
                             job.company
+
                                 ? `
+
                                     <p>
                                         <strong>
                                             ${marketplaceEscapeHTML(
@@ -2611,7 +3755,9 @@ function marketplaceRenderJobs() {
                                             )}
                                         </strong>
                                     </p>
+
                                   `
+
                                 : ""
                         }
 
@@ -2623,17 +3769,22 @@ function marketplaceRenderJobs() {
 
                         <p>
                             ${marketplaceEscapeHTML(
-                                job.country
+                                marketplaceCountryName(
+                                    job.country
+                                )
                             )}
 
                             ${
                                 job.city
+
                                     ? " • " +
                                       marketplaceEscapeHTML(
                                           job.city
                                       )
+
                                     : ""
                             }
+
                         </p>
 
                     </article>
@@ -2681,6 +3832,7 @@ function marketplaceRenderServices() {
 
 
     container.innerHTML =
+
         services.map(
 
             function(service) {
@@ -2703,22 +3855,29 @@ function marketplaceRenderServices() {
 
                         ${
                             service.price
+
                                 ? `
+
                                     <strong>
                                         ${marketplaceEscapeHTML(
                                             service.currency
                                         )}
+
                                         ${marketplaceEscapeHTML(
                                             service.price
                                         )}
                                     </strong>
+
                                   `
+
                                 : ""
                         }
 
                         <p>
                             ${marketplaceEscapeHTML(
-                                service.country
+                                marketplaceCountryName(
+                                    service.country
+                                )
                             )}
                         </p>
 
@@ -2751,7 +3910,7 @@ function marketplaceRenderAll() {
 
 
 /* =========================================================
-   SEARCH FORM
+   SEARCH EVENTS
    ========================================================= */
 
 function marketplaceBindSearch() {
@@ -3005,7 +4164,7 @@ function marketplaceBindAdvertisementEvents() {
 
 
 /* =========================================================
-   AD CARD EVENTS
+   AD LIST EVENTS
    ========================================================= */
 
 function marketplaceBindAdvertisementListEvents() {
@@ -3028,7 +4187,6 @@ function marketplaceBindAdvertisementListEvents() {
         "click",
 
         async function(event) {
-
 
             const editButton =
                 event.target.closest(
@@ -3101,7 +4259,7 @@ function marketplaceBindAdvertisementListEvents() {
 
 
 /* =========================================================
-   LOAD SAVED COUNTRY
+   SAVED COUNTRY
    ========================================================= */
 
 function marketplaceLoadSavedCountry() {
@@ -3117,7 +4275,8 @@ function marketplaceLoadSavedCountry() {
         );
 
 
-    MARKETPLACE_STATE.selectedCountry =
+    MARKETPLACE_STATE
+        .selectedCountry =
 
         String(
             saved || ""
@@ -3142,7 +4301,7 @@ async function marketplaceInit() {
 
 
     /* ---------------------------------------------
-       LOAD SAVED DATA
+       LOAD DATA
        --------------------------------------------- */
 
     const data =
@@ -3166,14 +4325,14 @@ async function marketplaceInit() {
 
 
     /* ---------------------------------------------
-       LOAD COUNTRY
+       COUNTRY
        --------------------------------------------- */
 
     marketplaceLoadSavedCountry();
 
 
     /* ---------------------------------------------
-       OPEN MEDIA DATABASE
+       DATABASE
        --------------------------------------------- */
 
     try {
@@ -3185,7 +4344,9 @@ async function marketplaceInit() {
         console.warn(
 
             "Marketplace media database unavailable. " +
-            "Text data will still be saved."
+            "Text data will still be saved.",
+
+            error
 
         );
 
@@ -3215,7 +4376,7 @@ async function marketplaceInit() {
 
 
     /* ---------------------------------------------
-       RESTORE COUNTRY UI
+       RESTORE COUNTRY
        --------------------------------------------- */
 
     const country =
@@ -3225,14 +4386,28 @@ async function marketplaceInit() {
 
 
     if (
+
         country &&
-        MARKETPLACE_STATE.selectedCountry
+
+        MARKETPLACE_STATE
+            .selectedCountry
+
     ) {
 
         country.value =
-            MARKETPLACE_STATE.selectedCountry;
+            MARKETPLACE_STATE
+                .selectedCountry;
 
     }
+
+
+    /* ---------------------------------------------
+       LOGIN
+       --------------------------------------------- */
+
+    marketplaceRestoreLogin();
+
+    marketplaceBindLoginEvents();
 
 
     /* ---------------------------------------------
@@ -3273,8 +4448,10 @@ async function marketplaceInit() {
    ========================================================= */
 
 if (
+
     document.readyState ===
     "loading"
+
 ) {
 
     document.addEventListener(
@@ -3297,13 +4474,46 @@ if (
 
 
 /* =========================================================
-   PUBLIC GLOBAL API
+   PUBLIC API
    ========================================================= */
 
 window.ALON_MARKETPLACE = {
 
     init:
         marketplaceInit,
+
+    login:
+        marketplaceLogin,
+
+    logout:
+        marketplaceLogout,
+
+    isLoggedIn:
+        function() {
+
+            return MARKETPLACE_STATE
+                .loggedIn;
+
+        },
+
+    getAccount:
+        function() {
+
+            return {
+
+                mobile:
+                    MARKETPLACE_STATE
+                        .account
+                        .mobile,
+
+                email:
+                    MARKETPLACE_STATE
+                        .account
+                        .email
+
+            };
+
+        },
 
     saveAdvertisement:
         marketplaceSaveAdvertisement,
