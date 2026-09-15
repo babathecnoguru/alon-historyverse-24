@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Career Center • ALON HISTORYVERSE 24</title>
+
+<meta
+    name="description"
+    content="ALON HISTORYVERSE 24 Career Center — Career Development, Job Skills, Interview Preparation and Resume & CV tools."
+>
+
+<style>
+/* =========================================================
+   ALON HISTORYVERSE 24
+   CAREER CENTER
+   Creator: Baba Thecno Guru
+   ========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:#05080f;
+    color:#f4f0e6;
+    font-family:Georgia,"Times New Roman",serif;
+    line-height:1.6;
+}
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.ah-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#070b13;
+    border-bottom:1px solid #806b35;
+    box-shadow:0 4px 20px rgba(0,0,0,.35);
+}
+
+.header-inner{
+    max-width:1200px;
+    margin:auto;
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.brand{
+    color:#f0d27a;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.brand small{
+    display:block;
+    color:#bdb6a5;
+    font-size:11px;
+    font-weight:normal;
+}
+
+.header-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #806b35;
+    border-radius:10px;
+    background:#0c111c;
+    color:#f0d27a;
+    font-size:20px;
+}
+
+.container{
+    width:min(1180px,94%);
+    margin:auto;
+}
+
+.hero{
+    padding:45px 0 25px;
+    text-align:center;
+}
+
+.hero h1{
+    margin:0 0 8px;
+    color:#f0d27a;
+    font-size:clamp(30px,6vw,52px);
+}
+
+.hero p{
+    max-width:760px;
+    margin:0 auto 20px;
+    color:#c9c4b7;
+}
+
+.search-box{
+    max-width:720px;
+    margin:auto;
+    display:flex;
+    gap:8px;
+}
+
+.search-box input{
+    flex:1;
+    min-width:0;
+    padding:13px 15px;
+    border-radius:10px;
+    border:1px solid #67582f;
+    background:#0b111b;
+    color:white;
+    outline:none;
+}
+
+.btn{
+    border:1px solid #9d8140;
+    border-radius:10px;
+    padding:11px 16px;
+    background:#15130d;
+    color:#f0d27a;
+}
+
+.btn:hover{
+    background:#211d12;
+}
+
+.btn.primary{
+    background:#d7b35a;
+    color:#080a0e;
+    font-weight:bold;
+}
+
+.section{
+    padding:25px 0;
+}
+
+.section-title{
+    color:#f0d27a;
+    margin:0 0 15px;
+    font-size:27px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+}
+
+.card{
+    background:#0b111b;
+    border:1px solid #4f4427;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+.card h3{
+    margin-top:0;
+    color:#f0d27a;
+}
+
+.card p{
+    color:#c7c1b3;
+}
+
+.card ul{
+    padding-left:20px;
+    color:#c7c1b3;
+}
+
+.module-card{
+    min-height:220px;
+    transition:.2s;
+}
+
+.module-card:hover{
+    transform:translateY(-2px);
+    border-color:#a88a43;
+}
+
+.module-number{
+    color:#8f7b46;
+    font-size:13px;
+}
+
+.tool-bar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.chip{
+    border:1px solid #65572f;
+    border-radius:20px;
+    padding:7px 12px;
+    color:#e7dcae;
+    background:#0d131d;
+    cursor:pointer;
+}
+
+.chip.active{
+    background:#d7b35a;
+    color:#080a0e;
+}
+
+.skill-list{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+}
+
+.skill-item{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:10px;
+    border:1px solid #373526;
+    border-radius:9px;
+    background:#090e17;
+}
+
+.skill-item input{
+    accent-color:#d7b35a;
+}
+
+.progress-wrap{
+    margin:15px 0;
+}
+
+.progress{
+    height:10px;
+    border-radius:10px;
+    overflow:hidden;
+    background:#20232a;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#d7b35a;
+    transition:.2s;
+}
+
+.question{
+    padding:15px;
+    border:1px solid #494128;
+    border-radius:10px;
+    margin-bottom:10px;
+    background:#090e17;
+}
+
+.answer{
+    width:100%;
+    padding:11px;
+    margin-top:8px;
+    border:1px solid #51482f;
+    border-radius:8px;
+    background:#080c14;
+    color:#fff;
+    resize:vertical;
+}
+
+.result{
+    margin-top:10px;
+    color:#d7b35a;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    color:#d7c98d;
+    font-size:14px;
+}
+
+.field input,
+.field textarea,
+.field select{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #51482f;
+    border-radius:9px;
+    background:#080c14;
+    color:#fff;
+    outline:none;
+}
+
+.field textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.resume-preview{
+    background:#f5f2ea;
+    color:#171717;
+    border-radius:10px;
+    padding:25px;
+    margin-top:18px;
+    min-height:300px;
+}
+
+.resume-preview h2{
+    margin:0;
+}
+
+.resume-preview h3{
+    border-bottom:1px solid #aaa;
+    padding-bottom:4px;
+}
+
+.resume-preview .muted{
+    color:#555;
+}
+
+.job-card{
+    display:none;
+}
+
+.job-card.show{
+    display:block;
+}
+
+.notice{
+    border-left:4px solid #d7b35a;
+    padding:12px 15px;
+    background:#0c1119;
+    color:#c8c2b4;
+    border-radius:7px;
+    margin:12px 0;
+}
+
+footer{
+    margin-top:35px;
+    border-top:1px solid #383325;
+    padding:25px 0 40px;
+    text-align:center;
+    color:#8f8a7d;
+    font-size:13px;
+}
+
+@media(max-width:700px){
+    .grid,
+    .skill-list,
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .search-box{
+        flex-direction:column;
+    }
+
+    .header-inner{
+        padding:11px 12px;
+    }
+
+    .brand{
+        font-size:16px;
+    }
+
+    .hero{
+        padding-top:30px;
+    }
+}
+
+@media print{
+    body{
+        background:white;
+    }
+
+    body > *{
+        display:none !important;
+    }
+
+    #resumePreview{
+        display:block !important;
+        color:#111;
+        background:white;
+        box-shadow:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="ah-header">
+    <div class="header-inner">
+        <div class="brand">
+            ALON HISTORYVERSE 24
+            <small>Baba Thecno Guru • Career Center</small>
+        </div>
+
+        <div class="header-actions">
+            <button
+                class="icon-btn"
+                onclick="goHome()"
+                title="Back"
+                aria-label="Back"
+            >←</button>
+
+            <button
+                class="icon-btn"
+                onclick="window.scrollTo({top:0,behavior:'smooth'})"
+                title="Top"
+                aria-label="Top"
+            >↑</button>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+    <h1>Career Center</h1>
+
+    <p>
+        Build your career, improve job skills, prepare for interviews,
+        and create a professional Resume or CV.
+    </p>
+
+    <div class="search-box">
+        <input
+            id="careerSearch"
+            type="search"
+            placeholder="Search careers, skills, interview topics..."
+            autocomplete="off"
+        >
+
+        <button class="btn primary" onclick="searchCareer()">
+            Search
+        </button>
+    </div>
+</section>
+
+
+<!-- =======================================================
+     FOUR MAIN MODULES
+     ======================================================= -->
+
+<section class="section" id="modules">
+
+    <h2 class="section-title">Career Tools</h2>
+
+    <div class="grid">
+
+        <article class="card module-card">
+            <div class="module-number">01 • CAREER DEVELOPMENT</div>
+
+            <h3>Career Development</h3>
+
+            <p>
+                Plan your career path and understand what you need
+                to reach your next professional goal.
+            </p>
+
+            <ul>
+                <li>Career planning</li>
+                <li>Career goals</li>
+                <li>Education planning</li>
+                <li>Skill improvement</li>
+                <li>Career roadmap</li>
+            </ul>
+
+            <button
+                class="btn"
+                onclick="document.getElementById('careerDevelopment').scrollIntoView({behavior:'smooth'})"
+            >
+                Open
+            </button>
+        </article>
+
+
+        <article class="card module-card">
+            <div class="module-number">02 • JOB SKILLS</div>
+
+            <h3>Job Skills</h3>
+
+            <p>
+                Select a career area and build the skills needed
+                for modern jobs.
+            </p>
+
+            <button
+                class="btn"
+                onclick="document.getElementById('jobSkills').scrollIntoView({behavior:'smooth'})"
+            >
+                Open
+            </button>
+        </article>
+
+
+        <article class="card module-card">
+            <div class="module-number">03 • INTERVIEW</div>
+
+            <h3>Interview Preparation</h3>
+
+            <p>
+                Practice common HR and technical interview questions
+                and prepare stronger answers.
+            </p>
+
+            <button
+                class="btn"
+                onclick="document.getElementById('interview').scrollIntoView({behavior:'smooth'})"
+            >
+                Open
+            </button>
+        </article>
+
+
+        <article class="card module-card">
+            <div class="module-number">04 • RESUME & CV</div>
+
+            <h3>Resume & CV</h3>
+
+            <p>
+                Enter your professional information and generate
+                a clean Resume/CV preview.
+            </p>
+
+            <button
+                class="btn"
+                onclick="document.getElementById('resume').scrollIntoView({behavior:'smooth'})"
+            >
+                Open
+            </button>
+        </article>
+
+    </div>
+</section>
+
+
+<!-- =======================================================
+     CAREER DEVELOPMENT
+     ======================================================= -->
+
+<section class="section" id="careerDevelopment">
+
+    <h2 class="section-title">Career Development</h2>
+
+    <div class="card">
+
+        <h3>Build Your Career Roadmap</h3>
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label>Career Goal</label>
+
+                <input
+                    id="careerGoal"
+                    type="text"
+                    placeholder="Example: Software Developer"
+                >
+            </div>
+
+            <div class="field">
+                <label>Experience Level</label>
+
+                <select id="experienceLevel">
+                    <option value="">Select level</option>
+                    <option>Student</option>
+                    <option>Fresher</option>
+                    <option>Entry Level</option>
+                    <option>Mid Career</option>
+                    <option>Experienced Professional</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Your Career Plan</label>
+
+                <textarea
+                    id="careerPlan"
+                    placeholder="Write your career goals, education plans and next steps..."
+                ></textarea>
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn primary" onclick="saveCareerPlan()">
+            Save Career Plan
+        </button>
+
+        <button class="btn" onclick="loadCareerPlan()">
+            Load Saved Plan
+        </button>
+
+        <button class="btn" onclick="clearCareerPlan()">
+            Delete Plan
+        </button>
+
+        <div id="careerPlanStatus" class="result"></div>
+
+    </div>
+</section>
+
+
+<!-- =======================================================
+     JOB SKILLS
+     ======================================================= -->
+
+<section class="section" id="jobSkills">
+
+    <h2 class="section-title">Job Skills</h2>
+
+    <div class="card">
+
+        <h3>Select Career Area</h3>
+
+        <div class="chips" id="careerFilters">
+
+            <button
+                class="chip active"
+                onclick="filterSkills('all',this)"
+            >
+                All
+            </button>
+
+            <button
+                class="chip"
+                onclick="filterSkills('technology',this)"
+            >
+                Technology
+            </button>
+
+            <button
+                class="chip"
+                onclick="filterSkills('business',this)"
+            >
+                Business
+            </button>
+
+            <button
+                class="chip"
+                onclick="filterSkills('office',this)"
+            >
+                Office
+            </button>
+
+            <button
+                class="chip"
+                onclick="filterSkills('creative',this)"
+            >
+                Creative
+            </button>
+
+        </div>
+
+        <div class="progress-wrap">
+            <strong>Skill Progress</strong>
+            <div class="progress">
+                <div
+                    id="skillProgress"
+                    class="progress-bar"
+                ></div>
+            </div>
+            <div id="skillProgressText" class="result">
+                0% completed
+            </div>
+        </div>
+
+        <div
+            id="skillsContainer"
+            class="skill-list"
+        ></div>
+
+        <br>
+
+        <button
+            class="btn primary"
+            onclick="saveSkills()"
+        >
+            Save Skills
+        </button>
+
+        <button
+            class="btn"
+            onclick="resetSkills()"
+        >
+            Reset
+        </button>
+
+        <div id="skillStatus" class="result"></div>
+
+    </div>
+</section>
+
+
+<!-- =======================================================
+     INTERVIEW PREPARATION
+     ======================================================= -->
+
+<section class="section" id="interview">
+
+    <h2 class="section-title">Interview Preparation</h2>
+
+    <div class="card">
+
+        <h3>Practice Interview Questions</h3>
+
+        <div class="notice">
+            Write your own answer first. Then compare it with the
+            preparation tip provided below each question.
+        </div>
+
+        <div id="interviewQuestions"></div>
+
+        <button
+            class="btn primary"
+            onclick="saveInterviewAnswers()"
+        >
+            Save Answers
+        </button>
+
+        <button
+            class="btn"
+            onclick="clearInterviewAnswers()"
+        >
+            Clear Answers
+        </button>
+
+        <div id="interviewStatus" class="result"></div>
+
+    </div>
+</section>
+
+
+<!-- =======================================================
+     RESUME / CV BUILDER
+     ======================================================= -->
+
+<section class="section" id="resume">
+
+    <h2 class="section-title">Resume & CV Builder</h2>
+
+    <div class="card">
+
+        <h3>Enter Your Information</h3>
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label>Full Name</label>
+
+                <input
+                    id="cvName"
+                    type="text"
+                    placeholder="Your full name"
+                >
+            </div>
+
+            <div class="field">
+                <label>Job Title</label>
+
+                <input
+                    id="cvTitle"
+                    type="text"
+                    placeholder="Example: Web Developer"
+                >
+            </div>
+
+            <div class="field">
+                <label>Email</label>
+
+                <input
+                    id="cvEmail"
+                    type="email"
+                    placeholder="your@email.com"
+                >
+            </div>
+
+            <div class="field">
+                <label>Phone</label>
+
+                <input
+                    id="cvPhone"
+                    type="tel"
+                    placeholder="+91..."
+                >
+            </div>
+
+            <div class="field full">
+                <label>Professional Summary</label>
+
+                <textarea
+                    id="cvSummary"
+                    placeholder="Write a short professional summary..."
+                ></textarea>
+            </div>
+
+            <div class="field full">
+                <label>Education</label>
+
+                <textarea
+                    id="cvEducation"
+                    placeholder="Degree, school/college, year..."
+                ></textarea>
+            </div>
+
+            <div class="field full">
+                <label>Skills</label>
+
+                <textarea
+                    id="cvSkills"
+                    placeholder="JavaScript, Communication, Management..."
+                ></textarea>
+            </div>
+
+            <div class="field full">
+                <label>Work Experience</label>
+
+                <textarea
+                    id="cvExperience"
+                    placeholder="Company, position, responsibilities..."
+                ></textarea>
+            </div>
+
+            <div class="field full">
+                <label>Projects / Achievements</label>
+
+                <textarea
+                    id="cvProjects"
+                    placeholder="Projects, achievements, certifications..."
+                ></textarea>
+            </div>
+
+        </div>
+
+        <br>
+
+        <button
+            class="btn primary"
+            onclick="generateResume()"
+        >
+            Generate Resume
+        </button>
+
+        <button
+            class="btn"
+            onclick="saveResume()"
+        >
+            Save Resume
+        </button>
+
+        <button
+            class="btn"
+            onclick="loadResume()"
+        >
+            Load Resume
+        </button>
+
+        <button
+            class="btn"
+            onclick="clearResume()"
+        >
+            Delete Saved Resume
+        </button>
+
+        <button
+            class="btn"
+            onclick="printResume()"
+        >
+            Print / Save PDF
+        </button>
+
+        <div id="resumeStatus" class="result"></div>
+
+    </div>
+
+    <div
+        id="resumePreview"
+        class="resume-preview"
+    >
+        <h2>Your Resume Preview</h2>
+
+        <p class="muted">
+            Fill the form above and click Generate Resume.
+        </p>
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+    <div class="container">
+        ALON HISTORYVERSE 24 • Career Center
+        <br>
+        Creator: Baba Thecno Guru
+    </div>
+</footer>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   STORAGE KEYS
+   ========================================================= */
+
+const CAREER_PLAN_KEY =
+    "alon_historyverse24_career_plan";
+
+const SKILLS_KEY =
+    "alon_historyverse24_job_skills";
+
+const INTERVIEW_KEY =
+    "alon_historyverse24_interview_answers";
+
+const RESUME_KEY =
+    "alon_historyverse24_resume";
+
+
+/* =========================================================
+   CAREER SKILLS DATABASE
+   ========================================================= */
+
+const CAREER_SKILLS = [
+
+    {
+        name:"HTML & CSS",
+        category:"technology"
+    },
+
+    {
+        name:"JavaScript",
+        category:"technology"
+    },
+
+    {
+        name:"Programming Fundamentals",
+        category:"technology"
+    },
+
+    {
+        name:"Problem Solving",
+        category:"technology"
+    },
+
+    {
+        name:"Data Analysis",
+        category:"technology"
+    },
+
+    {
+        name:"Digital Literacy",
+        category:"technology"
+    },
+
+    {
+        name:"Communication",
+        category:"business"
+    },
+
+    {
+        name:"Leadership",
+        category:"business"
+    },
+
+    {
+        name:"Team Management",
+        category:"business"
+    },
+
+    {
+        name:"Business Planning",
+        category:"business"
+    },
+
+    {
+        name:"Sales",
+        category:"business"
+    },
+
+    {
+        name:"Customer Service",
+        category:"business"
+    },
+
+    {
+        name:"Microsoft Office",
+        category:"office"
+    },
+
+    {
+        name:"Documentation",
+        category:"office"
+    },
+
+    {
+        name:"Email Communication",
+        category:"office"
+    },
+
+    {
+        name:"Time Management",
+        category:"office"
+    },
+
+    {
+        name:"Organization",
+        category:"office"
+    },
+
+    {
+        name:"Presentation Skills",
+        category:"office"
+    },
+
+    {
+        name:"Graphic Design",
+        category:"creative"
+    },
+
+    {
+        name:"Content Writing",
+        category:"creative"
+    },
+
+    {
+        name:"Video Editing",
+        category:"creative"
+    },
+
+    {
+        name:"Photography",
+        category:"creative"
+    },
+
+    {
+        name:"Creative Thinking",
+        category:"creative"
+    },
+
+    {
+        name:"Social Media Content",
+        category:"creative"
+    }
+
+];
+
+
+/* =========================================================
+   INTERVIEW QUESTIONS
+   ========================================================= */
+
+const INTERVIEW_QUESTIONS = [
+
+    {
+        question:"Tell me about yourself.",
+        tip:"Give a short professional introduction: education, useful skills, experience and your career goal."
+    },
+
+    {
+        question:"Why do you want this job?",
+        tip:"Connect your skills and interests with the responsibilities of the job."
+    },
+
+    {
+        question:"What are your strongest skills?",
+        tip:"Mention 2–3 relevant skills and give a short real example for each."
+    },
+
+    {
+        question:"What is one weakness you are improving?",
+        tip:"Choose a genuine professional weakness and explain what you are doing to improve it."
+    },
+
+    {
+        question:"Where do you see yourself in five years?",
+        tip:"Describe a realistic career direction and how you plan to grow professionally."
+    },
+
+    {
+        question:"Why should we hire you?",
+        tip:"Explain the value you can bring through your skills, attitude and willingness to learn."
+    },
+
+    {
+        question:"Describe a difficult problem you solved.",
+        tip:"Use a simple structure: Situation → Action → Result."
+    },
+
+    {
+        question:"Do you have any questions for us?",
+        tip:"Ask about the role, team, responsibilities, training or growth opportunities."
+    }
+
+];
+
+
+/* =========================================================
+   HOME / BACK
+   ========================================================= */
+
+function goHome(){
+
+    if(
+        document.referrer &&
+        document.referrer.includes("jobs.html")
+    ){
+        history.back();
+        return;
+    }
+
+    window.location.href = "../index.html";
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function searchCareer(){
+
+    const input =
+        document.getElementById("careerSearch");
+
+    const query =
+        input.value.trim().toLowerCase();
+
+    if(!query){
+        document.getElementById("modules")
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        return;
+    }
+
+    const searchable = [
+
+        ["career development","careerDevelopment"],
+        ["career","careerDevelopment"],
+        ["job skills","jobSkills"],
+        ["skills","jobSkills"],
+        ["technology","jobSkills"],
+        ["business","jobSkills"],
+        ["interview","interview"],
+        ["hr","interview"],
+        ["resume","resume"],
+        ["cv","resume"]
+
+    ];
+
+    const found =
+        searchable.find(item =>
+            item[0].includes(query) ||
+            query.includes(item[0])
+        );
+
+    if(found){
+
+        document.getElementById(found[1])
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        return;
+    }
+
+    alert(
+        "No matching Career Center section found. Try Career, Skills, Interview or Resume."
+    );
+}
+
+
+/* =========================================================
+   CAREER PLAN
+   ========================================================= */
+
+function saveCareerPlan(){
+
+    const data = {
+
+        goal:
+            document.getElementById("careerGoal").value,
+
+        level:
+            document.getElementById("experienceLevel").value,
+
+        plan:
+            document.getElementById("careerPlan").value,
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+    localStorage.setItem(
+        CAREER_PLAN_KEY,
+        JSON.stringify(data)
+    );
+
+    document.getElementById(
+        "careerPlanStatus"
+    ).textContent =
+        "Career plan saved successfully.";
+}
+
+
+function loadCareerPlan(){
+
+    const raw =
+        localStorage.getItem(CAREER_PLAN_KEY);
+
+    if(!raw){
+
+        document.getElementById(
+            "careerPlanStatus"
+        ).textContent =
+            "No saved career plan found.";
+
+        return;
+    }
+
+    const data =
+        JSON.parse(raw);
+
+    document.getElementById("careerGoal").value =
+        data.goal || "";
+
+    document.getElementById("experienceLevel").value =
+        data.level || "";
+
+    document.getElementById("careerPlan").value =
+        data.plan || "";
+
+    document.getElementById(
+        "careerPlanStatus"
+    ).textContent =
+        "Saved career plan loaded.";
+}
+
+
+function clearCareerPlan(){
+
+    if(
+        !confirm(
+            "Delete the saved career plan?"
+        )
+    ){
+        return;
+    }
+
+    localStorage.removeItem(
+        CAREER_PLAN_KEY
+    );
+
+    document.getElementById("careerGoal").value =
+        "";
+
+    document.getElementById("experienceLevel").value =
+        "";
+
+    document.getElementById("careerPlan").value =
+        "";
+
+    document.getElementById(
+        "careerPlanStatus"
+    ).textContent =
+        "Saved career plan deleted.";
+}
+
+
+/* =========================================================
+   SKILLS
+   ========================================================= */
+
+function renderSkills(category){
+
+    const container =
+        document.getElementById(
+            "skillsContainer"
+        );
+
+    container.innerHTML = "";
+
+    let saved = {};
+
+    try{
+
+        saved =
+            JSON.parse(
+                localStorage.getItem(
+                    SKILLS_KEY
+                ) || "{}"
+            );
+
+    }catch(error){
+
+        saved = {};
+
+    }
+
+    CAREER_SKILLS
+        .filter(skill =>
+            category === "all" ||
+            skill.category === category
+        )
+        .forEach(skill =>{
+
+            const label =
+                document.createElement("label");
+
+            label.className =
+                "skill-item";
+
+            const input =
+                document.createElement("input");
+
+            input.type = "checkbox";
+
+            input.dataset.skill =
+                skill.name;
+
+            input.checked =
+                saved[skill.name] === true;
+
+            input.addEventListener(
+                "change",
+                updateSkillProgress
+            );
+
+            label.appendChild(input);
+
+            const text =
+                document.createElement("span");
+
+            text.textContent =
+                skill.name;
+
+            label.appendChild(text);
+
+            container.appendChild(label);
+
+        });
+
+    updateSkillProgress();
+}
+
+
+function filterSkills(category,button){
+
+    document
+        .querySelectorAll("#careerFilters .chip")
+        .forEach(chip =>
+            chip.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    renderSkills(category);
+}
+
+
+function collectSkills(){
+
+    const saved = {};
+
+    document
+        .querySelectorAll(
+            "#skillsContainer input[type='checkbox']"
+        )
+        .forEach(input =>{
+
+            saved[input.dataset.skill] =
+                input.checked;
+
+        });
+
+    return saved;
+}
+
+
+function updateSkillProgress(){
+
+    const saved = collectSkills();
+
+    const completed =
+        Object.values(saved)
+            .filter(Boolean)
+            .length;
+
+    const total =
+        CAREER_SKILLS.length;
+
+    const percent =
+        total
+            ? Math.round(
+                completed / total * 100
+            )
+            : 0;
+
+    document.getElementById(
+        "skillProgress"
+    ).style.width =
+        percent + "%";
+
+    document.getElementById(
+        "skillProgressText"
+    ).textContent =
+        completed +
+        " of " +
+        total +
+        " skills completed • " +
+        percent +
+        "%";
+}
+
+
+function saveSkills(){
+
+    const saved =
+        collectSkills();
+
+    localStorage.setItem(
+        SKILLS_KEY,
+        JSON.stringify(saved)
+    );
+
+    document.getElementById(
+        "skillStatus"
+    ).textContent =
+        "Skills saved successfully.";
+}
+
+
+function resetSkills(){
+
+    if(
+        !confirm(
+            "Reset all saved skills?"
+        )
+    ){
+        return;
+    }
+
+    localStorage.removeItem(
+        SKILLS_KEY
+    );
+
+    renderSkills("all");
+
+    document.getElementById(
+        "skillStatus"
+    ).textContent =
+        "Skills reset.";
+}
+
+
+/* =========================================================
+   INTERVIEW
+   ========================================================= */
+
+function renderInterview(){
+
+    const container =
+        document.getElementById(
+            "interviewQuestions"
+        );
+
+    container.innerHTML = "";
+
+    let saved = {};
+
+    try{
+
+        saved =
+            JSON.parse(
+                localStorage.getItem(
+                    INTERVIEW_KEY
+                ) || "{}"
+            );
+
+    }catch(error){
+
+        saved = {};
+
+    }
+
+    INTERVIEW_QUESTIONS
+        .forEach((item,index)=>{
+
+            const box =
+                document.createElement("div");
+
+            box.className =
+                "question";
+
+            const title =
+                document.createElement("strong");
+
+            title.textContent =
+                (index + 1) +
+                ". " +
+                item.question;
+
+            box.appendChild(title);
+
+            const textarea =
+                document.createElement("textarea");
+
+            textarea.className =
+                "answer";
+
+            textarea.placeholder =
+                "Write your answer...";
+
+            textarea.dataset.question =
+                index;
+
+            textarea.value =
+                saved[index] || "";
+
+            box.appendChild(textarea);
+
+            const tip =
+                document.createElement("div");
+
+            tip.className =
+                "result";
+
+            tip.textContent =
+                "Preparation tip: " +
+                item.tip;
+
+            box.appendChild(tip);
+
+            container.appendChild(box);
+
+        });
+}
+
+
+function collectInterviewAnswers(){
+
+    const data = {};
+
+    document
+        .querySelectorAll(
+            "#interviewQuestions textarea"
+        )
+        .forEach(textarea =>{
+
+            data[textarea.dataset.question] =
+                textarea.value;
+
+        });
+
+    return data;
+}
+
+
+function saveInterviewAnswers(){
+
+    const data =
+        collectInterviewAnswers();
+
+    localStorage.setItem(
+        INTERVIEW_KEY,
+        JSON.stringify(data)
+    );
+
+    document.getElementById(
+        "interviewStatus"
+    ).textContent =
+        "Interview answers saved.";
+}
+
+
+function clearInterviewAnswers(){
+
+    if(
+        !confirm(
+            "Clear saved interview answers?"
+        )
+    ){
+        return;
+    }
+
+    localStorage.removeItem(
+        INTERVIEW_KEY
+    );
+
+    renderInterview();
+
+    document.getElementById(
+        "interviewStatus"
+    ).textContent =
+        "Interview answers cleared.";
+}
+
+
+/* =========================================================
+   RESUME DATA
+   ========================================================= */
+
+function getResumeData(){
+
+    return {
+
+        name:
+            document.getElementById("cvName").value.trim(),
+
+        title:
+            document.getElementById("cvTitle").value.trim(),
+
+        email:
+            document.getElementById("cvEmail").value.trim(),
+
+        phone:
+            document.getElementById("cvPhone").value.trim(),
+
+        summary:
+            document.getElementById("cvSummary").value.trim(),
+
+        education:
+            document.getElementById("cvEducation").value.trim(),
+
+        skills:
+            document.getElementById("cvSkills").value.trim(),
+
+        experience:
+            document.getElementById("cvExperience").value.trim(),
+
+        projects:
+            document.getElementById("cvProjects").value.trim()
+
+    };
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function formatText(value){
+
+    return escapeHTML(value)
+        .replace(/\n/g,"<br>");
+
+}
+
+
+function generateResume(){
+
+    const data =
+        getResumeData();
+
+    const preview =
+        document.getElementById(
+            "resumePreview"
+        );
+
+    preview.innerHTML = `
+
+        <h2>${escapeHTML(data.name || "Your Name")}</h2>
+
+        <p>
+            <strong>
+                ${escapeHTML(data.title || "Professional Title")}
+            </strong>
+        </p>
+
+        <p class="muted">
+            ${escapeHTML(data.email)}
+            ${data.email && data.phone ? " • " : ""}
+            ${escapeHTML(data.phone)}
+        </p>
+
+        ${
+            data.summary
+            ? `
+                <h3>Professional Summary</h3>
+                <p>${formatText(data.summary)}</p>
+              `
+            : ""
+        }
+
+        ${
+            data.education
+            ? `
+                <h3>Education</h3>
+                <p>${formatText(data.education)}</p>
+              `
+            : ""
+        }
+
+        ${
+            data.skills
+            ? `
+                <h3>Skills</h3>
+                <p>${formatText(data.skills)}</p>
+              `
+            : ""
+        }
+
+        ${
+            data.experience
+            ? `
+                <h3>Work Experience</h3>
+                <p>${formatText(data.experience)}</p>
+              `
+            : ""
+        }
+
+        ${
+            data.projects
+            ? `
+                <h3>Projects & Achievements</h3>
+                <p>${formatText(data.projects)}</p>
+              `
+            : ""
+        }
+
+    `;
+
+    document.getElementById(
+        "resumeStatus"
+    ).textContent =
+        "Resume preview generated.";
+}
+
+
+function saveResume(){
+
+    const data =
+        getResumeData();
+
+    localStorage.setItem(
+        RESUME_KEY,
+        JSON.stringify(data)
+    );
+
+    generateResume();
+
+    document.getElementById(
+        "resumeStatus"
+    ).textContent =
+        "Resume saved successfully.";
+}
+
+
+function loadResume(){
+
+    const raw =
+        localStorage.getItem(
+            RESUME_KEY
+        );
+
+    if(!raw){
+
+        document.getElementById(
+            "resumeStatus"
+        ).textContent =
+            "No saved Resume found.";
+
+        return;
+    }
+
+    const data =
+        JSON.parse(raw);
+
+    document.getElementById("cvName").value =
+        data.name || "";
+
+    document.getElementById("cvTitle").value =
+        data.title || "";
+
+    document.getElementById("cvEmail").value =
+        data.email || "";
+
+    document.getElementById("cvPhone").value =
+        data.phone || "";
+
+    document.getElementById("cvSummary").value =
+        data.summary || "";
+
+    document.getElementById("cvEducation").value =
+        data.education || "";
+
+    document.getElementById("cvSkills").value =
+        data.skills || "";
+
+    document.getElementById("cvExperience").value =
+        data.experience || "";
+
+    document.getElementById("cvProjects").value =
+        data.projects || "";
+
+    generateResume();
+
+    document.getElementById(
+        "resumeStatus"
+    ).textContent =
+        "Saved Resume loaded.";
+}
+
+
+function clearResume(){
+
+    if(
+        !confirm(
+            "Delete the saved Resume?"
+        )
+    ){
+        return;
+    }
+
+    localStorage.removeItem(
+        RESUME_KEY
+    );
+
+    document
+        .querySelectorAll(
+            "#resume input, #resume textarea"
+        )
+        .forEach(element =>{
+            element.value = "";
+        });
+
+    document.getElementById(
+        "resumePreview"
+    ).innerHTML = `
+        <h2>Your Resume Preview</h2>
+        <p class="muted">
+            Fill the form above and click Generate Resume.
+        </p>
+    `;
+
+    document.getElementById(
+        "resumeStatus"
+    ).textContent =
+        "Saved Resume deleted.";
+}
+
+
+function printResume(){
+
+    generateResume();
+
+    setTimeout(
+        () => window.print(),
+        100
+    );
+
+}
+
+
+/* =========================================================
+   AUTO SAVE FORM DATA WHILE WORKING
+   ========================================================= */
+
+function setupAutoSave(){
+
+    const ids = [
+
+        "careerGoal",
+        "experienceLevel",
+        "careerPlan",
+        "cvName",
+        "cvTitle",
+        "cvEmail",
+        "cvPhone",
+        "cvSummary",
+        "cvEducation",
+        "cvSkills",
+        "cvExperience",
+        "cvProjects"
+
+    ];
+
+    ids.forEach(id =>{
+
+        const element =
+            document.getElementById(id);
+
+        if(!element){
+            return;
+        }
+
+        element.addEventListener(
+            "input",
+            () => {
+
+                if(
+                    id.startsWith("cv")
+                ){
+
+                    const data =
+                        getResumeData();
+
+                    localStorage.setItem(
+                        RESUME_KEY,
+                        JSON.stringify(data)
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        renderSkills("all");
+
+        renderInterview();
+
+        loadCareerPlan();
+
+        loadResume();
+
+        setupAutoSave();
+
+    }
+);
+</script>
+
+</body>
+</html>
