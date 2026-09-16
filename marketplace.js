@@ -26,6 +26,12 @@
    • Local persistent data
    • Mobile-friendly
    • No external libraries
+
+   IMPORTANT
+   ---------------------------------------------------------
+   • Global Marketplace only
+   • Regular Marketplace is NOT modified here
+   • Existing file/path structure is preserved
    ========================================================= */
 
 "use strict";
@@ -126,11 +132,13 @@ function marketplaceLoadJSON(
         const saved =
             localStorage.getItem(key);
 
+
         if (!saved) {
 
             return fallback;
 
         }
+
 
         return JSON.parse(saved);
 
@@ -201,6 +209,26 @@ function marketplaceLoadData() {
             }
 
         );
+
+
+    if (
+        !data ||
+        typeof data !== "object"
+    ) {
+
+        return {
+
+            products: [],
+
+            jobs: [],
+
+            services: [],
+
+            advertisements: []
+
+        };
+
+    }
 
 
     return {
@@ -302,6 +330,7 @@ function marketplaceEscapeHTML(
 
     }
 
+
     return String(value)
 
         .replace(
@@ -383,43 +412,416 @@ function marketplaceSafeURL(
 
 /* =========================================================
    COUNTRY DATABASE
+   ---------------------------------------------------------
+   Supports:
+   • MARKETPLACE_COUNTRIES
+   • ALON_MARKETPLACE_COUNTRIES
+   • ALON_WORLD_COUNTRIES
+   • WORLD_COUNTRIES
+   • window/globalThis versions
+   • direct arrays
+   • { countries: [...] }
+   • { data: [...] }
    ========================================================= */
 
-function marketplaceGetCountries() {
+function marketplaceNormalizeCountrySource(
+    source
+) {
 
     if (
-
-        typeof MARKETPLACE_COUNTRIES !==
-        "undefined" &&
-
-        Array.isArray(
-            MARKETPLACE_COUNTRIES
-        )
-
+        Array.isArray(source)
     ) {
 
-        return MARKETPLACE_COUNTRIES;
+        return source;
 
     }
 
 
     if (
-
-        typeof window.MARKETPLACE_COUNTRIES !==
-        "undefined" &&
-
-        Array.isArray(
-            window.MARKETPLACE_COUNTRIES
-        )
-
+        source &&
+        typeof source === "object"
     ) {
 
-        return window.MARKETPLACE_COUNTRIES;
+        if (
+            Array.isArray(
+                source.countries
+            )
+        ) {
+
+            return source.countries;
+
+        }
+
+
+        if (
+            Array.isArray(
+                source.data
+            )
+        ) {
+
+            return source.data;
+
+        }
+
+
+        if (
+            Array.isArray(
+                source.list
+            )
+        ) {
+
+            return source.list;
+
+        }
 
     }
 
 
     return [];
+
+}
+
+
+function marketplaceGetCountries() {
+
+    const sources = [];
+
+
+    /*
+     * Global lexical variables.
+     * typeof prevents ReferenceError when a
+     * particular country variable does not exist.
+     */
+
+    if (
+        typeof MARKETPLACE_COUNTRIES !==
+        "undefined"
+    ) {
+
+        sources.push(
+            MARKETPLACE_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        typeof ALON_MARKETPLACE_COUNTRIES !==
+        "undefined"
+    ) {
+
+        sources.push(
+            ALON_MARKETPLACE_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        typeof ALON_WORLD_COUNTRIES !==
+        "undefined"
+    ) {
+
+        sources.push(
+            ALON_WORLD_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        typeof WORLD_COUNTRIES !==
+        "undefined"
+    ) {
+
+        sources.push(
+            WORLD_COUNTRIES
+        );
+
+    }
+
+
+    /*
+     * window/globalThis versions.
+     */
+
+    if (
+        typeof window !== "undefined"
+    ) {
+
+        sources.push(
+            window.MARKETPLACE_COUNTRIES
+        );
+
+        sources.push(
+            window.ALON_MARKETPLACE_COUNTRIES
+        );
+
+        sources.push(
+            window.ALON_WORLD_COUNTRIES
+        );
+
+        sources.push(
+            window.WORLD_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        typeof globalThis !== "undefined"
+    ) {
+
+        sources.push(
+            globalThis.MARKETPLACE_COUNTRIES
+        );
+
+        sources.push(
+            globalThis.ALON_MARKETPLACE_COUNTRIES
+        );
+
+        sources.push(
+            globalThis.ALON_WORLD_COUNTRIES
+        );
+
+        sources.push(
+            globalThis.WORLD_COUNTRIES
+        );
+
+    }
+
+
+    const result = [];
+
+    const seen =
+        new Set();
+
+
+    sources.forEach(
+
+        function(source) {
+
+            const countries =
+                marketplaceNormalizeCountrySource(
+                    source
+                );
+
+
+            countries.forEach(
+
+                function(country) {
+
+                    if (
+                        !country ||
+                        typeof country !== "object"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const code =
+
+                        String(
+
+                            country.code ||
+
+                            country.iso ||
+
+                            country.isoCode ||
+
+                            country.iso2 ||
+
+                            country.cca2 ||
+
+                            country.countryCode ||
+
+                            ""
+
+                        )
+
+                            .trim()
+                            .toUpperCase();
+
+
+                    const name =
+
+                        String(
+
+                            country.name ||
+
+                            country.country ||
+
+                            country.countryName ||
+
+                            country.label ||
+
+                            country.title ||
+
+                            ""
+
+                        )
+
+                            .trim();
+
+
+                    if (
+                        !code &&
+                        !name
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const key =
+                        code ||
+                        name.toLowerCase();
+
+
+                    if (
+                        seen.has(key)
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    seen.add(key);
+
+
+                    result.push(
+                        country
+                    );
+
+                }
+
+            );
+
+        }
+
+    );
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   COUNTRY CODE
+   ========================================================= */
+
+function marketplaceCountryCode(
+    country
+) {
+
+    if (
+        !country
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(
+
+        country.code ||
+
+        country.iso ||
+
+        country.isoCode ||
+
+        country.iso2 ||
+
+        country.cca2 ||
+
+        country.countryCode ||
+
+        ""
+
+    )
+
+        .trim()
+        .toUpperCase();
+
+}
+
+
+/* =========================================================
+   COUNTRY NAME
+   ========================================================= */
+
+function marketplaceCountryObjectName(
+    country
+) {
+
+    if (
+        !country
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(
+
+        country.name ||
+
+        country.country ||
+
+        country.countryName ||
+
+        country.label ||
+
+        country.title ||
+
+        ""
+
+    ).trim();
+
+}
+
+
+/* =========================================================
+   COUNTRY CALLING CODE
+   ========================================================= */
+
+function marketplaceCountryCallingCode(
+    country
+) {
+
+    if (
+        !country
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(
+
+        country.callingCode ||
+
+        country.calling_code ||
+
+        country.dialCode ||
+
+        country.dial_code ||
+
+        country.phoneCode ||
+
+        country.phone_code ||
+
+        ""
+
+    ).trim();
 
 }
 
@@ -438,27 +840,26 @@ function marketplaceFindCountry(
 
     const target =
         String(code || "")
+            .trim()
             .toUpperCase();
+
+
+    if (!target) {
+
+        return null;
+
+    }
 
 
     return countries.find(
 
         function(country) {
 
-            const countryCode =
-
-                country.code ||
-                country.iso ||
-                country.isoCode ||
-                country.cca2 ||
-                "";
-
-
             return (
 
-                String(countryCode)
-                    .toUpperCase() ===
-                target
+                marketplaceCountryCode(
+                    country
+                ) === target
 
             );
 
@@ -483,20 +884,22 @@ function marketplaceCountryName(
 
     if (!country) {
 
-        return String(code || "");
+        return String(
+            code || ""
+        );
 
     }
 
 
     return (
 
-        country.name ||
+        marketplaceCountryObjectName(
+            country
+        ) ||
 
-        country.country ||
-
-        country.countryName ||
-
-        String(code || "")
+        String(
+            code || ""
+        )
 
     );
 
@@ -522,13 +925,15 @@ function marketplaceCountryFlag(
     }
 
 
-    return (
+    return String(
 
         country.flag ||
 
         country.emoji ||
 
         country.flagEmoji ||
+
+        country.flag_emoji ||
 
         ""
 
@@ -563,17 +968,6 @@ function marketplacePopulateCountrySelect(
         marketplaceGetCountries();
 
 
-    if (!countries.length) {
-
-        console.warn(
-            "Country database could not be loaded."
-        );
-
-        return;
-
-    }
-
-
     const current =
         select.value;
 
@@ -587,47 +981,54 @@ function marketplacePopulateCountrySelect(
             : '<option value="">Select Country</option>';
 
 
+    if (!countries.length) {
+
+        console.warn(
+            "Marketplace country database could not be loaded."
+        );
+
+        return;
+
+    }
+
+
     countries.forEach(
 
         function(country) {
 
-            const option =
-                document.createElement(
-                    "option"
+            const code =
+                marketplaceCountryCode(
+                    country
                 );
 
 
-            const code =
-
-                country.code ||
-                country.iso ||
-                country.isoCode ||
-                country.cca2 ||
-                "";
-
-
             const name =
-
-                country.name ||
-                country.country ||
-                country.countryName ||
+                marketplaceCountryObjectName(
+                    country
+                ) ||
                 "Unknown Country";
 
 
             const flag =
+                String(
 
-                country.flag ||
-                country.emoji ||
-                country.flagEmoji ||
-                "";
+                    country.flag ||
+
+                    country.emoji ||
+
+                    country.flagEmoji ||
+
+                    country.flag_emoji ||
+
+                    ""
+
+                );
 
 
             const callingCode =
-
-                country.callingCode ||
-                country.dialCode ||
-                country.phoneCode ||
-                "";
+                marketplaceCountryCallingCode(
+                    country
+                );
 
 
             if (!code) {
@@ -637,6 +1038,12 @@ function marketplacePopulateCountrySelect(
             }
 
 
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
             option.value =
                 code;
 
@@ -644,9 +1051,13 @@ function marketplacePopulateCountrySelect(
             option.textContent =
 
                 (
+
                     flag
+
                         ? flag + " "
+
                         : ""
+
                 ) +
 
                 name +
@@ -656,11 +1067,15 @@ function marketplacePopulateCountrySelect(
                 "]" +
 
                 (
+
                     callingCode
+
                         ? " (" +
                           callingCode +
                           ")"
+
                         : ""
+
                 );
 
 
@@ -675,8 +1090,35 @@ function marketplacePopulateCountrySelect(
 
     if (current) {
 
-        select.value =
-            current;
+        const matchingOption =
+            Array.from(
+                select.options
+            ).find(
+
+                function(option) {
+
+                    return (
+
+                        String(
+                            option.value
+                        ).toUpperCase() ===
+                        String(
+                            current
+                        ).toUpperCase()
+
+                    );
+
+                }
+
+            );
+
+
+        if (matchingOption) {
+
+            select.value =
+                matchingOption.value;
+
+        }
 
     }
 
@@ -770,6 +1212,21 @@ function marketplaceOpenDatabase() {
 
                     MARKETPLACE_STATE
                         .databaseReady = true;
+
+
+                    MARKETPLACE_DB.onversionchange =
+                        function() {
+
+                            MARKETPLACE_DB.close();
+
+                            MARKETPLACE_DB =
+                                null;
+
+                            MARKETPLACE_STATE
+                                .databaseReady =
+                                false;
+
+                        };
 
 
                     resolve(
@@ -1066,6 +1523,16 @@ function marketplaceDeleteAdvertisementMedia(
     ad
 ) {
 
+    if (
+        !ad ||
+        typeof ad !== "object"
+    ) {
+
+        return Promise.resolve([]);
+
+    }
+
+
     const ids = [
 
         ...(Array.isArray(ad.imageIds)
@@ -1136,12 +1603,13 @@ function marketplaceGetAccount() {
         mobile:
             String(
                 account.mobile || ""
-            ),
+            ).trim(),
 
         email:
             String(
                 account.email || ""
-            )
+            ).trim()
+            .toLowerCase()
 
     };
 
@@ -1178,7 +1646,38 @@ function marketplaceGetSession() {
     }
 
 
-    return session;
+    const email =
+        String(
+            session.email || ""
+        )
+            .trim()
+            .toLowerCase();
+
+
+    if (!email) {
+
+        return null;
+
+    }
+
+
+    return {
+
+        active:
+            true,
+
+        mobile:
+            String(
+                session.mobile || ""
+            ).trim(),
+
+        email:
+            email,
+
+        loginTime:
+            session.loginTime || ""
+
+    };
 
 }
 
@@ -1323,7 +1822,7 @@ function marketplaceUpdateAccountUI(
 /* =========================================================
    LOGIN
    ---------------------------------------------------------
-   This is a local browser session.
+   Local browser session only.
    Password is never stored.
    ========================================================= */
 
@@ -1359,8 +1858,9 @@ function marketplaceLogin() {
         emailInput
             ? String(
                 emailInput.value || ""
-              ).trim()
-              .toLowerCase()
+              )
+                .trim()
+                .toLowerCase()
             : "";
 
 
@@ -1434,8 +1934,9 @@ function marketplaceLogin() {
 
 
     /*
-     * Only account identity is saved.
-     * Password is intentionally NOT saved.
+     * Password is intentionally NOT stored.
+     * This remains a local browser identity layer,
+     * not server-side authentication.
      */
 
     marketplaceSaveJSON(
@@ -1448,28 +1949,40 @@ function marketplaceLogin() {
     );
 
 
-    marketplaceSaveJSON(
+    const sessionSaved =
+        marketplaceSaveJSON(
 
-        ALON_MARKETPLACE_CONFIG
-            .sessionStorage,
+            ALON_MARKETPLACE_CONFIG
+                .sessionStorage,
 
-        {
+            {
 
-            active:
-                true,
+                active:
+                    true,
 
-            mobile:
-                mobile,
+                mobile:
+                    mobile,
 
-            email:
-                email,
+                email:
+                    email,
 
-            loginTime:
-                new Date().toISOString()
+                loginTime:
+                    new Date().toISOString()
 
-        }
+            }
 
-    );
+        );
+
+
+    if (!sessionSaved) {
+
+        marketplaceUpdateAccountUI(
+            "Login session could not be saved."
+        );
+
+        return false;
+
+    }
 
 
     MARKETPLACE_STATE.loggedIn =
@@ -1540,6 +2053,11 @@ function marketplaceLogout() {
     };
 
 
+    MARKETPLACE_STATE
+        .editingAdvertisementId =
+        null;
+
+
     marketplaceUpdateAccountUI(
         "You have been logged out."
     );
@@ -1560,10 +2078,59 @@ function marketplaceRestoreLogin() {
         marketplaceGetSession();
 
 
+    const savedAccount =
+        marketplaceGetAccount();
+
+
     if (
         session &&
         session.email
     ) {
+
+        /*
+         * Session must belong to the saved account.
+         * This prevents a stale session from being
+         * treated as another account.
+         */
+
+        if (
+
+            savedAccount.email &&
+
+            savedAccount.email !==
+                session.email
+
+        ) {
+
+            marketplaceSaveJSON(
+
+                ALON_MARKETPLACE_CONFIG
+                    .sessionStorage,
+
+                {
+
+                    active:
+                        false
+
+                }
+
+            );
+
+
+            MARKETPLACE_STATE.loggedIn =
+                false;
+
+
+            MARKETPLACE_STATE.account =
+                savedAccount;
+
+
+            marketplaceUpdateAccountUI();
+
+            return false;
+
+        }
+
 
         MARKETPLACE_STATE.loggedIn =
             true;
@@ -1572,14 +2139,12 @@ function marketplaceRestoreLogin() {
         MARKETPLACE_STATE.account = {
 
             mobile:
-                String(
-                    session.mobile || ""
-                ),
+                session.mobile ||
+                savedAccount.mobile ||
+                "",
 
             email:
-                String(
-                    session.email || ""
-                )
+                session.email
 
         };
 
@@ -1597,7 +2162,7 @@ function marketplaceRestoreLogin() {
 
 
     MARKETPLACE_STATE.account =
-        marketplaceGetAccount();
+        savedAccount;
 
 
     marketplaceUpdateAccountUI();
@@ -1781,7 +2346,8 @@ function marketplaceGetAdvertisementForm() {
             value("adDescription"),
 
         country:
-            value("adCountry"),
+            value("adCountry")
+                .toUpperCase(),
 
         state:
             value("adState"),
@@ -1804,7 +2370,8 @@ function marketplaceGetAdvertisementForm() {
             value("adPhone"),
 
         email:
-            value("adEmail"),
+            value("adEmail")
+                .toLowerCase(),
 
         website:
             value("adWebsite"),
@@ -1922,6 +2489,32 @@ async function marketplaceSaveAdvertisement() {
                 }
 
             ) || null;
+
+    }
+
+
+    /*
+     * Editing permission.
+     */
+
+    if (
+        existing &&
+        existing.ownerEmail &&
+        String(
+            existing.ownerEmail
+        ).toLowerCase() !==
+        String(
+            MARKETPLACE_STATE
+                .account
+                .email
+        ).toLowerCase()
+    ) {
+
+        alert(
+            "You can edit only your own advertisement."
+        );
+
+        return null;
 
     }
 
@@ -2058,6 +2651,7 @@ async function marketplaceSaveAdvertisement() {
         ) {
 
             if (
+                !image.type ||
                 !image.type.startsWith(
                     "image/"
                 )
@@ -2111,16 +2705,25 @@ async function marketplaceSaveAdvertisement() {
         }
 
 
-        ad.videoId =
-            await marketplaceStoreMedia(
+        if (
+            files.video.type &&
+            files.video.type.startsWith(
+                "video/"
+            )
+        ) {
 
-                files.video,
+            ad.videoId =
+                await marketplaceStoreMedia(
 
-                adId,
+                    files.video,
 
-                "video"
+                    adId,
 
-            );
+                    "video"
+
+                );
+
+        }
 
     }
 
@@ -2290,10 +2893,14 @@ async function marketplaceEditAdvertisement(
 
         ad.ownerEmail &&
 
-        ad.ownerEmail !==
+        String(
+            ad.ownerEmail
+        ).toLowerCase() !==
+        String(
             MARKETPLACE_STATE
                 .account
                 .email
+        ).toLowerCase()
 
     ) {
 
@@ -2506,10 +3113,14 @@ async function marketplaceDeleteAdvertisement(
 
         ad.ownerEmail &&
 
-        ad.ownerEmail !==
+        String(
+            ad.ownerEmail
+        ).toLowerCase() !==
+        String(
             MARKETPLACE_STATE
                 .account
                 .email
+        ).toLowerCase()
 
     ) {
 
@@ -2757,7 +3368,7 @@ function marketplaceRenderAdvertisements() {
 
 
     /*
-     * When logged in, My Ads shows the user's ads.
+     * My Ads is private to the active local session.
      */
 
     if (
@@ -2765,9 +3376,13 @@ function marketplaceRenderAdvertisements() {
     ) {
 
         const email =
-            MARKETPLACE_STATE
-                .account
-                .email;
+            String(
+                MARKETPLACE_STATE
+                    .account
+                    .email || ""
+            )
+                .trim()
+                .toLowerCase();
 
 
         ads =
@@ -2776,16 +3391,20 @@ function marketplaceRenderAdvertisements() {
                 function(ad) {
 
                     /*
-                     * Old ads without ownerEmail are
-                     * still displayed for compatibility.
+                     * Old ads without ownerEmail remain
+                     * visible for compatibility.
                      */
 
                     return (
 
                         !ad.ownerEmail ||
 
-                        ad.ownerEmail ===
-                            email
+                        String(
+                            ad.ownerEmail
+                        )
+                            .trim()
+                            .toLowerCase() ===
+                        email
 
                     );
 
@@ -3124,6 +3743,16 @@ function marketplaceAddProduct(
     product
 ) {
 
+    if (
+        !product ||
+        typeof product !== "object"
+    ) {
+
+        return null;
+
+    }
+
+
     const item = {
 
         id:
@@ -3156,10 +3785,12 @@ function marketplaceAddProduct(
                 .currency,
 
         country:
-            product.country ||
-            MARKETPLACE_STATE
-                .selectedCountry ||
-            "",
+            String(
+                product.country ||
+                MARKETPLACE_STATE
+                    .selectedCountry ||
+                ""
+            ).toUpperCase(),
 
         image:
             product.image ||
@@ -3178,8 +3809,10 @@ function marketplaceAddProduct(
             "",
 
         url:
-            product.url ||
-            "",
+            marketplaceSafeURL(
+                product.url ||
+                ""
+            ),
 
         createdAt:
             new Date().toISOString()
@@ -3212,6 +3845,16 @@ function marketplaceAddJob(
     job
 ) {
 
+    if (
+        !job ||
+        typeof job !== "object"
+    ) {
+
+        return null;
+
+    }
+
+
     const item = {
 
         id:
@@ -3238,10 +3881,12 @@ function marketplaceAddJob(
             "General",
 
         country:
-            job.country ||
-            MARKETPLACE_STATE
-                .selectedCountry ||
-            "",
+            String(
+                job.country ||
+                MARKETPLACE_STATE
+                    .selectedCountry ||
+                ""
+            ).toUpperCase(),
 
         city:
             job.city ||
@@ -3264,8 +3909,10 @@ function marketplaceAddJob(
             "",
 
         url:
-            job.url ||
-            "",
+            marketplaceSafeURL(
+                job.url ||
+                ""
+            ),
 
         createdAt:
             new Date().toISOString()
@@ -3297,6 +3944,16 @@ function marketplaceAddJob(
 function marketplaceAddService(
     service
 ) {
+
+    if (
+        !service ||
+        typeof service !== "object"
+    ) {
+
+        return null;
+
+    }
+
 
     const item = {
 
@@ -3330,10 +3987,12 @@ function marketplaceAddService(
                 .currency,
 
         country:
-            service.country ||
-            MARKETPLACE_STATE
-                .selectedCountry ||
-            "",
+            String(
+                service.country ||
+                MARKETPLACE_STATE
+                    .selectedCountry ||
+                ""
+            ).toUpperCase(),
 
         city:
             service.city ||
@@ -3352,8 +4011,10 @@ function marketplaceAddService(
             "",
 
         url:
-            service.url ||
-            "",
+            marketplaceSafeURL(
+                service.url ||
+                ""
+            ),
 
         createdAt:
             new Date().toISOString()
@@ -3457,6 +4118,16 @@ function marketplaceFilterItem(
     item
 ) {
 
+    if (
+        !item ||
+        typeof item !== "object"
+    ) {
+
+        return false;
+
+    }
+
+
     const search =
         MARKETPLACE_STATE
             .searchText;
@@ -3532,7 +4203,9 @@ function marketplaceFilterItem(
 
         String(
             item.category || ""
-        ).toLowerCase() !==
+        )
+            .trim()
+            .toLowerCase() !==
         category
 
     ) {
@@ -3548,7 +4221,9 @@ function marketplaceFilterItem(
 
         String(
             item.country || ""
-        ).toUpperCase() !==
+        )
+            .trim()
+            .toUpperCase() !==
         country
 
     ) {
@@ -3656,7 +4331,9 @@ function marketplaceRenderProducts() {
                         </p>
 
                         ${
-                            product.price
+                            product.price !== "" &&
+                            product.price !== null &&
+                            product.price !== undefined
 
                                 ? `
 
@@ -3854,7 +4531,9 @@ function marketplaceRenderServices() {
                         </p>
 
                         ${
-                            service.price
+                            service.price !== "" &&
+                            service.price !== null &&
+                            service.price !== undefined
 
                                 ? `
 
@@ -4188,28 +4867,32 @@ function marketplaceBindAdvertisementListEvents() {
 
         async function(event) {
 
+            const target =
+                event.target;
+
+
             const editButton =
-                event.target.closest(
-
-                    "[data-marketplace-edit-ad]"
-
-                );
+                target.closest
+                    ? target.closest(
+                        "[data-marketplace-edit-ad]"
+                    )
+                    : null;
 
 
             const deleteButton =
-                event.target.closest(
-
-                    "[data-marketplace-delete-ad]"
-
-                );
+                target.closest
+                    ? target.closest(
+                        "[data-marketplace-delete-ad]"
+                    )
+                    : null;
 
 
             const previewButton =
-                event.target.closest(
-
-                    "[data-marketplace-preview-ad]"
-
-                );
+                target.closest
+                    ? target.closest(
+                        "[data-marketplace-preview-ad]"
+                    )
+                    : null;
 
 
             if (editButton) {
@@ -4280,7 +4963,9 @@ function marketplaceLoadSavedCountry() {
 
         String(
             saved || ""
-        ).toUpperCase();
+        )
+            .trim()
+            .toUpperCase();
 
 }
 
@@ -4394,9 +5079,81 @@ async function marketplaceInit() {
 
     ) {
 
-        country.value =
-            MARKETPLACE_STATE
-                .selectedCountry;
+        const matchingOption =
+            Array.from(
+                country.options
+            ).find(
+
+                function(option) {
+
+                    return (
+
+                        String(
+                            option.value
+                        ).toUpperCase() ===
+                        MARKETPLACE_STATE
+                            .selectedCountry
+
+                    );
+
+                }
+
+            );
+
+
+        if (matchingOption) {
+
+            country.value =
+                matchingOption.value;
+
+        }
+
+    }
+
+
+    const adCountry =
+        document.getElementById(
+            "adCountry"
+        );
+
+
+    if (
+
+        adCountry &&
+
+        MARKETPLACE_STATE
+            .selectedCountry
+
+    ) {
+
+        const matchingAdOption =
+            Array.from(
+                adCountry.options
+            ).find(
+
+                function(option) {
+
+                    return (
+
+                        String(
+                            option.value
+                        ).toUpperCase() ===
+                        MARKETPLACE_STATE
+                            .selectedCountry
+
+                    );
+
+                }
+
+            );
+
+
+        if (matchingAdOption) {
+
+            adCountry.value =
+                matchingAdOption.value;
+
+        }
 
     }
 
@@ -4437,7 +5194,7 @@ async function marketplaceInit() {
 
 
     console.log(
-        "ALON HISTORYVERSE 24 Marketplace loaded successfully."
+        "ALON HISTORYVERSE 24 Global Marketplace loaded successfully."
     );
 
 }

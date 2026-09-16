@@ -30,10 +30,10 @@
    Do NOT use:
        const MARKETPLACE_COUNTRIES = ...
 
-   because the file may be loaded more than once.
+   because this file may be loaded more than once.
 
-   We use window so repeated loading does not crash
-   the Jobs / Marketplace system.
+   We use window so repeated loading does not create a
+   top-level const/let redeclaration error.
    ========================================================= */
 
 (function () {
@@ -190,7 +190,7 @@
 
         { code:"OM", flag:"🇴🇲", name:"Oman", callingCode:"+968" },
 
-        { code:"PK", flag:"🇵🇰", name:"Pakistan", callingCode:"+92" },
+        { code:"PK", flag:"🇵🇰", name:"Pakistan", callingingCode:"+92", callingCode:"+92" },
         { code:"PW", flag:"🇵🇼", name:"Palau", callingCode:"+680" },
         { code:"PA", flag:"🇵🇦", name:"Panama", callingCode:"+507" },
         { code:"PG", flag:"🇵🇬", name:"Papua New Guinea", callingCode:"+675" },
@@ -277,20 +277,20 @@
 
     COUNTRY_DATA.forEach(function (country) {
 
-        if (!country) {
+        if (!country || typeof country !== "object") {
             return;
         }
 
 
         var code =
             String(country.code || "")
-            .trim()
-            .toUpperCase();
+                .trim()
+                .toUpperCase();
 
 
         var name =
             String(country.name || "")
-            .trim();
+                .trim();
 
 
         if (!code || !name) {
@@ -303,27 +303,22 @@
            ----------------------------------------------- */
 
         country.code = code;
-
         country.iso = code;
-
         country.isoCode = code;
-
         country.countryCode = code;
-
         country.cca2 = code;
 
         country.name = name;
-
         country.countryName = name;
 
         country.flag =
-            String(country.flag || "");
+            String(country.flag || "").trim();
 
         country.flagEmoji =
             country.flag;
 
         country.callingCode =
-            String(country.callingCode || "");
+            String(country.callingCode || "").trim();
 
         country.dialCode =
             country.callingCode;
@@ -378,9 +373,6 @@
 
     /* =====================================================
        PUBLIC GLOBAL DATABASE
-       -----------------------------------------------------
-       This is intentionally attached to window.
-       It is safe when this file is loaded repeatedly.
        ===================================================== */
 
     window.MARKETPLACE_COUNTRIES =
@@ -403,8 +395,8 @@
 
         var target =
             String(code || "")
-            .trim()
-            .toUpperCase();
+                .trim()
+                .toUpperCase();
 
 
         if (!target) {
@@ -436,8 +428,8 @@
 
         var target =
             String(name || "")
-            .trim()
-            .toLowerCase();
+                .trim()
+                .toLowerCase();
 
 
         if (!target) {
@@ -453,8 +445,8 @@
                         String(
                             country.name || ""
                         )
-                        .trim()
-                        .toLowerCase() ===
+                            .trim()
+                            .toLowerCase() ===
                         target
                     );
 
@@ -467,6 +459,13 @@
 
     /* =====================================================
        FIND COUNTRY BY CALLING CODE
+       -----------------------------------------------------
+       IMPORTANT:
+       Calling codes such as +1 and +7 are shared by
+       multiple countries. Therefore this function returns
+       the first exact database match only.
+
+       Use ISO code for saved country identity.
        ===================================================== */
 
     function marketplaceCountryByCallingCode(
@@ -475,7 +474,7 @@
 
         var target =
             String(callingCode || "")
-            .trim();
+                .trim();
 
 
         if (!target) {
@@ -501,11 +500,16 @@
 
     /* =====================================================
        GET ALL COUNTRIES
+       -----------------------------------------------------
+       Return a copy of the array so external code cannot
+       accidentally replace the central array itself.
+       Country objects are kept compatible with existing
+       Jobs / Marketplace code.
        ===================================================== */
 
     function getAllCountries() {
 
-        return cleanCountries;
+        return cleanCountries.slice();
 
     }
 
@@ -525,6 +529,12 @@
        POPULATE SELECT ELEMENT
        -----------------------------------------------------
        Can be used by Jobs and Marketplace.
+
+       Option value:
+           ISO country code
+
+       Option text:
+           Flag + Country + Calling Code
        ===================================================== */
 
     function populateCountrySelect(
@@ -555,15 +565,21 @@
 
 
         var currentValue =
-            selectElement.value || "";
+            String(
+                selectElement.value || ""
+            );
 
 
-        /* Clear existing options */
+        /* -----------------------------------------------
+           Clear existing options
+           ----------------------------------------------- */
 
         selectElement.innerHTML = "";
 
 
-        /* Placeholder */
+        /* -----------------------------------------------
+           Placeholder
+           ----------------------------------------------- */
 
         var placeholderOption =
             document.createElement("option");
@@ -588,7 +604,9 @@
         );
 
 
-        /* Countries */
+        /* -----------------------------------------------
+           Country options
+           ----------------------------------------------- */
 
         cleanCountries.forEach(
             function (country) {
@@ -633,25 +651,33 @@
                     text;
 
 
+                /* ---------------------------------------
+                   Dataset compatibility
+                   --------------------------------------- */
+
                 option.dataset.code =
                     country.code;
-
 
                 option.dataset.iso =
                     country.iso;
 
-
                 option.dataset.countryCode =
                     country.countryCode;
-
 
                 option.dataset.name =
                     country.name;
 
+                option.dataset.countryName =
+                    country.countryName;
 
                 option.dataset.callingCode =
                     country.callingCode;
 
+                option.dataset.dialCode =
+                    country.dialCode;
+
+                option.dataset.phoneCode =
+                    country.phoneCode;
 
                 option.dataset.flag =
                     country.flag;
@@ -665,12 +691,42 @@
         );
 
 
-        /* Restore previous value */
+        /* -----------------------------------------------
+           Restore previous ISO value
+           ----------------------------------------------- */
 
         if (currentValue) {
 
+            var matchingOption =
+                Array.prototype.find.call(
+                    selectElement.options,
+                    function (option) {
+
+                        return (
+                            option.value ===
+                            currentValue
+                        );
+
+                    }
+                );
+
+
+            if (matchingOption) {
+
+                selectElement.value =
+                    currentValue;
+
+            } else {
+
+                selectElement.value =
+                    "";
+
+            }
+
+        } else {
+
             selectElement.value =
-                currentValue;
+                "";
 
         }
 

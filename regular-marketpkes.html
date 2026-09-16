@@ -24,6 +24,20 @@
 /* =========================================================
    ALON HISTORYVERSE 24
    REGULAR MARKETPLACE
+   BLUE UI SYSTEM
+   ========================================================= */
+
+:root {
+    --rm-blue: #1677ff;
+    --rm-blue-light: #4da3ff;
+    --rm-blue-soft: rgba(22,119,255,.25);
+    --rm-blue-border: rgba(22,119,255,.42);
+    --rm-blue-bg: rgba(22,119,255,.08);
+}
+
+
+/* =========================================================
+   WRAPPER
    ========================================================= */
 
 .rm-wrap {
@@ -32,8 +46,13 @@
     padding: 20px 14px 50px;
 }
 
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
 .rm-hero {
-    border: 1px solid rgba(215,179,90,.35);
+    border: 1px solid var(--rm-blue-border);
     border-radius: 18px;
     padding: 28px 18px;
     margin-bottom: 20px;
@@ -42,7 +61,7 @@
 
 .rm-hero h1 {
     margin: 0 0 8px;
-    color: #f0d27a;
+    color: var(--rm-blue-light);
 }
 
 .rm-hero p {
@@ -50,8 +69,13 @@
     opacity: .85;
 }
 
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
 .rm-card {
-    border: 1px solid rgba(215,179,90,.28);
+    border: 1px solid var(--rm-blue-soft);
     border-radius: 16px;
     padding: 18px;
     margin-bottom: 18px;
@@ -61,14 +85,24 @@
 .rm-card h2,
 .rm-card h3 {
     margin-top: 0;
-    color: #f0d27a;
+    color: var(--rm-blue-light);
 }
+
+
+/* =========================================================
+   GRID
+   ========================================================= */
 
 .rm-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0,1fr));
     gap: 12px;
 }
+
+
+/* =========================================================
+   FIELDS
+   ========================================================= */
 
 .rm-field {
     display: flex;
@@ -84,6 +118,11 @@
     font-weight: 700;
 }
 
+
+/* =========================================================
+   INPUTS / SELECT / TEXTAREA
+   ========================================================= */
+
 .rm-field input,
 .rm-field select,
 .rm-field textarea {
@@ -91,16 +130,58 @@
     box-sizing: border-box;
     padding: 11px 12px;
     border-radius: 10px;
-    border: 1px solid rgba(215,179,90,.35);
+    border: 1px solid var(--rm-blue-border);
     background: rgba(0,0,0,.25);
     color: inherit;
     font: inherit;
 }
 
+
+/* =========================================================
+   SELECT VISIBILITY
+   ========================================================= */
+
+.rm-field select {
+    min-height: 44px;
+    cursor: pointer;
+}
+
+.rm-field select:focus,
+.rm-field input:focus,
+.rm-field textarea:focus {
+    outline: none;
+    border-color: var(--rm-blue);
+    box-shadow: 0 0 0 2px var(--rm-blue-soft);
+}
+
+
+/* =========================================================
+   CATEGORY FIELD
+   ========================================================= */
+
+#rmListingCategory {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    min-height: 44px;
+    border: 1px solid var(--rm-blue);
+    background: rgba(22,119,255,.08);
+}
+
+
+/* =========================================================
+   TEXTAREA
+   ========================================================= */
+
 .rm-field textarea {
     min-height: 110px;
     resize: vertical;
 }
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 
 .rm-actions {
     display: flex;
@@ -110,7 +191,7 @@
 }
 
 .rm-btn {
-    border: 1px solid #d7b35a;
+    border: 1px solid var(--rm-blue);
     border-radius: 10px;
     padding: 10px 16px;
     cursor: pointer;
@@ -119,8 +200,20 @@
     color: inherit;
 }
 
+.rm-btn:hover {
+    border-color: var(--rm-blue-light);
+    background: var(--rm-blue-bg);
+}
+
 .rm-btn.primary {
-    background: #d7b35a;
+    background: var(--rm-blue);
+    border-color: var(--rm-blue);
+    color: #ffffff;
+}
+
+.rm-btn.primary:hover {
+    background: var(--rm-blue-light);
+    border-color: var(--rm-blue-light);
     color: #05080f;
 }
 
@@ -128,11 +221,16 @@
     border-color: #d66;
 }
 
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
 .rm-login-status {
     padding: 12px;
     border-radius: 10px;
     margin-bottom: 14px;
-    border: 1px solid rgba(215,179,90,.25);
+    border: 1px solid var(--rm-blue-soft);
 }
 
 .rm-agreement {
@@ -146,9 +244,14 @@
 .rm-agreement input {
     width: 19px;
     height: 19px;
-    accent-color: #1677ff;
+    accent-color: var(--rm-blue);
     margin-top: 2px;
 }
+
+
+/* =========================================================
+   LISTINGS
+   ========================================================= */
 
 .rm-list {
     display: grid;
@@ -156,7 +259,7 @@
 }
 
 .rm-listing {
-    border: 1px solid rgba(215,179,90,.25);
+    border: 1px solid var(--rm-blue-soft);
     border-radius: 14px;
     padding: 15px;
 }
@@ -172,23 +275,34 @@
     opacity: .9;
 }
 
+
+/* =========================================================
+   MEDIA
+   ========================================================= */
+
 .rm-media {
     max-width: 100%;
     border-radius: 10px;
     margin-top: 10px;
 }
 
+
+/* =========================================================
+   PAYMENT
+   ========================================================= */
+
 .rm-payment-box {
-    border: 1px solid rgba(215,179,90,.45);
+    border: 1px solid var(--rm-blue-border);
     border-radius: 14px;
     padding: 16px;
     margin-top: 15px;
+    background: rgba(22,119,255,.04);
 }
 
 .rm-payment-price {
     font-size: 24px;
     font-weight: 800;
-    color: #f0d27a;
+    color: var(--rm-blue-light);
 }
 
 .rm-payment-note {
@@ -196,6 +310,11 @@
     opacity: .75;
     line-height: 1.5;
 }
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
 
 .rm-status {
     margin-top: 12px;
@@ -216,9 +335,19 @@
     border: 1px solid #d66;
 }
 
+
+/* =========================================================
+   HIDDEN
+   ========================================================= */
+
 .rm-hidden {
     display: none !important;
 }
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 700px) {
 
@@ -244,28 +373,49 @@
 
 </head>
 
+
 <body>
+
 
 <header class="ah-header">
 
     <div>
-        <strong>ALON HISTORYVERSE 24</strong>
-        <div>Regular Marketplace</div>
+
+        <strong>
+            ALON HISTORYVERSE 24
+        </strong>
+
+        <div>
+            Regular Marketplace
+        </div>
+
     </div>
 
+
     <nav>
-        <a href="../index.html">Home</a>
+
+        <a href="../index.html">
+            Home
+        </a>
+
     </nav>
 
 </header>
 
 
+
 <main class="rm-wrap">
 
 
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+
 <section class="rm-hero">
 
-    <h1>Regular Marketplace</h1>
+    <h1>
+        Regular Marketplace
+    </h1>
 
     <p>
         Buy, sell and advertise homes, land, vehicles,
@@ -275,13 +425,17 @@
 </section>
 
 
+
 <!-- =====================================================
      LOGIN
      ===================================================== -->
 
 <section class="rm-card">
 
-    <h2>Marketplace Login</h2>
+    <h2>
+        Marketplace Login
+    </h2>
+
 
     <div
         id="rmLoginStatus"
@@ -293,7 +447,9 @@
 
     <form id="rmLoginForm">
 
+
         <div class="rm-grid">
+
 
             <div class="rm-field">
 
@@ -308,6 +464,7 @@
                 >
 
             </div>
+
 
 
             <div class="rm-field">
@@ -325,6 +482,7 @@
             </div>
 
 
+
             <div class="rm-field">
 
                 <label for="rmLoginEmail">
@@ -338,6 +496,7 @@
                 >
 
             </div>
+
 
 
             <div class="rm-field">
@@ -355,7 +514,9 @@
 
             </div>
 
+
         </div>
+
 
 
         <label class="rm-agreement">
@@ -374,6 +535,7 @@
         </label>
 
 
+
         <div class="rm-actions">
 
             <button
@@ -385,7 +547,9 @@
 
         </div>
 
+
     </form>
+
 
 
     <div
@@ -393,11 +557,15 @@
         class="rm-hidden"
     >
 
-        <strong>Logged in as:</strong>
+        <strong>
+            Logged in as:
+        </strong>
 
         <span id="rmProfileName"></span>
 
-        <span> • </span>
+        <span>
+            •
+        </span>
 
         <span id="rmProfileEmail"></span>
 
@@ -419,19 +587,25 @@
 </section>
 
 
+
 <!-- =====================================================
      CREATE LISTING
      ===================================================== -->
 
 <section class="rm-card">
 
-    <h2>Sell My Item / Sell My Vehicle / Property</h2>
+    <h2>
+        Sell My Item / Sell My Vehicle / Property
+    </h2>
 
 
     <form id="rmListingForm">
 
+
         <div class="rm-grid">
 
+
+            <!-- LISTING TYPE -->
 
             <div class="rm-field">
 
@@ -439,7 +613,10 @@
                     Listing Type
                 </label>
 
-                <select id="rmListingType" required>
+                <select
+                    id="rmListingType"
+                    required
+                >
 
                     <option value="">
                         Select
@@ -462,13 +639,19 @@
             </div>
 
 
+
+            <!-- CATEGORY -->
+
             <div class="rm-field">
 
                 <label for="rmListingCategory">
                     Category
                 </label>
 
-                <select id="rmListingCategory" required>
+                <select
+                    id="rmListingCategory"
+                    required
+                >
 
                     <option value="">
                         Select type first
@@ -479,13 +662,19 @@
             </div>
 
 
+
+            <!-- CONDITION -->
+
             <div class="rm-field">
 
                 <label for="rmCondition">
                     Condition
                 </label>
 
-                <select id="rmCondition" required>
+                <select
+                    id="rmCondition"
+                    required
+                >
 
                     <option value="new">
                         New
@@ -499,6 +688,9 @@
 
             </div>
 
+
+
+            <!-- TITLE -->
 
             <div class="rm-field">
 
@@ -514,6 +706,9 @@
 
             </div>
 
+
+
+            <!-- PRICE -->
 
             <div class="rm-field">
 
@@ -531,6 +726,9 @@
 
             </div>
 
+
+
+            <!-- COUNTRY -->
 
             <div class="rm-field">
 
@@ -552,6 +750,9 @@
             </div>
 
 
+
+            <!-- STATE -->
+
             <div class="rm-field">
 
                 <label for="rmState">
@@ -566,6 +767,9 @@
 
             </div>
 
+
+
+            <!-- DISTRICT -->
 
             <div class="rm-field">
 
@@ -582,6 +786,9 @@
             </div>
 
 
+
+            <!-- TALUKA -->
+
             <div class="rm-field">
 
                 <label for="rmTaluka">
@@ -596,6 +803,9 @@
 
             </div>
 
+
+
+            <!-- PIN -->
 
             <div class="rm-field">
 
@@ -612,6 +822,9 @@
             </div>
 
 
+
+            <!-- PHONE -->
+
             <div class="rm-field">
 
                 <label for="rmPhone">
@@ -626,6 +839,9 @@
 
             </div>
 
+
+
+            <!-- EMAIL -->
 
             <div class="rm-field">
 
@@ -642,6 +858,9 @@
             </div>
 
 
+
+            <!-- DESCRIPTION -->
+
             <div class="rm-field full">
 
                 <label for="rmDescription">
@@ -655,6 +874,9 @@
 
             </div>
 
+
+
+            <!-- IMAGE -->
 
             <div class="rm-field">
 
@@ -671,6 +893,9 @@
             </div>
 
 
+
+            <!-- VIDEO -->
+
             <div class="rm-field">
 
                 <label for="rmVideo">
@@ -685,7 +910,9 @@
 
             </div>
 
+
         </div>
+
 
 
         <div class="rm-actions">
@@ -697,6 +924,7 @@
                 Save Listing
             </button>
 
+
             <button
                 id="rmCancelEdit"
                 class="rm-btn"
@@ -707,7 +935,9 @@
 
         </div>
 
+
     </form>
+
 
 
     <div
@@ -718,13 +948,17 @@
 </section>
 
 
+
 <!-- =====================================================
      MY LISTINGS
      ===================================================== -->
 
 <section class="rm-card">
 
-    <h2>My Listings</h2>
+    <h2>
+        My Listings
+    </h2>
+
 
     <div
         id="rmMyListings"
@@ -734,13 +968,17 @@
 </section>
 
 
+
 <!-- =====================================================
      SHOWROOM ADVERTISEMENT
      ===================================================== -->
 
 <section class="rm-card">
 
-    <h2>Showroom Advertisement</h2>
+    <h2>
+        Showroom Advertisement
+    </h2>
+
 
     <p>
         Advertise your car, bike, tractor, truck or JCB showroom
@@ -748,10 +986,14 @@
     </p>
 
 
+
     <form id="rmShowroomForm">
+
 
         <div class="rm-grid">
 
+
+            <!-- SHOWROOM NAME -->
 
             <div class="rm-field">
 
@@ -767,6 +1009,9 @@
 
             </div>
 
+
+
+            <!-- SHOWROOM TYPE -->
 
             <div class="rm-field">
 
@@ -812,6 +1057,9 @@
             </div>
 
 
+
+            <!-- SHOWROOM COUNTRY -->
+
             <div class="rm-field">
 
                 <label for="rmShowroomCountry">
@@ -832,6 +1080,9 @@
             </div>
 
 
+
+            <!-- SHOWROOM STATE -->
+
             <div class="rm-field">
 
                 <label for="rmShowroomState">
@@ -846,6 +1097,9 @@
 
             </div>
 
+
+
+            <!-- SHOWROOM DISTRICT -->
 
             <div class="rm-field">
 
@@ -862,6 +1116,9 @@
             </div>
 
 
+
+            <!-- SHOWROOM TALUKA -->
+
             <div class="rm-field">
 
                 <label for="rmShowroomTaluka">
@@ -876,6 +1133,9 @@
 
             </div>
 
+
+
+            <!-- SHOWROOM PIN -->
 
             <div class="rm-field">
 
@@ -892,6 +1152,9 @@
             </div>
 
 
+
+            <!-- SHOWROOM PHONE -->
+
             <div class="rm-field">
 
                 <label for="rmShowroomPhone">
@@ -907,6 +1170,9 @@
             </div>
 
 
+
+            <!-- SHOWROOM EMAIL -->
+
             <div class="rm-field">
 
                 <label for="rmShowroomEmail">
@@ -921,6 +1187,9 @@
 
             </div>
 
+
+
+            <!-- SHOWROOM IMAGE -->
 
             <div class="rm-field">
 
@@ -938,6 +1207,9 @@
             </div>
 
 
+
+            <!-- SHOWROOM VIDEO -->
+
             <div class="rm-field">
 
                 <label for="rmShowroomVideo">
@@ -953,6 +1225,9 @@
             </div>
 
 
+
+            <!-- SHOWROOM DESCRIPTION -->
+
             <div class="rm-field full">
 
                 <label for="rmShowroomDescription">
@@ -966,16 +1241,24 @@
 
             </div>
 
+
         </div>
 
 
+
+        <!-- PAYMENT -->
+
         <div class="rm-payment-box">
 
-            <h3>Advertisement Payment</h3>
+            <h3>
+                Advertisement Payment
+            </h3>
+
 
             <div class="rm-payment-price">
                 $10 USD
             </div>
+
 
             <p class="rm-payment-note">
                 Payment is required before the showroom
@@ -1006,6 +1289,9 @@
         </div>
 
 
+
+        <!-- PUBLISH -->
+
         <div class="rm-actions">
 
             <button
@@ -1019,14 +1305,23 @@
 
         </div>
 
+
     </form>
 
 </section>
 
 
+
+<!-- =====================================================
+     MY SHOWROOM ADVERTISEMENTS
+     ===================================================== -->
+
 <section class="rm-card">
 
-    <h2>My Showroom Advertisements</h2>
+    <h2>
+        My Showroom Advertisements
+    </h2>
+
 
     <div
         id="rmShowroomListings"
@@ -1039,9 +1334,22 @@
 </main>
 
 
+
+<!-- =====================================================
+     CENTRAL COUNTRY DATABASE
+     PATH KEPT EXACTLY AS PROVIDED
+     ===================================================== -->
+
 <script src="../marketplace-countries.js"></script>
 
+
+<!-- =====================================================
+     REGULAR MARKETPLACE JS
+     PATH KEPT EXACTLY AS PROVIDED
+     ===================================================== -->
+
 <script src="./regular-marketplace.js"></script>
+
 
 </body>
 

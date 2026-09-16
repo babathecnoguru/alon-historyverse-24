@@ -2,8 +2,23 @@
    ALON HISTORYVERSE 24
    COUNTRIES CLICK ENGINE
    Creator: Baba Thecno Guru
-   Version: 24.0
+   Version: 24.1
    File: jss/countries-click.js
+
+   FEATURES
+   ---------------------------------------------------------
+   • Country card click
+   • Country row click
+   • Country box click
+   • Country link normalization
+   • Country search
+   • Country slug support
+   • Country code / name support
+   • Central country database compatibility
+   • Keyboard accessibility
+   • Dynamic country elements support
+   • Duplicate event protection
+   • Mobile-friendly
    ========================================================= */
 
 "use strict";
@@ -22,7 +37,7 @@ const ALON_COUNTRIES_CLICK_CONFIG = {
         "Baba Thecno Guru",
 
     version:
-        "24.0",
+        "24.1",
 
     countryPage:
         "./country.html",
@@ -81,6 +96,22 @@ function countriesClickEscapeHTML(
 
 
 /* =========================================================
+   COUNTRY VALUE NORMALIZER
+   ========================================================= */
+
+function normalizeCountryValue(
+    country
+) {
+
+    return String(
+        country || ""
+    )
+        .trim();
+
+}
+
+
+/* =========================================================
    CREATE COUNTRY URL
    ========================================================= */
 
@@ -88,7 +119,13 @@ function getCountryClickURL(
     country
 ) {
 
-    if (!country) {
+    const value =
+        normalizeCountryValue(
+            country
+        );
+
+
+    if (!value) {
 
         return (
             ALON_COUNTRIES_CLICK_CONFIG
@@ -97,13 +134,15 @@ function getCountryClickURL(
 
     }
 
+
     return (
         ALON_COUNTRIES_CLICK_CONFIG
             .countryPage +
+
         "?country=" +
+
         encodeURIComponent(
-            String(country)
-                .trim()
+            value
         )
     );
 
@@ -145,6 +184,345 @@ function countryNameToSlug(
 
 
 /* =========================================================
+   FIND COUNTRY DATABASE
+   ---------------------------------------------------------
+   Supports the central country file without forcing
+   a specific variable name.
+   ========================================================= */
+
+function getCountriesClickDatabase() {
+
+    const candidates = [];
+
+
+    /*
+     * Global window variables.
+     */
+
+    if (
+        Array.isArray(
+            window.MARKETPLACE_COUNTRIES
+        )
+    ) {
+
+        candidates.push(
+            window.MARKETPLACE_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        Array.isArray(
+            window.ALON_WORLD_COUNTRIES
+        )
+    ) {
+
+        candidates.push(
+            window.ALON_WORLD_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        Array.isArray(
+            window.WORLD_COUNTRIES
+        )
+    ) {
+
+        candidates.push(
+            window.WORLD_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        Array.isArray(
+            window.ALON_MARKETPLACE_COUNTRIES
+        )
+    ) {
+
+        candidates.push(
+            window.ALON_MARKETPLACE_COUNTRIES
+        );
+
+    }
+
+
+    /*
+     * Global lexical variables.
+     * Safe typeof checks prevent ReferenceError.
+     */
+
+    if (
+        typeof MARKETPLACE_COUNTRIES !==
+        "undefined" &&
+
+        Array.isArray(
+            MARKETPLACE_COUNTRIES
+        )
+    ) {
+
+        candidates.push(
+            MARKETPLACE_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        typeof ALON_WORLD_COUNTRIES !==
+        "undefined" &&
+
+        Array.isArray(
+            ALON_WORLD_COUNTRIES
+        )
+    ) {
+
+        candidates.push(
+            ALON_WORLD_COUNTRIES
+        );
+
+    }
+
+
+    if (
+        typeof WORLD_COUNTRIES !==
+        "undefined" &&
+
+        Array.isArray(
+            WORLD_COUNTRIES
+        )
+    ) {
+
+        candidates.push(
+            WORLD_COUNTRIES
+        );
+
+    }
+
+
+    /*
+     * Return first valid database.
+     */
+
+    for (
+        let index = 0;
+        index < candidates.length;
+        index++
+    ) {
+
+        if (
+            candidates[index].length
+        ) {
+
+            return candidates[index];
+
+        }
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =========================================================
+   COUNTRY CODE
+   ========================================================= */
+
+function getCountryCode(
+    country
+) {
+
+    if (
+        !country ||
+        typeof country !== "object"
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(
+
+        country.code ||
+
+        country.iso ||
+
+        country.isoCode ||
+
+        country.iso2 ||
+
+        country.cca2 ||
+
+        country.countryCode ||
+
+        ""
+
+    )
+        .trim()
+        .toUpperCase();
+
+}
+
+
+/* =========================================================
+   COUNTRY NAME
+   ========================================================= */
+
+function getCountryName(
+    country
+) {
+
+    if (
+        !country ||
+        typeof country !== "object"
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(
+
+        country.name ||
+
+        country.country ||
+
+        country.countryName ||
+
+        country.label ||
+
+        country.title ||
+
+        ""
+
+    )
+        .trim();
+
+}
+
+
+/* =========================================================
+   FIND COUNTRY RECORD
+   ========================================================= */
+
+function findCountryRecord(
+    value
+) {
+
+    const target =
+        normalizeCountryValue(
+            value
+        );
+
+
+    if (!target) {
+
+        return null;
+
+    }
+
+
+    const upperTarget =
+        target.toUpperCase();
+
+
+    const database =
+        getCountriesClickDatabase();
+
+
+    return database.find(
+
+        function(country) {
+
+            const code =
+                getCountryCode(
+                    country
+                );
+
+
+            const name =
+                getCountryName(
+                    country
+                );
+
+
+            return (
+
+                code ===
+                upperTarget ||
+
+                name.toLowerCase() ===
+                target.toLowerCase()
+
+            );
+
+        }
+
+    ) || null;
+
+}
+
+
+/* =========================================================
+   COUNTRY CANONICAL VALUE
+   ========================================================= */
+
+function getCanonicalCountryValue(
+    value
+) {
+
+    const target =
+        normalizeCountryValue(
+            value
+        );
+
+
+    if (!target) {
+
+        return "";
+
+    }
+
+
+    const record =
+        findCountryRecord(
+            target
+        );
+
+
+    if (!record) {
+
+        return target;
+
+    }
+
+
+    return (
+
+        getCountryCode(
+            record
+        ) ||
+
+        getCountryName(
+            record
+        ) ||
+
+        target
+
+    );
+
+}
+
+
+/* =========================================================
    FIND COUNTRY FROM ELEMENT
    ========================================================= */
 
@@ -169,7 +547,26 @@ function getCountryFromElement(
         element.dataset.country
     ) {
 
-        return element.dataset.country;
+        return (
+            element.dataset.country
+        );
+
+    }
+
+
+    /*
+     * Country code:
+     * data-country-code="IN"
+     */
+
+    if (
+        element.dataset &&
+        element.dataset.countryCode
+    ) {
+
+        return (
+            element.dataset.countryCode
+        );
 
     }
 
@@ -184,7 +581,9 @@ function getCountryFromElement(
         element.dataset.countryId
     ) {
 
-        return element.dataset.countryId;
+        return (
+            element.dataset.countryId
+        );
 
     }
 
@@ -199,7 +598,25 @@ function getCountryFromElement(
         element.dataset.countryName
     ) {
 
-        return element.dataset.countryName;
+        return (
+            element.dataset.countryName
+        );
+
+    }
+
+
+    /*
+     * Open-country attribute.
+     */
+
+    if (
+        element.dataset &&
+        element.dataset.openCountry
+    ) {
+
+        return (
+            element.dataset.openCountry
+        );
 
     }
 
@@ -210,16 +627,32 @@ function getCountryFromElement(
 
     const child =
         element.querySelector(
-            "[data-country], [data-country-id], [data-country-name]"
+
+            "[data-country], " +
+            "[data-country-code], " +
+            "[data-country-id], " +
+            "[data-country-name], " +
+            "[data-open-country]"
+
         );
+
 
     if (child) {
 
         return (
+
             child.dataset.country ||
+
+            child.dataset.countryCode ||
+
             child.dataset.countryId ||
+
             child.dataset.countryName ||
+
+            child.dataset.openCountry ||
+
             ""
+
         );
 
     }
@@ -231,10 +664,13 @@ function getCountryFromElement(
 
     const link =
         element.matches("a")
+
             ? element
+
             : element.querySelector(
                 "a"
             );
+
 
     if (link) {
 
@@ -242,6 +678,7 @@ function getCountryFromElement(
             link.getAttribute(
                 "href"
             );
+
 
         if (href) {
 
@@ -253,10 +690,12 @@ function getCountryFromElement(
                         window.location.href
                     );
 
+
                 const country =
                     url.searchParams.get(
                         "country"
                     );
+
 
                 if (country) {
 
@@ -266,7 +705,9 @@ function getCountryFromElement(
 
             } catch {
 
-                /* Ignore invalid URL. */
+                /*
+                 * Ignore invalid URL.
+                 */
 
             }
 
@@ -288,16 +729,24 @@ function openCountry(
     country
 ) {
 
-    if (!country) {
+    const value =
+        normalizeCountryValue(
+            country
+        );
+
+
+    if (!value) {
 
         return false;
 
     }
 
+
     window.location.href =
         getCountryClickURL(
-            country
+            value
         );
+
 
     return true;
 
@@ -318,10 +767,27 @@ function makeCountryClickable(
 
     }
 
+
+    /*
+     * Prevent duplicate event binding.
+     */
+
+    if (
+        element.dataset
+            .alonCountryClickReady ===
+        "true"
+    ) {
+
+        return;
+
+    }
+
+
     const country =
         getCountryFromElement(
             element
         );
+
 
     if (!country) {
 
@@ -338,8 +804,14 @@ function makeCountryClickable(
         country;
 
 
+    element.dataset.countrySlug =
+        countryNameToSlug(
+            country
+        );
+
+
     /*
-     * Visual accessibility.
+     * Accessibility.
      */
 
     element.style.cursor =
@@ -360,18 +832,36 @@ function makeCountryClickable(
     }
 
 
+    element.setAttribute(
+        "role",
+        element.getAttribute(
+            "role"
+        ) || "link"
+    );
+
+
+    /*
+     * Mark as initialized.
+     */
+
+    element.dataset
+        .alonCountryClickReady =
+        "true";
+
+
     /*
      * Click event.
      */
 
     element.addEventListener(
+
         "click",
-        function (event) {
+
+        function(event) {
 
             /*
              * Do not interfere with
-             * buttons, forms or existing
-             * links inside the card.
+             * controls inside the card.
              */
 
             if (
@@ -386,9 +876,8 @@ function makeCountryClickable(
 
 
             /*
-             * If the clicked target is
-             * already a country link,
-             * allow its normal behavior.
+             * Existing links should keep
+             * their normal navigation.
              */
 
             if (
@@ -409,6 +898,7 @@ function makeCountryClickable(
             );
 
         }
+
     );
 
 
@@ -417,14 +907,19 @@ function makeCountryClickable(
      */
 
     element.addEventListener(
+
         "keydown",
-        function (event) {
+
+        function(event) {
 
             if (
+
                 event.key ===
-                "Enter" ||
+                    "Enter" ||
+
                 event.key ===
-                " "
+                    " "
+
             ) {
 
                 if (
@@ -437,7 +932,9 @@ function makeCountryClickable(
 
                 }
 
+
                 event.preventDefault();
+
 
                 openCountry(
                     country
@@ -446,6 +943,7 @@ function makeCountryClickable(
             }
 
         }
+
     );
 
 }
@@ -461,9 +959,13 @@ function initializeCountryCards() {
 
         "[data-country]",
 
+        "[data-country-code]",
+
         "[data-country-id]",
 
         "[data-country-name]",
+
+        "[data-open-country]",
 
         ".country-card",
 
@@ -483,34 +985,40 @@ function initializeCountryCards() {
 
 
     selectors.forEach(
-        function (selector) {
+
+        function(selector) {
 
             document
                 .querySelectorAll(
                     selector
                 )
                 .forEach(
-                    function (element) {
+
+                    function(element) {
 
                         elements.add(
                             element
                         );
 
                     }
+
                 );
 
         }
+
     );
 
 
     elements.forEach(
-        function (element) {
+
+        function(element) {
 
             makeCountryClickable(
                 element
             );
 
         }
+
     );
 
 }
@@ -524,16 +1032,25 @@ function normalizeCountryLinks() {
 
     const links =
         document.querySelectorAll(
-            "a[data-country], a[data-country-id], a[data-country-name]"
+
+            "a[data-country], " +
+            "a[data-country-code], " +
+            "a[data-country-id], " +
+            "a[data-country-name], " +
+            "a[data-open-country]"
+
         );
 
+
     links.forEach(
-        function (link) {
+
+        function(link) {
 
             const country =
                 getCountryFromElement(
                     link
                 );
+
 
             if (!country) {
 
@@ -541,14 +1058,19 @@ function normalizeCountryLinks() {
 
             }
 
+
             link.setAttribute(
+
                 "href",
+
                 getCountryClickURL(
                     country
                 )
+
             );
 
         }
+
     );
 
 }
@@ -572,12 +1094,21 @@ function filterCountryCards(
 
     const cards =
         document.querySelectorAll(
-            "[data-country], .country-card, .country-item, .country-row"
+
+            "[data-country], " +
+            "[data-country-id], " +
+            "[data-country-name], " +
+            ".country-card, " +
+            ".country-item, " +
+            ".country-row, " +
+            ".country-box"
+
         );
 
 
     cards.forEach(
-        function (card) {
+
+        function(card) {
 
             const country =
                 getCountryFromElement(
@@ -594,12 +1125,15 @@ function filterCountryCards(
 
 
             const matches =
+
                 !search ||
+
                 country
                     .toLowerCase()
                     .includes(
                         search
                     ) ||
+
                 text.includes(
                     search
                 );
@@ -609,6 +1143,7 @@ function filterCountryCards(
                 !matches;
 
         }
+
     );
 
 }
@@ -621,9 +1156,11 @@ function filterCountryCards(
 function setupCountrySearch() {
 
     const searchInput =
+
         document.getElementById(
             "countrySearch"
         ) ||
+
         document.querySelector(
             "[data-country-search]"
         );
@@ -636,15 +1173,34 @@ function setupCountrySearch() {
     }
 
 
+    if (
+        searchInput.dataset
+            .alonCountrySearchReady ===
+        "true"
+    ) {
+
+        return;
+
+    }
+
+
+    searchInput.dataset
+        .alonCountrySearchReady =
+        "true";
+
+
     searchInput.addEventListener(
+
         "input",
-        function () {
+
+        function() {
 
             filterCountryCards(
                 searchInput.value
             );
 
         }
+
     );
 
 }
@@ -661,11 +1217,15 @@ function getCurrentCountry() {
             window.location.search
         );
 
+
     return (
+
         params.get(
             "country"
         ) ||
+
         ""
+
     );
 
 }
@@ -679,12 +1239,18 @@ function addCountryLinksToCards() {
 
     const cards =
         document.querySelectorAll(
-            ".country-card, .country-item, .country-box"
+
+            ".country-card, " +
+            ".country-item, " +
+            ".country-box, " +
+            ".country-row"
+
         );
 
 
     cards.forEach(
-        function (card) {
+
+        function(card) {
 
             /*
              * Do not modify cards which
@@ -726,6 +1292,7 @@ function addCountryLinksToCards() {
                 );
 
         }
+
     );
 
 }
@@ -740,19 +1307,69 @@ function setCountryData(
     country
 ) {
 
-    if (!element || !country) {
+    if (
+        !element ||
+        !country
+    ) {
 
         return false;
 
     }
 
+
+    const value =
+        normalizeCountryValue(
+            country
+        );
+
+
     element.dataset.country =
-        String(country);
+        value;
+
 
     element.dataset.countrySlug =
         countryNameToSlug(
-            country
+            value
         );
+
+
+    const record =
+        findCountryRecord(
+            value
+        );
+
+
+    if (record) {
+
+        const code =
+            getCountryCode(
+                record
+            );
+
+
+        const name =
+            getCountryName(
+                record
+            );
+
+
+        if (code) {
+
+            element.dataset.countryCode =
+                code;
+
+        }
+
+
+        if (name) {
+
+            element.dataset.countryName =
+                name;
+
+        }
+
+    }
+
 
     return true;
 
@@ -765,14 +1382,33 @@ function setCountryData(
 
 function setupCountryDelegation() {
 
+    if (
+        document.documentElement.dataset
+            .alonCountryDelegationReady ===
+        "true"
+    ) {
+
+        return;
+
+    }
+
+
+    document.documentElement.dataset
+        .alonCountryDelegationReady =
+        "true";
+
+
     document.addEventListener(
+
         "click",
-        function (event) {
+
+        function(event) {
 
             const target =
                 event.target.closest(
                     "[data-open-country]"
                 );
+
 
             if (!target) {
 
@@ -780,8 +1416,21 @@ function setupCountryDelegation() {
 
             }
 
+
+            if (
+                event.target.closest(
+                    "button, input, select, textarea"
+                )
+            ) {
+
+                return;
+
+            }
+
+
             const country =
                 target.dataset.openCountry;
+
 
             if (!country) {
 
@@ -789,13 +1438,115 @@ function setupCountryDelegation() {
 
             }
 
+
             event.preventDefault();
+
 
             openCountry(
                 country
             );
 
         }
+
+    );
+
+}
+
+
+/* =========================================================
+   DYNAMIC COUNTRY OBSERVER
+   ---------------------------------------------------------
+   Supports country cards added later by JavaScript.
+   ========================================================= */
+
+function setupCountryMutationObserver() {
+
+    if (
+        typeof MutationObserver ===
+        "undefined"
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        document.documentElement.dataset
+            .alonCountryObserverReady ===
+        "true"
+    ) {
+
+        return;
+
+    }
+
+
+    document.documentElement.dataset
+        .alonCountryObserverReady =
+        "true";
+
+
+    const observer =
+        new MutationObserver(
+
+            function(mutations) {
+
+                let hasNewContent =
+                    false;
+
+
+                mutations.forEach(
+
+                    function(mutation) {
+
+                        if (
+                            mutation.addedNodes &&
+                            mutation.addedNodes.length
+                        ) {
+
+                            hasNewContent =
+                                true;
+
+                        }
+
+                    }
+
+                );
+
+
+                if (!hasNewContent) {
+
+                    return;
+
+                }
+
+
+                initializeCountryCards();
+
+                normalizeCountryLinks();
+
+                addCountryLinksToCards();
+
+            }
+
+        );
+
+
+    observer.observe(
+
+        document.body,
+
+        {
+
+            childList:
+                true,
+
+            subtree:
+                true
+
+        }
+
     );
 
 }
@@ -817,6 +1568,8 @@ function initializeCountriesClick() {
 
     setupCountryDelegation();
 
+    setupCountryMutationObserver();
+
 }
 
 
@@ -837,6 +1590,15 @@ window.ALON_COUNTRIES_CLICK = {
 
     getCountry:
         getCountryFromElement,
+
+    findCountry:
+        findCountryRecord,
+
+    canonical:
+        getCanonicalCountryValue,
+
+    database:
+        getCountriesClickDatabase,
 
     open:
         openCountry,
@@ -863,8 +1625,11 @@ if (
 ) {
 
     document.addEventListener(
+
         "DOMContentLoaded",
+
         initializeCountriesClick
+
     );
 
 } else {
