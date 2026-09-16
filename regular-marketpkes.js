@@ -2,7 +2,7 @@
    ALON HISTORYVERSE 24
    REGULAR MARKETPLACE ENGINE
    ---------------------------------------------------------
-   Version: 24.2 SAFE REGULAR MARKETPLACE
+   Version: 24.4 SAFE REGULAR MARKETPLACE
    Creator: Baba Thecno Guru
 
    FEATURES
@@ -15,12 +15,21 @@
    • Profile
    • Save / Edit / Delete listings
    • Image / Video support
-   • Country database integration
+   • Central Marketplace Country Database
+   • Country Flag + ISO-2 + ISO-3
    • Business / Showroom system
-   • Worldwide showroom reach
+   • $10 USD Business Advertisement
+   • Global / Worldwide Advertisement
+   • International Advertisement
+   • Global + International selectable together
    • Showroom Save / Edit / Delete
    • Payment verification gate
    • Browser persistence
+
+   IMPORTANT
+   • Global Marketplace is NOT modified.
+   • Country source:
+     ../marketplace-countries.js
    ========================================================= */
 
 (function () {
@@ -34,7 +43,7 @@
 
     const CONFIG = {
 
-        version: "24.2",
+        version: "24.4",
 
         listingStorage:
             "alon_historyverse_regular_marketplace_listings",
@@ -54,11 +63,40 @@
         showroomPrice:
             10,
 
+        googlePayNumber:
+            "7487879528",
+
         imageLimit:
             8 * 1024 * 1024,
 
         videoLimit:
             20 * 1024 * 1024
+
+    };
+
+
+    /* =====================================================
+       BUSINESS AD REACH
+       ===================================================== */
+
+    const SHOWROOM_REACH = {
+
+        GLOBAL:
+            "GLOBAL",
+
+        INTERNATIONAL:
+            "INTERNATIONAL"
+
+    };
+
+
+    const SHOWROOM_REACH_LABELS = {
+
+        GLOBAL:
+            "🌍 Global / Worldwide",
+
+        INTERNATIONAL:
+            "✈️ International"
 
     };
 
@@ -142,13 +180,9 @@
         return (
 
             prefix +
-
             "_" +
-
             Date.now() +
-
             "_" +
-
             Math.random()
                 .toString(36)
                 .slice(2, 10)
@@ -491,7 +525,10 @@
         }
 
 
-        if (!email || !email.includes("@")) {
+        if (
+            !email ||
+            !email.includes("@")
+        ) {
 
             showStatus(
                 "rmLoginStatus",
@@ -533,15 +570,6 @@
         }
 
 
-        /*
-         * Browser-only account.
-         * Password is stored locally for this
-         * static marketplace implementation.
-         *
-         * A production server should replace this
-         * with secure server-side authentication.
-         */
-
         if (
             state.account &&
             normalizeEmail(
@@ -569,6 +597,9 @@
 
             state.account.mobile =
                 mobile;
+
+            state.account.agreementAccepted =
+                true;
 
         } else {
 
@@ -667,7 +698,10 @@
 
     function requireLogin() {
 
-        if (state.loggedIn && state.account) {
+        if (
+            state.loggedIn &&
+            state.account
+        ) {
 
             return true;
 
@@ -693,8 +727,13 @@
             byId("rmProfileBox");
 
 
-        if (!loginBox || !profileBox) {
+        if (
+            !loginBox ||
+            !profileBox
+        ) {
+
             return;
+
         }
 
 
@@ -713,21 +752,16 @@
 
 
             const name =
-                byId(
-                    "rmProfileName"
-                );
+                byId("rmProfileName");
 
             const email =
-                byId(
-                    "rmProfileEmail"
-                );
+                byId("rmProfileEmail");
 
 
             if (name) {
 
                 name.textContent =
-                    state.account.name ||
-                    "";
+                    state.account.name || "";
 
             }
 
@@ -735,8 +769,7 @@
             if (email) {
 
                 email.textContent =
-                    state.account.email ||
-                    "";
+                    state.account.email || "";
 
             }
 
@@ -763,285 +796,123 @@
 
         item: [
 
-            {
-                value: "electronics",
-                label: "📱 Electronics"
-            },
+            { value: "electronics", label: "📱 Electronics" },
 
-            {
-                value: "mobile",
-                label: "📱 Mobile Phones"
-            },
+            { value: "mobile", label: "📱 Mobile Phones" },
 
-            {
-                value: "computer",
-                label: "💻 Computers / Laptops"
-            },
+            { value: "computer", label: "💻 Computers / Laptops" },
 
-            {
-                value: "furniture",
-                label: "🪑 Furniture"
-            },
+            { value: "furniture", label: "🪑 Furniture" },
 
-            {
-                value: "clothing",
-                label: "👕 Clothing / Fashion"
-            },
+            { value: "clothing", label: "👕 Clothing / Fashion" },
 
-            {
-                value: "footwear",
-                label: "👟 Footwear"
-            },
+            { value: "footwear", label: "👟 Footwear" },
 
-            {
-                value: "home",
-                label: "🏠 Home & Household"
-            },
+            { value: "home", label: "🏠 Home & Household" },
 
-            {
-                value: "appliances",
-                label: "🔌 Home Appliances"
-            },
+            { value: "appliances", label: "🔌 Home Appliances" },
 
-            {
-                value: "kitchen",
-                label: "🍳 Kitchen Items"
-            },
+            { value: "kitchen", label: "🍳 Kitchen Items" },
 
-            {
-                value: "books",
-                label: "📚 Books"
-            },
+            { value: "books", label: "📚 Books" },
 
-            {
-                value: "sports",
-                label: "⚽ Sports & Fitness"
-            },
+            { value: "sports", label: "⚽ Sports & Fitness" },
 
-            {
-                value: "toys",
-                label: "🧸 Toys & Kids"
-            },
+            { value: "toys", label: "🧸 Toys & Kids" },
 
-            {
-                value: "tools",
-                label: "🔧 Tools"
-            },
+            { value: "tools", label: "🔧 Tools" },
 
-            {
-                value: "machinery",
-                label: "⚙️ Machinery & Equipment"
-            },
+            { value: "machinery", label: "⚙️ Machinery & Equipment" },
 
-            {
-                value: "jewellery",
-                label: "💎 Jewellery"
-            },
+            { value: "jewellery", label: "💎 Jewellery" },
 
-            {
-                value: "musical",
-                label: "🎸 Musical Instruments"
-            },
+            { value: "musical", label: "🎸 Musical Instruments" },
 
-            {
-                value: "agriculture",
-                label: "🌾 Agriculture Products"
-            },
+            { value: "agriculture", label: "🌾 Agriculture Products" },
 
-            {
-                value: "office",
-                label: "🏢 Office Equipment"
-            },
+            { value: "office", label: "🏢 Office Equipment" },
 
-            {
-                value: "collectibles",
-                label: "🏺 Collectibles & Antiques"
-            },
+            { value: "collectibles", label: "🏺 Collectibles & Antiques" },
 
-            {
-                value: "other-item",
-                label: "📦 Other Item"
-            }
+            { value: "other-item", label: "📦 Other Item" }
 
         ],
 
 
         property: [
 
-            {
-                value: "house",
-                label: "🏠 House"
-            },
+            { value: "house", label: "🏠 House" },
 
-            {
-                value: "flat",
-                label: "🏢 Flat / Apartment"
-            },
+            { value: "flat", label: "🏢 Flat / Apartment" },
 
-            {
-                value: "bungalow",
-                label: "🏡 Bungalow"
-            },
+            { value: "bungalow", label: "🏡 Bungalow" },
 
-            {
-                value: "villa",
-                label: "🏘️ Villa"
-            },
+            { value: "villa", label: "🏘️ Villa" },
 
-            {
-                value: "plot",
-                label: "📐 Residential Plot"
-            },
+            { value: "plot", label: "📐 Residential Plot" },
 
-            {
-                value: "land",
-                label: "🌳 Land"
-            },
+            { value: "land", label: "🌳 Land" },
 
-            {
-                value: "farm",
-                label: "🌾 Farm / Agricultural Land"
-            },
+            { value: "farm", label: "🌾 Farm / Agricultural Land" },
 
-            {
-                value: "shop",
-                label: "🏪 Shop"
-            },
+            { value: "shop", label: "🏪 Shop" },
 
-            {
-                value: "office",
-                label: "🏢 Office"
-            },
+            { value: "office", label: "🏢 Office" },
 
-            {
-                value: "warehouse",
-                label: "🏭 Warehouse"
-            },
+            { value: "warehouse", label: "🏭 Warehouse" },
 
-            {
-                value: "factory",
-                label: "🏭 Factory"
-            },
+            { value: "factory", label: "🏭 Factory" },
 
-            {
-                value: "commercial-property",
-                label: "🏬 Commercial Property"
-            },
+            { value: "commercial-property", label: "🏬 Commercial Property" },
 
-            {
-                value: "hotel-property",
-                label: "🏨 Hotel / Resort Property"
-            },
+            { value: "hotel-property", label: "🏨 Hotel / Resort Property" },
 
-            {
-                value: "rental-property",
-                label: "🔑 Rental Property"
-            },
+            { value: "rental-property", label: "🔑 Rental Property" },
 
-            {
-                value: "other-property",
-                label: "🏠 Other Property"
-            }
+            { value: "other-property", label: "🏠 Other Property" }
 
         ],
 
 
         vehicle: [
 
-            {
-                value: "car",
-                label: "🚗 Car"
-            },
+            { value: "car", label: "🚗 Car" },
 
-            {
-                value: "suv",
-                label: "🚙 SUV / 4x4"
-            },
+            { value: "suv", label: "🚙 SUV / 4x4" },
 
-            {
-                value: "motorcycle-bike",
-                label: "🏍️ Motorcycle / Bike"
-            },
+            { value: "motorcycle-bike", label: "🏍️ Motorcycle / Bike" },
 
-            {
-                value: "scooter",
-                label: "🛵 Scooter"
-            },
+            { value: "scooter", label: "🛵 Scooter" },
 
-            {
-                value: "electric-vehicle",
-                label: "⚡ Electric Vehicle"
-            },
+            { value: "electric-vehicle", label: "⚡ Electric Vehicle" },
 
-            {
-                value: "truck",
-                label: "🚚 Truck"
-            },
+            { value: "truck", label: "🚚 Truck" },
 
-            {
-                value: "trailer",
-                label: "🚛 Trailer"
-            },
+            { value: "trailer", label: "🚛 Trailer" },
 
-            {
-                value: "tractor",
-                label: "🚜 Tractor"
-            },
+            { value: "tractor", label: "🚜 Tractor" },
 
-            {
-                value: "jcb-excavator",
-                label: "🏗️ JCB / Excavator"
-            },
+            { value: "jcb-excavator", label: "🏗️ JCB / Excavator" },
 
-            {
-                value: "bus",
-                label: "🚌 Bus"
-            },
+            { value: "bus", label: "🚌 Bus" },
 
-            {
-                value: "van",
-                label: "🚐 Van"
-            },
+            { value: "van", label: "🚐 Van" },
 
-            {
-                value: "ambulance",
-                label: "🚑 Ambulance"
-            },
+            { value: "ambulance", label: "🚑 Ambulance" },
 
-            {
-                value: "taxi",
-                label: "🚕 Taxi"
-            },
+            { value: "taxi", label: "🚕 Taxi" },
 
-            {
-                value: "commercial-vehicle",
-                label: "🚛 Commercial Vehicle"
-            },
+            { value: "commercial-vehicle", label: "🚛 Commercial Vehicle" },
 
-            {
-                value: "three-wheeler",
-                label: "🛺 Three-Wheeler"
-            },
+            { value: "three-wheeler", label: "🛺 Three-Wheeler" },
 
-            {
-                value: "farm-vehicle",
-                label: "🚜 Farm Vehicle"
-            },
+            { value: "farm-vehicle", label: "🚜 Farm Vehicle" },
 
-            {
-                value: "construction-vehicle",
-                label: "🏗️ Construction Vehicle"
-            },
+            { value: "construction-vehicle", label: "🏗️ Construction Vehicle" },
 
-            {
-                value: "boat",
-                label: "🛥️ Boat / Water Vehicle"
-            },
+            { value: "boat", label: "🛥️ Boat / Water Vehicle" },
 
-            {
-                value: "other-vehicle",
-                label: "🚘 Other Vehicle"
-            }
+            { value: "other-vehicle", label: "🚘 Other Vehicle" }
 
         ]
 
@@ -1054,8 +925,7 @@
     ) {
 
         const list =
-            CATEGORY_DATA[type] ||
-            [];
+            CATEGORY_DATA[type] || [];
 
 
         const item =
@@ -1063,8 +933,7 @@
                 function (category) {
 
                     return (
-                        category.value ===
-                        value
+                        category.value === value
                     );
 
                 }
@@ -1081,14 +950,10 @@
     function updateCategoryOptions() {
 
         const typeSelect =
-            byId(
-                "rmListingType"
-            );
+            byId("rmListingType");
 
         const categorySelect =
-            byId(
-                "rmListingCategory"
-            );
+            byId("rmListingCategory");
 
 
         if (
@@ -1112,12 +977,9 @@
         if (!type) {
 
             const option =
-                document.createElement(
-                    "option"
-                );
+                document.createElement("option");
 
-            option.value =
-                "";
+            option.value = "";
 
             option.textContent =
                 "Select type first";
@@ -1132,12 +994,9 @@
 
 
         const first =
-            document.createElement(
-                "option"
-            );
+            document.createElement("option");
 
-        first.value =
-            "";
+        first.value = "";
 
         first.textContent =
             "Select Category";
@@ -1148,15 +1007,12 @@
 
 
         (
-            CATEGORY_DATA[type] ||
-            []
+            CATEGORY_DATA[type] || []
         ).forEach(
             function (category) {
 
                 const option =
-                    document.createElement(
-                        "option"
-                    );
+                    document.createElement("option");
 
                 option.value =
                     category.value;
@@ -1178,11 +1034,41 @@
        COUNTRY DATABASE
        ===================================================== */
 
+    /*
+     * IMPORTANT:
+     *
+     * This file does NOT create another country database.
+     *
+     * It reads:
+     *
+     * window.MARKETPLACE_COUNTRIES
+     *
+     * from:
+     *
+     * ../marketplace-countries.js
+     *
+     * The verified database contains:
+     *
+     * name
+     * country
+     * slug
+     * flag
+     * code2
+     * code3
+     * capital
+     * region
+     *
+     * Calling codes are intentionally NOT invented.
+     */
+
+
     function getCountryDatabase() {
 
         const sources = [
 
             window.MARKETPLACE_COUNTRIES,
+
+            window.ALON_MARKETPLACE_COUNTRIES,
 
             window.ALON_WORLD_COUNTRIES,
 
@@ -1212,9 +1098,7 @@
 
             if (
                 source &&
-                Array.isArray(
-                    source.countries
-                )
+                Array.isArray(source.countries)
             ) {
 
                 return source.countries;
@@ -1229,18 +1113,17 @@
     }
 
 
-    function normalizeCountry(
-        item
-    ) {
+    function normalizeCountry(item) {
 
         if (!item) {
+
             return null;
+
         }
 
 
         if (
-            typeof item ===
-            "string"
+            typeof item === "string"
         ) {
 
             return {
@@ -1248,13 +1131,31 @@
                 name:
                     item,
 
+                country:
+                    item,
+
+                slug:
+                    "",
+
+                flag:
+                    "",
+
+                code2:
+                    "",
+
+                code3:
+                    "",
+
+                capital:
+                    "",
+
+                region:
+                    "",
+
                 iso:
                     "",
 
                 callingCode:
-                    "",
-
-                flag:
                     ""
 
             };
@@ -1271,16 +1172,44 @@
 
 
         if (!name) {
+
             return null;
+
         }
 
 
-        const iso =
+        /*
+         * New central database:
+         *
+         * code2
+         * code3
+         *
+         * Old compatibility:
+         *
+         * iso
+         * iso2
+         * code
+         * countryCode
+         */
+
+        const code2 =
             text(
-                item.iso ||
+                item.code2 ||
                 item.iso2 ||
+                item.iso ||
                 item.code ||
                 item.countryCode ||
+                ""
+            )
+            .trim()
+            .toUpperCase();
+
+
+        const code3 =
+            text(
+                item.code3 ||
+                item.iso3 ||
+                item.alpha3 ||
                 ""
             )
             .trim()
@@ -1308,19 +1237,64 @@
             .trim();
 
 
+        const aliases =
+            Array.isArray(
+                item.aliases
+            )
+                ? item.aliases.slice()
+                : [];
+
+
         return {
 
             name:
                 text(name).trim(),
 
-            iso:
-                iso,
+            country:
+                text(
+                    item.country ||
+                    name
+                ).trim(),
 
-            callingCode:
-                callingCode,
+            slug:
+                text(
+                    item.slug ||
+                    ""
+                ).trim(),
 
             flag:
-                flag
+                flag,
+
+            code2:
+                code2,
+
+            code3:
+                code3,
+
+            capital:
+                text(
+                    item.capital ||
+                    ""
+                ).trim(),
+
+            region:
+                text(
+                    item.region ||
+                    ""
+                ).trim(),
+
+            aliases:
+                aliases,
+
+            /*
+             * Compatibility fields.
+             */
+
+            iso:
+                code2,
+
+            callingCode:
+                callingCode
 
         };
 
@@ -1343,9 +1317,7 @@
             function (item) {
 
                 const country =
-                    normalizeCountry(
-                        item
-                    );
+                    normalizeCountry(item);
 
 
                 if (
@@ -1360,7 +1332,9 @@
 
                 const key =
                     (
-                        country.iso ||
+                        country.code2 ||
+                        country.code3 ||
+                        country.slug ||
                         country.name
                     )
                     .toLowerCase();
@@ -1377,9 +1351,7 @@
 
                 seen.add(key);
 
-                result.push(
-                    country
-                );
+                result.push(country);
 
             }
         );
@@ -1392,8 +1364,7 @@
                     b.name,
                     undefined,
                     {
-                        sensitivity:
-                            "base"
+                        sensitivity: "base"
                     }
                 );
 
@@ -1404,12 +1375,71 @@
         state.countries =
             result;
 
+
+        if (!result.length) {
+
+            console.warn(
+                "ALON Regular Marketplace: marketplace country database not found or empty."
+            );
+
+        } else {
+
+            console.log(
+                "ALON Regular Marketplace: " +
+                result.length +
+                " countries loaded."
+            );
+
+        }
+
     }
 
 
-    function countryLabel(
-        country
-    ) {
+    function countryCodeLabel(country) {
+
+        if (!country) {
+
+            return "";
+
+        }
+
+
+        const codes = [];
+
+
+        if (country.code2) {
+
+            codes.push(
+                country.code2
+            );
+
+        }
+
+
+        if (country.code3) {
+
+            codes.push(
+                country.code3
+            );
+
+        }
+
+
+        return codes.join(
+            " • "
+        );
+
+    }
+
+
+    function countryLabel(country) {
+
+        if (!country) {
+
+            return "Not specified";
+
+        }
+
 
         let value = "";
 
@@ -1427,15 +1457,29 @@
             country.name;
 
 
-        if (country.iso) {
+        const codes =
+            countryCodeLabel(
+                country
+            );
+
+
+        if (codes) {
 
             value +=
                 " (" +
-                country.iso +
+                codes +
                 ")";
 
         }
 
+
+        /*
+         * Calling code is shown only if the
+         * external database actually supplies one.
+         *
+         * The verified marketplace database
+         * currently does not provide calling codes.
+         */
 
         if (country.callingCode) {
 
@@ -1451,138 +1495,196 @@
     }
 
 
-    function populateCountries() {
+    function countrySearchText(country) {
 
-        const listingCountry =
-            byId(
-                "rmCountry"
-            );
+        if (!country) {
 
-        const showroomCountry =
-            byId(
-                "rmShowroomCountry"
-            );
-
-
-        if (listingCountry) {
-
-            const current =
-                listingCountry.value;
-
-
-            listingCountry.innerHTML =
-                "";
-
-
-            const empty =
-                document.createElement(
-                    "option"
-                );
-
-            empty.value =
-                "";
-
-            empty.textContent =
-                "Select Country";
-
-            listingCountry.appendChild(
-                empty
-            );
-
-
-            state.countries.forEach(
-                function (country) {
-
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-                    option.value =
-                        country.iso ||
-                        country.name;
-
-                    option.textContent =
-                        countryLabel(
-                            country
-                        );
-
-                    listingCountry.appendChild(
-                        option
-                    );
-
-                }
-            );
-
-
-            listingCountry.value =
-                current;
+            return "";
 
         }
 
 
-        if (showroomCountry) {
+        return [
 
-            const current =
-                showroomCountry.value;
+            country.name,
 
+            country.country,
 
-            showroomCountry.innerHTML =
-                "";
+            country.slug,
 
+            country.code2,
 
-            const empty =
-                document.createElement(
-                    "option"
-                );
+            country.code3,
 
-            empty.value =
-                "";
+            country.capital,
 
-            empty.textContent =
-                "Select Country";
+            country.region,
 
-            showroomCountry.appendChild(
-                empty
-            );
+            ...(country.aliases || [])
 
+        ]
 
-            state.countries.forEach(
-                function (country) {
+        .filter(Boolean)
 
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
+        .join(" ")
 
-                    option.value =
-                        country.iso ||
-                        country.name;
-
-                    option.textContent =
-                        countryLabel(
-                            country
-                        );
-
-                    showroomCountry.appendChild(
-                        option
-                    );
-
-                }
-            );
-
-
-            showroomCountry.value =
-                current;
-
-        }
+        .toLowerCase();
 
     }
 
 
-    function findCountry(
-        value
-    ) {
+    function populateCountries() {
+
+        const listingCountry =
+            byId("rmCountry");
+
+        const showroomCountry =
+            byId("rmShowroomCountry");
+
+
+        function populateSelect(select) {
+
+            if (!select) {
+
+                return;
+
+            }
+
+
+            const current =
+                select.value;
+
+
+            select.innerHTML =
+                "";
+
+
+            const empty =
+                document.createElement("option");
+
+            empty.value = "";
+
+            empty.textContent =
+                "Select Country";
+
+            select.appendChild(
+                empty
+            );
+
+
+            state.countries.forEach(
+                function (country) {
+
+                    const option =
+                        document.createElement("option");
+
+
+                    /*
+                     * Store ISO-2 as the main
+                     * country value.
+                     *
+                     * Example:
+                     *
+                     * India = IN
+                     * USA = US
+                     * UK = GB
+                     */
+
+                    option.value =
+                        country.code2 ||
+                        country.code3 ||
+                        country.slug ||
+                        country.name;
+
+
+                    /*
+                     * User-facing display:
+                     *
+                     * 🇮🇳 India (IN • IND)
+                     */
+
+                    option.textContent =
+                        countryLabel(
+                            country
+                        );
+
+
+                    /*
+                     * Extra metadata for future
+                     * marketplace features.
+                     */
+
+                    option.dataset.name =
+                        country.name || "";
+
+                    option.dataset.code2 =
+                        country.code2 || "";
+
+                    option.dataset.code3 =
+                        country.code3 || "";
+
+                    option.dataset.flag =
+                        country.flag || "";
+
+                    option.dataset.slug =
+                        country.slug || "";
+
+                    option.dataset.region =
+                        country.region || "";
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            /*
+             * Restore current value.
+             */
+
+            if (current) {
+
+                const currentCountry =
+                    findCountry(
+                        current
+                    );
+
+
+                if (currentCountry) {
+
+                    select.value =
+                        currentCountry.code2 ||
+                        currentCountry.code3 ||
+                        currentCountry.slug ||
+                        currentCountry.name;
+
+                } else {
+
+                    select.value =
+                        current;
+
+                }
+
+            }
+
+        }
+
+
+        populateSelect(
+            listingCountry
+        );
+
+
+        populateSelect(
+            showroomCountry
+        );
+
+    }
+
+
+    function findCountry(value) {
 
         const target =
             text(value)
@@ -1591,46 +1693,179 @@
 
 
         if (!target) {
+
             return null;
+
         }
 
 
-        return (
+        /*
+         * Exact ISO-2
+         */
 
+        const code2Match =
             state.countries.find(
                 function (country) {
 
                     return (
-                        country.iso
+                        text(country.code2)
                             .toLowerCase() ===
                         target
                     );
 
                 }
-            ) ||
+            );
 
+
+        if (code2Match) {
+
+            return code2Match;
+
+        }
+
+
+        /*
+         * Exact ISO-3
+         */
+
+        const code3Match =
             state.countries.find(
                 function (country) {
 
                     return (
-                        country.name
+                        text(country.code3)
                             .toLowerCase() ===
                         target
                     );
 
                 }
-            ) ||
+            );
 
-            null
 
-        );
+        if (code3Match) {
+
+            return code3Match;
+
+        }
+
+
+        /*
+         * Exact slug
+         */
+
+        const slugMatch =
+            state.countries.find(
+                function (country) {
+
+                    return (
+                        text(country.slug)
+                            .toLowerCase() ===
+                        target
+                    );
+
+                }
+            );
+
+
+        if (slugMatch) {
+
+            return slugMatch;
+
+        }
+
+
+        /*
+         * Exact name
+         */
+
+        const nameMatch =
+            state.countries.find(
+                function (country) {
+
+                    return (
+                        text(country.name)
+                            .toLowerCase() ===
+                        target
+                    );
+
+                }
+            );
+
+
+        if (nameMatch) {
+
+            return nameMatch;
+
+        }
+
+
+        /*
+         * Country field
+         */
+
+        const countryMatch =
+            state.countries.find(
+                function (country) {
+
+                    return (
+                        text(country.country)
+                            .toLowerCase() ===
+                        target
+                    );
+
+                }
+            );
+
+
+        if (countryMatch) {
+
+            return countryMatch;
+
+        }
+
+
+        /*
+         * Alias support.
+         */
+
+        const aliasMatch =
+            state.countries.find(
+                function (country) {
+
+                    return (
+                        Array.isArray(
+                            country.aliases
+                        ) &&
+                        country.aliases.some(
+                            function (alias) {
+
+                                return (
+                                    text(alias)
+                                        .toLowerCase() ===
+                                    target
+                                );
+
+                            }
+                        )
+                    );
+
+                }
+            );
+
+
+        if (aliasMatch) {
+
+            return aliasMatch;
+
+        }
+
+
+        return null;
 
     }
 
 
-    function getCountryName(
-        value
-    ) {
+    function getCountryName(value) {
 
         const country =
             findCountry(value);
@@ -1645,8 +1880,43 @@
         }
 
 
+        /*
+         * Old saved records may contain
+         * an unknown country value.
+         */
+
         return text(value) ||
             "Not specified";
+
+    }
+
+
+    function getCountryValue(value) {
+
+        const country =
+            findCountry(value);
+
+
+        if (!country) {
+
+            return text(value);
+
+        }
+
+
+        return (
+            country.code2 ||
+            country.code3 ||
+            country.slug ||
+            country.name
+        );
+
+    }
+
+
+    function getCountryObject(value) {
+
+        return findCountry(value);
 
     }
 
@@ -1655,15 +1925,10 @@
        FILE MEDIA
        ===================================================== */
 
-    function readFile(
-        file
-    ) {
+    function readFile(file) {
 
         return new Promise(
-            function (
-                resolve,
-                reject
-            ) {
+            function (resolve, reject) {
 
                 const reader =
                     new FileReader();
@@ -1691,9 +1956,7 @@
                     };
 
 
-                reader.readAsDataURL(
-                    file
-                );
+                reader.readAsDataURL(file);
 
             }
         );
@@ -1701,19 +1964,17 @@
     }
 
 
-    async function processImage(
-        file
-    ) {
+    async function processImage(file) {
 
         if (!file) {
+
             return null;
+
         }
 
 
         if (
-            !file.type.startsWith(
-                "image/"
-            )
+            !file.type.startsWith("image/")
         ) {
 
             throw new Error(
@@ -1754,19 +2015,17 @@
     }
 
 
-    async function processVideo(
-        file
-    ) {
+    async function processVideo(file) {
 
         if (!file) {
+
             return null;
+
         }
 
 
         if (
-            !file.type.startsWith(
-                "video/"
-            )
+            !file.type.startsWith("video/")
         ) {
 
             throw new Error(
@@ -1819,9 +2078,7 @@
                 byId(id);
 
             return element
-                ? text(
-                    element.value
-                ).trim()
+                ? text(element.value).trim()
                 : "";
 
         }
@@ -1830,78 +2087,50 @@
         return {
 
             type:
-                value(
-                    "rmListingType"
-                ),
+                value("rmListingType"),
 
             category:
-                value(
-                    "rmListingCategory"
-                ),
+                value("rmListingCategory"),
 
             condition:
-                value(
-                    "rmListingCondition"
-                ),
+                value("rmListingCondition"),
 
             title:
-                value(
-                    "rmListingTitle"
-                ),
+                value("rmListingTitle"),
 
             price:
-                value(
-                    "rmListingPrice"
-                ),
+                value("rmListingPrice"),
 
             country:
-                value(
-                    "rmCountry"
-                ),
+                value("rmCountry"),
 
             state:
-                value(
-                    "rmState"
-                ),
+                value("rmState"),
 
             district:
-                value(
-                    "rmDistrict"
-                ),
+                value("rmDistrict"),
 
             taluka:
-                value(
-                    "rmTaluka"
-                ),
+                value("rmTaluka"),
 
             pin:
-                value(
-                    "rmPin"
-                ),
+                value("rmPin"),
 
             phone:
-                value(
-                    "rmPhone"
-                ),
+                value("rmPhone"),
 
             email:
-                value(
-                    "rmEmail"
-                ),
+                value("rmEmail"),
 
             description:
-                value(
-                    "rmDescription"
-                )
+                value("rmDescription")
 
         };
 
     }
 
 
-    function validateListing(
-        data
-    ) {
+    function validateListing(data) {
 
         if (!state.loggedIn) {
 
@@ -1957,15 +2186,15 @@
     }
 
 
-    async function saveListing(
-        event
-    ) {
+    async function saveListing(event) {
 
         event.preventDefault();
 
 
         if (!requireLogin()) {
+
             return;
+
         }
 
 
@@ -1974,9 +2203,7 @@
 
 
         const validation =
-            validateListing(
-                data
-            );
+            validateListing(data);
 
 
         if (validation) {
@@ -1993,9 +2220,7 @@
 
 
         const saveButton =
-            byId(
-                "rmSaveListingButton"
-            );
+            byId("rmSaveListingButton");
 
 
         if (saveButton) {
@@ -2012,20 +2237,17 @@
         try {
 
             const imageInput =
-                byId(
-                    "rmImage"
-                );
-
+                byId("rmImage");
 
             const videoInput =
-                byId(
-                    "rmVideo"
-                );
+                byId("rmVideo");
 
 
-            let image = null;
+            let image =
+                null;
 
-            let video = null;
+            let video =
+                null;
 
 
             if (
@@ -2071,11 +2293,21 @@
                     : null;
 
 
+            const country =
+                getCountryObject(
+                    data.country
+                );
+
+
             if (existing) {
 
                 if (
-                    existing.ownerEmail !==
-                    state.account.email
+                    normalizeEmail(
+                        existing.ownerEmail
+                    ) !==
+                    normalizeEmail(
+                        state.account.email
+                    )
                 ) {
 
                     throw new Error(
@@ -2103,54 +2335,83 @@
                 }
 
 
-                existing.type =
-                    data.type;
+                Object.assign(
+                    existing,
+                    {
 
-                existing.category =
-                    data.category;
+                        type:
+                            data.type,
 
-                existing.condition =
-                    data.condition;
+                        category:
+                            data.category,
 
-                existing.title =
-                    data.title;
+                        condition:
+                            data.condition,
 
-                existing.price =
-                    data.price;
+                        title:
+                            data.title,
 
-                existing.country =
-                    data.country;
+                        price:
+                            data.price,
 
-                existing.state =
-                    data.state;
+                        country:
+                            getCountryValue(
+                                data.country
+                            ),
 
-                existing.district =
-                    data.district;
+                        countryName:
+                            country
+                                ? country.name
+                                : data.country,
 
-                existing.taluka =
-                    data.taluka;
+                        countryFlag:
+                            country
+                                ? country.flag
+                                : "",
 
-                existing.pin =
-                    data.pin;
+                        countryCode2:
+                            country
+                                ? country.code2
+                                : "",
 
-                existing.phone =
-                    data.phone;
+                        countryCode3:
+                            country
+                                ? country.code3
+                                : "",
 
-                existing.email =
-                    data.email;
+                        state:
+                            data.state,
 
-                existing.description =
-                    data.description;
+                        district:
+                            data.district,
 
-                existing.image =
-                    image;
+                        taluka:
+                            data.taluka,
 
-                existing.video =
-                    video;
+                        pin:
+                            data.pin,
 
-                existing.updatedAt =
-                    new Date()
-                        .toISOString();
+                        phone:
+                            data.phone,
+
+                        email:
+                            data.email,
+
+                        description:
+                            data.description,
+
+                        image:
+                            image,
+
+                        video:
+                            video,
+
+                        updatedAt:
+                            new Date()
+                                .toISOString()
+
+                    }
+                );
 
 
                 saveListings();
@@ -2197,7 +2458,29 @@
                         data.price,
 
                     country:
-                        data.country,
+                        getCountryValue(
+                            data.country
+                        ),
+
+                    countryName:
+                        country
+                            ? country.name
+                            : data.country,
+
+                    countryFlag:
+                        country
+                            ? country.flag
+                            : "",
+
+                    countryCode2:
+                        country
+                            ? country.code2
+                            : "",
+
+                    countryCode3:
+                        country
+                            ? country.code3
+                            : "",
 
                     state:
                         data.state,
@@ -2244,7 +2527,6 @@
 
                 saveListings();
 
-
                 resetListingForm();
 
 
@@ -2282,9 +2564,7 @@
                     false;
 
                 saveButton.textContent =
-                    state.editingListingId
-                        ? "Update Listing"
-                        : "💾 Save Listing";
+                    "💾 Save Listing";
 
             }
 
@@ -2293,16 +2573,10 @@
     }
 
 
-    /* =====================================================
-       LISTING RESET
-       ===================================================== */
-
     function resetListingForm() {
 
         const form =
-            byId(
-                "rmListingForm"
-            );
+            byId("rmListingForm");
 
 
         if (form) {
@@ -2320,9 +2594,7 @@
 
 
         const button =
-            byId(
-                "rmSaveListingButton"
-            );
+            byId("rmSaveListingButton");
 
 
         if (button) {
@@ -2334,9 +2606,7 @@
 
 
         const cancel =
-            byId(
-                "rmCancelEditButton"
-            );
+            byId("rmCancelEditButton");
 
 
         if (cancel) {
@@ -2350,16 +2620,12 @@
     }
 
 
-    /* =====================================================
-       EDIT LISTING
-       ===================================================== */
-
-    function editListing(
-        id
-    ) {
+    function editListing(id) {
 
         if (!requireLogin()) {
+
             return;
+
         }
 
 
@@ -2367,10 +2633,7 @@
             state.listings.find(
                 function (listing) {
 
-                    return (
-                        listing.id ===
-                        id
-                    );
+                    return listing.id === id;
 
                 }
             );
@@ -2388,8 +2651,8 @@
 
 
         if (
-            item.ownerEmail !==
-            state.account.email
+            normalizeEmail(item.ownerEmail) !==
+            normalizeEmail(state.account.email)
         ) {
 
             alert(
@@ -2405,23 +2668,22 @@
             id;
 
 
-        const setValue =
-            function (
-                id,
-                value
-            ) {
+        function setValue(
+            elementId,
+            value
+        ) {
 
-                const element =
-                    byId(id);
+            const element =
+                byId(elementId);
 
-                if (element) {
+            if (element) {
 
-                    element.value =
-                        value || "";
+                element.value =
+                    value || "";
 
-                }
+            }
 
-            };
+        }
 
 
         setValue(
@@ -2438,55 +2700,75 @@
             item.category
         );
 
+
         setValue(
             "rmListingCondition",
             item.condition
         );
+
 
         setValue(
             "rmListingTitle",
             item.title
         );
 
+
         setValue(
             "rmListingPrice",
             item.price
         );
 
+
+        /*
+         * New records use ISO-2.
+         * Old records may use country name.
+         */
+
         setValue(
             "rmCountry",
-            item.country
+            getCountryValue(
+                item.country ||
+                item.countryName ||
+                ""
+            )
         );
+
 
         setValue(
             "rmState",
             item.state
         );
 
+
         setValue(
             "rmDistrict",
             item.district
         );
+
 
         setValue(
             "rmTaluka",
             item.taluka
         );
 
+
         setValue(
             "rmPin",
             item.pin
         );
+
 
         setValue(
             "rmPhone",
             item.phone
         );
 
+
         setValue(
             "rmEmail",
             item.email
         );
+
 
         setValue(
             "rmDescription",
@@ -2495,9 +2777,7 @@
 
 
         const button =
-            byId(
-                "rmSaveListingButton"
-            );
+            byId("rmSaveListingButton");
 
 
         if (button) {
@@ -2509,9 +2789,7 @@
 
 
         const cancel =
-            byId(
-                "rmCancelEditButton"
-            );
+            byId("rmCancelEditButton");
 
 
         if (cancel) {
@@ -2524,9 +2802,7 @@
 
 
         const section =
-            byId(
-                "rmCreateListing"
-            );
+            byId("rmCreateListing");
 
 
         if (section) {
@@ -2546,16 +2822,12 @@
     }
 
 
-    /* =====================================================
-       DELETE LISTING
-       ===================================================== */
-
-    function deleteListing(
-        id
-    ) {
+    function deleteListing(id) {
 
         if (!requireLogin()) {
+
             return;
+
         }
 
 
@@ -2563,23 +2835,22 @@
             state.listings.find(
                 function (listing) {
 
-                    return (
-                        listing.id ===
-                        id
-                    );
+                    return listing.id === id;
 
                 }
             );
 
 
         if (!item) {
+
             return;
+
         }
 
 
         if (
-            item.ownerEmail !==
-            state.account.email
+            normalizeEmail(item.ownerEmail) !==
+            normalizeEmail(state.account.email)
         ) {
 
             alert(
@@ -2606,10 +2877,7 @@
             state.listings.filter(
                 function (listing) {
 
-                    return (
-                        listing.id !==
-                        id
-                    );
+                    return listing.id !== id;
 
                 }
             );
@@ -2619,8 +2887,7 @@
 
 
         if (
-            state.editingListingId ===
-            id
+            state.editingListingId === id
         ) {
 
             resetListingForm();
@@ -2633,13 +2900,7 @@
     }
 
 
-    /* =====================================================
-       LISTING MEDIA
-       ===================================================== */
-
-    function renderListingMedia(
-        item
-    ) {
+    function renderListingMedia(item) {
 
         let html = "";
 
@@ -2654,7 +2915,9 @@
                 '<div class="rm-media">' +
 
                 '<img src="' +
-                item.image.data +
+                escapeHTML(
+                    item.image.data
+                ) +
                 '" alt="Listing image" loading="lazy">' +
 
                 "</div>";
@@ -2674,7 +2937,9 @@
                 '<video controls preload="metadata">' +
 
                 '<source src="' +
-                item.video.data +
+                escapeHTML(
+                    item.video.data
+                ) +
                 '" type="' +
                 escapeHTML(
                     item.video.type ||
@@ -2696,18 +2961,10 @@
     }
 
 
-    /* =====================================================
-       LISTING CARD
-       ===================================================== */
-
-    function createListingCard(
-        item
-    ) {
+    function createListingCard(item) {
 
         const card =
-            document.createElement(
-                "article"
-            );
+            document.createElement("article");
 
 
         card.className =
@@ -2762,140 +3019,132 @@
 
 
         const typeLabel =
-
             item.type === "vehicle"
+
                 ? "🚗 Vehicle"
 
-                :
+                : item.type === "property"
 
-            item.type === "property"
-                ? "🏠 Property"
+                    ? "🏠 Property"
 
-                :
-
-            "🛍️ General Item";
+                    : "🛍️ General Item";
 
 
-        card.innerHTML =
+        let html =
 
             "<h3>" +
-
             escapeHTML(
                 item.title
             ) +
-
             "</h3>" +
 
-            "<p>" +
-
-            "<strong>Type:</strong> " +
-
+            "<p><strong>Type:</strong> " +
             typeLabel +
-
             "</p>" +
 
-            "<p>" +
-
-            "<strong>Category:</strong> " +
-
+            "<p><strong>Category:</strong> " +
             escapeHTML(
                 categoryLabel(
                     item.type,
                     item.category
                 )
             ) +
-
             "</p>" +
 
-            "<p>" +
-
-            "<strong>Condition:</strong> " +
-
+            "<p><strong>Condition:</strong> " +
             escapeHTML(
                 item.condition ||
                 "Not specified"
             ) +
-
             "</p>" +
 
-            "<p>" +
-
-            "<strong>Price:</strong> " +
-
+            "<p><strong>Price:</strong> " +
             escapeHTML(
                 item.price
             ) +
-
             " " +
-
             escapeHTML(
                 CONFIG.currency
             ) +
-
             "</p>" +
 
-            "<p>" +
-
-            "<strong>📍 Location:</strong> " +
-
+            "<p><strong>📍 Location:</strong> " +
             escapeHTML(
                 locationText
             ) +
+            "</p>";
 
-            "</p>" +
 
-            (
-                item.pin
-                    ? "<p><strong>PIN / ZIP:</strong> " +
-                      escapeHTML(
-                          item.pin
-                      ) +
-                      "</p>"
-                    : ""
-            ) +
+        if (item.pin) {
 
-            (
-                item.phone
-                    ? "<p><strong>📞 Phone:</strong> " +
-                      escapeHTML(
-                          item.phone
-                      ) +
-                      "</p>"
-                    : ""
-            ) +
+            html +=
 
-            (
-                item.email
-                    ? "<p><strong>✉️ Email:</strong> " +
-                      escapeHTML(
-                          item.email
-                      ) +
-                      "</p>"
-                    : ""
-            ) +
+                "<p><strong>PIN / ZIP:</strong> " +
+                escapeHTML(
+                    item.pin
+                ) +
+                "</p>";
 
-            (
-                item.description
-                    ? "<p>" +
-                      escapeHTML(
-                          item.description
-                      ) +
-                      "</p>"
-                    : ""
-            ) +
+        }
 
+
+        if (item.phone) {
+
+            html +=
+
+                "<p><strong>📞 Phone:</strong> " +
+                escapeHTML(
+                    item.phone
+                ) +
+                "</p>";
+
+        }
+
+
+        if (item.email) {
+
+            html +=
+
+                "<p><strong>✉️ Email:</strong> " +
+                escapeHTML(
+                    item.email
+                ) +
+                "</p>";
+
+        }
+
+
+        if (item.description) {
+
+            html +=
+
+                "<p>" +
+                escapeHTML(
+                    item.description
+                ) +
+                "</p>";
+
+        }
+
+
+        html +=
             renderListingMedia(
                 item
-            ) +
+            );
 
-            (
-                item.ownerEmail ===
-                (
-                    state.account
-                        ? state.account.email
-                        : ""
-                )
-                    ?
+
+        if (
+            normalizeEmail(
+                item.ownerEmail
+            ) ===
+            normalizeEmail(
+                state.account
+                    ? state.account.email
+                    : ""
+            )
+        ) {
+
+            html +=
 
                 '<div class="rm-actions">' +
 
@@ -2915,13 +3164,13 @@
 
                 "</button>" +
 
-                "</div>"
+                "</div>";
 
-                    :
+        }
 
-                ""
 
-            );
+        card.innerHTML =
+            html;
 
 
         return card;
@@ -2929,18 +3178,7 @@
     }
 
 
-    /* =====================================================
-       MY LISTINGS CONTAINER
-       ===================================================== */
-
     function getMyListingsContainer() {
-
-        /*
-         * The supplied HTML historically used the same
-         * id "rmMyListings" for the section and inner
-         * container. This helper safely selects the inner
-         * element when duplicate IDs exist.
-         */
 
         const matches =
             document.querySelectorAll(
@@ -2970,14 +3208,11 @@
 
         if (
             section &&
-            section.tagName ===
-            "SECTION"
+            section.tagName === "SECTION"
         ) {
 
             return (
-                section.querySelector(
-                    "div"
-                ) ||
+                section.querySelector("div") ||
                 section
             );
 
@@ -2996,16 +3231,16 @@
 
 
         if (!container) {
+
             return;
+
         }
 
 
         if (!state.loggedIn) {
 
             container.innerHTML =
-                "<div>" +
-                "Login to view your listings." +
-                "</div>";
+                "<div>Login to view your listings.</div>";
 
             return;
 
@@ -3036,9 +3271,7 @@
         if (!mine.length) {
 
             container.innerHTML =
-                "<div>" +
-                "No listings created yet." +
-                "</div>";
+                "<div>No listings created yet.</div>";
 
             return;
 
@@ -3065,6 +3298,289 @@
 
 
     /* =====================================================
+       SHOWROOM REACH SYSTEM
+       ===================================================== */
+
+    function getReachCheckbox(id) {
+
+        const element =
+            byId(id);
+
+
+        return (
+            element &&
+            element.checked
+        );
+
+    }
+
+
+    function getSelectedShowroomReach() {
+
+        const reach = [];
+
+
+        if (
+            getReachCheckbox(
+                "rmReachGlobal"
+            )
+        ) {
+
+            reach.push(
+                SHOWROOM_REACH.GLOBAL
+            );
+
+        }
+
+
+        if (
+            getReachCheckbox(
+                "rmReachInternational"
+            )
+        ) {
+
+            reach.push(
+                SHOWROOM_REACH.INTERNATIONAL
+            );
+
+        }
+
+
+        return reach;
+
+    }
+
+
+    function normalizeShowroomReach(value) {
+
+        if (
+            Array.isArray(value)
+        ) {
+
+            return value.filter(
+                function (item) {
+
+                    return (
+
+                        item ===
+                        SHOWROOM_REACH.GLOBAL ||
+
+                        item ===
+                        SHOWROOM_REACH.INTERNATIONAL
+
+                    );
+
+                }
+            );
+
+        }
+
+
+        if (
+            text(value)
+                .toUpperCase() ===
+            "WORLDWIDE"
+        ) {
+
+            return [
+                SHOWROOM_REACH.GLOBAL
+            ];
+
+        }
+
+
+        if (
+            text(value)
+                .toUpperCase() ===
+            "GLOBAL"
+        ) {
+
+            return [
+                SHOWROOM_REACH.GLOBAL
+            ];
+
+        }
+
+
+        if (
+            text(value)
+                .toUpperCase() ===
+            "INTERNATIONAL"
+        ) {
+
+            return [
+                SHOWROOM_REACH.INTERNATIONAL
+            ];
+
+        }
+
+
+        return [];
+
+    }
+
+
+    function showroomReachLabel(value) {
+
+        const reach =
+            normalizeShowroomReach(
+                value
+            );
+
+
+        if (!reach.length) {
+
+            return "Not selected";
+
+        }
+
+
+        return reach.map(
+            function (item) {
+
+                return (
+
+                    SHOWROOM_REACH_LABELS[item] ||
+                    item
+
+                );
+
+            }
+        ).join(" + ");
+
+    }
+
+
+    function setShowroomReach(value) {
+
+        const reach =
+            normalizeShowroomReach(
+                value
+            );
+
+
+        const global =
+            byId(
+                "rmReachGlobal"
+            );
+
+
+        const international =
+            byId(
+                "rmReachInternational"
+            );
+
+
+        if (global) {
+
+            global.checked =
+                reach.includes(
+                    SHOWROOM_REACH.GLOBAL
+                );
+
+        }
+
+
+        if (international) {
+
+            international.checked =
+                reach.includes(
+                    SHOWROOM_REACH.INTERNATIONAL
+                );
+
+        }
+
+    }
+
+
+    function validateShowroomReach() {
+
+        const reach =
+            getSelectedShowroomReach();
+
+
+        if (!reach.length) {
+
+            return (
+                "Please select at least one Advertisement Reach: Global / Worldwide or International."
+            );
+
+        }
+
+
+        return "";
+
+    }
+
+
+    function bindReachChangeEvents() {
+
+        const global =
+            byId(
+                "rmReachGlobal"
+            );
+
+
+        const international =
+            byId(
+                "rmReachInternational"
+            );
+
+
+        function updateReachStatus() {
+
+            const reach =
+                getSelectedShowroomReach();
+
+
+            if (!reach.length) {
+
+                showStatus(
+                    "rmReachStatus",
+                    "Select Global / Worldwide, International, or both.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            showStatus(
+                "rmReachStatus",
+                "Selected: " +
+                showroomReachLabel(
+                    reach
+                ),
+                "success"
+            );
+
+        }
+
+
+        if (global) {
+
+            global.addEventListener(
+                "change",
+                updateReachStatus
+            );
+
+        }
+
+
+        if (international) {
+
+            international.addEventListener(
+                "change",
+                updateReachStatus
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
        SHOWROOM FORM
        ===================================================== */
 
@@ -3076,9 +3592,7 @@
                 byId(id);
 
             return element
-                ? text(
-                    element.value
-                ).trim()
+                ? text(element.value).trim()
                 : "";
 
         }
@@ -3095,6 +3609,9 @@
                 value(
                     "rmShowroomType"
                 ),
+
+            reach:
+                getSelectedShowroomReach(),
 
             country:
                 value(
@@ -3141,9 +3658,7 @@
     }
 
 
-    function showroomTypeLabel(
-        value
-    ) {
+    function showroomTypeLabel(value) {
 
         const select =
             byId(
@@ -3152,7 +3667,10 @@
 
 
         if (!select) {
-            return value || "Other Business";
+
+            return value ||
+                "Other Business";
+
         }
 
 
@@ -3173,14 +3691,13 @@
 
         return option
             ? option.textContent
-            : value || "Other Business";
+            : value ||
+                "Other Business";
 
     }
 
 
-    function validateShowroom(
-        data
-    ) {
+    function validateShowroom(data) {
 
         if (!state.loggedIn) {
 
@@ -3191,42 +3708,66 @@
 
         if (!data.name) {
 
-            return "Business / Showroom name is required.";
+            return (
+                "Business / Showroom name is required."
+            );
 
         }
 
 
         if (!data.type) {
 
-            return "Please select Business / Showroom Type.";
+            return (
+                "Please select Business / Showroom Type."
+            );
+
+        }
+
+
+        if (
+            !data.reach ||
+            !data.reach.length
+        ) {
+
+            return (
+                "Please select at least one Advertisement Reach."
+            );
 
         }
 
 
         if (!data.country) {
 
-            return "Please select business country.";
+            return (
+                "Please select business country."
+            );
 
         }
 
 
         if (!data.phone) {
 
-            return "Business phone / WhatsApp is required.";
+            return (
+                "Business phone / WhatsApp is required."
+            );
 
         }
 
 
         if (!data.email) {
 
-            return "Business email is required.";
+            return (
+                "Business email is required."
+            );
 
         }
 
 
         if (!data.description) {
 
-            return "Business description is required.";
+            return (
+                "Business description is required."
+            );
 
         }
 
@@ -3243,22 +3784,11 @@
     function startShowroomPayment() {
 
         if (!requireLogin()) {
+
             return;
+
         }
 
-
-        /*
-         * IMPORTANT:
-         *
-         * This is intentionally NOT a fake payment.
-         *
-         * A static GitHub Pages frontend cannot securely
-         * verify a real $10 payment by itself.
-         *
-         * The real Google Pay / UPI gateway must call
-         * acceptVerifiedPayment() only after server-side
-         * verification.
-         */
 
         state.verifiedPayment =
             null;
@@ -3280,7 +3810,14 @@
 
         showStatus(
             "rmPaymentStatus",
-            "Payment gateway is not connected yet. No payment has been charged. Connect a real payment gateway and server-side verification before publishing.",
+
+            "Business Advertisement Price: $10 USD. " +
+            "Google Pay payment destination: " +
+            CONFIG.googlePayNumber +
+            ". " +
+            "No payment has been automatically charged or verified by this static page. " +
+            "Publish will unlock only after a real verified payment is received.",
+
             "error"
         );
 
@@ -3301,8 +3838,7 @@
         const status =
             text(
                 paymentData.status
-            )
-            .toLowerCase();
+            ).toLowerCase();
 
 
         const amount =
@@ -3314,8 +3850,7 @@
         const currency =
             text(
                 paymentData.currency
-            )
-            .toUpperCase();
+            ).toUpperCase();
 
 
         const paymentId =
@@ -3327,8 +3862,7 @@
 
 
         if (
-            status !==
-            "verified"
+            status !== "verified"
         ) {
 
             return false;
@@ -3400,7 +3934,13 @@
 
         showStatus(
             "rmPaymentStatus",
-            "Payment verified. You can now publish the worldwide advertisement.",
+
+            "Payment verified for $10 USD. You can now publish the selected advertisement reach: " +
+            showroomReachLabel(
+                getSelectedShowroomReach()
+            ) +
+            ".",
+
             "success"
         );
 
@@ -3417,7 +3957,9 @@
     async function publishShowroom() {
 
         if (!requireLogin()) {
+
             return;
+
         }
 
 
@@ -3444,13 +3986,11 @@
         }
 
 
-        if (
-            !state.verifiedPayment
-        ) {
+        if (!state.verifiedPayment) {
 
             showStatus(
                 "rmShowroomStatus",
-                "Verified $10 payment is required before publishing.",
+                "Verified $10 USD payment is required before publishing.",
                 "error"
             );
 
@@ -3490,9 +4030,11 @@
 
         try {
 
-            let image = null;
+            let image =
+                null;
 
-            let video = null;
+            let video =
+                null;
 
 
             if (
@@ -3538,11 +4080,21 @@
                     : null;
 
 
+            const country =
+                getCountryObject(
+                    data.country
+                );
+
+
             if (existing) {
 
                 if (
-                    existing.ownerEmail !==
-                    state.account.email
+                    normalizeEmail(
+                        existing.ownerEmail
+                    ) !==
+                    normalizeEmail(
+                        state.account.email
+                    )
                 ) {
 
                     throw new Error(
@@ -3570,56 +4122,88 @@
                 }
 
 
-                existing.name =
-                    data.name;
+                Object.assign(
+                    existing,
+                    {
 
-                existing.type =
-                    data.type;
+                        name:
+                            data.name,
 
-                existing.typeLabel =
-                    showroomTypeLabel(
-                        data.type
-                    );
+                        type:
+                            data.type,
 
-                existing.country =
-                    data.country;
+                        typeLabel:
+                            showroomTypeLabel(
+                                data.type
+                            ),
 
-                existing.state =
-                    data.state;
+                        reach:
+                            data.reach,
 
-                existing.district =
-                    data.district;
+                        country:
+                            getCountryValue(
+                                data.country
+                            ),
 
-                existing.taluka =
-                    data.taluka;
+                        countryName:
+                            country
+                                ? country.name
+                                : data.country,
 
-                existing.pin =
-                    data.pin;
+                        countryFlag:
+                            country
+                                ? country.flag
+                                : "",
 
-                existing.phone =
-                    data.phone;
+                        countryCode2:
+                            country
+                                ? country.code2
+                                : "",
 
-                existing.email =
-                    data.email;
+                        countryCode3:
+                            country
+                                ? country.code3
+                                : "",
 
-                existing.description =
-                    data.description;
+                        state:
+                            data.state,
 
-                existing.reach =
-                    "WORLDWIDE";
+                        district:
+                            data.district,
 
-                existing.image =
-                    image;
+                        taluka:
+                            data.taluka,
 
-                existing.video =
-                    video;
+                        pin:
+                            data.pin,
 
-                existing.payment =
-                    state.verifiedPayment;
+                        phone:
+                            data.phone,
 
-                existing.updatedAt =
-                    new Date()
-                        .toISOString();
+                        email:
+                            data.email,
+
+                        description:
+                            data.description,
+
+                        image:
+                            image,
+
+                        video:
+                            video,
+
+                        payment:
+                            state.verifiedPayment,
+
+                        status:
+                            "published",
+
+                        updatedAt:
+                            new Date()
+                                .toISOString()
+
+                    }
+                );
 
 
                 saveShowrooms();
@@ -3634,7 +4218,12 @@
 
                 showStatus(
                     "rmShowroomStatus",
-                    "Business advertisement updated successfully.",
+
+                    "Business advertisement updated successfully. Reach: " +
+                    showroomReachLabel(
+                        data.reach
+                    ),
+
                     "success"
                 );
 
@@ -3662,10 +4251,32 @@
                         ),
 
                     reach:
-                        "WORLDWIDE",
+                        data.reach,
 
                     country:
-                        data.country,
+                        getCountryValue(
+                            data.country
+                        ),
+
+                    countryName:
+                        country
+                            ? country.name
+                            : data.country,
+
+                    countryFlag:
+                        country
+                            ? country.flag
+                            : "",
+
+                    countryCode2:
+                        country
+                            ? country.code2
+                            : "",
+
+                    countryCode3:
+                        country
+                            ? country.code3
+                            : "",
 
                     state:
                         data.state,
@@ -3724,7 +4335,12 @@
 
                 showStatus(
                     "rmShowroomStatus",
-                    "Worldwide business advertisement published successfully.",
+
+                    "Business advertisement published successfully. Reach: " +
+                    showroomReachLabel(
+                        data.reach
+                    ),
+
                     "success"
                 );
 
@@ -3743,8 +4359,10 @@
 
             showStatus(
                 "rmShowroomStatus",
+
                 error.message ||
                 "Unable to publish advertisement.",
+
                 "error"
             );
 
@@ -3759,7 +4377,7 @@
             if (button) {
 
                 button.textContent =
-                    "🌍 Publish Worldwide Advertisement";
+                    "🌍 Publish Business Advertisement — $10";
 
                 button.disabled =
                     !state.verifiedPayment;
@@ -3797,6 +4415,9 @@
             null;
 
 
+        setShowroomReach([]);
+
+
         const publish =
             byId(
                 "rmPublishShowroomBtn"
@@ -3809,13 +4430,18 @@
                 true;
 
             publish.textContent =
-                "🌍 Publish Worldwide Advertisement";
+                "🌍 Publish Business Advertisement — $10";
 
         }
 
 
         hideStatus(
             "rmPaymentStatus"
+        );
+
+
+        hideStatus(
+            "rmReachStatus"
         );
 
     }
@@ -3825,12 +4451,12 @@
        SHOWROOM EDIT
        ===================================================== */
 
-    function editShowroom(
-        id
-    ) {
+    function editShowroom(id) {
 
         if (!requireLogin()) {
+
             return;
+
         }
 
 
@@ -3838,10 +4464,7 @@
             state.showrooms.find(
                 function (showroom) {
 
-                    return (
-                        showroom.id ===
-                        id
-                    );
+                    return showroom.id === id;
 
                 }
             );
@@ -3859,8 +4482,8 @@
 
 
         if (
-            item.ownerEmail !==
-            state.account.email
+            normalizeEmail(item.ownerEmail) !==
+            normalizeEmail(state.account.email)
         ) {
 
             alert(
@@ -3876,23 +4499,25 @@
             id;
 
 
-        const setValue =
-            function (
-                id,
-                value
-            ) {
+        function setValue(
+            elementId,
+            value
+        ) {
 
-                const element =
-                    byId(id);
+            const element =
+                byId(
+                    elementId
+                );
 
-                if (element) {
 
-                    element.value =
-                        value || "";
+            if (element) {
 
-                }
+                element.value =
+                    value || "";
 
-            };
+            }
+
+        }
 
 
         setValue(
@@ -3900,45 +4525,70 @@
             item.name
         );
 
+
         setValue(
             "rmShowroomType",
             item.type
         );
 
+
+        setShowroomReach(
+            item.reach
+        );
+
+
+        /*
+         * Supports both:
+         *
+         * new ISO-2 storage
+         * old country-name storage
+         */
+
         setValue(
             "rmShowroomCountry",
-            item.country
+            getCountryValue(
+                item.country ||
+                item.countryName ||
+                ""
+            )
         );
+
 
         setValue(
             "rmShowroomState",
             item.state
         );
 
+
         setValue(
             "rmShowroomDistrict",
             item.district
         );
+
 
         setValue(
             "rmShowroomTaluka",
             item.taluka
         );
 
+
         setValue(
             "rmShowroomPin",
             item.pin
         );
+
 
         setValue(
             "rmShowroomPhone",
             item.phone
         );
 
+
         setValue(
             "rmShowroomEmail",
             item.email
         );
+
 
         setValue(
             "rmShowroomDescription",
@@ -3947,8 +4597,8 @@
 
 
         /*
-         * Editing requires a fresh verified payment
-         * before republishing.
+         * Editing requires a fresh
+         * verified payment before republishing.
          */
 
         state.verifiedPayment =
@@ -3971,8 +4621,22 @@
 
         showStatus(
             "rmPaymentStatus",
-            "Please complete payment verification again before republishing the edited advertisement.",
+
+            "Editing requires a fresh verified $10 USD payment before republishing.",
+
             "error"
+        );
+
+
+        showStatus(
+            "rmReachStatus",
+
+            "Current reach: " +
+            showroomReachLabel(
+                item.reach
+            ),
+
+            "success"
         );
 
 
@@ -4003,12 +4667,12 @@
        DELETE SHOWROOM
        ===================================================== */
 
-    function deleteShowroom(
-        id
-    ) {
+    function deleteShowroom(id) {
 
         if (!requireLogin()) {
+
             return;
+
         }
 
 
@@ -4016,23 +4680,22 @@
             state.showrooms.find(
                 function (showroom) {
 
-                    return (
-                        showroom.id ===
-                        id
-                    );
+                    return showroom.id === id;
 
                 }
             );
 
 
         if (!item) {
+
             return;
+
         }
 
 
         if (
-            item.ownerEmail !==
-            state.account.email
+            normalizeEmail(item.ownerEmail) !==
+            normalizeEmail(state.account.email)
         ) {
 
             alert(
@@ -4059,10 +4722,7 @@
             state.showrooms.filter(
                 function (showroom) {
 
-                    return (
-                        showroom.id !==
-                        id
-                    );
+                    return showroom.id !== id;
 
                 }
             );
@@ -4072,8 +4732,7 @@
 
 
         if (
-            state.editingShowroomId ===
-            id
+            state.editingShowroomId === id
         ) {
 
             resetShowroomForm();
@@ -4090,9 +4749,7 @@
        SHOWROOM MEDIA
        ===================================================== */
 
-    function renderShowroomMedia(
-        item
-    ) {
+    function renderShowroomMedia(item) {
 
         let html = "";
 
@@ -4107,7 +4764,9 @@
                 '<div class="rm-media">' +
 
                 '<img src="' +
-                item.image.data +
+                escapeHTML(
+                    item.image.data
+                ) +
                 '" alt="Business advertisement image" loading="lazy">' +
 
                 "</div>";
@@ -4127,7 +4786,9 @@
                 '<video controls preload="metadata">' +
 
                 '<source src="' +
-                item.video.data +
+                escapeHTML(
+                    item.video.data
+                ) +
                 '" type="' +
                 escapeHTML(
                     item.video.type ||
@@ -4153,9 +4814,7 @@
        SHOWROOM CARD
        ===================================================== */
 
-    function createShowroomCard(
-        item
-    ) {
+    function createShowroomCard(item) {
 
         const card =
             document.createElement(
@@ -4224,68 +4883,64 @@
             );
 
 
-        card.innerHTML =
+        const reachText =
+            showroomReachLabel(
+                item.reach
+            );
+
+
+        let html =
 
             "<h3>" +
-
             escapeHTML(
                 item.name
             ) +
-
             "</h3>" +
 
-            "<p>" +
-
-            "<strong>🏢 Business Type:</strong> " +
-
+            "<p><strong>🏢 Business Type:</strong> " +
             escapeHTML(
                 item.typeLabel ||
                 showroomTypeLabel(
                     item.type
                 )
             ) +
-
             "</p>" +
 
-            "<p>" +
-
-            "<strong>🌍 Advertisement Reach:</strong> WORLDWIDE" +
-
+            "<p><strong>🌍 Advertisement Reach:</strong> " +
+            escapeHTML(
+                reachText
+            ) +
             "</p>" +
 
-            "<p>" +
-
-            "<strong>📍 Business Location:</strong> " +
-
+            "<p><strong>📍 Business Location:</strong> " +
             escapeHTML(
                 locationText
             ) +
+            "</p>";
 
-            "</p>" +
 
-            (
-                item.pin
-                    ? "<p><strong>PIN / ZIP:</strong> " +
-                      escapeHTML(
-                          item.pin
-                      ) +
-                      "</p>"
-                    : ""
-            ) +
+        if (item.pin) {
 
-            "<p>" +
+            html +=
 
-            "<strong>📞 Phone / WhatsApp:</strong> " +
+                "<p><strong>PIN / ZIP:</strong> " +
+                escapeHTML(
+                    item.pin
+                ) +
+                "</p>";
 
+        }
+
+
+        html +=
+
+            "<p><strong>📞 Phone / WhatsApp:</strong> " +
             escapeHTML(
                 item.phone
             ) +
-
             "</p>" +
 
-            "<p>" +
-
-            "<strong>✉️ Email:</strong> " +
+            "<p><strong>✉️ Email:</strong> " +
 
             '<a href="mailto:' +
             escapeHTML(
@@ -4297,51 +4952,49 @@
                 item.email
             ) +
 
-            "</a>" +
+            "</a></p>";
 
-            "</p>" +
 
-            (
-                item.description
-                    ? "<p>" +
-                      escapeHTML(
-                          item.description
-                      ) +
-                      "</p>"
-                    : ""
-            ) +
+        if (item.description) {
 
-            renderShowroomMedia(
-                item
-            ) +
-
-            (
-                item.payment &&
-                item.payment.paymentId
-
-                    ?
+            html +=
 
                 "<p>" +
+                escapeHTML(
+                    item.description
+                ) +
+                "</p>";
 
-                "<strong>Payment:</strong> Verified" +
+        }
 
-                "</p>"
 
-                    :
+        html +=
+            renderShowroomMedia(
+                item
+            );
 
-                ""
 
-            ) +
+        if (
+            item.payment &&
+            item.payment.paymentId
+        ) {
 
-            (
-                owner
+            html +=
+                "<p><strong>Payment:</strong> Verified</p>";
 
-                    ?
+        }
+
+
+        if (owner) {
+
+            html +=
 
                 '<div class="rm-actions">' +
 
                 '<button type="button" data-rm-action="edit-showroom" data-id="' +
-                escapeHTML(item.id) +
+                escapeHTML(
+                    item.id
+                ) +
                 '">' +
 
                 "✏️ Edit" +
@@ -4349,20 +5002,22 @@
                 "</button>" +
 
                 '<button type="button" data-rm-action="delete-showroom" data-id="' +
-                escapeHTML(item.id) +
+                escapeHTML(
+                    item.id
+                ) +
                 '">' +
 
                 "🗑️ Delete" +
 
                 "</button>" +
 
-                "</div>"
+                "</div>";
 
-                    :
+        }
 
-                ""
 
-            );
+        card.innerHTML =
+            html;
 
 
         return card;
@@ -4383,7 +5038,9 @@
 
 
         if (!container) {
+
             return;
+
         }
 
 
@@ -4455,9 +5112,7 @@
        ACTION EVENTS
        ===================================================== */
 
-    function handleListingActions(
-        event
-    ) {
+    function handleListingActions(event) {
 
         const button =
             event.target.closest(
@@ -4466,7 +5121,9 @@
 
 
         if (!button) {
+
             return;
+
         }
 
 
@@ -4479,7 +5136,9 @@
 
 
         if (!id) {
+
             return;
+
         }
 
 
@@ -4488,7 +5147,9 @@
             "edit-listing"
         ) {
 
-            editListing(id);
+            editListing(
+                id
+            );
 
         }
 
@@ -4498,16 +5159,16 @@
             "delete-listing"
         ) {
 
-            deleteListing(id);
+            deleteListing(
+                id
+            );
 
         }
 
     }
 
 
-    function handleShowroomActions(
-        event
-    ) {
+    function handleShowroomActions(event) {
 
         const button =
             event.target.closest(
@@ -4516,7 +5177,9 @@
 
 
         if (!button) {
+
             return;
+
         }
 
 
@@ -4529,7 +5192,9 @@
 
 
         if (!id) {
+
             return;
+
         }
 
 
@@ -4538,7 +5203,9 @@
             "edit-showroom"
         ) {
 
-            editShowroom(id);
+            editShowroom(
+                id
+            );
 
         }
 
@@ -4548,7 +5215,9 @@
             "delete-showroom"
         ) {
 
-            deleteShowroom(id);
+            deleteShowroom(
+                id
+            );
 
         }
 
@@ -4603,11 +5272,7 @@
 
             listingType.addEventListener(
                 "change",
-                function () {
-
-                    updateCategoryOptions();
-
-                }
+                updateCategoryOptions
             );
 
         }
@@ -4720,6 +5385,8 @@
                             state.verifiedPayment =
                                 null;
 
+                            setShowroomReach([]);
+
                         },
                         0
                     );
@@ -4745,11 +5412,14 @@
 
         }
 
+
+        bindReachChangeEvents();
+
     }
 
 
     /* =====================================================
-       REFRESH FUNCTIONS
+       REFRESH
        ===================================================== */
 
     function refreshCountries() {
@@ -4786,6 +5456,12 @@
         categories:
             CATEGORY_DATA,
 
+        showroomReach:
+            SHOWROOM_REACH,
+
+        showroomReachLabels:
+            SHOWROOM_REACH_LABELS,
+
         login:
             handleLogin,
 
@@ -4820,7 +5496,19 @@
             editShowroom,
 
         deleteShowroom:
-            deleteShowroom
+            deleteShowroom,
+
+        getSelectedShowroomReach:
+            getSelectedShowroomReach,
+
+        findCountry:
+            findCountry,
+
+        getCountryName:
+            getCountryName,
+
+        getCountryObject:
+            getCountryObject
 
     };
 
