@@ -2,2569 +2,4869 @@
    ALON HISTORYVERSE 24
    REGULAR MARKETPLACE ENGINE
    ---------------------------------------------------------
-   IMPORTANT:
-   This file belongs ONLY to Regular Marketplace.
+   Version: 24.2 SAFE REGULAR MARKETPLACE
+   Creator: Baba Thecno Guru
 
-   DO NOT MIX WITH:
-   Global Marketplace / marketplace.js
+   FEATURES
+   • Regular Marketplace
+   • General Item categories
+   • Property categories
+   • Vehicle categories
+   • Login / Logout
+   • Marketplace agreement
+   • Profile
+   • Save / Edit / Delete listings
+   • Image / Video support
+   • Country database integration
+   • Business / Showroom system
+   • Worldwide showroom reach
+   • Showroom Save / Edit / Delete
+   • Payment verification gate
+   • Browser persistence
    ========================================================= */
 
 (function () {
 
-"use strict";
+    "use strict";
 
 
-/* =========================================================
-   CONFIG
-   ========================================================= */
+    /* =====================================================
+       CONFIG
+       ===================================================== */
 
-const CONFIG = {
+    const CONFIG = {
 
-    project: "ALON HISTORYVERSE 24",
+        version: "24.2",
 
-    version: "1.0",
+        listingStorage:
+            "alon_historyverse_regular_marketplace_listings",
 
-    listingStorage:
-        "alon_historyverse_regular_marketplace_listings",
+        showroomStorage:
+            "alon_historyverse_regular_marketplace_showrooms",
 
-    showroomStorage:
-        "alon_historyverse_regular_marketplace_showrooms",
+        accountStorage:
+            "alon_historyverse_regular_marketplace_account",
 
-    accountStorage:
-        "alon_historyverse_regular_marketplace_account",
+        sessionStorage:
+            "alon_historyverse_regular_marketplace_session",
 
-    sessionStorage:
-        "alon_historyverse_regular_marketplace_session",
+        currency:
+            "USD",
 
-    currency:
-        "USD",
+        showroomPrice:
+            10,
 
-    showroomPrice:
-        10
+        imageLimit:
+            8 * 1024 * 1024,
 
-};
+        videoLimit:
+            20 * 1024 * 1024
 
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
-const state = {
-
-    listings: [],
-
-    showrooms: [],
-
-    account: null,
-
-    loggedIn: false,
-
-    editingListingId: null,
-
-    verifiedPayment: null
-
-};
+    };
 
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
+    /* =====================================================
+       STATE
+       ===================================================== */
 
-function $(id) {
+    const state = {
 
-    return document.getElementById(id);
+        listings: [],
 
-}
+        showrooms: [],
 
+        account: null,
 
-function createId(prefix) {
+        loggedIn: false,
 
-    return (
+        editingListingId: null,
 
-        prefix +
+        editingShowroomId: null,
 
-        "_" +
+        verifiedPayment: null,
 
-        Date.now().toString(36) +
+        countries: []
 
-        "_" +
-
-        Math.random()
-            .toString(36)
-            .slice(2, 9)
-
-    );
-
-}
+    };
 
 
-function now() {
+    /* =====================================================
+       BASIC HELPERS
+       ===================================================== */
 
-    return new Date().toISOString();
+    function byId(id) {
 
-}
-
-
-function escapeHTML(value) {
-
-    return String(value ?? "")
-
-        .replace(/&/g, "&amp;")
-
-        .replace(/</g, "&lt;")
-
-        .replace(/>/g, "&gt;")
-
-        .replace(/"/g, "&quot;")
-
-        .replace(/'/g, "&#039;");
-
-}
-
-
-function readJSON(key, fallback) {
-
-    try {
-
-        const raw = localStorage.getItem(key);
-
-        if (!raw) {
-            return fallback;
-        }
-
-        return JSON.parse(raw);
-
-    } catch (error) {
-
-        console.error(error);
-
-        return fallback;
+        return document.getElementById(id);
 
     }
 
-}
 
+    function text(value) {
 
-function writeJSON(key, value) {
-
-    localStorage.setItem(
-        key,
-        JSON.stringify(value)
-    );
-
-}
-
-
-function getCurrentUserEmail() {
-
-    return state.account
-        ? String(state.account.email || "").toLowerCase()
-        : "";
-
-}
-
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
-
-function loadAccount() {
-
-    state.account = readJSON(
-        CONFIG.accountStorage,
-        null
-    );
-
-    const session = readJSON(
-        CONFIG.sessionStorage,
-        null
-    );
-
-    state.loggedIn = !!(
-        state.account &&
-        session &&
-        session.email
-    );
-
-}
-
-
-function saveAccount(account) {
-
-    state.account = account;
-
-    state.loggedIn = true;
-
-    writeJSON(
-        CONFIG.accountStorage,
-        account
-    );
-
-    writeJSON(
-        CONFIG.sessionStorage,
-        {
-            email: account.email,
-            loginAt: now()
-        }
-    );
-
-}
-
-
-function logout() {
-
-    localStorage.removeItem(
-        CONFIG.sessionStorage
-    );
-
-    state.loggedIn = false;
-
-    state.account = null;
-
-    state.verifiedPayment = null;
-
-    updateLoginUI();
-
-    renderListings();
-
-    renderShowrooms();
-
-}
-
-
-function requireLogin() {
-
-    if (state.loggedIn) {
-
-        return true;
+        return String(
+            value === undefined ||
+            value === null
+                ? ""
+                : value
+        );
 
     }
 
-    alert(
-        "Please login first."
-    );
 
-    return false;
+    function escapeHTML(value) {
 
-}
+        return text(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
 
 
-function handleLogin(event) {
+    function normalizeEmail(email) {
 
-    event.preventDefault();
-
-
-    const name =
-        $("rmLoginName").value.trim();
-
-    const mobile =
-        $("rmLoginMobile").value.trim();
-
-    const email =
-        $("rmLoginEmail").value
+        return text(email)
             .trim()
             .toLowerCase();
 
-    const password =
-        $("rmLoginPassword").value;
-
-    const agreement =
-        $("rmAgreement").checked;
+    }
 
 
-    if (!agreement) {
+    function createId(prefix) {
 
-        alert(
-            "Please accept the Agreement first."
+        return (
+
+            prefix +
+
+            "_" +
+
+            Date.now() +
+
+            "_" +
+
+            Math.random()
+                .toString(36)
+                .slice(2, 10)
+
         );
-
-        return;
 
     }
 
 
-    if (!name || !mobile || !email) {
+    function saveJSON(key, value) {
 
-        alert(
-            "Please complete all login fields."
-        );
+        try {
 
-        return;
+            localStorage.setItem(
+                key,
+                JSON.stringify(value)
+            );
 
-    }
+            return true;
 
+        } catch (error) {
 
-    if (password.length < 4) {
+            console.error(
+                "Regular Marketplace storage error:",
+                error
+            );
 
-        alert(
-            "Password must contain at least 4 characters."
-        );
+            alert(
+                "Browser storage is full. Please remove some old listings or large media files."
+            );
 
-        return;
-
-    }
-
-
-    /*
-       Password is intentionally NOT stored.
-       This local login is only a marketplace
-       identity/session layer.
-    */
-
-    saveAccount({
-
-        name,
-
-        mobile,
-
-        email,
-
-        createdAt:
-            state.account?.createdAt || now()
-
-    });
-
-
-    updateLoginUI();
-
-    alert(
-        "Login successful."
-    );
-
-}
-
-
-function updateLoginUI() {
-
-    const form =
-        $("rmLoginForm");
-
-    const profile =
-        $("rmProfileBox");
-
-    const status =
-        $("rmLoginStatus");
-
-
-    if (state.loggedIn) {
-
-        form.classList.add(
-            "rm-hidden"
-        );
-
-        profile.classList.remove(
-            "rm-hidden"
-        );
-
-
-        $("rmProfileName")
-            .textContent =
-            state.account.name || "";
-
-
-        $("rmProfileEmail")
-            .textContent =
-            state.account.email || "";
-
-
-        status.textContent =
-            "You are logged in. Login is hidden and Logout is available.";
-
-    } else {
-
-        form.classList.remove(
-            "rm-hidden"
-        );
-
-        profile.classList.add(
-            "rm-hidden"
-        );
-
-
-        status.textContent =
-            "Please login to create, edit or delete your listings.";
-
-    }
-
-}
-
-
-/* =========================================================
-   CATEGORY SYSTEM
-   ========================================================= */
-
-const CATEGORY_DATA = {
-
-    item: [
-
-        ["electronics", "Electronics"],
-
-        ["mobile", "Mobile"],
-
-        ["furniture", "Furniture"],
-
-        ["clothing", "Clothing"],
-
-        ["home", "Home & Household"],
-
-        ["tools", "Tools"],
-
-        ["other-item", "Other Item"]
-
-    ],
-
-
-    property: [
-
-        ["house", "House"],
-
-        ["shop", "Shop"],
-
-        ["flat", "Flat"],
-
-        ["bungalow", "Bungalow"],
-
-        ["plot", "Plot"],
-
-        ["land", "Land"]
-
-    ],
-
-
-    vehicle: [
-
-        ["car", "Car"],
-
-        ["bike", "Bike"],
-
-        ["truck", "Truck"],
-
-        ["tractor", "Tractor"],
-
-        ["jcb", "JCB"],
-
-        ["other-vehicle", "Other Vehicle"]
-
-    ]
-
-};
-
-
-function updateCategoryOptions() {
-
-    const type =
-        $("rmListingType").value;
-
-    const select =
-        $("rmListingCategory");
-
-
-    select.innerHTML = "";
-
-    if (!type) {
-
-        const option =
-            document.createElement("option");
-
-        option.value = "";
-
-        option.textContent =
-            "Select type first";
-
-        select.appendChild(option);
-
-        return;
-
-    }
-
-
-    const first =
-        document.createElement("option");
-
-    first.value = "";
-
-    first.textContent =
-        "Select Category";
-
-    select.appendChild(first);
-
-
-    CATEGORY_DATA[type].forEach(
-        function (item) {
-
-            const option =
-                document.createElement("option");
-
-            option.value = item[0];
-
-            option.textContent = item[1];
-
-            select.appendChild(option);
+            return false;
 
         }
-    );
-
-}
-
-
-/* =========================================================
-   COUNTRY SYSTEM
-   ========================================================= */
-
-function getCountryDatabase() {
-
-    if (
-        Array.isArray(
-            window.MARKETPLACE_COUNTRIES
-        )
-    ) {
-
-        return window.MARKETPLACE_COUNTRIES;
 
     }
 
 
-    if (
-        window.MARKETPLACE_COUNTRIES &&
-        typeof window.MARKETPLACE_COUNTRIES === "object"
+    function loadJSON(key, fallback) {
+
+        try {
+
+            const raw =
+                localStorage.getItem(key);
+
+            if (!raw) {
+
+                return fallback;
+
+            }
+
+            return JSON.parse(raw);
+
+        } catch (error) {
+
+            console.warn(
+                "Regular Marketplace read error:",
+                error
+            );
+
+            return fallback;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       STATUS
+       ===================================================== */
+
+    function showStatus(
+        id,
+        message,
+        type
     ) {
 
-        return Object.values(
-            window.MARKETPLACE_COUNTRIES
+        const element =
+            byId(id);
+
+        if (!element) {
+            return;
+        }
+
+        element.textContent =
+            message || "";
+
+        element.className =
+            "rm-status show " +
+            (type || "");
+
+    }
+
+
+    function hideStatus(id) {
+
+        const element =
+            byId(id);
+
+        if (!element) {
+            return;
+        }
+
+        element.textContent =
+            "";
+
+        element.className =
+            "rm-status";
+
+    }
+
+
+    /* =====================================================
+       STORAGE
+       ===================================================== */
+
+    function loadStorage() {
+
+        state.listings =
+            loadJSON(
+                CONFIG.listingStorage,
+                []
+            );
+
+        state.showrooms =
+            loadJSON(
+                CONFIG.showroomStorage,
+                []
+            );
+
+        state.account =
+            loadJSON(
+                CONFIG.accountStorage,
+                null
+            );
+
+        const session =
+            loadJSON(
+                CONFIG.sessionStorage,
+                null
+            );
+
+
+        if (
+            !Array.isArray(
+                state.listings
+            )
+        ) {
+
+            state.listings = [];
+
+        }
+
+
+        if (
+            !Array.isArray(
+                state.showrooms
+            )
+        ) {
+
+            state.showrooms = [];
+
+        }
+
+
+        if (
+            state.account &&
+            session &&
+            session.email &&
+            normalizeEmail(
+                session.email
+            ) ===
+            normalizeEmail(
+                state.account.email
+            )
+        ) {
+
+            state.loggedIn =
+                true;
+
+        } else {
+
+            state.loggedIn =
+                false;
+
+        }
+
+    }
+
+
+    function saveListings() {
+
+        return saveJSON(
+            CONFIG.listingStorage,
+            state.listings
         );
 
     }
 
 
-    return [];
+    function saveShowrooms() {
 
-}
-
-
-function countryName(item) {
-
-    if (typeof item === "string") {
-
-        return item;
+        return saveJSON(
+            CONFIG.showroomStorage,
+            state.showrooms
+        );
 
     }
 
-    return (
 
-        item.name ||
+    function saveAccount() {
 
-        item.country ||
+        if (state.account) {
 
-        item.label ||
+            saveJSON(
+                CONFIG.accountStorage,
+                state.account
+            );
 
-        item.title ||
+        } else {
 
-        ""
+            localStorage.removeItem(
+                CONFIG.accountStorage
+            );
 
-    );
-
-}
-
-
-function countryValue(item) {
-
-    if (typeof item === "string") {
-
-        return item;
+        }
 
     }
 
-    return (
 
-        item.code ||
+    function saveSession() {
 
-        item.iso ||
+        if (
+            state.loggedIn &&
+            state.account
+        ) {
 
-        item.iso2 ||
+            saveJSON(
+                CONFIG.sessionStorage,
+                {
 
-        item.countryCode ||
+                    email:
+                        state.account.email,
 
-        countryName(item)
-
-    );
-
-}
-
-
-function populateCountries() {
-
-    const countries =
-        getCountryDatabase();
-
-
-    const selects = [
-
-        $("rmCountry"),
-
-        $("rmShowroomCountry")
-
-    ];
-
-
-    selects.forEach(
-        function (select) {
-
-            if (!select) {
-                return;
-            }
-
-
-            select.innerHTML = "";
-
-
-            const first =
-                document.createElement("option");
-
-            first.value = "";
-
-            first.textContent =
-                "Select Country";
-
-            select.appendChild(first);
-
-
-            countries.forEach(
-                function (item) {
-
-                    const name =
-                        countryName(item);
-
-                    if (!name) {
-                        return;
-                    }
-
-
-                    const option =
-                        document.createElement("option");
-
-                    option.value =
-                        countryValue(item);
-
-                    option.textContent =
-                        name;
-
-                    select.appendChild(option);
+                    loggedInAt:
+                        new Date()
+                            .toISOString()
 
                 }
             );
 
-        }
-    );
+        } else {
 
-}
-
-
-/* =========================================================
-   IMAGE / VIDEO STORAGE
-   ========================================================= */
-
-function fileToDataURL(file) {
-
-    return new Promise(
-        function (resolve, reject) {
-
-            if (!file) {
-
-                resolve("");
-
-                return;
-
-            }
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function () {
-
-                    resolve(
-                        reader.result
-                    );
-
-                };
-
-
-            reader.onerror =
-                reject;
-
-
-            reader.readAsDataURL(file);
+            localStorage.removeItem(
+                CONFIG.sessionStorage
+            );
 
         }
-    );
-
-}
-
-
-/*
-   IndexedDB is used for media so images/videos
-   do not have to be kept directly inside localStorage.
-*/
-
-const MEDIA_DB_NAME =
-    "ALON_HISTORYVERSE_24_REGULAR_MARKETPLACE_MEDIA";
-
-const MEDIA_DB_VERSION = 1;
-
-const MEDIA_STORE = "media";
-
-
-function openMediaDB() {
-
-    return new Promise(
-        function (resolve, reject) {
-
-            if (!window.indexedDB) {
-
-                resolve(null);
-
-                return;
-
-            }
-
-
-            const request =
-                indexedDB.open(
-                    MEDIA_DB_NAME,
-                    MEDIA_DB_VERSION
-                );
-
-
-            request.onupgradeneeded =
-                function (event) {
-
-                    const db =
-                        event.target.result;
-
-
-                    if (
-                        !db.objectStoreNames.contains(
-                            MEDIA_STORE
-                        )
-                    ) {
-
-                        db.createObjectStore(
-                            MEDIA_STORE,
-                            {
-                                keyPath: "id"
-                            }
-                        );
-
-                    }
-
-                };
-
-
-            request.onsuccess =
-                function () {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-
-            request.onerror =
-                function () {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
-}
-
-
-async function saveMedia(file) {
-
-    if (!file) {
-
-        return null;
 
     }
 
 
-    const id =
-        createId("media");
+    /* =====================================================
+       ACCOUNT / LOGIN
+       ===================================================== */
+
+    function handleLogin() {
+
+        const nameInput =
+            byId("rmLoginName");
+
+        const mobileInput =
+            byId("rmLoginMobile");
+
+        const emailInput =
+            byId("rmLoginEmail");
+
+        const passwordInput =
+            byId("rmLoginPassword");
+
+        const agreement =
+            byId("rmAgreement");
 
 
-    const db =
-        await openMediaDB();
+        const name =
+            text(
+                nameInput
+                    ? nameInput.value
+                    : ""
+            ).trim();
 
 
-    /*
-       Fallback for browsers without IndexedDB.
-    */
+        const mobile =
+            text(
+                mobileInput
+                    ? mobileInput.value
+                    : ""
+            ).trim();
 
-    if (!db) {
+
+        const email =
+            normalizeEmail(
+                emailInput
+                    ? emailInput.value
+                    : ""
+            );
+
+
+        const password =
+            text(
+                passwordInput
+                    ? passwordInput.value
+                    : ""
+            );
+
+
+        if (!name) {
+
+            showStatus(
+                "rmLoginStatus",
+                "Please enter your name.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (!mobile) {
+
+            showStatus(
+                "rmLoginStatus",
+                "Please enter your mobile number.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (!email || !email.includes("@")) {
+
+            showStatus(
+                "rmLoginStatus",
+                "Please enter a valid email address.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (!password) {
+
+            showStatus(
+                "rmLoginStatus",
+                "Please enter your password.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !agreement ||
+            !agreement.checked
+        ) {
+
+            showStatus(
+                "rmLoginStatus",
+                "You must agree to the Marketplace Agreement before login.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Browser-only account.
+         * Password is stored locally for this
+         * static marketplace implementation.
+         *
+         * A production server should replace this
+         * with secure server-side authentication.
+         */
+
+        if (
+            state.account &&
+            normalizeEmail(
+                state.account.email
+            ) === email
+        ) {
+
+            if (
+                state.account.password !==
+                password
+            ) {
+
+                showStatus(
+                    "rmLoginStatus",
+                    "Incorrect password.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+            state.account.name =
+                name;
+
+            state.account.mobile =
+                mobile;
+
+        } else {
+
+            state.account = {
+
+                name:
+                    name,
+
+                mobile:
+                    mobile,
+
+                email:
+                    email,
+
+                password:
+                    password,
+
+                agreementAccepted:
+                    true,
+
+                createdAt:
+                    new Date()
+                        .toISOString()
+
+            };
+
+        }
+
+
+        saveAccount();
+
+
+        state.loggedIn =
+            true;
+
+
+        saveSession();
+
+
+        updateLoginUI();
+
+
+        showStatus(
+            "rmLoginStatus",
+            "Login successful.",
+            "success"
+        );
+
+
+        renderListings();
+
+        renderShowrooms();
+
+    }
+
+
+    function logout() {
+
+        state.loggedIn =
+            false;
+
+        state.editingListingId =
+            null;
+
+        state.editingShowroomId =
+            null;
+
+        state.verifiedPayment =
+            null;
+
+
+        localStorage.removeItem(
+            CONFIG.sessionStorage
+        );
+
+
+        resetListingForm();
+
+        resetShowroomForm();
+
+        updateLoginUI();
+
+        renderListings();
+
+        renderShowrooms();
+
+
+        showStatus(
+            "rmLoginStatus",
+            "You have been logged out.",
+            "success"
+        );
+
+    }
+
+
+    function requireLogin() {
+
+        if (state.loggedIn && state.account) {
+
+            return true;
+
+        }
+
+
+        alert(
+            "Please login before using this feature."
+        );
+
+
+        return false;
+
+    }
+
+
+    function updateLoginUI() {
+
+        const loginBox =
+            byId("rmLoginBox");
+
+        const profileBox =
+            byId("rmProfileBox");
+
+
+        if (!loginBox || !profileBox) {
+            return;
+        }
+
+
+        if (
+            state.loggedIn &&
+            state.account
+        ) {
+
+            loginBox.classList.add(
+                "rm-hidden"
+            );
+
+            profileBox.classList.remove(
+                "rm-hidden"
+            );
+
+
+            const name =
+                byId(
+                    "rmProfileName"
+                );
+
+            const email =
+                byId(
+                    "rmProfileEmail"
+                );
+
+
+            if (name) {
+
+                name.textContent =
+                    state.account.name ||
+                    "";
+
+            }
+
+
+            if (email) {
+
+                email.textContent =
+                    state.account.email ||
+                    "";
+
+            }
+
+        } else {
+
+            loginBox.classList.remove(
+                "rm-hidden"
+            );
+
+            profileBox.classList.add(
+                "rm-hidden"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CATEGORY SYSTEM
+       ===================================================== */
+
+    const CATEGORY_DATA = {
+
+        item: [
+
+            {
+                value: "electronics",
+                label: "📱 Electronics"
+            },
+
+            {
+                value: "mobile",
+                label: "📱 Mobile Phones"
+            },
+
+            {
+                value: "computer",
+                label: "💻 Computers / Laptops"
+            },
+
+            {
+                value: "furniture",
+                label: "🪑 Furniture"
+            },
+
+            {
+                value: "clothing",
+                label: "👕 Clothing / Fashion"
+            },
+
+            {
+                value: "footwear",
+                label: "👟 Footwear"
+            },
+
+            {
+                value: "home",
+                label: "🏠 Home & Household"
+            },
+
+            {
+                value: "appliances",
+                label: "🔌 Home Appliances"
+            },
+
+            {
+                value: "kitchen",
+                label: "🍳 Kitchen Items"
+            },
+
+            {
+                value: "books",
+                label: "📚 Books"
+            },
+
+            {
+                value: "sports",
+                label: "⚽ Sports & Fitness"
+            },
+
+            {
+                value: "toys",
+                label: "🧸 Toys & Kids"
+            },
+
+            {
+                value: "tools",
+                label: "🔧 Tools"
+            },
+
+            {
+                value: "machinery",
+                label: "⚙️ Machinery & Equipment"
+            },
+
+            {
+                value: "jewellery",
+                label: "💎 Jewellery"
+            },
+
+            {
+                value: "musical",
+                label: "🎸 Musical Instruments"
+            },
+
+            {
+                value: "agriculture",
+                label: "🌾 Agriculture Products"
+            },
+
+            {
+                value: "office",
+                label: "🏢 Office Equipment"
+            },
+
+            {
+                value: "collectibles",
+                label: "🏺 Collectibles & Antiques"
+            },
+
+            {
+                value: "other-item",
+                label: "📦 Other Item"
+            }
+
+        ],
+
+
+        property: [
+
+            {
+                value: "house",
+                label: "🏠 House"
+            },
+
+            {
+                value: "flat",
+                label: "🏢 Flat / Apartment"
+            },
+
+            {
+                value: "bungalow",
+                label: "🏡 Bungalow"
+            },
+
+            {
+                value: "villa",
+                label: "🏘️ Villa"
+            },
+
+            {
+                value: "plot",
+                label: "📐 Residential Plot"
+            },
+
+            {
+                value: "land",
+                label: "🌳 Land"
+            },
+
+            {
+                value: "farm",
+                label: "🌾 Farm / Agricultural Land"
+            },
+
+            {
+                value: "shop",
+                label: "🏪 Shop"
+            },
+
+            {
+                value: "office",
+                label: "🏢 Office"
+            },
+
+            {
+                value: "warehouse",
+                label: "🏭 Warehouse"
+            },
+
+            {
+                value: "factory",
+                label: "🏭 Factory"
+            },
+
+            {
+                value: "commercial-property",
+                label: "🏬 Commercial Property"
+            },
+
+            {
+                value: "hotel-property",
+                label: "🏨 Hotel / Resort Property"
+            },
+
+            {
+                value: "rental-property",
+                label: "🔑 Rental Property"
+            },
+
+            {
+                value: "other-property",
+                label: "🏠 Other Property"
+            }
+
+        ],
+
+
+        vehicle: [
+
+            {
+                value: "car",
+                label: "🚗 Car"
+            },
+
+            {
+                value: "suv",
+                label: "🚙 SUV / 4x4"
+            },
+
+            {
+                value: "motorcycle-bike",
+                label: "🏍️ Motorcycle / Bike"
+            },
+
+            {
+                value: "scooter",
+                label: "🛵 Scooter"
+            },
+
+            {
+                value: "electric-vehicle",
+                label: "⚡ Electric Vehicle"
+            },
+
+            {
+                value: "truck",
+                label: "🚚 Truck"
+            },
+
+            {
+                value: "trailer",
+                label: "🚛 Trailer"
+            },
+
+            {
+                value: "tractor",
+                label: "🚜 Tractor"
+            },
+
+            {
+                value: "jcb-excavator",
+                label: "🏗️ JCB / Excavator"
+            },
+
+            {
+                value: "bus",
+                label: "🚌 Bus"
+            },
+
+            {
+                value: "van",
+                label: "🚐 Van"
+            },
+
+            {
+                value: "ambulance",
+                label: "🚑 Ambulance"
+            },
+
+            {
+                value: "taxi",
+                label: "🚕 Taxi"
+            },
+
+            {
+                value: "commercial-vehicle",
+                label: "🚛 Commercial Vehicle"
+            },
+
+            {
+                value: "three-wheeler",
+                label: "🛺 Three-Wheeler"
+            },
+
+            {
+                value: "farm-vehicle",
+                label: "🚜 Farm Vehicle"
+            },
+
+            {
+                value: "construction-vehicle",
+                label: "🏗️ Construction Vehicle"
+            },
+
+            {
+                value: "boat",
+                label: "🛥️ Boat / Water Vehicle"
+            },
+
+            {
+                value: "other-vehicle",
+                label: "🚘 Other Vehicle"
+            }
+
+        ]
+
+    };
+
+
+    function categoryLabel(
+        type,
+        value
+    ) {
+
+        const list =
+            CATEGORY_DATA[type] ||
+            [];
+
+
+        const item =
+            list.find(
+                function (category) {
+
+                    return (
+                        category.value ===
+                        value
+                    );
+
+                }
+            );
+
+
+        return item
+            ? item.label
+            : value || "Other";
+
+    }
+
+
+    function updateCategoryOptions() {
+
+        const typeSelect =
+            byId(
+                "rmListingType"
+            );
+
+        const categorySelect =
+            byId(
+                "rmListingCategory"
+            );
+
+
+        if (
+            !typeSelect ||
+            !categorySelect
+        ) {
+
+            return;
+
+        }
+
+
+        const type =
+            typeSelect.value;
+
+
+        categorySelect.innerHTML =
+            "";
+
+
+        if (!type) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                "";
+
+            option.textContent =
+                "Select type first";
+
+            categorySelect.appendChild(
+                option
+            );
+
+            return;
+
+        }
+
+
+        const first =
+            document.createElement(
+                "option"
+            );
+
+        first.value =
+            "";
+
+        first.textContent =
+            "Select Category";
+
+        categorySelect.appendChild(
+            first
+        );
+
+
+        (
+            CATEGORY_DATA[type] ||
+            []
+        ).forEach(
+            function (category) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    category.value;
+
+                option.textContent =
+                    category.label;
+
+                categorySelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       COUNTRY DATABASE
+       ===================================================== */
+
+    function getCountryDatabase() {
+
+        const sources = [
+
+            window.MARKETPLACE_COUNTRIES,
+
+            window.ALON_WORLD_COUNTRIES,
+
+            window.WORLD_COUNTRIES
+
+        ];
+
+
+        for (
+            let i = 0;
+            i < sources.length;
+            i++
+        ) {
+
+            const source =
+                sources[i];
+
+
+            if (
+                Array.isArray(source)
+            ) {
+
+                return source;
+
+            }
+
+
+            if (
+                source &&
+                Array.isArray(
+                    source.countries
+                )
+            ) {
+
+                return source.countries;
+
+            }
+
+        }
+
+
+        return [];
+
+    }
+
+
+    function normalizeCountry(
+        item
+    ) {
+
+        if (!item) {
+            return null;
+        }
+
+
+        if (
+            typeof item ===
+            "string"
+        ) {
+
+            return {
+
+                name:
+                    item,
+
+                iso:
+                    "",
+
+                callingCode:
+                    "",
+
+                flag:
+                    ""
+
+            };
+
+        }
+
+
+        const name =
+            item.name ||
+            item.country ||
+            item.countryName ||
+            item.label ||
+            "";
+
+
+        if (!name) {
+            return null;
+        }
+
+
+        const iso =
+            text(
+                item.iso ||
+                item.iso2 ||
+                item.code ||
+                item.countryCode ||
+                ""
+            )
+            .trim()
+            .toUpperCase();
+
+
+        const callingCode =
+            text(
+                item.callingCode ||
+                item.dialCode ||
+                item.phoneCode ||
+                item.calling_code ||
+                ""
+            )
+            .trim();
+
+
+        const flag =
+            text(
+                item.flag ||
+                item.emoji ||
+                item.symbol ||
+                ""
+            )
+            .trim();
+
 
         return {
 
-            id,
+            name:
+                text(name).trim(),
 
-            name: file.name,
+            iso:
+                iso,
 
-            type: file.type,
+            callingCode:
+                callingCode,
 
-            data:
-                await fileToDataURL(file)
+            flag:
+                flag
 
         };
 
     }
 
 
-    return new Promise(
-        function (resolve, reject) {
+    function loadCountries() {
 
-            const transaction =
-                db.transaction(
-                    MEDIA_STORE,
-                    "readwrite"
-                );
+        const database =
+            getCountryDatabase();
 
 
-            const store =
-                transaction.objectStore(
-                    MEDIA_STORE
-                );
+        const result = [];
+
+        const seen =
+            new Set();
 
 
-            store.put({
+        database.forEach(
+            function (item) {
 
-                id,
-
-                name: file.name,
-
-                type: file.type,
-
-                blob: file
-
-            });
-
-
-            transaction.oncomplete =
-                function () {
-
-                    resolve({
-
-                        id,
-
-                        name: file.name,
-
-                        type: file.type
-
-                    });
-
-                };
-
-
-            transaction.onerror =
-                function () {
-
-                    reject(
-                        transaction.error
+                const country =
+                    normalizeCountry(
+                        item
                     );
 
-                };
 
-        }
-    );
+                if (
+                    !country ||
+                    !country.name
+                ) {
 
-}
+                    return;
+
+                }
 
 
-async function getMedia(id) {
+                const key =
+                    (
+                        country.iso ||
+                        country.name
+                    )
+                    .toLowerCase();
 
-    if (!id) {
 
-        return null;
+                if (
+                    seen.has(key)
+                ) {
+
+                    return;
+
+                }
+
+
+                seen.add(key);
+
+                result.push(
+                    country
+                );
+
+            }
+        );
+
+
+        result.sort(
+            function (a, b) {
+
+                return a.name.localeCompare(
+                    b.name,
+                    undefined,
+                    {
+                        sensitivity:
+                            "base"
+                    }
+                );
+
+            }
+        );
+
+
+        state.countries =
+            result;
 
     }
 
 
-    const db =
-        await openMediaDB();
+    function countryLabel(
+        country
+    ) {
+
+        let value = "";
 
 
-    if (!db) {
+        if (country.flag) {
 
-        return null;
+            value +=
+                country.flag +
+                " ";
+
+        }
+
+
+        value +=
+            country.name;
+
+
+        if (country.iso) {
+
+            value +=
+                " (" +
+                country.iso +
+                ")";
+
+        }
+
+
+        if (country.callingCode) {
+
+            value +=
+                " " +
+                country.callingCode;
+
+        }
+
+
+        return value;
 
     }
 
 
-    return new Promise(
-        function (resolve) {
+    function populateCountries() {
 
-            const transaction =
-                db.transaction(
-                    MEDIA_STORE,
-                    "readonly"
+        const listingCountry =
+            byId(
+                "rmCountry"
+            );
+
+        const showroomCountry =
+            byId(
+                "rmShowroomCountry"
+            );
+
+
+        if (listingCountry) {
+
+            const current =
+                listingCountry.value;
+
+
+            listingCountry.innerHTML =
+                "";
+
+
+            const empty =
+                document.createElement(
+                    "option"
                 );
 
+            empty.value =
+                "";
 
-            const store =
-                transaction.objectStore(
-                    MEDIA_STORE
-                );
+            empty.textContent =
+                "Select Country";
+
+            listingCountry.appendChild(
+                empty
+            );
 
 
-            const request =
-                store.get(id);
+            state.countries.forEach(
+                function (country) {
 
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
 
-            request.onsuccess =
-                function () {
+                    option.value =
+                        country.iso ||
+                        country.name;
 
-                    resolve(
-                        request.result || null
+                    option.textContent =
+                        countryLabel(
+                            country
+                        );
+
+                    listingCountry.appendChild(
+                        option
                     );
 
-                };
+                }
+            );
 
 
-            request.onerror =
-                function () {
-
-                    resolve(null);
-
-                };
+            listingCountry.value =
+                current;
 
         }
-    );
-
-}
 
 
-function createMediaElement(
-    mediaRecord,
-    mediaType
-) {
+        if (showroomCountry) {
 
-    if (!mediaRecord) {
+            const current =
+                showroomCountry.value;
+
+
+            showroomCountry.innerHTML =
+                "";
+
+
+            const empty =
+                document.createElement(
+                    "option"
+                );
+
+            empty.value =
+                "";
+
+            empty.textContent =
+                "Select Country";
+
+            showroomCountry.appendChild(
+                empty
+            );
+
+
+            state.countries.forEach(
+                function (country) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        country.iso ||
+                        country.name;
+
+                    option.textContent =
+                        countryLabel(
+                            country
+                        );
+
+                    showroomCountry.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            showroomCountry.value =
+                current;
+
+        }
+
+    }
+
+
+    function findCountry(
+        value
+    ) {
+
+        const target =
+            text(value)
+                .trim()
+                .toLowerCase();
+
+
+        if (!target) {
+            return null;
+        }
+
+
+        return (
+
+            state.countries.find(
+                function (country) {
+
+                    return (
+                        country.iso
+                            .toLowerCase() ===
+                        target
+                    );
+
+                }
+            ) ||
+
+            state.countries.find(
+                function (country) {
+
+                    return (
+                        country.name
+                            .toLowerCase() ===
+                        target
+                    );
+
+                }
+            ) ||
+
+            null
+
+        );
+
+    }
+
+
+    function getCountryName(
+        value
+    ) {
+
+        const country =
+            findCountry(value);
+
+
+        if (country) {
+
+            return countryLabel(
+                country
+            );
+
+        }
+
+
+        return text(value) ||
+            "Not specified";
+
+    }
+
+
+    /* =====================================================
+       FILE MEDIA
+       ===================================================== */
+
+    function readFile(
+        file
+    ) {
+
+        return new Promise(
+            function (
+                resolve,
+                reject
+            ) {
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function () {
+
+                        resolve(
+                            reader.result
+                        );
+
+                    };
+
+
+                reader.onerror =
+                    function () {
+
+                        reject(
+                            new Error(
+                                "Unable to read file."
+                            )
+                        );
+
+                    };
+
+
+                reader.readAsDataURL(
+                    file
+                );
+
+            }
+        );
+
+    }
+
+
+    async function processImage(
+        file
+    ) {
+
+        if (!file) {
+            return null;
+        }
+
+
+        if (
+            !file.type.startsWith(
+                "image/"
+            )
+        ) {
+
+            throw new Error(
+                "Please select a valid image file."
+            );
+
+        }
+
+
+        if (
+            file.size >
+            CONFIG.imageLimit
+        ) {
+
+            throw new Error(
+                "Image must be 8 MB or smaller."
+            );
+
+        }
+
+
+        return {
+
+            name:
+                file.name,
+
+            type:
+                file.type,
+
+            size:
+                file.size,
+
+            data:
+                await readFile(file)
+
+        };
+
+    }
+
+
+    async function processVideo(
+        file
+    ) {
+
+        if (!file) {
+            return null;
+        }
+
+
+        if (
+            !file.type.startsWith(
+                "video/"
+            )
+        ) {
+
+            throw new Error(
+                "Please select a valid video file."
+            );
+
+        }
+
+
+        if (
+            file.size >
+            CONFIG.videoLimit
+        ) {
+
+            throw new Error(
+                "Video must be 20 MB or smaller."
+            );
+
+        }
+
+
+        return {
+
+            name:
+                file.name,
+
+            type:
+                file.type,
+
+            size:
+                file.size,
+
+            data:
+                await readFile(file)
+
+        };
+
+    }
+
+
+    /* =====================================================
+       LISTING FORM
+       ===================================================== */
+
+    function listingFormData() {
+
+        function value(id) {
+
+            const element =
+                byId(id);
+
+            return element
+                ? text(
+                    element.value
+                ).trim()
+                : "";
+
+        }
+
+
+        return {
+
+            type:
+                value(
+                    "rmListingType"
+                ),
+
+            category:
+                value(
+                    "rmListingCategory"
+                ),
+
+            condition:
+                value(
+                    "rmListingCondition"
+                ),
+
+            title:
+                value(
+                    "rmListingTitle"
+                ),
+
+            price:
+                value(
+                    "rmListingPrice"
+                ),
+
+            country:
+                value(
+                    "rmCountry"
+                ),
+
+            state:
+                value(
+                    "rmState"
+                ),
+
+            district:
+                value(
+                    "rmDistrict"
+                ),
+
+            taluka:
+                value(
+                    "rmTaluka"
+                ),
+
+            pin:
+                value(
+                    "rmPin"
+                ),
+
+            phone:
+                value(
+                    "rmPhone"
+                ),
+
+            email:
+                value(
+                    "rmEmail"
+                ),
+
+            description:
+                value(
+                    "rmDescription"
+                )
+
+        };
+
+    }
+
+
+    function validateListing(
+        data
+    ) {
+
+        if (!state.loggedIn) {
+
+            return "Please login first.";
+
+        }
+
+
+        if (!data.type) {
+
+            return "Please select Listing Type.";
+
+        }
+
+
+        if (!data.category) {
+
+            return "Please select a category.";
+
+        }
+
+
+        if (!data.title) {
+
+            return "Listing title is required.";
+
+        }
+
+
+        if (!data.price) {
+
+            return "Price is required.";
+
+        }
+
+
+        if (!data.country) {
+
+            return "Please select a country.";
+
+        }
+
+
+        if (!data.description) {
+
+            return "Description is required.";
+
+        }
+
 
         return "";
 
     }
 
 
-    if (mediaRecord.data) {
+    async function saveListing(
+        event
+    ) {
 
-        if (
-            mediaType === "video"
-        ) {
+        event.preventDefault();
 
-            return `
-                <video
-                    class="rm-media"
-                    controls
-                    src="${mediaRecord.data}"
-                ></video>
-            `;
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        const data =
+            listingFormData();
+
+
+        const validation =
+            validateListing(
+                data
+            );
+
+
+        if (validation) {
+
+            showStatus(
+                "rmListingStatus",
+                validation,
+                "error"
+            );
+
+            return;
 
         }
 
 
-        return `
-            <img
-                class="rm-media"
-                src="${mediaRecord.data}"
-                alt=""
-            >
-        `;
-
-    }
-
-
-    return "";
-
-}
-
-
-/* =========================================================
-   LISTINGS STORAGE
-   ========================================================= */
-
-function loadData() {
-
-    state.listings =
-        readJSON(
-            CONFIG.listingStorage,
-            []
-        );
-
-
-    state.showrooms =
-        readJSON(
-            CONFIG.showroomStorage,
-            []
-        );
-
-}
-
-
-function saveListings() {
-
-    writeJSON(
-        CONFIG.listingStorage,
-        state.listings
-    );
-
-}
-
-
-function saveShowrooms() {
-
-    writeJSON(
-        CONFIG.showroomStorage,
-        state.showrooms
-    );
-
-}
-
-
-/* =========================================================
-   LISTING SAVE
-   ========================================================= */
-
-async function handleListingSave(event) {
-
-    event.preventDefault();
-
-
-    if (!requireLogin()) {
-        return;
-    }
-
-
-    const form =
-        $("rmListingForm");
-
-
-    const imageFile =
-        $("rmImage").files[0] || null;
-
-
-    const videoFile =
-        $("rmVideo").files[0] || null;
-
-
-    const imageMedia =
-        imageFile
-            ? await saveMedia(imageFile)
-            : null;
-
-
-    const videoMedia =
-        videoFile
-            ? await saveMedia(videoFile)
-            : null;
-
-
-    const existing =
-        state.listings.find(
-            function (item) {
-
-                return (
-                    item.id ===
-                    state.editingListingId
-                );
-
-            }
-        );
-
-
-    const listing = {
-
-        id:
-            existing?.id ||
-            createId("listing"),
-
-        type:
-            $("rmListingType").value,
-
-        category:
-            $("rmListingCategory").value,
-
-        condition:
-            $("rmCondition").value,
-
-        title:
-            $("rmTitle").value.trim(),
-
-        price:
-            $("rmPrice").value,
-
-        country:
-            $("rmCountry").value,
-
-        state:
-            $("rmState").value.trim(),
-
-        district:
-            $("rmDistrict").value.trim(),
-
-        taluka:
-            $("rmTaluka").value.trim(),
-
-        pin:
-            $("rmPin").value.trim(),
-
-        description:
-            $("rmDescription").value.trim(),
-
-        phone:
-            $("rmPhone").value.trim(),
-
-        email:
-            $("rmEmail").value.trim(),
-
-        image:
-            imageMedia ||
-            existing?.image ||
-            null,
-
-        video:
-            videoMedia ||
-            existing?.video ||
-            null,
-
-        ownerEmail:
-            getCurrentUserEmail(),
-
-        ownerName:
-            state.account.name,
-
-        createdAt:
-            existing?.createdAt ||
-            now(),
-
-        updatedAt:
-            now()
-
-    };
-
-
-    if (existing) {
-
-        const index =
-            state.listings.indexOf(
-                existing
+        const saveButton =
+            byId(
+                "rmSaveListingButton"
             );
 
 
-        state.listings[index] =
-            listing;
+        if (saveButton) {
 
-    } else {
+            saveButton.disabled =
+                true;
 
-        state.listings.push(
-            listing
-        );
-
-    }
-
-
-    saveListings();
-
-
-    state.editingListingId =
-        null;
-
-
-    form.reset();
-
-
-    showStatus(
-        "rmListingStatus",
-        existing
-            ? "Listing updated successfully."
-            : "Listing saved successfully.",
-        false
-    );
-
-
-    renderListings();
-
-}
-
-
-/* =========================================================
-   LISTINGS RENDER
-   ========================================================= */
-
-function renderListings() {
-
-    const box =
-        $("rmMyListings");
-
-
-    box.innerHTML = "";
-
-
-    if (!state.loggedIn) {
-
-        box.innerHTML =
-            "<p>Please login to see your listings.</p>";
-
-        return;
-
-    }
-
-
-    const email =
-        getCurrentUserEmail();
-
-
-    const mine =
-        state.listings.filter(
-            function (item) {
-
-                return (
-                    String(item.ownerEmail || "")
-                        .toLowerCase() ===
-                    email
-                );
-
-            }
-        );
-
-
-    if (!mine.length) {
-
-        box.innerHTML =
-            "<p>No listings yet.</p>";
-
-        return;
-
-    }
-
-
-    mine.forEach(
-        async function (item) {
-
-            const article =
-                document.createElement("article");
-
-
-            article.className =
-                "rm-listing";
-
-
-            article.innerHTML = `
-
-                <h3>
-                    ${escapeHTML(item.title)}
-                </h3>
-
-                <div class="rm-meta">
-
-                    <div>
-                        Type:
-                        ${escapeHTML(item.type)}
-                    </div>
-
-                    <div>
-                        Category:
-                        ${escapeHTML(item.category)}
-                    </div>
-
-                    <div>
-                        Condition:
-                        ${escapeHTML(item.condition)}
-                    </div>
-
-                    <div>
-                        Price:
-                        ${escapeHTML(item.price)}
-                    </div>
-
-                    <div>
-                        Location:
-                        ${escapeHTML(item.country)}
-                        /
-                        ${escapeHTML(item.state)}
-                        /
-                        ${escapeHTML(item.district)}
-                        /
-                        ${escapeHTML(item.taluka)}
-                        /
-                        ${escapeHTML(item.pin)}
-                    </div>
-
-                    <div>
-                        Phone:
-                        ${escapeHTML(item.phone)}
-                    </div>
-
-                    <div>
-                        Email:
-                        ${escapeHTML(item.email)}
-                    </div>
-
-                </div>
-
-                <p>
-                    ${escapeHTML(item.description)}
-                </p>
-
-                <div class="rm-actions">
-
-                    <button
-                        class="rm-btn"
-                        data-edit-listing="${item.id}"
-                    >
-                        Edit
-                    </button>
-
-                    <button
-                        class="rm-btn danger"
-                        data-delete-listing="${item.id}"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-                <div
-                    id="media-${item.id}"
-                ></div>
-
-            `;
-
-
-            box.appendChild(
-                article
-            );
-
-
-            renderListingMedia(
-                item
-            );
+            saveButton.textContent =
+                "Saving...";
 
         }
-    );
-
-}
 
 
-async function renderListingMedia(item) {
+        try {
 
-    const box =
-        document.getElementById(
-            "media-" + item.id
-        );
-
-
-    if (!box) {
-        return;
-    }
-
-
-    let html = "";
-
-
-    if (item.image) {
-
-        if (item.image.data) {
-
-            html +=
-                createMediaElement(
-                    item.image,
-                    "image"
+            const imageInput =
+                byId(
+                    "rmImage"
                 );
 
-        } else {
 
-            const media =
-                await getMedia(
-                    item.image.id
+            const videoInput =
+                byId(
+                    "rmVideo"
                 );
 
-            if (media) {
 
-                const url =
-                    URL.createObjectURL(
-                        media.blob
+            let image = null;
+
+            let video = null;
+
+
+            if (
+                imageInput &&
+                imageInput.files &&
+                imageInput.files[0]
+            ) {
+
+                image =
+                    await processImage(
+                        imageInput.files[0]
                     );
 
-
-                html += `
-                    <img
-                        class="rm-media"
-                        src="${url}"
-                        alt=""
-                    >
-                `;
-
             }
 
-        }
 
-    }
+            if (
+                videoInput &&
+                videoInput.files &&
+                videoInput.files[0]
+            ) {
 
-
-    if (item.video) {
-
-        if (item.video.data) {
-
-            html +=
-                createMediaElement(
-                    item.video,
-                    "video"
-                );
-
-        } else {
-
-            const media =
-                await getMedia(
-                    item.video.id
-                );
-
-            if (media) {
-
-                const url =
-                    URL.createObjectURL(
-                        media.blob
+                video =
+                    await processVideo(
+                        videoInput.files[0]
                     );
 
-
-                html += `
-                    <video
-                        class="rm-media"
-                        controls
-                        src="${url}"
-                    ></video>
-                `;
-
             }
 
-        }
 
-    }
+            const existing =
+                state.editingListingId
+                    ? state.listings.find(
+                        function (item) {
 
+                            return (
+                                item.id ===
+                                state.editingListingId
+                            );
 
-    box.innerHTML =
-        html;
+                        }
+                    )
+                    : null;
 
-}
 
+            if (existing) {
 
-/* =========================================================
-   LISTING EDIT
-   ========================================================= */
+                if (
+                    existing.ownerEmail !==
+                    state.account.email
+                ) {
 
-function editListing(id) {
-
-    if (!requireLogin()) {
-        return;
-    }
-
-
-    const listing =
-        state.listings.find(
-            function (item) {
-
-                return item.id === id;
-
-            }
-        );
-
-
-    if (!listing) {
-        return;
-    }
-
-
-    if (
-        String(listing.ownerEmail)
-            .toLowerCase() !==
-        getCurrentUserEmail()
-    ) {
-
-        alert(
-            "You can edit only your own listing."
-        );
-
-        return;
-
-    }
-
-
-    state.editingListingId =
-        id;
-
-
-    $("rmListingType").value =
-        listing.type;
-
-
-    updateCategoryOptions();
-
-
-    $("rmListingCategory").value =
-        listing.category;
-
-
-    $("rmCondition").value =
-        listing.condition;
-
-
-    $("rmTitle").value =
-        listing.title;
-
-
-    $("rmPrice").value =
-        listing.price;
-
-
-    $("rmCountry").value =
-        listing.country;
-
-
-    $("rmState").value =
-        listing.state;
-
-
-    $("rmDistrict").value =
-        listing.district;
-
-
-    $("rmTaluka").value =
-        listing.taluka;
-
-
-    $("rmPin").value =
-        listing.pin;
-
-
-    $("rmPhone").value =
-        listing.phone;
-
-
-    $("rmEmail").value =
-        listing.email;
-
-
-    $("rmDescription").value =
-        listing.description;
-
-
-    window.scrollTo({
-
-        top:
-            $("rmListingForm")
-                .getBoundingClientRect()
-                .top +
-            window.scrollY -
-            20,
-
-        behavior:
-            "smooth"
-
-    });
-
-}
-
-
-function deleteListing(id) {
-
-    if (!requireLogin()) {
-        return;
-    }
-
-
-    const listing =
-        state.listings.find(
-            function (item) {
-
-                return item.id === id;
-
-            }
-        );
-
-
-    if (!listing) {
-        return;
-    }
-
-
-    if (
-        String(listing.ownerEmail)
-            .toLowerCase() !==
-        getCurrentUserEmail()
-    ) {
-
-        alert(
-            "You can delete only your own listing."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        !confirm(
-            "Delete this listing?"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    state.listings =
-        state.listings.filter(
-            function (item) {
-
-                return item.id !== id;
-
-            }
-        );
-
-
-    saveListings();
-
-    renderListings();
-
-}
-
-
-/* =========================================================
-   SHOWROOM PAYMENT
-   ========================================================= */
-
-/*
-   IMPORTANT SECURITY NOTE:
-
-   This function does NOT pretend that payment succeeded.
-
-   A real payment gateway/backend must return a verified
-   payment confirmation before the advertisement is published.
-
-   Replace the integration point below with the chosen
-   gateway's official checkout + server verification.
-
-*/
-
-async function startShowroomPayment() {
-
-    if (!requireLogin()) {
-        return;
-    }
-
-
-    const form =
-        $("rmShowroomForm");
-
-
-    if (!form.reportValidity()) {
-        return;
-    }
-
-
-    showPaymentStatus(
-        "Opening secure payment integration...",
-        false
-    );
-
-
-    /*
-       SECURITY:
-       Do not collect raw card number, CVV or PIN here.
-
-       Those details must be entered inside the payment
-       gateway's secure checkout.
-
-       This placeholder intentionally refuses to mark
-       the advertisement as paid.
-    */
-
-
-    state.verifiedPayment = null;
-
-
-    $("rmPublishShowroomBtn").disabled =
-        true;
-
-
-    showPaymentStatus(
-
-        "Payment gateway is not connected yet. No payment has been charged. Connect a real payment gateway and server-side verification before publishing.",
-
-        true
-
-    );
-
-}
-
-
-/*
-   This function is the ONLY place where a verified
-   gateway response should unlock publication.
-
-   It must be called by trusted payment-verification
-   code after the gateway confirms the $10 transaction.
-*/
-
-function acceptVerifiedPayment(
-    paymentData
-) {
-
-    if (!paymentData) {
-        return false;
-    }
-
-
-    if (
-        paymentData.status !==
-        "verified"
-    ) {
-
-        return false;
-
-    }
-
-
-    if (
-        Number(paymentData.amount) !==
-        CONFIG.showroomPrice
-    ) {
-
-        return false;
-
-    }
-
-
-    if (
-        String(paymentData.currency)
-            .toUpperCase() !==
-        "USD"
-    ) {
-
-        return false;
-
-    }
-
-
-    if (!paymentData.paymentId) {
-
-        return false;
-
-    }
-
-
-    state.verifiedPayment = {
-
-        paymentId:
-            paymentData.paymentId,
-
-        amount:
-            CONFIG.showroomPrice,
-
-        currency:
-            "USD",
-
-        status:
-            "verified",
-
-        verifiedAt:
-            now()
-
-    };
-
-
-    $("rmPublishShowroomBtn").disabled =
-        false;
-
-
-    showPaymentStatus(
-        "Payment verified. The advertisement can now be published.",
-        false
-    );
-
-
-    return true;
-
-}
-
-
-/* =========================================================
-   SHOWROOM SAVE
-   ========================================================= */
-
-async function handleShowroomPublish(
-    event
-) {
-
-    event.preventDefault();
-
-
-    if (!requireLogin()) {
-        return;
-    }
-
-
-    /*
-       No verified payment = no publication.
-    */
-
-    if (!state.verifiedPayment) {
-
-        showPaymentStatus(
-
-            "Verified $10 payment is required before publishing.",
-
-            true
-
-        );
-
-        return;
-
-    }
-
-
-    const imageFile =
-        $("rmShowroomImage")
-            .files[0];
-
-
-    const videoFile =
-        $("rmShowroomVideo")
-            .files[0] ||
-        null;
-
-
-    if (!imageFile) {
-
-        alert(
-            "Please select a showroom image."
-        );
-
-        return;
-
-    }
-
-
-    const imageMedia =
-        await saveMedia(
-            imageFile
-        );
-
-
-    const videoMedia =
-        videoFile
-            ? await saveMedia(
-                videoFile
-            )
-            : null;
-
-
-    const showroom = {
-
-        id:
-            createId("showroom"),
-
-        showroomName:
-            $("rmShowroomName")
-                .value
-                .trim(),
-
-        showroomType:
-            $("rmShowroomType")
-                .value,
-
-        country:
-            $("rmShowroomCountry")
-                .value,
-
-        state:
-            $("rmShowroomState")
-                .value
-                .trim(),
-
-        district:
-            $("rmShowroomDistrict")
-                .value
-                .trim(),
-
-        taluka:
-            $("rmShowroomTaluka")
-                .value
-                .trim(),
-
-        pin:
-            $("rmShowroomPin")
-                .value
-                .trim(),
-
-        phone:
-            $("rmShowroomPhone")
-                .value
-                .trim(),
-
-        email:
-            $("rmShowroomEmail")
-                .value
-                .trim(),
-
-        description:
-            $("rmShowroomDescription")
-                .value
-                .trim(),
-
-        image:
-            imageMedia,
-
-        video:
-            videoMedia,
-
-        ownerEmail:
-            getCurrentUserEmail(),
-
-        ownerName:
-            state.account.name,
-
-        payment:
-            state.verifiedPayment,
-
-        status:
-            "published",
-
-        createdAt:
-            now()
-
-    };
-
-
-    state.showrooms.push(
-        showroom
-    );
-
-
-    saveShowrooms();
-
-
-    $("rmShowroomForm")
-        .reset();
-
-
-    state.verifiedPayment =
-        null;
-
-
-    $("rmPublishShowroomBtn")
-        .disabled = true;
-
-
-    showPaymentStatus(
-        "Showroom advertisement published successfully.",
-        false
-    );
-
-
-    renderShowrooms();
-
-}
-
-
-/* =========================================================
-   SHOWROOM RENDER
-   ========================================================= */
-
-function renderShowrooms() {
-
-    const box =
-        $("rmShowroomListings");
-
-
-    box.innerHTML = "";
-
-
-    if (!state.loggedIn) {
-
-        box.innerHTML =
-            "<p>Please login to see your showroom advertisements.</p>";
-
-        return;
-
-    }
-
-
-    const email =
-        getCurrentUserEmail();
-
-
-    const mine =
-        state.showrooms.filter(
-            function (item) {
-
-                return (
-                    String(item.ownerEmail || "")
-                        .toLowerCase() ===
-                    email
-                );
-
-            }
-        );
-
-
-    if (!mine.length) {
-
-        box.innerHTML =
-            "<p>No showroom advertisements yet.</p>";
-
-        return;
-
-    }
-
-
-    mine.forEach(
-        function (item) {
-
-            const article =
-                document.createElement(
-                    "article"
-                );
-
-
-            article.className =
-                "rm-listing";
-
-
-            article.innerHTML = `
-
-                <h3>
-                    ${escapeHTML(item.showroomName)}
-                </h3>
-
-                <div class="rm-meta">
-
-                    <div>
-                        Type:
-                        ${escapeHTML(item.showroomType)}
-                    </div>
-
-                    <div>
-                        Location:
-                        ${escapeHTML(item.country)}
-                        /
-                        ${escapeHTML(item.state)}
-                        /
-                        ${escapeHTML(item.district)}
-                        /
-                        ${escapeHTML(item.taluka)}
-                        /
-                        ${escapeHTML(item.pin)}
-                    </div>
-
-                    <div>
-                        Phone:
-                        ${escapeHTML(item.phone)}
-                    </div>
-
-                    <div>
-                        Email:
-                        ${escapeHTML(item.email)}
-                    </div>
-
-                    <div>
-                        Payment:
-                        $10 USD
-                        —
-                        ${escapeHTML(
-                            item.payment?.paymentId ||
-                            "Verified"
-                        )}
-                    </div>
-
-                </div>
-
-                <p>
-                    ${escapeHTML(item.description)}
-                </p>
-
-                <div
-                    id="showroom-media-${item.id}"
-                ></div>
-
-                <div class="rm-actions">
-
-                    <button
-                        class="rm-btn danger"
-                        data-delete-showroom="${item.id}"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-            `;
-
-
-            box.appendChild(
-                article
-            );
-
-
-            renderShowroomMedia(
-                item
-            );
-
-        }
-    );
-
-}
-
-
-async function renderShowroomMedia(
-    item
-) {
-
-    const box =
-        document.getElementById(
-            "showroom-media-" +
-            item.id
-        );
-
-
-    if (!box) {
-        return;
-    }
-
-
-    let html = "";
-
-
-    if (item.image) {
-
-        if (item.image.data) {
-
-            html +=
-                createMediaElement(
-                    item.image,
-                    "image"
-                );
-
-        } else {
-
-            const media =
-                await getMedia(
-                    item.image.id
-                );
-
-
-            if (media) {
-
-                const url =
-                    URL.createObjectURL(
-                        media.blob
+                    throw new Error(
+                        "You can edit only your own listing."
                     );
 
+                }
 
-                html += `
-                    <img
-                        class="rm-media"
-                        src="${url}"
-                        alt=""
-                    >
-                `;
 
-            }
+                if (!image) {
 
-        }
+                    image =
+                        existing.image ||
+                        null;
 
-    }
+                }
 
 
-    if (item.video) {
+                if (!video) {
 
-        if (item.video.data) {
+                    video =
+                        existing.video ||
+                        null;
 
-            html +=
-                createMediaElement(
-                    item.video,
-                    "video"
-                );
+                }
 
-        } else {
 
-            const media =
-                await getMedia(
-                    item.video.id
-                );
+                existing.type =
+                    data.type;
 
+                existing.category =
+                    data.category;
 
-            if (media) {
+                existing.condition =
+                    data.condition;
 
-                const url =
-                    URL.createObjectURL(
-                        media.blob
-                    );
+                existing.title =
+                    data.title;
 
+                existing.price =
+                    data.price;
 
-                html += `
-                    <video
-                        class="rm-media"
-                        controls
-                        src="${url}"
-                    ></video>
-                `;
+                existing.country =
+                    data.country;
 
-            }
+                existing.state =
+                    data.state;
 
-        }
+                existing.district =
+                    data.district;
 
-    }
+                existing.taluka =
+                    data.taluka;
 
+                existing.pin =
+                    data.pin;
 
-    box.innerHTML =
-        html;
+                existing.phone =
+                    data.phone;
 
-}
+                existing.email =
+                    data.email;
 
+                existing.description =
+                    data.description;
 
-function deleteShowroom(id) {
+                existing.image =
+                    image;
 
-    if (!requireLogin()) {
-        return;
-    }
+                existing.video =
+                    video;
 
+                existing.updatedAt =
+                    new Date()
+                        .toISOString();
 
-    const showroom =
-        state.showrooms.find(
-            function (item) {
 
-                return item.id === id;
+                saveListings();
 
-            }
-        );
-
-
-    if (!showroom) {
-        return;
-    }
-
-
-    if (
-        String(showroom.ownerEmail)
-            .toLowerCase() !==
-        getCurrentUserEmail()
-    ) {
-
-        alert(
-            "You can delete only your own showroom advertisement."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        !confirm(
-            "Delete this showroom advertisement?"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    state.showrooms =
-        state.showrooms.filter(
-            function (item) {
-
-                return item.id !== id;
-
-            }
-        );
-
-
-    saveShowrooms();
-
-    renderShowrooms();
-
-}
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-function showStatus(
-    id,
-    message,
-    error
-) {
-
-    const box =
-        $(id);
-
-
-    if (!box) {
-        return;
-    }
-
-
-    box.textContent =
-        message;
-
-
-    box.classList.add(
-        "show"
-    );
-
-
-    box.classList.toggle(
-        "error",
-        !!error
-    );
-
-
-    box.classList.toggle(
-        "ok",
-        !error
-    );
-
-}
-
-
-function showPaymentStatus(
-    message,
-    error
-) {
-
-    showStatus(
-        "rmPaymentStatus",
-        message,
-        error
-    );
-
-}
-
-
-/* =========================================================
-   EVENT DELEGATION
-   ========================================================= */
-
-function handleListingActions(
-    event
-) {
-
-    const editButton =
-        event.target.closest(
-            "[data-edit-listing]"
-        );
-
-
-    if (editButton) {
-
-        editListing(
-            editButton.dataset.editListing
-        );
-
-        return;
-
-    }
-
-
-    const deleteButton =
-        event.target.closest(
-            "[data-delete-listing]"
-        );
-
-
-    if (deleteButton) {
-
-        deleteListing(
-            deleteButton.dataset.deleteListing
-        );
-
-    }
-
-}
-
-
-function handleShowroomActions(
-    event
-) {
-
-    const deleteButton =
-        event.target.closest(
-            "[data-delete-showroom]"
-        );
-
-
-    if (deleteButton) {
-
-        deleteShowroom(
-            deleteButton.dataset.deleteShowroom
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   INIT
-   ========================================================= */
-
-function init() {
-
-    loadData();
-
-    loadAccount();
-
-    populateCountries();
-
-    updateCategoryOptions();
-
-    updateLoginUI();
-
-    renderListings();
-
-    renderShowrooms();
-
-
-    $("rmLoginForm")
-        .addEventListener(
-            "submit",
-            handleLogin
-        );
-
-
-    $("rmLogoutBtn")
-        .addEventListener(
-            "click",
-            logout
-        );
-
-
-    $("rmListingType")
-        .addEventListener(
-            "change",
-            updateCategoryOptions
-        );
-
-
-    $("rmListingForm")
-        .addEventListener(
-            "submit",
-            handleListingSave
-        );
-
-
-    $("rmCancelEdit")
-        .addEventListener(
-            "click",
-            function () {
 
                 state.editingListingId =
                     null;
 
-                $("rmListingForm")
-                    .reset();
 
-                updateCategoryOptions();
+                resetListingForm();
+
+
+                showStatus(
+                    "rmListingStatus",
+                    "Listing updated successfully.",
+                    "success"
+                );
+
+            } else {
+
+                const listing = {
+
+                    id:
+                        createId(
+                            "regular_listing"
+                        ),
+
+                    ownerEmail:
+                        state.account.email,
+
+                    type:
+                        data.type,
+
+                    category:
+                        data.category,
+
+                    condition:
+                        data.condition,
+
+                    title:
+                        data.title,
+
+                    price:
+                        data.price,
+
+                    country:
+                        data.country,
+
+                    state:
+                        data.state,
+
+                    district:
+                        data.district,
+
+                    taluka:
+                        data.taluka,
+
+                    pin:
+                        data.pin,
+
+                    phone:
+                        data.phone,
+
+                    email:
+                        data.email,
+
+                    description:
+                        data.description,
+
+                    image:
+                        image,
+
+                    video:
+                        video,
+
+                    createdAt:
+                        new Date()
+                            .toISOString(),
+
+                    updatedAt:
+                        new Date()
+                            .toISOString()
+
+                };
+
+
+                state.listings.unshift(
+                    listing
+                );
+
+
+                saveListings();
+
+
+                resetListingForm();
+
+
+                showStatus(
+                    "rmListingStatus",
+                    "Listing saved successfully.",
+                    "success"
+                );
+
+            }
+
+
+            renderListings();
+
+        } catch (error) {
+
+            console.error(
+                "Listing save error:",
+                error
+            );
+
+
+            showStatus(
+                "rmListingStatus",
+                error.message ||
+                "Unable to save listing.",
+                "error"
+            );
+
+        } finally {
+
+            if (saveButton) {
+
+                saveButton.disabled =
+                    false;
+
+                saveButton.textContent =
+                    state.editingListingId
+                        ? "Update Listing"
+                        : "💾 Save Listing";
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LISTING RESET
+       ===================================================== */
+
+    function resetListingForm() {
+
+        const form =
+            byId(
+                "rmListingForm"
+            );
+
+
+        if (form) {
+
+            form.reset();
+
+        }
+
+
+        state.editingListingId =
+            null;
+
+
+        updateCategoryOptions();
+
+
+        const button =
+            byId(
+                "rmSaveListingButton"
+            );
+
+
+        if (button) {
+
+            button.textContent =
+                "💾 Save Listing";
+
+        }
+
+
+        const cancel =
+            byId(
+                "rmCancelEditButton"
+            );
+
+
+        if (cancel) {
+
+            cancel.classList.add(
+                "rm-hidden"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       EDIT LISTING
+       ===================================================== */
+
+    function editListing(
+        id
+    ) {
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        const item =
+            state.listings.find(
+                function (listing) {
+
+                    return (
+                        listing.id ===
+                        id
+                    );
+
+                }
+            );
+
+
+        if (!item) {
+
+            alert(
+                "Listing not found."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            item.ownerEmail !==
+            state.account.email
+        ) {
+
+            alert(
+                "You can edit only your own listing."
+            );
+
+            return;
+
+        }
+
+
+        state.editingListingId =
+            id;
+
+
+        const setValue =
+            function (
+                id,
+                value
+            ) {
+
+                const element =
+                    byId(id);
+
+                if (element) {
+
+                    element.value =
+                        value || "";
+
+                }
+
+            };
+
+
+        setValue(
+            "rmListingType",
+            item.type
+        );
+
+
+        updateCategoryOptions();
+
+
+        setValue(
+            "rmListingCategory",
+            item.category
+        );
+
+        setValue(
+            "rmListingCondition",
+            item.condition
+        );
+
+        setValue(
+            "rmListingTitle",
+            item.title
+        );
+
+        setValue(
+            "rmListingPrice",
+            item.price
+        );
+
+        setValue(
+            "rmCountry",
+            item.country
+        );
+
+        setValue(
+            "rmState",
+            item.state
+        );
+
+        setValue(
+            "rmDistrict",
+            item.district
+        );
+
+        setValue(
+            "rmTaluka",
+            item.taluka
+        );
+
+        setValue(
+            "rmPin",
+            item.pin
+        );
+
+        setValue(
+            "rmPhone",
+            item.phone
+        );
+
+        setValue(
+            "rmEmail",
+            item.email
+        );
+
+        setValue(
+            "rmDescription",
+            item.description
+        );
+
+
+        const button =
+            byId(
+                "rmSaveListingButton"
+            );
+
+
+        if (button) {
+
+            button.textContent =
+                "Update Listing";
+
+        }
+
+
+        const cancel =
+            byId(
+                "rmCancelEditButton"
+            );
+
+
+        if (cancel) {
+
+            cancel.classList.remove(
+                "rm-hidden"
+            );
+
+        }
+
+
+        const section =
+            byId(
+                "rmCreateListing"
+            );
+
+
+        if (section) {
+
+            section.scrollIntoView({
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "start"
+
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DELETE LISTING
+       ===================================================== */
+
+    function deleteListing(
+        id
+    ) {
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        const item =
+            state.listings.find(
+                function (listing) {
+
+                    return (
+                        listing.id ===
+                        id
+                    );
+
+                }
+            );
+
+
+        if (!item) {
+            return;
+        }
+
+
+        if (
+            item.ownerEmail !==
+            state.account.email
+        ) {
+
+            alert(
+                "You can delete only your own listing."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !window.confirm(
+                "Delete this listing?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        state.listings =
+            state.listings.filter(
+                function (listing) {
+
+                    return (
+                        listing.id !==
+                        id
+                    );
+
+                }
+            );
+
+
+        saveListings();
+
+
+        if (
+            state.editingListingId ===
+            id
+        ) {
+
+            resetListingForm();
+
+        }
+
+
+        renderListings();
+
+    }
+
+
+    /* =====================================================
+       LISTING MEDIA
+       ===================================================== */
+
+    function renderListingMedia(
+        item
+    ) {
+
+        let html = "";
+
+
+        if (
+            item.image &&
+            item.image.data
+        ) {
+
+            html +=
+
+                '<div class="rm-media">' +
+
+                '<img src="' +
+                item.image.data +
+                '" alt="Listing image" loading="lazy">' +
+
+                "</div>";
+
+        }
+
+
+        if (
+            item.video &&
+            item.video.data
+        ) {
+
+            html +=
+
+                '<div class="rm-media">' +
+
+                '<video controls preload="metadata">' +
+
+                '<source src="' +
+                item.video.data +
+                '" type="' +
+                escapeHTML(
+                    item.video.type ||
+                    "video/mp4"
+                ) +
+                '">' +
+
+                "Your browser does not support video." +
+
+                "</video>" +
+
+                "</div>";
+
+        }
+
+
+        return html;
+
+    }
+
+
+    /* =====================================================
+       LISTING CARD
+       ===================================================== */
+
+    function createListingCard(
+        item
+    ) {
+
+        const card =
+            document.createElement(
+                "article"
+            );
+
+
+        card.className =
+            "rm-listing-card";
+
+
+        const location = [];
+
+
+        if (item.taluka) {
+
+            location.push(
+                item.taluka
+            );
+
+        }
+
+
+        if (item.district) {
+
+            location.push(
+                item.district
+            );
+
+        }
+
+
+        if (item.state) {
+
+            location.push(
+                item.state
+            );
+
+        }
+
+
+        if (item.country) {
+
+            location.push(
+                getCountryName(
+                    item.country
+                )
+            );
+
+        }
+
+
+        const locationText =
+            location.length
+                ? location.join(", ")
+                : "Location not specified";
+
+
+        const typeLabel =
+
+            item.type === "vehicle"
+                ? "🚗 Vehicle"
+
+                :
+
+            item.type === "property"
+                ? "🏠 Property"
+
+                :
+
+            "🛍️ General Item";
+
+
+        card.innerHTML =
+
+            "<h3>" +
+
+            escapeHTML(
+                item.title
+            ) +
+
+            "</h3>" +
+
+            "<p>" +
+
+            "<strong>Type:</strong> " +
+
+            typeLabel +
+
+            "</p>" +
+
+            "<p>" +
+
+            "<strong>Category:</strong> " +
+
+            escapeHTML(
+                categoryLabel(
+                    item.type,
+                    item.category
+                )
+            ) +
+
+            "</p>" +
+
+            "<p>" +
+
+            "<strong>Condition:</strong> " +
+
+            escapeHTML(
+                item.condition ||
+                "Not specified"
+            ) +
+
+            "</p>" +
+
+            "<p>" +
+
+            "<strong>Price:</strong> " +
+
+            escapeHTML(
+                item.price
+            ) +
+
+            " " +
+
+            escapeHTML(
+                CONFIG.currency
+            ) +
+
+            "</p>" +
+
+            "<p>" +
+
+            "<strong>📍 Location:</strong> " +
+
+            escapeHTML(
+                locationText
+            ) +
+
+            "</p>" +
+
+            (
+                item.pin
+                    ? "<p><strong>PIN / ZIP:</strong> " +
+                      escapeHTML(
+                          item.pin
+                      ) +
+                      "</p>"
+                    : ""
+            ) +
+
+            (
+                item.phone
+                    ? "<p><strong>📞 Phone:</strong> " +
+                      escapeHTML(
+                          item.phone
+                      ) +
+                      "</p>"
+                    : ""
+            ) +
+
+            (
+                item.email
+                    ? "<p><strong>✉️ Email:</strong> " +
+                      escapeHTML(
+                          item.email
+                      ) +
+                      "</p>"
+                    : ""
+            ) +
+
+            (
+                item.description
+                    ? "<p>" +
+                      escapeHTML(
+                          item.description
+                      ) +
+                      "</p>"
+                    : ""
+            ) +
+
+            renderListingMedia(
+                item
+            ) +
+
+            (
+                item.ownerEmail ===
+                (
+                    state.account
+                        ? state.account.email
+                        : ""
+                )
+                    ?
+
+                '<div class="rm-actions">' +
+
+                '<button type="button" data-rm-action="edit-listing" data-id="' +
+                escapeHTML(item.id) +
+                '">' +
+
+                "✏️ Edit" +
+
+                "</button>" +
+
+                '<button type="button" data-rm-action="delete-listing" data-id="' +
+                escapeHTML(item.id) +
+                '">' +
+
+                "🗑️ Delete" +
+
+                "</button>" +
+
+                "</div>"
+
+                    :
+
+                ""
+
+            );
+
+
+        return card;
+
+    }
+
+
+    /* =====================================================
+       MY LISTINGS CONTAINER
+       ===================================================== */
+
+    function getMyListingsContainer() {
+
+        /*
+         * The supplied HTML historically used the same
+         * id "rmMyListings" for the section and inner
+         * container. This helper safely selects the inner
+         * element when duplicate IDs exist.
+         */
+
+        const matches =
+            document.querySelectorAll(
+                "#rmMyListings"
+            );
+
+
+        if (!matches.length) {
+
+            return null;
+
+        }
+
+
+        if (matches.length > 1) {
+
+            return matches[
+                matches.length - 1
+            ];
+
+        }
+
+
+        const section =
+            matches[0];
+
+
+        if (
+            section &&
+            section.tagName ===
+            "SECTION"
+        ) {
+
+            return (
+                section.querySelector(
+                    "div"
+                ) ||
+                section
+            );
+
+        }
+
+
+        return section;
+
+    }
+
+
+    function renderListings() {
+
+        const container =
+            getMyListingsContainer();
+
+
+        if (!container) {
+            return;
+        }
+
+
+        if (!state.loggedIn) {
+
+            container.innerHTML =
+                "<div>" +
+                "Login to view your listings." +
+                "</div>";
+
+            return;
+
+        }
+
+
+        const email =
+            state.account.email;
+
+
+        const mine =
+            state.listings.filter(
+                function (item) {
+
+                    return (
+                        normalizeEmail(
+                            item.ownerEmail
+                        ) ===
+                        normalizeEmail(
+                            email
+                        )
+                    );
+
+                }
+            );
+
+
+        if (!mine.length) {
+
+            container.innerHTML =
+                "<div>" +
+                "No listings created yet." +
+                "</div>";
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            "";
+
+
+        mine.forEach(
+            function (item) {
+
+                container.appendChild(
+                    createListingCard(
+                        item
+                    )
+                );
 
             }
         );
 
+    }
 
-    $("rmMyListings")
-        .addEventListener(
-            "click",
-            handleListingActions
+
+    /* =====================================================
+       SHOWROOM FORM
+       ===================================================== */
+
+    function showroomFormData() {
+
+        function value(id) {
+
+            const element =
+                byId(id);
+
+            return element
+                ? text(
+                    element.value
+                ).trim()
+                : "";
+
+        }
+
+
+        return {
+
+            name:
+                value(
+                    "rmShowroomName"
+                ),
+
+            type:
+                value(
+                    "rmShowroomType"
+                ),
+
+            country:
+                value(
+                    "rmShowroomCountry"
+                ),
+
+            state:
+                value(
+                    "rmShowroomState"
+                ),
+
+            district:
+                value(
+                    "rmShowroomDistrict"
+                ),
+
+            taluka:
+                value(
+                    "rmShowroomTaluka"
+                ),
+
+            pin:
+                value(
+                    "rmShowroomPin"
+                ),
+
+            phone:
+                value(
+                    "rmShowroomPhone"
+                ),
+
+            email:
+                value(
+                    "rmShowroomEmail"
+                ),
+
+            description:
+                value(
+                    "rmShowroomDescription"
+                )
+
+        };
+
+    }
+
+
+    function showroomTypeLabel(
+        value
+    ) {
+
+        const select =
+            byId(
+                "rmShowroomType"
+            );
+
+
+        if (!select) {
+            return value || "Other Business";
+        }
+
+
+        const option =
+            Array.from(
+                select.options
+            ).find(
+                function (item) {
+
+                    return (
+                        item.value ===
+                        value
+                    );
+
+                }
+            );
+
+
+        return option
+            ? option.textContent
+            : value || "Other Business";
+
+    }
+
+
+    function validateShowroom(
+        data
+    ) {
+
+        if (!state.loggedIn) {
+
+            return "Please login first.";
+
+        }
+
+
+        if (!data.name) {
+
+            return "Business / Showroom name is required.";
+
+        }
+
+
+        if (!data.type) {
+
+            return "Please select Business / Showroom Type.";
+
+        }
+
+
+        if (!data.country) {
+
+            return "Please select business country.";
+
+        }
+
+
+        if (!data.phone) {
+
+            return "Business phone / WhatsApp is required.";
+
+        }
+
+
+        if (!data.email) {
+
+            return "Business email is required.";
+
+        }
+
+
+        if (!data.description) {
+
+            return "Business description is required.";
+
+        }
+
+
+        return "";
+
+    }
+
+
+    /* =====================================================
+       PAYMENT
+       ===================================================== */
+
+    function startShowroomPayment() {
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        /*
+         * IMPORTANT:
+         *
+         * This is intentionally NOT a fake payment.
+         *
+         * A static GitHub Pages frontend cannot securely
+         * verify a real $10 payment by itself.
+         *
+         * The real Google Pay / UPI gateway must call
+         * acceptVerifiedPayment() only after server-side
+         * verification.
+         */
+
+        state.verifiedPayment =
+            null;
+
+
+        const publish =
+            byId(
+                "rmPublishShowroomBtn"
+            );
+
+
+        if (publish) {
+
+            publish.disabled =
+                true;
+
+        }
+
+
+        showStatus(
+            "rmPaymentStatus",
+            "Payment gateway is not connected yet. No payment has been charged. Connect a real payment gateway and server-side verification before publishing.",
+            "error"
+        );
+
+    }
+
+
+    function acceptVerifiedPayment(
+        paymentData
+    ) {
+
+        if (!paymentData) {
+
+            return false;
+
+        }
+
+
+        const status =
+            text(
+                paymentData.status
+            )
+            .toLowerCase();
+
+
+        const amount =
+            Number(
+                paymentData.amount
+            );
+
+
+        const currency =
+            text(
+                paymentData.currency
+            )
+            .toUpperCase();
+
+
+        const paymentId =
+            text(
+                paymentData.paymentId ||
+                paymentData.transactionId ||
+                paymentData.id
+            );
+
+
+        if (
+            status !==
+            "verified"
+        ) {
+
+            return false;
+
+        }
+
+
+        if (
+            amount !==
+            CONFIG.showroomPrice
+        ) {
+
+            return false;
+
+        }
+
+
+        if (
+            currency !==
+            CONFIG.currency
+        ) {
+
+            return false;
+
+        }
+
+
+        if (!paymentId) {
+
+            return false;
+
+        }
+
+
+        state.verifiedPayment = {
+
+            status:
+                "verified",
+
+            amount:
+                amount,
+
+            currency:
+                currency,
+
+            paymentId:
+                paymentId,
+
+            verifiedAt:
+                new Date()
+                    .toISOString()
+
+        };
+
+
+        const publish =
+            byId(
+                "rmPublishShowroomBtn"
+            );
+
+
+        if (publish) {
+
+            publish.disabled =
+                false;
+
+        }
+
+
+        showStatus(
+            "rmPaymentStatus",
+            "Payment verified. You can now publish the worldwide advertisement.",
+            "success"
         );
 
 
-    $("rmPayShowroomBtn")
-        .addEventListener(
-            "click",
-            startShowroomPayment
+        return true;
+
+    }
+
+
+    /* =====================================================
+       SHOWROOM SAVE / PUBLISH
+       ===================================================== */
+
+    async function publishShowroom() {
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        const data =
+            showroomFormData();
+
+
+        const validation =
+            validateShowroom(
+                data
+            );
+
+
+        if (validation) {
+
+            showStatus(
+                "rmShowroomStatus",
+                validation,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !state.verifiedPayment
+        ) {
+
+            showStatus(
+                "rmShowroomStatus",
+                "Verified $10 payment is required before publishing.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const imageInput =
+            byId(
+                "rmShowroomImage"
+            );
+
+
+        const videoInput =
+            byId(
+                "rmShowroomVideo"
+            );
+
+
+        const publishButton =
+            byId(
+                "rmPublishShowroomBtn"
+            );
+
+
+        if (publishButton) {
+
+            publishButton.disabled =
+                true;
+
+            publishButton.textContent =
+                "Publishing...";
+
+        }
+
+
+        try {
+
+            let image = null;
+
+            let video = null;
+
+
+            if (
+                imageInput &&
+                imageInput.files &&
+                imageInput.files[0]
+            ) {
+
+                image =
+                    await processImage(
+                        imageInput.files[0]
+                    );
+
+            }
+
+
+            if (
+                videoInput &&
+                videoInput.files &&
+                videoInput.files[0]
+            ) {
+
+                video =
+                    await processVideo(
+                        videoInput.files[0]
+                    );
+
+            }
+
+
+            const existing =
+                state.editingShowroomId
+                    ? state.showrooms.find(
+                        function (item) {
+
+                            return (
+                                item.id ===
+                                state.editingShowroomId
+                            );
+
+                        }
+                    )
+                    : null;
+
+
+            if (existing) {
+
+                if (
+                    existing.ownerEmail !==
+                    state.account.email
+                ) {
+
+                    throw new Error(
+                        "You can edit only your own advertisement."
+                    );
+
+                }
+
+
+                if (!image) {
+
+                    image =
+                        existing.image ||
+                        null;
+
+                }
+
+
+                if (!video) {
+
+                    video =
+                        existing.video ||
+                        null;
+
+                }
+
+
+                existing.name =
+                    data.name;
+
+                existing.type =
+                    data.type;
+
+                existing.typeLabel =
+                    showroomTypeLabel(
+                        data.type
+                    );
+
+                existing.country =
+                    data.country;
+
+                existing.state =
+                    data.state;
+
+                existing.district =
+                    data.district;
+
+                existing.taluka =
+                    data.taluka;
+
+                existing.pin =
+                    data.pin;
+
+                existing.phone =
+                    data.phone;
+
+                existing.email =
+                    data.email;
+
+                existing.description =
+                    data.description;
+
+                existing.reach =
+                    "WORLDWIDE";
+
+                existing.image =
+                    image;
+
+                existing.video =
+                    video;
+
+                existing.payment =
+                    state.verifiedPayment;
+
+                existing.updatedAt =
+                    new Date()
+                        .toISOString();
+
+
+                saveShowrooms();
+
+
+                state.editingShowroomId =
+                    null;
+
+
+                resetShowroomForm();
+
+
+                showStatus(
+                    "rmShowroomStatus",
+                    "Business advertisement updated successfully.",
+                    "success"
+                );
+
+            } else {
+
+                const showroom = {
+
+                    id:
+                        createId(
+                            "showroom_ad"
+                        ),
+
+                    ownerEmail:
+                        state.account.email,
+
+                    name:
+                        data.name,
+
+                    type:
+                        data.type,
+
+                    typeLabel:
+                        showroomTypeLabel(
+                            data.type
+                        ),
+
+                    reach:
+                        "WORLDWIDE",
+
+                    country:
+                        data.country,
+
+                    state:
+                        data.state,
+
+                    district:
+                        data.district,
+
+                    taluka:
+                        data.taluka,
+
+                    pin:
+                        data.pin,
+
+                    phone:
+                        data.phone,
+
+                    email:
+                        data.email,
+
+                    description:
+                        data.description,
+
+                    image:
+                        image,
+
+                    video:
+                        video,
+
+                    payment:
+                        state.verifiedPayment,
+
+                    status:
+                        "published",
+
+                    createdAt:
+                        new Date()
+                            .toISOString(),
+
+                    updatedAt:
+                        new Date()
+                            .toISOString()
+
+                };
+
+
+                state.showrooms.unshift(
+                    showroom
+                );
+
+
+                saveShowrooms();
+
+
+                resetShowroomForm();
+
+
+                showStatus(
+                    "rmShowroomStatus",
+                    "Worldwide business advertisement published successfully.",
+                    "success"
+                );
+
+            }
+
+
+            renderShowrooms();
+
+        } catch (error) {
+
+            console.error(
+                "Showroom publish error:",
+                error
+            );
+
+
+            showStatus(
+                "rmShowroomStatus",
+                error.message ||
+                "Unable to publish advertisement.",
+                "error"
+            );
+
+        } finally {
+
+            const button =
+                byId(
+                    "rmPublishShowroomBtn"
+                );
+
+
+            if (button) {
+
+                button.textContent =
+                    "🌍 Publish Worldwide Advertisement";
+
+                button.disabled =
+                    !state.verifiedPayment;
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SHOWROOM RESET
+       ===================================================== */
+
+    function resetShowroomForm() {
+
+        const form =
+            byId(
+                "rmShowroomForm"
+            );
+
+
+        if (form) {
+
+            form.reset();
+
+        }
+
+
+        state.editingShowroomId =
+            null;
+
+        state.verifiedPayment =
+            null;
+
+
+        const publish =
+            byId(
+                "rmPublishShowroomBtn"
+            );
+
+
+        if (publish) {
+
+            publish.disabled =
+                true;
+
+            publish.textContent =
+                "🌍 Publish Worldwide Advertisement";
+
+        }
+
+
+        hideStatus(
+            "rmPaymentStatus"
+        );
+
+    }
+
+
+    /* =====================================================
+       SHOWROOM EDIT
+       ===================================================== */
+
+    function editShowroom(
+        id
+    ) {
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        const item =
+            state.showrooms.find(
+                function (showroom) {
+
+                    return (
+                        showroom.id ===
+                        id
+                    );
+
+                }
+            );
+
+
+        if (!item) {
+
+            alert(
+                "Advertisement not found."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            item.ownerEmail !==
+            state.account.email
+        ) {
+
+            alert(
+                "You can edit only your own advertisement."
+            );
+
+            return;
+
+        }
+
+
+        state.editingShowroomId =
+            id;
+
+
+        const setValue =
+            function (
+                id,
+                value
+            ) {
+
+                const element =
+                    byId(id);
+
+                if (element) {
+
+                    element.value =
+                        value || "";
+
+                }
+
+            };
+
+
+        setValue(
+            "rmShowroomName",
+            item.name
+        );
+
+        setValue(
+            "rmShowroomType",
+            item.type
+        );
+
+        setValue(
+            "rmShowroomCountry",
+            item.country
+        );
+
+        setValue(
+            "rmShowroomState",
+            item.state
+        );
+
+        setValue(
+            "rmShowroomDistrict",
+            item.district
+        );
+
+        setValue(
+            "rmShowroomTaluka",
+            item.taluka
+        );
+
+        setValue(
+            "rmShowroomPin",
+            item.pin
+        );
+
+        setValue(
+            "rmShowroomPhone",
+            item.phone
+        );
+
+        setValue(
+            "rmShowroomEmail",
+            item.email
+        );
+
+        setValue(
+            "rmShowroomDescription",
+            item.description
         );
 
 
-    $("rmShowroomForm")
-        .addEventListener(
-            "submit",
-            handleShowroomPublish
+        /*
+         * Editing requires a fresh verified payment
+         * before republishing.
+         */
+
+        state.verifiedPayment =
+            null;
+
+
+        const publish =
+            byId(
+                "rmPublishShowroomBtn"
+            );
+
+
+        if (publish) {
+
+            publish.disabled =
+                true;
+
+        }
+
+
+        showStatus(
+            "rmPaymentStatus",
+            "Please complete payment verification again before republishing the edited advertisement.",
+            "error"
         );
 
 
-    $("rmShowroomListings")
-        .addEventListener(
-            "click",
-            handleShowroomActions
+        const section =
+            byId(
+                "rmShowroom"
+            );
+
+
+        if (section) {
+
+            section.scrollIntoView({
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "start"
+
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DELETE SHOWROOM
+       ===================================================== */
+
+    function deleteShowroom(
+        id
+    ) {
+
+        if (!requireLogin()) {
+            return;
+        }
+
+
+        const item =
+            state.showrooms.find(
+                function (showroom) {
+
+                    return (
+                        showroom.id ===
+                        id
+                    );
+
+                }
+            );
+
+
+        if (!item) {
+            return;
+        }
+
+
+        if (
+            item.ownerEmail !==
+            state.account.email
+        ) {
+
+            alert(
+                "You can delete only your own advertisement."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !window.confirm(
+                "Delete this business advertisement?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        state.showrooms =
+            state.showrooms.filter(
+                function (showroom) {
+
+                    return (
+                        showroom.id !==
+                        id
+                    );
+
+                }
+            );
+
+
+        saveShowrooms();
+
+
+        if (
+            state.editingShowroomId ===
+            id
+        ) {
+
+            resetShowroomForm();
+
+        }
+
+
+        renderShowrooms();
+
+    }
+
+
+    /* =====================================================
+       SHOWROOM MEDIA
+       ===================================================== */
+
+    function renderShowroomMedia(
+        item
+    ) {
+
+        let html = "";
+
+
+        if (
+            item.image &&
+            item.image.data
+        ) {
+
+            html +=
+
+                '<div class="rm-media">' +
+
+                '<img src="' +
+                item.image.data +
+                '" alt="Business advertisement image" loading="lazy">' +
+
+                "</div>";
+
+        }
+
+
+        if (
+            item.video &&
+            item.video.data
+        ) {
+
+            html +=
+
+                '<div class="rm-media">' +
+
+                '<video controls preload="metadata">' +
+
+                '<source src="' +
+                item.video.data +
+                '" type="' +
+                escapeHTML(
+                    item.video.type ||
+                    "video/mp4"
+                ) +
+                '">' +
+
+                "Your browser does not support video." +
+
+                "</video>" +
+
+                "</div>";
+
+        }
+
+
+        return html;
+
+    }
+
+
+    /* =====================================================
+       SHOWROOM CARD
+       ===================================================== */
+
+    function createShowroomCard(
+        item
+    ) {
+
+        const card =
+            document.createElement(
+                "article"
+            );
+
+
+        card.className =
+            "rm-showroom-card";
+
+
+        const location = [];
+
+
+        if (item.taluka) {
+
+            location.push(
+                item.taluka
+            );
+
+        }
+
+
+        if (item.district) {
+
+            location.push(
+                item.district
+            );
+
+        }
+
+
+        if (item.state) {
+
+            location.push(
+                item.state
+            );
+
+        }
+
+
+        if (item.country) {
+
+            location.push(
+                getCountryName(
+                    item.country
+                )
+            );
+
+        }
+
+
+        const locationText =
+            location.length
+                ? location.join(", ")
+                : "Location not specified";
+
+
+        const owner =
+            state.account &&
+            normalizeEmail(
+                item.ownerEmail
+            ) ===
+            normalizeEmail(
+                state.account.email
+            );
+
+
+        card.innerHTML =
+
+            "<h3>" +
+
+            escapeHTML(
+                item.name
+            ) +
+
+            "</h3>" +
+
+            "<p>" +
+
+            "<strong>🏢 Business Type:</strong> " +
+
+            escapeHTML(
+                item.typeLabel ||
+                showroomTypeLabel(
+                    item.type
+                )
+            ) +
+
+            "</p>" +
+
+            "<p>" +
+
+            "<strong>🌍 Advertisement Reach:</strong> WORLDWIDE" +
+
+            "</p>" +
+
+            "<p>" +
+
+            "<strong>📍 Business Location:</strong> " +
+
+            escapeHTML(
+                locationText
+            ) +
+
+            "</p>" +
+
+            (
+                item.pin
+                    ? "<p><strong>PIN / ZIP:</strong> " +
+                      escapeHTML(
+                          item.pin
+                      ) +
+                      "</p>"
+                    : ""
+            ) +
+
+            "<p>" +
+
+            "<strong>📞 Phone / WhatsApp:</strong> " +
+
+            escapeHTML(
+                item.phone
+            ) +
+
+            "</p>" +
+
+            "<p>" +
+
+            "<strong>✉️ Email:</strong> " +
+
+            '<a href="mailto:' +
+            escapeHTML(
+                item.email
+            ) +
+            '">' +
+
+            escapeHTML(
+                item.email
+            ) +
+
+            "</a>" +
+
+            "</p>" +
+
+            (
+                item.description
+                    ? "<p>" +
+                      escapeHTML(
+                          item.description
+                      ) +
+                      "</p>"
+                    : ""
+            ) +
+
+            renderShowroomMedia(
+                item
+            ) +
+
+            (
+                item.payment &&
+                item.payment.paymentId
+
+                    ?
+
+                "<p>" +
+
+                "<strong>Payment:</strong> Verified" +
+
+                "</p>"
+
+                    :
+
+                ""
+
+            ) +
+
+            (
+                owner
+
+                    ?
+
+                '<div class="rm-actions">' +
+
+                '<button type="button" data-rm-action="edit-showroom" data-id="' +
+                escapeHTML(item.id) +
+                '">' +
+
+                "✏️ Edit" +
+
+                "</button>" +
+
+                '<button type="button" data-rm-action="delete-showroom" data-id="' +
+                escapeHTML(item.id) +
+                '">' +
+
+                "🗑️ Delete" +
+
+                "</button>" +
+
+                "</div>"
+
+                    :
+
+                ""
+
+            );
+
+
+        return card;
+
+    }
+
+
+    /* =====================================================
+       RENDER SHOWROOMS
+       ===================================================== */
+
+    function renderShowrooms() {
+
+        const container =
+            byId(
+                "rmShowroomListings"
+            );
+
+
+        if (!container) {
+            return;
+        }
+
+
+        if (!state.loggedIn) {
+
+            container.innerHTML =
+                "<div>" +
+                "Login to view your showroom advertisements." +
+                "</div>";
+
+            return;
+
+        }
+
+
+        const email =
+            state.account.email;
+
+
+        const mine =
+            state.showrooms.filter(
+                function (item) {
+
+                    return (
+                        normalizeEmail(
+                            item.ownerEmail
+                        ) ===
+                        normalizeEmail(
+                            email
+                        )
+                    );
+
+                }
+            );
+
+
+        if (!mine.length) {
+
+            container.innerHTML =
+                "<div>" +
+                "No showroom advertisements created yet." +
+                "</div>";
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            "";
+
+
+        mine.forEach(
+            function (item) {
+
+                container.appendChild(
+                    createShowroomCard(
+                        item
+                    )
+                );
+
+            }
         );
 
-}
+    }
 
 
-/* =========================================================
-   PUBLIC API
-   ========================================================= */
+    /* =====================================================
+       ACTION EVENTS
+       ===================================================== */
 
-window.ALON_REGULAR_MARKETPLACE = {
+    function handleListingActions(
+        event
+    ) {
 
-    version:
-        CONFIG.version,
-
-    config:
-        CONFIG,
-
-    state,
-
-    login:
-        handleLogin,
-
-    logout,
-
-    acceptVerifiedPayment,
-
-    renderListings,
-
-    renderShowrooms
-
-};
+        const button =
+            event.target.closest(
+                "button[data-rm-action]"
+            );
 
 
-/* =========================================================
-   START
-   ========================================================= */
+        if (!button) {
+            return;
+        }
 
-if (
-    document.readyState ===
-    "loading"
-) {
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        init
-    );
+        const action =
+            button.dataset.rmAction;
 
-} else {
 
-    init();
+        const id =
+            button.dataset.id;
 
-}
+
+        if (!id) {
+            return;
+        }
+
+
+        if (
+            action ===
+            "edit-listing"
+        ) {
+
+            editListing(id);
+
+        }
+
+
+        if (
+            action ===
+            "delete-listing"
+        ) {
+
+            deleteListing(id);
+
+        }
+
+    }
+
+
+    function handleShowroomActions(
+        event
+    ) {
+
+        const button =
+            event.target.closest(
+                "button[data-rm-action]"
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        const action =
+            button.dataset.rmAction;
+
+
+        const id =
+            button.dataset.id;
+
+
+        if (!id) {
+            return;
+        }
+
+
+        if (
+            action ===
+            "edit-showroom"
+        ) {
+
+            editShowroom(id);
+
+        }
+
+
+        if (
+            action ===
+            "delete-showroom"
+        ) {
+
+            deleteShowroom(id);
+
+        }
+
+    }
+
+
+    /* =====================================================
+       EVENTS
+       ===================================================== */
+
+    function bindEvents() {
+
+        const loginButton =
+            byId(
+                "rmLoginButton"
+            );
+
+
+        if (loginButton) {
+
+            loginButton.addEventListener(
+                "click",
+                handleLogin
+            );
+
+        }
+
+
+        const logoutButton =
+            byId(
+                "rmLogoutButton"
+            );
+
+
+        if (logoutButton) {
+
+            logoutButton.addEventListener(
+                "click",
+                logout
+            );
+
+        }
+
+
+        const listingType =
+            byId(
+                "rmListingType"
+            );
+
+
+        if (listingType) {
+
+            listingType.addEventListener(
+                "change",
+                function () {
+
+                    updateCategoryOptions();
+
+                }
+            );
+
+        }
+
+
+        const listingForm =
+            byId(
+                "rmListingForm"
+            );
+
+
+        if (listingForm) {
+
+            listingForm.addEventListener(
+                "submit",
+                saveListing
+            );
+
+        }
+
+
+        const cancelEdit =
+            byId(
+                "rmCancelEditButton"
+            );
+
+
+        if (cancelEdit) {
+
+            cancelEdit.addEventListener(
+                "click",
+                function () {
+
+                    resetListingForm();
+
+                    hideStatus(
+                        "rmListingStatus"
+                    );
+
+                }
+            );
+
+        }
+
+
+        const listings =
+            getMyListingsContainer();
+
+
+        if (listings) {
+
+            listings.addEventListener(
+                "click",
+                handleListingActions
+            );
+
+        }
+
+
+        const payButton =
+            byId(
+                "rmPayShowroomBtn"
+            );
+
+
+        if (payButton) {
+
+            payButton.addEventListener(
+                "click",
+                startShowroomPayment
+            );
+
+        }
+
+
+        const publishButton =
+            byId(
+                "rmPublishShowroomBtn"
+            );
+
+
+        if (publishButton) {
+
+            publishButton.addEventListener(
+                "click",
+                publishShowroom
+            );
+
+        }
+
+
+        const showroomForm =
+            byId(
+                "rmShowroomForm"
+            );
+
+
+        if (showroomForm) {
+
+            showroomForm.addEventListener(
+                "reset",
+                function () {
+
+                    setTimeout(
+                        function () {
+
+                            state.editingShowroomId =
+                                null;
+
+                            state.verifiedPayment =
+                                null;
+
+                        },
+                        0
+                    );
+
+                }
+            );
+
+        }
+
+
+        const showroomListings =
+            byId(
+                "rmShowroomListings"
+            );
+
+
+        if (showroomListings) {
+
+            showroomListings.addEventListener(
+                "click",
+                handleShowroomActions
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       REFRESH FUNCTIONS
+       ===================================================== */
+
+    function refreshCountries() {
+
+        loadCountries();
+
+        populateCountries();
+
+    }
+
+
+    function refreshCategories() {
+
+        updateCategoryOptions();
+
+    }
+
+
+    /* =====================================================
+       PUBLIC API
+       ===================================================== */
+
+    window.ALON_REGULAR_MARKETPLACE = {
+
+        version:
+            CONFIG.version,
+
+        config:
+            CONFIG,
+
+        state:
+            state,
+
+        categories:
+            CATEGORY_DATA,
+
+        login:
+            handleLogin,
+
+        logout:
+            logout,
+
+        acceptVerifiedPayment:
+            acceptVerifiedPayment,
+
+        startShowroomPayment:
+            startShowroomPayment,
+
+        renderListings:
+            renderListings,
+
+        renderShowrooms:
+            renderShowrooms,
+
+        refreshCountries:
+            refreshCountries,
+
+        refreshCategories:
+            refreshCategories,
+
+        editListing:
+            editListing,
+
+        deleteListing:
+            deleteListing,
+
+        editShowroom:
+            editShowroom,
+
+        deleteShowroom:
+            deleteShowroom
+
+    };
+
+
+    /* =====================================================
+       INIT
+       ===================================================== */
+
+    function init() {
+
+        loadStorage();
+
+        loadCountries();
+
+        populateCountries();
+
+        updateCategoryOptions();
+
+        bindEvents();
+
+        updateLoginUI();
+
+        renderListings();
+
+        renderShowrooms();
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            init
+        );
+
+    } else {
+
+        init();
+
+    }
+
 
 })();
