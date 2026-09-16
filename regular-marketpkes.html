@@ -1,973 +1,1225 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <title>Regular Marketplace — ALON HISTORYVERSE 24</title>
 
-<title>
-    Regular Marketplace • ALON HISTORYVERSE 24
-</title>
+    <meta name="description"
+          content="Regular Marketplace for items, property, vehicles and showroom advertisements — ALON HISTORYVERSE 24.">
 
-<meta
-    name="description"
-    content="ALON HISTORYVERSE 24 Regular Marketplace — buy, sell, advertise, and manage items, vehicles, property and business showrooms."
->
+    <link rel="stylesheet" href="../css/style.css">
 
-<meta
-    name="theme-color"
-    content="#05080f"
->
+    <style>
+        /* =========================================================
+           ALON HISTORYVERSE 24
+           REGULAR MARKETPLACE
+           PAGE-SCOPED STYLE
+           ========================================================= */
 
-<link
-    rel="stylesheet"
-    href="../css/style.css"
->
-
-<style>
-
-    .rm-section {
-        margin-bottom: 20px;
-    }
-
-    .rm-form-grid {
-        display: grid;
-        gap: 12px;
-    }
-
-    .rm-row {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-    }
-
-    .rm-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 14px;
-    }
-
-    .rm-login-box {
-        display: block;
-    }
-
-    .rm-profile-box {
-        display: none;
-    }
-
-    .rm-profile-email {
-        font-weight: bold;
-        word-break: break-word;
-        margin: 10px 0;
-    }
-
-    .rm-status {
-        display: none;
-        margin-top: 12px;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .rm-status.show {
-        display: block;
-    }
-
-    .rm-agreement {
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        margin: 14px 0;
-        font-weight: bold;
-    }
-
-    .rm-agreement input {
-        width: auto;
-        margin-top: 4px;
-    }
-
-    .rm-card-list {
-        display: grid;
-        gap: 14px;
-    }
-
-    .rm-card {
-        border: 1px solid rgba(215,179,90,.35);
-        border-radius: 14px;
-        padding: 14px;
-    }
-
-    .rm-media-preview {
-        display: grid;
-        gap: 10px;
-        margin-top: 12px;
-    }
-
-    .rm-media-preview img,
-    .rm-media-preview video {
-        width: 100%;
-        max-width: 500px;
-        border-radius: 12px;
-        display: block;
-    }
-
-    .rm-reach-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin: 10px 0;
-    }
-
-    .rm-reach-option {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-    }
-
-    .rm-reach-option input {
-        width: auto;
-    }
-
-    .rm-payment-box {
-        border: 1px solid rgba(215,179,90,.35);
-        border-radius: 14px;
-        padding: 14px;
-        margin-top: 14px;
-    }
-
-    .rm-payment-status {
-        margin-top: 10px;
-        font-weight: bold;
-    }
-
-    .rm-hidden {
-        display: none !important;
-    }
-
-    @media (max-width: 700px) {
-
-        .rm-row {
-            grid-template-columns: 1fr;
+        .rm-page {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-    }
-
-</style>
-
-</head><body><header class="ah-header"><div class="ah-brand">
-
-    <a href="../index.html">
-
-        <strong>
-            ALON HISTORYVERSE 24
-        </strong>
-
-        <small>
-            Regular Marketplace
-        </small>
-
-    </a>
-
-</div>
-
-
-<nav class="ah-nav">
-
-    <a href="../index.html">
-        Home
-    </a>
-
-    <a href="#sellItem">
-        Sell My Item
-    </a>
-
-    <a href="#sellVehicle">
-        Sell My Car
-    </a>
-
-    <a href="#showroom">
-        Business / Showroom
-    </a>
-
-    <a href="#myListings">
-        My Listings
-    </a>
-
-</nav>
-
-</header><main class="ah-container"><!-- =====================================================
-     ACCOUNT / LOGIN
-     ===================================================== --><section
-    class="ah-card rm-section"
-    id="marketplaceAccount"
-><div
-    id="rmLoginBox"
-    class="rm-login-box"
->
-
-    <h2>
-        🔐 Marketplace Login
-    </h2>
-
-    <p>
-        Login is required to create, edit and delete
-        your marketplace listings.
-    </p>
-
-
-    <label for="rmLoginName">
-        Name
-    </label>
-
-    <input
-        id="rmLoginName"
-        type="text"
-        placeholder="Your full name"
-        autocomplete="name"
-    >
-
-
-    <label for="rmLoginMobile">
-        Mobile
-    </label>
-
-    <input
-        id="rmLoginMobile"
-        type="tel"
-        placeholder="Mobile number"
-        autocomplete="tel"
-    >
-
-
-    <label for="rmLoginEmail">
-        Email
-    </label>
-
-    <input
-        id="rmLoginEmail"
-        type="email"
-        placeholder="Email address"
-        autocomplete="email"
-    >
-
-
-    <label for="rmLoginPassword">
-        Password
-    </label>
-
-    <input
-        id="rmLoginPassword"
-        type="password"
-        placeholder="Password"
-        autocomplete="current-password"
-    >
-
-
-    <label class="rm-agreement">
-
-        <input
-            id="rmAgreement"
-            type="checkbox"
-        >
-
-        <span>
-            I agree to the ALON HISTORYVERSE 24
-            Marketplace Agreement, terms and conditions,
-            and seller responsibility rules.
-        </span>
-
-    </label>
-
-
-    <button
-        type="button"
-        id="rmLoginButton"
-    >
-        🔐 Login
-    </button>
-
-
-    <div
-        id="rmLoginStatus"
-        class="rm-status"
-        aria-live="polite"
-    ></div>
-
-</div>
-
-
-<div
-    id="rmProfileBox"
-    class="rm-profile-box"
->
-
-    <h2>
-        👤 Marketplace Profile
-    </h2>
-
-    <p>
-        Logged in as:
-    </p>
-
-    <div
-        id="rmProfileEmail"
-        class="rm-profile-email"
-    ></div>
-
-    <button
-        type="button"
-        id="rmLogoutButton"
-    >
-        🚪 Logout
-    </button>
-
-</div>
-
-</section><!-- =====================================================
-     SELL MY ITEM
-     ===================================================== --><section
-    class="ah-card rm-section"
-    id="sellItem"
-><h1>
-    🛍️ Sell My Item
-</h1>
-
-<p>
-    Sell products, property, household items and other
-    permitted goods.
-</p>
-
-
-<form
-    id="rmListingForm"
-    class="rm-form-grid"
->
-
-    <input
-        type="hidden"
-        id="rmListingId"
-    >
-
-
-    <label for="rmListingType">
-        Listing Type
-    </label>
-
-    <select id="rmListingType">
-
-        <option value="item">
-            🛍️ Item
-        </option>
-
-        <option value="property">
-            🏠 Property
-        </option>
-
-        <option value="vehicle">
-            🚗 Vehicle
-        </option>
-
-    </select>
-
-
-    <label for="rmListingCategory">
-        Category
-    </label>
-
-    <select id="rmListingCategory">
-
-        <option value="">
-            Select Category
-        </option>
-
-    </select>
-
-
-    <label for="rmListingCondition">
-        Condition
-    </label>
-
-    <select id="rmListingCondition">
-
-        <option value="new">
-            New
-        </option>
-
-        <option value="used">
-            Used
-        </option>
-
-        <option value="refurbished">
-            Refurbished
-        </option>
-
-    </select>
-
-
-    <label for="rmListingTitle">
-        Item / Property / Vehicle Title
-    </label>
-
-    <input
-        id="rmListingTitle"
-        type="text"
-        placeholder="Example: Toyota Car / House / Mobile"
-    >
-
-
-    <label for="rmListingPrice">
-        Price
-    </label>
-
-    <input
-        id="rmListingPrice"
-        type="number"
-        min="0"
-        step="0.01"
-        placeholder="Price"
-    >
-
-
-    <h3>
-        🌍 Location
-    </h3>
-
-
-    <label for="rmCountry">
-        Country
-    </label>
-
-    <select id="rmCountry">
-
-        <option value="">
-            Select Country
-        </option>
-
-    </select>
-
-
-    <label for="rmState">
-        State / Province
-    </label>
-
-    <input
-        id="rmState"
-        type="text"
-        placeholder="State / Province"
-    >
-
-
-    <label for="rmDistrict">
-        District
-    </label>
-
-    <input
-        id="rmDistrict"
-        type="text"
-        placeholder="District"
-    >
-
-
-    <label for="rmTaluka">
-        Taluka / Tehsil
-    </label>
-
-    <input
-        id="rmTaluka"
-        type="text"
-        placeholder="Taluka / Tehsil"
-    >
-
-
-    <label for="rmPin">
-        PIN / ZIP Code
-    </label>
-
-    <input
-        id="rmPin"
-        type="text"
-        placeholder="PIN / ZIP Code"
-    >
-
-
-    <h3>
-        📞 Contact
-    </h3>
-
-
-    <label for="rmPhone">
-        Mobile / Phone
-    </label>
-
-    <input
-        id="rmPhone"
-        type="tel"
-        placeholder="Phone number"
-    >
-
-
-    <label for="rmEmail">
-        Email
-    </label>
-
-    <input
-        id="rmEmail"
-        type="email"
-        placeholder="Email address"
-    >
-
-
-    <label for="rmDescription">
-        Description
-    </label>
-
-    <textarea
-        id="rmDescription"
-        rows="7"
-        placeholder="Describe your item, property or vehicle..."
-    ></textarea>
-
-
-    <h3>
-        🖼️ Image
-    </h3>
-
-    <input
-        id="rmListingImage"
-        type="file"
-        accept="image/*"
-    >
-
-
-    <h3>
-        🎥 Optional Video
-    </h3>
-
-    <input
-        id="rmListingVideo"
-        type="file"
-        accept="video/*"
-    >
-
-
-    <div class="rm-actions">
-
-        <button
-            type="submit"
-            id="rmSaveListingButton"
-        >
-            💾 Save Listing
-        </button>
-
-        <button
-            type="button"
-            id="rmCancelListingEditButton"
-        >
-            Cancel Edit
-        </button>
-
-    </div>
-
-
-    <div
-        id="rmListingStatus"
-        class="rm-status"
-        aria-live="polite"
-    ></div>
-
-</form>
-
-</section><!-- =====================================================
-     SELL MY CAR / VEHICLE
-     ===================================================== --><section
-    class="ah-card rm-section"
-    id="sellVehicle"
-><h2>
-    🚗 Sell My Car / Vehicle
-</h2>
-
-<p>
-    Vehicle listings use the same Regular Marketplace
-    listing system.
-</p>
-
-<p>
-    Select <strong>Vehicle</strong> above and choose the
-    required vehicle category.
-</p>
-
-<div class="rm-card">
-
-    <strong>
-        Vehicle Categories
-    </strong>
-
-    <p>
-        Car • SUV • Motorcycle • Scooter • Electric Vehicle
-        • Truck • Trailer • Tractor • JCB / Excavator
-        • Bus • Van • Ambulance • Taxi • Commercial Vehicle
-        • Three-Wheeler • Farm Vehicle • Construction Vehicle
-        • Boat • Other Vehicle
-    </p>
-
-</div>
-
-</section><!-- =====================================================
-     MY LISTINGS
-     ===================================================== --><section
-    class="ah-card rm-section"
-    id="myListings"
-><h2>
-    📋 My Listings
-</h2>
-
-<div
-    id="rmListings"
-    class="rm-card-list"
->
-
-    <div>
-        No listings created yet.
-    </div>
-
-</div>
-
-</section><!-- =====================================================
-     BUSINESS / SHOWROOM
-     ===================================================== --><section
-    class="ah-card rm-section"
-    id="showroom"
-><h2>
-    🏢 Business / Showroom Advertisement
-</h2>
-
-<p>
-    Promote your business or showroom worldwide.
-</p>
-
-<p>
-    Advertisement price:
-    <strong>$10 USD</strong>
-</p>
-
-
-<form
-    id="rmShowroomForm"
-    class="rm-form-grid"
->
-
-    <input
-        type="hidden"
-        id="rmShowroomId"
-    >
-
-
-    <label for="rmShowroomName">
-        Business / Showroom Name
-    </label>
-
-    <input
-        id="rmShowroomName"
-        type="text"
-        placeholder="Business or showroom name"
-    >
-
-
-    <label for="rmShowroomType">
-        Business Type
-    </label>
-
-    <input
-        id="rmShowroomType"
-        type="text"
-        placeholder="Example: Automobile Showroom"
-    >
-
-
-    <h3>
-        🌍 Advertisement Reach
-    </h3>
-
-    <div class="rm-reach-options">
-
-        <label class="rm-reach-option">
-
+        .rm-hero {
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(215,179,90,.45);
+            border-radius: 18px;
+            background: rgba(5,8,15,.88);
+            box-sizing: border-box;
+        }
+
+        .rm-hero h1 {
+            margin: 0 0 10px;
+            color: #f0d27a;
+            font-size: 30px;
+        }
+
+        .rm-hero p {
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .rm-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 18px;
+            background: rgba(5,8,15,.84);
+            box-sizing: border-box;
+        }
+
+        .rm-section h2 {
+            margin-top: 0;
+            color: #f0d27a;
+        }
+
+        .rm-section h3 {
+            color: #d7b35a;
+        }
+
+        .rm-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .rm-field {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .rm-field-full {
+            grid-column: 1 / -1;
+        }
+
+        .rm-field label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .rm-field input,
+        .rm-field select,
+        .rm-field textarea {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border: 1px solid rgba(215,179,90,.45);
+            border-radius: 10px;
+            background: #080d16;
+            color: #fff;
+            outline: none;
+        }
+
+        .rm-field textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .rm-field input:focus,
+        .rm-field select:focus,
+        .rm-field textarea:focus {
+            border-color: #f0d27a;
+        }
+
+        .rm-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .rm-btn {
+            border: 1px solid #d7b35a;
+            border-radius: 10px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-weight: 700;
+            background: #111927;
+            color: #f0d27a;
+        }
+
+        .rm-btn:hover {
+            background: #1a2435;
+        }
+
+        .rm-btn-primary {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        .rm-btn-danger {
+            border-color: #d96c6c;
+            color: #ffaaaa;
+        }
+
+        .rm-status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 9px;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .rm-status.show {
+            display: block;
+        }
+
+        .rm-login-status,
+        .rm-payment-status,
+        .rm-listing-status,
+        .rm-showroom-status {
+            margin-top: 12px;
+        }
+
+        /* =========================================================
+           LOGIN FIX
+           ========================================================= */
+
+        #rmLoginBox > label:not(.rm-agreement) {
+            display: block;
+            width: 100%;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            clear: both;
+        }
+
+        #rmLoginBox > input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+            clear: both;
+        }
+
+        #rmLoginBox .rm-agreement {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        #rmLoginBox .rm-agreement input {
+            width: auto;
+            flex: 0 0 auto;
+        }
+
+        .rm-profile {
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.35);
+            background: rgba(15,22,34,.85);
+        }
+
+        .rm-profile-email {
+            color: #f0d27a;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .rm-check-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .rm-check-row input {
+            width: auto;
+            margin-top: 4px;
+        }
+
+        .rm-payment-box {
+            padding: 16px;
+            margin-top: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(215,179,90,.4);
+            background: rgba(20,27,40,.8);
+        }
+
+        .rm-price {
+            font-size: 25px;
+            font-weight: 800;
+            color: #f0d27a;
+        }
+
+        .rm-pay-number {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: .5px;
+        }
+
+        .rm-note {
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: .9;
+        }
+
+        .rm-list-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .rm-card {
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 15px;
+            padding: 15px;
+            background: rgba(12,18,29,.9);
+            overflow: hidden;
+        }
+
+        .rm-card h3 {
+            margin-top: 0;
+        }
+
+        .rm-card-media {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .rm-card-video {
+            width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .rm-card-row {
+            margin: 5px 0;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .rm-empty {
+            padding: 18px;
+            border: 1px dashed rgba(215,179,90,.35);
+            border-radius: 12px;
+            opacity: .85;
+            margin-top: 15px;
+        }
+
+        .rm-responsibility {
+            line-height: 1.7;
+        }
+
+        .rm-responsibility li {
+            margin-bottom: 8px;
+        }
+
+        .rm-hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 800px) {
+            .rm-form-grid,
+            .rm-list-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rm-field-full {
+                grid-column: auto;
+            }
+
+            .rm-page {
+                padding: 12px;
+            }
+
+            .rm-section {
+                padding: 15px;
+            }
+
+            .rm-hero {
+                padding: 18px;
+            }
+
+            .rm-hero h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="rm-page">
+
+    <!-- =========================================================
+         HERO
+         ========================================================= -->
+
+    <section class="rm-hero">
+        <h1>Regular Marketplace</h1>
+
+        <p>
+            Sell your items, property and vehicles through
+            <strong>ALON HISTORYVERSE 24</strong>.
+        </p>
+
+        <p class="rm-note">
+            Regular Marketplace is separate from the Global Marketplace.
+        </p>
+    </section>
+
+
+    <!-- =========================================================
+         LOGIN
+         ========================================================= -->
+
+    <section class="rm-section" id="rmLoginSection">
+
+        <h2>Login / Account</h2>
+
+        <div id="rmLoginBox">
+
+            <label for="rmLoginName">Name</label>
             <input
-                type="checkbox"
-                id="rmShowroomReachGlobal"
-                value="GLOBAL"
+                id="rmLoginName"
+                type="text"
+                autocomplete="name"
+                placeholder="Enter your name"
             >
 
-            <span>
-                🌍 Global / Worldwide
-            </span>
-
-        </label>
-
-
-        <label class="rm-reach-option">
-
+            <label for="rmLoginMobile">Mobile Number</label>
             <input
-                type="checkbox"
-                id="rmShowroomReachInternational"
-                value="INTERNATIONAL"
+                id="rmLoginMobile"
+                type="tel"
+                autocomplete="tel"
+                placeholder="Enter mobile number"
             >
 
-            <span>
-                ✈️ International
-            </span>
+            <label for="rmLoginEmail">Email Address</label>
+            <input
+                id="rmLoginEmail"
+                type="email"
+                autocomplete="email"
+                placeholder="Enter email address"
+            >
 
-        </label>
+            <label for="rmLoginPassword">Password</label>
+            <input
+                id="rmLoginPassword"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Enter password"
+            >
 
-    </div>
+            <label class="rm-agreement">
+                <input
+                    id="rmAgreement"
+                    type="checkbox"
+                >
 
+                <span>
+                    I agree to the Regular Marketplace Agreement,
+                    seller responsibility rules, listing rules and
+                    applicable terms before login.
+                </span>
+            </label>
 
-    <label for="rmShowroomCountry">
-        Country
-    </label>
+            <div class="rm-actions">
+                <button
+                    type="button"
+                    class="rm-btn rm-btn-primary"
+                    id="rmLoginButton"
+                >
+                    Login
+                </button>
+            </div>
 
-    <select id="rmShowroomCountry">
+            <div
+                id="rmLoginStatus"
+                class="rm-status rm-login-status"
+            ></div>
 
-        <option value="">
-            Select Country
-        </option>
-
-    </select>
-
-
-    <label for="rmShowroomState">
-        State / Province
-    </label>
-
-    <input
-        id="rmShowroomState"
-        type="text"
-        placeholder="State / Province"
-    >
-
-
-    <label for="rmShowroomDistrict">
-        District
-    </label>
-
-    <input
-        id="rmShowroomDistrict"
-        type="text"
-        placeholder="District"
-    >
-
-
-    <label for="rmShowroomTaluka">
-        Taluka / Tehsil
-    </label>
-
-    <input
-        id="rmShowroomTaluka"
-        type="text"
-        placeholder="Taluka / Tehsil"
-    >
-
-
-    <label for="rmShowroomPin">
-        PIN / ZIP Code
-    </label>
-
-    <input
-        id="rmShowroomPin"
-        type="text"
-        placeholder="PIN / ZIP Code"
-    >
-
-
-    <label for="rmShowroomPhone">
-        Phone / WhatsApp
-    </label>
-
-    <input
-        id="rmShowroomPhone"
-        type="tel"
-        placeholder="Phone / WhatsApp"
-    >
-
-
-    <label for="rmShowroomEmail">
-        Email
-    </label>
-
-    <input
-        id="rmShowroomEmail"
-        type="email"
-        placeholder="Business email"
-    >
-
-
-    <label for="rmShowroomDescription">
-        Description
-    </label>
-
-    <textarea
-        id="rmShowroomDescription"
-        rows="7"
-        placeholder="Describe your business or showroom..."
-    ></textarea>
-
-
-    <h3>
-        🖼️ Business Image
-    </h3>
-
-    <input
-        id="rmShowroomImage"
-        type="file"
-        accept="image/*"
-    >
-
-
-    <h3>
-        🎥 Optional Business Video
-    </h3>
-
-    <input
-        id="rmShowroomVideo"
-        type="file"
-        accept="video/*"
-    >
-
-
-    <div class="rm-payment-box">
-
-        <h3>
-            💳 Advertisement Payment
-        </h3>
-
-        <p>
-            Advertisement price:
-            <strong>$10 USD</strong>
-        </p>
-
-        <p>
-            Google Pay:
-            <strong>7487879528</strong>
-        </p>
-
-        <p>
-            Payment must be verified before the
-            advertisement can be published.
-        </p>
-
-
-        <button
-            type="button"
-            id="rmPayShowroomButton"
-        >
-            💳 Start $10 USD Payment
-        </button>
-
-
-        <div
-            id="rmPaymentStatus"
-            class="rm-payment-status"
-        >
-            Payment not verified.
         </div>
 
-    </div>
 
+        <!-- PROFILE AFTER LOGIN -->
 
-    <div class="rm-actions">
-
-        <button
-            type="submit"
-            id="rmPublishShowroomButton"
-            disabled
+        <div
+            id="rmProfileBox"
+            class="rm-profile rm-hidden"
         >
-            📢 Publish Showroom Advertisement
-        </button>
 
-        <button
-            type="button"
-            id="rmResetShowroomButton"
-        >
-            Clear
-        </button>
+            <div>
+                Logged in as:
+                <span
+                    id="rmProfileEmail"
+                    class="rm-profile-email"
+                ></span>
+            </div>
 
-    </div>
+            <div class="rm-actions">
+
+                <button
+                    type="button"
+                    class="rm-btn rm-btn-danger"
+                    id="rmLogoutButton"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
-    <div
-        id="rmShowroomStatus"
-        class="rm-status"
-        aria-live="polite"
-    ></div>
+    <!-- =========================================================
+         SELL LISTING
+         ========================================================= -->
 
-</form>
+    <section class="rm-section">
 
-</section><!-- =====================================================
-     MY SHOWROOM ADS
-     ===================================================== --><section
-    class="ah-card rm-section"
-    id="myShowrooms"
-><h2>
-    🏢 My Showroom Advertisements
-</h2>
+        <h2>Sell My Item / Sell My Car / Sell My Vehicle</h2>
 
-<div
-    id="rmShowrooms"
-    class="rm-card-list"
->
+        <form id="rmListingForm">
 
-    <div>
-        No showroom advertisements created yet.
-    </div>
+            <div class="rm-form-grid">
+
+                <!-- Listing Type -->
+
+                <div class="rm-field">
+                    <label for="rmListingType">
+                        Listing Type
+                    </label>
+
+                    <select id="rmListingType">
+                        <option value="item">Item</option>
+                        <option value="property">Property</option>
+                        <option value="vehicle">Car / Vehicle</option>
+                    </select>
+                </div>
+
+
+                <!-- Category -->
+
+                <div class="rm-field">
+                    <label for="rmListingCategory">
+                        Category
+                    </label>
+
+                    <select id="rmListingCategory">
+                        <option value="">
+                            Select category
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- Condition -->
+
+                <div class="rm-field">
+                    <label for="rmListingCondition">
+                        Condition
+                    </label>
+
+                    <select id="rmListingCondition">
+                        <option value="new">New</option>
+                        <option value="used">Used</option>
+                        <option value="refurbished">Refurbished</option>
+                        <option value="not-applicable">
+                            Not Applicable
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- Title -->
+
+                <div class="rm-field">
+                    <label for="rmListingTitle">
+                        Listing Title
+                    </label>
+
+                    <input
+                        id="rmListingTitle"
+                        type="text"
+                        placeholder="Enter listing title"
+                    >
+                </div>
+
+
+                <!-- Price -->
+
+                <div class="rm-field">
+                    <label for="rmListingPrice">
+                        Price
+                    </label>
+
+                    <input
+                        id="rmListingPrice"
+                        type="number"
+                        min="0"
+                        step="any"
+                        placeholder="Enter price"
+                    >
+                </div>
+
+
+                <!-- Country -->
+
+                <div class="rm-field">
+                    <label for="rmCountry">
+                        Country
+                    </label>
+
+                    <select id="rmCountry">
+                        <option value="">
+                            Select country
+                        </option>
+                    </select>
+                </div>
+
+
+                <!-- State -->
+
+                <div class="rm-field">
+                    <label for="rmState">
+                        State / Province
+                    </label>
+
+                    <input
+                        id="rmState"
+                        type="text"
+                        placeholder="Enter state / province"
+                    >
+                </div>
+
+
+                <!-- District -->
+
+                <div class="rm-field">
+                    <label for="rmDistrict">
+                        District
+                    </label>
+
+                    <input
+                        id="rmDistrict"
+                        type="text"
+                        placeholder="Enter district"
+                    >
+                </div>
+
+
+                <!-- Taluka -->
+
+                <div class="rm-field">
+                    <label for="rmTaluka">
+                        Taluka / City
+                    </label>
+
+                    <input
+                        id="rmTaluka"
+                        type="text"
+                        placeholder="Enter taluka / city"
+                    >
+                </div>
+
+
+                <!-- PIN -->
+
+                <div class="rm-field">
+                    <label for="rmPin">
+                        PIN / ZIP Code
+                    </label>
+
+                    <input
+                        id="rmPin"
+                        type="text"
+                        placeholder="Enter PIN / ZIP"
+                    >
+                </div>
+
+
+                <!-- Phone -->
+
+                <div class="rm-field">
+                    <label for="rmPhone">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        id="rmPhone"
+                        type="tel"
+                        placeholder="Enter mobile number"
+                    >
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="rm-field">
+                    <label for="rmEmail">
+                        Contact Email
+                    </label>
+
+                    <input
+                        id="rmEmail"
+                        type="email"
+                        placeholder="Enter contact email"
+                    >
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="rm-field rm-field-full">
+                    <label for="rmDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="rmDescription"
+                        placeholder="Describe your item, property or vehicle"
+                    ></textarea>
+                </div>
+
+
+                <!-- Image -->
+
+                <div class="rm-field">
+                    <label for="rmListingImage">
+                        Image
+                    </label>
+
+                    <input
+                        id="rmListingImage"
+                        type="file"
+                        accept="image/*"
+                    >
+
+                    <div class="rm-note">
+                        Image is optional.
+                    </div>
+                </div>
+
+
+                <!-- Video -->
+
+                <div class="rm-field">
+                    <label for="rmListingVideo">
+                        Video
+                    </label>
+
+                    <input
+                        id="rmListingVideo"
+                        type="file"
+                        accept="video/*"
+                    >
+
+                    <div class="rm-note">
+                        Video is optional.
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="rm-actions">
+
+                <button
+                    type="submit"
+                    class="rm-btn rm-btn-primary"
+                    id="rmSaveListingButton"
+                >
+                    Save Listing
+                </button>
+
+                <button
+                    type="button"
+                    class="rm-btn rm-hidden"
+                    id="rmCancelListingEditButton"
+                >
+                    Cancel Edit
+                </button>
+
+            </div>
+
+
+            <div
+                id="rmListingStatus"
+                class="rm-status rm-listing-status"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================================================
+         MY LISTINGS
+         ========================================================= -->
+
+    <section class="rm-section">
+
+        <h2>My Listings</h2>
+
+        <div id="rmListings">
+
+            <div class="rm-empty">
+                No listings available yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         BUSINESS / SHOWROOM
+         ========================================================= -->
+
+    <section class="rm-section">
+
+        <h2>Business / Showroom Advertisement</h2>
+
+        <p>
+            Create a showroom/business advertisement for the
+            Regular Marketplace.
+        </p>
+
+        <form id="rmShowroomForm">
+
+            <div class="rm-form-grid">
+
+                <!-- Showroom Name -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomName">
+                        Showroom / Business Name
+                    </label>
+
+                    <input
+                        id="rmShowroomName"
+                        type="text"
+                        placeholder="Enter showroom or business name"
+                    >
+                </div>
+
+
+                <!-- Showroom Type -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomType">
+                        Business Type
+                    </label>
+
+                    <select id="rmShowroomType">
+
+                        <option value="">
+                            Select business type
+                        </option>
+
+                        <option value="showroom">
+                            Showroom
+                        </option>
+
+                        <option value="shop">
+                            Shop
+                        </option>
+
+                        <option value="dealer">
+                            Dealer
+                        </option>
+
+                        <option value="manufacturer">
+                            Manufacturer
+                        </option>
+
+                        <option value="service">
+                            Service Provider
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <!-- Global Reach -->
+
+                <div class="rm-field rm-field-full">
+
+                    <label>
+                        Advertisement Reach
+                    </label>
+
+                    <label class="rm-check-row">
+
+                        <input
+                            id="rmShowroomReachGlobal"
+                            type="checkbox"
+                        >
+
+                        <span>
+                            Global / Worldwide
+                        </span>
+
+                    </label>
+
+                    <label class="rm-check-row">
+
+                        <input
+                            id="rmShowroomReachInternational"
+                            type="checkbox"
+                        >
+
+                        <span>
+                            International
+                        </span>
+
+                    </label>
+
+                    <div class="rm-note">
+                        You may select Global / Worldwide,
+                        International, or both.
+                    </div>
+
+                </div>
+
+
+                <!-- Country -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomCountry">
+                        Country
+                    </label>
+
+                    <select id="rmShowroomCountry">
+
+                        <option value="">
+                            Select country
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <!-- State -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomState">
+                        State / Province
+                    </label>
+
+                    <input
+                        id="rmShowroomState"
+                        type="text"
+                        placeholder="Enter state / province"
+                    >
+                </div>
+
+
+                <!-- District -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomDistrict">
+                        District
+                    </label>
+
+                    <input
+                        id="rmShowroomDistrict"
+                        type="text"
+                        placeholder="Enter district"
+                    >
+                </div>
+
+
+                <!-- Taluka -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomTaluka">
+                        Taluka / City
+                    </label>
+
+                    <input
+                        id="rmShowroomTaluka"
+                        type="text"
+                        placeholder="Enter taluka / city"
+                    >
+                </div>
+
+
+                <!-- PIN -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomPin">
+                        PIN / ZIP Code
+                    </label>
+
+                    <input
+                        id="rmShowroomPin"
+                        type="text"
+                        placeholder="Enter PIN / ZIP"
+                    >
+                </div>
+
+
+                <!-- Phone -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomPhone">
+                        Business Mobile
+                    </label>
+
+                    <input
+                        id="rmShowroomPhone"
+                        type="tel"
+                        placeholder="Enter business mobile"
+                    >
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="rm-field">
+                    <label for="rmShowroomEmail">
+                        Business Email
+                    </label>
+
+                    <input
+                        id="rmShowroomEmail"
+                        type="email"
+                        placeholder="Enter business email"
+                    >
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="rm-field rm-field-full">
+
+                    <label for="rmShowroomDescription">
+                        Business Description
+                    </label>
+
+                    <textarea
+                        id="rmShowroomDescription"
+                        placeholder="Describe your business or showroom"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Showroom Image -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomImage">
+                        Showroom Image
+                    </label>
+
+                    <input
+                        id="rmShowroomImage"
+                        type="file"
+                        accept="image/*"
+                    >
+
+                </div>
+
+
+                <!-- Showroom Video -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomVideo">
+                        Showroom Video
+                    </label>
+
+                    <input
+                        id="rmShowroomVideo"
+                        type="file"
+                        accept="video/*"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 PAYMENT
+                 ===================================================== -->
+
+            <div class="rm-payment-box">
+
+                <h3>Showroom Advertisement Payment</h3>
+
+                <div class="rm-price">
+                    $10 USD
+                </div>
+
+                <p>
+                    Google Pay Number:
+                </p>
+
+                <div class="rm-pay-number">
+                    7487879528
+                </div>
+
+                <p class="rm-note">
+                    Pay the showroom advertisement amount using
+                    the provided payment details.
+                </p>
+
+                <p class="rm-note">
+                    Payment verification on a static GitHub Pages
+                    website cannot be securely performed by the
+                    browser alone. The verification button below
+                    acts as a local publishing gate only.
+                </p>
+
+                <div class="rm-actions">
+
+                    <button
+                        type="button"
+                        class="rm-btn rm-btn-primary"
+                        id="rmPayShowroomButton"
+                    >
+                        Verify Payment
+                    </button>
+
+                </div>
+
+                <div
+                    id="rmPaymentStatus"
+                    class="rm-status rm-payment-status"
+                ></div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 PUBLISH SHOWROOM
+                 ===================================================== -->
+
+            <div class="rm-actions">
+
+                <button
+                    type="submit"
+                    class="rm-btn rm-btn-primary"
+                    id="rmPublishShowroomButton"
+                >
+                    Publish Showroom
+                </button>
+
+                <button
+                    type="button"
+                    class="rm-btn"
+                    id="rmResetShowroomButton"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div
+                id="rmShowroomStatus"
+                class="rm-status rm-showroom-status"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================================================
+         MY SHOWROOMS
+         ========================================================= -->
+
+    <section class="rm-section">
+
+        <h2>My Showrooms</h2>
+
+        <div id="rmShowrooms">
+
+            <div class="rm-empty">
+                No showroom advertisements available yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         SELLER RESPONSIBILITY
+         ========================================================= -->
+
+    <section class="rm-section">
+
+        <h2>Seller Responsibility</h2>
+
+        <div class="rm-responsibility">
+
+            <p>
+                Sellers are responsible for the accuracy and legality
+                of their listings and business information.
+            </p>
+
+            <ul>
+
+                <li>
+                    Seller must provide accurate item, property,
+                    vehicle or business information.
+                </li>
+
+                <li>
+                    Seller must not upload fraudulent,
+                    misleading or illegal listings.
+                </li>
+
+                <li>
+                    Seller is responsible for price, condition,
+                    ownership and availability information.
+                </li>
+
+                <li>
+                    Seller is responsible for communication
+                    with buyers or customers.
+                </li>
+
+                <li>
+                    Seller must use only images and videos that
+                    they are legally allowed to publish.
+                </li>
+
+                <li>
+                    ALON HISTORYVERSE 24 does not guarantee a
+                    transaction between buyers and sellers.
+                </li>
+
+                <li>
+                    Users should independently verify important
+                    transaction, payment, ownership and identity
+                    information before completing a transaction.
+                </li>
+
+                <li>
+                    Showroom advertisement payment and publication
+                    are subject to the marketplace rules.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
 
 </div>
 
-</section><!-- =====================================================
-     SELLER TERMS
-     ===================================================== --><section class="ah-card rm-section"><h2>
-    📜 Marketplace Seller Responsibility
-</h2>
 
-<p>
-    The seller is responsible for the legality,
-    accuracy, ownership and condition of the listed
-    item, vehicle, property or business advertisement.
-</p>
+<!-- =============================================================
+     REQUIRED SCRIPTS
+     IMPORTANT:
+     1. Root country database
+     2. Regular Marketplace JS only
+     ============================================================= -->
 
-<p>
-    Users must not upload prohibited, unlawful,
-    fraudulent or misleading listings.
-</p>
+<script src="../marketplace-countries.js"></script>
+<script src="./regular-marketplace.js"></script>
 
-<p>
-    ALON HISTORYVERSE 24 provides the marketplace
-    interface and does not take ownership of listed
-    goods or business advertisements.
-</p>
-
-</section></main><footer class="ah-footer"><p>
-    <strong>
-        ALON HISTORYVERSE 24
-    </strong>
-</p>
-
-<p>
-    Regular Marketplace
-</p>
-
-<p>
-    Creator:
-    <strong>
-        Baba Thecno Guru
-    </strong>
-</p>
-
-</footer><!-- =====================================================
-     CENTRAL MARKETPLACE COUNTRY DATABASE
-     ===================================================== --><script
-    src="../marketplace-countries.js"
-></script><!-- =====================================================
-     REGULAR MARKETPLACE ENGINE
-     ===================================================== --><script
-    src="./regular-marketplace.js"
-></script></body></html>
+</body>
+</html>
