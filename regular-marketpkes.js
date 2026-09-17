@@ -2,44 +2,39 @@
    ALON HISTORYVERSE 24
    REGULAR MARKETPLACE
    ---------------------------------------------------------
-   Version: 24.5 SAFE REGULAR MARKETPLACE
+   Version: 24.6 CENTRAL COUNTRY SYSTEM
    Creator: Baba Thecno Guru
-
-   FEATURES
-   • Item / Property / Vehicle
-   • New / Used / Refurbished
-   • World Country Database
-   • Flag + Country + ISO + Calling Code
-   • Login + Agreement
-   • Profile + Logout
-   • Save / Edit / Delete Listings
-   • Image + Optional Video
-   • Business / Showroom Advertisement
-   • Global / Worldwide Reach
-   • International Reach
-   • $10 USD Showroom Advertisement
-   • LocalStorage Persistence
 
    IMPORTANT
    • REGULAR MARKETPLACE ONLY
-   • DOES NOT MODIFY GLOBAL MARKETPLACE
+   • Country Database comes ONLY from:
+     ./marketplace-countries.js
+   • Does NOT modify Global Marketplace
+   • Does NOT modify Jobs
    ========================================================= */
 
 (function () {
 
     "use strict";
 
+
     /* =====================================================
        CONFIGURATION
        ===================================================== */
 
     const CONFIG = {
-        version: "24.5",
+
+        version: "24.6",
+
         currency: "USD",
+
         showroomPrice: 10,
 
-        maxImageSize: 8 * 1024 * 1024,
-        maxVideoSize: 20 * 1024 * 1024,
+        maxImageSize:
+            8 * 1024 * 1024,
+
+        maxVideoSize:
+            20 * 1024 * 1024,
 
         listingsKey:
             "alon_historyverse_regular_marketplace_listings",
@@ -62,6 +57,7 @@
     const CATEGORY_DATA = {
 
         item: [
+
             "Electronics",
             "Mobile",
             "Computer",
@@ -82,9 +78,11 @@
             "Office",
             "Collectibles",
             "Other Item"
+
         ],
 
         property: [
+
             "House",
             "Flat / Apartment",
             "Bungalow",
@@ -100,9 +98,11 @@
             "Hotel Property",
             "Rental Property",
             "Other Property"
+
         ],
 
         vehicle: [
+
             "Car",
             "SUV / 4x4",
             "Motorcycle / Bike",
@@ -122,49 +122,55 @@
             "Construction Vehicle",
             "Boat / Water Vehicle",
             "Other Vehicle"
+
         ]
     };
 
 
     const CONDITION_DATA = [
+
         "New",
         "Used",
         "Refurbished",
         "Not Applicable"
+
     ];
 
 
     /* =====================================================
-       SHORT DOM HELPER
+       DOM HELPER
        ===================================================== */
 
     function $(id) {
+
         return document.getElementById(id);
+
     }
 
 
     /* =====================================================
-       STORAGE HELPERS
+       STORAGE
        ===================================================== */
 
     function loadJSON(key, fallback) {
 
         try {
 
-            const raw = localStorage.getItem(key);
+            const raw =
+                localStorage.getItem(key);
 
             if (!raw) {
+
                 return fallback;
+
             }
 
-            const parsed = JSON.parse(raw);
-
-            return parsed;
+            return JSON.parse(raw);
 
         } catch (error) {
 
             console.error(
-                "ALON Regular Marketplace storage read error:",
+                "Regular Marketplace storage read error:",
                 error
             );
 
@@ -187,7 +193,7 @@
         } catch (error) {
 
             console.error(
-                "ALON Regular Marketplace storage write error:",
+                "Regular Marketplace storage write error:",
                 error
             );
 
@@ -199,6 +205,7 @@
     function generateID(prefix) {
 
         return (
+
             prefix +
             "_" +
             Date.now() +
@@ -206,6 +213,7 @@
             Math.random()
                 .toString(36)
                 .substring(2, 9)
+
         );
     }
 
@@ -213,11 +221,12 @@
     function nowISO() {
 
         return new Date().toISOString();
+
     }
 
 
     /* =====================================================
-       LOGIN / SESSION
+       ACCOUNT
        ===================================================== */
 
     function getAccount() {
@@ -226,6 +235,7 @@
             CONFIG.accountKey,
             null
         );
+
     }
 
 
@@ -235,36 +245,76 @@
             CONFIG.sessionKey,
             null
         );
+
     }
 
 
     function isLoggedIn() {
 
-        const session = getSession();
+        const session =
+            getSession();
 
         return !!(
+
             session &&
             session.loggedIn === true &&
             session.email
+
         );
     }
 
 
     function getCurrentUserEmail() {
 
-        const session = getSession();
+        const session =
+            getSession();
 
         if (
+
             session &&
             session.loggedIn === true &&
             session.email
+
         ) {
-            return String(session.email)
-                .trim()
-                .toLowerCase();
+
+            return String(
+                session.email
+            )
+            .trim()
+            .toLowerCase();
         }
 
         return "";
+    }
+
+
+    /* =====================================================
+       STATUS
+       ===================================================== */
+
+    function showStatus(
+        element,
+        message,
+        isError
+    ) {
+
+        if (!element) {
+
+            return;
+        }
+
+        element.textContent =
+            message || "";
+
+        element.style.display =
+            message ? "" : "none";
+
+        element.setAttribute(
+            "data-status",
+            isError
+                ? "error"
+                : "success"
+        );
     }
 
 
@@ -287,23 +337,29 @@
             getSession();
 
         const loggedIn = !!(
+
             session &&
             session.loggedIn === true &&
             session.email
+
         );
 
 
         if (loginBox) {
 
             loginBox.style.display =
-                loggedIn ? "none" : "";
+                loggedIn
+                    ? "none"
+                    : "";
         }
 
 
         if (profileBox) {
 
             profileBox.style.display =
-                loggedIn ? "" : "none";
+                loggedIn
+                    ? ""
+                    : "none";
         }
 
 
@@ -318,23 +374,32 @@
     }
 
 
+    function isValidEmail(email) {
+
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            .test(email);
+    }
+
+
     function login() {
 
         const name =
-            $("rmLoginName")?.value
+            $("rmLoginName")
+                ?.value
                 ?.trim() || "";
 
         const email =
-            $("rmLoginEmail")?.value
+            $("rmLoginEmail")
+                ?.value
                 ?.trim()
                 .toLowerCase() || "";
 
         const password =
-            $("rmLoginPassword")?.value || "";
+            $("rmLoginPassword")
+                ?.value || "";
 
         const agreement =
             $("rmAgreement");
-
 
         const status =
             $("rmLoginStatus");
@@ -388,7 +453,10 @@
         }
 
 
-        if (!agreement || !agreement.checked) {
+        if (
+            !agreement ||
+            !agreement.checked
+        ) {
 
             showStatus(
                 status,
@@ -400,6 +468,10 @@
         }
 
 
+        const oldAccount =
+            getAccount();
+
+
         const account = {
 
             name: name,
@@ -409,7 +481,7 @@
             password: password,
 
             createdAt:
-                getAccount()?.createdAt ||
+                oldAccount?.createdAt ||
                 nowISO(),
 
             updatedAt:
@@ -417,10 +489,12 @@
         };
 
 
-        if (!saveJSON(
-            CONFIG.accountKey,
-            account
-        )) {
+        if (
+            !saveJSON(
+                CONFIG.accountKey,
+                account
+            )
+        ) {
 
             showStatus(
                 status,
@@ -432,26 +506,23 @@
         }
 
 
-        const session = {
-
-            loggedIn: true,
-
-            name: name,
-
-            email: email,
-
-            loginAt: nowISO()
-        };
-
-
         saveJSON(
             CONFIG.sessionKey,
-            session
+            {
+
+                loggedIn: true,
+
+                name: name,
+
+                email: email,
+
+                loginAt: nowISO()
+
+            }
         );
 
 
         updateLoginUI();
-
 
         showStatus(
             status,
@@ -461,6 +532,7 @@
 
 
         renderListings();
+
         renderShowrooms();
 
 
@@ -486,6 +558,7 @@
 
 
         renderListings();
+
         renderShowrooms();
     }
 
@@ -507,85 +580,24 @@
     }
 
 
-    function isValidEmail(email) {
-
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            .test(email);
-    }
-
-
     /* =====================================================
-       STATUS MESSAGE
-       ===================================================== */
-
-    function showStatus(
-        element,
-        message,
-        isError
-    ) {
-
-        if (!element) {
-            return;
-        }
-
-        element.textContent =
-            message || "";
-
-        element.style.display =
-            message ? "" : "none";
-
-        if (isError) {
-
-            element.setAttribute(
-                "data-status",
-                "error"
-            );
-
-        } else {
-
-            element.setAttribute(
-                "data-status",
-                "success"
-            );
-        }
-    }
-
-
-    /* =====================================================
-       COUNTRY DATABASE
-       CENTRAL FILE SUPPORT
+       CENTRAL COUNTRY DATABASE
+       -----------------------------------------------------
+       ONLY marketplace-countries.js
        ===================================================== */
 
     function getCountryDatabase() {
 
-        const sources = [
-
-            window.MARKETPLACE_COUNTRIES,
-
-            window.ALON_MARKETPLACE_COUNTRIES,
-
-            window.ALON_WORLD_COUNTRIES,
-
-            window.WORLD_COUNTRIES
-
-        ];
+        const database =
+            window.MARKETPLACE_COUNTRIES;
 
 
-        for (
-            let i = 0;
-            i < sources.length;
-            i++
+        if (
+            Array.isArray(database) &&
+            database.length > 0
         ) {
 
-            if (
-                Array.isArray(
-                    sources[i]
-                ) &&
-                sources[i].length
-            ) {
-
-                return sources[i];
-            }
+            return database;
         }
 
 
@@ -596,6 +608,7 @@
     function getCountryName(country) {
 
         if (!country) {
+
             return "";
         }
 
@@ -603,15 +616,10 @@
         return String(
 
             country.name ||
-
             country.countryName ||
-
             country.label ||
-
             country.title ||
-
             country.country ||
-
             ""
 
         ).trim();
@@ -621,6 +629,7 @@
     function getCountryCode(country) {
 
         if (!country) {
+
             return "";
         }
 
@@ -628,17 +637,11 @@
         return String(
 
             country.iso2 ||
-
             country.ISO2 ||
-
             country.code2 ||
-
             country.alpha2 ||
-
             country.countryCode ||
-
             country.code ||
-
             ""
 
         )
@@ -650,6 +653,7 @@
     function getCountryISO3(country) {
 
         if (!country) {
+
             return "";
         }
 
@@ -657,13 +661,9 @@
         return String(
 
             country.iso3 ||
-
             country.ISO3 ||
-
             country.code3 ||
-
             country.alpha3 ||
-
             ""
 
         )
@@ -675,6 +675,7 @@
     function getCountryCallingCode(country) {
 
         if (!country) {
+
             return "";
         }
 
@@ -682,23 +683,17 @@
         const value =
 
             country.callingCode ||
-
             country.calling_code ||
-
             country.phoneCode ||
-
             country.phone_code ||
-
             country.dialCode ||
-
             country.dial_code ||
-
             country.calling ||
-
             "";
 
 
         if (!value) {
+
             return "";
         }
 
@@ -707,21 +702,16 @@
             String(value).trim();
 
 
-        if (
-            text.charAt(0) === "+"
-        ) {
-
-            return text;
-        }
-
-
-        return "+" + text;
+        return text.charAt(0) === "+"
+            ? text
+            : "+" + text;
     }
 
 
     function getCountryFlag(country) {
 
         if (!country) {
+
             return "";
         }
 
@@ -738,32 +728,31 @@
             getCountryCode(country);
 
 
-        if (
-            code.length === 2
-        ) {
+        if (code.length !== 2) {
 
-            return code
-                .split("")
-                .map(function (letter) {
-
-                    return String
-                        .fromCodePoint(
-                            127397 +
-                            letter.charCodeAt(0)
-                        );
-
-                })
-                .join("");
+            return "";
         }
 
 
-        return "";
+        return code
+            .split("")
+            .map(function (letter) {
+
+                return String.fromCodePoint(
+                    127397 +
+                    letter.charCodeAt(0)
+                );
+
+            })
+            .join("");
     }
 
 
-    function createCountryOption(
-        country
-    ) {
+    /* =====================================================
+       COUNTRY OPTION
+       ===================================================== */
+
+    function createCountryOption(country) {
 
         const option =
             document.createElement(
@@ -832,6 +821,10 @@
     }
 
 
+    /* =====================================================
+       POPULATE COUNTRY SELECT
+       ===================================================== */
+
     function populateCountrySelect(
         selectId,
         selectedValue
@@ -842,6 +835,7 @@
 
 
         if (!select) {
+
             return false;
         }
 
@@ -850,9 +844,11 @@
             getCountryDatabase();
 
 
-        if (
-            !database.length
-        ) {
+        if (!database.length) {
+
+            console.warn(
+                "ALON HISTORYVERSE 24: marketplace-countries.js not loaded or country database is empty."
+            );
 
             return false;
         }
@@ -888,6 +884,7 @@
             function (country) {
 
                 if (!country) {
+
                     return;
                 }
 
@@ -913,10 +910,11 @@
                     .toUpperCase();
 
 
-            const matching =
+            const match =
                 Array.from(
                     select.options
-                ).find(
+                )
+                .find(
                     function (option) {
 
                         return (
@@ -939,10 +937,10 @@
                 );
 
 
-            if (matching) {
+            if (match) {
 
                 select.value =
-                    matching.value;
+                    match.value;
             }
         }
 
@@ -954,76 +952,12 @@
 
 
     /* =====================================================
-       CENTRAL COUNTRY HELPER
+       COUNTRY INITIALIZATION
        ===================================================== */
-
-    function populateCountryUsingCentralHelper(
-        selectId,
-        selectedValue
-    ) {
-
-        const helper =
-            window.ALON_FILL_COUNTRY_SELECT;
-
-
-        if (
-            typeof helper !== "function"
-        ) {
-
-            return false;
-        }
-
-
-        const select =
-            $(selectId);
-
-
-        if (!select) {
-            return false;
-        }
-
-
-        try {
-
-            const result =
-                helper(
-                    "#" + selectId,
-                    selectedValue || ""
-                );
-
-
-            if (
-                select.options.length > 1
-            ) {
-
-                return true;
-            }
-
-
-            if (
-                result &&
-                select.options.length > 1
-            ) {
-
-                return true;
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "Central country helper failed:",
-                error
-            );
-        }
-
-
-        return false;
-    }
-
 
     function populateRegularMarketplaceCountries() {
 
-        const countryIDs = [
+        const countrySelects = [
 
             "rmCountry",
 
@@ -1032,146 +966,116 @@
         ];
 
 
-        let successful =
-            false;
+        let success = false;
 
 
-        countryIDs.forEach(
+        countrySelects.forEach(
             function (id) {
 
-                const helperWorked =
-                    populateCountryUsingCentralHelper(
-                        id
-                    );
+                if (
+                    populateCountrySelect(id)
+                ) {
 
-
-                if (helperWorked) {
-
-                    successful = true;
-
-                    return;
-                }
-
-
-                const directWorked =
-                    populateCountrySelect(
-                        id
-                    );
-
-
-                if (directWorked) {
-
-                    successful = true;
+                    success = true;
                 }
             }
         );
 
 
+        if (success) {
+
+            return;
+        }
+
+
         /*
-         * marketplace-countries.js may load
-         * immediately before this file.
-         *
-         * If it is not ready yet, retry safely.
+         * Safety retry in case
+         * marketplace-countries.js is still loading.
          */
 
-        if (!successful) {
-
-            let attempts = 0;
-
-            const retry =
-                setInterval(
-                    function () {
-
-                        attempts++;
+        let attempts = 0;
 
 
-                        let ready = false;
+        const retry =
+            setInterval(
+                function () {
+
+                    attempts++;
 
 
-                        countryIDs.forEach(
-                            function (id) {
-
-                                const helperWorked =
-                                    populateCountryUsingCentralHelper(
-                                        id
-                                    );
+                    let ready = false;
 
 
-                                const directWorked =
-                                    populateCountrySelect(
-                                        id
-                                    );
+                    countrySelects.forEach(
+                        function (id) {
 
+                            if (
+                                populateCountrySelect(
+                                    id
+                                )
+                            ) {
 
-                                if (
-                                    helperWorked ||
-                                    directWorked
-                                ) {
-
-                                    ready = true;
-                                }
+                                ready = true;
                             }
-                        );
-
-
-                        if (
-                            ready ||
-                            attempts >= 10
-                        ) {
-
-                            clearInterval(
-                                retry
-                            );
                         }
+                    );
 
-                    },
-                    500
-                );
-        }
+
+                    if (
+                        ready ||
+                        attempts >= 20
+                    ) {
+
+                        clearInterval(
+                            retry
+                        );
+                    }
+
+                },
+                250
+            );
     }
 
 
-    function getSelectedCountry(
-        selectId
-    ) {
+    /* =====================================================
+       SELECTED COUNTRY
+       ===================================================== */
+
+    function getSelectedCountry(selectId) {
 
         const select =
             $(selectId);
 
 
         if (!select) {
+
             return null;
         }
 
 
         const option =
-            select.selectedOptions &&
-            select.selectedOptions[0];
+            select.selectedOptions?.[0];
 
 
         if (!option) {
+
             return null;
         }
 
 
-        const value =
-            String(
-                option.value || ""
-            ).trim();
+        if (!option.value) {
 
-
-        if (!value) {
             return null;
         }
 
 
         return {
 
-            value: value,
+            value:
+                option.value,
 
             name:
                 option.dataset.countryName ||
-                option.textContent ||
                 "",
 
             code2:
@@ -1200,53 +1104,14 @@
 
             flag:
                 option.dataset.flag ||
-                getCountryFlagFromOption(
-                    option
-                )
+                ""
+
         };
     }
 
 
-    function getCountryFlagFromOption(
-        option
-    ) {
-
-        if (!option) {
-            return "";
-        }
-
-
-        const text =
-            option.textContent || "";
-
-
-        const first =
-            Array.from(text.trim())[0];
-
-
-        /*
-         * Country flag emoji generally occupies
-         * two regional-indicator characters.
-         */
-
-        if (
-            first &&
-            first.codePointAt(0) >= 127397 &&
-            first.codePointAt(0) <= 127568
-        ) {
-
-            return Array.from(text.trim())
-                .slice(0, 2)
-                .join("");
-        }
-
-
-        return "";
-    }
-
-
     /* =====================================================
-       LISTING CATEGORY UI
+       LISTING CATEGORY
        ===================================================== */
 
     function populateListingCategories() {
@@ -1267,8 +1132,8 @@
         }
 
 
-        const selectedType =
-            type.value;
+        const selected =
+            category.value;
 
 
         category.innerHTML = "";
@@ -1293,7 +1158,7 @@
 
         const list =
             CATEGORY_DATA[
-                selectedType
+                type.value
             ] || [];
 
 
@@ -1316,12 +1181,15 @@
                 );
             }
         );
+
+
+        if (selected) {
+
+            category.value =
+                selected;
+        }
     }
 
-
-    /* =====================================================
-       CONDITION UI
-       ===================================================== */
 
     function populateConditionOptions() {
 
@@ -1330,6 +1198,7 @@
 
 
         if (!select) {
+
             return;
         }
 
@@ -1368,11 +1237,10 @@
        FILE VALIDATION
        ===================================================== */
 
-    function validateImage(
-        file
-    ) {
+    function validateImage(file) {
 
         if (!file) {
+
             return {
                 ok: true
             };
@@ -1380,10 +1248,8 @@
 
 
         if (
-            !String(
-                file.type || ""
-            )
-            .startsWith("image/")
+            !String(file.type || "")
+                .startsWith("image/")
         ) {
 
             return {
@@ -1392,6 +1258,7 @@
 
                 message:
                     "Please select a valid image file."
+
             };
         }
 
@@ -1407,6 +1274,7 @@
 
                 message:
                     "Image size must be 8 MB or less."
+
             };
         }
 
@@ -1417,11 +1285,10 @@
     }
 
 
-    function validateVideo(
-        file
-    ) {
+    function validateVideo(file) {
 
         if (!file) {
+
             return {
                 ok: true
             };
@@ -1429,10 +1296,8 @@
 
 
         if (
-            !String(
-                file.type || ""
-            )
-            .startsWith("video/")
+            !String(file.type || "")
+                .startsWith("video/")
         ) {
 
             return {
@@ -1441,6 +1306,7 @@
 
                 message:
                     "Please select a valid video file."
+
             };
         }
 
@@ -1456,6 +1322,7 @@
 
                 message:
                     "Video size must be 20 MB or less."
+
             };
         }
 
@@ -1466,15 +1333,10 @@
     }
 
 
-    function readFileAsDataURL(
-        file
-    ) {
+    function readFileAsDataURL(file) {
 
         return new Promise(
-            function (
-                resolve,
-                reject
-            ) {
+            function (resolve, reject) {
 
                 if (!file) {
 
@@ -1522,7 +1384,7 @@
 
     function collectListingData() {
 
-        const selectedCountry =
+        const country =
             getSelectedCountry(
                 "rmCountry"
             );
@@ -1556,28 +1418,22 @@
                     ?.trim() || "",
 
             country:
-                selectedCountry?.value ||
-                "",
+                country?.value || "",
 
             countryName:
-                selectedCountry?.name ||
-                "",
+                country?.name || "",
 
             countryCode:
-                selectedCountry?.code2 ||
-                "",
+                country?.code2 || "",
 
             countryISO3:
-                selectedCountry?.code3 ||
-                "",
+                country?.code3 || "",
 
             countryCallingCode:
-                selectedCountry?.callingCode ||
-                "",
+                country?.callingCode || "",
 
             countryFlag:
-                selectedCountry?.flag ||
-                "",
+                country?.flag || "",
 
             state:
                 $("rmState")
@@ -1605,7 +1461,7 @@
 
 
     /* =====================================================
-       LISTING SAVE
+       SAVE LISTING
        ===================================================== */
 
     async function saveListing() {
@@ -1688,15 +1544,13 @@
 
         const imageFile =
             $("rmListingImage")
-                ?.files
-                ?.[0] ||
+                ?.files?.[0] ||
             null;
 
 
         const videoFile =
             $("rmListingVideo")
-                ?.files
-                ?.[0] ||
+                ?.files?.[0] ||
             null;
 
 
@@ -1757,10 +1611,13 @@
                 );
 
 
+            const form =
+                $("rmListingForm");
+
+
             const editID =
-                $("rmListingForm")
-                    ?.dataset
-                    ?.editId || "";
+                form?.dataset?.editId ||
+                "";
 
 
             if (editID) {
@@ -1788,10 +1645,6 @@
                     return false;
                 }
 
-
-                /*
-                 * Only owner can edit.
-                 */
 
                 if (
                     listings[index].ownerEmail !==
@@ -1826,13 +1679,25 @@
 
                     updatedAt:
                         nowISO()
+
                 };
 
 
-                saveJSON(
-                    CONFIG.listingsKey,
-                    listings
-                );
+                if (
+                    !saveJSON(
+                        CONFIG.listingsKey,
+                        listings
+                    )
+                ) {
+
+                    showStatus(
+                        status,
+                        "Unable to update listing.",
+                        true
+                    );
+
+                    return false;
+                }
 
 
                 clearListingForm();
@@ -1877,6 +1742,7 @@
 
                 updatedAt:
                     nowISO()
+
             };
 
 
@@ -1927,7 +1793,7 @@
 
             showStatus(
                 status,
-                "Unable to save listing. The selected media may be too large.",
+                "Unable to save listing.",
                 true
             );
 
@@ -1938,7 +1804,7 @@
 
 
     /* =====================================================
-       CLEAR LISTING FORM
+       CLEAR LISTING
        ===================================================== */
 
     function clearListingForm() {
@@ -1988,9 +1854,7 @@
        EDIT LISTING
        ===================================================== */
 
-    function editListing(
-        id
-    ) {
+    function editListing(id) {
 
         if (
             !requireLogin(
@@ -2019,6 +1883,7 @@
 
 
         if (!listing) {
+
             return;
         }
 
@@ -2043,6 +1908,7 @@
 
 
         if (!form) {
+
             return;
         }
 
@@ -2051,58 +1917,78 @@
             id;
 
 
-        if ($("rmListingType"))
+        if ($("rmListingType")) {
+
             $("rmListingType").value =
                 listing.type || "";
+        }
 
 
         populateListingCategories();
 
 
-        if ($("rmListingCategory"))
+        if ($("rmListingCategory")) {
+
             $("rmListingCategory").value =
                 listing.category || "";
+        }
 
 
-        if ($("rmListingCondition"))
+        if ($("rmListingCondition")) {
+
             $("rmListingCondition").value =
                 listing.condition || "";
+        }
 
 
-        if ($("rmListingTitle"))
+        if ($("rmListingTitle")) {
+
             $("rmListingTitle").value =
                 listing.title || "";
+        }
 
 
-        if ($("rmListingPrice"))
+        if ($("rmListingPrice")) {
+
             $("rmListingPrice").value =
                 listing.price || "";
+        }
 
 
-        if ($("rmCountry"))
+        if ($("rmCountry")) {
+
             $("rmCountry").value =
                 listing.country || "";
+        }
 
 
-        if ($("rmState"))
+        if ($("rmState")) {
+
             $("rmState").value =
                 listing.state || "";
+        }
 
 
-        if ($("rmPin"))
+        if ($("rmPin")) {
+
             $("rmPin").value =
                 listing.pin || "";
+        }
 
 
-        if ($("rmEmail"))
+        if ($("rmEmail")) {
+
             $("rmEmail").value =
                 listing.email ||
                 getCurrentUserEmail();
+        }
 
 
-        if ($("rmDescription"))
+        if ($("rmDescription")) {
+
             $("rmDescription").value =
                 listing.description || "";
+        }
 
 
         const cancel =
@@ -2117,8 +2003,11 @@
 
 
         form.scrollIntoView({
+
             behavior: "smooth",
+
             block: "start"
+
         });
     }
 
@@ -2127,9 +2016,7 @@
        DELETE LISTING
        ===================================================== */
 
-    function deleteListing(
-        id
-    ) {
+    function deleteListing(id) {
 
         if (
             !requireLogin(
@@ -2158,6 +2045,7 @@
 
 
         if (!listing) {
+
             return;
         }
 
@@ -2177,13 +2065,12 @@
         }
 
 
-        const confirmed =
-            window.confirm(
+        if (
+            !window.confirm(
                 "Delete this listing?"
-            );
+            )
+        ) {
 
-
-        if (!confirmed) {
             return;
         }
 
@@ -2215,61 +2102,48 @@
 
 
     /* =====================================================
-       LISTING CARD
+       ESCAPE HTML
        ===================================================== */
 
-    function escapeHTML(
-        value
-    ) {
+    function escapeHTML(value) {
 
         return String(
             value ?? ""
         )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
 
-    function renderListingCard(
-        listing
-    ) {
+    /* =====================================================
+       LISTING CARD
+       ===================================================== */
+
+    function renderListingCard(listing) {
 
         const owner =
             listing.ownerEmail ===
             getCurrentUserEmail();
 
 
-        const mediaImage =
+        const image =
             listing.image
                 ? `
                     <img
                         src="${listing.image}"
-                        alt="${escapeHTML(listing.title)}"
+                        alt="${escapeHTML(
+                            listing.title
+                        )}"
                         loading="lazy"
                     >
                   `
                 : "";
 
 
-        const mediaVideo =
+        const video =
             listing.video
                 ? `
                     <video
@@ -2284,14 +2158,13 @@
                 : "";
 
 
-        const locationParts = [
+        const location = [
 
-            listing.countryFlag ||
-                "",
+            listing.countryFlag || "",
 
             listing.countryName ||
-                listing.country ||
-                "",
+            listing.country ||
+            "",
 
             listing.countryCode
                 ? "(" +
@@ -2300,31 +2173,34 @@
                 : "",
 
             listing.countryCallingCode ||
-                "",
+            "",
 
-            listing.state ||
-                "",
+            listing.state || "",
 
             listing.pin
                 ? "PIN " +
                   listing.pin
                 : ""
 
-        ].filter(Boolean);
+        ]
+        .filter(Boolean)
+        .join(" ");
 
 
         return `
 
             <article
                 class="rm-listing-card"
-                data-listing-id="${escapeHTML(listing.id)}"
+                data-listing-id="${escapeHTML(
+                    listing.id
+                )}"
             >
 
                 <div class="rm-listing-media">
 
-                    ${mediaImage}
+                    ${image}
 
-                    ${mediaVideo}
+                    ${video}
 
                 </div>
 
@@ -2332,100 +2208,137 @@
                 <div class="rm-listing-content">
 
                     <div class="rm-listing-type">
+
                         ${escapeHTML(
                             listing.type
                         )}
+
                     </div>
 
 
                     <h3>
+
                         ${escapeHTML(
                             listing.title
                         )}
+
                     </h3>
 
 
                     <p>
-                        <strong>Category:</strong>
+
+                        <strong>
+                            Category:
+                        </strong>
+
                         ${escapeHTML(
                             listing.category
                         )}
+
                     </p>
 
 
                     <p>
-                        <strong>Condition:</strong>
+
+                        <strong>
+                            Condition:
+                        </strong>
+
                         ${escapeHTML(
                             listing.condition
                         )}
+
                     </p>
 
 
                     ${
                         listing.price
-                        ? `
-                            <p>
-                                <strong>Price:</strong>
-                                ${escapeHTML(
-                                    listing.price
-                                )}
-                                ${CONFIG.currency}
-                            </p>
-                          `
-                        : ""
+                            ? `
+                                <p>
+
+                                    <strong>
+                                        Price:
+                                    </strong>
+
+                                    ${escapeHTML(
+                                        listing.price
+                                    )}
+
+                                    ${CONFIG.currency}
+
+                                </p>
+                              `
+                            : ""
                     }
 
 
                     <p>
-                        <strong>Country:</strong>
+
+                        <strong>
+                            Country:
+                        </strong>
+
                         ${escapeHTML(
-                            locationParts.join(" ")
+                            location
                         )}
+
                     </p>
 
 
                     ${
                         listing.description
-                        ? `
-                            <p class="rm-description">
-                                ${escapeHTML(
-                                    listing.description
-                                )}
-                            </p>
-                          `
-                        : ""
+                            ? `
+                                <p
+                                    class="rm-description"
+                                >
+
+                                    ${escapeHTML(
+                                        listing.description
+                                    )}
+
+                                </p>
+                              `
+                            : ""
                     }
 
 
                     ${
                         owner
-                        ? `
-                            <div class="rm-owner-actions">
-
-                                <button
-                                    type="button"
-                                    data-action="edit-listing"
-                                    data-id="${escapeHTML(listing.id)}"
+                            ? `
+                                <div
+                                    class="rm-owner-actions"
                                 >
-                                    Edit
-                                </button>
 
-                                <button
-                                    type="button"
-                                    data-action="delete-listing"
-                                    data-id="${escapeHTML(listing.id)}"
-                                >
-                                    Delete
-                                </button>
+                                    <button
+                                        type="button"
+                                        data-action="edit-listing"
+                                        data-id="${escapeHTML(
+                                            listing.id
+                                        )}"
+                                    >
+                                        Edit
+                                    </button>
 
-                            </div>
-                          `
-                        : ""
+
+                                    <button
+                                        type="button"
+                                        data-action="delete-listing"
+                                        data-id="${escapeHTML(
+                                            listing.id
+                                        )}"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </div>
+                              `
+                            : ""
                     }
 
                 </div>
 
             </article>
+
         `;
     }
 
@@ -2441,6 +2354,16 @@
 
 
         if (!container) {
+
+            return;
+        }
+
+
+        if (!isLoggedIn()) {
+
+            container.innerHTML =
+                "<p>Please login to view your saved listings.</p>";
+
             return;
         }
 
@@ -2452,47 +2375,22 @@
             );
 
 
-        if (!Array.isArray(listings) ||
-            !listings.length) {
-
-            container.innerHTML =
-                "<p>No listings found.</p>";
-
-            return;
-        }
-
-
-        /*
-         * Private own-listing view:
-         * logged-in user sees their own listings.
-         *
-         * If not logged in, no private listings
-         * are displayed.
-         */
-
-        if (!isLoggedIn()) {
-
-            container.innerHTML =
-                "<p>Please login to view your saved listings.</p>";
-
-            return;
-        }
-
-
         const email =
             getCurrentUserEmail();
 
 
         const ownListings =
-            listings.filter(
-                function (item) {
+            Array.isArray(listings)
+                ? listings.filter(
+                    function (item) {
 
-                    return (
-                        item.ownerEmail ===
-                        email
-                    );
-                }
-            );
+                        return (
+                            item.ownerEmail ===
+                            email
+                        );
+                    }
+                )
+                : [];
 
 
         if (!ownListings.length) {
@@ -2525,6 +2423,7 @@
 
 
         if (!container) {
+
             return;
         }
 
@@ -2576,7 +2475,7 @@
 
     function collectShowroomData() {
 
-        const selectedCountry =
+        const country =
             getSelectedCountry(
                 "rmShowroomCountry"
             );
@@ -2603,28 +2502,22 @@
                     ?.checked,
 
             country:
-                selectedCountry?.value ||
-                "",
+                country?.value || "",
 
             countryName:
-                selectedCountry?.name ||
-                "",
+                country?.name || "",
 
             countryCode:
-                selectedCountry?.code2 ||
-                "",
+                country?.code2 || "",
 
             countryISO3:
-                selectedCountry?.code3 ||
-                "",
+                country?.code3 || "",
 
             countryCallingCode:
-                selectedCountry?.callingCode ||
-                "",
+                country?.callingCode || "",
 
             countryFlag:
-                selectedCountry?.flag ||
-                "",
+                country?.flag || "",
 
             state:
                 $("rmShowroomState")
@@ -2652,7 +2545,7 @@
 
 
     /* =====================================================
-       SHOWROOM PAYMENT STATE
+       SHOWROOM PAYMENT
        ===================================================== */
 
     let showroomPaymentVerified =
@@ -2673,18 +2566,13 @@
         }
 
 
-        /*
-         * IMPORTANT:
-         * This is only the local prototype payment
-         * state. It does NOT claim that PayPal has
-         * verified a real transaction.
-         */
-
         showroomPaymentVerified =
             true;
 
 
-        if ($("rmPaymentAccountStatus")) {
+        if (
+            $("rmPaymentAccountStatus")
+        ) {
 
             $("rmPaymentAccountStatus")
                 .textContent =
@@ -2694,7 +2582,7 @@
 
         showStatus(
             status,
-            "Showroom payment step accepted locally. Real payment verification must be connected to the payment gateway before charging users.",
+            "Showroom payment step accepted locally. Real payment gateway verification must be connected before charging users.",
             false
         );
 
@@ -2702,10 +2590,6 @@
         return true;
     }
 
-
-    /* =====================================================
-       PAYMENT CONNECT BUTTON
-       ===================================================== */
 
     function connectPaymentAccount() {
 
@@ -2721,7 +2605,9 @@
         }
 
 
-        if ($("rmPaymentAccountStatus")) {
+        if (
+            $("rmPaymentAccountStatus")
+        ) {
 
             $("rmPaymentAccountStatus")
                 .textContent =
@@ -2822,11 +2708,9 @@
         }
 
 
-        /*
-         * $10 USD requirement.
-         */
-
-        if (!showroomPaymentVerified) {
+        if (
+            !showroomPaymentVerified
+        ) {
 
             showStatus(
                 status,
@@ -2840,15 +2724,13 @@
 
         const imageFile =
             $("rmShowroomImage")
-                ?.files
-                ?.[0] ||
+                ?.files?.[0] ||
             null;
 
 
         const videoFile =
             $("rmShowroomVideo")
-                ?.files
-                ?.[0] ||
+                ?.files?.[0] ||
             null;
 
 
@@ -2914,8 +2796,8 @@
 
 
             const editID =
-                form?.dataset
-                    ?.editId || "";
+                form?.dataset?.editId ||
+                "";
 
 
             if (editID) {
@@ -2995,6 +2877,10 @@
                 clearShowroomForm();
 
 
+                showroomPaymentVerified =
+                    false;
+
+
                 showStatus(
                     status,
                     "Business/showroom advertisement updated successfully.",
@@ -3071,10 +2957,6 @@
             clearShowroomForm();
 
 
-            showroomPaymentVerified =
-                false;
-
-
             showStatus(
                 status,
                 "Business/showroom advertisement saved successfully.",
@@ -3108,7 +2990,7 @@
 
 
     /* =====================================================
-       CLEAR SHOWROOM FORM
+       CLEAR SHOWROOM
        ===================================================== */
 
     function clearShowroomForm() {
@@ -3122,17 +3004,6 @@
             form.reset();
 
             delete form.dataset.editId;
-        }
-
-
-        const reset =
-            $("rmResetShowroomButton");
-
-
-        if (reset) {
-
-            reset.style.display =
-                "";
         }
 
 
@@ -3159,9 +3030,7 @@
        EDIT SHOWROOM
        ===================================================== */
 
-    function editShowroom(
-        id
-    ) {
+    function editShowroom(id) {
 
         if (
             !requireLogin(
@@ -3190,6 +3059,7 @@
 
 
         if (!showroom) {
+
             return;
         }
 
@@ -3214,6 +3084,7 @@
 
 
         if (!form) {
+
             return;
         }
 
@@ -3222,50 +3093,72 @@
             id;
 
 
-        if ($("rmShowroomName"))
+        if ($("rmShowroomName")) {
+
             $("rmShowroomName").value =
                 showroom.name || "";
+        }
 
 
-        if ($("rmShowroomType"))
+        if ($("rmShowroomType")) {
+
             $("rmShowroomType").value =
                 showroom.type || "";
+        }
 
 
-        if ($("rmShowroomReachGlobal"))
-            $("rmShowroomReachGlobal").checked =
+        if ($("rmShowroomReachGlobal")) {
+
+            $("rmShowroomReachGlobal")
+                .checked =
                 !!showroom.reachGlobal;
+        }
 
 
-        if ($("rmShowroomReachInternational"))
-            $("rmShowroomReachInternational").checked =
+        if (
+            $("rmShowroomReachInternational")
+        ) {
+
+            $("rmShowroomReachInternational")
+                .checked =
                 !!showroom.reachInternational;
+        }
 
 
-        if ($("rmShowroomCountry"))
+        if ($("rmShowroomCountry")) {
+
             $("rmShowroomCountry").value =
                 showroom.country || "";
+        }
 
 
-        if ($("rmShowroomState"))
+        if ($("rmShowroomState")) {
+
             $("rmShowroomState").value =
                 showroom.state || "";
+        }
 
 
-        if ($("rmShowroomPin"))
+        if ($("rmShowroomPin")) {
+
             $("rmShowroomPin").value =
                 showroom.pin || "";
+        }
 
 
-        if ($("rmShowroomEmail"))
+        if ($("rmShowroomEmail")) {
+
             $("rmShowroomEmail").value =
                 showroom.email ||
                 getCurrentUserEmail();
+        }
 
 
-        if ($("rmShowroomDescription"))
+        if ($("rmShowroomDescription")) {
+
             $("rmShowroomDescription").value =
                 showroom.description || "";
+        }
 
 
         showroomPaymentVerified =
@@ -3273,8 +3166,11 @@
 
 
         form.scrollIntoView({
+
             behavior: "smooth",
+
             block: "start"
+
         });
     }
 
@@ -3283,9 +3179,7 @@
        DELETE SHOWROOM
        ===================================================== */
 
-    function deleteShowroom(
-        id
-    ) {
+    function deleteShowroom(id) {
 
         if (
             !requireLogin(
@@ -3314,6 +3208,7 @@
 
 
         if (!showroom) {
+
             return;
         }
 
@@ -3333,13 +3228,12 @@
         }
 
 
-        const confirmed =
-            window.confirm(
+        if (
+            !window.confirm(
                 "Delete this business/showroom advertisement?"
-            );
+            )
+        ) {
 
-
-        if (!confirmed) {
             return;
         }
 
@@ -3374,23 +3268,23 @@
        SHOWROOM CARD
        ===================================================== */
 
-    function renderShowroomCard(
-        showroom
-    ) {
+    function renderShowroomCard(showroom) {
 
-        const mediaImage =
+        const image =
             showroom.image
                 ? `
                     <img
                         src="${showroom.image}"
-                        alt="${escapeHTML(showroom.name)}"
+                        alt="${escapeHTML(
+                            showroom.name
+                        )}"
                         loading="lazy"
                     >
                   `
                 : "";
 
 
-        const mediaVideo =
+        const video =
             showroom.video
                 ? `
                     <video
@@ -3428,14 +3322,13 @@
         }
 
 
-        const locationParts = [
+        const location = [
 
-            showroom.countryFlag ||
-                "",
+            showroom.countryFlag || "",
 
             showroom.countryName ||
-                showroom.country ||
-                "",
+            showroom.country ||
+            "",
 
             showroom.countryCode
                 ? "(" +
@@ -3444,31 +3337,34 @@
                 : "",
 
             showroom.countryCallingCode ||
-                "",
+            "",
 
-            showroom.state ||
-                "",
+            showroom.state || "",
 
             showroom.pin
                 ? "PIN " +
                   showroom.pin
                 : ""
 
-        ].filter(Boolean);
+        ]
+        .filter(Boolean)
+        .join(" ");
 
 
         return `
 
             <article
                 class="rm-showroom-card"
-                data-showroom-id="${escapeHTML(showroom.id)}"
+                data-showroom-id="${escapeHTML(
+                    showroom.id
+                )}"
             >
 
                 <div class="rm-showroom-media">
 
-                    ${mediaImage}
+                    ${image}
 
-                    ${mediaVideo}
+                    ${video}
 
                 </div>
 
@@ -3476,67 +3372,99 @@
                 <div class="rm-showroom-content">
 
                     <div class="rm-showroom-badge">
+
                         Business / Showroom
+
                     </div>
 
 
                     <h3>
+
                         ${escapeHTML(
                             showroom.name
                         )}
+
                     </h3>
 
 
                     <p>
-                        <strong>Type:</strong>
+
+                        <strong>
+                            Type:
+                        </strong>
+
                         ${escapeHTML(
                             showroom.type
                         )}
+
                     </p>
 
 
                     <p>
-                        <strong>Reach:</strong>
+
+                        <strong>
+                            Reach:
+                        </strong>
+
                         ${escapeHTML(
                             reach.join(" + ")
                         )}
+
                     </p>
 
 
                     <p>
-                        <strong>Country:</strong>
+
+                        <strong>
+                            Country:
+                        </strong>
+
                         ${escapeHTML(
-                            locationParts.join(" ")
+                            location
                         )}
+
                     </p>
 
 
                     <p>
-                        <strong>Advertisement:</strong>
+
+                        <strong>
+                            Advertisement:
+                        </strong>
+
                         $${CONFIG.showroomPrice}
                         USD
+
                     </p>
 
 
                     ${
                         showroom.description
-                        ? `
-                            <p class="rm-description">
-                                ${escapeHTML(
-                                    showroom.description
-                                )}
-                            </p>
-                          `
-                        : ""
+                            ? `
+                                <p
+                                    class="rm-description"
+                                >
+
+                                    ${escapeHTML(
+                                        showroom.description
+                                    )}
+
+                                </p>
+                              `
+                            : ""
                     }
 
 
-                    <div class="rm-owner-actions">
+                    <div
+                        class="rm-owner-actions"
+                    >
 
                         <button
                             type="button"
                             data-action="edit-showroom"
-                            data-id="${escapeHTML(showroom.id)}"
+                            data-id="${escapeHTML(
+                                showroom.id
+                            )}"
                         >
                             Edit
                         </button>
@@ -3545,7 +3473,9 @@
                         <button
                             type="button"
                             data-action="delete-showroom"
-                            data-id="${escapeHTML(showroom.id)}"
+                            data-id="${escapeHTML(
+                                showroom.id
+                            )}"
                         >
                             Delete
                         </button>
@@ -3555,6 +3485,7 @@
                 </div>
 
             </article>
+
         `;
     }
 
@@ -3570,15 +3501,9 @@
 
 
         if (!container) {
+
             return;
         }
-
-
-        const showrooms =
-            loadJSON(
-                CONFIG.showroomsKey,
-                []
-            );
 
 
         if (!isLoggedIn()) {
@@ -3588,6 +3513,13 @@
 
             return;
         }
+
+
+        const showrooms =
+            loadJSON(
+                CONFIG.showroomsKey,
+                []
+            );
 
 
         const email =
@@ -3638,6 +3570,7 @@
 
 
         if (!container) {
+
             return;
         }
 
@@ -3684,7 +3617,7 @@
 
 
     /* =====================================================
-       EVENT BINDING
+       EVENTS
        ===================================================== */
 
     function bindEvents() {
@@ -3806,10 +3739,6 @@
         }
 
 
-        /*
-         * Pressing Enter in login form
-         */
-
         const loginBox =
             $("rmLoginBox");
 
@@ -3856,11 +3785,6 @@
         renderShowrooms();
 
 
-        /*
-         * Keep email fields synchronized
-         * after page initialization.
-         */
-
         const email =
             getCurrentUserEmail();
 
@@ -3887,7 +3811,7 @@
 
 
     /* =====================================================
-       SAFE DOM READY
+       DOM READY
        ===================================================== */
 
     if (
@@ -3965,6 +3889,7 @@
 
         getSelectedCountry:
             getSelectedCountry
+
     };
 
 
