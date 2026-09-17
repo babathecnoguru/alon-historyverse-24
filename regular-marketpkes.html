@@ -16,12 +16,9 @@
 
     <meta
         name="description"
-        content="ALON HISTORYVERSE 24 Regular Marketplace — sell items, property and vehicles, create showroom advertisements and reach local or international customers."
+        content="ALON HISTORYVERSE 24 Regular Marketplace — Items, Property, Vehicles, Business and Showroom Ads."
     >
 
-    <!-- =====================================================
-         MAIN ALON HISTORYVERSE 24 CSS
-         ===================================================== -->
     <link
         rel="stylesheet"
         href="../css/style.css"
@@ -30,100 +27,69 @@
     <style>
 
         /* =====================================================
+           ALON HISTORYVERSE 24
            REGULAR MARKETPLACE
-           SAFE PAGE UI
+           SAFE PAGE STYLES
            ===================================================== */
 
-        :root {
-            --rm-blue: #1976d2;
-            --rm-blue-dark: #125ca5;
-            --rm-gold: #d7b35a;
-            --rm-bg: #f5f7fa;
-            --rm-card: #ffffff;
-            --rm-text: #17202a;
-            --rm-muted: #667085;
-            --rm-border: #d9dee7;
-            --rm-danger: #c62828;
-            --rm-success: #16833b;
-            --rm-radius: 14px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            background: var(--rm-bg);
-            color: var(--rm-text);
-        }
-
         .rm-page {
-            width: min(1100px, 94%);
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 28px 0 60px;
+            padding: 20px 14px 60px;
         }
 
         .rm-hero {
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff,
-                    #eef5ff
-                );
-            border: 1px solid var(--rm-border);
-            border-radius: var(--rm-radius);
-            padding: 25px;
-            margin-bottom: 22px;
+            padding: 28px 18px;
+            margin-bottom: 20px;
+            border-radius: 18px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+            text-align: center;
         }
 
         .rm-hero h1 {
-            margin: 0 0 8px;
-            font-size: clamp(1.7rem, 5vw, 2.7rem);
+            margin: 0 0 10px;
+            font-size: 30px;
         }
 
         .rm-hero p {
             margin: 0;
-            color: var(--rm-muted);
-            line-height: 1.65;
+            color: #555;
+            line-height: 1.6;
         }
 
         .rm-card {
-            background: var(--rm-card);
-            border: 1px solid var(--rm-border);
-            border-radius: var(--rm-radius);
-            padding: 22px;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 18px rgba(0,0,0,.05);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.05);
         }
 
-        .rm-card h2,
-        .rm-card h3 {
+        .rm-card h2 {
             margin-top: 0;
         }
 
-        .rm-section-title {
-            margin-bottom: 15px;
+        .rm-note {
+            padding: 12px 14px;
+            margin: 12px 0;
+            border-radius: 10px;
+            background: #f7f7f7;
+            line-height: 1.5;
         }
 
         .rm-grid {
             display: grid;
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-            gap: 15px;
-        }
-
-        .rm-grid-3 {
-            display: grid;
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
         }
 
         .rm-field {
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 6px;
         }
 
         .rm-field-full {
@@ -132,20 +98,19 @@
 
         .rm-field label {
             font-weight: 700;
-            font-size: .92rem;
+            font-size: 14px;
         }
 
         .rm-field input,
         .rm-field select,
         .rm-field textarea {
             width: 100%;
-            min-height: 44px;
-            padding: 11px 12px;
-            border: 1px solid var(--rm-border);
-            border-radius: 9px;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #d5d5d5;
+            border-radius: 10px;
             background: #fff;
-            color: var(--rm-text);
-            font: inherit;
+            font-size: 15px;
         }
 
         .rm-field textarea {
@@ -153,235 +118,174 @@
             resize: vertical;
         }
 
-        .rm-field input:focus,
-        .rm-field select:focus,
-        .rm-field textarea:focus {
-            outline: none;
-            border-color: var(--rm-blue);
-            box-shadow:
-                0 0 0 3px
-                rgba(25,118,210,.12);
+        .rm-login-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
         }
 
-        .rm-help {
-            color: var(--rm-muted);
-            font-size: .8rem;
+        .rm-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin: 14px 0;
             line-height: 1.5;
         }
 
-        .rm-actions {
+        .rm-checkbox input {
+            margin-top: 4px;
+        }
+
+        .rm-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 18px;
+            margin-top: 16px;
         }
 
         .rm-btn {
             border: 0;
-            border-radius: 9px;
-            padding: 11px 17px;
-            font: inherit;
-            font-weight: 700;
+            border-radius: 10px;
+            padding: 12px 18px;
             cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
         }
 
         .rm-btn-primary {
-            background: var(--rm-blue);
+            background: #1565c0;
             color: #fff;
         }
 
-        .rm-btn-primary:hover {
-            background: var(--rm-blue-dark);
-        }
-
-        .rm-btn-secondary {
-            background: #eef1f5;
-            color: var(--rm-text);
+        .rm-btn-success {
+            background: #16803c;
+            color: #fff;
         }
 
         .rm-btn-danger {
-            background: #fdecec;
-            color: var(--rm-danger);
+            background: #c62828;
+            color: #fff;
         }
 
-        .rm-btn-success {
-            background: #e9f8ee;
-            color: var(--rm-success);
+        .rm-btn-secondary {
+            background: #666;
+            color: #fff;
+        }
+
+        .rm-btn-light {
+            background: #eeeeee;
+            color: #222;
         }
 
         .rm-status {
-            margin-top: 13px;
-            padding: 11px 13px;
-            border-radius: 9px;
-            display: none;
-            line-height: 1.5;
+            margin-top: 12px;
+            min-height: 22px;
+            font-weight: 600;
         }
-
-        .rm-status.show {
-            display: block;
-        }
-
-        .rm-status.info {
-            background: #edf5ff;
-            color: #155a9c;
-        }
-
-        .rm-status.success {
-            background: #e9f8ee;
-            color: #12672f;
-        }
-
-        .rm-status.error {
-            background: #fdecec;
-            color: #a31e1e;
-        }
-
-        .rm-hidden {
-            display: none !important;
-        }
-
-        /* =====================================================
-           LOGIN
-           ===================================================== */
-
-        .rm-login-box {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .rm-agreement {
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            padding: 13px;
-            background: #f8fafc;
-            border: 1px solid var(--rm-border);
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .rm-agreement input {
-            margin-top: 4px;
-            width: 18px;
-            height: 18px;
-        }
-
-        /* =====================================================
-           PROFILE
-           ===================================================== */
 
         .rm-profile {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            padding: 14px;
-            background: #f8fafc;
-            border: 1px solid var(--rm-border);
-            border-radius: 10px;
+            display: none;
         }
 
-        .rm-profile strong {
-            display: block;
-            margin-bottom: 4px;
+        .rm-sell-section {
+            display: none;
         }
 
-        .rm-profile small {
-            color: var(--rm-muted);
+        .rm-showroom-section {
+            display: none;
         }
 
-        /* =====================================================
-           TYPE CARDS
-           ===================================================== */
+        .rm-my-section {
+            display: none;
+        }
 
         .rm-type-grid {
             display: grid;
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
+            margin: 15px 0 20px;
         }
 
-        .rm-type-option {
-            position: relative;
-        }
-
-        .rm-type-option input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .rm-type-label {
-            display: block;
-            padding: 17px;
-            border: 2px solid var(--rm-border);
-            border-radius: 12px;
+        .rm-type-card {
+            border: 2px solid #ddd;
+            border-radius: 14px;
+            padding: 18px 12px;
+            text-align: center;
             cursor: pointer;
             background: #fff;
-            transition: .15s ease;
+            transition: 0.2s;
         }
 
-        .rm-type-label strong {
+        .rm-type-card:hover {
+            border-color: #1565c0;
+        }
+
+        .rm-type-card input {
+            margin-right: 7px;
+        }
+
+        .rm-type-card strong {
             display: block;
+            margin-top: 7px;
+            font-size: 18px;
+        }
+
+        .rm-price-box {
+            border: 2px solid #ddd;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        .rm-price-box strong {
+            display: block;
+            font-size: 26px;
             margin-bottom: 5px;
         }
 
-        .rm-type-label span {
-            color: var(--rm-muted);
-            font-size: .82rem;
+        .rm-reach-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
         }
 
-        .rm-type-option input:checked
-        + .rm-type-label {
-            border-color: var(--rm-blue);
-            background: #eef6ff;
-        }
-
-        /* =====================================================
-           LISTINGS
-           ===================================================== */
-
-        .rm-listings {
+        .rm-list {
             display: grid;
             gap: 14px;
         }
 
         .rm-listing {
-            border: 1px solid var(--rm-border);
-            border-radius: 12px;
-            padding: 17px;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            padding: 15px;
             background: #fff;
         }
 
-        .rm-listing-header {
+        .rm-listing h3 {
+            margin-top: 0;
+        }
+
+        .rm-meta {
             display: flex;
-            justify-content: space-between;
-            gap: 12px;
             flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
         }
 
-        .rm-listing-title {
-            margin: 0;
-            font-size: 1.15rem;
-        }
-
-        .rm-listing-meta {
-            color: var(--rm-muted);
-            font-size: .84rem;
-            line-height: 1.7;
-            margin-top: 7px;
-        }
-
-        .rm-listing-description {
-            margin-top: 10px;
-            line-height: 1.6;
+        .rm-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: #f0f0f0;
+            font-size: 12px;
+            font-weight: 700;
         }
 
         .rm-media {
             display: grid;
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
             margin-top: 12px;
         }
@@ -391,61 +295,47 @@
             width: 100%;
             max-height: 280px;
             object-fit: cover;
-            border-radius: 9px;
-            border: 1px solid var(--rm-border);
-        }
-
-        /* =====================================================
-           SHOWROOM
-           ===================================================== */
-
-        .rm-price-box {
-            padding: 15px;
-            border: 1px solid var(--rm-border);
             border-radius: 10px;
-            background: #fffaf0;
-            margin-bottom: 15px;
         }
 
-        .rm-price-box strong {
-            font-size: 1.25rem;
+        .rm-empty {
+            text-align: center;
+            padding: 25px;
+            color: #666;
         }
 
-        /* =====================================================
-           RESPONSIVE
-           ===================================================== */
+        .rm-business-note {
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
 
-        @media (max-width: 760px) {
+        @media (max-width: 700px) {
+
+            .rm-page {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
 
             .rm-grid,
-            .rm-grid-3,
-            .rm-type-grid {
+            .rm-login-row,
+            .rm-reach-grid {
                 grid-template-columns: 1fr;
             }
 
-            .rm-field-full {
-                grid-column: auto;
+            .rm-type-grid {
+                grid-template-columns: 1fr;
             }
 
             .rm-media {
                 grid-template-columns: 1fr;
             }
 
-            .rm-page {
-                width: 94%;
-                padding-top: 18px;
+            .rm-hero h1 {
+                font-size: 25px;
             }
 
             .rm-card {
-                padding: 17px;
-            }
-
-            .rm-btn {
-                width: 100%;
-            }
-
-            .rm-actions {
-                flex-direction: column;
+                padding: 15px;
             }
 
         }
@@ -454,1455 +344,1657 @@
 
 </head>
 
+
 <body>
 
-    <main class="rm-page">
 
-        <!-- =================================================
-             HERO
-             ================================================= -->
-
-        <section class="rm-hero">
-
-            <h1>
-                Regular Marketplace
-            </h1>
-
-            <p>
-                Buy and sell items, property and vehicles.
-                Create local, international or global listings
-                through ALON HISTORYVERSE 24.
-            </p>
-
-        </section>
+<div class="rm-page">
 
 
-        <!-- =================================================
-             LOGIN / AGREEMENT
-             ================================================= -->
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
 
-        <section
-            class="rm-card"
-            id="rmLoginSection"
-        >
+    <section class="rm-hero">
 
-            <div class="rm-login-box">
+        <h1>
+            Regular Marketplace
+        </h1>
 
-                <h2>
-                    Marketplace Login
-                </h2>
+        <p>
+            Buy, sell and advertise Items, Property, Vehicles,
+            Businesses and Showrooms.
+        </p>
 
-                <p class="rm-help">
-                    Login is required before creating, saving,
-                    editing or deleting your own marketplace ads.
-                </p>
+        <p>
+            ALON HISTORYVERSE 24
+        </p>
 
-                <div class="rm-agreement">
+    </section>
+
+
+    <!-- =====================================================
+         LOGIN
+         ===================================================== -->
+
+    <section
+        class="rm-card"
+        id="rmLoginSection"
+    >
+
+        <h2>
+            Marketplace Login
+        </h2>
+
+        <div class="rm-note">
+
+            Login is required to create, save, edit and delete
+            your marketplace advertisements.
+
+        </div>
+
+
+        <form id="rmLoginForm">
+
+            <div class="rm-login-row">
+
+                <div class="rm-field">
+
+                    <label for="rmLoginName">
+                        Name
+                    </label>
 
                     <input
-                        type="checkbox"
-                        id="rmAgreement"
+                        type="text"
+                        id="rmLoginName"
+                        required
                     >
-
-                    <label for="rmAgreement">
-                        I agree to use the Regular Marketplace
-                        responsibly and to provide accurate
-                        information for my listings.
-                    </label>
 
                 </div>
 
 
-                <form id="rmLoginForm">
+                <div class="rm-field">
 
-                    <div class="rm-grid">
+                    <label for="rmLoginEmail">
+                        Email
+                    </label>
 
-                        <div class="rm-field">
+                    <input
+                        type="email"
+                        id="rmLoginEmail"
+                        required
+                    >
 
-                            <label for="rmLoginName">
-                                Name
-                            </label>
-
-                            <input
-                                type="text"
-                                id="rmLoginName"
-                                autocomplete="name"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="rm-field">
-
-                            <label for="rmLoginEmail">
-                                Email
-                            </label>
-
-                            <input
-                                type="email"
-                                id="rmLoginEmail"
-                                autocomplete="email"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="rm-actions">
-
-                        <button
-                            type="submit"
-                            class="rm-btn rm-btn-primary"
-                        >
-                            Login
-                        </button>
-
-                    </div>
-
-                </form>
-
-
-                <div
-                    id="rmLoginStatus"
-                    class="rm-status"
-                ></div>
+                </div>
 
             </div>
 
-        </section>
+
+            <label class="rm-checkbox">
+
+                <input
+                    type="checkbox"
+                    id="rmAgreement"
+                >
+
+                <span>
+                    I agree to the Regular Marketplace rules
+                    and understand that I am responsible for
+                    the advertisements I publish.
+                </span>
+
+            </label>
 
 
-        <!-- =================================================
-             PROFILE AFTER LOGIN
-             ================================================= -->
-
-        <section
-            class="rm-card rm-hidden"
-            id="rmProfileSection"
-        >
-
-            <div class="rm-profile">
-
-                <div>
-
-                    <strong id="rmProfileName">
-                        Marketplace User
-                    </strong>
-
-                    <small id="rmProfileEmail">
-                        user@example.com
-                    </small>
-
-                </div>
-
+            <div class="rm-buttons">
 
                 <button
-                    type="button"
-                    id="rmLogoutBtn"
-                    class="rm-btn rm-btn-secondary"
+                    type="submit"
+                    class="rm-btn rm-btn-primary"
                 >
-                    Logout
+                    Login
                 </button>
 
             </div>
 
-        </section>
+        </form>
 
 
-        <!-- =================================================
-             SELL AD
-             ================================================= -->
+        <div
+            id="rmLoginStatus"
+            class="rm-status"
+        ></div>
 
-        <section
-            class="rm-card rm-hidden"
-            id="rmSellSection"
-        >
-
-            <h2 class="rm-section-title">
-                Sell Ad
-            </h2>
-
-            <p class="rm-help">
-                Create a marketplace advertisement for an item,
-                property or vehicle.
-            </p>
+    </section>
 
 
-            <!-- TYPE -->
+    <!-- =====================================================
+         PROFILE
+         ===================================================== -->
 
-            <h3>
-                Select Category
-            </h3>
+    <section
+        class="rm-card rm-profile"
+        id="rmProfileSection"
+    >
 
-            <div class="rm-type-grid">
+        <h2>
+            My Marketplace Profile
+        </h2>
 
-                <div class="rm-type-option">
+        <div class="rm-grid">
 
-                    <input
-                        type="radio"
-                        name="rmType"
-                        id="rmTypeItem"
-                        value="item"
-                        checked
-                    >
+            <div class="rm-field">
 
-                    <label
-                        class="rm-type-label"
-                        for="rmTypeItem"
-                    >
+                <label>
+                    Name
+                </label>
 
-                        <strong>
-                            Item
-                        </strong>
-
-                        <span>
-                            General products and goods
-                        </span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="rm-type-option">
-
-                    <input
-                        type="radio"
-                        name="rmType"
-                        id="rmTypeProperty"
-                        value="property"
-                    >
-
-                    <label
-                        class="rm-type-label"
-                        for="rmTypeProperty"
-                    >
-
-                        <strong>
-                            Property
-                        </strong>
-
-                        <span>
-                            House, shop, flat, land and more
-                        </span>
-
-                    </label>
-
-                </div>
-
-
-                <div class="rm-type-option">
-
-                    <input
-                        type="radio"
-                        name="rmType"
-                        id="rmTypeVehicle"
-                        value="vehicle"
-                    >
-
-                    <label
-                        class="rm-type-label"
-                        for="rmTypeVehicle"
-                    >
-
-                        <strong>
-                            Vehicle
-                        </strong>
-
-                        <span>
-                            Car, SUV, bike, truck and more
-                        </span>
-
-                    </label>
-
-                </div>
+                <input
+                    type="text"
+                    id="rmProfileName"
+                    readonly
+                >
 
             </div>
 
+
+            <div class="rm-field">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="rmProfileEmail"
+                    readonly
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="rm-buttons">
+
+            <button
+                type="button"
+                id="rmLogoutBtn"
+                class="rm-btn rm-btn-danger"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SELL AD
+         ===================================================== -->
+
+    <section
+        class="rm-card rm-sell-section"
+        id="rmSellSection"
+    >
+
+        <h2>
+            Sell Ad
+        </h2>
+
+        <div class="rm-note">
+
+            Create advertisements for Items, Property or Vehicles.
 
             <br>
 
+            Animal and bird sales are not supported.
 
-            <!-- SELL FORM -->
+        </div>
 
-            <form id="rmListingForm">
+
+        <!-- CATEGORY / TYPE -->
+
+        <h3>
+            Select Category
+        </h3>
+
+
+        <div class="rm-type-grid">
+
+            <label class="rm-type-card">
 
                 <input
-                    type="hidden"
-                    id="rmListingId"
+                    type="radio"
+                    name="rmTypeChoice"
+                    value="item"
+                    checked
                 >
 
-
-                <div class="rm-grid">
-
-
-                    <!-- TITLE -->
-
-                    <div class="rm-field rm-field-full">
-
-                        <label for="rmListingTitle">
-                            Ad Title
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmListingTitle"
-                            placeholder="Example: Toyota Car, House, Mobile Phone"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- LISTING TYPE -->
-
-                    <div class="rm-field">
-
-                        <label for="rmListingType">
-                            Listing Type
-                        </label>
-
-                        <select id="rmListingType">
-
-                            <option value="item">
-                                Item
-                            </option>
-
-                            <option value="property">
-                                Property
-                            </option>
-
-                            <option value="vehicle">
-                                Vehicle
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- CATEGORY -->
-
-                    <div class="rm-field">
-
-                        <label for="rmListingCategory">
-                            Category
-                        </label>
-
-                        <select
-                            id="rmListingCategory"
-                            required
-                        >
-
-                            <!-- ITEM -->
-
-                            <optgroup
-                                label="Item"
-                                data-group="item"
-                            >
-
-                                <option value="Electronics">
-                                    Electronics
-                                </option>
-
-                                <option value="Mobile">
-                                    Mobile
-                                </option>
-
-                                <option value="Computer">
-                                    Computer
-                                </option>
-
-                                <option value="Furniture">
-                                    Furniture
-                                </option>
-
-                                <option value="Clothing">
-                                    Clothing
-                                </option>
-
-                                <option value="Home & Kitchen">
-                                    Home & Kitchen
-                                </option>
-
-                                <option value="Other Item">
-                                    Other Item
-                                </option>
-
-                            </optgroup>
-
-
-                            <!-- PROPERTY -->
-
-                            <optgroup
-                                label="Property"
-                                data-group="property"
-                            >
-
-                                <option value="House">
-                                    House
-                                </option>
-
-                                <option value="Shop">
-                                    Shop
-                                </option>
-
-                                <option value="Flat">
-                                    Flat
-                                </option>
-
-                                <option value="Bungalow">
-                                    Bungalow
-                                </option>
-
-                                <option value="Plot">
-                                    Plot
-                                </option>
-
-                                <option value="Land">
-                                    Land
-                                </option>
-
-                                <option value="Office">
-                                    Office
-                                </option>
-
-                                <option value="Warehouse">
-                                    Warehouse
-                                </option>
-
-                                <option value="Other Property">
-                                    Other Property
-                                </option>
-
-                            </optgroup>
-
-
-                            <!-- VEHICLE -->
-
-                            <optgroup
-                                label="Vehicle"
-                                data-group="vehicle"
-                            >
-
-                                <option value="Car">
-                                    Car
-                                </option>
-
-                                <option value="SUV">
-                                    SUV
-                                </option>
-
-                                <option value="4x4">
-                                    4x4
-                                </option>
-
-                                <option value="Motorcycle">
-                                    Motorcycle
-                                </option>
-
-                                <option value="Bike">
-                                    Bike
-                                </option>
-
-                                <option value="Scooter">
-                                    Scooter
-                                </option>
-
-                                <option value="EV">
-                                    EV
-                                </option>
-
-                                <option value="Truck">
-                                    Truck
-                                </option>
-
-                                <option value="Trailer">
-                                    Trailer
-                                </option>
-
-                                <option value="Tractor">
-                                    Tractor
-                                </option>
-
-                                <option value="JCB">
-                                    JCB
-                                </option>
-
-                                <option value="Bus">
-                                    Bus
-                                </option>
-
-                                <option value="Van">
-                                    Van
-                                </option>
-
-                                <option value="Ambulance">
-                                    Ambulance
-                                </option>
-
-                                <option value="Taxi">
-                                    Taxi
-                                </option>
-
-                                <option value="Other Vehicle">
-                                    Other Vehicle
-                                </option>
-
-                            </optgroup>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- CONDITION -->
-
-                    <div class="rm-field">
-
-                        <label for="rmListingCondition">
-                            Condition
-                        </label>
-
-                        <select id="rmListingCondition">
-
-                            <option value="New">
-                                New
-                            </option>
-
-                            <option value="Used">
-                                Used
-                            </option>
-
-                            <option value="Refurbished">
-                                Refurbished
-                            </option>
-
-                            <option value="Not Applicable">
-                                Not Applicable
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- COUNTRY -->
-
-                    <div class="rm-field">
-
-                        <label for="rmCountry">
-                            Country
-                        </label>
-
-                        <select
-                            id="rmCountry"
-                            required
-                        >
-
-                            <option value="">
-                                Select Country
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- STATE -->
-
-                    <div class="rm-field">
-
-                        <label for="rmState">
-                            State / Province
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmState"
-                            placeholder="State / Province"
-                        >
-
-                    </div>
-
-
-                    <!-- DISTRICT -->
-
-                    <div class="rm-field">
-
-                        <label for="rmDistrict">
-                            District / City
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmDistrict"
-                            placeholder="District / City"
-                        >
-
-                    </div>
-
-
-                    <!-- PIN -->
-
-                    <div class="rm-field">
-
-                        <label for="rmPin">
-                            PIN / Postal Code
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmPin"
-                            placeholder="Postal Code"
-                        >
-
-                    </div>
-
-
-                    <!-- PRICE -->
-
-                    <div class="rm-field">
-
-                        <label for="rmPrice">
-                            Price
-                        </label>
-
-                        <input
-                            type="number"
-                            id="rmPrice"
-                            min="0"
-                            step="0.01"
-                            placeholder="Price"
-                        >
-
-                    </div>
-
-
-                    <!-- CURRENCY -->
-
-                    <div class="rm-field">
-
-                        <label for="rmCurrency">
-                            Currency
-                        </label>
-
-                        <select id="rmCurrency">
-
-                            <option value="USD">
-                                USD
-                            </option>
-
-                            <option value="INR">
-                                INR
-                            </option>
-
-                            <option value="EUR">
-                                EUR
-                            </option>
-
-                            <option value="GBP">
-                                GBP
-                            </option>
-
-                            <option value="AED">
-                                AED
-                            </option>
-
-                            <option value="CAD">
-                                CAD
-                            </option>
-
-                            <option value="AUD">
-                                AUD
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- REACH -->
-
-                    <div class="rm-field">
-
-                        <label for="rmReach">
-                            Reach
-                        </label>
-
-                        <select id="rmReach">
-
-                            <option value="Local">
-                                Local
-                            </option>
-
-                            <option value="International">
-                                International
-                            </option>
-
-                            <option value="Global">
-                                Global
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- LOCATION -->
-
-                    <div class="rm-field">
-
-                        <label for="rmLocation">
-                            Live Location
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmLocation"
-                            placeholder="Area / City / Location"
-                        >
-
-                    </div>
-
-
-                    <!-- DESCRIPTION -->
-
-                    <div class="rm-field rm-field-full">
-
-                        <label for="rmDescription">
-                            Description
-                        </label>
-
-                        <textarea
-                            id="rmDescription"
-                            placeholder="Describe your item, property or vehicle..."
-                            required
-                        ></textarea>
-
-                    </div>
-
-
-                    <!-- IMAGE -->
-
-                    <div class="rm-field">
-
-                        <label for="rmImage">
-                            Image
-                        </label>
-
-                        <input
-                            type="file"
-                            id="rmImage"
-                            accept="image/*"
-                        >
-
-                        <span class="rm-help">
-                            Add a product, property or vehicle image.
-                        </span>
-
-                    </div>
-
-
-                    <!-- VIDEO -->
-
-                    <div class="rm-field">
-
-                        <label for="rmVideo">
-                            Video
-                        </label>
-
-                        <input
-                            type="file"
-                            id="rmVideo"
-                            accept="video/*"
-                        >
-
-                        <span class="rm-help">
-                            Optional marketplace video.
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- FORM ACTIONS -->
-
-                <div class="rm-actions">
-
-                    <button
-                        type="submit"
-                        id="rmSaveBtn"
-                        class="rm-btn rm-btn-primary"
-                    >
-                        Save Ad
-                    </button>
-
-                    <button
-                        type="button"
-                        id="rmUpdateBtn"
-                        class="rm-btn rm-btn-success rm-hidden"
-                    >
-                        Update Ad
-                    </button>
-
-                    <button
-                        type="button"
-                        id="rmCancelEditBtn"
-                        class="rm-btn rm-btn-secondary rm-hidden"
-                    >
-                        Cancel Edit
-                    </button>
-
-                    <button
-                        type="button"
-                        id="rmResetBtn"
-                        class="rm-btn rm-btn-secondary"
-                    >
-                        Clear Form
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="rmListingStatus"
-                    class="rm-status"
-                ></div>
-
-            </form>
-
-        </section>
-
-
-        <!-- =================================================
-             MY ADS
-             ================================================= -->
-
-        <section
-            class="rm-card rm-hidden"
-            id="rmMyAdsSection"
-        >
-
-            <h2>
-                My Ads
-            </h2>
-
-            <p class="rm-help">
-                Your saved Regular Marketplace advertisements.
-            </p>
-
-            <div
-                id="rmListings"
-                class="rm-listings"
-            ></div>
-
-        </section>
-
-
-        <!-- =================================================
-             SHOWROOM / BUSINESS AD
-             ================================================= -->
-
-        <section
-            class="rm-card rm-hidden"
-            id="rmShowroomSection"
-        >
-
-            <h2>
-                Showroom / Business Advertisement
-            </h2>
-
-            <p>
-                Create a business or showroom advertisement
-                for customers in selected countries.
-            </p>
-
-
-            <div class="rm-price-box">
-
                 <strong>
-                    $10 USD
+                    Item
                 </strong>
 
-                <div class="rm-help">
-                    Showroom / Business Advertisement
+                General products and goods.
+
+            </label>
+
+
+            <label class="rm-type-card">
+
+                <input
+                    type="radio"
+                    name="rmTypeChoice"
+                    value="property"
+                >
+
+                <strong>
+                    Property
+                </strong>
+
+                House, shop, flat, land etc.
+
+            </label>
+
+
+            <label class="rm-type-card">
+
+                <input
+                    type="radio"
+                    name="rmTypeChoice"
+                    value="vehicle"
+                >
+
+                <strong>
+                    Vehicle
+                </strong>
+
+                Cars, bikes, trucks etc.
+
+            </label>
+
+        </div>
+
+
+        <form id="rmListingForm">
+
+            <input
+                type="hidden"
+                id="rmListingId"
+            >
+
+
+            <div class="rm-grid">
+
+
+                <!-- TITLE -->
+
+                <div class="rm-field rm-field-full">
+
+                    <label for="rmListingTitle">
+                        Ad Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmListingTitle"
+                        placeholder="Enter advertisement title"
+                        required
+                    >
+
                 </div>
 
-            </div>
+
+                <!-- TYPE -->
+
+                <div class="rm-field">
+
+                    <label for="rmListingType">
+                        Ad Type
+                    </label>
+
+                    <select
+                        id="rmListingType"
+                        required
+                    >
+
+                        <option value="item">
+                            Item
+                        </option>
+
+                        <option value="property">
+                            Property
+                        </option>
+
+                        <option value="vehicle">
+                            Vehicle
+                        </option>
+
+                    </select>
+
+                </div>
 
 
-            <form id="rmShowroomForm">
+                <!-- CATEGORY -->
 
-                <div class="rm-grid">
+                <div class="rm-field">
 
+                    <label for="rmListingCategory">
+                        Category
+                    </label>
 
-                    <!-- BUSINESS NAME -->
+                    <select
+                        id="rmListingCategory"
+                        required
+                    >
 
-                    <div class="rm-field rm-field-full">
-
-                        <label for="rmShowroomName">
-                            Business / Showroom Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmShowroomName"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- COUNTRY -->
-
-                    <div class="rm-field">
-
-                        <label for="rmShowroomCountry">
-                            Country
-                        </label>
-
-                        <select
-                            id="rmShowroomCountry"
-                            required
-                        >
-
-                            <option value="">
-                                Select Country
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- STATE -->
-
-                    <div class="rm-field">
-
-                        <label for="rmShowroomState">
-                            State / Province
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmShowroomState"
-                        >
-
-                    </div>
-
-
-                    <!-- DISTRICT -->
-
-                    <div class="rm-field">
-
-                        <label for="rmShowroomDistrict">
-                            District / City
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmShowroomDistrict"
-                        >
-
-                    </div>
-
-
-                    <!-- TALUKA -->
-
-                    <div class="rm-field">
-
-                        <label for="rmShowroomTaluka">
-                            Taluka / Area
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmShowroomTaluka"
-                        >
-
-                    </div>
-
-
-                    <!-- PIN -->
-
-                    <div class="rm-field">
-
-                        <label for="rmShowroomPin">
-                            PIN / Postal Code
-                        </label>
-
-                        <input
-                            type="text"
-                            id="rmShowroomPin"
-                        >
-
-                    </div>
-
-
-                    <!-- CATEGORY -->
-
-                    <div class="rm-field">
-
-                        <label for="rmShowroomCategory">
-                            Business Category
-                        </label>
-
-                        <select id="rmShowroomCategory">
-
-                            <option value="Retail">
-                                Retail
-                            </option>
-
-                            <option value="Wholesale">
-                                Wholesale
-                            </option>
-
-                            <option value="Automobile">
-                                Automobile
-                            </option>
-
-                            <option value="Property">
-                                Property
-                            </option>
+                        <optgroup label="Item">
 
                             <option value="Electronics">
                                 Electronics
                             </option>
 
-                            <option value="Services">
-                                Services
+                            <option value="Mobile">
+                                Mobile
                             </option>
 
-                            <option value="Other">
-                                Other
+                            <option value="Computer">
+                                Computer
                             </option>
 
-                        </select>
-
-                    </div>
-
-
-                    <!-- REACH -->
-
-                    <div class="rm-field">
-
-                        <label for="rmShowroomReach">
-                            Advertisement Reach
-                        </label>
-
-                        <select id="rmShowroomReach">
-
-                            <option value="Global">
-                                Global / All Countries
+                            <option value="Furniture">
+                                Furniture
                             </option>
 
-                            <option value="International">
-                                International
+                            <option value="Clothing">
+                                Clothing
                             </option>
 
-                            <option value="Local">
-                                Local
+                            <option value="Home">
+                                Home
                             </option>
 
-                        </select>
+                            <option value="Other Item">
+                                Other Item
+                            </option>
 
-                    </div>
-
-
-                    <!-- DESCRIPTION -->
-
-                    <div class="rm-field rm-field-full">
-
-                        <label for="rmShowroomDescription">
-                            Business Description
-                        </label>
-
-                        <textarea
-                            id="rmShowroomDescription"
-                            placeholder="Describe your business or showroom..."
-                        ></textarea>
-
-                    </div>
+                        </optgroup>
 
 
-                    <!-- IMAGE -->
+                        <optgroup label="Property">
 
-                    <div class="rm-field">
+                            <option value="House">
+                                House
+                            </option>
 
-                        <label for="rmShowroomImage">
-                            Business Image
-                        </label>
+                            <option value="Shop">
+                                Shop
+                            </option>
 
-                        <input
-                            type="file"
-                            id="rmShowroomImage"
-                            accept="image/*"
-                        >
+                            <option value="Flat">
+                                Flat
+                            </option>
 
-                    </div>
+                            <option value="Bungalow">
+                                Bungalow
+                            </option>
+
+                            <option value="Plot">
+                                Plot
+                            </option>
+
+                            <option value="Land">
+                                Land
+                            </option>
+
+                            <option value="Office">
+                                Office
+                            </option>
+
+                            <option value="Warehouse">
+                                Warehouse
+                            </option>
+
+                            <option value="Farm">
+                                Farm
+                            </option>
+
+                            <option value="Other Property">
+                                Other Property
+                            </option>
+
+                        </optgroup>
 
 
-                    <!-- VIDEO -->
+                        <optgroup label="Vehicle">
 
-                    <div class="rm-field">
+                            <option value="Car">
+                                Car
+                            </option>
 
-                        <label for="rmShowroomVideo">
-                            Business Video
-                        </label>
+                            <option value="SUV">
+                                SUV
+                            </option>
 
-                        <input
-                            type="file"
-                            id="rmShowroomVideo"
-                            accept="video/*"
-                        >
+                            <option value="4x4">
+                                4x4
+                            </option>
 
-                    </div>
+                            <option value="Motorcycle">
+                                Motorcycle
+                            </option>
+
+                            <option value="Bike">
+                                Bike
+                            </option>
+
+                            <option value="Scooter">
+                                Scooter
+                            </option>
+
+                            <option value="EV">
+                                EV
+                            </option>
+
+                            <option value="Truck">
+                                Truck
+                            </option>
+
+                            <option value="Trailer">
+                                Trailer
+                            </option>
+
+                            <option value="Tractor">
+                                Tractor
+                            </option>
+
+                            <option value="JCB">
+                                JCB
+                            </option>
+
+                            <option value="Bus">
+                                Bus
+                            </option>
+
+                            <option value="Van">
+                                Van
+                            </option>
+
+                            <option value="Ambulance">
+                                Ambulance
+                            </option>
+
+                            <option value="Taxi">
+                                Taxi
+                            </option>
+
+                            <option value="Other Vehicle">
+                                Other Vehicle
+                            </option>
+
+                        </optgroup>
+
+                    </select>
 
                 </div>
 
 
-                <div class="rm-actions">
+                <!-- CONDITION -->
 
-                    <button
-                        type="submit"
-                        id="rmShowroomSaveBtn"
-                        class="rm-btn rm-btn-primary"
-                    >
-                        Save Showroom Ad
-                    </button>
+                <div class="rm-field">
 
-                    <button
-                        type="button"
-                        id="rmShowroomUpdateBtn"
-                        class="rm-btn rm-btn-success rm-hidden"
-                    >
-                        Update Showroom Ad
-                    </button>
+                    <label for="rmListingCondition">
+                        Condition
+                    </label>
 
-                    <button
-                        type="button"
-                        id="rmShowroomResetBtn"
-                        class="rm-btn rm-btn-secondary"
-                    >
-                        Clear
-                    </button>
+                    <select id="rmListingCondition">
+
+                        <option value="New">
+                            New
+                        </option>
+
+                        <option value="Used">
+                            Used
+                        </option>
+
+                        <option value="Refurbished">
+                            Refurbished
+                        </option>
+
+                    </select>
 
                 </div>
 
 
-                <div
-                    id="rmShowroomStatus"
-                    class="rm-status"
-                ></div>
+                <!-- COUNTRY -->
 
-            </form>
+                <div class="rm-field">
 
-        </section>
+                    <label for="rmCountry">
+                        Country
+                    </label>
+
+                    <select
+                        id="rmCountry"
+                        required
+                    >
+
+                        <option value="">
+                            Select Country
+                        </option>
+
+                    </select>
+
+                </div>
 
 
-        <!-- =================================================
-             SAVED SHOWROOM ADS
-             ================================================= -->
+                <!-- STATE -->
 
-        <section
-            class="rm-card rm-hidden"
-            id="rmShowroomsSection"
-        >
+                <div class="rm-field">
 
-            <h2>
-                My Showroom Ads
-            </h2>
+                    <label for="rmState">
+                        State / Province
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmState"
+                    >
+
+                </div>
+
+
+                <!-- DISTRICT -->
+
+                <div class="rm-field">
+
+                    <label for="rmDistrict">
+                        District / City
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmDistrict"
+                    >
+
+                </div>
+
+
+                <!-- PIN -->
+
+                <div class="rm-field">
+
+                    <label for="rmPin">
+                        PIN / ZIP Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmPin"
+                    >
+
+                </div>
+
+
+                <!-- PRICE -->
+
+                <div class="rm-field">
+
+                    <label for="rmPrice">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rmPrice"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <!-- CURRENCY -->
+
+                <div class="rm-field">
+
+                    <label for="rmCurrency">
+                        Currency
+                    </label>
+
+                    <select id="rmCurrency">
+
+                        <option value="USD">
+                            USD
+                        </option>
+
+                        <option value="INR">
+                            INR
+                        </option>
+
+                        <option value="EUR">
+                            EUR
+                        </option>
+
+                        <option value="GBP">
+                            GBP
+                        </option>
+
+                        <option value="AED">
+                            AED
+                        </option>
+
+                        <option value="CAD">
+                            CAD
+                        </option>
+
+                        <option value="AUD">
+                            AUD
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="rm-field">
+
+                    <label for="rmLocation">
+                        Live / Local Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmLocation"
+                        placeholder="City / area / local location"
+                    >
+
+                </div>
+
+
+                <!-- REACH -->
+
+                <div class="rm-field">
+
+                    <label for="rmReach">
+                        Advertisement Reach
+                    </label>
+
+                    <select id="rmReach">
+
+                        <option value="Local">
+                            Local
+                        </option>
+
+                        <option value="Country">
+                            Country
+                        </option>
+
+                        <option value="Global">
+                            Global
+                        </option>
+
+                        <option value="All Countries">
+                            All Countries
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="rm-field rm-field-full">
+
+                    <label for="rmDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="rmDescription"
+                        placeholder="Describe your product, property or vehicle"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="rm-field">
+
+                    <label for="rmImage">
+                        Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="rmImage"
+                        accept="image/*"
+                    >
+
+                </div>
+
+
+                <!-- VIDEO -->
+
+                <div class="rm-field">
+
+                    <label for="rmVideo">
+                        Video
+                    </label>
+
+                    <input
+                        type="file"
+                        id="rmVideo"
+                        accept="video/*"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="rm-buttons">
+
+                <button
+                    type="submit"
+                    id="rmSaveBtn"
+                    class="rm-btn rm-btn-success"
+                >
+                    Save Ad
+                </button>
+
+
+                <button
+                    type="button"
+                    id="rmUpdateBtn"
+                    class="rm-btn rm-btn-primary"
+                    style="display:none;"
+                >
+                    Update Ad
+                </button>
+
+
+                <button
+                    type="button"
+                    id="rmCancelEditBtn"
+                    class="rm-btn rm-btn-secondary"
+                    style="display:none;"
+                >
+                    Cancel Edit
+                </button>
+
+
+                <button
+                    type="reset"
+                    id="rmResetBtn"
+                    class="rm-btn rm-btn-light"
+                >
+                    Reset
+                </button>
+
+            </div>
+
 
             <div
-                id="rmShowrooms"
-                class="rm-listings"
+                id="rmListingStatus"
+                class="rm-status"
             ></div>
 
-        </section>
+        </form>
 
-    </main>
-
-
-    <!-- =====================================================
-         IMPORTANT SCRIPT ORDER
-         =====================================================
-
-         Central country database MUST load first.
-
-         Regular Marketplace JS loads after it.
-
-         Global marketplace.js is NOT loaded here.
-         ===================================================== -->
-
-    <script
-        src="../marketplace-countries.js"
-    ></script>
-
-    <script
-        src="../regular-marketplace.js"
-    ></script>
+    </section>
 
 
     <!-- =====================================================
-         SAFE HTML PAGE BRIDGE
+         MY ADS
          ===================================================== -->
 
-    <script>
+    <section
+        class="rm-card rm-my-section"
+        id="rmMyAdsSection"
+    >
+
+        <h2>
+            My Ads
+        </h2>
+
+        <div
+            id="rmListings"
+            class="rm-list"
+        >
+
+            <div class="rm-empty">
+                No advertisements yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BUSINESS / SHOWROOM AD
+         ===================================================== -->
+
+    <section
+        class="rm-card rm-showroom-section"
+        id="rmShowroomSection"
+    >
+
+        <h2>
+            Business / Showroom Advertisement
+        </h2>
+
+
+        <div class="rm-business-note">
+
+            Promote your business, shop, showroom or service
+            through the Regular Marketplace.
+
+            <br><br>
+
+            You can create a Business / Showroom advertisement
+            and choose whether it should reach your local area,
+            country or all countries.
+
+        </div>
+
+
+        <!-- PRICE -->
+
+        <div class="rm-price-box">
+
+            <strong>
+                $10 USD
+            </strong>
+
+            Business / Showroom Advertisement
+
+            <br>
+
+            Payment section can be connected separately.
+
+        </div>
+
+
+        <form id="rmShowroomForm">
+
+            <input
+                type="hidden"
+                id="rmShowroomId"
+            >
+
+
+            <div class="rm-grid">
+
+
+                <!-- BUSINESS NAME -->
+
+                <div class="rm-field rm-field-full">
+
+                    <label for="rmShowroomName">
+                        Business / Showroom Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmShowroomName"
+                        placeholder="Enter business or showroom name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- COUNTRY -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomCountry">
+                        Country
+                    </label>
+
+                    <select
+                        id="rmShowroomCountry"
+                        required
+                    >
+
+                        <option value="">
+                            Select Country
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- STATE -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomState">
+                        State / Province
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmShowroomState"
+                    >
+
+                </div>
+
+
+                <!-- DISTRICT -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomDistrict">
+                        District / City
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmShowroomDistrict"
+                    >
+
+                </div>
+
+
+                <!-- TALUKA -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomTaluka">
+                        Taluka / Area
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmShowroomTaluka"
+                    >
+
+                </div>
+
+
+                <!-- PIN -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomPin">
+                        PIN / ZIP Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="rmShowroomPin"
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomCategory">
+                        Business Category
+                    </label>
+
+                    <select
+                        id="rmShowroomCategory"
+                        required
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Retail">
+                            Retail
+                        </option>
+
+                        <option value="Wholesale">
+                            Wholesale
+                        </option>
+
+                        <option value="Showroom">
+                            Showroom
+                        </option>
+
+                        <option value="Manufacturing">
+                            Manufacturing
+                        </option>
+
+                        <option value="Services">
+                            Services
+                        </option>
+
+                        <option value="Real Estate">
+                            Real Estate
+                        </option>
+
+                        <option value="Automobile">
+                            Automobile
+                        </option>
+
+                        <option value="Electronics">
+                            Electronics
+                        </option>
+
+                        <option value="Furniture">
+                            Furniture
+                        </option>
+
+                        <option value="Clothing">
+                            Clothing
+                        </option>
+
+                        <option value="Food & Restaurant">
+                            Food & Restaurant
+                        </option>
+
+                        <option value="Education">
+                            Education
+                        </option>
+
+                        <option value="Travel">
+                            Travel
+                        </option>
+
+                        <option value="Technology">
+                            Technology
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- REACH -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomReach">
+                        Advertisement Reach
+                    </label>
+
+                    <select id="rmShowroomReach">
+
+                        <option value="Local">
+                            Local
+                        </option>
+
+                        <option value="Country">
+                            Country
+                        </option>
+
+                        <option value="Global">
+                            Global
+                        </option>
+
+                        <option value="All Countries">
+                            All Countries
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="rm-field rm-field-full">
+
+                    <label for="rmShowroomDescription">
+                        Business Description
+                    </label>
+
+                    <textarea
+                        id="rmShowroomDescription"
+                        placeholder="Describe your business, showroom or services"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomImage">
+                        Business / Showroom Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="rmShowroomImage"
+                        accept="image/*"
+                    >
+
+                </div>
+
+
+                <!-- VIDEO -->
+
+                <div class="rm-field">
+
+                    <label for="rmShowroomVideo">
+                        Business / Showroom Video
+                    </label>
+
+                    <input
+                        type="file"
+                        id="rmShowroomVideo"
+                        accept="video/*"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="rm-buttons">
+
+                <button
+                    type="submit"
+                    id="rmShowroomSaveBtn"
+                    class="rm-btn rm-btn-success"
+                >
+                    Save Business Ad
+                </button>
+
+
+                <button
+                    type="button"
+                    id="rmShowroomUpdateBtn"
+                    class="rm-btn rm-btn-primary"
+                    style="display:none;"
+                >
+                    Update Business Ad
+                </button>
+
+
+                <button
+                    type="reset"
+                    id="rmShowroomResetBtn"
+                    class="rm-btn rm-btn-light"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div
+                id="rmShowroomStatus"
+                class="rm-status"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         MY BUSINESS / SHOWROOM ADS
+         ===================================================== -->
+
+    <section
+        class="rm-card rm-my-section"
+        id="rmShowroomsSection"
+    >
+
+        <h2>
+            My Business / Showroom Ads
+        </h2>
+
+        <div
+            id="rmShowrooms"
+            class="rm-list"
+        >
+
+            <div class="rm-empty">
+                No Business / Showroom advertisements yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<!-- =========================================================
+     CENTRAL COUNTRY DATABASE
+     IMPORTANT:
+     This page is inside /html/
+     Therefore ../marketplace-countries.js is correct.
+     ========================================================= -->
+
+<script src="../marketplace-countries.js"></script>
+
+
+<!-- =========================================================
+     REGULAR MARKETPLACE JS ONLY
+     DO NOT USE GLOBAL marketplace.js HERE
+     ========================================================= -->
+
+<script src="../regular-marketplace.js"></script>
+
+
+<!-- =========================================================
+     REGULAR MARKETPLACE HTML BRIDGE
+     ========================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =====================================================
+       COUNTRY DATABASE
+       ===================================================== */
+
+    function getCountryDatabase() {
+
+        if (
+            Array.isArray(window.MARKETPLACE_COUNTRIES) &&
+            window.MARKETPLACE_COUNTRIES.length
+        ) {
+            return window.MARKETPLACE_COUNTRIES;
+        }
+
+
+        if (
+            Array.isArray(window.ALON_WORLD_COUNTRIES) &&
+            window.ALON_WORLD_COUNTRIES.length
+        ) {
+            return window.ALON_WORLD_COUNTRIES;
+        }
+
+
+        if (
+            Array.isArray(window.WORLD_COUNTRIES) &&
+            window.WORLD_COUNTRIES.length
+        ) {
+            return window.WORLD_COUNTRIES;
+        }
+
+
+        return [];
+
+    }
+
+
+    /* =====================================================
+       COUNTRY SELECT
+       ===================================================== */
+
+    function fillCountrySelect(select) {
+
+        if (!select) {
+            return;
+        }
+
+
+        var countries = getCountryDatabase();
+
+
+        if (!countries.length) {
+
+            console.warn(
+                "ALON: Marketplace country database not loaded."
+            );
+
+            return;
+        }
+
+
+        var currentValue = select.value;
+
+
+        select.innerHTML = "";
+
+
+        var firstOption =
+            document.createElement("option");
+
+        firstOption.value = "";
+
+        firstOption.textContent =
+            "Select Country";
+
+        select.appendChild(firstOption);
+
+
+        countries.forEach(function (country) {
+
+            if (!country) {
+                return;
+            }
+
+
+            var option =
+                document.createElement("option");
+
+
+            var code =
+                country.code ||
+                country.iso ||
+                country.isoCode ||
+                "";
+
+
+            var name =
+                country.name ||
+                country.country ||
+                "";
+
+
+            var flag =
+                country.flag ||
+                "";
+
+
+            var callingCode =
+                country.callingCode ||
+                country.phone ||
+                "";
+
+
+            option.value = code || name;
+
+
+            option.dataset.countryCode = code;
+
+
+            option.dataset.callingCode =
+                callingCode;
+
+
+            option.textContent =
+                (
+                    flag ? flag + " " : ""
+                ) +
+                name +
+                (
+                    code
+                    ? " (" + code + ")"
+                    : ""
+                ) +
+                (
+                    callingCode
+                    ? " " + callingCode
+                    : ""
+                );
+
+
+            select.appendChild(option);
+
+        });
+
+
+        if (currentValue) {
+            select.value = currentValue;
+        }
+
+    }
+
+
+    /* =====================================================
+       FILL BOTH COUNTRY SELECTORS
+       ===================================================== */
+
+    function populateCountries() {
+
+        fillCountrySelect(
+            document.getElementById("rmCountry")
+        );
+
+
+        fillCountrySelect(
+            document.getElementById("rmShowroomCountry")
+        );
+
+    }
+
+
+    /* =====================================================
+       TYPE / CATEGORY SYNC
+       ===================================================== */
+
+    function syncCategoryOptions(type) {
+
+        var category =
+            document.getElementById(
+                "rmListingCategory"
+            );
+
+
+        if (!category) {
+            return;
+        }
+
+
+        var groups = {
+
+            item: [
+
+                "Electronics",
+                "Mobile",
+                "Computer",
+                "Furniture",
+                "Clothing",
+                "Home",
+                "Other Item"
+
+            ],
+
+            property: [
+
+                "House",
+                "Shop",
+                "Flat",
+                "Bungalow",
+                "Plot",
+                "Land",
+                "Office",
+                "Warehouse",
+                "Farm",
+                "Other Property"
+
+            ],
+
+            vehicle: [
+
+                "Car",
+                "SUV",
+                "4x4",
+                "Motorcycle",
+                "Bike",
+                "Scooter",
+                "EV",
+                "Truck",
+                "Trailer",
+                "Tractor",
+                "JCB",
+                "Bus",
+                "Van",
+                "Ambulance",
+                "Taxi",
+                "Other Vehicle"
+
+            ]
+
+        };
+
+
+        var values =
+            groups[type] || groups.item;
+
+
+        category.innerHTML = "";
+
+
+        values.forEach(function (value) {
+
+            var option =
+                document.createElement("option");
+
+
+            option.value = value;
+
+            option.textContent = value;
+
+
+            category.appendChild(option);
+
+        });
+
+    }
+
+
+    /* =====================================================
+       RADIO -> SELECT
+       ===================================================== */
+
+    function setupTypeCards() {
+
+        var radios =
+            document.querySelectorAll(
+                'input[name="rmTypeChoice"]'
+            );
+
+
+        var listingType =
+            document.getElementById(
+                "rmListingType"
+            );
+
+
+        radios.forEach(function (radio) {
+
+            radio.addEventListener(
+                "change",
+                function () {
+
+                    if (!this.checked) {
+                        return;
+                    }
+
+
+                    var type =
+                        this.value;
+
+
+                    if (listingType) {
+                        listingType.value =
+                            type;
+                    }
+
+
+                    syncCategoryOptions(
+                        type
+                    );
+
+                }
+            );
+
+        });
+
+
+        if (listingType) {
+
+            listingType.addEventListener(
+                "change",
+                function () {
+
+                    var type =
+                        this.value;
+
+
+                    syncCategoryOptions(
+                        type
+                    );
+
+
+                    radios.forEach(
+                        function (radio) {
+
+                            radio.checked =
+                                radio.value === type;
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
+
+    function initializeRegularMarketplace() {
+
+        populateCountries();
+
+        setupTypeCards();
+
+        syncCategoryOptions("item");
+
+    }
+
+
+    if (
+        document.readyState === "loading"
+    ) {
 
         document.addEventListener(
             "DOMContentLoaded",
-            function () {
-
-                /*
-                 * Keep the listing category synchronized
-                 * with the selected main listing type.
-                 */
-
-                const typeInputs =
-                    document.querySelectorAll(
-                        'input[name="rmType"]'
-                    );
-
-                const listingType =
-                    document.getElementById(
-                        "rmListingType"
-                    );
-
-                const category =
-                    document.getElementById(
-                        "rmListingCategory"
-                    );
-
-                function syncType(type) {
-
-                    if (!listingType) {
-                        return;
-                    }
-
-                    listingType.value = type;
-
-                    if (!category) {
-                        return;
-                    }
-
-                    const groups =
-                        category.querySelectorAll(
-                            "optgroup"
-                        );
-
-                    groups.forEach(
-                        group => {
-
-                            const groupName =
-                                String(
-                                    group.dataset.group || ""
-                                ).toLowerCase();
-
-                            group.hidden =
-                                groupName !==
-                                String(type).toLowerCase();
-
-                        }
-                    );
-
-                    const visibleGroup =
-                        Array.from(groups).find(
-                            group =>
-                                String(
-                                    group.dataset.group || ""
-                                ).toLowerCase() ===
-                                String(type).toLowerCase()
-                        );
-
-                    if (visibleGroup) {
-
-                        const firstOption =
-                            visibleGroup.querySelector(
-                                "option"
-                            );
-
-                        if (firstOption) {
-
-                            category.value =
-                                firstOption.value;
-
-                        }
-
-                    }
-
-                }
-
-
-                typeInputs.forEach(
-                    input => {
-
-                        input.addEventListener(
-                            "change",
-                            function () {
-
-                                syncType(
-                                    input.value
-                                );
-
-                            }
-                        );
-
-                    }
-                );
-
-
-                if (listingType) {
-
-                    listingType.addEventListener(
-                        "change",
-                        function () {
-
-                            syncType(
-                                listingType.value
-                            );
-
-                            typeInputs.forEach(
-                                input => {
-
-                                    input.checked =
-                                        input.value ===
-                                        listingType.value;
-
-                                }
-                            );
-
-                        }
-                    );
-
-                }
-
-
-                /*
-                 * Initial state
-                 */
-
-                syncType(
-                    listingType
-                        ? listingType.value
-                        : "item"
-                );
-
-
-                /*
-                 * If the central country helper exists,
-                 * let the regular JS populate the selectors.
-                 *
-                 * This bridge does NOT create a second
-                 * country database.
-                 */
-
-                const countries =
-                    window.MARKETPLACE_COUNTRIES ||
-                    window.ALON_WORLD_COUNTRIES ||
-                    window.WORLD_COUNTRIES;
-
-                if (
-                    Array.isArray(countries) &&
-                    countries.length
-                ) {
-
-                    const selectors = [
-                        document.getElementById("rmCountry"),
-                        document.getElementById(
-                            "rmShowroomCountry"
-                        )
-                    ];
-
-                    selectors.forEach(
-                        select => {
-
-                            if (!select) {
-                                return;
-                            }
-
-                            /*
-                             * Only populate if the
-                             * regular JS has not already
-                             * populated the selector.
-                             */
-
-                            if (
-                                select.options.length <= 1
-                            ) {
-
-                                countries.forEach(
-                                    country => {
-
-                                        const option =
-                                            document.createElement(
-                                                "option"
-                                            );
-
-                                        const code =
-                                            country.code ||
-                                            country.iso ||
-                                            "";
-
-                                        const name =
-                                            country.name ||
-                                            country.country ||
-                                            "";
-
-                                        const flag =
-                                            country.flag ||
-                                            "";
-
-                                        const callingCode =
-                                            country.callingCode ||
-                                            "";
-
-                                        option.value =
-                                            code;
-
-                                        option.textContent =
-                                            (
-                                                flag
-                                                ? flag + " "
-                                                : ""
-                                            ) +
-                                            name +
-                                            (
-                                                code
-                                                ? " (" +
-                                                  code +
-                                                  ")"
-                                                : ""
-                                            ) +
-                                            (
-                                                callingCode
-                                                ? " " +
-                                                  callingCode
-                                                : ""
-                                            );
-
-                                        select.appendChild(
-                                            option
-                                        );
-
-                                    }
-                                );
-
-                            }
-
-                        }
-                    );
-
-                }
-
-            }
+            initializeRegularMarketplace
         );
 
-    </script>
+    } else {
+
+        initializeRegularMarketplace();
+
+    }
+
+
+    /* =====================================================
+       COUNTRY DATABASE MAY LOAD FIRST/LATER
+       ===================================================== */
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            populateCountries();
+
+        }
+    );
+
+
+})();
+
+</script>
+
 
 </body>
 
