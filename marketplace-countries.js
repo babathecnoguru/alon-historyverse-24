@@ -2,25 +2,29 @@
    ALON HISTORYVERSE 24
    MARKETPLACE COUNTRIES DATABASE
    ---------------------------------------------------------
-   Version: 24.5 SAFE CENTRAL COUNTRY SYSTEM
+   Version: 24.6 SAFE CENTRAL MARKETPLACE COUNTRY SYSTEM
    Creator: Baba Thecno Guru
 
    PURPOSE
    • Central country database
    • Regular Marketplace support
+   • Global Marketplace compatibility
    • Jobs compatibility
    • Flag
    • Country name
    • ISO-2
    • ISO-3
    • Calling code
-   • Automatic dropdown support
+   • Automatic Marketplace dropdown support
 
    IMPORTANT
+   • No new country file required
+   • No new path required
    • Global Marketplace files are NOT modified
    • Regular Marketplace IDs:
        rmCountry
        rmShowroomCountry
+   • Bangladesh and Pakistan are not included
    ========================================================= */
 
 (function (window) {
@@ -261,15 +265,20 @@
         return {
             name: item[0],
             country: item[0],
+
             slug: item[0]
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, "-")
                 .replace(/^-|-$/g, ""),
+
             flag: item[4],
+
             code2: item[1],
             code3: item[2],
+
             iso2: item[1],
             iso3: item[2],
+
             callingCode: item[3],
             phoneCode: item[3]
         };
@@ -280,12 +289,17 @@
        GLOBAL EXPORTS
        ----------------------------------------------------- */
 
-    window.MARKETPLACE_COUNTRIES = MARKETPLACE_COUNTRIES;
+    window.MARKETPLACE_COUNTRIES =
+        MARKETPLACE_COUNTRIES;
 
-    /* Compatibility names used by older ALON files */
+    window.ALON_WORLD_COUNTRIES =
+        MARKETPLACE_COUNTRIES;
 
-    window.ALON_WORLD_COUNTRIES = MARKETPLACE_COUNTRIES;
-    window.WORLD_COUNTRIES = MARKETPLACE_COUNTRIES;
+    window.WORLD_COUNTRIES =
+        MARKETPLACE_COUNTRIES;
+
+    window.GLOBAL_COUNTRIES =
+        MARKETPLACE_COUNTRIES;
 
     /* -----------------------------------------------------
        FIND COUNTRY
@@ -295,23 +309,28 @@
 
         if (!value) return null;
 
-        const search = String(value)
-            .trim()
-            .toLowerCase();
+        const search =
+            String(value)
+                .trim()
+                .toLowerCase();
 
-        return MARKETPLACE_COUNTRIES.find(function (country) {
+        return MARKETPLACE_COUNTRIES.find(
+            function (country) {
 
-            return (
-                country.name.toLowerCase() === search ||
-                country.country.toLowerCase() === search ||
-                country.code2.toLowerCase() === search ||
-                country.code3.toLowerCase() === search ||
-                country.slug.toLowerCase() === search ||
-                country.callingCode === search ||
-                country.phoneCode === search
-            );
+                return (
+                    country.name.toLowerCase() === search ||
+                    country.country.toLowerCase() === search ||
+                    country.code2.toLowerCase() === search ||
+                    country.code3.toLowerCase() === search ||
+                    country.iso2.toLowerCase() === search ||
+                    country.iso3.toLowerCase() === search ||
+                    country.slug.toLowerCase() === search ||
+                    country.callingCode === search ||
+                    country.phoneCode === search
+                );
 
-        }) || null;
+            }
+        ) || null;
     };
 
     /* -----------------------------------------------------
@@ -336,7 +355,7 @@
     };
 
     /* -----------------------------------------------------
-       POPULATE COUNTRY SELECT
+       FILL ONE COUNTRY SELECT
        ----------------------------------------------------- */
 
     window.ALON_FILL_COUNTRY_SELECT = function (
@@ -363,84 +382,195 @@
             document.createElement("option");
 
         placeholder.value = "";
+
         placeholder.textContent =
             "🌍 Select Country";
 
         select.appendChild(placeholder);
 
-        MARKETPLACE_COUNTRIES.forEach(function (country) {
+        MARKETPLACE_COUNTRIES.forEach(
+            function (country) {
 
-            const option =
-                document.createElement("option");
+                const option =
+                    document.createElement("option");
 
-            option.value = country.code2;
+                option.value =
+                    country.code2;
 
-            option.textContent =
-                country.flag +
-                " " +
-                country.name +
-                " (" +
-                country.code2 +
-                " • " +
-                country.code3 +
-                ") " +
-                country.callingCode;
+                option.textContent =
+                    country.flag +
+                    " " +
+                    country.name +
+                    " (" +
+                    country.code2 +
+                    " • " +
+                    country.code3 +
+                    ") " +
+                    country.callingCode;
 
-            option.dataset.country =
-                country.name;
+                option.dataset.country =
+                    country.name;
 
-            option.dataset.code2 =
-                country.code2;
+                option.dataset.code2 =
+                    country.code2;
 
-            option.dataset.code3 =
-                country.code3;
+                option.dataset.code3 =
+                    country.code3;
 
-            option.dataset.callingCode =
-                country.callingCode;
+                option.dataset.iso2 =
+                    country.iso2;
 
-            option.dataset.flag =
-                country.flag;
+                option.dataset.iso3 =
+                    country.iso3;
 
-            select.appendChild(option);
+                option.dataset.callingCode =
+                    country.callingCode;
 
-        });
+                option.dataset.flag =
+                    country.flag;
 
-        /* -------------------------------------------------
-           Restore old saved country values
-           ------------------------------------------------- */
+                select.appendChild(option);
+            }
+        );
 
         if (oldValue) {
 
             const found =
-                window.ALON_FIND_COUNTRY(oldValue);
+                window.ALON_FIND_COUNTRY(
+                    oldValue
+                );
 
             if (found) {
-                select.value = found.code2;
+                select.value =
+                    found.code2;
             }
-
         }
 
         return true;
     };
 
     /* -----------------------------------------------------
-       AUTO INITIALIZE REGULAR MARKETPLACE
+       CHECK WHETHER SELECT IS MARKETPLACE COUNTRY FIELD
+       ----------------------------------------------------- */
+
+    function isMarketplaceCountrySelect(select) {
+
+        if (!select || select.tagName !== "SELECT") {
+            return false;
+        }
+
+        const id =
+            String(select.id || "")
+                .toLowerCase();
+
+        const name =
+            String(select.name || "")
+                .toLowerCase();
+
+        const className =
+            String(select.className || "")
+                .toLowerCase();
+
+        const combined =
+            id + " " +
+            name + " " +
+            className;
+
+        /* Regular Marketplace */
+
+        if (
+            id === "rmcountry" ||
+            id === "rmshowroomcountry"
+        ) {
+            return true;
+        }
+
+        /* Avoid changing Jobs country selectors */
+
+        if (
+            combined.includes("job") ||
+            combined.includes("career")
+        ) {
+            return false;
+        }
+
+        /* Marketplace country fields */
+
+        if (
+            combined.includes("marketplace") &&
+            combined.includes("country")
+        ) {
+            return true;
+        }
+
+        if (
+            combined.includes("marketplace") &&
+            combined.includes("location")
+        ) {
+            return true;
+        }
+
+        if (
+            id.includes("marketplacecountry") ||
+            id.includes("globalcountry") ||
+            id.includes("countryselector") ||
+            id.includes("countryselect")
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /* -----------------------------------------------------
+       AUTO DETECT MARKETPLACE COUNTRY SELECTS
+       ----------------------------------------------------- */
+
+    function initMarketplaceCountrySelects() {
+
+        const selects =
+            document.querySelectorAll(
+                "select"
+            );
+
+        selects.forEach(function (select) {
+
+            if (
+                isMarketplaceCountrySelect(
+                    select
+                )
+            ) {
+
+                window.ALON_FILL_COUNTRY_SELECT(
+                    select
+                );
+            }
+
+        });
+
+    }
+
+    /* -----------------------------------------------------
+       REGULAR MARKETPLACE
        ----------------------------------------------------- */
 
     function initRegularMarketplaceCountries() {
 
         const listingCountry =
-            document.getElementById("rmCountry");
+            document.getElementById(
+                "rmCountry"
+            );
 
         const showroomCountry =
-            document.getElementById("rmShowroomCountry");
+            document.getElementById(
+                "rmShowroomCountry"
+            );
 
         if (listingCountry) {
 
             window.ALON_FILL_COUNTRY_SELECT(
                 listingCountry
             );
-
         }
 
         if (showroomCountry) {
@@ -448,15 +578,19 @@
             window.ALON_FILL_COUNTRY_SELECT(
                 showroomCountry
             );
-
         }
+
+        initMarketplaceCountrySelects();
     }
 
     /* -----------------------------------------------------
        DOM READY
        ----------------------------------------------------- */
 
-    if (document.readyState === "loading") {
+    if (
+        document.readyState ===
+        "loading"
+    ) {
 
         document.addEventListener(
             "DOMContentLoaded",
@@ -466,11 +600,10 @@
     } else {
 
         initRegularMarketplaceCountries();
-
     }
 
     /* -----------------------------------------------------
-       ALSO RETRY ON LOAD
+       WINDOW LOAD
        ----------------------------------------------------- */
 
     window.addEventListener(
@@ -479,10 +612,40 @@
     );
 
     /* -----------------------------------------------------
+       OBSERVE DYNAMIC MARKETPLACE FORMS
+       ----------------------------------------------------- */
+
+    if (
+        typeof MutationObserver !==
+        "undefined"
+    ) {
+
+        const observer =
+            new MutationObserver(
+                function () {
+
+                    initMarketplaceCountrySelects();
+
+                }
+            );
+
+        if (document.documentElement) {
+
+            observer.observe(
+                document.documentElement,
+                {
+                    childList: true,
+                    subtree: true
+                }
+            );
+        }
+    }
+
+    /* -----------------------------------------------------
        DATABASE VERSION
        ----------------------------------------------------- */
 
     window.MARKETPLACE_COUNTRIES_VERSION =
-        "24.5 SAFE CENTRAL WORLD";
+        "24.6 SAFE CENTRAL MARKETPLACE";
 
 })(window);
