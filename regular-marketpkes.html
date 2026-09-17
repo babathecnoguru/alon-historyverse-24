@@ -350,6 +350,85 @@
         }
 
         /* =========================================================
+           SECURE PAYMENT ACCOUNT
+           ========================================================= */
+
+        .rm-payment-account-box {
+            margin-top: 16px;
+
+            padding: 16px;
+
+            border: 1px solid #d7b35a;
+            border-radius: 12px;
+
+            background: #ffffff;
+        }
+
+        .rm-payment-account-title {
+            margin: 0 0 8px;
+
+            color: #8b6508;
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .rm-payment-account-status {
+            display: inline-block;
+
+            margin-top: 8px;
+
+            padding: 7px 10px;
+
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+
+            background: #fafafa;
+            color: #555555;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .rm-payment-methods {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 12px;
+        }
+
+        .rm-payment-method {
+            padding: 8px 11px;
+
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+
+            background: #ffffff;
+            color: #333333;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .rm-payment-security {
+            margin-top: 12px;
+
+            padding: 11px;
+
+            border: 1px solid #e2e2e2;
+            border-radius: 9px;
+
+            background: #fafafa;
+            color: #555555;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
            LISTINGS / SHOWROOM CARDS
            ========================================================= */
 
@@ -1459,7 +1538,7 @@
 
 
             <!-- =====================================================
-                 PAYMENT
+                 SECURE PAYMENT
                  ===================================================== -->
 
             <div class="rm-payment-box">
@@ -1471,122 +1550,116 @@
                 </div>
 
 
-                <div class="rm-bank-box">
+                <!-- =================================================
+                     OWNER PAYMENT ACCOUNT
+                     ================================================= -->
 
-                    <h4>Bank Account Payment</h4>
+                <div class="rm-payment-account-box">
+
+                    <div class="rm-payment-account-title">
+                        Secure Payment Account
+                    </div>
 
                     <p class="rm-bank-note">
-                        यहाँ अपने बैंक अकाउंट की जानकारी डाल सकते हैं।
-                        नीचे दिए fields में अपनी वास्तविक payment
-                        information रखनी है।
+                        Connect your payment gateway account securely.
+                        Your bank account information will not be
+                        displayed to marketplace users.
                     </p>
 
+                    <div
+                        id="rmPaymentAccountStatus"
+                        class="rm-payment-account-status"
+                    >
+                        Payment Account: Not Connected
+                    </div>
 
-                    <div class="rm-form-grid">
+                    <div class="rm-actions">
 
-
-                        <div class="rm-field">
-
-                            <label for="rmBankAccountName">
-                                Account Holder Name
-                            </label>
-
-                            <input
-                                id="rmBankAccountName"
-                                type="text"
-                                placeholder="Enter account holder name"
-                            >
-
-                        </div>
-
-
-                        <div class="rm-field">
-
-                            <label for="rmBankName">
-                                Bank Name
-                            </label>
-
-                            <input
-                                id="rmBankName"
-                                type="text"
-                                placeholder="Enter bank name"
-                            >
-
-                        </div>
-
-
-                        <div class="rm-field">
-
-                            <label for="rmBankAccountNumber">
-                                Bank Account Number
-                            </label>
-
-                            <input
-                                id="rmBankAccountNumber"
-                                type="text"
-                                placeholder="Enter bank account number"
-                            >
-
-                        </div>
-
-
-                        <div class="rm-field">
-
-                            <label for="rmBankIfsc">
-                                IFSC / Bank Code
-                            </label>
-
-                            <input
-                                id="rmBankIfsc"
-                                type="text"
-                                placeholder="Enter IFSC / bank code"
-                            >
-
-                        </div>
-
-
-                        <div class="rm-field">
-
-                            <label for="rmBankBranch">
-                                Branch
-                            </label>
-
-                            <input
-                                id="rmBankBranch"
-                                type="text"
-                                placeholder="Enter branch"
-                            >
-
-                        </div>
-
-
-                        <div class="rm-field">
-
-                            <label for="rmBankCountry">
-                                Bank Country
-                            </label>
-
-                            <input
-                                id="rmBankCountry"
-                                type="text"
-                                placeholder="Enter bank country"
-                            >
-
-                        </div>
+                        <button
+                            type="button"
+                            class="rm-btn"
+                            id="rmConnectPaymentButton"
+                        >
+                            Connect Payment Account
+                        </button>
 
                     </div>
 
                 </div>
 
 
-                <p class="rm-note">
-                    Advertisement price: $10 USD.
-                </p>
+                <!-- =================================================
+                     CUSTOMER PAYMENT METHODS
+                     ================================================= -->
+
+                <div class="rm-bank-box">
+
+                    <h4>Customer Payment Methods</h4>
+
+                    <p class="rm-bank-note">
+                        Customers can pay the $10 USD advertisement
+                        fee through the secure payment gateway.
+                        Available payment methods depend on the
+                        connected payment provider and customer region.
+                    </p>
+
+
+                    <div class="rm-payment-methods">
+
+                        <span class="rm-payment-method">
+                            Credit Card
+                        </span>
+
+                        <span class="rm-payment-method">
+                            Debit Card
+                        </span>
+
+                        <span class="rm-payment-method">
+                            Visa
+                        </span>
+
+                        <span class="rm-payment-method">
+                            Mastercard
+                        </span>
+
+                        <span class="rm-payment-method">
+                            UPI
+                        </span>
+
+                        <span class="rm-payment-method">
+                            PhonePe
+                        </span>
+
+                        <span class="rm-payment-method">
+                            Google Pay
+                        </span>
+
+                        <span class="rm-payment-method">
+                            Paytm
+                        </span>
+
+                    </div>
+
+
+                    <div class="rm-payment-security">
+
+                        🔒 <strong>Secure Payment:</strong>
+                        Card numbers, CVV, UPI PIN and bank account
+                        credentials must be entered only inside the
+                        payment gateway's secure checkout. They should
+                        never be stored in this Marketplace or GitHub.
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PAY BUTTON
+                     ================================================= -->
 
                 <p class="rm-note">
-                    Payment verification on static GitHub Pages
-                    cannot securely verify a real bank transaction.
-                    The button below is only a local publishing gate.
+                    Advertisement price: $10 USD.
                 </p>
 
 
@@ -1597,7 +1670,7 @@
                         class="rm-btn rm-btn-primary"
                         id="rmPayShowroomButton"
                     >
-                        Verify Payment
+                        Pay $10 USD
                     </button>
 
                 </div>
