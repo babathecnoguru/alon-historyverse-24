@@ -1,373 +1,156 @@
 /* =========================================================
    ALON HISTORYVERSE 24
-   REGULAR MARKETPLACE JS
+   REGULAR MARKETPLACE
    ---------------------------------------------------------
-   FILE:
-   html/regular-marketplace.js
+   Version: 24.5 SAFE REGULAR MARKETPLACE
+   Creator: Baba Thecno Guru
 
-   IMPORTANT:
-   • This file is ONLY for Regular Marketplace.
-   • DO NOT use this code in marketplace.js.
-   • Global Marketplace remains untouched.
+   FEATURES
+   • Item / Property / Vehicle
+   • New / Used / Refurbished
+   • World Country Database
+   • Flag + Country + ISO + Calling Code
+   • Login + Agreement
+   • Profile + Logout
+   • Save / Edit / Delete Listings
+   • Image + Optional Video
+   • Business / Showroom Advertisement
+   • Global / Worldwide Reach
+   • International Reach
+   • $10 USD Showroom Advertisement
+   • LocalStorage Persistence
+
+   IMPORTANT
+   • REGULAR MARKETPLACE ONLY
+   • DOES NOT MODIFY GLOBAL MARKETPLACE
    ========================================================= */
 
 (function () {
+
     "use strict";
 
-    /* =========================================================
+    /* =====================================================
        CONFIGURATION
-       ========================================================= */
+       ===================================================== */
 
     const CONFIG = {
         version: "24.5",
-
-        listingStorage:
-            "alon_historyverse_regular_marketplace_listings",
-
-        showroomStorage:
-            "alon_historyverse_regular_marketplace_showrooms",
-
-        accountStorage:
-            "alon_historyverse_regular_marketplace_account",
-
-        sessionStorage:
-            "alon_historyverse_regular_marketplace_session",
-
         currency: "USD",
-
         showroomPrice: 10,
 
-        imageMaxSize:
-            8 * 1024 * 1024,
+        maxImageSize: 8 * 1024 * 1024,
+        maxVideoSize: 20 * 1024 * 1024,
 
-        videoMaxSize:
-            20 * 1024 * 1024
+        listingsKey:
+            "alon_historyverse_regular_marketplace_listings",
+
+        showroomsKey:
+            "alon_historyverse_regular_marketplace_showrooms",
+
+        accountKey:
+            "alon_historyverse_regular_marketplace_account",
+
+        sessionKey:
+            "alon_historyverse_regular_marketplace_session"
     };
 
 
-    /* =========================================================
+    /* =====================================================
        CATEGORY DATABASE
-       ========================================================= */
+       ===================================================== */
 
-    const ITEM_CATEGORIES = [
-        {
-            value: "electronics",
-            label: "Electronics"
-        },
-        {
-            value: "mobile",
-            label: "Mobile"
-        },
-        {
-            value: "computer",
-            label: "Computer"
-        },
-        {
-            value: "furniture",
-            label: "Furniture"
-        },
-        {
-            value: "clothing",
-            label: "Clothing"
-        },
-        {
-            value: "footwear",
-            label: "Footwear"
-        },
-        {
-            value: "home",
-            label: "Home"
-        },
-        {
-            value: "appliances",
-            label: "Appliances"
-        },
-        {
-            value: "kitchen",
-            label: "Kitchen"
-        },
-        {
-            value: "books",
-            label: "Books"
-        },
-        {
-            value: "sports",
-            label: "Sports"
-        },
-        {
-            value: "toys",
-            label: "Toys"
-        },
-        {
-            value: "tools",
-            label: "Tools"
-        },
-        {
-            value: "machinery",
-            label: "Machinery"
-        },
-        {
-            value: "jewellery",
-            label: "Jewellery"
-        },
-        {
-            value: "musical",
-            label: "Musical Instruments"
-        },
-        {
-            value: "agriculture",
-            label: "Agriculture"
-        },
-        {
-            value: "office",
-            label: "Office"
-        },
-        {
-            value: "collectibles",
-            label: "Collectibles"
-        },
-        {
-            value: "other-item",
-            label: "Other Item"
-        }
+    const CATEGORY_DATA = {
+
+        item: [
+            "Electronics",
+            "Mobile",
+            "Computer",
+            "Furniture",
+            "Clothing",
+            "Footwear",
+            "Home",
+            "Appliances",
+            "Kitchen",
+            "Books",
+            "Sports",
+            "Toys",
+            "Tools",
+            "Machinery",
+            "Jewellery",
+            "Musical Instruments",
+            "Agriculture",
+            "Office",
+            "Collectibles",
+            "Other Item"
+        ],
+
+        property: [
+            "House",
+            "Flat / Apartment",
+            "Bungalow",
+            "Villa",
+            "Plot",
+            "Land",
+            "Farm",
+            "Shop",
+            "Office",
+            "Warehouse",
+            "Factory",
+            "Commercial Property",
+            "Hotel Property",
+            "Rental Property",
+            "Other Property"
+        ],
+
+        vehicle: [
+            "Car",
+            "SUV / 4x4",
+            "Motorcycle / Bike",
+            "Scooter",
+            "Electric Vehicle",
+            "Truck",
+            "Trailer",
+            "Tractor",
+            "JCB / Excavator",
+            "Bus",
+            "Van",
+            "Ambulance",
+            "Taxi",
+            "Commercial Vehicle",
+            "Three Wheeler",
+            "Farm Vehicle",
+            "Construction Vehicle",
+            "Boat / Water Vehicle",
+            "Other Vehicle"
+        ]
+    };
+
+
+    const CONDITION_DATA = [
+        "New",
+        "Used",
+        "Refurbished",
+        "Not Applicable"
     ];
 
 
-    const PROPERTY_CATEGORIES = [
-        {
-            value: "house",
-            label: "House"
-        },
-        {
-            value: "flat",
-            label: "Flat / Apartment"
-        },
-        {
-            value: "bungalow",
-            label: "Bungalow"
-        },
-        {
-            value: "villa",
-            label: "Villa"
-        },
-        {
-            value: "plot",
-            label: "Plot"
-        },
-        {
-            value: "land",
-            label: "Land"
-        },
-        {
-            value: "farm",
-            label: "Farm"
-        },
-        {
-            value: "shop",
-            label: "Shop"
-        },
-        {
-            value: "office",
-            label: "Office"
-        },
-        {
-            value: "warehouse",
-            label: "Warehouse"
-        },
-        {
-            value: "factory",
-            label: "Factory"
-        },
-        {
-            value: "commercial-property",
-            label: "Commercial Property"
-        },
-        {
-            value: "hotel-property",
-            label: "Hotel Property"
-        },
-        {
-            value: "rental-property",
-            label: "Rental Property"
-        },
-        {
-            value: "other-property",
-            label: "Other Property"
-        }
-    ];
-
-
-    const VEHICLE_CATEGORIES = [
-        {
-            value: "car",
-            label: "Car"
-        },
-        {
-            value: "suv",
-            label: "SUV"
-        },
-        {
-            value: "motorcycle-bike",
-            label: "Motorcycle / Bike"
-        },
-        {
-            value: "scooter",
-            label: "Scooter"
-        },
-        {
-            value: "electric-vehicle",
-            label: "Electric Vehicle"
-        },
-        {
-            value: "truck",
-            label: "Truck"
-        },
-        {
-            value: "trailer",
-            label: "Trailer"
-        },
-        {
-            value: "tractor",
-            label: "Tractor"
-        },
-        {
-            value: "jcb-excavator",
-            label: "JCB / Excavator"
-        },
-        {
-            value: "bus",
-            label: "Bus"
-        },
-        {
-            value: "van",
-            label: "Van"
-        },
-        {
-            value: "ambulance",
-            label: "Ambulance"
-        },
-        {
-            value: "taxi",
-            label: "Taxi"
-        },
-        {
-            value: "commercial-vehicle",
-            label: "Commercial Vehicle"
-        },
-        {
-            value: "three-wheeler",
-            label: "Three Wheeler"
-        },
-        {
-            value: "farm-vehicle",
-            label: "Farm Vehicle"
-        },
-        {
-            value: "construction-vehicle",
-            label: "Construction Vehicle"
-        },
-        {
-            value: "boat",
-            label: "Boat"
-        },
-        {
-            value: "other-vehicle",
-            label: "Other Vehicle"
-        }
-    ];
-
-
-    /* =========================================================
-       SHOWROOM / ADVERTISEMENT CATEGORIES
-       ========================================================= */
-
-    const SHOWROOM_CATEGORIES = [
-        {
-            value: "showroom",
-            label: "Showroom"
-        },
-        {
-            value: "shop",
-            label: "Shop"
-        },
-        {
-            value: "dealer",
-            label: "Dealer"
-        },
-        {
-            value: "manufacturer",
-            label: "Manufacturer"
-        },
-        {
-            value: "service",
-            label: "Service Provider"
-        },
-        {
-            value: "real-estate",
-            label: "Real Estate"
-        },
-        {
-            value: "vehicle-dealer",
-            label: "Vehicle Dealer"
-        },
-        {
-            value: "electronics",
-            label: "Electronics"
-        },
-        {
-            value: "mobile-computer",
-            label: "Mobile / Computer"
-        },
-        {
-            value: "furniture",
-            label: "Furniture"
-        },
-        {
-            value: "clothing",
-            label: "Clothing / Fashion"
-        },
-        {
-            value: "agriculture",
-            label: "Agriculture"
-        },
-        {
-            value: "machinery",
-            label: "Machinery"
-        },
-        {
-            value: "food",
-            label: "Food / Restaurant"
-        },
-        {
-            value: "education",
-            label: "Education"
-        },
-        {
-            value: "jobs",
-            label: "Jobs / Careers"
-        },
-        {
-            value: "other",
-            label: "Other Business"
-        }
-    ];
-
-
-    /* =========================================================
-       DOM HELPER
-       ========================================================= */
+    /* =====================================================
+       SHORT DOM HELPER
+       ===================================================== */
 
     function $(id) {
         return document.getElementById(id);
     }
 
 
-    /* =========================================================
-       SAFE STORAGE
-       ========================================================= */
+    /* =====================================================
+       STORAGE HELPERS
+       ===================================================== */
 
-    function readStorage(key, fallback) {
+    function loadJSON(key, fallback) {
+
         try {
+
             const raw = localStorage.getItem(key);
 
             if (!raw) {
@@ -377,9 +160,11 @@
             const parsed = JSON.parse(raw);
 
             return parsed;
+
         } catch (error) {
+
             console.error(
-                "Regular Marketplace storage read error:",
+                "ALON Regular Marketplace storage read error:",
                 error
             );
 
@@ -388,17 +173,21 @@
     }
 
 
-    function writeStorage(key, value) {
+    function saveJSON(key, value) {
+
         try {
+
             localStorage.setItem(
                 key,
                 JSON.stringify(value)
             );
 
             return true;
+
         } catch (error) {
+
             console.error(
-                "Regular Marketplace storage write error:",
+                "ALON Regular Marketplace storage write error:",
                 error
             );
 
@@ -407,22 +196,8 @@
     }
 
 
-    function removeStorage(key) {
-        try {
-            localStorage.removeItem(key);
+    function generateID(prefix) {
 
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
-
-
-    /* =========================================================
-       ID GENERATOR
-       ========================================================= */
-
-    function createId(prefix) {
         return (
             prefix +
             "_" +
@@ -430,63 +205,300 @@
             "_" +
             Math.random()
                 .toString(36)
-                .slice(2, 10)
+                .substring(2, 9)
         );
     }
 
 
-    /* =========================================================
-       CURRENT ACCOUNT
-       ========================================================= */
+    function nowISO() {
+
+        return new Date().toISOString();
+    }
+
+
+    /* =====================================================
+       LOGIN / SESSION
+       ===================================================== */
 
     function getAccount() {
-        return readStorage(
-            CONFIG.accountStorage,
+
+        return loadJSON(
+            CONFIG.accountKey,
             null
         );
     }
 
 
     function getSession() {
-        return readStorage(
-            CONFIG.sessionStorage,
+
+        return loadJSON(
+            CONFIG.sessionKey,
             null
         );
     }
 
 
-    function getLoggedInAccount() {
+    function isLoggedIn() {
 
         const session = getSession();
 
-        if (!session || !session.loggedIn) {
-            return null;
-        }
-
-        return getAccount();
+        return !!(
+            session &&
+            session.loggedIn === true &&
+            session.email
+        );
     }
 
 
-    function requireLogin() {
+    function getCurrentUserEmail() {
 
-        const account = getLoggedInAccount();
+        const session = getSession();
 
-        if (!account) {
+        if (
+            session &&
+            session.loggedIn === true &&
+            session.email
+        ) {
+            return String(session.email)
+                .trim()
+                .toLowerCase();
+        }
+
+        return "";
+    }
+
+
+    /* =====================================================
+       LOGIN UI
+       ===================================================== */
+
+    function updateLoginUI() {
+
+        const loginBox =
+            $("rmLoginBox");
+
+        const profileBox =
+            $("rmProfileBox");
+
+        const profileEmail =
+            $("rmProfileEmail");
+
+        const session =
+            getSession();
+
+        const loggedIn = !!(
+            session &&
+            session.loggedIn === true &&
+            session.email
+        );
+
+
+        if (loginBox) {
+
+            loginBox.style.display =
+                loggedIn ? "none" : "";
+        }
+
+
+        if (profileBox) {
+
+            profileBox.style.display =
+                loggedIn ? "" : "none";
+        }
+
+
+        if (
+            loggedIn &&
+            profileEmail
+        ) {
+
+            profileEmail.textContent =
+                session.email;
+        }
+    }
+
+
+    function login() {
+
+        const name =
+            $("rmLoginName")?.value
+                ?.trim() || "";
+
+        const email =
+            $("rmLoginEmail")?.value
+                ?.trim()
+                .toLowerCase() || "";
+
+        const password =
+            $("rmLoginPassword")?.value || "";
+
+        const agreement =
+            $("rmAgreement");
+
+
+        const status =
+            $("rmLoginStatus");
+
+
+        if (!name) {
 
             showStatus(
-                "rmLoginStatus",
-                "Please login first.",
+                status,
+                "Please enter your name.",
                 true
             );
 
-            const loginBox = $("rmLoginBox");
+            return false;
+        }
 
-            if (loginBox) {
-                loginBox.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-            }
+
+        if (!email) {
+
+            showStatus(
+                status,
+                "Please enter your email.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!isValidEmail(email)) {
+
+            showStatus(
+                status,
+                "Please enter a valid email address.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!password) {
+
+            showStatus(
+                status,
+                "Please enter your password.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!agreement || !agreement.checked) {
+
+            showStatus(
+                status,
+                "Please accept the Marketplace Agreement before login.",
+                true
+            );
+
+            return false;
+        }
+
+
+        const account = {
+
+            name: name,
+
+            email: email,
+
+            password: password,
+
+            createdAt:
+                getAccount()?.createdAt ||
+                nowISO(),
+
+            updatedAt:
+                nowISO()
+        };
+
+
+        if (!saveJSON(
+            CONFIG.accountKey,
+            account
+        )) {
+
+            showStatus(
+                status,
+                "Unable to save account on this device.",
+                true
+            );
+
+            return false;
+        }
+
+
+        const session = {
+
+            loggedIn: true,
+
+            name: name,
+
+            email: email,
+
+            loginAt: nowISO()
+        };
+
+
+        saveJSON(
+            CONFIG.sessionKey,
+            session
+        );
+
+
+        updateLoginUI();
+
+
+        showStatus(
+            status,
+            "Login successful.",
+            false
+        );
+
+
+        renderListings();
+        renderShowrooms();
+
+
+        return true;
+    }
+
+
+    function logout() {
+
+        localStorage.removeItem(
+            CONFIG.sessionKey
+        );
+
+
+        updateLoginUI();
+
+
+        showStatus(
+            $("rmLoginStatus"),
+            "You have been logged out.",
+            false
+        );
+
+
+        renderListings();
+        renderShowrooms();
+    }
+
+
+    function requireLogin(statusElement) {
+
+        if (!isLoggedIn()) {
+
+            showStatus(
+                statusElement,
+                "Please login first.",
+                true
+            );
 
             return false;
         }
@@ -495,214 +507,87 @@
     }
 
 
-    /* =========================================================
-       STATUS
-       ========================================================= */
+    function isValidEmail(email) {
+
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            .test(email);
+    }
+
+
+    /* =====================================================
+       STATUS MESSAGE
+       ===================================================== */
 
     function showStatus(
-        id,
+        element,
         message,
-        error
+        isError
     ) {
-
-        const element = $(id);
 
         if (!element) {
             return;
         }
 
-        element.textContent = message;
+        element.textContent =
+            message || "";
 
-        element.classList.add("show");
+        element.style.display =
+            message ? "" : "none";
 
-        if (error) {
-            element.style.color = "#b00000";
-            element.style.background = "#fff5f5";
-            element.style.borderColor = "#e0aaaa";
+        if (isError) {
+
+            element.setAttribute(
+                "data-status",
+                "error"
+            );
+
         } else {
-            element.style.color = "#276627";
-            element.style.background = "#f5fff5";
-            element.style.borderColor = "#a9d3a9";
+
+            element.setAttribute(
+                "data-status",
+                "success"
+            );
         }
     }
 
 
-    function hideStatus(id) {
-
-        const element = $(id);
-
-        if (!element) {
-            return;
-        }
-
-        element.classList.remove("show");
-        element.textContent = "";
-    }
-
-
-    /* =========================================================
-       CATEGORY MANAGEMENT
-       ========================================================= */
-
-    function getCategoriesByType(type) {
-
-        if (type === "property") {
-            return PROPERTY_CATEGORIES;
-        }
-
-        if (type === "vehicle") {
-            return VEHICLE_CATEGORIES;
-        }
-
-        return ITEM_CATEGORIES;
-    }
-
-
-    function populateListingCategories(
-        selectedValue
-    ) {
-
-        const select = $("rmListingCategory");
-
-        if (!select) {
-            return;
-        }
-
-        const type =
-            $("rmListingType")?.value || "item";
-
-        const categories =
-            getCategoriesByType(type);
-
-        select.innerHTML = "";
-
-        const firstOption =
-            document.createElement("option");
-
-        firstOption.value = "";
-
-        firstOption.textContent =
-            "Select Category";
-
-        select.appendChild(firstOption);
-
-
-        categories.forEach(function (category) {
-
-            const option =
-                document.createElement("option");
-
-            option.value =
-                category.value;
-
-            option.textContent =
-                category.label;
-
-            if (
-                selectedValue &&
-                selectedValue === category.value
-            ) {
-                option.selected = true;
-            }
-
-            select.appendChild(option);
-
-        });
-    }
-
-
-    /* =========================================================
-       SHOWROOM CATEGORY
-       ========================================================= */
-
-    function ensureShowroomCategories() {
-
-        const select =
-            $("rmShowroomType");
-
-        if (!select) {
-            return;
-        }
-
-        const current =
-            select.value;
-
-        select.innerHTML = "";
-
-        const first =
-            document.createElement("option");
-
-        first.value = "";
-
-        first.textContent =
-            "Select Category";
-
-        select.appendChild(first);
-
-
-        SHOWROOM_CATEGORIES.forEach(
-            function (category) {
-
-                const option =
-                    document.createElement("option");
-
-                option.value =
-                    category.value;
-
-                option.textContent =
-                    category.label;
-
-                if (
-                    current &&
-                    current === category.value
-                ) {
-                    option.selected = true;
-                }
-
-                select.appendChild(option);
-
-            }
-        );
-    }
-
-
-    /* =========================================================
+    /* =====================================================
        COUNTRY DATABASE
-       ========================================================= */
+       CENTRAL FILE SUPPORT
+       ===================================================== */
 
     function getCountryDatabase() {
 
-        if (
-            Array.isArray(
-                window.MARKETPLACE_COUNTRIES
-            )
+        const sources = [
+
+            window.MARKETPLACE_COUNTRIES,
+
+            window.ALON_MARKETPLACE_COUNTRIES,
+
+            window.ALON_WORLD_COUNTRIES,
+
+            window.WORLD_COUNTRIES
+
+        ];
+
+
+        for (
+            let i = 0;
+            i < sources.length;
+            i++
         ) {
-            return window.MARKETPLACE_COUNTRIES;
+
+            if (
+                Array.isArray(
+                    sources[i]
+                ) &&
+                sources[i].length
+            ) {
+
+                return sources[i];
+            }
         }
 
-        if (
-            Array.isArray(
-                window.ALON_MARKETPLACE_COUNTRIES
-            )
-        ) {
-            return window.ALON_MARKETPLACE_COUNTRIES;
-        }
-
-        if (
-            Array.isArray(
-                window.ALON_WORLD_COUNTRIES
-            )
-        ) {
-            return window.ALON_WORLD_COUNTRIES;
-        }
-
-        if (
-            Array.isArray(
-                window.WORLD_COUNTRIES
-            )
-        ) {
-            return window.WORLD_COUNTRIES;
-        }
 
         return [];
     }
@@ -714,16 +599,22 @@
             return "";
         }
 
-        if (typeof country === "string") {
-            return country;
-        }
 
-        return (
+        return String(
+
             country.name ||
-            country.country ||
+
+            country.countryName ||
+
+            country.label ||
+
             country.title ||
+
+            country.country ||
+
             ""
-        );
+
+        ).trim();
     }
 
 
@@ -733,12 +624,98 @@
             return "";
         }
 
-        return (
-            country.code2 ||
+
+        return String(
+
             country.iso2 ||
+
+            country.ISO2 ||
+
+            country.code2 ||
+
+            country.alpha2 ||
+
+            country.countryCode ||
+
             country.code ||
+
             ""
-        );
+
+        )
+        .trim()
+        .toUpperCase();
+    }
+
+
+    function getCountryISO3(country) {
+
+        if (!country) {
+            return "";
+        }
+
+
+        return String(
+
+            country.iso3 ||
+
+            country.ISO3 ||
+
+            country.code3 ||
+
+            country.alpha3 ||
+
+            ""
+
+        )
+        .trim()
+        .toUpperCase();
+    }
+
+
+    function getCountryCallingCode(country) {
+
+        if (!country) {
+            return "";
+        }
+
+
+        const value =
+
+            country.callingCode ||
+
+            country.calling_code ||
+
+            country.phoneCode ||
+
+            country.phone_code ||
+
+            country.dialCode ||
+
+            country.dial_code ||
+
+            country.calling ||
+
+            "";
+
+
+        if (!value) {
+            return "";
+        }
+
+
+        const text =
+            String(value).trim();
+
+
+        if (
+            text.charAt(0) === "+"
+        ) {
+
+            return text;
+        }
+
+
+        return "+" + text;
     }
 
 
@@ -748,475 +725,1053 @@
             return "";
         }
 
-        return country.flag || "";
+
+        if (country.flag) {
+
+            return String(
+                country.flag
+            ).trim();
+        }
+
+
+        const code =
+            getCountryCode(country);
+
+
+        if (
+            code.length === 2
+        ) {
+
+            return code
+                .split("")
+                .map(function (letter) {
+
+                    return String
+                        .fromCodePoint(
+                            127397 +
+                            letter.charCodeAt(0)
+                        );
+
+                })
+                .join("");
+        }
+
+
+        return "";
+    }
+
+
+    function createCountryOption(
+        country
+    ) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        const name =
+            getCountryName(country);
+
+        const code =
+            getCountryCode(country);
+
+        const iso3 =
+            getCountryISO3(country);
+
+        const callingCode =
+            getCountryCallingCode(country);
+
+        const flag =
+            getCountryFlag(country);
+
+
+        option.value =
+            code || name;
+
+
+        option.textContent = [
+
+            flag,
+
+            name,
+
+            code
+                ? "(" + code + ")"
+                : "",
+
+            iso3
+                ? "[" + iso3 + "]"
+                : "",
+
+            callingCode
+
+        ]
+        .filter(Boolean)
+        .join(" ");
+
+
+        option.dataset.countryName =
+            name;
+
+        option.dataset.countryCode =
+            code;
+
+        option.dataset.countryISO3 =
+            iso3;
+
+        option.dataset.callingCode =
+            callingCode;
+
+        option.dataset.flag =
+            flag;
+
+
+        return option;
     }
 
 
     function populateCountrySelect(
-        selectId
+        selectId,
+        selectedValue
     ) {
 
         const select =
             $(selectId);
 
+
         if (!select) {
-            return;
+            return false;
         }
+
 
         const database =
             getCountryDatabase();
 
-        const oldValue =
-            select.value;
+
+        if (
+            !database.length
+        ) {
+
+            return false;
+        }
+
+
+        const current =
+            selectedValue ||
+            select.value ||
+            "";
+
 
         select.innerHTML = "";
 
+
         const firstOption =
-            document.createElement("option");
+            document.createElement(
+                "option"
+            );
+
 
         firstOption.value = "";
 
         firstOption.textContent =
             "Select Country";
 
-        select.appendChild(firstOption);
+
+        select.appendChild(
+            firstOption
+        );
 
 
         database.forEach(
             function (country) {
 
-                const option =
-                    document.createElement("option");
-
-                const code =
-                    getCountryCode(country);
-
-                const name =
-                    getCountryName(country);
-
-                const flag =
-                    getCountryFlag(country);
-
-                option.value =
-                    code || name;
-
-                option.textContent =
-                    (
-                        flag
-                            ? flag + " "
-                            : ""
-                    ) +
-                    name +
-                    (
-                        code
-                            ? " (" + code + ")"
-                            : ""
-                    );
-
-                option.dataset.countryName =
-                    name;
-
-                option.dataset.code2 =
-                    code;
-
-                option.dataset.code3 =
-                    country.code3 || "";
-
-                option.dataset.slug =
-                    country.slug || "";
-
-                if (
-                    oldValue &&
-                    (
-                        oldValue === option.value ||
-                        oldValue === code ||
-                        oldValue === name
-                    )
-                ) {
-                    option.selected = true;
-                }
-
-                select.appendChild(option);
-
-            }
-        );
-    }
-
-
-    /* =========================================================
-       FILE READING
-       ========================================================= */
-
-    function readFileAsDataURL(file) {
-
-        return new Promise(
-            function (resolve, reject) {
-
-                if (!file) {
-                    resolve("");
+                if (!country) {
                     return;
                 }
 
-                const reader =
-                    new FileReader();
 
-                reader.onload =
-                    function () {
-                        resolve(
-                            reader.result
-                        );
-                    };
+                const option =
+                    createCountryOption(
+                        country
+                    );
 
-                reader.onerror =
-                    function () {
-                        reject(
-                            new Error(
-                                "File could not be read."
+
+                select.appendChild(
+                    option
+                );
+            }
+        );
+
+
+        if (current) {
+
+            const normalized =
+                String(current)
+                    .trim()
+                    .toUpperCase();
+
+
+            const matching =
+                Array.from(
+                    select.options
+                ).find(
+                    function (option) {
+
+                        return (
+
+                            String(
+                                option.value
                             )
-                        );
-                    };
+                            .toUpperCase() ===
+                            normalized
 
-                reader.readAsDataURL(file);
+                        ) ||
+
+                        String(
+                            option.dataset.countryName ||
+                            ""
+                        )
+                        .toUpperCase() ===
+                        normalized;
+                    }
+                );
+
+
+            if (matching) {
+
+                select.value =
+                    matching.value;
             }
+        }
+
+
+        return (
+            select.options.length > 1
         );
     }
 
 
-    function validateFile(
-        file,
-        type
+    /* =====================================================
+       CENTRAL COUNTRY HELPER
+       ===================================================== */
+
+    function populateCountryUsingCentralHelper(
+        selectId,
+        selectedValue
     ) {
 
-        if (!file) {
-            return {
-                valid: true
-            };
-        }
+        const helper =
+            window.ALON_FILL_COUNTRY_SELECT;
 
-        if (type === "image") {
 
-            if (
-                !file.type.startsWith(
-                    "image/"
-                )
-            ) {
-                return {
-                    valid: false,
-                    message:
-                        "Please select a valid image file."
-                };
-            }
+        if (
+            typeof helper !== "function"
+        ) {
 
-            if (
-                file.size >
-                CONFIG.imageMaxSize
-            ) {
-                return {
-                    valid: false,
-                    message:
-                        "Image size must be 8 MB or less."
-                };
-            }
+            return false;
         }
 
 
-        if (type === "video") {
+        const select =
+            $(selectId);
 
-            if (
-                !file.type.startsWith(
-                    "video/"
-                )
-            ) {
-                return {
-                    valid: false,
-                    message:
-                        "Please select a valid video file."
-                };
-            }
 
-            if (
-                file.size >
-                CONFIG.videoMaxSize
-            ) {
-                return {
-                    valid: false,
-                    message:
-                        "Video size must be 20 MB or less."
-                };
-            }
-        }
-
-
-        return {
-            valid: true
-        };
-    }
-
-
-    /* =========================================================
-       LISTING DATA
-       ========================================================= */
-
-    function getListings() {
-
-        const listings =
-            readStorage(
-                CONFIG.listingStorage,
-                []
-            );
-
-        return Array.isArray(listings)
-            ? listings
-            : [];
-    }
-
-
-    function saveListings(listings) {
-
-        return writeStorage(
-            CONFIG.listingStorage,
-            listings
-        );
-    }
-
-
-    /* =========================================================
-       LISTING EDIT STATE
-       ========================================================= */
-
-    let editingListingId = null;
-
-
-    /* =========================================================
-       LISTING FORM DATA
-       ========================================================= */
-
-    async function collectListingData() {
-
-        const account =
-            getLoggedInAccount();
-
-        if (!account) {
-            throw new Error(
-                "Please login first."
-            );
-        }
-
-
-        const imageInput =
-            $("rmListingImage");
-
-        const videoInput =
-            $("rmListingVideo");
-
-
-        const imageFile =
-            imageInput?.files?.[0] || null;
-
-        const videoFile =
-            videoInput?.files?.[0] || null;
-
-
-        const imageCheck =
-            validateFile(
-                imageFile,
-                "image"
-            );
-
-        if (!imageCheck.valid) {
-            throw new Error(
-                imageCheck.message
-            );
-        }
-
-
-        const videoCheck =
-            validateFile(
-                videoFile,
-                "video"
-            );
-
-        if (!videoCheck.valid) {
-            throw new Error(
-                videoCheck.message
-            );
-        }
-
-
-        const image =
-            await readFileAsDataURL(
-                imageFile
-            );
-
-        const video =
-            await readFileAsDataURL(
-                videoFile
-            );
-
-
-        const countrySelect =
-            $("rmCountry");
-
-        const selectedCountry =
-            countrySelect?.selectedOptions?.[0];
-
-
-        const data = {
-
-            id:
-                editingListingId ||
-                createId("listing"),
-
-            ownerEmail:
-                account.email || "",
-
-            ownerName:
-                account.name || "",
-
-            type:
-                $("rmListingType")?.value ||
-                "item",
-
-            category:
-                $("rmListingCategory")?.value ||
-                "",
-
-            condition:
-                $("rmListingCondition")?.value ||
-                "",
-
-            title:
-                $("rmListingTitle")?.value.trim() ||
-                "",
-
-            price:
-                $("rmListingPrice")?.value ||
-                "",
-
-            country:
-                $("rmCountry")?.value ||
-                "",
-
-            countryName:
-                selectedCountry?.dataset?.countryName ||
-                selectedCountry?.textContent ||
-                "",
-
-            countryCode:
-                selectedCountry?.dataset?.code2 ||
-                "",
-
-            state:
-                $("rmState")?.value.trim() ||
-                "",
-
-            pin:
-                $("rmPin")?.value.trim() ||
-                "",
-
-            email:
-                $("rmEmail")?.value.trim() ||
-                account.email ||
-                "",
-
-            description:
-                $("rmDescription")?.value.trim() ||
-                "",
-
-            image:
-                image,
-
-            video:
-                video,
-
-            updatedAt:
-                new Date().toISOString()
-        };
-
-
-        if (!data.title) {
-            throw new Error(
-                "Please enter a listing title."
-            );
-        }
-
-
-        if (!data.category) {
-            throw new Error(
-                "Please select a category."
-            );
-        }
-
-
-        if (!data.country) {
-            throw new Error(
-                "Please select a country."
-            );
-        }
-
-
-        if (!data.description) {
-            throw new Error(
-                "Please enter a description."
-            );
-        }
-
-
-        if (!data.email) {
-            throw new Error(
-                "Please enter a contact email."
-            );
-        }
-
-
-        if (!editingListingId) {
-
-            data.createdAt =
-                new Date().toISOString();
-        }
-
-
-        return data;
-    }
-
-
-    /* =========================================================
-       SAVE LISTING
-       ========================================================= */
-
-    async function handleListingSubmit(
-        event
-    ) {
-
-        event.preventDefault();
-
-        hideStatus(
-            "rmListingStatus"
-        );
-
-
-        if (!requireLogin()) {
-            return;
+        if (!select) {
+            return false;
         }
 
 
         try {
 
-            const listing =
-                await collectListingData();
+            const result =
+                helper(
+                    "#" + selectId,
+                    selectedValue || ""
+                );
+
+
+            if (
+                select.options.length > 1
+            ) {
+
+                return true;
+            }
+
+
+            if (
+                result &&
+                select.options.length > 1
+            ) {
+
+                return true;
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Central country helper failed:",
+                error
+            );
+        }
+
+
+        return false;
+    }
+
+
+    function populateRegularMarketplaceCountries() {
+
+        const countryIDs = [
+
+            "rmCountry",
+
+            "rmShowroomCountry"
+
+        ];
+
+
+        let successful =
+            false;
+
+
+        countryIDs.forEach(
+            function (id) {
+
+                const helperWorked =
+                    populateCountryUsingCentralHelper(
+                        id
+                    );
+
+
+                if (helperWorked) {
+
+                    successful = true;
+
+                    return;
+                }
+
+
+                const directWorked =
+                    populateCountrySelect(
+                        id
+                    );
+
+
+                if (directWorked) {
+
+                    successful = true;
+                }
+            }
+        );
+
+
+        /*
+         * marketplace-countries.js may load
+         * immediately before this file.
+         *
+         * If it is not ready yet, retry safely.
+         */
+
+        if (!successful) {
+
+            let attempts = 0;
+
+            const retry =
+                setInterval(
+                    function () {
+
+                        attempts++;
+
+
+                        let ready = false;
+
+
+                        countryIDs.forEach(
+                            function (id) {
+
+                                const helperWorked =
+                                    populateCountryUsingCentralHelper(
+                                        id
+                                    );
+
+
+                                const directWorked =
+                                    populateCountrySelect(
+                                        id
+                                    );
+
+
+                                if (
+                                    helperWorked ||
+                                    directWorked
+                                ) {
+
+                                    ready = true;
+                                }
+                            }
+                        );
+
+
+                        if (
+                            ready ||
+                            attempts >= 10
+                        ) {
+
+                            clearInterval(
+                                retry
+                            );
+                        }
+
+                    },
+                    500
+                );
+        }
+    }
+
+
+    function getSelectedCountry(
+        selectId
+    ) {
+
+        const select =
+            $(selectId);
+
+
+        if (!select) {
+            return null;
+        }
+
+
+        const option =
+            select.selectedOptions &&
+            select.selectedOptions[0];
+
+
+        if (!option) {
+            return null;
+        }
+
+
+        const value =
+            String(
+                option.value || ""
+            ).trim();
+
+
+        if (!value) {
+            return null;
+        }
+
+
+        return {
+
+            value: value,
+
+            name:
+                option.dataset.countryName ||
+                option.textContent ||
+                "",
+
+            code2:
+                option.dataset.countryCode ||
+                "",
+
+            code3:
+                option.dataset.countryISO3 ||
+                "",
+
+            iso2:
+                option.dataset.countryCode ||
+                "",
+
+            iso3:
+                option.dataset.countryISO3 ||
+                "",
+
+            callingCode:
+                option.dataset.callingCode ||
+                "",
+
+            phoneCode:
+                option.dataset.callingCode ||
+                "",
+
+            flag:
+                option.dataset.flag ||
+                getCountryFlagFromOption(
+                    option
+                )
+        };
+    }
+
+
+    function getCountryFlagFromOption(
+        option
+    ) {
+
+        if (!option) {
+            return "";
+        }
+
+
+        const text =
+            option.textContent || "";
+
+
+        const first =
+            Array.from(text.trim())[0];
+
+
+        /*
+         * Country flag emoji generally occupies
+         * two regional-indicator characters.
+         */
+
+        if (
+            first &&
+            first.codePointAt(0) >= 127397 &&
+            first.codePointAt(0) <= 127568
+        ) {
+
+            return Array.from(text.trim())
+                .slice(0, 2)
+                .join("");
+        }
+
+
+        return "";
+    }
+
+
+    /* =====================================================
+       LISTING CATEGORY UI
+       ===================================================== */
+
+    function populateListingCategories() {
+
+        const type =
+            $("rmListingType");
+
+        const category =
+            $("rmListingCategory");
+
+
+        if (
+            !type ||
+            !category
+        ) {
+
+            return;
+        }
+
+
+        const selectedType =
+            type.value;
+
+
+        category.innerHTML = "";
+
+
+        const first =
+            document.createElement(
+                "option"
+            );
+
+
+        first.value = "";
+
+        first.textContent =
+            "Select Category";
+
+
+        category.appendChild(
+            first
+        );
+
+
+        const list =
+            CATEGORY_DATA[
+                selectedType
+            ] || [];
+
+
+        list.forEach(
+            function (item) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    item;
+
+                option.textContent =
+                    item;
+
+                category.appendChild(
+                    option
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       CONDITION UI
+       ===================================================== */
+
+    function populateConditionOptions() {
+
+        const select =
+            $("rmListingCondition");
+
+
+        if (!select) {
+            return;
+        }
+
+
+        if (
+            select.options.length > 1
+        ) {
+
+            return;
+        }
+
+
+        CONDITION_DATA.forEach(
+            function (condition) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    condition;
+
+                option.textContent =
+                    condition;
+
+                select.appendChild(
+                    option
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       FILE VALIDATION
+       ===================================================== */
+
+    function validateImage(
+        file
+    ) {
+
+        if (!file) {
+            return {
+                ok: true
+            };
+        }
+
+
+        if (
+            !String(
+                file.type || ""
+            )
+            .startsWith("image/")
+        ) {
+
+            return {
+
+                ok: false,
+
+                message:
+                    "Please select a valid image file."
+            };
+        }
+
+
+        if (
+            file.size >
+            CONFIG.maxImageSize
+        ) {
+
+            return {
+
+                ok: false,
+
+                message:
+                    "Image size must be 8 MB or less."
+            };
+        }
+
+
+        return {
+            ok: true
+        };
+    }
+
+
+    function validateVideo(
+        file
+    ) {
+
+        if (!file) {
+            return {
+                ok: true
+            };
+        }
+
+
+        if (
+            !String(
+                file.type || ""
+            )
+            .startsWith("video/")
+        ) {
+
+            return {
+
+                ok: false,
+
+                message:
+                    "Please select a valid video file."
+            };
+        }
+
+
+        if (
+            file.size >
+            CONFIG.maxVideoSize
+        ) {
+
+            return {
+
+                ok: false,
+
+                message:
+                    "Video size must be 20 MB or less."
+            };
+        }
+
+
+        return {
+            ok: true
+        };
+    }
+
+
+    function readFileAsDataURL(
+        file
+    ) {
+
+        return new Promise(
+            function (
+                resolve,
+                reject
+            ) {
+
+                if (!file) {
+
+                    resolve("");
+
+                    return;
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function () {
+
+                        resolve(
+                            reader.result || ""
+                        );
+                    };
+
+
+                reader.onerror =
+                    function () {
+
+                        reject(
+                            new Error(
+                                "Unable to read file."
+                            )
+                        );
+                    };
+
+
+                reader.readAsDataURL(
+                    file
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       LISTING DATA
+       ===================================================== */
+
+    function collectListingData() {
+
+        const selectedCountry =
+            getSelectedCountry(
+                "rmCountry"
+            );
+
+
+        return {
+
+            type:
+                $("rmListingType")
+                    ?.value
+                    ?.trim() || "",
+
+            category:
+                $("rmListingCategory")
+                    ?.value
+                    ?.trim() || "",
+
+            condition:
+                $("rmListingCondition")
+                    ?.value
+                    ?.trim() || "",
+
+            title:
+                $("rmListingTitle")
+                    ?.value
+                    ?.trim() || "",
+
+            price:
+                $("rmListingPrice")
+                    ?.value
+                    ?.trim() || "",
+
+            country:
+                selectedCountry?.value ||
+                "",
+
+            countryName:
+                selectedCountry?.name ||
+                "",
+
+            countryCode:
+                selectedCountry?.code2 ||
+                "",
+
+            countryISO3:
+                selectedCountry?.code3 ||
+                "",
+
+            countryCallingCode:
+                selectedCountry?.callingCode ||
+                "",
+
+            countryFlag:
+                selectedCountry?.flag ||
+                "",
+
+            state:
+                $("rmState")
+                    ?.value
+                    ?.trim() || "",
+
+            pin:
+                $("rmPin")
+                    ?.value
+                    ?.trim() || "",
+
+            email:
+                $("rmEmail")
+                    ?.value
+                    ?.trim()
+                    .toLowerCase() ||
+                getCurrentUserEmail(),
+
+            description:
+                $("rmDescription")
+                    ?.value
+                    ?.trim() || ""
+        };
+    }
+
+
+    /* =====================================================
+       LISTING SAVE
+       ===================================================== */
+
+    async function saveListing() {
+
+        const status =
+            $("rmListingStatus");
+
+
+        if (
+            !requireLogin(status)
+        ) {
+
+            return false;
+        }
+
+
+        const data =
+            collectListingData();
+
+
+        if (!data.type) {
+
+            showStatus(
+                status,
+                "Please select listing type.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!data.category) {
+
+            showStatus(
+                status,
+                "Please select category.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!data.title) {
+
+            showStatus(
+                status,
+                "Please enter title.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!data.country) {
+
+            showStatus(
+                status,
+                "Please select country.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!data.description) {
+
+            showStatus(
+                status,
+                "Please enter description.",
+                true
+            );
+
+            return false;
+        }
+
+
+        const imageFile =
+            $("rmListingImage")
+                ?.files
+                ?.[0] ||
+            null;
+
+
+        const videoFile =
+            $("rmListingVideo")
+                ?.files
+                ?.[0] ||
+            null;
+
+
+        const imageCheck =
+            validateImage(
+                imageFile
+            );
+
+
+        if (!imageCheck.ok) {
+
+            showStatus(
+                status,
+                imageCheck.message,
+                true
+            );
+
+            return false;
+        }
+
+
+        const videoCheck =
+            validateVideo(
+                videoFile
+            );
+
+
+        if (!videoCheck.ok) {
+
+            showStatus(
+                status,
+                videoCheck.message,
+                true
+            );
+
+            return false;
+        }
+
+
+        try {
+
+            const imageData =
+                await readFileAsDataURL(
+                    imageFile
+                );
+
+
+            const videoData =
+                await readFileAsDataURL(
+                    videoFile
+                );
+
 
             const listings =
-                getListings();
+                loadJSON(
+                    CONFIG.listingsKey,
+                    []
+                );
 
 
-            if (editingListingId) {
+            const editID =
+                $("rmListingForm")
+                    ?.dataset
+                    ?.editId || "";
+
+
+            if (editID) {
 
                 const index =
                     listings.findIndex(
                         function (item) {
+
                             return (
                                 item.id ===
-                                editingListingId
+                                editID
                             );
                         }
                     );
@@ -1224,83 +1779,143 @@
 
                 if (index === -1) {
 
-                    throw new Error(
-                        "Listing not found."
+                    showStatus(
+                        status,
+                        "Listing not found.",
+                        true
                     );
+
+                    return false;
                 }
 
 
                 /*
-                 * Preserve existing media when
-                 * edit form does not select a new file.
+                 * Only owner can edit.
                  */
 
                 if (
-                    !listing.image &&
-                    listings[index].image
+                    listings[index].ownerEmail !==
+                    getCurrentUserEmail()
                 ) {
-                    listing.image =
-                        listings[index].image;
+
+                    showStatus(
+                        status,
+                        "You can edit only your own listing.",
+                        true
+                    );
+
+                    return false;
                 }
 
 
-                if (
-                    !listing.video &&
-                    listings[index].video
-                ) {
-                    listing.video =
-                        listings[index].video;
-                }
+                listings[index] = {
+
+                    ...listings[index],
+
+                    ...data,
+
+                    image:
+                        imageData ||
+                        listings[index].image ||
+                        "",
+
+                    video:
+                        videoData ||
+                        listings[index].video ||
+                        "",
+
+                    updatedAt:
+                        nowISO()
+                };
 
 
-                listing.createdAt =
-                    listings[index].createdAt;
+                saveJSON(
+                    CONFIG.listingsKey,
+                    listings
+                );
 
 
-                listings[index] =
-                    listing;
-
-
-                editingListingId =
-                    null;
+                clearListingForm();
 
 
                 showStatus(
-                    "rmListingStatus",
+                    status,
                     "Listing updated successfully.",
                     false
                 );
 
-            } else {
 
-                listings.unshift(
-                    listing
-                );
+                renderListings();
 
 
-                showStatus(
-                    "rmListingStatus",
-                    "Listing saved successfully.",
-                    false
-                );
+                return true;
             }
 
 
+            const listing = {
+
+                id:
+                    generateID("listing"),
+
+                ownerEmail:
+                    getCurrentUserEmail(),
+
+                ownerName:
+                    getSession()?.name ||
+                    "",
+
+                ...data,
+
+                image:
+                    imageData || "",
+
+                video:
+                    videoData || "",
+
+                createdAt:
+                    nowISO(),
+
+                updatedAt:
+                    nowISO()
+            };
+
+
+            listings.push(
+                listing
+            );
+
+
             if (
-                !saveListings(
+                !saveJSON(
+                    CONFIG.listingsKey,
                     listings
                 )
             ) {
 
-                throw new Error(
-                    "Listing could not be saved. Browser storage may be full."
+                showStatus(
+                    status,
+                    "Unable to save listing. Storage may be full.",
+                    true
                 );
+
+                return false;
             }
 
 
-            resetListingForm();
+            clearListingForm();
+
+
+            showStatus(
+                status,
+                "Listing saved successfully.",
+                false
+            );
+
 
             renderListings();
+
+
+            return true;
 
         } catch (error) {
 
@@ -1309,32 +1924,35 @@
                 error
             );
 
+
             showStatus(
-                "rmListingStatus",
-                error.message ||
-                    "Could not save listing.",
+                status,
+                "Unable to save listing. The selected media may be too large.",
                 true
             );
+
+
+            return false;
         }
     }
 
 
-    /* =========================================================
-       RESET LISTING FORM
-       ========================================================= */
+    /* =====================================================
+       CLEAR LISTING FORM
+       ===================================================== */
 
-    function resetListingForm() {
+    function clearListingForm() {
 
         const form =
             $("rmListingForm");
 
+
         if (form) {
+
             form.reset();
+
+            delete form.dataset.editId;
         }
-
-
-        editingListingId =
-            null;
 
 
         populateListingCategories();
@@ -1343,69 +1961,75 @@
         const cancel =
             $("rmCancelListingEditButton");
 
+
         if (cancel) {
-            cancel.classList.add(
-                "rm-hidden"
-            );
+
+            cancel.style.display =
+                "none";
         }
 
 
-        const button =
-            $("rmSaveListingButton");
+        const email =
+            $("rmEmail");
 
-        if (button) {
-            button.textContent =
-                "Save Listing";
+
+        if (
+            email &&
+            getCurrentUserEmail()
+        ) {
+
+            email.value =
+                getCurrentUserEmail();
         }
     }
 
 
-    /* =========================================================
+    /* =====================================================
        EDIT LISTING
-       ========================================================= */
+       ===================================================== */
 
-    function editListing(id) {
+    function editListing(
+        id
+    ) {
 
-        if (!requireLogin()) {
+        if (
+            !requireLogin(
+                $("rmListingStatus")
+            )
+        ) {
+
             return;
         }
 
 
         const listings =
-            getListings();
+            loadJSON(
+                CONFIG.listingsKey,
+                []
+            );
 
 
         const listing =
             listings.find(
                 function (item) {
+
                     return item.id === id;
                 }
             );
 
 
         if (!listing) {
-
-            showStatus(
-                "rmListingStatus",
-                "Listing not found.",
-                true
-            );
-
             return;
         }
 
 
-        const account =
-            getLoggedInAccount();
-
-
         if (
             listing.ownerEmail !==
-            account.email
+            getCurrentUserEmail()
         ) {
 
             showStatus(
-                "rmListingStatus",
+                $("rmListingStatus"),
                 "You can edit only your own listing.",
                 true
             );
@@ -1414,123 +2038,120 @@
         }
 
 
-        editingListingId =
-            listing.id;
+        const form =
+            $("rmListingForm");
 
 
-        const type =
-            $("rmListingType");
-
-        if (type) {
-            type.value =
-                listing.type || "item";
+        if (!form) {
+            return;
         }
 
 
-        populateListingCategories(
-            listing.category
-        );
+        form.dataset.editId =
+            id;
 
 
-        const condition =
-            $("rmListingCondition");
+        if ($("rmListingType"))
+            $("rmListingType").value =
+                listing.type || "";
 
-        if (condition) {
-            condition.value =
+
+        populateListingCategories();
+
+
+        if ($("rmListingCategory"))
+            $("rmListingCategory").value =
+                listing.category || "";
+
+
+        if ($("rmListingCondition"))
+            $("rmListingCondition").value =
                 listing.condition || "";
-        }
 
 
-        setValue(
-            "rmListingTitle",
-            listing.title
-        );
+        if ($("rmListingTitle"))
+            $("rmListingTitle").value =
+                listing.title || "";
 
-        setValue(
-            "rmListingPrice",
-            listing.price
-        );
 
-        setValue(
-            "rmCountry",
-            listing.country
-        );
+        if ($("rmListingPrice"))
+            $("rmListingPrice").value =
+                listing.price || "";
 
-        setValue(
-            "rmState",
-            listing.state
-        );
 
-        setValue(
-            "rmPin",
-            listing.pin
-        );
+        if ($("rmCountry"))
+            $("rmCountry").value =
+                listing.country || "";
 
-        setValue(
-            "rmEmail",
-            listing.email
-        );
 
-        setValue(
-            "rmDescription",
-            listing.description
-        );
+        if ($("rmState"))
+            $("rmState").value =
+                listing.state || "";
+
+
+        if ($("rmPin"))
+            $("rmPin").value =
+                listing.pin || "";
+
+
+        if ($("rmEmail"))
+            $("rmEmail").value =
+                listing.email ||
+                getCurrentUserEmail();
+
+
+        if ($("rmDescription"))
+            $("rmDescription").value =
+                listing.description || "";
 
 
         const cancel =
             $("rmCancelListingEditButton");
 
+
         if (cancel) {
-            cancel.classList.remove(
-                "rm-hidden"
-            );
+
+            cancel.style.display =
+                "";
         }
 
 
-        const button =
-            $("rmSaveListingButton");
-
-        if (button) {
-            button.textContent =
-                "Update Listing";
-        }
-
-
-        showStatus(
-            "rmListingStatus",
-            "Editing listing. Select new media only if you want to replace the existing media.",
-            false
-        );
-
-
-        $("rmListingForm")?.scrollIntoView({
+        form.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
     }
 
 
-    /* =========================================================
+    /* =====================================================
        DELETE LISTING
-       ========================================================= */
+       ===================================================== */
 
-    function deleteListing(id) {
+    function deleteListing(
+        id
+    ) {
 
-        if (!requireLogin()) {
+        if (
+            !requireLogin(
+                $("rmListingStatus")
+            )
+        ) {
+
             return;
         }
 
 
         const listings =
-            getListings();
-
-        const account =
-            getLoggedInAccount();
+            loadJSON(
+                CONFIG.listingsKey,
+                []
+            );
 
 
         const listing =
             listings.find(
                 function (item) {
+
                     return item.id === id;
                 }
             );
@@ -1543,11 +2164,11 @@
 
         if (
             listing.ownerEmail !==
-            account.email
+            getCurrentUserEmail()
         ) {
 
             showStatus(
-                "rmListingStatus",
+                $("rmListingStatus"),
                 "You can delete only your own listing.",
                 true
             );
@@ -1567,750 +2188,745 @@
         }
 
 
-        const filtered =
+        const remaining =
             listings.filter(
                 function (item) {
+
                     return item.id !== id;
                 }
             );
 
 
-        saveListings(
-            filtered
+        saveJSON(
+            CONFIG.listingsKey,
+            remaining
+        );
+
+
+        showStatus(
+            $("rmListingStatus"),
+            "Listing deleted.",
+            false
         );
 
 
         renderListings();
+    }
 
 
-        showStatus(
-            "rmListingStatus",
-            "Listing deleted successfully.",
-            false
+    /* =====================================================
+       LISTING CARD
+       ===================================================== */
+
+    function escapeHTML(
+        value
+    ) {
+
+        return String(
+            value ?? ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
         );
     }
 
 
-    /* =========================================================
+    function renderListingCard(
+        listing
+    ) {
+
+        const owner =
+            listing.ownerEmail ===
+            getCurrentUserEmail();
+
+
+        const mediaImage =
+            listing.image
+                ? `
+                    <img
+                        src="${listing.image}"
+                        alt="${escapeHTML(listing.title)}"
+                        loading="lazy"
+                    >
+                  `
+                : "";
+
+
+        const mediaVideo =
+            listing.video
+                ? `
+                    <video
+                        controls
+                        preload="metadata"
+                    >
+                        <source
+                            src="${listing.video}"
+                        >
+                    </video>
+                  `
+                : "";
+
+
+        const locationParts = [
+
+            listing.countryFlag ||
+                "",
+
+            listing.countryName ||
+                listing.country ||
+                "",
+
+            listing.countryCode
+                ? "(" +
+                  listing.countryCode +
+                  ")"
+                : "",
+
+            listing.countryCallingCode ||
+                "",
+
+            listing.state ||
+                "",
+
+            listing.pin
+                ? "PIN " +
+                  listing.pin
+                : ""
+
+        ].filter(Boolean);
+
+
+        return `
+
+            <article
+                class="rm-listing-card"
+                data-listing-id="${escapeHTML(listing.id)}"
+            >
+
+                <div class="rm-listing-media">
+
+                    ${mediaImage}
+
+                    ${mediaVideo}
+
+                </div>
+
+
+                <div class="rm-listing-content">
+
+                    <div class="rm-listing-type">
+                        ${escapeHTML(
+                            listing.type
+                        )}
+                    </div>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            listing.title
+                        )}
+                    </h3>
+
+
+                    <p>
+                        <strong>Category:</strong>
+                        ${escapeHTML(
+                            listing.category
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>Condition:</strong>
+                        ${escapeHTML(
+                            listing.condition
+                        )}
+                    </p>
+
+
+                    ${
+                        listing.price
+                        ? `
+                            <p>
+                                <strong>Price:</strong>
+                                ${escapeHTML(
+                                    listing.price
+                                )}
+                                ${CONFIG.currency}
+                            </p>
+                          `
+                        : ""
+                    }
+
+
+                    <p>
+                        <strong>Country:</strong>
+                        ${escapeHTML(
+                            locationParts.join(" ")
+                        )}
+                    </p>
+
+
+                    ${
+                        listing.description
+                        ? `
+                            <p class="rm-description">
+                                ${escapeHTML(
+                                    listing.description
+                                )}
+                            </p>
+                          `
+                        : ""
+                    }
+
+
+                    ${
+                        owner
+                        ? `
+                            <div class="rm-owner-actions">
+
+                                <button
+                                    type="button"
+                                    data-action="edit-listing"
+                                    data-id="${escapeHTML(listing.id)}"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    type="button"
+                                    data-action="delete-listing"
+                                    data-id="${escapeHTML(listing.id)}"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+                          `
+                        : ""
+                    }
+
+                </div>
+
+            </article>
+        `;
+    }
+
+
+    /* =====================================================
        RENDER LISTINGS
-       ========================================================= */
+       ===================================================== */
 
     function renderListings() {
 
         const container =
             $("rmListings");
 
+
         if (!container) {
             return;
         }
 
 
-        const account =
-            getLoggedInAccount();
-
-
-        if (!account) {
-
-            container.innerHTML =
-                '<div class="rm-empty">' +
-                'Please login to view your listings.' +
-                '</div>';
-
-            return;
-        }
-
-
         const listings =
-            getListings().filter(
-                function (item) {
-                    return (
-                        item.ownerEmail ===
-                        account.email
-                    );
-                }
-            );
-
-
-        if (!listings.length) {
-
-            container.innerHTML =
-                '<div class="rm-empty">' +
-                'No listings available yet.' +
-                '</div>';
-
-            return;
-        }
-
-
-        const grid =
-            document.createElement("div");
-
-        grid.className =
-            "rm-list-grid";
-
-
-        listings.forEach(
-            function (listing) {
-
-                const card =
-                    document.createElement(
-                        "article"
-                    );
-
-                card.className =
-                    "rm-card";
-
-
-                const title =
-                    document.createElement("h3");
-
-                title.textContent =
-                    listing.title ||
-                    "Untitled Listing";
-
-                card.appendChild(
-                    title
-                );
-
-
-                addCardRow(
-                    card,
-                    "Type",
-                    listing.type
-                );
-
-                addCardRow(
-                    card,
-                    "Category",
-                    getCategoryLabel(
-                        listing.type,
-                        listing.category
-                    )
-                );
-
-                addCardRow(
-                    card,
-                    "Condition",
-                    listing.condition
-                );
-
-                addCardRow(
-                    card,
-                    "Price",
-                    listing.price
-                        ? listing.price +
-                          " " +
-                          CONFIG.currency
-                        : ""
-                );
-
-                addCardRow(
-                    card,
-                    "Country",
-                    listing.countryName ||
-                    listing.country
-                );
-
-                addCardRow(
-                    card,
-                    "State / Province",
-                    listing.state
-                );
-
-                addCardRow(
-                    card,
-                    "PIN / ZIP",
-                    listing.pin
-                );
-
-                addCardRow(
-                    card,
-                    "Email",
-                    listing.email
-                );
-
-                addCardRow(
-                    card,
-                    "Description",
-                    listing.description
-                );
-
-
-                if (listing.image) {
-
-                    const image =
-                        document.createElement(
-                            "img"
-                        );
-
-                    image.className =
-                        "rm-card-media";
-
-                    image.src =
-                        listing.image;
-
-                    image.alt =
-                        listing.title ||
-                        "Listing image";
-
-                    image.loading =
-                        "lazy";
-
-                    card.appendChild(
-                        image
-                    );
-                }
-
-
-                if (listing.video) {
-
-                    const video =
-                        document.createElement(
-                            "video"
-                        );
-
-                    video.className =
-                        "rm-card-video";
-
-                    video.controls =
-                        true;
-
-                    video.preload =
-                        "metadata";
-
-                    const source =
-                        document.createElement(
-                            "source"
-                        );
-
-                    source.src =
-                        listing.video;
-
-                    video.appendChild(
-                        source
-                    );
-
-                    card.appendChild(
-                        video
-                    );
-                }
-
-
-                const actions =
-                    document.createElement(
-                        "div"
-                    );
-
-                actions.className =
-                    "rm-actions";
-
-
-                const editButton =
-                    document.createElement(
-                        "button"
-                    );
-
-                editButton.type =
-                    "button";
-
-                editButton.className =
-                    "rm-btn";
-
-                editButton.textContent =
-                    "Edit";
-
-                editButton.addEventListener(
-                    "click",
-                    function () {
-                        editListing(
-                            listing.id
-                        );
-                    }
-                );
-
-
-                const deleteButton =
-                    document.createElement(
-                        "button"
-                    );
-
-                deleteButton.type =
-                    "button";
-
-                deleteButton.className =
-                    "rm-btn rm-btn-danger";
-
-                deleteButton.textContent =
-                    "Delete";
-
-                deleteButton.addEventListener(
-                    "click",
-                    function () {
-                        deleteListing(
-                            listing.id
-                        );
-                    }
-                );
-
-
-                actions.appendChild(
-                    editButton
-                );
-
-                actions.appendChild(
-                    deleteButton
-                );
-
-                card.appendChild(
-                    actions
-                );
-
-
-                grid.appendChild(
-                    card
-                );
-
-            }
-        );
-
-
-        container.innerHTML = "";
-
-        container.appendChild(
-            grid
-        );
-    }
-
-
-    /* =========================================================
-       CATEGORY LABEL
-       ========================================================= */
-
-    function getCategoryLabel(
-        type,
-        value
-    ) {
-
-        const categories =
-            getCategoriesByType(type);
-
-        const found =
-            categories.find(
-                function (item) {
-                    return (
-                        item.value ===
-                        value
-                    );
-                }
-            );
-
-
-        return found
-            ? found.label
-            : value || "";
-    }
-
-
-    function addCardRow(
-        card,
-        label,
-        value
-    ) {
-
-        if (
-            value === undefined ||
-            value === null ||
-            value === ""
-        ) {
-            return;
-        }
-
-
-        const row =
-            document.createElement(
-                "div"
-            );
-
-        row.className =
-            "rm-card-row";
-
-
-        const strong =
-            document.createElement(
-                "strong"
-            );
-
-        strong.textContent =
-            label + ": ";
-
-
-        const span =
-            document.createElement(
-                "span"
-            );
-
-        span.textContent =
-            value;
-
-
-        row.appendChild(
-            strong
-        );
-
-        row.appendChild(
-            span
-        );
-
-
-        card.appendChild(
-            row
-        );
-    }
-
-
-    /* =========================================================
-       SHOWROOM DATA
-       ========================================================= */
-
-    function getShowrooms() {
-
-        const showrooms =
-            readStorage(
-                CONFIG.showroomStorage,
+            loadJSON(
+                CONFIG.listingsKey,
                 []
             );
 
-        return Array.isArray(showrooms)
-            ? showrooms
-            : [];
-    }
 
+        if (!Array.isArray(listings) ||
+            !listings.length) {
 
-    function saveShowrooms(
-        showrooms
-    ) {
+            container.innerHTML =
+                "<p>No listings found.</p>";
 
-        return writeStorage(
-            CONFIG.showroomStorage,
-            showrooms
-        );
-    }
-
-
-    let editingShowroomId = null;
-
-    let showroomPaymentVerified =
-        false;
-
-
-    /* =========================================================
-       SHOWROOM DATA COLLECTION
-       ========================================================= */
-
-    async function collectShowroomData() {
-
-        const account =
-            getLoggedInAccount();
-
-
-        if (!account) {
-            throw new Error(
-                "Please login first."
-            );
-        }
-
-
-        if (!showroomPaymentVerified) {
-
-            throw new Error(
-                "Please complete the payment verification step first."
-            );
-        }
-
-
-        const globalReach =
-            Boolean(
-                $("rmShowroomReachGlobal")?.checked
-            );
-
-
-        const internationalReach =
-            Boolean(
-                $("rmShowroomReachInternational")?.checked
-            );
-
-
-        if (
-            !globalReach &&
-            !internationalReach
-        ) {
-
-            throw new Error(
-                "Please select Global / Worldwide, International, or both."
-            );
-        }
-
-
-        const imageFile =
-            $("rmShowroomImage")?.files?.[0] ||
-            null;
-
-
-        const videoFile =
-            $("rmShowroomVideo")?.files?.[0] ||
-            null;
-
-
-        const imageCheck =
-            validateFile(
-                imageFile,
-                "image"
-            );
-
-
-        if (!imageCheck.valid) {
-            throw new Error(
-                imageCheck.message
-            );
-        }
-
-
-        const videoCheck =
-            validateFile(
-                videoFile,
-                "video"
-            );
-
-
-        if (!videoCheck.valid) {
-            throw new Error(
-                videoCheck.message
-            );
-        }
-
-
-        const image =
-            await readFileAsDataURL(
-                imageFile
-            );
-
-
-        const video =
-            await readFileAsDataURL(
-                videoFile
-            );
-
-
-        const countrySelect =
-            $("rmShowroomCountry");
-
-
-        const selectedCountry =
-            countrySelect?.selectedOptions?.[0];
-
-
-        const data = {
-
-            id:
-                editingShowroomId ||
-                createId("showroom"),
-
-            ownerEmail:
-                account.email || "",
-
-            ownerName:
-                account.name || "",
-
-            showroomName:
-                $("rmShowroomName")?.value.trim() ||
-                "",
-
-            showroomType:
-                $("rmShowroomType")?.value ||
-                "",
-
-            reach: {
-                global:
-                    globalReach,
-
-                international:
-                    internationalReach
-            },
-
-            country:
-                $("rmShowroomCountry")?.value ||
-                "",
-
-            countryName:
-                selectedCountry?.dataset?.countryName ||
-                selectedCountry?.textContent ||
-                "",
-
-            countryCode:
-                selectedCountry?.dataset?.code2 ||
-                "",
-
-            state:
-                $("rmShowroomState")?.value.trim() ||
-                "",
-
-            pin:
-                $("rmShowroomPin")?.value.trim() ||
-                "",
-
-            email:
-                $("rmShowroomEmail")?.value.trim() ||
-                account.email ||
-                "",
-
-            description:
-                $("rmShowroomDescription")?.value.trim() ||
-                "",
-
-            image:
-                image,
-
-            video:
-                video,
-
-            price:
-                CONFIG.showroomPrice,
-
-            currency:
-                CONFIG.showroomPrice
-                    ? CONFIG.currency
-                    : "",
-
-            paymentVerified:
-                true,
-
-            paymentMethod:
-                "Bank Account",
-
-            updatedAt:
-                new Date().toISOString()
-        };
-
-
-        if (!data.showroomName) {
-            throw new Error(
-                "Please enter showroom / business name."
-            );
-        }
-
-
-        if (!data.showroomType) {
-            throw new Error(
-                "Please select advertisement category."
-            );
-        }
-
-
-        if (!data.country) {
-            throw new Error(
-                "Please select country."
-            );
-        }
-
-
-        if (!data.email) {
-            throw new Error(
-                "Please enter business email."
-            );
-        }
-
-
-        if (!data.description) {
-            throw new Error(
-                "Please enter advertisement description."
-            );
-        }
-
-
-        if (!editingShowroomId) {
-
-            data.createdAt =
-                new Date().toISOString();
-        }
-
-
-        return data;
-    }
-
-
-    /* =========================================================
-       PAYMENT GATE
-       ========================================================= */
-
-    function verifyShowroomPayment() {
-
-        if (!requireLogin()) {
             return;
         }
 
 
         /*
+         * Private own-listing view:
+         * logged-in user sees their own listings.
+         *
+         * If not logged in, no private listings
+         * are displayed.
+         */
+
+        if (!isLoggedIn()) {
+
+            container.innerHTML =
+                "<p>Please login to view your saved listings.</p>";
+
+            return;
+        }
+
+
+        const email =
+            getCurrentUserEmail();
+
+
+        const ownListings =
+            listings.filter(
+                function (item) {
+
+                    return (
+                        item.ownerEmail ===
+                        email
+                    );
+                }
+            );
+
+
+        if (!ownListings.length) {
+
+            container.innerHTML =
+                "<p>You have no saved listings yet.</p>";
+
+            return;
+        }
+
+
+        container.innerHTML =
+            ownListings
+                .slice()
+                .reverse()
+                .map(
+                    renderListingCard
+                )
+                .join("");
+
+
+        bindListingCardActions();
+    }
+
+
+    function bindListingCardActions() {
+
+        const container =
+            $("rmListings");
+
+
+        if (!container) {
+            return;
+        }
+
+
+        container
+            .querySelectorAll(
+                "[data-action='edit-listing']"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            editListing(
+                                button.dataset.id
+                            );
+                        }
+                    );
+                }
+            );
+
+
+        container
+            .querySelectorAll(
+                "[data-action='delete-listing']"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            deleteListing(
+                                button.dataset.id
+                            );
+                        }
+                    );
+                }
+            );
+    }
+
+
+    /* =====================================================
+       SHOWROOM DATA
+       ===================================================== */
+
+    function collectShowroomData() {
+
+        const selectedCountry =
+            getSelectedCountry(
+                "rmShowroomCountry"
+            );
+
+
+        return {
+
+            name:
+                $("rmShowroomName")
+                    ?.value
+                    ?.trim() || "",
+
+            type:
+                $("rmShowroomType")
+                    ?.value
+                    ?.trim() || "",
+
+            reachGlobal:
+                !!$("rmShowroomReachGlobal")
+                    ?.checked,
+
+            reachInternational:
+                !!$("rmShowroomReachInternational")
+                    ?.checked,
+
+            country:
+                selectedCountry?.value ||
+                "",
+
+            countryName:
+                selectedCountry?.name ||
+                "",
+
+            countryCode:
+                selectedCountry?.code2 ||
+                "",
+
+            countryISO3:
+                selectedCountry?.code3 ||
+                "",
+
+            countryCallingCode:
+                selectedCountry?.callingCode ||
+                "",
+
+            countryFlag:
+                selectedCountry?.flag ||
+                "",
+
+            state:
+                $("rmShowroomState")
+                    ?.value
+                    ?.trim() || "",
+
+            pin:
+                $("rmShowroomPin")
+                    ?.value
+                    ?.trim() || "",
+
+            email:
+                $("rmShowroomEmail")
+                    ?.value
+                    ?.trim()
+                    .toLowerCase() ||
+                getCurrentUserEmail(),
+
+            description:
+                $("rmShowroomDescription")
+                    ?.value
+                    ?.trim() || ""
+        };
+    }
+
+
+    /* =====================================================
+       SHOWROOM PAYMENT STATE
+       ===================================================== */
+
+    let showroomPaymentVerified =
+        false;
+
+
+    function verifyShowroomPayment() {
+
+        const status =
+            $("rmPaymentStatus");
+
+
+        if (
+            !requireLogin(status)
+        ) {
+
+            return false;
+        }
+
+
+        /*
          * IMPORTANT:
-         *
-         * A static GitHub Pages website cannot securely verify
-         * an actual bank transaction.
-         *
-         * This button only records the local verification state.
-         *
-         * Real automatic verification requires a secure backend
-         * or payment gateway.
+         * This is only the local prototype payment
+         * state. It does NOT claim that PayPal has
+         * verified a real transaction.
          */
 
         showroomPaymentVerified =
             true;
 
 
+        if ($("rmPaymentAccountStatus")) {
+
+            $("rmPaymentAccountStatus")
+                .textContent =
+                "Payment step ready";
+        }
+
+
         showStatus(
-            "rmPaymentStatus",
-            "Payment step accepted locally. Advertisement can now be published.",
+            status,
+            "Showroom payment step accepted locally. Real payment verification must be connected to the payment gateway before charging users.",
+            false
+        );
+
+
+        return true;
+    }
+
+
+    /* =====================================================
+       PAYMENT CONNECT BUTTON
+       ===================================================== */
+
+    function connectPaymentAccount() {
+
+        const status =
+            $("rmPaymentStatus");
+
+
+        if (
+            !requireLogin(status)
+        ) {
+
+            return;
+        }
+
+
+        if ($("rmPaymentAccountStatus")) {
+
+            $("rmPaymentAccountStatus")
+                .textContent =
+                "Payment account setup selected";
+        }
+
+
+        showStatus(
+            status,
+            "Payment account setup is ready. Connect the live payment gateway before publishing paid ads.",
             false
         );
     }
 
 
-    /* =========================================================
-       SHOWROOM SUBMIT
-       ========================================================= */
+    /* =====================================================
+       SAVE SHOWROOM
+       ===================================================== */
 
-    async function handleShowroomSubmit(
-        event
-    ) {
+    async function saveShowroom() {
 
-        event.preventDefault();
-
-        hideStatus(
-            "rmShowroomStatus"
-        );
+        const status =
+            $("rmShowroomStatus");
 
 
-        if (!requireLogin()) {
-            return;
+        if (
+            !requireLogin(status)
+        ) {
+
+            return false;
+        }
+
+
+        const data =
+            collectShowroomData();
+
+
+        if (!data.name) {
+
+            showStatus(
+                status,
+                "Please enter business/showroom name.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!data.type) {
+
+            showStatus(
+                status,
+                "Please select business/showroom type.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (
+            !data.reachGlobal &&
+            !data.reachInternational
+        ) {
+
+            showStatus(
+                status,
+                "Please select Global / Worldwide, International, or both.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!data.country) {
+
+            showStatus(
+                status,
+                "Please select country.",
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!data.description) {
+
+            showStatus(
+                status,
+                "Please enter business description.",
+                true
+            );
+
+            return false;
+        }
+
+
+        /*
+         * $10 USD requirement.
+         */
+
+        if (!showroomPaymentVerified) {
+
+            showStatus(
+                status,
+                "The showroom/business advertisement price is $10 USD. Complete the payment step before publishing.",
+                true
+            );
+
+            return false;
+        }
+
+
+        const imageFile =
+            $("rmShowroomImage")
+                ?.files
+                ?.[0] ||
+            null;
+
+
+        const videoFile =
+            $("rmShowroomVideo")
+                ?.files
+                ?.[0] ||
+            null;
+
+
+        const imageCheck =
+            validateImage(
+                imageFile
+            );
+
+
+        if (!imageCheck.ok) {
+
+            showStatus(
+                status,
+                imageCheck.message,
+                true
+            );
+
+            return false;
+        }
+
+
+        const videoCheck =
+            validateVideo(
+                videoFile
+            );
+
+
+        if (!videoCheck.ok) {
+
+            showStatus(
+                status,
+                videoCheck.message,
+                true
+            );
+
+            return false;
         }
 
 
         try {
 
-            const showroom =
-                await collectShowroomData();
+            const imageData =
+                await readFileAsDataURL(
+                    imageFile
+                );
+
+
+            const videoData =
+                await readFileAsDataURL(
+                    videoFile
+                );
 
 
             const showrooms =
-                getShowrooms();
+                loadJSON(
+                    CONFIG.showroomsKey,
+                    []
+                );
 
 
-            if (editingShowroomId) {
+            const form =
+                $("rmShowroomForm");
+
+
+            const editID =
+                form?.dataset
+                    ?.editId || "";
+
+
+            if (editID) {
 
                 const index =
                     showrooms.findIndex(
                         function (item) {
+
                             return (
                                 item.id ===
-                                editingShowroomId
+                                editID
                             );
                         }
                     );
@@ -2318,78 +2934,158 @@
 
                 if (index === -1) {
 
-                    throw new Error(
-                        "Advertisement not found."
+                    showStatus(
+                        status,
+                        "Showroom advertisement not found.",
+                        true
                     );
+
+                    return false;
                 }
 
 
                 if (
-                    !showroom.image &&
-                    showrooms[index].image
+                    showrooms[index].ownerEmail !==
+                    getCurrentUserEmail()
                 ) {
-                    showroom.image =
-                        showrooms[index].image;
+
+                    showStatus(
+                        status,
+                        "You can edit only your own advertisement.",
+                        true
+                    );
+
+                    return false;
                 }
 
 
-                if (
-                    !showroom.video &&
-                    showrooms[index].video
-                ) {
-                    showroom.video =
-                        showrooms[index].video;
-                }
+                showrooms[index] = {
+
+                    ...showrooms[index],
+
+                    ...data,
+
+                    priceUSD:
+                        CONFIG.showroomPrice,
+
+                    paymentStatus:
+                        "verified-local-prototype",
+
+                    image:
+                        imageData ||
+                        showrooms[index].image ||
+                        "",
+
+                    video:
+                        videoData ||
+                        showrooms[index].video ||
+                        "",
+
+                    updatedAt:
+                        nowISO()
+                };
 
 
-                showroom.createdAt =
-                    showrooms[index].createdAt;
+                saveJSON(
+                    CONFIG.showroomsKey,
+                    showrooms
+                );
 
 
-                showrooms[index] =
-                    showroom;
-
-
-                editingShowroomId =
-                    null;
+                clearShowroomForm();
 
 
                 showStatus(
-                    "rmShowroomStatus",
-                    "Advertisement updated successfully.",
+                    status,
+                    "Business/showroom advertisement updated successfully.",
                     false
                 );
 
-            } else {
 
-                showrooms.unshift(
-                    showroom
-                );
+                renderShowrooms();
 
 
-                showStatus(
-                    "rmShowroomStatus",
-                    "Advertisement published successfully.",
-                    false
-                );
+                return true;
             }
 
 
+            const showroom = {
+
+                id:
+                    generateID("showroom"),
+
+                ownerEmail:
+                    getCurrentUserEmail(),
+
+                ownerName:
+                    getSession()?.name ||
+                    "",
+
+                ...data,
+
+                priceUSD:
+                    CONFIG.showroomPrice,
+
+                currency:
+                    CONFIG.currency,
+
+                paymentStatus:
+                    "verified-local-prototype",
+
+                image:
+                    imageData || "",
+
+                video:
+                    videoData || "",
+
+                createdAt:
+                    nowISO(),
+
+                updatedAt:
+                    nowISO()
+            };
+
+
+            showrooms.push(
+                showroom
+            );
+
+
             if (
-                !saveShowrooms(
+                !saveJSON(
+                    CONFIG.showroomsKey,
                     showrooms
                 )
             ) {
 
-                throw new Error(
-                    "Advertisement could not be saved. Browser storage may be full."
+                showStatus(
+                    status,
+                    "Unable to save showroom advertisement. Storage may be full.",
+                    true
                 );
+
+                return false;
             }
 
 
-            resetShowroomForm();
+            clearShowroomForm();
+
+
+            showroomPaymentVerified =
+                false;
+
+
+            showStatus(
+                status,
+                "Business/showroom advertisement saved successfully.",
+                false
+            );
+
 
             renderShowrooms();
+
+
+            return true;
 
         } catch (error) {
 
@@ -2400,97 +3096,111 @@
 
 
             showStatus(
-                "rmShowroomStatus",
-                error.message ||
-                    "Could not publish advertisement.",
+                status,
+                "Unable to save showroom advertisement.",
                 true
             );
+
+
+            return false;
         }
     }
 
 
-    /* =========================================================
-       RESET SHOWROOM
-       ========================================================= */
+    /* =====================================================
+       CLEAR SHOWROOM FORM
+       ===================================================== */
 
-    function resetShowroomForm() {
+    function clearShowroomForm() {
 
         const form =
             $("rmShowroomForm");
 
+
         if (form) {
+
             form.reset();
+
+            delete form.dataset.editId;
         }
 
 
-        editingShowroomId =
-            null;
+        const reset =
+            $("rmResetShowroomButton");
+
+
+        if (reset) {
+
+            reset.style.display =
+                "";
+        }
+
+
+        const email =
+            $("rmShowroomEmail");
+
+
+        if (
+            email &&
+            getCurrentUserEmail()
+        ) {
+
+            email.value =
+                getCurrentUserEmail();
+        }
+
 
         showroomPaymentVerified =
             false;
-
-
-        const publish =
-            $("rmPublishShowroomButton");
-
-        if (publish) {
-            publish.textContent =
-                "Publish Advertisement";
-        }
-
-
-        hideStatus(
-            "rmPaymentStatus"
-        );
     }
 
 
-    /* =========================================================
+    /* =====================================================
        EDIT SHOWROOM
-       ========================================================= */
+       ===================================================== */
 
-    function editShowroom(id) {
+    function editShowroom(
+        id
+    ) {
 
-        if (!requireLogin()) {
+        if (
+            !requireLogin(
+                $("rmShowroomStatus")
+            )
+        ) {
+
             return;
         }
 
 
         const showrooms =
-            getShowrooms();
+            loadJSON(
+                CONFIG.showroomsKey,
+                []
+            );
 
 
         const showroom =
             showrooms.find(
                 function (item) {
+
                     return item.id === id;
                 }
             );
 
 
         if (!showroom) {
-
-            showStatus(
-                "rmShowroomStatus",
-                "Advertisement not found.",
-                true
-            );
-
             return;
         }
 
 
-        const account =
-            getLoggedInAccount();
-
-
         if (
             showroom.ownerEmail !==
-            account.email
+            getCurrentUserEmail()
         ) {
 
             showStatus(
-                "rmShowroomStatus",
+                $("rmShowroomStatus"),
                 "You can edit only your own advertisement.",
                 true
             );
@@ -2499,115 +3209,105 @@
         }
 
 
-        editingShowroomId =
-            showroom.id;
+        const form =
+            $("rmShowroomForm");
 
 
-        setValue(
-            "rmShowroomName",
-            showroom.showroomName
-        );
+        if (!form) {
+            return;
+        }
 
 
-        setValue(
-            "rmShowroomType",
-            showroom.showroomType
-        );
+        form.dataset.editId =
+            id;
 
 
-        setChecked(
-            "rmShowroomReachGlobal",
-            Boolean(
-                showroom.reach?.global
-            )
-        );
+        if ($("rmShowroomName"))
+            $("rmShowroomName").value =
+                showroom.name || "";
 
 
-        setChecked(
-            "rmShowroomReachInternational",
-            Boolean(
-                showroom.reach?.international
-            )
-        );
+        if ($("rmShowroomType"))
+            $("rmShowroomType").value =
+                showroom.type || "";
 
 
-        setValue(
-            "rmShowroomCountry",
-            showroom.country
-        );
+        if ($("rmShowroomReachGlobal"))
+            $("rmShowroomReachGlobal").checked =
+                !!showroom.reachGlobal;
 
 
-        setValue(
-            "rmShowroomState",
-            showroom.state
-        );
+        if ($("rmShowroomReachInternational"))
+            $("rmShowroomReachInternational").checked =
+                !!showroom.reachInternational;
 
 
-        setValue(
-            "rmShowroomPin",
-            showroom.pin
-        );
+        if ($("rmShowroomCountry"))
+            $("rmShowroomCountry").value =
+                showroom.country || "";
 
 
-        setValue(
-            "rmShowroomEmail",
-            showroom.email
-        );
+        if ($("rmShowroomState"))
+            $("rmShowroomState").value =
+                showroom.state || "";
 
 
-        setValue(
-            "rmShowroomDescription",
-            showroom.description
-        );
+        if ($("rmShowroomPin"))
+            $("rmShowroomPin").value =
+                showroom.pin || "";
 
 
-        /*
-         * Editing an already published advertisement
-         * keeps its payment state.
-         */
+        if ($("rmShowroomEmail"))
+            $("rmShowroomEmail").value =
+                showroom.email ||
+                getCurrentUserEmail();
+
+
+        if ($("rmShowroomDescription"))
+            $("rmShowroomDescription").value =
+                showroom.description || "";
+
 
         showroomPaymentVerified =
-            Boolean(
-                showroom.paymentVerified
-            );
+            true;
 
 
-        showStatus(
-            "rmShowroomStatus",
-            "Editing advertisement.",
-            false
-        );
-
-
-        $("rmShowroomForm")?.scrollIntoView({
+        form.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
     }
 
 
-    /* =========================================================
+    /* =====================================================
        DELETE SHOWROOM
-       ========================================================= */
+       ===================================================== */
 
-    function deleteShowroom(id) {
+    function deleteShowroom(
+        id
+    ) {
 
-        if (!requireLogin()) {
+        if (
+            !requireLogin(
+                $("rmShowroomStatus")
+            )
+        ) {
+
             return;
         }
 
 
         const showrooms =
-            getShowrooms();
-
-
-        const account =
-            getLoggedInAccount();
+            loadJSON(
+                CONFIG.showroomsKey,
+                []
+            );
 
 
         const showroom =
             showrooms.find(
                 function (item) {
+
                     return item.id === id;
                 }
             );
@@ -2620,11 +3320,11 @@
 
         if (
             showroom.ownerEmail !==
-            account.email
+            getCurrentUserEmail()
         ) {
 
             showStatus(
-                "rmShowroomStatus",
+                $("rmShowroomStatus"),
                 "You can delete only your own advertisement.",
                 true
             );
@@ -2635,7 +3335,7 @@
 
         const confirmed =
             window.confirm(
-                "Delete this advertisement?"
+                "Delete this business/showroom advertisement?"
             );
 
 
@@ -2644,746 +3344,350 @@
         }
 
 
-        const filtered =
+        const remaining =
             showrooms.filter(
                 function (item) {
+
                     return item.id !== id;
                 }
             );
 
 
-        saveShowrooms(
-            filtered
+        saveJSON(
+            CONFIG.showroomsKey,
+            remaining
+        );
+
+
+        showStatus(
+            $("rmShowroomStatus"),
+            "Business/showroom advertisement deleted.",
+            false
         );
 
 
         renderShowrooms();
-
-
-        showStatus(
-            "rmShowroomStatus",
-            "Advertisement deleted successfully.",
-            false
-        );
     }
 
 
-    /* =========================================================
+    /* =====================================================
+       SHOWROOM CARD
+       ===================================================== */
+
+    function renderShowroomCard(
+        showroom
+    ) {
+
+        const mediaImage =
+            showroom.image
+                ? `
+                    <img
+                        src="${showroom.image}"
+                        alt="${escapeHTML(showroom.name)}"
+                        loading="lazy"
+                    >
+                  `
+                : "";
+
+
+        const mediaVideo =
+            showroom.video
+                ? `
+                    <video
+                        controls
+                        preload="metadata"
+                    >
+                        <source
+                            src="${showroom.video}"
+                        >
+                    </video>
+                  `
+                : "";
+
+
+        const reach = [];
+
+
+        if (
+            showroom.reachGlobal
+        ) {
+
+            reach.push(
+                "Global / Worldwide"
+            );
+        }
+
+
+        if (
+            showroom.reachInternational
+        ) {
+
+            reach.push(
+                "International"
+            );
+        }
+
+
+        const locationParts = [
+
+            showroom.countryFlag ||
+                "",
+
+            showroom.countryName ||
+                showroom.country ||
+                "",
+
+            showroom.countryCode
+                ? "(" +
+                  showroom.countryCode +
+                  ")"
+                : "",
+
+            showroom.countryCallingCode ||
+                "",
+
+            showroom.state ||
+                "",
+
+            showroom.pin
+                ? "PIN " +
+                  showroom.pin
+                : ""
+
+        ].filter(Boolean);
+
+
+        return `
+
+            <article
+                class="rm-showroom-card"
+                data-showroom-id="${escapeHTML(showroom.id)}"
+            >
+
+                <div class="rm-showroom-media">
+
+                    ${mediaImage}
+
+                    ${mediaVideo}
+
+                </div>
+
+
+                <div class="rm-showroom-content">
+
+                    <div class="rm-showroom-badge">
+                        Business / Showroom
+                    </div>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            showroom.name
+                        )}
+                    </h3>
+
+
+                    <p>
+                        <strong>Type:</strong>
+                        ${escapeHTML(
+                            showroom.type
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>Reach:</strong>
+                        ${escapeHTML(
+                            reach.join(" + ")
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>Country:</strong>
+                        ${escapeHTML(
+                            locationParts.join(" ")
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>Advertisement:</strong>
+                        $${CONFIG.showroomPrice}
+                        USD
+                    </p>
+
+
+                    ${
+                        showroom.description
+                        ? `
+                            <p class="rm-description">
+                                ${escapeHTML(
+                                    showroom.description
+                                )}
+                            </p>
+                          `
+                        : ""
+                    }
+
+
+                    <div class="rm-owner-actions">
+
+                        <button
+                            type="button"
+                            data-action="edit-showroom"
+                            data-id="${escapeHTML(showroom.id)}"
+                        >
+                            Edit
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-action="delete-showroom"
+                            data-id="${escapeHTML(showroom.id)}"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+        `;
+    }
+
+
+    /* =====================================================
        RENDER SHOWROOMS
-       ========================================================= */
+       ===================================================== */
 
     function renderShowrooms() {
 
         const container =
             $("rmShowrooms");
 
+
         if (!container) {
             return;
         }
 
 
-        const account =
-            getLoggedInAccount();
-
-
-        if (!account) {
-
-            container.innerHTML =
-                '<div class="rm-empty">' +
-                'Please login to view your advertisements.' +
-                '</div>';
-
-            return;
-        }
-
-
         const showrooms =
-            getShowrooms().filter(
-                function (item) {
-                    return (
-                        item.ownerEmail ===
-                        account.email
-                    );
-                }
+            loadJSON(
+                CONFIG.showroomsKey,
+                []
             );
 
 
-        if (!showrooms.length) {
+        if (!isLoggedIn()) {
 
             container.innerHTML =
-                '<div class="rm-empty">' +
-                'No advertisements available yet.' +
-                '</div>';
+                "<p>Please login to view your saved business/showroom advertisements.</p>";
 
             return;
         }
-
-
-        const grid =
-            document.createElement(
-                "div"
-            );
-
-        grid.className =
-            "rm-list-grid";
-
-
-        showrooms.forEach(
-            function (showroom) {
-
-                const card =
-                    document.createElement(
-                        "article"
-                    );
-
-                card.className =
-                    "rm-card";
-
-
-                const title =
-                    document.createElement(
-                        "h3"
-                    );
-
-                title.textContent =
-                    showroom.showroomName ||
-                    "Advertisement";
-
-
-                card.appendChild(
-                    title
-                );
-
-
-                addCardRow(
-                    card,
-                    "Category",
-                    getShowroomCategoryLabel(
-                        showroom.showroomType
-                    )
-                );
-
-
-                const reachText = [];
-
-
-                if (
-                    showroom.reach?.global
-                ) {
-                    reachText.push(
-                        "Global / Worldwide"
-                    );
-                }
-
-
-                if (
-                    showroom.reach?.international
-                ) {
-                    reachText.push(
-                        "International"
-                    );
-                }
-
-
-                addCardRow(
-                    card,
-                    "Reach",
-                    reachText.join(
-                        " + "
-                    )
-                );
-
-
-                addCardRow(
-                    card,
-                    "Country",
-                    showroom.countryName ||
-                    showroom.country
-                );
-
-
-                addCardRow(
-                    card,
-                    "State / Province",
-                    showroom.state
-                );
-
-
-                addCardRow(
-                    card,
-                    "PIN / ZIP",
-                    showroom.pin
-                );
-
-
-                addCardRow(
-                    card,
-                    "Email",
-                    showroom.email
-                );
-
-
-                addCardRow(
-                    card,
-                    "Description",
-                    showroom.description
-                );
-
-
-                addCardRow(
-                    card,
-                    "Advertisement Price",
-                    showroom.price +
-                    " " +
-                    showroom.currency
-                );
-
-
-                addCardRow(
-                    card,
-                    "Payment Method",
-                    showroom.paymentMethod
-                );
-
-
-                addCardRow(
-                    card,
-                    "Payment Status",
-                    showroom.paymentVerified
-                        ? "Accepted locally"
-                        : "Not verified"
-                );
-
-
-                if (showroom.image) {
-
-                    const image =
-                        document.createElement(
-                            "img"
-                        );
-
-                    image.className =
-                        "rm-card-media";
-
-                    image.src =
-                        showroom.image;
-
-                    image.alt =
-                        showroom.showroomName ||
-                        "Advertisement image";
-
-                    image.loading =
-                        "lazy";
-
-                    card.appendChild(
-                        image
-                    );
-                }
-
-
-                if (showroom.video) {
-
-                    const video =
-                        document.createElement(
-                            "video"
-                        );
-
-                    video.className =
-                        "rm-card-video";
-
-                    video.controls =
-                        true;
-
-                    video.preload =
-                        "metadata";
-
-
-                    const source =
-                        document.createElement(
-                            "source"
-                        );
-
-                    source.src =
-                        showroom.video;
-
-
-                    video.appendChild(
-                        source
-                    );
-
-
-                    card.appendChild(
-                        video
-                    );
-                }
-
-
-                const actions =
-                    document.createElement(
-                        "div"
-                    );
-
-                actions.className =
-                    "rm-actions";
-
-
-                const edit =
-                    document.createElement(
-                        "button"
-                    );
-
-                edit.type =
-                    "button";
-
-                edit.className =
-                    "rm-btn";
-
-                edit.textContent =
-                    "Edit";
-
-                edit.addEventListener(
-                    "click",
-                    function () {
-                        editShowroom(
-                            showroom.id
-                        );
-                    }
-                );
-
-
-                const remove =
-                    document.createElement(
-                        "button"
-                    );
-
-                remove.type =
-                    "button";
-
-                remove.className =
-                    "rm-btn rm-btn-danger";
-
-                remove.textContent =
-                    "Delete";
-
-                remove.addEventListener(
-                    "click",
-                    function () {
-                        deleteShowroom(
-                            showroom.id
-                        );
-                    }
-                );
-
-
-                actions.appendChild(
-                    edit
-                );
-
-                actions.appendChild(
-                    remove
-                );
-
-
-                card.appendChild(
-                    actions
-                );
-
-
-                grid.appendChild(
-                    card
-                );
-
-            }
-        );
-
-
-        container.innerHTML = "";
-
-        container.appendChild(
-            grid
-        );
-    }
-
-
-    /* =========================================================
-       SHOWROOM CATEGORY LABEL
-       ========================================================= */
-
-    function getShowroomCategoryLabel(
-        value
-    ) {
-
-        const found =
-            SHOWROOM_CATEGORIES.find(
-                function (item) {
-                    return (
-                        item.value ===
-                        value
-                    );
-                }
-            );
-
-
-        return found
-            ? found.label
-            : value || "";
-    }
-
-
-    /* =========================================================
-       FORM HELPERS
-       ========================================================= */
-
-    function setValue(
-        id,
-        value
-    ) {
-
-        const element =
-            $(id);
-
-        if (!element) {
-            return;
-        }
-
-        element.value =
-            value ?? "";
-    }
-
-
-    function setChecked(
-        id,
-        value
-    ) {
-
-        const element =
-            $(id);
-
-        if (!element) {
-            return;
-        }
-
-        element.checked =
-            Boolean(value);
-    }
-
-
-    /* =========================================================
-       LOGIN
-       ========================================================= */
-
-    function handleLogin() {
-
-        hideStatus(
-            "rmLoginStatus"
-        );
-
-
-        const name =
-            $("rmLoginName")?.value.trim() ||
-            "";
 
 
         const email =
-            $("rmLoginEmail")?.value.trim().toLowerCase() ||
-            "";
+            getCurrentUserEmail();
 
 
-        const password =
-            $("rmLoginPassword")?.value ||
-            "";
+        const ownShowrooms =
+            Array.isArray(showrooms)
+                ? showrooms.filter(
+                    function (item) {
+
+                        return (
+                            item.ownerEmail ===
+                            email
+                        );
+                    }
+                )
+                : [];
 
 
-        const agreement =
-            Boolean(
-                $("rmAgreement")?.checked
-            );
+        if (!ownShowrooms.length) {
 
-
-        if (!name) {
-
-            showStatus(
-                "rmLoginStatus",
-                "Please enter your name.",
-                true
-            );
-
-            return;
-        }
-
-
-        if (!email) {
-
-            showStatus(
-                "rmLoginStatus",
-                "Please enter your email address.",
-                true
-            );
+            container.innerHTML =
+                "<p>You have no saved business/showroom advertisements yet.</p>";
 
             return;
         }
 
 
-        if (!isValidEmail(email)) {
-
-            showStatus(
-                "rmLoginStatus",
-                "Please enter a valid email address.",
-                true
-            );
-
-            return;
-        }
+        container.innerHTML =
+            ownShowrooms
+                .slice()
+                .reverse()
+                .map(
+                    renderShowroomCard
+                )
+                .join("");
 
 
-        if (!password) {
-
-            showStatus(
-                "rmLoginStatus",
-                "Please enter your password.",
-                true
-            );
-
-            return;
-        }
-
-
-        if (!agreement) {
-
-            showStatus(
-                "rmLoginStatus",
-                "You must accept the Marketplace Agreement before login.",
-                true
-            );
-
-            return;
-        }
-
-
-        const account = {
-
-            name:
-                name,
-
-            email:
-                email,
-
-            /*
-             * This is only a local prototype account.
-             * A real production login requires a secure backend.
-             */
-
-            password:
-                password,
-
-            updatedAt:
-                new Date().toISOString()
-        };
-
-
-        writeStorage(
-            CONFIG.accountStorage,
-            account
-        );
-
-
-        writeStorage(
-            CONFIG.sessionStorage,
-            {
-                loggedIn: true,
-
-                email:
-                    email,
-
-                loginAt:
-                    new Date().toISOString()
-            }
-        );
-
-
-        updateLoginUI();
-
-
-        showStatus(
-            "rmLoginStatus",
-            "Login successful.",
-            false
-        );
-
-
-        renderListings();
-
-        renderShowrooms();
+        bindShowroomCardActions();
     }
 
 
-    /* =========================================================
-       LOGOUT
-       ========================================================= */
+    function bindShowroomCardActions() {
 
-    function logout() {
-
-        removeStorage(
-            CONFIG.sessionStorage
-        );
+        const container =
+            $("rmShowrooms");
 
 
-        showroomPaymentVerified =
-            false;
-
-
-        updateLoginUI();
-
-
-        renderListings();
-
-        renderShowrooms();
-
-
-        showStatus(
-            "rmLoginStatus",
-            "Logged out successfully.",
-            false
-        );
-    }
-
-
-    /* =========================================================
-       LOGIN UI
-       ========================================================= */
-
-    function updateLoginUI() {
-
-        const account =
-            getLoggedInAccount();
-
-
-        const loginBox =
-            $("rmLoginBox");
-
-
-        const profileBox =
-            $("rmProfileBox");
-
-
-        const profileEmail =
-            $("rmProfileEmail");
-
-
-        if (account) {
-
-            if (loginBox) {
-                loginBox.classList.add(
-                    "rm-hidden"
-                );
-            }
-
-
-            if (profileBox) {
-                profileBox.classList.remove(
-                    "rm-hidden"
-                );
-            }
-
-
-            if (profileEmail) {
-                profileEmail.textContent =
-                    account.email || "";
-            }
-
-        } else {
-
-            if (loginBox) {
-                loginBox.classList.remove(
-                    "rm-hidden"
-                );
-            }
-
-
-            if (profileBox) {
-                profileBox.classList.add(
-                    "rm-hidden"
-                );
-            }
-
-
-            if (profileEmail) {
-                profileEmail.textContent =
-                    "";
-            }
+        if (!container) {
+            return;
         }
+
+
+        container
+            .querySelectorAll(
+                "[data-action='edit-showroom']"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            editShowroom(
+                                button.dataset.id
+                            );
+                        }
+                    );
+                }
+            );
+
+
+        container
+            .querySelectorAll(
+                "[data-action='delete-showroom']"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            deleteShowroom(
+                                button.dataset.id
+                            );
+                        }
+                    );
+                }
+            );
     }
 
 
-    /* =========================================================
-       EMAIL VALIDATION
-       ========================================================= */
-
-    function isValidEmail(
-        email
-    ) {
-
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            .test(email);
-    }
-
-
-    /* =========================================================
-       EVENT LISTENERS
-       ========================================================= */
+    /* =====================================================
+       EVENT BINDING
+       ===================================================== */
 
     function bindEvents() {
-
-        const listingType =
-            $("rmListingType");
-
-
-        if (listingType) {
-
-            listingType.addEventListener(
-                "change",
-                function () {
-
-                    populateListingCategories();
-
-                }
-            );
-        }
-
-
-        const listingForm =
-            $("rmListingForm");
-
-
-        if (listingForm) {
-
-            listingForm.addEventListener(
-                "submit",
-                handleListingSubmit
-            );
-        }
-
-
-        const cancelListing =
-            $("rmCancelListingEditButton");
-
-
-        if (cancelListing) {
-
-            cancelListing.addEventListener(
-                "click",
-                function () {
-
-                    resetListingForm();
-
-                    hideStatus(
-                        "rmListingStatus"
-                    );
-
-                }
-            );
-        }
-
 
         const loginButton =
             $("rmLoginButton");
@@ -3393,7 +3697,7 @@
 
             loginButton.addEventListener(
                 "click",
-                handleLogin
+                login
             );
         }
 
@@ -3411,99 +3715,203 @@
         }
 
 
-        const showroomForm =
-            $("rmShowroomForm");
+        const listingType =
+            $("rmListingType");
 
 
-        if (showroomForm) {
+        if (listingType) {
 
-            showroomForm.addEventListener(
-                "submit",
-                handleShowroomSubmit
+            listingType.addEventListener(
+                "change",
+                populateListingCategories
             );
         }
 
 
-        const paymentButton =
+        const saveListingButton =
+            $("rmSaveListingButton");
+
+
+        if (saveListingButton) {
+
+            saveListingButton.addEventListener(
+                "click",
+                saveListing
+            );
+        }
+
+
+        const cancelListingButton =
+            $("rmCancelListingEditButton");
+
+
+        if (cancelListingButton) {
+
+            cancelListingButton.addEventListener(
+                "click",
+                clearListingForm
+            );
+        }
+
+
+        const connectPaymentButton =
+            $("rmConnectPaymentButton");
+
+
+        if (connectPaymentButton) {
+
+            connectPaymentButton.addEventListener(
+                "click",
+                connectPaymentAccount
+            );
+        }
+
+
+        const payShowroomButton =
             $("rmPayShowroomButton");
 
 
-        if (paymentButton) {
+        if (payShowroomButton) {
 
-            paymentButton.addEventListener(
+            payShowroomButton.addEventListener(
                 "click",
                 verifyShowroomPayment
             );
         }
 
 
-        const resetShowroom =
+        const publishShowroomButton =
+            $("rmPublishShowroomButton");
+
+
+        if (publishShowroomButton) {
+
+            publishShowroomButton.addEventListener(
+                "click",
+                saveShowroom
+            );
+        }
+
+
+        const resetShowroomButton =
             $("rmResetShowroomButton");
 
 
-        if (resetShowroom) {
+        if (resetShowroomButton) {
 
-            resetShowroom.addEventListener(
+            resetShowroomButton.addEventListener(
                 "click",
-                function () {
+                clearShowroomForm
+            );
+        }
 
-                    resetShowroomForm();
 
-                    hideStatus(
-                        "rmShowroomStatus"
-                    );
+        /*
+         * Pressing Enter in login form
+         */
 
+        const loginBox =
+            $("rmLoginBox");
+
+
+        if (loginBox) {
+
+            loginBox.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        login();
+                    }
                 }
             );
         }
     }
 
 
-    /* =========================================================
-       INITIALIZATION
-       ========================================================= */
+    /* =====================================================
+       INIT
+       ===================================================== */
 
     function init() {
 
-        ensureShowroomCategories();
-
-
         populateListingCategories();
 
+        populateConditionOptions();
 
-        populateCountrySelect(
-            "rmCountry"
-        );
-
-
-        populateCountrySelect(
-            "rmShowroomCountry"
-        );
-
-
-        updateLoginUI();
-
+        populateRegularMarketplaceCountries();
 
         bindEvents();
 
+        updateLoginUI();
 
         renderListings();
-
 
         renderShowrooms();
 
 
-        console.log(
-            "ALON HISTORYVERSE 24 Regular Marketplace JS loaded.",
-            "Version:",
-            CONFIG.version
-        );
+        /*
+         * Keep email fields synchronized
+         * after page initialization.
+         */
+
+        const email =
+            getCurrentUserEmail();
+
+
+        if (
+            email &&
+            $("rmEmail")
+        ) {
+
+            $("rmEmail").value =
+                email;
+        }
+
+
+        if (
+            email &&
+            $("rmShowroomEmail")
+        ) {
+
+            $("rmShowroomEmail").value =
+                email;
+        }
     }
 
 
-    /* =========================================================
+    /* =====================================================
+       SAFE DOM READY
+       ===================================================== */
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            init,
+            {
+                once: true
+            }
+        );
+
+    } else {
+
+        init();
+    }
+
+
+    /* =====================================================
        PUBLIC API
-       ========================================================= */
+       ===================================================== */
 
     window.ALON_REGULAR_MARKETPLACE = {
 
@@ -3513,25 +3921,29 @@
         config:
             CONFIG,
 
-        categories: {
-            items:
-                ITEM_CATEGORIES,
+        categories:
+            CATEGORY_DATA,
 
-            property:
-                PROPERTY_CATEGORIES,
-
-            vehicles:
-                VEHICLE_CATEGORIES,
-
-            showroom:
-                SHOWROOM_CATEGORIES
-        },
+        conditions:
+            CONDITION_DATA,
 
         getListings:
-            getListings,
+            function () {
+
+                return loadJSON(
+                    CONFIG.listingsKey,
+                    []
+                );
+            },
 
         getShowrooms:
-            getShowrooms,
+            function () {
+
+                return loadJSON(
+                    CONFIG.showroomsKey,
+                    []
+                );
+            },
 
         renderListings:
             renderListings,
@@ -3540,34 +3952,20 @@
             renderShowrooms,
 
         login:
-            handleLogin,
+            login,
 
         logout:
             logout,
 
         verifyPayment:
-            verifyShowroomPayment
+            verifyShowroomPayment,
+
+        populateCountries:
+            populateRegularMarketplaceCountries,
+
+        getSelectedCountry:
+            getSelectedCountry
     };
 
-
-    /* =========================================================
-       START
-       ========================================================= */
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            init
-        );
-
-    } else {
-
-        init();
-
-    }
 
 })();
