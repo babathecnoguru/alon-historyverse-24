@@ -1,3 +1,5 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -212,7 +214,7 @@
 
 <!-- =========================================================
      THREE-LINE MENU
-     
+
      IMPORTANT:
      No files are placed here.
      Only Language / Settings / Logout.
@@ -362,9 +364,6 @@
 
 <!-- =========================================================
      MAIN HOME PAGE
-     
-     ALL FILES / CARDS ARE HERE.
-     Nothing has been moved into the three-line menu.
 ========================================================== -->
 
 <main class="page">
@@ -955,9 +954,6 @@
 
     <!-- =====================================================
          PLATFORM
-         
-         Existing root platform pages.
-         Root paths only — no folder restructuring.
     ====================================================== -->
 
     <section class="section">
@@ -1031,9 +1027,6 @@
 
     <!-- =====================================================
          MARKETPLACE / SELL
-         
-         IMPORTANT:
-         This is intentionally the LAST main section.
     ====================================================== -->
 
     <section class="section">
@@ -1061,13 +1054,6 @@
 
             </a>
 
-
-            <!-- =================================================
-                 REGULAR MARKETPLACE
-                 
-                 Separate from Global Marketplace.
-                 Existing Global Marketplace is untouched.
-            ================================================== -->
 
             <a
                 class="card"
@@ -1128,6 +1114,8 @@
      
      ALL FILES ARE IN ROOT
 ========================================================== -->
+
+<script src="./marketplace-countries.js"></script>
 
 <script src="./core.js"></script>
 
@@ -1284,8 +1272,6 @@
 
     /* =======================================================
        LANGUAGE
-       
-       Language is now inside the three-line menu.
     ======================================================== */
 
     const languagePanel =
@@ -1524,9 +1510,6 @@
 
     /* =======================================================
        RESET WEBSITE PREFERENCES
-       
-       Only HistoryVerse preference keys are touched.
-       Article/library data is NOT deleted.
     ======================================================== */
 
     if (settingsResetBtn) {
@@ -1604,9 +1587,6 @@
 
     /* =======================================================
        LOGOUT
-       
-       Works with common local/session auth keys.
-       Also attempts Firebase signOut if available.
     ======================================================== */
 
     function clearHistoryVerseAuth() {
@@ -1696,11 +1676,6 @@
         }
 
 
-        /*
-         * Try Firebase authentication if the
-         * Firebase API is already available.
-         */
-
         try {
 
             if (
@@ -1728,11 +1703,6 @@
 
         } catch (error) {
 
-            /*
-             * Local/session logout still continues
-             * even if Firebase is unavailable.
-             */
-
             console.warn(
                 "Firebase logout:",
                 error
@@ -1750,11 +1720,6 @@
 
         closeLanguagePanel();
 
-
-        /*
-         * Always return the user to the
-         * root login page.
-         */
 
         window.location.href =
             "./login.html";

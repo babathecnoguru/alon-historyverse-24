@@ -2,42 +2,31 @@
    ALON HISTORYVERSE 24
    MARKETPLACE COUNTRIES DATABASE
    ---------------------------------------------------------
-   Version: 24.7 SAFE MARKETPLACE COUNTRY SYSTEM
+   Version: 24.7 WORKING FLAG COUNTRY SYSTEM
    Creator: Baba Thecno Guru
 
-   USED BY:
-   1. marketplace.html
-      → Global Marketplace
+   USES:
+   • Regular Marketplace
+   • Global Marketplace
+   • Jobs / Careers compatibility
 
-   2. regular-marketpkes.js
-      → Regular Marketplace
+   FORMAT:
+   🇮🇳 India (IN • IND) +91
 
-   JOBS & CAREERS:
-      → NOT MODIFIED
-
-   FEATURES:
-   • One Marketplace Country Database
-   • World Countries
-   • Flag FIRST
-   • Country Name
-   • ISO-2
-   • ISO-3
-   • Calling Code
-   • Regular Marketplace Support
-   • Global Marketplace Support
-   • rmCountry
-   • rmShowroomCountry
-   • Global Country IDs
-   • Bangladesh excluded
-   • Pakistan excluded
+   IMPORTANT:
+   • This file is the marketplace country source.
+   • No world-countries.js dependency.
+   • Flag is always first.
+   • ISO2 + ISO3 + Calling Code included.
    ========================================================= */
 
 (function () {
 
     "use strict";
 
+
     /* =====================================================
-       COUNTRY DATA
+       COUNTRY DATABASE
        [Name, ISO2, ISO3, Calling Code, Flag]
        ===================================================== */
 
@@ -87,8 +76,9 @@
         ["Croatia", "HR", "HRV", "+385", "🇭🇷"],
         ["Cuba", "CU", "CUB", "+53", "🇨🇺"],
         ["Cyprus", "CY", "CYP", "+357", "🇨🇾"],
-        ["Czech Republic", "CZ", "CZE", "+420", "🇨🇿"],
+        ["Czechia", "CZ", "CZE", "+420", "🇨🇿"],
 
+        ["Democratic Republic of the Congo", "CD", "COD", "+243", "🇨🇩"],
         ["Denmark", "DK", "DNK", "+45", "🇩🇰"],
         ["Djibouti", "DJ", "DJI", "+253", "🇩🇯"],
         ["Dominica", "DM", "DMA", "+1-767", "🇩🇲"],
@@ -187,7 +177,6 @@
         ["Oman", "OM", "OMN", "+968", "🇴🇲"],
 
         ["Palau", "PW", "PLW", "+680", "🇵🇼"],
-        ["Palestine", "PS", "PSE", "+970", "🇵🇸"],
         ["Panama", "PA", "PAN", "+507", "🇵🇦"],
         ["Papua New Guinea", "PG", "PNG", "+675", "🇵🇬"],
         ["Paraguay", "PY", "PRY", "+595", "🇵🇾"],
@@ -229,7 +218,6 @@
         ["Switzerland", "CH", "CHE", "+41", "🇨🇭"],
         ["Syria", "SY", "SYR", "+963", "🇸🇾"],
 
-        ["Taiwan", "TW", "TWN", "+886", "🇹🇼"],
         ["Tajikistan", "TJ", "TJK", "+992", "🇹🇯"],
         ["Tanzania", "TZ", "TZA", "+255", "🇹🇿"],
         ["Thailand", "TH", "THA", "+66", "🇹🇭"],
@@ -251,7 +239,7 @@
         ["Uzbekistan", "UZ", "UZB", "+998", "🇺🇿"],
 
         ["Vanuatu", "VU", "VUT", "+678", "🇻🇺"],
-        ["Vatican City", "VA", "VAT", "+39", "🇻🇦"],
+        ["Vatican City", "VA", "VAT", "+379", "🇻🇦"],
         ["Venezuela", "VE", "VEN", "+58", "🇻🇪"],
         ["Vietnam", "VN", "VNM", "+84", "🇻🇳"],
 
@@ -264,45 +252,395 @@
 
 
     /* =====================================================
-       BUILD MARKETPLACE COUNTRY OBJECTS
+       BUILD STANDARD COUNTRY OBJECTS
        ===================================================== */
 
-    const MARKETPLACE_COUNTRIES = COUNTRY_DATA.map(function (item) {
+    const MARKETPLACE_COUNTRIES = COUNTRY_DATA.map(
+        function (item) {
 
-        const name = item[0];
-        const iso2 = item[1];
-        const iso3 = item[2];
-        const callingCode = item[3];
-        const flag = item[4];
+            const name = item[0];
+            const iso2 = item[1];
+            const iso3 = item[2];
+            const callingCode = item[3];
+            const flag = item[4];
 
-        return {
+            return {
 
-            name: name,
+                name: name,
 
-            country: name,
+                country: name,
 
-            slug: name
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-"),
+                slug: name
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/^-+|-+$/g, ""),
 
-            flag: flag,
+                flag: flag,
 
-            code2: iso2,
-            code3: iso3,
+                code2: iso2,
+                code3: iso3,
 
-            iso2: iso2,
-            iso3: iso3,
+                iso2: iso2,
+                iso3: iso3,
 
-            callingCode: callingCode,
-            phoneCode: callingCode
+                callingCode: callingCode,
+                phoneCode: callingCode
 
-        };
+            };
 
-    });
+        }
+    );
 
 
     /* =====================================================
-       GLOBAL VARIABLES
+       COUNTRY LABEL
+       ===================================================== */
+
+    function countryLabel(country) {
+
+        if (!country) {
+            return "";
+        }
+
+        const flag =
+            country.flag ||
+            "🌍";
+
+        const name =
+            country.name ||
+            country.country ||
+            "";
+
+        const iso2 =
+            country.iso2 ||
+            country.code2 ||
+            "";
+
+        const iso3 =
+            country.iso3 ||
+            country.code3 ||
+            "";
+
+        const callingCode =
+            country.callingCode ||
+            country.phoneCode ||
+            "";
+
+        return [
+            flag,
+            name,
+            "(" + iso2 + " • " + iso3 + ")",
+            callingCode
+        ]
+            .filter(Boolean)
+            .join(" ")
+            .trim();
+    }
+
+
+    /* =====================================================
+       FIND COUNTRY
+       ===================================================== */
+
+    function findCountry(value) {
+
+        if (value === null || value === undefined) {
+            return null;
+        }
+
+        const search =
+            String(value)
+                .trim()
+                .toLowerCase();
+
+        if (!search) {
+            return null;
+        }
+
+        return MARKETPLACE_COUNTRIES.find(
+            function (country) {
+
+                return (
+
+                    String(country.name)
+                        .toLowerCase() === search
+
+                    ||
+
+                    String(country.country)
+                        .toLowerCase() === search
+
+                    ||
+
+                    String(country.iso2)
+                        .toLowerCase() === search
+
+                    ||
+
+                    String(country.iso3)
+                        .toLowerCase() === search
+
+                    ||
+
+                    String(country.callingCode)
+                        .toLowerCase() === search
+
+                );
+
+            }
+        ) || null;
+    }
+
+
+    /* =====================================================
+       CREATE COUNTRY OPTION
+       ===================================================== */
+
+    function createCountryOption(country) {
+
+        const option =
+            document.createElement("option");
+
+        const label =
+            countryLabel(country);
+
+        option.value =
+            country.iso2 ||
+            country.code2 ||
+            country.name ||
+            "";
+
+        option.textContent =
+            label;
+
+        option.dataset.countryName =
+            country.name || "";
+
+        option.dataset.countryCode =
+            country.iso2 ||
+            country.code2 ||
+            "";
+
+        option.dataset.countryISO3 =
+            country.iso3 ||
+            country.code3 ||
+            "";
+
+        option.dataset.callingCode =
+            country.callingCode ||
+            country.phoneCode ||
+            "";
+
+        option.dataset.flag =
+            country.flag ||
+            "🌍";
+
+        return option;
+    }
+
+
+    /* =====================================================
+       FILL ONE SELECT
+       ===================================================== */
+
+    function fillCountrySelect(
+        selector,
+        selectedValue
+    ) {
+
+        let select = null;
+
+        if (
+            typeof selector === "string"
+        ) {
+
+            if (
+                selector.charAt(0) === "#"
+            ) {
+
+                select =
+                    document.querySelector(
+                        selector
+                    );
+
+            } else {
+
+                select =
+                    document.getElementById(
+                        selector
+                    ) ||
+                    document.querySelector(
+                        selector
+                    );
+
+            }
+
+        } else if (
+            selector &&
+            selector.tagName === "SELECT"
+        ) {
+
+            select = selector;
+
+        }
+
+        if (!select) {
+            return false;
+        }
+
+
+        const current =
+            selectedValue ||
+            select.value ||
+            "";
+
+
+        /*
+         * Do not rebuild a select that is already
+         * correctly populated. This prevents selected
+         * country values from being lost.
+         */
+
+        if (
+            select.options.length >
+            MARKETPLACE_COUNTRIES.length
+        ) {
+            return true;
+        }
+
+
+        select.innerHTML = "";
+
+
+        const placeholder =
+            document.createElement("option");
+
+        placeholder.value = "";
+
+        placeholder.textContent =
+            "🌍 Select Country";
+
+        select.appendChild(
+            placeholder
+        );
+
+
+        MARKETPLACE_COUNTRIES.forEach(
+            function (country) {
+
+                select.appendChild(
+                    createCountryOption(
+                        country
+                    )
+                );
+
+            }
+        );
+
+
+        if (current) {
+
+            const normalized =
+                String(current)
+                    .trim()
+                    .toUpperCase();
+
+
+            const match =
+                Array.from(
+                    select.options
+                ).find(
+                    function (option) {
+
+                        return (
+
+                            String(
+                                option.value
+                            )
+                                .toUpperCase() ===
+                            normalized
+
+                            ||
+
+                            String(
+                                option.dataset.countryName ||
+                                ""
+                            )
+                                .toUpperCase() ===
+                            normalized
+
+                            ||
+
+                            String(
+                                option.dataset.countryISO3 ||
+                                ""
+                            )
+                                .toUpperCase() ===
+                            normalized
+
+                        );
+
+                    }
+                );
+
+
+            if (match) {
+                select.value =
+                    match.value;
+            }
+
+        }
+
+
+        return (
+            select.options.length >
+            1
+        );
+    }
+
+
+    /* =====================================================
+       FILL MARKETPLACE SELECTS
+       ===================================================== */
+
+    function fillMarketplaceSelects() {
+
+        const ids = [
+
+            /* Regular Marketplace */
+
+            "rmCountry",
+            "rmShowroomCountry",
+
+
+            /* Global Marketplace */
+
+            "country",
+            "adCountry",
+
+
+            /* Compatibility */
+
+            "marketplaceCountry",
+            "globalCountry",
+            "showroomCountry"
+
+        ];
+
+
+        ids.forEach(
+            function (id) {
+
+                fillCountrySelect(id);
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       GLOBAL EXPORTS
        ===================================================== */
 
     window.MARKETPLACE_COUNTRIES =
@@ -322,308 +660,68 @@
 
 
     /* =====================================================
-       FIND COUNTRY
+       GLOBAL HELPERS
        ===================================================== */
 
-    window.ALON_FIND_COUNTRY = function (value) {
-
-        if (!value) {
-            return null;
-        }
-
-        const search =
-            String(value)
-                .trim()
-                .toLowerCase();
-
-        return MARKETPLACE_COUNTRIES.find(function (country) {
-
-            return (
-
-                country.name.toLowerCase() === search ||
-
-                country.country.toLowerCase() === search ||
-
-                country.iso2.toLowerCase() === search ||
-
-                country.iso3.toLowerCase() === search ||
-
-                country.code2.toLowerCase() === search ||
-
-                country.code3.toLowerCase() === search ||
-
-                country.callingCode.toLowerCase() === search ||
-
-                country.phoneCode.toLowerCase() === search
-
-            );
-
-        }) || null;
-
-    };
+    window.ALON_FIND_COUNTRY =
+        findCountry;
 
 
-    /* =====================================================
-       COUNTRY LABEL
-       FLAG ALWAYS FIRST
-       ===================================================== */
+    window.ALON_COUNTRY_LABEL =
+        countryLabel;
 
-    window.ALON_COUNTRY_LABEL = function (country) {
-
-        if (!country) {
-            return "";
-        }
-
-        const flag =
-            country.flag || "🌍";
-
-        const name =
-            country.name ||
-            country.country ||
-            "";
-
-        const iso2 =
-            country.iso2 ||
-            country.code2 ||
-            "";
-
-        const iso3 =
-            country.iso3 ||
-            country.code3 ||
-            "";
-
-        const calling =
-            country.callingCode ||
-            country.phoneCode ||
-            "";
-
-        return (
-
-            flag +
-            " " +
-            name +
-            " (" +
-            iso2 +
-            " • " +
-            iso3 +
-            ") " +
-            calling
-
-        ).trim();
-
-    };
-
-
-    /* =====================================================
-       FILL COUNTRY SELECT
-       ===================================================== */
 
     window.ALON_FILL_COUNTRY_SELECT =
-        function (selector, selectedValue) {
-
-            let select = selector;
-
-            if (typeof selector === "string") {
-
-                select =
-                    document.querySelector(selector);
-
-            }
-
-            if (
-                !select ||
-                select.tagName !== "SELECT"
-            ) {
-                return false;
-            }
+        fillCountrySelect;
 
 
-            const oldValue =
-                selectedValue !== undefined
-                    ? String(selectedValue)
-                    : String(select.value || "");
-
-
-            /* Clear */
-
-            select.innerHTML = "";
-
-
-            /* Placeholder */
-
-            const placeholder =
-                document.createElement("option");
-
-            placeholder.value = "";
-
-            placeholder.textContent =
-                "🌍 Select Country";
-
-            select.appendChild(
-                placeholder
-            );
-
-
-            /* Countries */
-
-            MARKETPLACE_COUNTRIES.forEach(
-                function (country) {
-
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-
-                    option.value =
-                        country.iso2;
-
-
-                    /* FLAG FIRST */
-
-                    option.textContent =
-                        country.flag +
-                        " " +
-                        country.name +
-                        " (" +
-                        country.iso2 +
-                        " • " +
-                        country.iso3 +
-                        ") " +
-                        country.callingCode;
-
-
-                    /* Data */
-
-                    option.dataset.country =
-                        country.name;
-
-                    option.dataset.iso2 =
-                        country.iso2;
-
-                    option.dataset.iso3 =
-                        country.iso3;
-
-                    option.dataset.callingCode =
-                        country.callingCode;
-
-                    option.dataset.phoneCode =
-                        country.phoneCode;
-
-                    option.dataset.flag =
-                        country.flag;
-
-
-                    select.appendChild(option);
-
-                }
-            );
-
-
-            /* Restore previous value */
-
-            if (oldValue) {
-
-                const searchValue =
-                    oldValue
-                        .trim()
-                        .toLowerCase();
-
-
-                const found =
-                    Array.from(
-                        select.options
-                    ).find(function (option) {
-
-                        return (
-
-                            option.value
-                                .toLowerCase() ===
-                            searchValue ||
-
-                            option.dataset.country
-                                .toLowerCase() ===
-                            searchValue ||
-
-                            option.dataset.iso2
-                                .toLowerCase() ===
-                            searchValue ||
-
-                            option.dataset.iso3
-                                .toLowerCase() ===
-                            searchValue
-
-                        );
-
-                    });
-
-
-                if (found) {
-
-                    select.value =
-                        found.value;
-
-                }
-
-            }
-
-
-            return true;
-
-        };
+    window.ALON_FILL_MARKETPLACE_COUNTRIES =
+        fillMarketplaceSelects;
 
 
     /* =====================================================
-       ALL MARKETPLACE COUNTRY SELECT IDs
+       DOM READY
        ===================================================== */
 
-    function fillMarketplaceSelects() {
+    function startCountrySystem() {
 
-        const ids = [
-
-            /* Regular Marketplace */
-
-            "rmCountry",
-            "rmShowroomCountry",
-
-            /* Global Marketplace */
-
-            "country",
-            "adCountry",
-            "marketplaceCountry",
-            "globalCountry",
-            "showroomCountry"
-
-        ];
+        fillMarketplaceSelects();
 
 
-        ids.forEach(function (id) {
+        /*
+         * A small retry is useful when Marketplace
+         * HTML creates fields dynamically.
+         */
 
-            const select =
-                document.getElementById(id);
-
-
-            if (select) {
-
-                const currentValue =
-                    select.value || "";
+        let attempts = 0;
 
 
-                window.ALON_FILL_COUNTRY_SELECT(
-                    select,
-                    currentValue
-                );
+        const retry =
+            setInterval(
+                function () {
 
-            }
+                    attempts++;
 
-        });
+
+                    fillMarketplaceSelects();
+
+
+                    if (
+                        attempts >= 20
+                    ) {
+
+                        clearInterval(
+                            retry
+                        );
+
+                    }
+
+                },
+                250
+            );
 
     }
 
-
-    /* =====================================================
-       INITIAL LOAD
-       ===================================================== */
 
     if (
         document.readyState ===
@@ -632,42 +730,32 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            fillMarketplaceSelects,
-            {
-                once: true
-            }
+            startCountrySystem
         );
 
     } else {
 
-        fillMarketplaceSelects();
+        startCountrySystem();
 
     }
 
 
-    /* =====================================================
-       WINDOW LOAD
-       ===================================================== */
-
     window.addEventListener(
         "load",
-        fillMarketplaceSelects,
-        {
-            once: true
-        }
+        fillMarketplaceSelects
     );
 
 
     /* =====================================================
-       SAFE MUTATION OBSERVER
-       -----------------------------------------------------
-       Only watch for newly added SELECT elements.
-       Do NOT continuously rewrite existing selects.
+       MUTATION OBSERVER
        ===================================================== */
 
-    if (window.MutationObserver) {
+    if (
+        window.MutationObserver
+    ) {
 
         let observerTimer = null;
+
 
         const observer =
             new MutationObserver(
@@ -681,96 +769,106 @@
                         function (mutation) {
 
                             if (
-                                mutation.type !==
-                                "childList"
+                                mutation.addedNodes &&
+                                mutation.addedNodes.length
                             ) {
-                                return;
+
+                                mutation.addedNodes
+                                    .forEach(
+                                        function (node) {
+
+                                            if (
+                                                node.nodeType ===
+                                                1
+                                            ) {
+
+                                                if (
+                                                    node.tagName ===
+                                                    "SELECT"
+                                                ) {
+
+                                                    hasNewSelect =
+                                                        true;
+
+                                                }
+
+
+                                                if (
+                                                    node.querySelector &&
+                                                    node.querySelector(
+                                                        "select"
+                                                    )
+                                                ) {
+
+                                                    hasNewSelect =
+                                                        true;
+
+                                                }
+
+                                            }
+
+                                        }
+                                    );
+
                             }
-
-
-                            mutation.addedNodes.forEach(
-                                function (node) {
-
-                                    if (
-                                        node.nodeType !==
-                                        1
-                                    ) {
-                                        return;
-                                    }
-
-
-                                    if (
-                                        node.tagName ===
-                                        "SELECT" ||
-                                        (
-                                            node.querySelector &&
-                                            node.querySelector(
-                                                "select"
-                                            )
-                                        )
-                                    ) {
-
-                                        hasNewSelect =
-                                            true;
-
-                                    }
-
-                                }
-                            );
 
                         }
                     );
 
 
-                    if (!hasNewSelect) {
-                        return;
-                    }
+                    if (
+                        hasNewSelect
+                    ) {
 
-
-                    clearTimeout(
-                        observerTimer
-                    );
-
-
-                    observerTimer =
-                        setTimeout(
-                            function () {
-
-                                fillMarketplaceSelects();
-
-                            },
-                            50
+                        clearTimeout(
+                            observerTimer
                         );
 
+
+                        observerTimer =
+                            setTimeout(
+                                function () {
+
+                                    fillMarketplaceSelects();
+
+                                },
+                                50
+                            );
+
+                    }
+
                 }
             );
 
 
-        if (document.documentElement) {
-
-            observer.observe(
-                document.documentElement,
-                {
-                    childList: true,
-                    subtree: true
-                }
-            );
-
-        }
+        observer.observe(
+            document.documentElement,
+            {
+                childList: true,
+                subtree: true
+            }
+        );
 
     }
 
 
     /* =====================================================
-       READY STATUS
+       DEBUG INFORMATION
        ===================================================== */
 
-    window.ALON_MARKETPLACE_COUNTRIES_READY =
-        true;
+    console.log(
+        "ALON HISTORYVERSE 24: marketplace-countries.js loaded successfully."
+    );
 
+    console.log(
+        "ALON HISTORYVERSE 24: Countries loaded:",
+        MARKETPLACE_COUNTRIES.length
+    );
 
-    window.ALON_MARKETPLACE_COUNTRY_COUNT =
-        MARKETPLACE_COUNTRIES.length;
+    console.log(
+        "ALON HISTORYVERSE 24: India:",
+        findCountry("IN")
+    );
 
 
 })();
