@@ -1173,10 +1173,12 @@
 
 <!-- =========================================================
      CENTRAL COUNTRY DATABASE
-     CACHE-BUSTED
+     IMPORTANT:
+     jobs.html is inside html/
+     marketplace-countries.js is in project root
      ========================================================= -->
 
-<script src="../marketplace-countries.js?v=24.2"></script>
+<script src="../marketplace-countries.js?v=24.5"></script>
 
 
 
@@ -1271,16 +1273,58 @@ function hideMessage(element){
 
 /* =========================================================
    COUNTRY DATABASE
+   =========================================================
+   IMPORTANT FIX:
+   Central marketplace-countries.js may expose the world
+   database through different compatible global names.
+   Jobs now checks all supported names.
    ========================================================= */
 
 function getCountryDatabase(){
 
-    const db =
-        window.MARKETPLACE_COUNTRIES;
+    if(
+        Array.isArray(
+            window.MARKETPLACE_COUNTRIES
+        )
+    ){
 
-    if(Array.isArray(db)){
-        return db;
+        return window.MARKETPLACE_COUNTRIES;
+
     }
+
+
+    if(
+        Array.isArray(
+            window.ALON_MARKETPLACE_COUNTRIES
+        )
+    ){
+
+        return window.ALON_MARKETPLACE_COUNTRIES;
+
+    }
+
+
+    if(
+        Array.isArray(
+            window.ALON_WORLD_COUNTRIES
+        )
+    ){
+
+        return window.ALON_WORLD_COUNTRIES;
+
+    }
+
+
+    if(
+        Array.isArray(
+            window.WORLD_COUNTRIES
+        )
+    ){
+
+        return window.WORLD_COUNTRIES;
+
+    }
+
 
     return [];
 
@@ -1350,13 +1394,16 @@ function countryCallingCode(c){
 
     if(
         !code &&
-        Array.isArray(c.callingCodes)
+        Array.isArray(
+            c.callingCodes
+        )
     ){
 
         code =
             c.callingCodes[0] || "";
 
     }
+
 
     if(
         !code &&
@@ -1368,7 +1415,9 @@ function countryCallingCode(c){
             c.idd.root || "";
 
         const suffixes =
-            Array.isArray(c.idd.suffixes)
+            Array.isArray(
+                c.idd.suffixes
+            )
                 ? c.idd.suffixes
                 : [];
 
@@ -1391,8 +1440,10 @@ function countryCallingCode(c){
 
     }
 
+
     code =
         String(code || "");
+
 
     if(
         code &&
@@ -1403,6 +1454,7 @@ function countryCallingCode(c){
             "+" + code;
 
     }
+
 
     return code;
 
@@ -1419,7 +1471,9 @@ function normalizeCountry(c){
         iso:
             String(
                 countryISO(c)
-            ).trim().toUpperCase(),
+            )
+            .trim()
+            .toUpperCase(),
 
         flag:
             countryFlag(c),
@@ -1475,38 +1529,34 @@ function uniqueCountries(list){
 
     });
 
+
     return Array.from(
         map.values()
     )
     .sort(
         (a,b) =>
-            String(a.name || "")
-                .localeCompare(
-                    String(b.name || ""),
-                    undefined,
-                    {
-                        sensitivity:"base"
-                    }
-                )
+            String(
+                a.name || ""
+            )
+            .localeCompare(
+                String(
+                    b.name || ""
+                ),
+                undefined,
+                {
+                    sensitivity:"base"
+                }
+            )
     );
 
 }
 
 
 /* =========================================================
-   BUILD COMPLETE COUNTRY DATABASE
+   COUNTRY DATABASE VARIABLE
    ========================================================= */
 
-let countries =
-    uniqueCountries(
-        getCountryDatabase()
-            .map(normalizeCountry)
-            .filter(
-                c =>
-                    c.name &&
-                    c.iso
-            )
-    );
+let countries = [];
 
 
 /* =========================================================
@@ -1519,25 +1569,30 @@ function countryDatabaseError(){
         "World country database load नहीं हुआ। " +
         "marketplace-countries.js का path/check करें।";
 
+
     $("internationalCountry").innerHTML =
         '<option value="">' +
         escapeHTML(message) +
         '</option>';
+
 
     $("localCountry").innerHTML =
         '<option value="">' +
         escapeHTML(message) +
         '</option>';
 
+
     $("internationalCountryInfo").innerHTML =
         '<span style="color:#ff9b9b;">' +
         escapeHTML(message) +
         '</span>';
 
+
     $("localCountryInfo").innerHTML =
         '<span style="color:#ff9b9b;">' +
         escapeHTML(message) +
         '</span>';
+
 
     console.error(
         "ALON HISTORYVERSE 24: Country database unavailable."
@@ -1561,29 +1616,39 @@ function populateCountrySelect(select){
 
     }
 
+
     select.innerHTML =
         '<option value="">Select Country</option>';
+
 
     countries.forEach(c => {
 
         const option =
-            document.createElement("option");
+            document.createElement(
+                "option"
+            );
+
 
         option.value =
             c.iso ||
             c.name;
 
+
         option.dataset.name =
             c.name;
+
 
         option.dataset.iso =
             c.iso;
 
+
         option.dataset.flag =
             c.flag;
 
+
         option.dataset.calling =
             c.callingCode;
+
 
         option.textContent =
             c.flag +
@@ -1599,6 +1664,7 @@ function populateCountrySelect(select){
                     : ""
             );
 
+
         select.appendChild(
             option
         );
@@ -1610,19 +1676,54 @@ function populateCountrySelect(select){
 
 /* =========================================================
    LOAD COUNTRIES
+   =========================================================
+   Returns true when the database was successfully loaded.
    ========================================================= */
 
-if(
-    countries.length > 0
-){
+function loadCountries(){
+
+    const database =
+        getCountryDatabase();
+
+
+    const normalized =
+        Array.isArray(database)
+            ? database
+                .map(
+                    normalizeCountry
+                )
+                .filter(
+                    c =>
+                        c.name &&
+                        c.iso
+                )
+            : [];
+
+
+    countries =
+        uniqueCountries(
+            normalized
+        );
+
+
+    if(
+        !countries.length
+    ){
+
+        return false;
+
+    }
+
 
     populateCountrySelect(
         $("internationalCountry")
     );
 
+
     populateCountrySelect(
         $("localCountry")
     );
+
 
     console.log(
         "ALON HISTORYVERSE 24: Loaded " +
@@ -1630,12 +1731,83 @@ if(
         " countries."
     );
 
-}
-else{
 
-    countryDatabaseError();
+    return true;
 
 }
+
+
+/* =========================================================
+   START COUNTRY LOADING
+   ========================================================= */
+
+function initializeCountries(){
+
+    if(
+        loadCountries()
+    ){
+
+        return;
+
+    }
+
+
+    /*
+       If marketplace-countries.js is still becoming
+       available, retry a few times instead of immediately
+       showing an error.
+    */
+
+    let attempts = 0;
+
+    const maxAttempts = 10;
+
+
+    const retryTimer =
+        setInterval(
+            function(){
+
+                attempts++;
+
+
+                if(
+                    loadCountries()
+                ){
+
+                    clearInterval(
+                        retryTimer
+                    );
+
+                    return;
+
+                }
+
+
+                if(
+                    attempts >=
+                    maxAttempts
+                ){
+
+                    clearInterval(
+                        retryTimer
+                    );
+
+                    countryDatabaseError();
+
+                }
+
+            },
+            500
+        );
+
+}
+
+
+/* =========================================================
+   INITIAL COUNTRY START
+   ========================================================= */
+
+initializeCountries();
 
 
 /* =========================================================
@@ -1652,6 +1824,7 @@ function updateCountryInfo(
             select.selectedIndex
         ];
 
+
     if(
         !option ||
         !option.value
@@ -1663,14 +1836,21 @@ function updateCountryInfo(
 
     }
 
+
     const name =
-        option.dataset.name || "";
+        option.dataset.name ||
+        "";
+
 
     const iso =
-        option.dataset.iso || "";
+        option.dataset.iso ||
+        "";
+
 
     const calling =
-        option.dataset.calling || "";
+        option.dataset.calling ||
+        "";
+
 
     info.innerHTML =
         "Selected: <strong>" +
@@ -1730,8 +1910,11 @@ let jobDBPromise = null;
 function openJobDB(){
 
     if(jobDBPromise){
+
         return jobDBPromise;
+
     }
+
 
     jobDBPromise =
         new Promise(
@@ -1751,17 +1934,20 @@ function openJobDB(){
 
                 }
 
+
                 const request =
                     indexedDB.open(
                         JOB_DB_NAME,
                         JOB_DB_VERSION
                     );
 
+
                 request.onupgradeneeded =
                     function(event){
 
                         const db =
                             event.target.result;
+
 
                         if(
                             !db.objectStoreNames.contains(
@@ -1777,6 +1963,7 @@ function openJobDB(){
                                     }
                                 );
 
+
                             store.createIndex(
                                 "owner",
                                 "owner",
@@ -1784,6 +1971,7 @@ function openJobDB(){
                                     unique:false
                                 }
                             );
+
 
                             store.createIndex(
                                 "created",
@@ -1797,20 +1985,28 @@ function openJobDB(){
 
                     };
 
+
                 request.onsuccess =
                     function(){
 
                         const db =
                             request.result;
 
+
                         db.onversionchange =
                             function(){
+
                                 db.close();
+
                             };
 
-                        resolve(db);
+
+                        resolve(
+                            db
+                        );
 
                     };
+
 
                 request.onerror =
                     function(){
@@ -1823,6 +2019,7 @@ function openJobDB(){
 
             }
         );
+
 
     return jobDBPromise;
 
@@ -1842,6 +2039,7 @@ function getAccount(){
                 JOB_ACCOUNT_KEY
             );
 
+
         return raw
             ? JSON.parse(raw)
             : null;
@@ -1853,6 +2051,7 @@ function getAccount(){
             "Account read error:",
             error
         );
+
 
         return null;
 
@@ -1879,6 +2078,7 @@ function getSession(){
             sessionStorage.getItem(
                 JOB_SESSION_KEY
             );
+
 
         return raw
             ? JSON.parse(raw)
@@ -1930,17 +2130,25 @@ function updateAccountUI(){
     const session =
         getSession();
 
+
     if(session){
 
         $("loggedOutBox")
-            .classList.add("hidden");
+            .classList.add(
+                "hidden"
+            );
+
 
         $("loggedInBox")
-            .classList.remove("hidden");
+            .classList.remove(
+                "hidden"
+            );
+
 
         $("profileName").textContent =
             session.name ||
             "Logged In User";
+
 
         $("profileEmail").textContent =
             session.email ||
@@ -1950,12 +2158,18 @@ function updateAccountUI(){
     else{
 
         $("loggedOutBox")
-            .classList.remove("hidden");
+            .classList.remove(
+                "hidden"
+            );
+
 
         $("loggedInBox")
-            .classList.add("hidden");
+            .classList.add(
+                "hidden"
+            );
 
     }
+
 
     renderSavedJobs();
 
@@ -1977,9 +2191,11 @@ $("createAccountBtn")
                     .trim()
                     .toLowerCase();
 
+
             const password =
                 $("loginPassword")
                     .value;
+
 
             if(
                 !email ||
@@ -1992,9 +2208,11 @@ $("createAccountBtn")
                     "error"
                 );
 
+
                 return;
 
             }
+
 
             if(
                 !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -2007,9 +2225,11 @@ $("createAccountBtn")
                     "error"
                 );
 
+
                 return;
 
             }
+
 
             if(
                 password.length < 6
@@ -2021,11 +2241,15 @@ $("createAccountBtn")
                     "error"
                 );
 
+
                 return;
 
             }
 
-            if(getAccount()){
+
+            if(
+                getAccount()
+            ){
 
                 showMessage(
                     $("loginMessage"),
@@ -2033,9 +2257,11 @@ $("createAccountBtn")
                     "error"
                 );
 
+
                 return;
 
             }
+
 
             const account = {
 
@@ -2053,24 +2279,29 @@ $("createAccountBtn")
 
             };
 
+
             try{
 
                 saveAccount(
                     account
                 );
 
+
                 setSession(
                     account
                 );
 
+
                 $("loginPassword").value =
                     "";
+
 
                 showMessage(
                     $("loginMessage"),
                     "Account created और login हो गया।",
                     "ok"
                 );
+
 
                 updateAccountUI();
 
@@ -2080,6 +2311,7 @@ $("createAccountBtn")
                 console.error(
                     error
                 );
+
 
                 showMessage(
                     $("loginMessage"),
@@ -2108,12 +2340,15 @@ $("loginBtn")
                     .trim()
                     .toLowerCase();
 
+
             const password =
                 $("loginPassword")
                     .value;
 
+
             const account =
                 getAccount();
+
 
             if(!account){
 
@@ -2123,9 +2358,11 @@ $("loginBtn")
                     "error"
                 );
 
+
                 return;
 
             }
+
 
             if(
                 email !== account.email ||
@@ -2138,22 +2375,27 @@ $("loginBtn")
                     "error"
                 );
 
+
                 return;
 
             }
+
 
             setSession(
                 account
             );
 
+
             $("loginPassword").value =
                 "";
+
 
             showMessage(
                 $("loginMessage"),
                 "Login successful.",
                 "ok"
             );
+
 
             updateAccountUI();
 
@@ -2172,15 +2414,20 @@ $("logoutBtn")
 
             clearSession();
 
+
             currentEditId =
                 null;
+
 
             currentEditType =
                 null;
 
+
             clearAllForms();
 
+
             updateAccountUI();
+
 
             showMessage(
                 $("loginMessage"),
@@ -2203,6 +2450,7 @@ function selectedCountry(select){
             select.selectedIndex
         ];
 
+
     if(
         !option ||
         !option.value
@@ -2211,6 +2459,7 @@ function selectedCountry(select){
         return null;
 
     }
+
 
     return {
 
@@ -2252,8 +2501,10 @@ function readFileAsDataURL(file){
 
             }
 
+
             const reader =
                 new FileReader();
+
 
             reader.onload =
                 () =>
@@ -2261,11 +2512,13 @@ function readFileAsDataURL(file){
                         reader.result
                     );
 
+
             reader.onerror =
                 () =>
                     reject(
                         reader.error
                     );
+
 
             reader.readAsDataURL(
                 file
@@ -2290,9 +2543,13 @@ function setImagePreview(
     const preview =
         $(previewId);
 
+
     if(!preview){
+
         return;
+
     }
+
 
     if(!data){
 
@@ -2302,6 +2559,7 @@ function setImagePreview(
         return;
 
     }
+
 
     preview.innerHTML =
         '<img src="' +
@@ -2325,9 +2583,13 @@ function setVideoPreview(
     const preview =
         $(previewId);
 
+
     if(!preview){
+
         return;
+
     }
+
 
     if(!data){
 
@@ -2337,6 +2599,7 @@ function setVideoPreview(
         return;
 
     }
+
 
     preview.innerHTML =
         '<video controls preload="metadata">' +
@@ -2360,11 +2623,13 @@ $("internationalImage")
             const file =
                 this.files[0];
 
+
             if(!file){
 
                 return;
 
             }
+
 
             if(
                 file.size >
@@ -2377,12 +2642,15 @@ $("internationalImage")
                     "error"
                 );
 
+
                 this.value =
                     "";
+
 
                 return;
 
             }
+
 
             try{
 
@@ -2390,6 +2658,7 @@ $("internationalImage")
                     await readFileAsDataURL(
                         file
                     );
+
 
                 setImagePreview(
                     "internationalImagePreview",
@@ -2402,6 +2671,7 @@ $("internationalImage")
 
                 currentInternationalImageData =
                     "";
+
 
                 showMessage(
                     $("jobFormMessage"),
@@ -2427,11 +2697,13 @@ $("internationalVideo")
             const file =
                 this.files[0];
 
+
             if(!file){
 
                 return;
 
             }
+
 
             if(
                 file.size >
@@ -2444,12 +2716,15 @@ $("internationalVideo")
                     "error"
                 );
 
+
                 this.value =
                     "";
+
 
                 return;
 
             }
+
 
             try{
 
@@ -2457,6 +2732,7 @@ $("internationalVideo")
                     await readFileAsDataURL(
                         file
                     );
+
 
                 setVideoPreview(
                     "internationalVideoPreview",
@@ -2468,6 +2744,7 @@ $("internationalVideo")
 
                 currentInternationalVideoData =
                     "";
+
 
                 showMessage(
                     $("jobFormMessage"),
@@ -2493,11 +2770,13 @@ $("localImage")
             const file =
                 this.files[0];
 
+
             if(!file){
 
                 return;
 
             }
+
 
             if(
                 file.size >
@@ -2510,12 +2789,15 @@ $("localImage")
                     "error"
                 );
 
+
                 this.value =
                     "";
+
 
                 return;
 
             }
+
 
             try{
 
@@ -2523,6 +2805,7 @@ $("localImage")
                     await readFileAsDataURL(
                         file
                     );
+
 
                 setImagePreview(
                     "localImagePreview",
@@ -2535,6 +2818,7 @@ $("localImage")
 
                 currentImageData =
                     "";
+
 
                 showMessage(
                     $("jobFormMessage"),
@@ -2560,11 +2844,13 @@ $("localVideo")
             const file =
                 this.files[0];
 
+
             if(!file){
 
                 return;
 
             }
+
 
             if(
                 file.size >
@@ -2577,12 +2863,15 @@ $("localVideo")
                     "error"
                 );
 
+
                 this.value =
                     "";
+
 
                 return;
 
             }
+
 
             try{
 
@@ -2590,6 +2879,7 @@ $("localVideo")
                     await readFileAsDataURL(
                         file
                     );
+
 
                 setVideoPreview(
                     "localVideoPreview",
@@ -2601,6 +2891,7 @@ $("localVideo")
 
                 currentVideoData =
                     "";
+
 
                 showMessage(
                     $("jobFormMessage"),
@@ -2628,9 +2919,11 @@ function requireLogin(){
             "error"
         );
 
+
         return false;
 
     }
+
 
     return true;
 
@@ -2647,6 +2940,7 @@ function buildInternationalJob(){
         selectedCountry(
             $("internationalCountry")
         );
+
 
     return {
 
@@ -2719,6 +3013,7 @@ function buildLocalJob(){
         selectedCountry(
             $("localCountry")
         );
+
 
     return {
 
@@ -2793,11 +3088,13 @@ function validateJob(job){
 
     }
 
+
     if(!job.category){
 
         return "Job category select करना जरूरी है।";
 
     }
+
 
     if(!job.title){
 
@@ -2805,11 +3102,13 @@ function validateJob(job){
 
     }
 
+
     if(!job.salary){
 
         return "Salary डालना जरूरी है।";
 
     }
+
 
     if(!job.appointment){
 
@@ -2817,11 +3116,13 @@ function validateJob(job){
 
     }
 
+
     if(!job.description){
 
         return "Job description डालना जरूरी है।";
 
     }
+
 
     return "";
 
@@ -2837,6 +3138,7 @@ async function saveJob(job){
     const session =
         getSession();
 
+
     if(!session){
 
         throw new Error(
@@ -2844,6 +3146,7 @@ async function saveJob(job){
         );
 
     }
+
 
     if(
         currentEditId &&
@@ -2857,8 +3160,10 @@ async function saveJob(job){
 
     }
 
+
     const db =
         await openJobDB();
+
 
     const transaction =
         db.transaction(
@@ -2866,16 +3171,20 @@ async function saveJob(job){
             "readwrite"
         );
 
+
     const store =
         transaction.objectStore(
             "jobs"
         );
 
+
     const now =
         new Date().toISOString();
 
+
     let existing =
         null;
+
 
     if(currentEditId){
 
@@ -2884,6 +3193,7 @@ async function saveJob(job){
                 currentEditId
             );
 
+
         if(!existing){
 
             throw new Error(
@@ -2891,6 +3201,7 @@ async function saveJob(job){
             );
 
         }
+
 
         if(
             existing.owner !==
@@ -2902,6 +3213,7 @@ async function saveJob(job){
             );
 
         }
+
 
         if(
             existing.type !==
@@ -2915,6 +3227,7 @@ async function saveJob(job){
         }
 
     }
+
 
     const record = {
 
@@ -2945,18 +3258,23 @@ async function saveJob(job){
 
     };
 
+
     return new Promise(
         (resolve,reject) => {
 
             transaction.oncomplete =
                 () =>
-                    resolve(record);
+                    resolve(
+                        record
+                    );
+
 
             transaction.onerror =
                 () =>
                     reject(
                         transaction.error
                     );
+
 
             store.put(
                 record
@@ -2977,6 +3295,7 @@ async function getJob(id){
     const db =
         await openJobDB();
 
+
     return new Promise(
         (resolve,reject) => {
 
@@ -2986,19 +3305,23 @@ async function getJob(id){
                     "readonly"
                 );
 
+
             const store =
                 transaction.objectStore(
                     "jobs"
                 );
 
+
             const request =
                 store.get(id);
+
 
             request.onsuccess =
                 () =>
                     resolve(
                         request.result
                     );
+
 
             request.onerror =
                 () =>
@@ -3021,6 +3344,7 @@ async function getAllJobs(){
     const db =
         await openJobDB();
 
+
     return new Promise(
         (resolve,reject) => {
 
@@ -3030,13 +3354,16 @@ async function getAllJobs(){
                     "readonly"
                 );
 
+
             const store =
                 transaction.objectStore(
                     "jobs"
                 );
 
+
             const request =
                 store.getAll();
+
 
             request.onsuccess =
                 () => {
@@ -3044,6 +3371,7 @@ async function getAllJobs(){
                     const jobs =
                         request.result ||
                         [];
+
 
                     jobs.sort(
                         (a,b) =>
@@ -3061,11 +3389,13 @@ async function getAllJobs(){
                             )
                     );
 
+
                     resolve(
                         jobs
                     );
 
                 };
+
 
             request.onerror =
                 () =>
@@ -3088,6 +3418,7 @@ async function deleteJob(id){
     const session =
         getSession();
 
+
     if(!session){
 
         throw new Error(
@@ -3096,14 +3427,17 @@ async function deleteJob(id){
 
     }
 
+
     const job =
         await getJob(id);
+
 
     if(!job){
 
         return;
 
     }
+
 
     if(
         job.owner !==
@@ -3116,8 +3450,10 @@ async function deleteJob(id){
 
     }
 
+
     const db =
         await openJobDB();
+
 
     return new Promise(
         (resolve,reject) => {
@@ -3128,16 +3464,20 @@ async function deleteJob(id){
                     "readwrite"
                 );
 
+
             const store =
                 transaction.objectStore(
                     "jobs"
                 );
 
+
             store.delete(id);
+
 
             transaction.oncomplete =
                 () =>
                     resolve();
+
 
             transaction.onerror =
                 () =>
@@ -3164,11 +3504,13 @@ $("saveInternationalBtn")
                 $("jobFormMessage")
             );
 
+
             if(!requireLogin()){
 
                 return;
 
             }
+
 
             if(
                 currentEditId &&
@@ -3182,15 +3524,19 @@ $("saveInternationalBtn")
                     "error"
                 );
 
+
                 return;
 
             }
 
+
             const job =
                 buildInternationalJob();
 
+
             const error =
                 validateJob(job);
+
 
             if(error){
 
@@ -3200,9 +3546,11 @@ $("saveInternationalBtn")
                     "error"
                 );
 
+
                 return;
 
             }
+
 
             try{
 
@@ -3210,19 +3558,24 @@ $("saveInternationalBtn")
                     job
                 );
 
+
                 currentEditId =
                     null;
+
 
                 currentEditType =
                     null;
 
+
                 clearInternationalForm();
+
 
                 showMessage(
                     $("jobFormMessage"),
                     "International Job successfully saved.",
                     "ok"
                 );
+
 
                 await renderSavedJobs();
 
@@ -3232,6 +3585,7 @@ $("saveInternationalBtn")
                 console.error(
                     error
                 );
+
 
                 showMessage(
                     $("jobFormMessage"),
@@ -3258,11 +3612,13 @@ $("saveLocalBtn")
                 $("jobFormMessage")
             );
 
+
             if(!requireLogin()){
 
                 return;
 
             }
+
 
             if(
                 currentEditId &&
@@ -3276,15 +3632,19 @@ $("saveLocalBtn")
                     "error"
                 );
 
+
                 return;
 
             }
 
+
             const job =
                 buildLocalJob();
 
+
             const error =
                 validateJob(job);
+
 
             if(error){
 
@@ -3294,9 +3654,11 @@ $("saveLocalBtn")
                     "error"
                 );
 
+
                 return;
 
             }
+
 
             try{
 
@@ -3304,19 +3666,24 @@ $("saveLocalBtn")
                     job
                 );
 
+
                 currentEditId =
                     null;
+
 
                 currentEditType =
                     null;
 
+
                 clearLocalForm();
+
 
                 showMessage(
                     $("jobFormMessage"),
                     "Local Job successfully saved.",
                     "ok"
                 );
+
 
                 await renderSavedJobs();
 
@@ -3326,6 +3693,7 @@ $("saveLocalBtn")
                 console.error(
                     error
                 );
+
 
                 showMessage(
                     $("jobFormMessage"),
@@ -3348,53 +3716,71 @@ function clearInternationalForm(){
     $("internationalCategory")
         .value = "";
 
+
     $("internationalCountry")
         .value = "";
+
 
     $("internationalCountryInfo")
         .innerHTML = "";
 
+
     $("internationalTitle")
         .value = "";
+
 
     $("internationalSalary")
         .value = "";
 
+
     $("internationalAppointment")
         .value = "";
+
 
     $("internationalMobile")
         .value = "";
 
+
     $("internationalEmail")
         .value = "";
+
 
     $("internationalLocation")
         .value = "";
 
+
     $("internationalDescription")
         .value = "";
+
 
     $("internationalImage")
         .value = "";
 
+
     $("internationalVideo")
         .value = "";
+
 
     currentInternationalImageData =
         "";
 
+
     currentInternationalVideoData =
         "";
+
 
     $("internationalImagePreview")
         .innerHTML = "";
 
+
     $("internationalVideoPreview")
         .innerHTML = "";
 
+
     $("internationalEditNote")
-        .classList.add("hidden");
+        .classList.add(
+            "hidden"
+        );
 
 }
 
@@ -3408,53 +3794,71 @@ function clearLocalForm(){
     $("localCategory")
         .value = "";
 
+
     $("localCountry")
         .value = "";
+
 
     $("localCountryInfo")
         .innerHTML = "";
 
+
     $("localTitle")
         .value = "";
+
 
     $("localSalary")
         .value = "";
 
+
     $("localAppointment")
         .value = "";
+
 
     $("localMobile")
         .value = "";
 
+
     $("localEmail")
         .value = "";
+
 
     $("localLocation")
         .value = "";
 
+
     $("localDescription")
         .value = "";
+
 
     $("localImage")
         .value = "";
 
+
     $("localVideo")
         .value = "";
+
 
     currentImageData =
         "";
 
+
     currentVideoData =
         "";
+
 
     $("localImagePreview")
         .innerHTML = "";
 
+
     $("localVideoPreview")
         .innerHTML = "";
 
+
     $("localEditNote")
-        .classList.add("hidden");
+        .classList.add(
+            "hidden"
+        );
 
 }
 
@@ -3465,8 +3869,10 @@ function clearAllForms(){
 
     clearLocalForm();
 
+
     currentEditId =
         null;
+
 
     currentEditType =
         null;
@@ -3481,6 +3887,7 @@ $("clearInternationalBtn")
 
             clearInternationalForm();
 
+
             if(
                 currentEditType ===
                 "international"
@@ -3489,10 +3896,12 @@ $("clearInternationalBtn")
                 currentEditId =
                     null;
 
+
                 currentEditType =
                     null;
 
             }
+
 
             hideMessage(
                 $("jobFormMessage")
@@ -3509,6 +3918,7 @@ $("clearLocalBtn")
 
             clearLocalForm();
 
+
             if(
                 currentEditType ===
                 "local"
@@ -3517,10 +3927,12 @@ $("clearLocalBtn")
                 currentEditId =
                     null;
 
+
                 currentEditType =
                     null;
 
             }
+
 
             hideMessage(
                 $("jobFormMessage")
@@ -3539,6 +3951,7 @@ async function editJob(id){
     const job =
         await getJob(id);
 
+
     if(!job){
 
         showMessage(
@@ -3547,12 +3960,15 @@ async function editJob(id){
             "error"
         );
 
+
         return;
 
     }
 
+
     const session =
         getSession();
+
 
     if(
         !session ||
@@ -3566,15 +3982,20 @@ async function editJob(id){
             "error"
         );
 
+
         return;
 
     }
 
+
     clearInternationalForm();
+
     clearLocalForm();
+
 
     currentEditId =
         job.id;
+
 
     currentEditType =
         job.type;
@@ -3590,59 +4011,71 @@ async function editJob(id){
             job.category ||
             "";
 
+
         selectCountryByISO(
             $("internationalCountry"),
             job.country?.iso,
             job.country?.name
         );
 
+
         updateCountryInfo(
             $("internationalCountry"),
             $("internationalCountryInfo")
         );
+
 
         $("internationalTitle")
             .value =
             job.title ||
             "";
 
+
         $("internationalSalary")
             .value =
             job.salary ||
             "";
+
 
         $("internationalAppointment")
             .value =
             job.appointment ||
             "";
 
+
         $("internationalMobile")
             .value =
             job.mobile ||
             "";
+
 
         $("internationalEmail")
             .value =
             job.email ||
             "";
 
+
         $("internationalLocation")
             .value =
             job.location ||
             "";
+
 
         $("internationalDescription")
             .value =
             job.description ||
             "";
 
+
         currentInternationalImageData =
             job.image ||
             "";
 
+
         currentInternationalVideoData =
             job.video ||
             "";
+
 
         setImagePreview(
             "internationalImagePreview",
@@ -3650,13 +4083,17 @@ async function editJob(id){
             "Saved international job image"
         );
 
+
         setVideoPreview(
             "internationalVideoPreview",
             currentInternationalVideoData
         );
 
+
         $("internationalEditNote")
-            .classList.remove("hidden");
+            .classList.remove(
+                "hidden"
+            );
 
     }
     else{
@@ -3666,59 +4103,71 @@ async function editJob(id){
             job.category ||
             "";
 
+
         selectCountryByISO(
             $("localCountry"),
             job.country?.iso,
             job.country?.name
         );
 
+
         updateCountryInfo(
             $("localCountry"),
             $("localCountryInfo")
         );
+
 
         $("localTitle")
             .value =
             job.title ||
             "";
 
+
         $("localSalary")
             .value =
             job.salary ||
             "";
+
 
         $("localAppointment")
             .value =
             job.appointment ||
             "";
 
+
         $("localMobile")
             .value =
             job.mobile ||
             "";
+
 
         $("localEmail")
             .value =
             job.email ||
             "";
 
+
         $("localLocation")
             .value =
             job.location ||
             "";
+
 
         $("localDescription")
             .value =
             job.description ||
             "";
 
+
         currentImageData =
             job.image ||
             "";
 
+
         currentVideoData =
             job.video ||
             "";
+
 
         setImagePreview(
             "localImagePreview",
@@ -3726,15 +4175,20 @@ async function editJob(id){
             "Saved local job image"
         );
 
+
         setVideoPreview(
             "localVideoPreview",
             currentVideoData
         );
 
+
         $("localEditNote")
-            .classList.remove("hidden");
+            .classList.remove(
+                "hidden"
+            );
 
     }
+
 
     window.scrollTo({
 
@@ -3743,6 +4197,7 @@ async function editJob(id){
         behavior:"smooth"
 
     });
+
 
     showMessage(
         $("jobFormMessage"),
@@ -3766,12 +4221,14 @@ function selectCountryByISO(
     let found =
         false;
 
+
     const targetISO =
         String(
             iso || ""
         )
         .trim()
         .toUpperCase();
+
 
     for(
         let i=0;
@@ -3781,6 +4238,7 @@ function selectCountryByISO(
 
         const option =
             select.options[i];
+
 
         if(
             targetISO &&
@@ -3795,14 +4253,17 @@ function selectCountryByISO(
             select.selectedIndex =
                 i;
 
+
             found =
                 true;
+
 
             break;
 
         }
 
     }
+
 
     if(
         !found &&
@@ -3816,6 +4277,7 @@ function selectCountryByISO(
             .trim()
             .toLowerCase();
 
+
         for(
             let i=0;
             i<select.options.length;
@@ -3824,6 +4286,7 @@ function selectCountryByISO(
 
             const option =
                 select.options[i];
+
 
             if(
                 String(
@@ -3838,8 +4301,10 @@ function selectCountryByISO(
                 select.selectedIndex =
                     i;
 
+
                 found =
                     true;
+
 
                 break;
 
@@ -3861,12 +4326,17 @@ async function renderSavedJobs(){
     const container =
         $("savedJobsList");
 
+
     if(!container){
+
         return;
+
     }
+
 
     let jobs =
         [];
+
 
     try{
 
@@ -3880,20 +4350,24 @@ async function renderSavedJobs(){
             error
         );
 
+
         container.innerHTML =
             '<div class="empty-jobs">' +
             'Saved Jobs database unavailable.' +
             '</div>';
 
+
         return;
 
     }
+
 
     const search =
         $("savedSearch")
             .value
             .trim()
             .toLowerCase();
+
 
     if(search){
 
@@ -3928,6 +4402,7 @@ async function renderSavedJobs(){
                         .join(" ")
                         .toLowerCase();
 
+
                     return text.includes(
                         search
                     );
@@ -3937,6 +4412,7 @@ async function renderSavedJobs(){
 
     }
 
+
     if(!jobs.length){
 
         container.innerHTML =
@@ -3944,12 +4420,15 @@ async function renderSavedJobs(){
             'अभी कोई Saved Job नहीं है।' +
             '</div>';
 
+
         return;
 
     }
 
+
     const session =
         getSession();
+
 
     container.innerHTML =
         jobs
@@ -3960,14 +4439,17 @@ async function renderSavedJobs(){
                         job.country ||
                         {};
 
+
                     const typeLabel =
                         job.type ===
                         "local"
                             ? "🇮🇳 LOCAL JOB"
                             : "🌍 INTERNATIONAL JOB";
 
+
                     let media =
                         "";
+
 
                     if(job.image){
 
@@ -3980,6 +4462,7 @@ async function renderSavedJobs(){
                             '" alt="Job image">';
 
                     }
+
 
                     if(job.video){
 
@@ -3995,10 +4478,12 @@ async function renderSavedJobs(){
 
                     }
 
+
                     const own =
                         session &&
                         session.email ===
                         job.owner;
+
 
                     const actions =
                         own
@@ -4028,6 +4513,7 @@ async function renderSavedJobs(){
                             '</div>'
                             :
                             "";
+
 
                     return (
 
@@ -4166,6 +4652,7 @@ async function renderSavedJobs(){
             )
             .join("");
 
+
     container
         .querySelectorAll(
             "[data-edit]"
@@ -4187,6 +4674,7 @@ async function renderSavedJobs(){
             }
         );
 
+
     container
         .querySelectorAll(
             "[data-delete]"
@@ -4201,10 +4689,12 @@ async function renderSavedJobs(){
                         const id =
                             this.dataset.delete;
 
+
                         const confirmDelete =
                             window.confirm(
                                 "क्या आप इस Job को delete करना चाहते हैं?"
                             );
+
 
                         if(
                             !confirmDelete
@@ -4214,11 +4704,13 @@ async function renderSavedJobs(){
 
                         }
 
+
                         try{
 
                             await deleteJob(
                                 id
                             );
+
 
                             if(
                                 currentEditId ===
@@ -4229,11 +4721,13 @@ async function renderSavedJobs(){
 
                             }
 
+
                             showMessage(
                                 $("jobFormMessage"),
                                 "Job deleted successfully.",
                                 "ok"
                             );
+
 
                             await renderSavedJobs();
 
@@ -4243,6 +4737,7 @@ async function renderSavedJobs(){
                             console.error(
                                 error
                             );
+
 
                             showMessage(
                                 $("jobFormMessage"),
@@ -4295,6 +4790,7 @@ $("savedSearch")
         );
 
     }
+
 
     updateAccountUI();
 
