@@ -1,16 +1,25 @@
 /* =========================================================
    ALON HISTORYVERSE 24
-   REGULAR MARKETPLACE
+   REGULAR MARKETPKES
    ---------------------------------------------------------
-   Version: 24.6 CENTRAL COUNTRY SYSTEM
+   File: regular-marketpkes.js
+   Version: 24.7 SAFE REGULAR MARKETPKES
    Creator: Baba Thecno Guru
 
-   IMPORTANT
-   • REGULAR MARKETPLACE ONLY
-   • Country Database comes ONLY from:
-     ./marketplace-countries.js
-   • Does NOT modify Global Marketplace
-   • Does NOT modify Jobs
+   FEATURES
+   • Item / Property / Vehicle
+   • New / Used / Refurbished
+   • Central World Country Database
+   • Flag + Country + ISO + Calling Code
+   • Login + Agreement
+   • Save / Edit / Delete Listings
+   • Image + Video
+   • My Listings
+   • Business / Showroom Advertisement
+   • Global / International / Local Reach
+   • $10 USD Advertisement
+   • Local Storage
+   • Mobile Friendly
    ========================================================= */
 
 (function () {
@@ -18,65 +27,77 @@
     "use strict";
 
 
-    /* =====================================================
-       CONFIGURATION
-       ===================================================== */
+    /* =========================================================
+       CONFIG
+       ========================================================= */
 
     const CONFIG = {
 
-        version: "24.6",
+        version: "24.7",
 
         currency: "USD",
 
         showroomPrice: 10,
 
-        maxImageSize:
-            8 * 1024 * 1024,
+        maxImageSize: 8 * 1024 * 1024,
 
-        maxVideoSize:
-            20 * 1024 * 1024,
+        maxVideoSize: 40 * 1024 * 1024,
 
-        listingsKey:
-            "alon_historyverse_regular_marketplace_listings",
+        storage: {
 
-        showroomsKey:
-            "alon_historyverse_regular_marketplace_showrooms",
+            accounts: "alon_historyverse_regular_marketpkes_accounts",
 
-        accountKey:
-            "alon_historyverse_regular_marketplace_account",
+            session: "alon_historyverse_regular_marketpkes_session",
 
-        sessionKey:
-            "alon_historyverse_regular_marketplace_session"
+            listings: "alon_historyverse_regular_marketpkes_listings",
+
+            showrooms: "alon_historyverse_regular_marketpkes_showrooms"
+
+        }
+
     };
 
 
-    /* =====================================================
+    /* =========================================================
        CATEGORY DATABASE
-       ===================================================== */
+       ========================================================= */
 
     const CATEGORY_DATA = {
 
         item: [
 
-            "Electronics",
-            "Mobile",
+            "Mobile Phone",
+
+            "Laptop",
+
             "Computer",
+
+            "Tablet",
+
+            "TV",
+
+            "Camera",
+
+            "Electronics",
+
             "Furniture",
+
+            "Home Appliance",
+
             "Clothing",
-            "Footwear",
-            "Home",
-            "Appliances",
-            "Kitchen",
-            "Books",
-            "Sports",
-            "Toys",
-            "Tools",
-            "Machinery",
+
             "Jewellery",
-            "Musical Instruments",
-            "Agriculture",
-            "Office",
-            "Collectibles",
+
+            "Books",
+
+            "Tools",
+
+            "Machinery",
+
+            "Sports Equipment",
+
+            "Office Equipment",
+
             "Other Item"
 
         ],
@@ -84,19 +105,27 @@
         property: [
 
             "House",
-            "Flat / Apartment",
-            "Bungalow",
-            "Villa",
-            "Plot",
-            "Land",
-            "Farm",
+
             "Shop",
+
+            "Flat / Apartment",
+
+            "Bungalow",
+
+            "Plot",
+
+            "Land",
+
             "Office",
+
             "Warehouse",
-            "Factory",
+
+            "Farm",
+
             "Commercial Property",
-            "Hotel Property",
-            "Rental Property",
+
+            "Industrial Property",
+
             "Other Property"
 
         ],
@@ -104,136 +133,241 @@
         vehicle: [
 
             "Car",
+
             "SUV / 4x4",
+
             "Motorcycle / Bike",
+
             "Scooter",
-            "Electric Vehicle",
+
+            "EV",
+
             "Truck",
+
             "Trailer",
+
             "Tractor",
+
             "JCB / Excavator",
+
             "Bus",
+
             "Van",
+
             "Ambulance",
+
             "Taxi",
+
             "Commercial Vehicle",
-            "Three Wheeler",
+
+            "Three-Wheeler",
+
             "Farm Vehicle",
+
             "Construction Vehicle",
+
             "Boat / Water Vehicle",
+
             "Other Vehicle"
 
         ]
+
     };
 
+
+    /* =========================================================
+       CONDITION DATABASE
+       ========================================================= */
 
     const CONDITION_DATA = [
 
         "New",
+
         "Used",
-        "Refurbished",
-        "Not Applicable"
+
+        "Refurbished"
 
     ];
 
 
-    /* =====================================================
-       DOM HELPER
-       ===================================================== */
+    /* =========================================================
+       GENERAL HELPERS
+       ========================================================= */
 
-    function $(id) {
+    function byId(id) {
 
         return document.getElementById(id);
 
     }
 
 
-    /* =====================================================
-       STORAGE
-       ===================================================== */
+    function safeText(value) {
 
-    function loadJSON(key, fallback) {
+        if (value === undefined || value === null) {
+
+            return "";
+
+        }
+
+        return String(value);
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return safeText(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function generateId(prefix) {
+
+        return (
+
+            prefix +
+
+            "_" +
+
+            Date.now().toString(36) +
+
+            "_" +
+
+            Math.random()
+
+                .toString(36)
+
+                .slice(2, 10)
+
+        );
+
+    }
+
+
+    function readStorage(key, fallback) {
 
         try {
 
-            const raw =
-                localStorage.getItem(key);
+            const value = localStorage.getItem(key);
 
-            if (!raw) {
+            if (!value) {
 
                 return fallback;
 
             }
 
-            return JSON.parse(raw);
+            return JSON.parse(value);
 
         } catch (error) {
 
-            console.error(
-                "Regular Marketplace storage read error:",
+            console.warn(
+
+                "REGULAR MARKETPKES: storage read error",
+
                 error
+
             );
 
             return fallback;
+
         }
+
     }
 
 
-    function saveJSON(key, value) {
+    function writeStorage(key, value) {
 
         try {
 
             localStorage.setItem(
+
                 key,
+
                 JSON.stringify(value)
+
             );
 
             return true;
 
         } catch (error) {
 
-            console.error(
-                "Regular Marketplace storage write error:",
+            console.warn(
+
+                "REGULAR MARKETPKES: storage write error",
+
                 error
+
             );
 
             return false;
+
         }
+
     }
 
 
-    function generateID(prefix) {
+    function removeStorage(key) {
 
-        return (
+        try {
 
-            prefix +
-            "_" +
-            Date.now() +
-            "_" +
-            Math.random()
-                .toString(36)
-                .substring(2, 9)
+            localStorage.removeItem(key);
+
+        } catch (error) {
+
+            console.warn(
+
+                "REGULAR MARKETPKES: storage remove error",
+
+                error
+
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       ACCOUNT / SESSION
+       ========================================================= */
+
+    function getAccounts() {
+
+        const accounts = readStorage(
+
+            CONFIG.storage.accounts,
+
+            []
 
         );
+
+        return Array.isArray(accounts)
+
+            ? accounts
+
+            : [];
+
     }
 
 
-    function nowISO() {
+    function saveAccounts(accounts) {
 
-        return new Date().toISOString();
+        return writeStorage(
 
-    }
+            CONFIG.storage.accounts,
 
+            accounts
 
-    /* =====================================================
-       ACCOUNT
-       ===================================================== */
-
-    function getAccount() {
-
-        return loadJSON(
-            CONFIG.accountKey,
-            null
         );
 
     }
@@ -241,9 +375,67 @@
 
     function getSession() {
 
-        return loadJSON(
-            CONFIG.sessionKey,
+        return readStorage(
+
+            CONFIG.storage.session,
+
             null
+
+        );
+
+    }
+
+
+    function saveSession(session) {
+
+        return writeStorage(
+
+            CONFIG.storage.session,
+
+            session
+
+        );
+
+    }
+
+
+    function clearSession() {
+
+        removeStorage(
+
+            CONFIG.storage.session
+
+        );
+
+    }
+
+
+    function getCurrentAccount() {
+
+        const session = getSession();
+
+        if (!session || !session.email) {
+
+            return null;
+
+        }
+
+        const accounts = getAccounts();
+
+        return (
+
+            accounts.find(function (account) {
+
+                return (
+
+                    account.email ===
+
+                    session.email
+
+                );
+
+            }) || null
+
         );
 
     }
@@ -251,357 +443,658 @@
 
     function isLoggedIn() {
 
-        const session =
-            getSession();
+        return !!getCurrentAccount();
 
-        return !!(
-
-            session &&
-            session.loggedIn === true &&
-            session.email
-
-        );
     }
 
 
-    function getCurrentUserEmail() {
-
-        const session =
-            getSession();
-
-        if (
-
-            session &&
-            session.loggedIn === true &&
-            session.email
-
-        ) {
-
-            return String(
-                session.email
-            )
-            .trim()
-            .toLowerCase();
-        }
-
-        return "";
-    }
-
-
-    /* =====================================================
-       STATUS
-       ===================================================== */
-
-    function showStatus(
-        element,
-        message,
-        isError
-    ) {
-
-        if (!element) {
-
-            return;
-        }
-
-        element.textContent =
-            message || "";
-
-        element.style.display =
-            message ? "" : "none";
-
-        element.setAttribute(
-            "data-status",
-            isError
-                ? "error"
-                : "success"
-        );
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        LOGIN UI
-       ===================================================== */
+       ========================================================= */
 
     function updateLoginUI() {
 
-        const loginBox =
-            $("rmLoginBox");
+        const loginSection = byId(
 
-        const profileBox =
-            $("rmProfileBox");
+            "rmLoginSection"
 
-        const profileEmail =
-            $("rmProfileEmail");
+        );
 
-        const session =
-            getSession();
+        const profileSection = byId(
 
-        const loggedIn = !!(
+            "rmProfileSection"
 
-            session &&
-            session.loggedIn === true &&
-            session.email
+        );
+
+        const listingSection = byId(
+
+            "rmListingSection"
+
+        );
+
+        const myListingsSection = byId(
+
+            "rmMyListingsSection"
+
+        );
+
+        const showroomSection = byId(
+
+            "rmShowroomSection"
+
+        );
+
+        const myShowroomsSection = byId(
+
+            "rmMyShowroomsSection"
+
+        );
+
+        const profile = byId(
+
+            "rmProfile"
 
         );
 
 
-        if (loginBox) {
+        const account = getCurrentAccount();
 
-            loginBox.style.display =
-                loggedIn
-                    ? "none"
-                    : "";
+
+        if (account) {
+
+            if (loginSection) {
+
+                loginSection.classList.add(
+
+                    "rm-hidden"
+
+                );
+
+            }
+
+            if (profileSection) {
+
+                profileSection.classList.remove(
+
+                    "rm-hidden"
+
+                );
+
+            }
+
+            if (listingSection) {
+
+                listingSection.classList.remove(
+
+                    "rm-hidden"
+
+                );
+
+            }
+
+            if (myListingsSection) {
+
+                myListingsSection.classList.remove(
+
+                    "rm-hidden"
+
+                );
+
+            }
+
+            if (showroomSection) {
+
+                showroomSection.classList.remove(
+
+                    "rm-hidden"
+
+                );
+
+            }
+
+            if (myShowroomsSection) {
+
+                myShowroomsSection.classList.remove(
+
+                    "rm-hidden"
+
+                );
+
+            }
+
+
+            if (profile) {
+
+                profile.innerHTML =
+
+                    "<strong>Logged in:</strong> " +
+
+                    escapeHTML(
+
+                        account.email
+
+                    );
+
+            }
+
+            return;
+
         }
 
 
-        if (profileBox) {
+        if (loginSection) {
 
-            profileBox.style.display =
-                loggedIn
-                    ? ""
-                    : "none";
+            loginSection.classList.remove(
+
+                "rm-hidden"
+
+            );
+
         }
 
+        if (profileSection) {
 
-        if (
-            loggedIn &&
-            profileEmail
-        ) {
+            profileSection.classList.add(
 
-            profileEmail.textContent =
-                session.email;
+                "rm-hidden"
+
+            );
+
         }
+
+        if (listingSection) {
+
+            listingSection.classList.add(
+
+                "rm-hidden"
+
+            );
+
+        }
+
+        if (myListingsSection) {
+
+            myListingsSection.classList.add(
+
+                "rm-hidden"
+
+            );
+
+        }
+
+        if (showroomSection) {
+
+            showroomSection.classList.add(
+
+                "rm-hidden"
+
+            );
+
+        }
+
+        if (myShowroomsSection) {
+
+            myShowroomsSection.classList.add(
+
+                "rm-hidden"
+
+            );
+
+        }
+
     }
 
 
-    function isValidEmail(email) {
+    function loginUser() {
 
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            .test(email);
-    }
+        const agreement = byId(
 
+            "rmAgreement"
 
-    function login() {
+        );
 
-        const name =
-            $("rmLoginName")
-                ?.value
-                ?.trim() || "";
+        const emailInput = byId(
 
-        const email =
-            $("rmLoginEmail")
-                ?.value
-                ?.trim()
-                .toLowerCase() || "";
+            "rmLoginEmail"
 
-        const password =
-            $("rmLoginPassword")
-                ?.value || "";
+        );
 
-        const agreement =
-            $("rmAgreement");
+        const passwordInput = byId(
 
-        const status =
-            $("rmLoginStatus");
+            "rmLoginPassword"
 
+        );
 
-        if (!name) {
+        const message = byId(
 
-            showStatus(
-                status,
-                "Please enter your name.",
-                true
-            );
+            "rmLoginMessage"
 
-            return false;
-        }
-
-
-        if (!email) {
-
-            showStatus(
-                status,
-                "Please enter your email.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!isValidEmail(email)) {
-
-            showStatus(
-                status,
-                "Please enter a valid email address.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!password) {
-
-            showStatus(
-                status,
-                "Please enter your password.",
-                true
-            );
-
-            return false;
-        }
+        );
 
 
         if (
+
             !agreement ||
+
             !agreement.checked
+
         ) {
 
-            showStatus(
-                status,
-                "Please accept the Marketplace Agreement before login.",
-                true
-            );
+            if (message) {
 
-            return false;
+                message.textContent =
+
+                    "Please accept the marketplace agreement.";
+
+            }
+
+            return;
+
         }
 
 
-        const oldAccount =
-            getAccount();
+        const email = safeText(
+
+            emailInput && emailInput.value
+
+        )
+
+            .trim()
+
+            .toLowerCase();
 
 
-        const account = {
+        const password = safeText(
 
-            name: name,
+            passwordInput &&
+
+            passwordInput.value
+
+        );
+
+
+        if (!email || !password) {
+
+            if (message) {
+
+                message.textContent =
+
+                    "Enter email and password.";
+
+            }
+
+            return;
+
+        }
+
+
+        const accounts = getAccounts();
+
+
+        const account = accounts.find(
+
+            function (item) {
+
+                return (
+
+                    item.email === email &&
+
+                    item.password === password
+
+                );
+
+            }
+
+        );
+
+
+        if (!account) {
+
+            if (message) {
+
+                message.textContent =
+
+                    "Account not found or password is incorrect.";
+
+            }
+
+            return;
+
+        }
+
+
+        saveSession({
+
+            email: account.email,
+
+            loginAt: Date.now()
+
+        });
+
+
+        if (message) {
+
+            message.textContent =
+
+                "Login successful.";
+
+        }
+
+
+        updateLoginUI();
+
+        renderListings();
+
+        renderShowrooms();
+
+    }
+
+
+    function registerUser() {
+
+        const agreement = byId(
+
+            "rmAgreement"
+
+        );
+
+        const emailInput = byId(
+
+            "rmLoginEmail"
+
+        );
+
+        const passwordInput = byId(
+
+            "rmLoginPassword"
+
+        );
+
+        const message = byId(
+
+            "rmLoginMessage"
+
+        );
+
+
+        if (
+
+            !agreement ||
+
+            !agreement.checked
+
+        ) {
+
+            if (message) {
+
+                message.textContent =
+
+                    "Please accept the marketplace agreement.";
+
+            }
+
+            return;
+
+        }
+
+
+        const email = safeText(
+
+            emailInput && emailInput.value
+
+        )
+
+            .trim()
+
+            .toLowerCase();
+
+
+        const password = safeText(
+
+            passwordInput &&
+
+            passwordInput.value
+
+        );
+
+
+        if (!email || !password) {
+
+            if (message) {
+
+                message.textContent =
+
+                    "Enter email and password to create account.";
+
+            }
+
+            return;
+
+        }
+
+
+        if (password.length < 4) {
+
+            if (message) {
+
+                message.textContent =
+
+                    "Password must contain at least 4 characters.";
+
+            }
+
+            return;
+
+        }
+
+
+        const accounts = getAccounts();
+
+
+        const existing = accounts.find(
+
+            function (account) {
+
+                return account.email === email;
+
+            }
+
+        );
+
+
+        if (existing) {
+
+            if (message) {
+
+                message.textContent =
+
+                    "Account already exists. Please login.";
+
+            }
+
+            return;
+
+        }
+
+
+        accounts.push({
+
+            id: generateId("account"),
 
             email: email,
 
             password: password,
 
-            createdAt:
-                oldAccount?.createdAt ||
-                nowISO(),
+            createdAt: Date.now()
 
-            updatedAt:
-                nowISO()
-        };
+        });
 
+
+        saveAccounts(accounts);
+
+
+        saveSession({
+
+            email: email,
+
+            loginAt: Date.now()
+
+        });
+
+
+        if (message) {
+
+            message.textContent =
+
+                "Account created successfully.";
+
+        }
+
+
+        updateLoginUI();
+
+        renderListings();
+
+        renderShowrooms();
+
+    }
+
+
+    function logoutUser() {
+
+        clearSession();
+
+        updateLoginUI();
+
+        renderListings();
+
+        renderShowrooms();
+
+    }
+
+
+    /* =========================================================
+       CENTRAL COUNTRY SYSTEM
+       ========================================================= */
+
+    function normalizeCountryRecord(country) {
+
+        if (!country) {
+
+            return null;
+
+        }
+
+
+        /* -----------------------------------------
+           CENTRAL DATABASE ARRAY RECORD
+
+           Example:
+           [
+               "India",
+               "IN",
+               "IND",
+               "+91",
+               "🇮🇳"
+           ]
+           ----------------------------------------- */
+
+        if (Array.isArray(country)) {
+
+            return {
+
+                name: safeText(country[0]),
+
+                iso2: safeText(country[1])
+
+                    .toUpperCase(),
+
+                iso3: safeText(country[2])
+
+                    .toUpperCase(),
+
+                callingCode: safeText(country[3]),
+
+                flag: safeText(country[4])
+
+            };
+
+        }
+
+
+        /* -----------------------------------------
+           OBJECT RECORD
+           ----------------------------------------- */
 
         if (
-            !saveJSON(
-                CONFIG.accountKey,
-                account
-            )
+
+            typeof country ===
+
+            "object"
+
         ) {
 
-            showStatus(
-                status,
-                "Unable to save account on this device.",
-                true
-            );
+            return country;
 
-            return false;
         }
 
 
-        saveJSON(
-            CONFIG.sessionKey,
-            {
+        return null;
 
-                loggedIn: true,
-
-                name: name,
-
-                email: email,
-
-                loginAt: nowISO()
-
-            }
-        );
-
-
-        updateLoginUI();
-
-        showStatus(
-            status,
-            "Login successful.",
-            false
-        );
-
-
-        renderListings();
-
-        renderShowrooms();
-
-
-        return true;
     }
 
-
-    function logout() {
-
-        localStorage.removeItem(
-            CONFIG.sessionKey
-        );
-
-
-        updateLoginUI();
-
-
-        showStatus(
-            $("rmLoginStatus"),
-            "You have been logged out.",
-            false
-        );
-
-
-        renderListings();
-
-        renderShowrooms();
-    }
-
-
-    function requireLogin(statusElement) {
-
-        if (!isLoggedIn()) {
-
-            showStatus(
-                statusElement,
-                "Please login first.",
-                true
-            );
-
-            return false;
-        }
-
-        return true;
-    }
-
-
-    /* =====================================================
-       CENTRAL COUNTRY DATABASE
-       -----------------------------------------------------
-       ONLY marketplace-countries.js
-       ===================================================== */
 
     function getCountryDatabase() {
 
-        const database =
+        const source =
+
             window.MARKETPLACE_COUNTRIES;
 
 
         if (
-            Array.isArray(database) &&
-            database.length > 0
+
+            Array.isArray(source) &&
+
+            source.length > 0
+
         ) {
 
-            return database;
+            return source
+
+                .map(
+
+                    normalizeCountryRecord
+
+                )
+
+                .filter(Boolean);
+
+        }
+
+
+        if (
+
+            source &&
+
+            typeof source === "object"
+
+        ) {
+
+            return Object.values(source)
+
+                .map(
+
+                    normalizeCountryRecord
+
+                )
+
+                .filter(Boolean);
+
         }
 
 
         return [];
+
     }
 
 
@@ -610,19 +1103,37 @@
         if (!country) {
 
             return "";
+
         }
 
 
-        return String(
+        if (Array.isArray(country)) {
+
+            return safeText(
+
+                country[0]
+
+            );
+
+        }
+
+
+        return (
 
             country.name ||
+
             country.countryName ||
+
             country.label ||
+
             country.title ||
+
             country.country ||
+
             ""
 
-        ).trim();
+        );
+
     }
 
 
@@ -631,22 +1142,39 @@
         if (!country) {
 
             return "";
+
         }
 
 
-        return String(
+        if (Array.isArray(country)) {
+
+            return safeText(
+
+                country[1]
+
+            ).toUpperCase();
+
+        }
+
+
+        return (
 
             country.iso2 ||
+
             country.ISO2 ||
+
             country.code2 ||
+
             country.alpha2 ||
+
             country.countryCode ||
+
             country.code ||
+
             ""
 
-        )
-        .trim()
-        .toUpperCase();
+        );
+
     }
 
 
@@ -655,20 +1183,35 @@
         if (!country) {
 
             return "";
+
         }
 
 
-        return String(
+        if (Array.isArray(country)) {
+
+            return safeText(
+
+                country[2]
+
+            ).toUpperCase();
+
+        }
+
+
+        return (
 
             country.iso3 ||
+
             country.ISO3 ||
+
             country.code3 ||
+
             country.alpha3 ||
+
             ""
 
-        )
-        .trim()
-        .toUpperCase();
+        );
+
     }
 
 
@@ -677,34 +1220,62 @@
         if (!country) {
 
             return "";
+
         }
 
 
-        const value =
-
-            country.callingCode ||
-            country.calling_code ||
-            country.phoneCode ||
-            country.phone_code ||
-            country.dialCode ||
-            country.dial_code ||
-            country.calling ||
-            "";
+        let value = "";
 
 
-        if (!value) {
+        if (Array.isArray(country)) {
 
-            return "";
+            value = safeText(
+
+                country[3]
+
+            );
+
+        } else {
+
+            value =
+
+                country.callingCode ||
+
+                country.calling_code ||
+
+                country.phoneCode ||
+
+                country.phone_code ||
+
+                country.dialCode ||
+
+                country.dial_code ||
+
+                country.calling ||
+
+                "";
+
         }
 
 
-        const text =
-            String(value).trim();
+        value = safeText(value).trim();
 
 
-        return text.charAt(0) === "+"
-            ? text
-            : "+" + text;
+        if (
+
+            value &&
+
+            value.charAt(0) !== "+"
+
+        ) {
+
+            value = "+" + value;
+
+        }
+
+
+        return value;
+
     }
 
 
@@ -712,630 +1283,762 @@
 
         if (!country) {
 
-            return "";
+            return "🌍";
+
+        }
+
+
+        if (Array.isArray(country)) {
+
+            return (
+
+                safeText(country[4]) ||
+
+                "🌍"
+
+            );
+
         }
 
 
         if (country.flag) {
 
-            return String(
-                country.flag
-            ).trim();
+            return country.flag;
+
         }
 
 
-        const code =
-            getCountryCode(country);
+        const code = getCountryCode(
+
+            country
+
+        );
 
 
-        if (code.length !== 2) {
+        if (
 
-            return "";
+            code &&
+
+            code.length === 2
+
+        ) {
+
+            return code
+
+                .toUpperCase()
+
+                .split("")
+
+                .map(function (letter) {
+
+                    return String
+
+                        .fromCodePoint(
+
+                            127397 +
+
+                            letter.charCodeAt(0)
+
+                        );
+
+                })
+
+                .join("");
+
         }
 
 
-        return code
-            .split("")
-            .map(function (letter) {
+        return "🌍";
 
-                return String.fromCodePoint(
-                    127397 +
-                    letter.charCodeAt(0)
-                );
-
-            })
-            .join("");
     }
 
 
-    /* =====================================================
-       COUNTRY OPTION
-       ===================================================== */
-
     function createCountryOption(country) {
 
-        const option =
-            document.createElement(
-                "option"
+        const name = safeText(
+
+            getCountryName(country)
+
+        ).trim();
+
+
+        const iso2 = safeText(
+
+            getCountryCode(country)
+
+        )
+
+            .trim()
+
+            .toUpperCase();
+
+
+        const iso3 = safeText(
+
+            getCountryISO3(country)
+
+        )
+
+            .trim()
+
+            .toUpperCase();
+
+
+        const callingCode =
+
+            getCountryCallingCode(
+
+                country
+
             );
 
 
-        const name =
-            getCountryName(country);
-
-        const code =
-            getCountryCode(country);
-
-        const iso3 =
-            getCountryISO3(country);
-
-        const callingCode =
-            getCountryCallingCode(country);
-
         const flag =
+
             getCountryFlag(country);
 
 
+        if (!name) {
+
+            return null;
+
+        }
+
+
+        const option =
+
+            document.createElement(
+
+                "option"
+
+            );
+
+
         option.value =
-            code || name;
+
+            iso2 || name;
 
 
-        option.textContent = [
+        const parts = [];
 
-            flag,
 
-            name,
+        if (flag) {
 
-            code
-                ? "(" + code + ")"
-                : "",
+            parts.push(flag);
 
-            iso3
-                ? "[" + iso3 + "]"
-                : "",
+        }
 
-            callingCode
 
-        ]
-        .filter(Boolean)
-        .join(" ");
+        parts.push(name);
+
+
+        if (iso2) {
+
+            parts.push(
+
+                "(" + iso2 + ")"
+
+            );
+
+        }
+
+
+        if (iso3) {
+
+            parts.push(
+
+                iso3
+
+            );
+
+        }
+
+
+        if (callingCode) {
+
+            parts.push(
+
+                callingCode
+
+            );
+
+        }
+
+
+        option.textContent =
+
+            parts.join(" ");
 
 
         option.dataset.countryName =
+
             name;
 
-        option.dataset.countryCode =
-            code;
 
-        option.dataset.countryISO3 =
+        option.dataset.countryIso2 =
+
+            iso2;
+
+
+        option.dataset.countryIso3 =
+
             iso3;
 
+
         option.dataset.callingCode =
+
             callingCode;
 
-        option.dataset.flag =
+
+        option.dataset.countryFlag =
+
             flag;
 
 
         return option;
+
     }
 
 
-    /* =====================================================
-       POPULATE COUNTRY SELECT
-       ===================================================== */
-
     function populateCountrySelect(
+
         selectId,
+
         selectedValue
+
     ) {
 
-        const select =
-            $(selectId);
+        const select = byId(selectId);
 
 
         if (!select) {
 
             return false;
+
         }
 
 
         const database =
+
             getCountryDatabase();
 
 
         if (!database.length) {
 
             console.warn(
-                "ALON HISTORYVERSE 24: marketplace-countries.js not loaded or country database is empty."
+
+                "REGULAR MARKETPKES: central country database is empty."
+
             );
 
             return false;
+
         }
 
 
-        const current =
+        const oldValue =
+
             selectedValue ||
-            select.value ||
-            "";
+
+            select.value;
 
 
         select.innerHTML = "";
 
 
-        const firstOption =
+        const placeholder =
+
             document.createElement(
+
                 "option"
+
             );
 
 
-        firstOption.value = "";
+        placeholder.value = "";
 
-        firstOption.textContent =
-            "Select Country";
+
+        placeholder.textContent =
+
+            "🌍 Select Country";
 
 
         select.appendChild(
-            firstOption
+
+            placeholder
+
         );
 
 
         database.forEach(
+
             function (country) {
 
-                if (!country) {
-
-                    return;
-                }
-
-
                 const option =
+
                     createCountryOption(
+
                         country
+
                     );
 
 
-                select.appendChild(
-                    option
-                );
+                if (option) {
+
+                    select.appendChild(
+
+                        option
+
+                    );
+
+                }
+
             }
+
         );
 
 
-        if (current) {
+        if (oldValue) {
 
-            const normalized =
-                String(current)
-                    .trim()
-                    .toUpperCase();
+            const matchingOption =
 
-
-            const match =
                 Array.from(
+
                     select.options
-                )
-                .find(
+
+                ).find(
+
                     function (option) {
 
                         return (
 
-                            String(
-                                option.value
-                            )
-                            .toUpperCase() ===
-                            normalized
+                            option.value ===
 
-                        ) ||
+                                oldValue ||
 
-                        String(
-                            option.dataset.countryName ||
-                            ""
-                        )
-                        .toUpperCase() ===
-                        normalized;
+                            option.dataset
+
+                                .countryName ===
+
+                                oldValue ||
+
+                            option.dataset
+
+                                .countryIso2 ===
+
+                                String(
+
+                                    oldValue
+
+                                ).toUpperCase()
+
+                        );
+
                     }
+
                 );
 
 
-            if (match) {
+            if (matchingOption) {
 
                 select.value =
-                    match.value;
+
+                    matchingOption.value;
+
             }
+
         }
 
 
         return (
+
             select.options.length > 1
+
         );
+
     }
 
-
-    /* =====================================================
-       COUNTRY INITIALIZATION
-       ===================================================== */
 
     function populateRegularMarketplaceCountries() {
 
-        const countrySelects = [
+        const first =
 
-            "rmCountry",
+            populateCountrySelect(
 
-            "rmShowroomCountry"
+                "rmCountry"
 
-        ];
-
-
-        let success = false;
+            );
 
 
-        countrySelects.forEach(
-            function (id) {
+        const second =
 
-                if (
-                    populateCountrySelect(id)
-                ) {
+            populateCountrySelect(
 
-                    success = true;
-                }
-            }
-        );
+                "rmShowroomCountry"
+
+            );
 
 
-        if (success) {
+        const success =
 
-            return;
+            first || second;
+
+
+        if (!success) {
+
+            console.warn(
+
+                "REGULAR MARKETPKES: Country database not ready. Retrying..."
+
+            );
+
         }
 
 
-        /*
-         * Safety retry in case
-         * marketplace-countries.js is still loading.
-         */
+        return success;
 
-        let attempts = 0;
-
-
-        const retry =
-            setInterval(
-                function () {
-
-                    attempts++;
-
-
-                    let ready = false;
-
-
-                    countrySelects.forEach(
-                        function (id) {
-
-                            if (
-                                populateCountrySelect(
-                                    id
-                                )
-                            ) {
-
-                                ready = true;
-                            }
-                        }
-                    );
-
-
-                    if (
-                        ready ||
-                        attempts >= 20
-                    ) {
-
-                        clearInterval(
-                            retry
-                        );
-                    }
-
-                },
-                250
-            );
     }
 
 
-    /* =====================================================
-       SELECTED COUNTRY
-       ===================================================== */
+    function startCountryRetry() {
 
-    function getSelectedCountry(selectId) {
+        let attempts = 0;
 
-        const select =
-            $(selectId);
+        const maxAttempts = 40;
 
 
-        if (!select) {
+        function attempt() {
+
+            attempts++;
+
+
+            const success =
+
+                populateRegularMarketplaceCountries();
+
+
+            if (
+
+                success ||
+
+                attempts >= maxAttempts
+
+            ) {
+
+                if (!success) {
+
+                    console.error(
+
+                        "REGULAR MARKETPKES: Could not load countries. Check that ../marketplace-countries.js exists and loads before regular-marketpkes.js."
+
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            setTimeout(
+
+                attempt,
+
+                250
+
+            );
+
+        }
+
+
+        attempt();
+
+    }
+
+
+    function getSelectedCountry(
+
+        selectId
+
+    ) {
+
+        const select = byId(selectId);
+
+
+        if (
+
+            !select ||
+
+            !select.value
+
+        ) {
 
             return null;
+
         }
 
 
         const option =
-            select.selectedOptions?.[0];
+
+            select.options[
+
+                select.selectedIndex
+
+            ];
 
 
         if (!option) {
 
             return null;
-        }
 
-
-        if (!option.value) {
-
-            return null;
         }
 
 
         return {
 
-            value:
-                option.value,
-
             name:
+
                 option.dataset.countryName ||
-                "",
 
-            code2:
-                option.dataset.countryCode ||
-                "",
-
-            code3:
-                option.dataset.countryISO3 ||
-                "",
+                option.textContent,
 
             iso2:
-                option.dataset.countryCode ||
-                "",
+
+                option.dataset.countryIso2 ||
+
+                option.value,
 
             iso3:
-                option.dataset.countryISO3 ||
+
+                option.dataset.countryIso3 ||
+
                 "",
 
             callingCode:
-                option.dataset.callingCode ||
-                "",
 
-            phoneCode:
                 option.dataset.callingCode ||
+
                 "",
 
             flag:
-                option.dataset.flag ||
+
+                option.dataset.countryFlag ||
+
                 ""
 
         };
+
     }
 
 
-    /* =====================================================
-       LISTING CATEGORY
-       ===================================================== */
+    /* =========================================================
+       CATEGORY UI
+       ========================================================= */
 
     function populateListingCategories() {
 
-        const type =
-            $("rmListingType");
+        const typeSelect = byId(
 
-        const category =
-            $("rmListingCategory");
+            "rmListingType"
+
+        );
+
+        const categorySelect = byId(
+
+            "rmCategory"
+
+        );
 
 
-        if (
-            !type ||
-            !category
-        ) {
+        if (!typeSelect || !categorySelect) {
 
             return;
+
         }
 
 
-        const selected =
-            category.value;
+        function updateCategories() {
+
+            const type =
+
+                typeSelect.value;
 
 
-        category.innerHTML = "";
+            categorySelect.innerHTML = "";
 
 
-        const first =
-            document.createElement(
-                "option"
+            const placeholder =
+
+                document.createElement(
+
+                    "option"
+
+                );
+
+
+            placeholder.value = "";
+
+            placeholder.textContent =
+
+                "Select Category";
+
+
+            categorySelect.appendChild(
+
+                placeholder
+
             );
 
 
-        first.value = "";
+            if (
 
-        first.textContent =
-            "Select Category";
+                !type ||
 
+                !CATEGORY_DATA[type]
 
-        category.appendChild(
-            first
-        );
+            ) {
 
+                return;
 
-        const list =
-            CATEGORY_DATA[
-                type.value
-            ] || [];
+            }
 
 
-        list.forEach(
-            function (item) {
+            CATEGORY_DATA[type].forEach(
 
-                const option =
-                    document.createElement(
-                        "option"
+                function (category) {
+
+                    const option =
+
+                        document.createElement(
+
+                            "option"
+
+                        );
+
+
+                    option.value =
+
+                        category;
+
+
+                    option.textContent =
+
+                        category;
+
+
+                    categorySelect.appendChild(
+
+                        option
+
                     );
 
-                option.value =
-                    item;
+                }
 
-                option.textContent =
-                    item;
+            );
 
-                category.appendChild(
-                    option
-                );
-            }
+        }
+
+
+        typeSelect.addEventListener(
+
+            "change",
+
+            updateCategories
+
         );
 
 
-        if (selected) {
+        updateCategories();
 
-            category.value =
-                selected;
-        }
     }
 
 
     function populateConditionOptions() {
 
-        const select =
-            $("rmListingCondition");
+        const select = byId(
+
+            "rmCondition"
+
+        );
 
 
         if (!select) {
 
             return;
+
         }
 
 
-        if (
-            select.options.length > 1
-        ) {
+        select.innerHTML = "";
 
-            return;
-        }
+
+        const placeholder =
+
+            document.createElement(
+
+                "option"
+
+            );
+
+
+        placeholder.value = "";
+
+        placeholder.textContent =
+
+            "Select Condition";
+
+
+        select.appendChild(
+
+            placeholder
+
+        );
 
 
         CONDITION_DATA.forEach(
+
             function (condition) {
 
                 const option =
+
                     document.createElement(
+
                         "option"
+
                     );
 
+
                 option.value =
+
                     condition;
+
 
                 option.textContent =
+
                     condition;
 
+
                 select.appendChild(
+
                     option
+
                 );
+
             }
+
         );
+
     }
 
 
-    /* =====================================================
-       FILE VALIDATION
-       ===================================================== */
+    /* =========================================================
+       MEDIA HELPERS
+       ========================================================= */
 
-    function validateImage(file) {
-
-        if (!file) {
-
-            return {
-                ok: true
-            };
-        }
-
-
-        if (
-            !String(file.type || "")
-                .startsWith("image/")
-        ) {
-
-            return {
-
-                ok: false,
-
-                message:
-                    "Please select a valid image file."
-
-            };
-        }
-
-
-        if (
-            file.size >
-            CONFIG.maxImageSize
-        ) {
-
-            return {
-
-                ok: false,
-
-                message:
-                    "Image size must be 8 MB or less."
-
-            };
-        }
-
-
-        return {
-            ok: true
-        };
-    }
-
-
-    function validateVideo(file) {
-
-        if (!file) {
-
-            return {
-                ok: true
-            };
-        }
-
-
-        if (
-            !String(file.type || "")
-                .startsWith("video/")
-        ) {
-
-            return {
-
-                ok: false,
-
-                message:
-                    "Please select a valid video file."
-
-            };
-        }
-
-
-        if (
-            file.size >
-            CONFIG.maxVideoSize
-        ) {
-
-            return {
-
-                ok: false,
-
-                message:
-                    "Video size must be 20 MB or less."
-
-            };
-        }
-
-
-        return {
-            ok: true
-        };
-    }
-
-
-    function readFileAsDataURL(file) {
+    function fileToDataURL(file) {
 
         return new Promise(
+
             function (resolve, reject) {
 
                 if (!file) {
@@ -1343,2438 +2046,3070 @@
                     resolve("");
 
                     return;
+
                 }
 
 
                 const reader =
+
                     new FileReader();
 
 
                 reader.onload =
+
                     function () {
 
                         resolve(
-                            reader.result || ""
+
+                            reader.result
+
                         );
+
                     };
 
 
                 reader.onerror =
+
                     function () {
 
                         reject(
+
                             new Error(
-                                "Unable to read file."
+
+                                "File could not be read."
+
                             )
+
                         );
+
                     };
 
 
                 reader.readAsDataURL(
+
                     file
+
                 );
+
             }
+
         );
+
     }
 
 
-    /* =====================================================
-       LISTING DATA
-       ===================================================== */
+    function validateMediaFile(
 
-    function collectListingData() {
+        file,
 
-        const country =
-            getSelectedCountry(
-                "rmCountry"
-            );
+        type
 
+    ) {
 
-        return {
-
-            type:
-                $("rmListingType")
-                    ?.value
-                    ?.trim() || "",
-
-            category:
-                $("rmListingCategory")
-                    ?.value
-                    ?.trim() || "",
-
-            condition:
-                $("rmListingCondition")
-                    ?.value
-                    ?.trim() || "",
-
-            title:
-                $("rmListingTitle")
-                    ?.value
-                    ?.trim() || "",
-
-            price:
-                $("rmListingPrice")
-                    ?.value
-                    ?.trim() || "",
-
-            country:
-                country?.value || "",
-
-            countryName:
-                country?.name || "",
-
-            countryCode:
-                country?.code2 || "",
-
-            countryISO3:
-                country?.code3 || "",
-
-            countryCallingCode:
-                country?.callingCode || "",
-
-            countryFlag:
-                country?.flag || "",
-
-            state:
-                $("rmState")
-                    ?.value
-                    ?.trim() || "",
-
-            pin:
-                $("rmPin")
-                    ?.value
-                    ?.trim() || "",
-
-            email:
-                $("rmEmail")
-                    ?.value
-                    ?.trim()
-                    .toLowerCase() ||
-                getCurrentUserEmail(),
-
-            description:
-                $("rmDescription")
-                    ?.value
-                    ?.trim() || ""
-        };
-    }
-
-
-    /* =====================================================
-       SAVE LISTING
-       ===================================================== */
-
-    async function saveListing() {
-
-        const status =
-            $("rmListingStatus");
-
-
-        if (
-            !requireLogin(status)
-        ) {
-
-            return false;
-        }
-
-
-        const data =
-            collectListingData();
-
-
-        if (!data.type) {
-
-            showStatus(
-                status,
-                "Please select listing type.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!data.category) {
-
-            showStatus(
-                status,
-                "Please select category.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!data.title) {
-
-            showStatus(
-                status,
-                "Please enter title.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!data.country) {
-
-            showStatus(
-                status,
-                "Please select country.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!data.description) {
-
-            showStatus(
-                status,
-                "Please enter description.",
-                true
-            );
-
-            return false;
-        }
-
-
-        const imageFile =
-            $("rmListingImage")
-                ?.files?.[0] ||
-            null;
-
-
-        const videoFile =
-            $("rmListingVideo")
-                ?.files?.[0] ||
-            null;
-
-
-        const imageCheck =
-            validateImage(
-                imageFile
-            );
-
-
-        if (!imageCheck.ok) {
-
-            showStatus(
-                status,
-                imageCheck.message,
-                true
-            );
-
-            return false;
-        }
-
-
-        const videoCheck =
-            validateVideo(
-                videoFile
-            );
-
-
-        if (!videoCheck.ok) {
-
-            showStatus(
-                status,
-                videoCheck.message,
-                true
-            );
-
-            return false;
-        }
-
-
-        try {
-
-            const imageData =
-                await readFileAsDataURL(
-                    imageFile
-                );
-
-
-            const videoData =
-                await readFileAsDataURL(
-                    videoFile
-                );
-
-
-            const listings =
-                loadJSON(
-                    CONFIG.listingsKey,
-                    []
-                );
-
-
-            const form =
-                $("rmListingForm");
-
-
-            const editID =
-                form?.dataset?.editId ||
-                "";
-
-
-            if (editID) {
-
-                const index =
-                    listings.findIndex(
-                        function (item) {
-
-                            return (
-                                item.id ===
-                                editID
-                            );
-                        }
-                    );
-
-
-                if (index === -1) {
-
-                    showStatus(
-                        status,
-                        "Listing not found.",
-                        true
-                    );
-
-                    return false;
-                }
-
-
-                if (
-                    listings[index].ownerEmail !==
-                    getCurrentUserEmail()
-                ) {
-
-                    showStatus(
-                        status,
-                        "You can edit only your own listing.",
-                        true
-                    );
-
-                    return false;
-                }
-
-
-                listings[index] = {
-
-                    ...listings[index],
-
-                    ...data,
-
-                    image:
-                        imageData ||
-                        listings[index].image ||
-                        "",
-
-                    video:
-                        videoData ||
-                        listings[index].video ||
-                        "",
-
-                    updatedAt:
-                        nowISO()
-
-                };
-
-
-                if (
-                    !saveJSON(
-                        CONFIG.listingsKey,
-                        listings
-                    )
-                ) {
-
-                    showStatus(
-                        status,
-                        "Unable to update listing.",
-                        true
-                    );
-
-                    return false;
-                }
-
-
-                clearListingForm();
-
-
-                showStatus(
-                    status,
-                    "Listing updated successfully.",
-                    false
-                );
-
-
-                renderListings();
-
-
-                return true;
-            }
-
-
-            const listing = {
-
-                id:
-                    generateID("listing"),
-
-                ownerEmail:
-                    getCurrentUserEmail(),
-
-                ownerName:
-                    getSession()?.name ||
-                    "",
-
-                ...data,
-
-                image:
-                    imageData || "",
-
-                video:
-                    videoData || "",
-
-                createdAt:
-                    nowISO(),
-
-                updatedAt:
-                    nowISO()
-
-            };
-
-
-            listings.push(
-                listing
-            );
-
-
-            if (
-                !saveJSON(
-                    CONFIG.listingsKey,
-                    listings
-                )
-            ) {
-
-                showStatus(
-                    status,
-                    "Unable to save listing. Storage may be full.",
-                    true
-                );
-
-                return false;
-            }
-
-
-            clearListingForm();
-
-
-            showStatus(
-                status,
-                "Listing saved successfully.",
-                false
-            );
-
-
-            renderListings();
-
+        if (!file) {
 
             return true;
 
-        } catch (error) {
+        }
 
-            console.error(
-                "Listing save error:",
-                error
+
+        if (
+
+            type === "image" &&
+
+            file.size >
+
+                CONFIG.maxImageSize
+
+        ) {
+
+            alert(
+
+                "Image is too large. Maximum size is 8 MB."
+
             );
-
-
-            showStatus(
-                status,
-                "Unable to save listing.",
-                true
-            );
-
 
             return false;
-        }
-    }
 
-
-    /* =====================================================
-       CLEAR LISTING
-       ===================================================== */
-
-    function clearListingForm() {
-
-        const form =
-            $("rmListingForm");
-
-
-        if (form) {
-
-            form.reset();
-
-            delete form.dataset.editId;
-        }
-
-
-        populateListingCategories();
-
-
-        const cancel =
-            $("rmCancelListingEditButton");
-
-
-        if (cancel) {
-
-            cancel.style.display =
-                "none";
-        }
-
-
-        const email =
-            $("rmEmail");
-
-
-        if (
-            email &&
-            getCurrentUserEmail()
-        ) {
-
-            email.value =
-                getCurrentUserEmail();
-        }
-    }
-
-
-    /* =====================================================
-       EDIT LISTING
-       ===================================================== */
-
-    function editListing(id) {
-
-        if (
-            !requireLogin(
-                $("rmListingStatus")
-            )
-        ) {
-
-            return;
-        }
-
-
-        const listings =
-            loadJSON(
-                CONFIG.listingsKey,
-                []
-            );
-
-
-        const listing =
-            listings.find(
-                function (item) {
-
-                    return item.id === id;
-                }
-            );
-
-
-        if (!listing) {
-
-            return;
         }
 
 
         if (
-            listing.ownerEmail !==
-            getCurrentUserEmail()
+
+            type === "video" &&
+
+            file.size >
+
+                CONFIG.maxVideoSize
+
         ) {
 
-            showStatus(
-                $("rmListingStatus"),
-                "You can edit only your own listing.",
-                true
+            alert(
+
+                "Video is too large. Maximum size is 40 MB."
+
             );
-
-            return;
-        }
-
-
-        const form =
-            $("rmListingForm");
-
-
-        if (!form) {
-
-            return;
-        }
-
-
-        form.dataset.editId =
-            id;
-
-
-        if ($("rmListingType")) {
-
-            $("rmListingType").value =
-                listing.type || "";
-        }
-
-
-        populateListingCategories();
-
-
-        if ($("rmListingCategory")) {
-
-            $("rmListingCategory").value =
-                listing.category || "";
-        }
-
-
-        if ($("rmListingCondition")) {
-
-            $("rmListingCondition").value =
-                listing.condition || "";
-        }
-
-
-        if ($("rmListingTitle")) {
-
-            $("rmListingTitle").value =
-                listing.title || "";
-        }
-
-
-        if ($("rmListingPrice")) {
-
-            $("rmListingPrice").value =
-                listing.price || "";
-        }
-
-
-        if ($("rmCountry")) {
-
-            $("rmCountry").value =
-                listing.country || "";
-        }
-
-
-        if ($("rmState")) {
-
-            $("rmState").value =
-                listing.state || "";
-        }
-
-
-        if ($("rmPin")) {
-
-            $("rmPin").value =
-                listing.pin || "";
-        }
-
-
-        if ($("rmEmail")) {
-
-            $("rmEmail").value =
-                listing.email ||
-                getCurrentUserEmail();
-        }
-
-
-        if ($("rmDescription")) {
-
-            $("rmDescription").value =
-                listing.description || "";
-        }
-
-
-        const cancel =
-            $("rmCancelListingEditButton");
-
-
-        if (cancel) {
-
-            cancel.style.display =
-                "";
-        }
-
-
-        form.scrollIntoView({
-
-            behavior: "smooth",
-
-            block: "start"
-
-        });
-    }
-
-
-    /* =====================================================
-       DELETE LISTING
-       ===================================================== */
-
-    function deleteListing(id) {
-
-        if (
-            !requireLogin(
-                $("rmListingStatus")
-            )
-        ) {
-
-            return;
-        }
-
-
-        const listings =
-            loadJSON(
-                CONFIG.listingsKey,
-                []
-            );
-
-
-        const listing =
-            listings.find(
-                function (item) {
-
-                    return item.id === id;
-                }
-            );
-
-
-        if (!listing) {
-
-            return;
-        }
-
-
-        if (
-            listing.ownerEmail !==
-            getCurrentUserEmail()
-        ) {
-
-            showStatus(
-                $("rmListingStatus"),
-                "You can delete only your own listing.",
-                true
-            );
-
-            return;
-        }
-
-
-        if (
-            !window.confirm(
-                "Delete this listing?"
-            )
-        ) {
-
-            return;
-        }
-
-
-        const remaining =
-            listings.filter(
-                function (item) {
-
-                    return item.id !== id;
-                }
-            );
-
-
-        saveJSON(
-            CONFIG.listingsKey,
-            remaining
-        );
-
-
-        showStatus(
-            $("rmListingStatus"),
-            "Listing deleted.",
-            false
-        );
-
-
-        renderListings();
-    }
-
-
-    /* =====================================================
-       ESCAPE HTML
-       ===================================================== */
-
-    function escapeHTML(value) {
-
-        return String(
-            value ?? ""
-        )
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-
-    /* =====================================================
-       LISTING CARD
-       ===================================================== */
-
-    function renderListingCard(listing) {
-
-        const owner =
-            listing.ownerEmail ===
-            getCurrentUserEmail();
-
-
-        const image =
-            listing.image
-                ? `
-                    <img
-                        src="${listing.image}"
-                        alt="${escapeHTML(
-                            listing.title
-                        )}"
-                        loading="lazy"
-                    >
-                  `
-                : "";
-
-
-        const video =
-            listing.video
-                ? `
-                    <video
-                        controls
-                        preload="metadata"
-                    >
-                        <source
-                            src="${listing.video}"
-                        >
-                    </video>
-                  `
-                : "";
-
-
-        const location = [
-
-            listing.countryFlag || "",
-
-            listing.countryName ||
-            listing.country ||
-            "",
-
-            listing.countryCode
-                ? "(" +
-                  listing.countryCode +
-                  ")"
-                : "",
-
-            listing.countryCallingCode ||
-            "",
-
-            listing.state || "",
-
-            listing.pin
-                ? "PIN " +
-                  listing.pin
-                : ""
-
-        ]
-        .filter(Boolean)
-        .join(" ");
-
-
-        return `
-
-            <article
-                class="rm-listing-card"
-                data-listing-id="${escapeHTML(
-                    listing.id
-                )}"
-            >
-
-                <div class="rm-listing-media">
-
-                    ${image}
-
-                    ${video}
-
-                </div>
-
-
-                <div class="rm-listing-content">
-
-                    <div class="rm-listing-type">
-
-                        ${escapeHTML(
-                            listing.type
-                        )}
-
-                    </div>
-
-
-                    <h3>
-
-                        ${escapeHTML(
-                            listing.title
-                        )}
-
-                    </h3>
-
-
-                    <p>
-
-                        <strong>
-                            Category:
-                        </strong>
-
-                        ${escapeHTML(
-                            listing.category
-                        )}
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Condition:
-                        </strong>
-
-                        ${escapeHTML(
-                            listing.condition
-                        )}
-
-                    </p>
-
-
-                    ${
-                        listing.price
-                            ? `
-                                <p>
-
-                                    <strong>
-                                        Price:
-                                    </strong>
-
-                                    ${escapeHTML(
-                                        listing.price
-                                    )}
-
-                                    ${CONFIG.currency}
-
-                                </p>
-                              `
-                            : ""
-                    }
-
-
-                    <p>
-
-                        <strong>
-                            Country:
-                        </strong>
-
-                        ${escapeHTML(
-                            location
-                        )}
-
-                    </p>
-
-
-                    ${
-                        listing.description
-                            ? `
-                                <p
-                                    class="rm-description"
-                                >
-
-                                    ${escapeHTML(
-                                        listing.description
-                                    )}
-
-                                </p>
-                              `
-                            : ""
-                    }
-
-
-                    ${
-                        owner
-                            ? `
-                                <div
-                                    class="rm-owner-actions"
-                                >
-
-                                    <button
-                                        type="button"
-                                        data-action="edit-listing"
-                                        data-id="${escapeHTML(
-                                            listing.id
-                                        )}"
-                                    >
-                                        Edit
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        data-action="delete-listing"
-                                        data-id="${escapeHTML(
-                                            listing.id
-                                        )}"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-                              `
-                            : ""
-                    }
-
-                </div>
-
-            </article>
-
-        `;
-    }
-
-
-    /* =====================================================
-       RENDER LISTINGS
-       ===================================================== */
-
-    function renderListings() {
-
-        const container =
-            $("rmListings");
-
-
-        if (!container) {
-
-            return;
-        }
-
-
-        if (!isLoggedIn()) {
-
-            container.innerHTML =
-                "<p>Please login to view your saved listings.</p>";
-
-            return;
-        }
-
-
-        const listings =
-            loadJSON(
-                CONFIG.listingsKey,
-                []
-            );
-
-
-        const email =
-            getCurrentUserEmail();
-
-
-        const ownListings =
-            Array.isArray(listings)
-                ? listings.filter(
-                    function (item) {
-
-                        return (
-                            item.ownerEmail ===
-                            email
-                        );
-                    }
-                )
-                : [];
-
-
-        if (!ownListings.length) {
-
-            container.innerHTML =
-                "<p>You have no saved listings yet.</p>";
-
-            return;
-        }
-
-
-        container.innerHTML =
-            ownListings
-                .slice()
-                .reverse()
-                .map(
-                    renderListingCard
-                )
-                .join("");
-
-
-        bindListingCardActions();
-    }
-
-
-    function bindListingCardActions() {
-
-        const container =
-            $("rmListings");
-
-
-        if (!container) {
-
-            return;
-        }
-
-
-        container
-            .querySelectorAll(
-                "[data-action='edit-listing']"
-            )
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            editListing(
-                                button.dataset.id
-                            );
-                        }
-                    );
-                }
-            );
-
-
-        container
-            .querySelectorAll(
-                "[data-action='delete-listing']"
-            )
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            deleteListing(
-                                button.dataset.id
-                            );
-                        }
-                    );
-                }
-            );
-    }
-
-
-    /* =====================================================
-       SHOWROOM DATA
-       ===================================================== */
-
-    function collectShowroomData() {
-
-        const country =
-            getSelectedCountry(
-                "rmShowroomCountry"
-            );
-
-
-        return {
-
-            name:
-                $("rmShowroomName")
-                    ?.value
-                    ?.trim() || "",
-
-            type:
-                $("rmShowroomType")
-                    ?.value
-                    ?.trim() || "",
-
-            reachGlobal:
-                !!$("rmShowroomReachGlobal")
-                    ?.checked,
-
-            reachInternational:
-                !!$("rmShowroomReachInternational")
-                    ?.checked,
-
-            country:
-                country?.value || "",
-
-            countryName:
-                country?.name || "",
-
-            countryCode:
-                country?.code2 || "",
-
-            countryISO3:
-                country?.code3 || "",
-
-            countryCallingCode:
-                country?.callingCode || "",
-
-            countryFlag:
-                country?.flag || "",
-
-            state:
-                $("rmShowroomState")
-                    ?.value
-                    ?.trim() || "",
-
-            pin:
-                $("rmShowroomPin")
-                    ?.value
-                    ?.trim() || "",
-
-            email:
-                $("rmShowroomEmail")
-                    ?.value
-                    ?.trim()
-                    .toLowerCase() ||
-                getCurrentUserEmail(),
-
-            description:
-                $("rmShowroomDescription")
-                    ?.value
-                    ?.trim() || ""
-        };
-    }
-
-
-    /* =====================================================
-       SHOWROOM PAYMENT
-       ===================================================== */
-
-    let showroomPaymentVerified =
-        false;
-
-
-    function verifyShowroomPayment() {
-
-        const status =
-            $("rmPaymentStatus");
-
-
-        if (
-            !requireLogin(status)
-        ) {
 
             return false;
+
         }
-
-
-        showroomPaymentVerified =
-            true;
-
-
-        if (
-            $("rmPaymentAccountStatus")
-        ) {
-
-            $("rmPaymentAccountStatus")
-                .textContent =
-                "Payment step ready";
-        }
-
-
-        showStatus(
-            status,
-            "Showroom payment step accepted locally. Real payment gateway verification must be connected before charging users.",
-            false
-        );
 
 
         return true;
+
     }
 
 
-    function connectPaymentAccount() {
+    /* =========================================================
+       LISTING STORAGE
+       ========================================================= */
 
-        const status =
-            $("rmPaymentStatus");
+    function getAllListings() {
 
+        const listings =
 
-        if (
-            !requireLogin(status)
-        ) {
+            readStorage(
 
-            return;
-        }
+                CONFIG.storage.listings,
 
+                []
 
-        if (
-            $("rmPaymentAccountStatus")
-        ) {
-
-            $("rmPaymentAccountStatus")
-                .textContent =
-                "Payment account setup selected";
-        }
+            );
 
 
-        showStatus(
-            status,
-            "Payment account setup is ready. Connect the live payment gateway before publishing paid ads.",
-            false
+        return Array.isArray(listings)
+
+            ? listings
+
+            : [];
+
+    }
+
+
+    function saveAllListings(
+
+        listings
+
+    ) {
+
+        return writeStorage(
+
+            CONFIG.storage.listings,
+
+            listings
+
         );
+
     }
 
 
-    /* =====================================================
-       SAVE SHOWROOM
-       ===================================================== */
+    function getMyListings() {
 
-    async function saveShowroom() {
+        const account =
 
-        const status =
-            $("rmShowroomStatus");
+            getCurrentAccount();
 
 
-        if (
-            !requireLogin(status)
-        ) {
+        if (!account) {
 
-            return false;
+            return [];
+
         }
 
 
-        const data =
-            collectShowroomData();
+        return getAllListings()
 
+            .filter(
 
-        if (!data.name) {
+                function (listing) {
 
-            showStatus(
-                status,
-                "Please enter business/showroom name.",
-                true
-            );
+                    return (
 
-            return false;
-        }
+                        listing.ownerEmail ===
 
+                        account.email
 
-        if (!data.type) {
-
-            showStatus(
-                status,
-                "Please select business/showroom type.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (
-            !data.reachGlobal &&
-            !data.reachInternational
-        ) {
-
-            showStatus(
-                status,
-                "Please select Global / Worldwide, International, or both.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!data.country) {
-
-            showStatus(
-                status,
-                "Please select country.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (!data.description) {
-
-            showStatus(
-                status,
-                "Please enter business description.",
-                true
-            );
-
-            return false;
-        }
-
-
-        if (
-            !showroomPaymentVerified
-        ) {
-
-            showStatus(
-                status,
-                "The showroom/business advertisement price is $10 USD. Complete the payment step before publishing.",
-                true
-            );
-
-            return false;
-        }
-
-
-        const imageFile =
-            $("rmShowroomImage")
-                ?.files?.[0] ||
-            null;
-
-
-        const videoFile =
-            $("rmShowroomVideo")
-                ?.files?.[0] ||
-            null;
-
-
-        const imageCheck =
-            validateImage(
-                imageFile
-            );
-
-
-        if (!imageCheck.ok) {
-
-            showStatus(
-                status,
-                imageCheck.message,
-                true
-            );
-
-            return false;
-        }
-
-
-        const videoCheck =
-            validateVideo(
-                videoFile
-            );
-
-
-        if (!videoCheck.ok) {
-
-            showStatus(
-                status,
-                videoCheck.message,
-                true
-            );
-
-            return false;
-        }
-
-
-        try {
-
-            const imageData =
-                await readFileAsDataURL(
-                    imageFile
-                );
-
-
-            const videoData =
-                await readFileAsDataURL(
-                    videoFile
-                );
-
-
-            const showrooms =
-                loadJSON(
-                    CONFIG.showroomsKey,
-                    []
-                );
-
-
-            const form =
-                $("rmShowroomForm");
-
-
-            const editID =
-                form?.dataset?.editId ||
-                "";
-
-
-            if (editID) {
-
-                const index =
-                    showrooms.findIndex(
-                        function (item) {
-
-                            return (
-                                item.id ===
-                                editID
-                            );
-                        }
                     );
 
+                }
 
-                if (index === -1) {
+            );
 
-                    showStatus(
-                        status,
-                        "Showroom advertisement not found.",
-                        true
-                    );
+    }
 
-                    return false;
+
+    /* =========================================================
+       LISTING EDIT STATE
+       ========================================================= */
+
+    let editingListingId = null;
+
+
+    function resetListingForm() {
+
+        const ids = [
+
+            "rmListingType",
+
+            "rmCategory",
+
+            "rmCondition",
+
+            "rmTitle",
+
+            "rmPrice",
+
+            "rmCountry",
+
+            "rmState",
+
+            "rmPin",
+
+            "rmEmail",
+
+            "rmDescription",
+
+            "rmImage",
+
+            "rmVideo"
+
+        ];
+
+
+        ids.forEach(
+
+            function (id) {
+
+                const element =
+
+                    byId(id);
+
+
+                if (!element) {
+
+                    return;
+
                 }
 
 
                 if (
-                    showrooms[index].ownerEmail !==
-                    getCurrentUserEmail()
+
+                    element.tagName ===
+
+                    "SELECT"
+
                 ) {
 
-                    showStatus(
-                        status,
-                        "You can edit only your own advertisement.",
-                        true
-                    );
+                    element.selectedIndex =
 
-                    return false;
+                        0;
+
+                } else {
+
+                    element.value = "";
+
                 }
 
-
-                showrooms[index] = {
-
-                    ...showrooms[index],
-
-                    ...data,
-
-                    priceUSD:
-                        CONFIG.showroomPrice,
-
-                    paymentStatus:
-                        "verified-local-prototype",
-
-                    image:
-                        imageData ||
-                        showrooms[index].image ||
-                        "",
-
-                    video:
-                        videoData ||
-                        showrooms[index].video ||
-                        "",
-
-                    updatedAt:
-                        nowISO()
-                };
-
-
-                saveJSON(
-                    CONFIG.showroomsKey,
-                    showrooms
-                );
-
-
-                clearShowroomForm();
-
-
-                showroomPaymentVerified =
-                    false;
-
-
-                showStatus(
-                    status,
-                    "Business/showroom advertisement updated successfully.",
-                    false
-                );
-
-
-                renderShowrooms();
-
-
-                return true;
             }
 
-
-            const showroom = {
-
-                id:
-                    generateID("showroom"),
-
-                ownerEmail:
-                    getCurrentUserEmail(),
-
-                ownerName:
-                    getSession()?.name ||
-                    "",
-
-                ...data,
-
-                priceUSD:
-                    CONFIG.showroomPrice,
-
-                currency:
-                    CONFIG.currency,
-
-                paymentStatus:
-                    "verified-local-prototype",
-
-                image:
-                    imageData || "",
-
-                video:
-                    videoData || "",
-
-                createdAt:
-                    nowISO(),
-
-                updatedAt:
-                    nowISO()
-            };
-
-
-            showrooms.push(
-                showroom
-            );
-
-
-            if (
-                !saveJSON(
-                    CONFIG.showroomsKey,
-                    showrooms
-                )
-            ) {
-
-                showStatus(
-                    status,
-                    "Unable to save showroom advertisement. Storage may be full.",
-                    true
-                );
-
-                return false;
-            }
-
-
-            clearShowroomForm();
-
-
-            showStatus(
-                status,
-                "Business/showroom advertisement saved successfully.",
-                false
-            );
-
-
-            renderShowrooms();
-
-
-            return true;
-
-        } catch (error) {
-
-            console.error(
-                "Showroom save error:",
-                error
-            );
-
-
-            showStatus(
-                status,
-                "Unable to save showroom advertisement.",
-                true
-            );
-
-
-            return false;
-        }
-    }
-
-
-    /* =====================================================
-       CLEAR SHOWROOM
-       ===================================================== */
-
-    function clearShowroomForm() {
-
-        const form =
-            $("rmShowroomForm");
-
-
-        if (form) {
-
-            form.reset();
-
-            delete form.dataset.editId;
-        }
-
-
-        const email =
-            $("rmShowroomEmail");
-
-
-        if (
-            email &&
-            getCurrentUserEmail()
-        ) {
-
-            email.value =
-                getCurrentUserEmail();
-        }
-
-
-        showroomPaymentVerified =
-            false;
-    }
-
-
-    /* =====================================================
-       EDIT SHOWROOM
-       ===================================================== */
-
-    function editShowroom(id) {
-
-        if (
-            !requireLogin(
-                $("rmShowroomStatus")
-            )
-        ) {
-
-            return;
-        }
-
-
-        const showrooms =
-            loadJSON(
-                CONFIG.showroomsKey,
-                []
-            );
-
-
-        const showroom =
-            showrooms.find(
-                function (item) {
-
-                    return item.id === id;
-                }
-            );
-
-
-        if (!showroom) {
-
-            return;
-        }
-
-
-        if (
-            showroom.ownerEmail !==
-            getCurrentUserEmail()
-        ) {
-
-            showStatus(
-                $("rmShowroomStatus"),
-                "You can edit only your own advertisement.",
-                true
-            );
-
-            return;
-        }
-
-
-        const form =
-            $("rmShowroomForm");
-
-
-        if (!form) {
-
-            return;
-        }
-
-
-        form.dataset.editId =
-            id;
-
-
-        if ($("rmShowroomName")) {
-
-            $("rmShowroomName").value =
-                showroom.name || "";
-        }
-
-
-        if ($("rmShowroomType")) {
-
-            $("rmShowroomType").value =
-                showroom.type || "";
-        }
-
-
-        if ($("rmShowroomReachGlobal")) {
-
-            $("rmShowroomReachGlobal")
-                .checked =
-                !!showroom.reachGlobal;
-        }
-
-
-        if (
-            $("rmShowroomReachInternational")
-        ) {
-
-            $("rmShowroomReachInternational")
-                .checked =
-                !!showroom.reachInternational;
-        }
-
-
-        if ($("rmShowroomCountry")) {
-
-            $("rmShowroomCountry").value =
-                showroom.country || "";
-        }
-
-
-        if ($("rmShowroomState")) {
-
-            $("rmShowroomState").value =
-                showroom.state || "";
-        }
-
-
-        if ($("rmShowroomPin")) {
-
-            $("rmShowroomPin").value =
-                showroom.pin || "";
-        }
-
-
-        if ($("rmShowroomEmail")) {
-
-            $("rmShowroomEmail").value =
-                showroom.email ||
-                getCurrentUserEmail();
-        }
-
-
-        if ($("rmShowroomDescription")) {
-
-            $("rmShowroomDescription").value =
-                showroom.description || "";
-        }
-
-
-        showroomPaymentVerified =
-            true;
-
-
-        form.scrollIntoView({
-
-            behavior: "smooth",
-
-            block: "start"
-
-        });
-    }
-
-
-    /* =====================================================
-       DELETE SHOWROOM
-       ===================================================== */
-
-    function deleteShowroom(id) {
-
-        if (
-            !requireLogin(
-                $("rmShowroomStatus")
-            )
-        ) {
-
-            return;
-        }
-
-
-        const showrooms =
-            loadJSON(
-                CONFIG.showroomsKey,
-                []
-            );
-
-
-        const showroom =
-            showrooms.find(
-                function (item) {
-
-                    return item.id === id;
-                }
-            );
-
-
-        if (!showroom) {
-
-            return;
-        }
-
-
-        if (
-            showroom.ownerEmail !==
-            getCurrentUserEmail()
-        ) {
-
-            showStatus(
-                $("rmShowroomStatus"),
-                "You can delete only your own advertisement.",
-                true
-            );
-
-            return;
-        }
-
-
-        if (
-            !window.confirm(
-                "Delete this business/showroom advertisement?"
-            )
-        ) {
-
-            return;
-        }
-
-
-        const remaining =
-            showrooms.filter(
-                function (item) {
-
-                    return item.id !== id;
-                }
-            );
-
-
-        saveJSON(
-            CONFIG.showroomsKey,
-            remaining
         );
 
-
-        showStatus(
-            $("rmShowroomStatus"),
-            "Business/showroom advertisement deleted.",
-            false
-        );
-
-
-        renderShowrooms();
-    }
-
-
-    /* =====================================================
-       SHOWROOM CARD
-       ===================================================== */
-
-    function renderShowroomCard(showroom) {
-
-        const image =
-            showroom.image
-                ? `
-                    <img
-                        src="${showroom.image}"
-                        alt="${escapeHTML(
-                            showroom.name
-                        )}"
-                        loading="lazy"
-                    >
-                  `
-                : "";
-
-
-        const video =
-            showroom.video
-                ? `
-                    <video
-                        controls
-                        preload="metadata"
-                    >
-                        <source
-                            src="${showroom.video}"
-                        >
-                    </video>
-                  `
-                : "";
-
-
-        const reach = [];
-
-
-        if (
-            showroom.reachGlobal
-        ) {
-
-            reach.push(
-                "Global / Worldwide"
-            );
-        }
-
-
-        if (
-            showroom.reachInternational
-        ) {
-
-            reach.push(
-                "International"
-            );
-        }
-
-
-        const location = [
-
-            showroom.countryFlag || "",
-
-            showroom.countryName ||
-            showroom.country ||
-            "",
-
-            showroom.countryCode
-                ? "(" +
-                  showroom.countryCode +
-                  ")"
-                : "",
-
-            showroom.countryCallingCode ||
-            "",
-
-            showroom.state || "",
-
-            showroom.pin
-                ? "PIN " +
-                  showroom.pin
-                : ""
-
-        ]
-        .filter(Boolean)
-        .join(" ");
-
-
-        return `
-
-            <article
-                class="rm-showroom-card"
-                data-showroom-id="${escapeHTML(
-                    showroom.id
-                )}"
-            >
-
-                <div class="rm-showroom-media">
-
-                    ${image}
-
-                    ${video}
-
-                </div>
-
-
-                <div class="rm-showroom-content">
-
-                    <div class="rm-showroom-badge">
-
-                        Business / Showroom
-
-                    </div>
-
-
-                    <h3>
-
-                        ${escapeHTML(
-                            showroom.name
-                        )}
-
-                    </h3>
-
-
-                    <p>
-
-                        <strong>
-                            Type:
-                        </strong>
-
-                        ${escapeHTML(
-                            showroom.type
-                        )}
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Reach:
-                        </strong>
-
-                        ${escapeHTML(
-                            reach.join(" + ")
-                        )}
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Country:
-                        </strong>
-
-                        ${escapeHTML(
-                            location
-                        )}
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Advertisement:
-                        </strong>
-
-                        $${CONFIG.showroomPrice}
-                        USD
-
-                    </p>
-
-
-                    ${
-                        showroom.description
-                            ? `
-                                <p
-                                    class="rm-description"
-                                >
-
-                                    ${escapeHTML(
-                                        showroom.description
-                                    )}
-
-                                </p>
-                              `
-                            : ""
-                    }
-
-
-                    <div
-                        class="rm-owner-actions"
-                    >
-
-                        <button
-                            type="button"
-                            data-action="edit-showroom"
-                            data-id="${escapeHTML(
-                                showroom.id
-                            )}"
-                        >
-                            Edit
-                        </button>
-
-
-                        <button
-                            type="button"
-                            data-action="delete-showroom"
-                            data-id="${escapeHTML(
-                                showroom.id
-                            )}"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-        `;
-    }
-
-
-    /* =====================================================
-       RENDER SHOWROOMS
-       ===================================================== */
-
-    function renderShowrooms() {
-
-        const container =
-            $("rmShowrooms");
-
-
-        if (!container) {
-
-            return;
-        }
-
-
-        if (!isLoggedIn()) {
-
-            container.innerHTML =
-                "<p>Please login to view your saved business/showroom advertisements.</p>";
-
-            return;
-        }
-
-
-        const showrooms =
-            loadJSON(
-                CONFIG.showroomsKey,
-                []
-            );
-
-
-        const email =
-            getCurrentUserEmail();
-
-
-        const ownShowrooms =
-            Array.isArray(showrooms)
-                ? showrooms.filter(
-                    function (item) {
-
-                        return (
-                            item.ownerEmail ===
-                            email
-                        );
-                    }
-                )
-                : [];
-
-
-        if (!ownShowrooms.length) {
-
-            container.innerHTML =
-                "<p>You have no saved business/showroom advertisements yet.</p>";
-
-            return;
-        }
-
-
-        container.innerHTML =
-            ownShowrooms
-                .slice()
-                .reverse()
-                .map(
-                    renderShowroomCard
-                )
-                .join("");
-
-
-        bindShowroomCardActions();
-    }
-
-
-    function bindShowroomCardActions() {
-
-        const container =
-            $("rmShowrooms");
-
-
-        if (!container) {
-
-            return;
-        }
-
-
-        container
-            .querySelectorAll(
-                "[data-action='edit-showroom']"
-            )
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            editShowroom(
-                                button.dataset.id
-                            );
-                        }
-                    );
-                }
-            );
-
-
-        container
-            .querySelectorAll(
-                "[data-action='delete-showroom']"
-            )
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            deleteShowroom(
-                                button.dataset.id
-                            );
-                        }
-                    );
-                }
-            );
-    }
-
-
-    /* =====================================================
-       EVENTS
-       ===================================================== */
-
-    function bindEvents() {
-
-        const loginButton =
-            $("rmLoginButton");
-
-
-        if (loginButton) {
-
-            loginButton.addEventListener(
-                "click",
-                login
-            );
-        }
-
-
-        const logoutButton =
-            $("rmLogoutButton");
-
-
-        if (logoutButton) {
-
-            logoutButton.addEventListener(
-                "click",
-                logout
-            );
-        }
-
-
-        const listingType =
-            $("rmListingType");
-
-
-        if (listingType) {
-
-            listingType.addEventListener(
-                "change",
-                populateListingCategories
-            );
-        }
-
-
-        const saveListingButton =
-            $("rmSaveListingButton");
-
-
-        if (saveListingButton) {
-
-            saveListingButton.addEventListener(
-                "click",
-                saveListing
-            );
-        }
-
-
-        const cancelListingButton =
-            $("rmCancelListingEditButton");
-
-
-        if (cancelListingButton) {
-
-            cancelListingButton.addEventListener(
-                "click",
-                clearListingForm
-            );
-        }
-
-
-        const connectPaymentButton =
-            $("rmConnectPaymentButton");
-
-
-        if (connectPaymentButton) {
-
-            connectPaymentButton.addEventListener(
-                "click",
-                connectPaymentAccount
-            );
-        }
-
-
-        const payShowroomButton =
-            $("rmPayShowroomButton");
-
-
-        if (payShowroomButton) {
-
-            payShowroomButton.addEventListener(
-                "click",
-                verifyShowroomPayment
-            );
-        }
-
-
-        const publishShowroomButton =
-            $("rmPublishShowroomButton");
-
-
-        if (publishShowroomButton) {
-
-            publishShowroomButton.addEventListener(
-                "click",
-                saveShowroom
-            );
-        }
-
-
-        const resetShowroomButton =
-            $("rmResetShowroomButton");
-
-
-        if (resetShowroomButton) {
-
-            resetShowroomButton.addEventListener(
-                "click",
-                clearShowroomForm
-            );
-        }
-
-
-        const loginBox =
-            $("rmLoginBox");
-
-
-        if (loginBox) {
-
-            loginBox.addEventListener(
-                "keydown",
-                function (event) {
-
-                    if (
-                        event.key ===
-                        "Enter"
-                    ) {
-
-                        event.preventDefault();
-
-                        login();
-                    }
-                }
-            );
-        }
-    }
-
-
-    /* =====================================================
-       INIT
-       ===================================================== */
-
-    function init() {
 
         populateListingCategories();
 
         populateConditionOptions();
 
         populateRegularMarketplaceCountries();
+
+
+        editingListingId = null;
+
+
+        const cancelButton = byId(
+
+            "rmCancelEditBtn"
+
+        );
+
+
+        if (cancelButton) {
+
+            cancelButton.classList.add(
+
+                "rm-hidden"
+
+            );
+
+        }
+
+
+        const button = byId(
+
+            "rmSaveListingBtn"
+
+        );
+
+
+        if (button) {
+
+            button.textContent =
+
+                "Save Listing";
+
+        }
+
+    }
+
+
+    function loadListingForEdit(
+
+        listing
+
+    ) {
+
+        if (!listing) {
+
+            return;
+
+        }
+
+
+        editingListingId =
+
+            listing.id;
+
+
+        const typeSelect = byId(
+
+            "rmListingType"
+
+        );
+
+
+        if (typeSelect) {
+
+            typeSelect.value =
+
+                listing.type || "";
+
+            typeSelect.dispatchEvent(
+
+                new Event("change")
+
+            );
+
+        }
+
+
+        const category = byId(
+
+            "rmCategory"
+
+        );
+
+
+        if (category) {
+
+            category.value =
+
+                listing.category || "";
+
+        }
+
+
+        const condition = byId(
+
+            "rmCondition"
+
+        );
+
+
+        if (condition) {
+
+            condition.value =
+
+                listing.condition || "";
+
+        }
+
+
+        const fields = {
+
+            rmTitle:
+
+                listing.title,
+
+            rmPrice:
+
+                listing.price,
+
+            rmState:
+
+                listing.state,
+
+            rmPin:
+
+                listing.pin,
+
+            rmEmail:
+
+                listing.email,
+
+            rmDescription:
+
+                listing.description
+
+        };
+
+
+        Object.keys(fields).forEach(
+
+            function (id) {
+
+                const element =
+
+                    byId(id);
+
+
+                if (element) {
+
+                    element.value =
+
+                        fields[id] || "";
+
+                }
+
+            }
+
+        );
+
+
+        populateRegularMarketplaceCountries();
+
+
+        const countrySelect = byId(
+
+            "rmCountry"
+
+        );
+
+
+        if (countrySelect) {
+
+            countrySelect.value =
+
+                listing.countryCode ||
+
+                listing.countryName ||
+
+                "";
+
+        }
+
+
+        const cancelButton = byId(
+
+            "rmCancelEditBtn"
+
+        );
+
+
+        if (cancelButton) {
+
+            cancelButton.classList.remove(
+
+                "rm-hidden"
+
+            );
+
+        }
+
+
+        const saveButton = byId(
+
+            "rmSaveListingBtn"
+
+        );
+
+
+        if (saveButton) {
+
+            saveButton.textContent =
+
+                "Update Listing";
+
+        }
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+    async function saveListing() {
+
+        const account =
+
+            getCurrentAccount();
+
+
+        if (!account) {
+
+            alert(
+
+                "Please login first."
+
+            );
+
+            return;
+
+        }
+
+
+        const type = byId(
+
+            "rmListingType"
+
+        );
+
+        const category = byId(
+
+            "rmCategory"
+
+        );
+
+        const condition = byId(
+
+            "rmCondition"
+
+        );
+
+        const title = byId(
+
+            "rmTitle"
+
+        );
+
+        const price = byId(
+
+            "rmPrice"
+
+        );
+
+        const state = byId(
+
+            "rmState"
+
+        );
+
+        const pin = byId(
+
+            "rmPin"
+
+        );
+
+        const email = byId(
+
+            "rmEmail"
+
+        );
+
+        const description = byId(
+
+            "rmDescription"
+
+        );
+
+        const image = byId(
+
+            "rmImage"
+
+        );
+
+        const video = byId(
+
+            "rmVideo"
+
+        );
+
+
+        if (
+
+            !type ||
+
+            !type.value
+
+        ) {
+
+            alert(
+
+                "Please select listing type."
+
+            );
+
+            return;
+
+        }
+
+
+        if (
+
+            !category ||
+
+            !category.value
+
+        ) {
+
+            alert(
+
+                "Please select category."
+
+            );
+
+            return;
+
+        }
+
+
+        if (
+
+            !title ||
+
+            !title.value.trim()
+
+        ) {
+
+            alert(
+
+                "Please enter listing title."
+
+            );
+
+            return;
+
+        }
+
+
+        const selectedCountry =
+
+            getSelectedCountry(
+
+                "rmCountry"
+
+            );
+
+
+        if (!selectedCountry) {
+
+            alert(
+
+                "Please select country."
+
+            );
+
+            return;
+
+        }
+
+
+        const imageFile =
+
+            image && image.files
+
+                ? image.files[0]
+
+                : null;
+
+
+        const videoFile =
+
+            video && video.files
+
+                ? video.files[0]
+
+                : null;
+
+
+        if (
+
+            !validateMediaFile(
+
+                imageFile,
+
+                "image"
+
+            )
+
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+
+            !validateMediaFile(
+
+                videoFile,
+
+                "video"
+
+            )
+
+        ) {
+
+            return;
+
+        }
+
+
+        const imageData =
+
+            await fileToDataURL(
+
+                imageFile
+
+            );
+
+
+        const videoData =
+
+            await fileToDataURL(
+
+                videoFile
+
+            );
+
+
+        const listings =
+
+            getAllListings();
+
+
+        if (editingListingId) {
+
+            const index =
+
+                listings.findIndex(
+
+                    function (item) {
+
+                        return (
+
+                            item.id ===
+
+                            editingListingId &&
+
+                            item.ownerEmail ===
+
+                            account.email
+
+                        );
+
+                    }
+
+                );
+
+
+            if (index === -1) {
+
+                alert(
+
+                    "Listing not found."
+
+                );
+
+                return;
+
+            }
+
+
+            const old =
+
+                listings[index];
+
+
+            listings[index] = {
+
+                ...old,
+
+                type:
+
+                    type.value,
+
+                category:
+
+                    category.value,
+
+                condition:
+
+                    condition.value,
+
+                title:
+
+                    title.value.trim(),
+
+                price:
+
+                    price.value,
+
+                countryName:
+
+                    selectedCountry.name,
+
+                countryCode:
+
+                    selectedCountry.iso2,
+
+                countryISO3:
+
+                    selectedCountry.iso3,
+
+                callingCode:
+
+                    selectedCountry.callingCode,
+
+                countryFlag:
+
+                    selectedCountry.flag,
+
+                state:
+
+                    state
+
+                        ? state.value.trim()
+
+                        : "",
+
+                pin:
+
+                    pin
+
+                        ? pin.value.trim()
+
+                        : "",
+
+                email:
+
+                    email
+
+                        ? email.value.trim()
+
+                        : account.email,
+
+                description:
+
+                    description
+
+                        ? description.value.trim()
+
+                        : "",
+
+                updatedAt:
+
+                    Date.now()
+
+            };
+
+
+            if (imageData) {
+
+                listings[index].image =
+
+                    imageData;
+
+            }
+
+
+            if (videoData) {
+
+                listings[index].video =
+
+                    videoData;
+
+            }
+
+
+        } else {
+
+            listings.push({
+
+                id:
+
+                    generateId(
+
+                        "listing"
+
+                    ),
+
+                ownerEmail:
+
+                    account.email,
+
+                type:
+
+                    type.value,
+
+                category:
+
+                    category.value,
+
+                condition:
+
+                    condition.value,
+
+                title:
+
+                    title.value.trim(),
+
+                price:
+
+                    price.value,
+
+                countryName:
+
+                    selectedCountry.name,
+
+                countryCode:
+
+                    selectedCountry.iso2,
+
+                countryISO3:
+
+                    selectedCountry.iso3,
+
+                callingCode:
+
+                    selectedCountry.callingCode,
+
+                countryFlag:
+
+                    selectedCountry.flag,
+
+                state:
+
+                    state
+
+                        ? state.value.trim()
+
+                        : "",
+
+                pin:
+
+                    pin
+
+                        ? pin.value.trim()
+
+                        : "",
+
+                email:
+
+                    email
+
+                        ? email.value.trim()
+
+                        : account.email,
+
+                description:
+
+                    description
+
+                        ? description.value.trim()
+
+                        : "",
+
+                image:
+
+                    imageData,
+
+                video:
+
+                    videoData,
+
+                createdAt:
+
+                    Date.now(),
+
+                updatedAt:
+
+                    Date.now()
+
+            });
+
+        }
+
+
+        saveAllListings(
+
+            listings
+
+        );
+
+
+        alert(
+
+            editingListingId
+
+                ? "Listing updated successfully."
+
+                : "Listing saved successfully."
+
+        );
+
+
+        resetListingForm();
+
+        renderListings();
+
+    }
+
+
+    function deleteListing(id) {
+
+        const account =
+
+            getCurrentAccount();
+
+
+        if (!account) {
+
+            return;
+
+        }
+
+
+        const confirmed =
+
+            confirm(
+
+                "Delete this listing?"
+
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const listings =
+
+            getAllListings();
+
+
+        const filtered =
+
+            listings.filter(
+
+                function (listing) {
+
+                    return ! (
+
+                        listing.id === id &&
+
+                        listing.ownerEmail ===
+
+                            account.email
+
+                    );
+
+                }
+
+            );
+
+
+        saveAllListings(
+
+            filtered
+
+        );
+
+
+        renderListings();
+
+    }
+
+
+    /* =========================================================
+       LISTING RENDER
+       ========================================================= */
+
+    function renderListings() {
+
+        const container = byId(
+
+            "rmListings"
+
+        );
+
+
+        if (!container) {
+
+            return;
+
+        }
+
+
+        const listings =
+
+            getMyListings();
+
+
+        if (!listings.length) {
+
+            container.innerHTML =
+
+                '<p class="rm-muted">' +
+
+                "No listings yet." +
+
+                "</p>";
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        listings
+
+            .slice()
+
+            .reverse()
+
+            .forEach(
+
+                function (listing) {
+
+                    const card =
+
+                        document.createElement(
+
+                            "div"
+
+                        );
+
+
+                    card.className =
+
+                        "rm-listing";
+
+
+                    const title =
+
+                        escapeHTML(
+
+                            listing.title
+
+                        );
+
+
+                    const price =
+
+                        escapeHTML(
+
+                            listing.price
+
+                        );
+
+
+                    const country =
+
+                        escapeHTML(
+
+                            (
+
+                                listing.countryFlag ||
+
+                                "🌍"
+
+                            ) +
+
+                            " " +
+
+                            (
+
+                                listing.countryName ||
+
+                                ""
+
+                            ) +
+
+                            (
+
+                                listing.countryCode
+
+                                    ? " (" +
+
+                                      listing.countryCode +
+
+                                      ")"
+
+                                    : ""
+
+                            )
+
+                        );
+
+
+                    const location =
+
+                        escapeHTML(
+
+                            [
+
+                                listing.state,
+
+                                listing.pin
+
+                            ]
+
+                                .filter(Boolean)
+
+                                .join(", ")
+
+                        );
+
+
+                    card.innerHTML =
+
+                        "<h3>" +
+
+                        title +
+
+                        "</h3>" +
+
+                        '<div class="rm-price">' +
+
+                        (
+
+                            price
+
+                                ? "$" +
+
+                                  price
+
+                                : "Price on request"
+
+                        ) +
+
+                        "</div>" +
+
+                        "<p>" +
+
+                        "<strong>Type:</strong> " +
+
+                        escapeHTML(
+
+                            listing.type
+
+                        ) +
+
+                        "</p>" +
+
+                        "<p>" +
+
+                        "<strong>Category:</strong> " +
+
+                        escapeHTML(
+
+                            listing.category
+
+                        ) +
+
+                        "</p>" +
+
+                        "<p>" +
+
+                        "<strong>Condition:</strong> " +
+
+                        escapeHTML(
+
+                            listing.condition
+
+                        ) +
+
+                        "</p>" +
+
+                        "<p>" +
+
+                        "<strong>Country:</strong> " +
+
+                        country +
+
+                        "</p>" +
+
+                        (
+
+                            location
+
+                                ? "<p>" +
+
+                                  "<strong>Location:</strong> " +
+
+                                  location +
+
+                                  "</p>"
+
+                                : ""
+
+                        ) +
+
+                        (
+
+                            listing.description
+
+                                ? "<p>" +
+
+                                  escapeHTML(
+
+                                      listing.description
+
+                                  ) +
+
+                                  "</p>"
+
+                                : ""
+
+                        );
+
+
+                    if (listing.image) {
+
+                        const image =
+
+                            document.createElement(
+
+                                "img"
+
+                            );
+
+
+                        image.src =
+
+                            listing.image;
+
+
+                        image.alt =
+
+                            title;
+
+
+                        card.appendChild(
+
+                            image
+
+                        );
+
+                    }
+
+
+                    if (listing.video) {
+
+                        const video =
+
+                            document.createElement(
+
+                                "video"
+
+                            );
+
+
+                        video.src =
+
+                            listing.video;
+
+
+                        video.controls =
+
+                            true;
+
+
+                        card.appendChild(
+
+                            video
+
+                        );
+
+                    }
+
+
+                    const editButton =
+
+                        document.createElement(
+
+                            "button"
+
+                        );
+
+
+                    editButton.className =
+
+                        "rm-btn";
+
+
+                    editButton.textContent =
+
+                        "Edit";
+
+
+                    editButton.type =
+
+                        "button";
+
+
+                    editButton.addEventListener(
+
+                        "click",
+
+                        function () {
+
+                            loadListingForEdit(
+
+                                listing
+
+                            );
+
+                        }
+
+                    );
+
+
+                    const deleteButton =
+
+                        document.createElement(
+
+                            "button"
+
+                        );
+
+
+                    deleteButton.className =
+
+                        "rm-btn rm-btn-danger";
+
+
+                    deleteButton.textContent =
+
+                        "Delete";
+
+
+                    deleteButton.type =
+
+                        "button";
+
+
+                    deleteButton.addEventListener(
+
+                        "click",
+
+                        function () {
+
+                            deleteListing(
+
+                                listing.id
+
+                            );
+
+                        }
+
+                    );
+
+
+                    card.appendChild(
+
+                        editButton
+
+                    );
+
+
+                    card.appendChild(
+
+                        deleteButton
+
+                    );
+
+
+                    container.appendChild(
+
+                        card
+
+                    );
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       SHOWROOM STORAGE
+       ========================================================= */
+
+    function getAllShowrooms() {
+
+        const showrooms =
+
+            readStorage(
+
+                CONFIG.storage.showrooms,
+
+                []
+
+            );
+
+
+        return Array.isArray(showrooms)
+
+            ? showrooms
+
+            : [];
+
+    }
+
+
+    function saveAllShowrooms(
+
+        showrooms
+
+    ) {
+
+        return writeStorage(
+
+            CONFIG.storage.showrooms,
+
+            showrooms
+
+        );
+
+    }
+
+
+    function getMyShowrooms() {
+
+        const account =
+
+            getCurrentAccount();
+
+
+        if (!account) {
+
+            return [];
+
+        }
+
+
+        return getAllShowrooms()
+
+            .filter(
+
+                function (showroom) {
+
+                    return (
+
+                        showroom.ownerEmail ===
+
+                        account.email
+
+                    );
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       SHOWROOM EDIT STATE
+       ========================================================= */
+
+    let editingShowroomId = null;
+
+
+    function resetShowroomForm() {
+
+        const ids = [
+
+            "rmShowroomName",
+
+            "rmShowroomCountry",
+
+            "rmShowroomState",
+
+            "rmShowroomDistrict",
+
+            "rmShowroomTaluka",
+
+            "rmShowroomPin",
+
+            "rmShowroomCategory",
+
+            "rmShowroomEmail",
+
+            "rmShowroomDescription",
+
+            "rmShowroomImage",
+
+            "rmShowroomVideo",
+
+            "rmShowroomReach"
+
+        ];
+
+
+        ids.forEach(
+
+            function (id) {
+
+                const element =
+
+                    byId(id);
+
+
+                if (!element) {
+
+                    return;
+
+                }
+
+
+                if (
+
+                    element.tagName ===
+
+                    "SELECT"
+
+                ) {
+
+                    element.selectedIndex =
+
+                        0;
+
+                } else {
+
+                    element.value = "";
+
+                }
+
+            }
+
+        );
+
+
+        populateRegularMarketplaceCountries();
+
+
+        editingShowroomId = null;
+
+
+        const cancelButton = byId(
+
+            "rmCancelShowroomEditBtn"
+
+        );
+
+
+        if (cancelButton) {
+
+            cancelButton.classList.add(
+
+                "rm-hidden"
+
+            );
+
+        }
+
+
+        const button = byId(
+
+            "rmSaveShowroomBtn"
+
+        );
+
+
+        if (button) {
+
+            button.textContent =
+
+                "Save Advertisement";
+
+        }
+
+    }
+
+
+    function loadShowroomForEdit(
+
+        showroom
+
+    ) {
+
+        if (!showroom) {
+
+            return;
+
+        }
+
+
+        editingShowroomId =
+
+            showroom.id;
+
+
+        const fields = {
+
+            rmShowroomName:
+
+                showroom.name,
+
+            rmShowroomState:
+
+                showroom.state,
+
+            rmShowroomDistrict:
+
+                showroom.district,
+
+            rmShowroomTaluka:
+
+                showroom.taluka,
+
+            rmShowroomPin:
+
+                showroom.pin,
+
+            rmShowroomEmail:
+
+                showroom.email,
+
+            rmShowroomDescription:
+
+                showroom.description
+
+        };
+
+
+        Object.keys(fields).forEach(
+
+            function (id) {
+
+                const element =
+
+                    byId(id);
+
+
+                if (element) {
+
+                    element.value =
+
+                        fields[id] || "";
+
+                }
+
+            }
+
+        );
+
+
+        const category = byId(
+
+            "rmShowroomCategory"
+
+        );
+
+
+        if (category) {
+
+            category.value =
+
+                showroom.category || "";
+
+        }
+
+
+        const reach = byId(
+
+            "rmShowroomReach"
+
+        );
+
+
+        if (reach) {
+
+            reach.value =
+
+                showroom.reach ||
+
+                "global";
+
+        }
+
+
+        populateRegularMarketplaceCountries();
+
+
+        const country = byId(
+
+            "rmShowroomCountry"
+
+        );
+
+
+        if (country) {
+
+            country.value =
+
+                showroom.countryCode ||
+
+                showroom.countryName ||
+
+                "";
+
+        }
+
+
+        const cancelButton = byId(
+
+            "rmCancelShowroomEditBtn"
+
+        );
+
+
+        if (cancelButton) {
+
+            cancelButton.classList.remove(
+
+                "rm-hidden"
+
+            );
+
+        }
+
+
+        const saveButton = byId(
+
+            "rmSaveShowroomBtn"
+
+        );
+
+
+        if (saveButton) {
+
+            saveButton.textContent =
+
+                "Update Advertisement";
+
+        }
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+    async function saveShowroom() {
+
+        const account =
+
+            getCurrentAccount();
+
+
+        if (!account) {
+
+            alert(
+
+                "Please login first."
+
+            );
+
+            return;
+
+        }
+
+
+        const name = byId(
+
+            "rmShowroomName"
+
+        );
+
+        const country =
+
+            getSelectedCountry(
+
+                "rmShowroomCountry"
+
+            );
+
+
+        const state = byId(
+
+            "rmShowroomState"
+
+        );
+
+        const district = byId(
+
+            "rmShowroomDistrict"
+
+        );
+
+        const taluka = byId(
+
+            "rmShowroomTaluka"
+
+        );
+
+        const pin = byId(
+
+            "rmShowroomPin"
+
+        );
+
+        const category = byId(
+
+            "rmShowroomCategory"
+
+        );
+
+        const email = byId(
+
+            "rmShowroomEmail"
+
+        );
+
+        const description = byId(
+
+            "rmShowroomDescription"
+
+        );
+
+        const image = byId(
+
+            "rmShowroomImage"
+
+        );
+
+        const video = byId(
+
+            "rmShowroomVideo"
+
+        );
+
+        const reach = byId(
+
+            "rmShowroomReach"
+
+        );
+
+
+        if (
+
+            !name ||
+
+            !name.value.trim()
+
+        ) {
+
+            alert(
+
+                "Please enter business / showroom name."
+
+            );
+
+            return;
+
+        }
+
+
+        if (!country) {
+
+            alert(
+
+                "Please select country."
+
+            );
+
+            return;
+
+        }
+
+
+        const imageFile =
+
+            image && image.files
+
+                ? image.files[0]
+
+                : null;
+
+
+        const videoFile =
+
+            video && video.files
+
+                ? video.files[0]
+
+                : null;
+
+
+        if (
+
+            !validateMediaFile(
+
+                imageFile,
+
+                "image"
+
+            )
+
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+
+            !validateMediaFile(
+
+                videoFile,
+
+                "video"
+
+            )
+
+        ) {
+
+            return;
+
+        }
+
+
+        const imageData =
+
+            await fileToDataURL(
+
+                imageFile
+
+            );
+
+
+        const videoData =
+
+            await fileToDataURL(
+
+                videoFile
+
+            );
+
+
+        const showrooms =
+
+            getAllShowrooms();
+
+
+        if (editingShowroomId) {
+
+            const index =
+
+                showrooms.findIndex(
+
+                    function (item) {
+
+                        return (
+
+                            item.id ===
+
+                            editingShowroomId &&
+
+                            item.ownerEmail ===
+
+                            account.email
+
+                        );
+
+                    }
+
+                );
+
+
+            if (index === -1) {
+
+                alert(
+
+                    "Advertisement not found."
+
+                );
+
+                return;
+
+            }
+
+
+            const old =
+
+                showrooms[index];
+
+
+            showrooms[index] = {
+
+                ...old,
+
+                name:
+
+                    name.value.trim(),
+
+                countryName:
+
+                    country.name,
+
+                countryCode:
+
+                    country.iso2,
+
+                countryISO3:
+
+                    country.iso3,
+
+                callingCode:
+
+                    country.callingCode,
+
+                countryFlag:
+
+                    country.flag,
+
+                state:
+
+                    state
+
+                        ? state.value.trim()
+
+                        : "",
+
+                district:
+
+                    district
+
+                        ? district.value.trim()
+
+                        : "",
+
+                taluka:
+
+                    taluka
+
+                        ? taluka.value.trim()
+
+                        : "",
+
+                pin:
+
+                    pin
+
+                        ? pin.value.trim()
+
+                        : "",
+
+                category:
+
+                    category
+
+                        ? category.value
+
+                        : "",
+
+                email:
+
+                    email
+
+                        ? email.value.trim()
+
+                        : account.email,
+
+                description:
+
+                    description
+
+                        ? description.value.trim()
+
+                        : "",
+
+                reach:
+
+                    reach
+
+                        ? reach.value
+
+                        : "global",
+
+                updatedAt:
+
+                    Date.now()
+
+            };
+
+
+            if (imageData) {
+
+                showrooms[index].image =
+
+                    imageData;
+
+            }
+
+
+            if (videoData) {
+
+                showrooms[index].video =
+
+                    videoData;
+
+            }
+
+        } else {
+
+            showrooms.push({
+
+                id:
+
+                    generateId(
+
+                        "showroom"
+
+                    ),
+
+                ownerEmail:
+
+                    account.email,
+
+                name:
+
+                    name.value.trim(),
+
+                countryName:
+
+                    country.name,
+
+                countryCode:
+
+                    country.iso2,
+
+                countryISO3:
+
+                    country.iso3,
+
+                callingCode:
+
+                    country.callingCode,
+
+                countryFlag:
+
+                    country.flag,
+
+                state:
+
+                    state
+
+                        ? state.value.trim()
+
+                        : "",
+
+                district:
+
+                    district
+
+                        ? district.value.trim()
+
+                        : "",
+
+                taluka:
+
+                    taluka
+
+                        ? taluka.value.trim()
+
+                        : "",
+
+                pin:
+
+                    pin
+
+                        ? pin.value.trim()
+
+                        : "",
+
+                category:
+
+                    category
+
+                        ? category.value
+
+                        : "",
+
+                email:
+
+                    email
+
+                        ? email.value.trim()
+
+                        : account.email,
+
+                description:
+
+                    description
+
+                        ? description.value.trim()
+
+                        : "",
+
+                reach:
+
+                    reach
+
+                        ? reach.value
+
+                        : "global",
+
+                price:
+
+                    CONFIG.showroomPrice,
+
+                currency:
+
+                    CONFIG.currency,
+
+                paid:
+
+                    false,
+
+                image:
+
+                    imageData,
+
+                video:
+
+                    videoData,
+
+                createdAt:
+
+                    Date.now(),
+
+                updatedAt:
+
+                    Date.now()
+
+            });
+
+        }
+
+
+        saveAllShowrooms(
+
+            showrooms
+
+        );
+
+
+        alert(
+
+            editingShowroomId
+
+                ? "Advertisement updated successfully."
+
+                : "Advertisement saved successfully."
+
+        );
+
+
+        resetShowroomForm();
+
+        renderShowrooms();
+
+    }
+
+
+    function deleteShowroom(id) {
+
+        const account =
+
+            getCurrentAccount();
+
+
+        if (!account) {
+
+            return;
+
+        }
+
+
+        const confirmed =
+
+            confirm(
+
+                "Delete this advertisement?"
+
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        const showrooms =
+
+            getAllShowrooms();
+
+
+        const filtered =
+
+            showrooms.filter(
+
+                function (showroom) {
+
+                    return ! (
+
+                        showroom.id === id &&
+
+                        showroom.ownerEmail ===
+
+                            account.email
+
+                    );
+
+                }
+
+            );
+
+
+        saveAllShowrooms(
+
+            filtered
+
+        );
+
+
+        renderShowrooms();
+
+    }
+
+
+    /* =========================================================
+       SHOWROOM RENDER
+       ========================================================= */
+
+    function renderShowrooms() {
+
+        const container = byId(
+
+            "rmShowrooms"
+
+        );
+
+
+        if (!container) {
+
+            return;
+
+        }
+
+
+        const showrooms =
+
+            getMyShowrooms();
+
+
+        if (!showrooms.length) {
+
+            container.innerHTML =
+
+                '<p class="rm-muted">' +
+
+                "No advertisements yet." +
+
+                "</p>";
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        showrooms
+
+            .slice()
+
+            .reverse()
+
+            .forEach(
+
+                function (showroom) {
+
+                    const card =
+
+                        document.createElement(
+
+                            "div"
+
+                        );
+
+
+                    card.className =
+
+                        "rm-showroom";
+
+
+                    const reachText =
+
+                        showroom.reach ===
+
+                        "global"
+
+                            ? "Global Ad / All Countries"
+
+                            : showroom.reach ===
+
+                              "international"
+
+                                ? "International"
+
+                                : "Local";
+
+
+                    card.innerHTML =
+
+                        "<h3>" +
+
+                        escapeHTML(
+
+                            showroom.name
+
+                        ) +
+
+                        "</h3>" +
+
+                        "<p>" +
+
+                        "<strong>Country:</strong> " +
+
+                        escapeHTML(
+
+                            (
+
+                                showroom.countryFlag ||
+
+                                "🌍"
+
+                            ) +
+
+                            " " +
+
+                            (
+
+                                showroom.countryName ||
+
+                                ""
+
+                            ) +
+
+                            (
+
+                                showroom.countryCode
+
+                                    ? " (" +
+
+                                      showroom.countryCode +
+
+                                      ")"
+
+                                    : ""
+
+                            )
+
+                        ) +
+
+                        "</p>" +
+
+                        "<p>" +
+
+                        "<strong>Business:</strong> " +
+
+                        escapeHTML(
+
+                            showroom.category
+
+                        ) +
+
+                        "</p>" +
+
+                        "<p>" +
+
+                        "<strong>Reach:</strong> " +
+
+                        escapeHTML(
+
+                            reachText
+
+                        ) +
+
+                        "</p>" +
+
+                        "<p>" +
+
+                        "<strong>Advertisement:</strong> $10 USD</p>" +
+
+                        (
+
+                            showroom.description
+
+                                ? "<p>" +
+
+                                  escapeHTML(
+
+                                      showroom.description
+
+                                  ) +
+
+                                  "</p>"
+
+                                : ""
+
+                        );
+
+
+                    if (showroom.image) {
+
+                        const image =
+
+                            document.createElement(
+
+                                "img"
+
+                            );
+
+
+                        image.src =
+
+                            showroom.image;
+
+
+                        image.alt =
+
+                            showroom.name;
+
+
+                        card.appendChild(
+
+                            image
+
+                        );
+
+                    }
+
+
+                    if (showroom.video) {
+
+                        const video =
+
+                            document.createElement(
+
+                                "video"
+
+                            );
+
+
+                        video.src =
+
+                            showroom.video;
+
+
+                        video.controls =
+
+                            true;
+
+
+                        card.appendChild(
+
+                            video
+
+                        );
+
+                    }
+
+
+                    const editButton =
+
+                        document.createElement(
+
+                            "button"
+
+                        );
+
+
+                    editButton.type =
+
+                        "button";
+
+
+                    editButton.className =
+
+                        "rm-btn";
+
+
+                    editButton.textContent =
+
+                        "Edit";
+
+
+                    editButton.addEventListener(
+
+                        "click",
+
+                        function () {
+
+                            loadShowroomForEdit(
+
+                                showroom
+
+                            );
+
+                        }
+
+                    );
+
+
+                    const deleteButton =
+
+                        document.createElement(
+
+                            "button"
+
+                        );
+
+
+                    deleteButton.type =
+
+                        "button";
+
+
+                    deleteButton.className =
+
+                        "rm-btn rm-btn-danger";
+
+
+                    deleteButton.textContent =
+
+                        "Delete";
+
+
+                    deleteButton.addEventListener(
+
+                        "click",
+
+                        function () {
+
+                            deleteShowroom(
+
+                                showroom.id
+
+                            );
+
+                        }
+
+                    );
+
+
+                    card.appendChild(
+
+                        editButton
+
+                    );
+
+
+                    card.appendChild(
+
+                        deleteButton
+
+                    );
+
+
+                    container.appendChild(
+
+                        card
+
+                    );
+
+                }
+
+            );
+
+    }
+
+
+    /* =========================================================
+       $10 USD PAYMENT PROTOTYPE
+       ========================================================= */
+
+    function payShowroomAdvertisement() {
+
+        const account =
+
+            getCurrentAccount();
+
+
+        if (!account) {
+
+            alert(
+
+                "Please login first."
+
+            );
+
+            return;
+
+        }
+
+
+        alert(
+
+            "Showroom / Business Advertisement price is $10 USD.\n\nPayment integration can be connected separately."
+
+        );
+
+    }
+
+
+    /* =========================================================
+       EVENT BINDING
+       ========================================================= */
+
+    function bindEvents() {
+
+        const loginButton = byId(
+
+            "rmLoginBtn"
+
+        );
+
+
+        if (loginButton) {
+
+            loginButton.addEventListener(
+
+                "click",
+
+                loginUser
+
+            );
+
+        }
+
+
+        const registerButton = byId(
+
+            "rmRegisterBtn"
+
+        );
+
+
+        if (registerButton) {
+
+            registerButton.addEventListener(
+
+                "click",
+
+                registerUser
+
+            );
+
+        }
+
+
+        const logoutButton = byId(
+
+            "rmLogoutBtn"
+
+        );
+
+
+        if (logoutButton) {
+
+            logoutButton.addEventListener(
+
+                "click",
+
+                logoutUser
+
+            );
+
+        }
+
+
+        const saveListingButton = byId(
+
+            "rmSaveListingBtn"
+
+        );
+
+
+        if (saveListingButton) {
+
+            saveListingButton.addEventListener(
+
+                "click",
+
+                saveListing
+
+            );
+
+        }
+
+
+        const cancelListingButton =
+
+            byId(
+
+                "rmCancelEditBtn"
+
+            );
+
+
+        if (cancelListingButton) {
+
+            cancelListingButton.addEventListener(
+
+                "click",
+
+                resetListingForm
+
+            );
+
+        }
+
+
+        const saveShowroomButton =
+
+            byId(
+
+                "rmSaveShowroomBtn"
+
+            );
+
+
+        if (saveShowroomButton) {
+
+            saveShowroomButton.addEventListener(
+
+                "click",
+
+                saveShowroom
+
+            );
+
+        }
+
+
+        const cancelShowroomButton =
+
+            byId(
+
+                "rmCancelShowroomEditBtn"
+
+            );
+
+
+        if (cancelShowroomButton) {
+
+            cancelShowroomButton.addEventListener(
+
+                "click",
+
+                resetShowroomForm
+
+            );
+
+        }
+
+
+        const paymentButton = byId(
+
+            "rmPayShowroomBtn"
+
+        );
+
+
+        if (paymentButton) {
+
+            paymentButton.addEventListener(
+
+                "click",
+
+                payShowroomAdvertisement
+
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       INITIALIZATION
+       ========================================================= */
+
+    function init() {
+
+        console.log(
+
+            "ALON HISTORYVERSE 24 — Regular Marketpkes v" +
+
+            CONFIG.version +
+
+            " starting..."
+
+        );
+
+
+        populateListingCategories();
+
+        populateConditionOptions();
+
+
+        /*
+         * Country database is loaded BEFORE
+         * this JS from:
+         *
+         * ../marketplace-countries.js
+         */
+
+        startCountryRetry();
+
 
         bindEvents();
 
@@ -3785,112 +5120,90 @@
         renderShowrooms();
 
 
-        const email =
-            getCurrentUserEmail();
+        console.log(
 
+            "REGULAR MARKETPKES: initialized."
 
-        if (
-            email &&
-            $("rmEmail")
-        ) {
+        );
 
-            $("rmEmail").value =
-                email;
-        }
-
-
-        if (
-            email &&
-            $("rmShowroomEmail")
-        ) {
-
-            $("rmShowroomEmail").value =
-                email;
-        }
     }
 
 
-    /* =====================================================
-       DOM READY
-       ===================================================== */
+    /* =========================================================
+       PUBLIC API
+       ========================================================= */
+
+    window.ALON_REGULAR_MARKETPKES = {
+
+        version:
+
+            CONFIG.version,
+
+        populateCountries:
+
+            populateRegularMarketplaceCountries,
+
+        populateCountrySelect:
+
+            populateCountrySelect,
+
+        renderListings:
+
+            renderListings,
+
+        renderShowrooms:
+
+            renderShowrooms,
+
+        login:
+
+            loginUser,
+
+        logout:
+
+            logoutUser
+
+    };
+
+
+    /* =========================================================
+       START
+       ========================================================= */
 
     if (
+
         document.readyState ===
+
         "loading"
+
     ) {
 
         document.addEventListener(
+
             "DOMContentLoaded",
-            init,
-            {
-                once: true
-            }
+
+            init
+
         );
 
     } else {
 
         init();
+
     }
 
 
-    /* =====================================================
-       PUBLIC API
-       ===================================================== */
+    window.addEventListener(
 
-    window.ALON_REGULAR_MARKETPLACE = {
+        "load",
 
-        version:
-            CONFIG.version,
+        function () {
 
-        config:
-            CONFIG,
+            startCountryRetry();
 
-        categories:
-            CATEGORY_DATA,
+        }
 
-        conditions:
-            CONDITION_DATA,
-
-        getListings:
-            function () {
-
-                return loadJSON(
-                    CONFIG.listingsKey,
-                    []
-                );
-            },
-
-        getShowrooms:
-            function () {
-
-                return loadJSON(
-                    CONFIG.showroomsKey,
-                    []
-                );
-            },
-
-        renderListings:
-            renderListings,
-
-        renderShowrooms:
-            renderShowrooms,
-
-        login:
-            login,
-
-        logout:
-            logout,
-
-        verifyPayment:
-            verifyShowroomPayment,
-
-        populateCountries:
-            populateRegularMarketplaceCountries,
-
-        getSelectedCountry:
-            getSelectedCountry
-
-    };
+    );
 
 
 })();
