@@ -1,16 +1,15 @@
 <!-- =========================================================
-     ALON HISTORYVERSE 24
-     JOBS & CAREERS
-     ---------------------------------------------------------
-     File: html/jobs.html
-     Version: 24.7 SAFE JOBS
-     Creator: Baba Thecno Guru
+ALON HISTORYVERSE 24
+JOBS & CAREERS
 
-     IMPORTANT:
-     • Existing Jobs system preserved
-     • Central marketplace-countries.js
-     • Regular Marketplace is separate
-     • Global Marketplace is NOT loaded here
+FILE:
+html/jobs.html
+
+IMPORTANT PATHS:
+• Country DB = ../marketplace-countries.js
+• Jobs files = ../jss/
+• Regular Marketplace = ./regular-marketplace.html
+• Regular Marketplace JS is NOT loaded here
 ========================================================= -->
 
 <!DOCTYPE html>
@@ -18,2897 +17,2356 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>
-        Jobs & Careers • ALON HISTORYVERSE 24
-    </title>
+<title>Jobs & Careers • ALON HISTORYVERSE 24</title>
 
-    <meta
-        name="description"
-        content="ALON HISTORYVERSE 24 Jobs & Careers — International and Local Jobs"
-    >
+<meta
+    name="description"
+    content="ALON HISTORYVERSE 24 Jobs & Careers — International and Local Jobs"
+>
 
-    <link
-        rel="stylesheet"
-        href="../css/style.css"
-    >
+<link
+    rel="stylesheet"
+    href="../css/style.css"
+>
 
-    <style>
+<style>
 
-        /* =====================================================
-           JOBS & CAREERS
-        ===================================================== */
+.jobs-wrap{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
 
-        * {
-            box-sizing: border-box;
-        }
+.jobs-box{
+    background:#0b111c;
+    border:1px solid #3d4655;
+    border-radius:15px;
+    padding:20px;
+    margin:20px 0;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #05080f;
-            color: #ffffff;
-        }
+.jobs-title{
+    text-align:center;
+    color:#f0d27a;
+}
 
-        .jobs-page {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+.jobs-subtitle{
+    text-align:center;
+    color:#ccc;
+}
 
-        .jobs-title {
-            text-align: center;
-            color: #f0d27a;
-            margin: 10px 0 8px;
-            font-size: 30px;
-            font-weight: 800;
-        }
+.jobs-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
 
-        .jobs-subtitle {
-            text-align: center;
-            color: #cfcfcf;
-            margin: 0 0 25px;
-            font-size: 15px;
-        }
+.jobs-field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
 
-        .jobs-card {
-            background: #0c111b;
-            border: 1px solid rgba(215,179,90,.35);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,.25);
-        }
+.jobs-field.full{
+    grid-column:1/-1;
+}
 
-        .jobs-card h2 {
-            margin-top: 0;
-            color: #f0d27a;
-            font-size: 22px;
-        }
+.jobs-field label{
+    color:#f0d27a;
+    font-weight:bold;
+}
 
-        .jobs-card h3 {
-            color: #d7b35a;
-        }
+.jobs-field input,
+.jobs-field select,
+.jobs-field textarea{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #46505f;
+    background:#070c14;
+    color:white;
+}
 
-        .jobs-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0,1fr));
-            gap: 14px;
-        }
+.jobs-field textarea{
+    min-height:120px;
+}
 
-        .jobs-field {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+.jobs-btn{
+    border:0;
+    border-radius:8px;
+    padding:12px 18px;
+    background:#d7b35a;
+    color:#05080f;
+    font-weight:bold;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+}
 
-        .jobs-field.full {
-            grid-column: 1 / -1;
-        }
+.jobs-btn-danger{
+    background:#8d3030;
+    color:white;
+}
 
-        .jobs-field label {
-            color: #f0d27a;
-            font-size: 14px;
-            font-weight: 700;
-        }
+.jobs-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
 
-        .jobs-field input,
-        .jobs-field select,
-        .jobs-field textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 9px;
-            border: 1px solid #394354;
-            background: #080d15;
-            color: #ffffff;
-            outline: none;
-        }
+.jobs-tabs{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
 
-        .jobs-field textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
+.jobs-tab{
+    padding:12px 18px;
+    border:1px solid #d7b35a;
+    background:transparent;
+    color:#f0d27a;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
 
-        .jobs-field input:focus,
-        .jobs-field select:focus,
-        .jobs-field textarea:focus {
-            border-color: #d7b35a;
-        }
+.jobs-tab.active{
+    background:#d7b35a;
+    color:#05080f;
+}
 
-        .jobs-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 16px;
-        }
+.jobs-panel{
+    display:none;
+}
 
-        .jobs-btn {
-            border: 0;
-            border-radius: 9px;
-            padding: 12px 18px;
-            cursor: pointer;
-            font-weight: 700;
-            background: #d7b35a;
-            color: #05080f;
-        }
+.jobs-panel.active{
+    display:block;
+}
 
-        .jobs-btn:hover {
-            background: #f0d27a;
-        }
+.jobs-profile{
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
+}
 
-        .jobs-btn.secondary {
-            background: #202938;
-            color: #ffffff;
-        }
+.jobs-card{
+    background:#111927;
+    border:1px solid #303a49;
+    border-radius:10px;
+    padding:15px;
+    margin:12px 0;
+}
 
-        .jobs-btn.danger {
-            background: #8f3030;
-            color: #ffffff;
-        }
+.jobs-card h3{
+    color:#f0d27a;
+}
 
-        .jobs-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
+.jobs-meta{
+    color:#c9ced6;
+    line-height:1.7;
+}
 
-        .jobs-tab {
-            border: 1px solid #d7b35a;
-            background: transparent;
-            color: #f0d27a;
-            border-radius: 9px;
-            padding: 11px 16px;
-            cursor: pointer;
-            font-weight: 700;
-        }
+.jobs-description{
+    color:#fff;
+    white-space:pre-wrap;
+    line-height:1.6;
+    margin-top:10px;
+}
 
-        .jobs-tab.active {
-            background: #d7b35a;
-            color: #05080f;
-        }
+.jobs-media{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:12px;
+}
 
-        .jobs-profile {
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            flex-wrap: wrap;
-            background: #111927;
-            border: 1px solid rgba(215,179,90,.35);
-            padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 18px;
-        }
+.jobs-media img,
+.jobs-media video{
+    width:100%;
+    max-height:280px;
+    object-fit:cover;
+    border-radius:10px;
+}
 
-        .jobs-profile-email {
-            color: #ffffff;
-            word-break: break-word;
-        }
+.jobs-message{
+    padding:12px;
+    background:#111927;
+    border-radius:8px;
+    color:#f0d27a;
+    margin-top:10px;
+}
 
-        .jobs-login {
-            display: block;
-        }
+.jobs-agreement{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+    color:#ccc;
+}
 
-        .jobs-panel {
-            display: none;
-        }
+.jobs-career-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
 
-        .jobs-panel.active {
-            display: block;
-        }
+.jobs-career-link{
+    padding:15px;
+    text-align:center;
+    color:white;
+    text-decoration:none;
+    background:#111927;
+    border:1px solid #3c4656;
+    border-radius:10px;
+}
 
-        .jobs-list {
-            display: grid;
-            gap: 14px;
-        }
+.jobs-career-link:hover{
+    border-color:#d7b35a;
+    color:#f0d27a;
+}
 
-        .job-item {
-            background: #101722;
-            border: 1px solid #303b4e;
-            border-radius: 12px;
-            padding: 16px;
-        }
+.hidden{
+    display:none!important;
+}
 
-        .job-item h3 {
-            margin: 0 0 8px;
-            color: #f0d27a;
-        }
+@media(max-width:700px){
 
-        .job-meta {
-            color: #c8ced8;
-            font-size: 14px;
-            line-height: 1.6;
-        }
+    .jobs-wrap{
+        padding:12px;
+    }
 
-        .job-description {
-            margin-top: 10px;
-            color: #eeeeee;
-            white-space: pre-wrap;
-            line-height: 1.6;
-        }
+    .jobs-grid{
+        grid-template-columns:1fr;
+    }
 
-        .job-media {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0,1fr));
-            gap: 10px;
-            margin-top: 12px;
-        }
+    .jobs-field.full{
+        grid-column:auto;
+    }
 
-        .job-media img,
-        .job-media video {
-            width: 100%;
-            max-height: 280px;
-            object-fit: cover;
-            border-radius: 10px;
-            background: #000000;
-        }
+    .jobs-career-grid{
+        grid-template-columns:1fr 1fr;
+    }
 
-        .career-links {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0,1fr));
-            gap: 10px;
-        }
+    .jobs-media{
+        grid-template-columns:1fr;
+    }
 
-        .career-link {
-            display: block;
-            text-decoration: none;
-            color: #ffffff;
-            background: #111927;
-            border: 1px solid #394354;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
+}
 
-        .career-link:hover {
-            border-color: #d7b35a;
-            color: #f0d27a;
-        }
+@media(max-width:430px){
 
-        .jobs-message {
-            display: none;
-            margin-top: 12px;
-            padding: 11px;
-            border-radius: 8px;
-            background: #111927;
-            color: #f0d27a;
-        }
+    .jobs-career-grid{
+        grid-template-columns:1fr;
+    }
 
-        .jobs-agreement {
-            display: flex;
-            align-items: flex-start;
-            gap: 9px;
-            margin-top: 12px;
-            color: #cccccc;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+    .jobs-actions .jobs-btn{
+        width:100%;
+        text-align:center;
+    }
 
-        .jobs-agreement input {
-            margin-top: 3px;
-        }
+}
 
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 700px) {
-
-            .jobs-page {
-                padding: 12px;
-            }
-
-            .jobs-title {
-                font-size: 24px;
-            }
-
-            .jobs-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .jobs-field.full {
-                grid-column: auto;
-            }
-
-            .career-links {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .job-media {
-                grid-template-columns: 1fr;
-            }
-
-            .jobs-card {
-                padding: 15px;
-            }
-
-        }
-
-        @media (max-width: 430px) {
-
-            .career-links {
-                grid-template-columns: 1fr;
-            }
-
-            .jobs-btn {
-                width: 100%;
-            }
-
-        }
-
-    </style>
+</style>
 
 </head>
 
 <body>
 
-    <!-- =====================================================
-         PAGE
-    ====================================================== -->
+<main class="jobs-wrap">
 
-    <main class="jobs-page">
+<h1 class="jobs-title">
+    Jobs & Careers
+</h1>
 
-        <h1 class="jobs-title">
-            Jobs & Careers
-        </h1>
+<p class="jobs-subtitle">
+    ALON HISTORYVERSE 24 • International & Local Jobs
+</p>
 
-        <p class="jobs-subtitle">
-            ALON HISTORYVERSE 24 • International & Local Jobs
-        </p>
 
+<!-- =======================================================
+LOGIN
+======================================================= -->
 
-        <!-- =================================================
-             LOGIN
-        ================================================== -->
+<section
+    id="jobsLoginSection"
+    class="jobs-box"
+>
 
-        <section
-            id="jobsLoginSection"
-            class="jobs-card jobs-login"
-        >
+<h2>Jobs Login</h2>
 
-            <h2>
-                Jobs Login
-            </h2>
+<form id="jobsLoginForm">
 
-            <form id="jobsLoginForm">
+<div class="jobs-grid">
 
-                <div class="jobs-grid">
+<div class="jobs-field">
 
-                    <div class="jobs-field">
+<label for="jobsLoginEmail">
+Email
+</label>
 
-                        <label for="jobsLoginEmail">
-                            Email
-                        </label>
+<input
+    id="jobsLoginEmail"
+    type="email"
+    placeholder="Enter email"
+    autocomplete="email"
+    required
+>
 
-                        <input
-                            id="jobsLoginEmail"
-                            type="email"
-                            autocomplete="email"
-                            placeholder="Enter your email"
-                            required
-                        >
+</div>
 
-                    </div>
+<div class="jobs-field">
 
+<label for="jobsLoginPassword">
+Password
+</label>
 
-                    <div class="jobs-field">
+<input
+    id="jobsLoginPassword"
+    type="password"
+    placeholder="Enter password"
+    autocomplete="current-password"
+    required
+>
 
-                        <label for="jobsLoginPassword">
-                            Password
-                        </label>
+</div>
 
-                        <input
-                            id="jobsLoginPassword"
-                            type="password"
-                            autocomplete="current-password"
-                            placeholder="Enter password"
-                            required
-                        >
+</div>
 
-                    </div>
+<label class="jobs-agreement">
 
-                </div>
+<input
+    id="jobsAgreement"
+    type="checkbox"
+>
 
+<span>
+I agree to use ALON HISTORYVERSE 24 Jobs & Careers
+responsibly and provide genuine information.
+</span>
 
-                <label class="jobs-agreement">
+</label>
 
-                    <input
-                        id="jobsAgreement"
-                        type="checkbox"
-                    >
+<div class="jobs-actions">
 
-                    <span>
-                        I agree to use ALON HISTORYVERSE 24 Jobs & Careers
-                        responsibly and provide genuine job information.
-                    </span>
+<button
+    type="submit"
+    class="jobs-btn"
+>
+Login
+</button>
 
-                </label>
+</div>
 
+</form>
 
-                <div class="jobs-buttons">
+<div
+    id="jobsLoginMessage"
+    class="jobs-message hidden"
+></div>
 
-                    <button
-                        type="submit"
-                        class="jobs-btn"
-                    >
-                        Login
-                    </button>
+</section>
 
-                </div>
 
-            </form>
+<!-- =======================================================
+PROFILE
+======================================================= -->
 
+<section
+    id="jobsProfileSection"
+    class="jobs-box jobs-profile"
+>
 
-            <div
-                id="jobsLoginMessage"
-                class="jobs-message"
-            ></div>
+<div>
 
-        </section>
+<strong>Logged in:</strong>
 
+<div id="jobsProfileEmail"></div>
 
-        <!-- =================================================
-             PROFILE
-        ================================================== -->
+</div>
 
-        <section
-            id="jobsProfileSection"
-            class="jobs-profile"
-        >
+<button
+    id="jobsLogoutBtn"
+    type="button"
+    class="jobs-btn jobs-btn-danger"
+>
+Logout
+</button>
 
-            <div>
+</section>
 
-                <strong>
-                    Logged in
-                </strong>
 
-                <div
-                    id="jobsProfileEmail"
-                    class="jobs-profile-email"
-                ></div>
+<!-- =======================================================
+JOB SYSTEM
+======================================================= -->
 
-            </div>
+<section class="jobs-box">
 
+<div class="jobs-tabs">
 
-            <button
-                id="jobsLogoutBtn"
-                type="button"
-                class="jobs-btn danger"
-            >
-                Logout
-            </button>
+<button
+    id="internationalJobsTab"
+    type="button"
+    class="jobs-tab active"
+>
+International Jobs
+</button>
 
-        </section>
+<button
+    id="localJobsTab"
+    type="button"
+    class="jobs-tab"
+>
+Local Jobs
+</button>
 
+</div>
 
-        <!-- =================================================
-             JOB TABS
-        ================================================== -->
 
-        <section
-            id="jobsMainSection"
-            class="jobs-card"
-        >
+<!-- =====================================================
+INTERNATIONAL JOB
+===================================================== -->
 
-            <div class="jobs-tabs">
+<div
+    id="internationalJobsPanel"
+    class="jobs-panel active"
+>
 
-                <button
-                    id="internationalJobsTab"
-                    type="button"
-                    class="jobs-tab active"
-                >
-                    International Jobs
-                </button>
+<h2>International Jobs</h2>
 
-                <button
-                    id="localJobsTab"
-                    type="button"
-                    class="jobs-tab"
-                >
-                    Local Jobs
-                </button>
+<form id="internationalJobForm">
 
-            </div>
+<input
+    id="internationalJobId"
+    type="hidden"
+>
 
+<div class="jobs-grid">
 
-            <!-- =============================================
-                 INTERNATIONAL JOBS
-            ============================================== -->
 
-            <div
-                id="internationalJobsPanel"
-                class="jobs-panel active"
-            >
+<div class="jobs-field">
 
-                <h2>
-                    International Job
-                </h2>
+<label for="internationalCountry">
+Country
+</label>
 
-                <form id="internationalJobForm">
+<select
+    id="internationalCountry"
+    required
+>
 
-                    <input
-                        id="internationalJobId"
-                        type="hidden"
-                    >
+<option value="">
+Select Country
+</option>
 
-                    <div class="jobs-grid">
+</select>
 
-                        <div class="jobs-field">
+</div>
 
-                            <label for="internationalCountry">
-                                Country
-                            </label>
 
-                            <select
-                                id="internationalCountry"
-                                required
-                            >
-                                <option value="">
-                                    Select Country
-                                </option>
-                            </select>
+<div class="jobs-field">
 
-                        </div>
+<label for="internationalCategory">
+Category
+</label>
 
+<select
+    id="internationalCategory"
+    required
+>
 
-                        <div class="jobs-field">
+<option value="">
+Select Category
+</option>
 
-                            <label for="internationalCategory">
-                                Category
-                            </label>
+<option>IT & Technology</option>
+<option>Engineering</option>
+<option>Healthcare</option>
+<option>Education</option>
+<option>Construction</option>
+<option>Finance</option>
+<option>Sales & Marketing</option>
+<option>Hospitality</option>
+<option>Transport</option>
+<option>Manufacturing</option>
+<option>Agriculture</option>
+<option>Other</option>
 
-                            <select
-                                id="internationalCategory"
-                                required
-                            >
+</select>
 
-                                <option value="">
-                                    Select Category
-                                </option>
+</div>
 
-                                <option value="IT & Technology">
-                                    IT & Technology
-                                </option>
 
-                                <option value="Engineering">
-                                    Engineering
-                                </option>
+<div class="jobs-field">
 
-                                <option value="Healthcare">
-                                    Healthcare
-                                </option>
+<label for="internationalJobTitle">
+Job Title
+</label>
 
-                                <option value="Education">
-                                    Education
-                                </option>
+<input
+    id="internationalJobTitle"
+    type="text"
+    placeholder="Job title"
+    required
+>
 
-                                <option value="Construction">
-                                    Construction
-                                </option>
+</div>
 
-                                <option value="Finance">
-                                    Finance
-                                </option>
 
-                                <option value="Sales & Marketing">
-                                    Sales & Marketing
-                                </option>
+<div class="jobs-field">
 
-                                <option value="Hospitality">
-                                    Hospitality
-                                </option>
+<label for="internationalSalary">
+Salary
+</label>
 
-                                <option value="Transport">
-                                    Transport
-                                </option>
+<input
+    id="internationalSalary"
+    type="text"
+    placeholder="Salary / Pay"
+    required
+>
 
-                                <option value="Manufacturing">
-                                    Manufacturing
-                                </option>
+</div>
 
-                                <option value="Agriculture">
-                                    Agriculture
-                                </option>
 
-                                <option value="Other">
-                                    Other
-                                </option>
+<div class="jobs-field">
 
-                            </select>
+<label for="internationalAppointment">
+Appointment
+</label>
 
-                        </div>
+<select
+    id="internationalAppointment"
+    required
+>
 
+<option value="">
+Select Appointment
+</option>
 
-                        <div class="jobs-field">
+<option>Full Time</option>
+<option>Part Time</option>
+<option>Contract</option>
+<option>Temporary</option>
+<option>Internship</option>
+<option>Remote</option>
 
-                            <label for="internationalJobTitle">
-                                Job Title
-                            </label>
+</select>
 
-                            <input
-                                id="internationalJobTitle"
-                                type="text"
-                                placeholder="Job title"
-                                required
-                            >
+</div>
 
-                        </div>
 
+<div class="jobs-field">
 
-                        <div class="jobs-field">
+<label for="internationalLocation">
+Live Location
+</label>
 
-                            <label for="internationalSalary">
-                                Salary
-                            </label>
+<input
+    id="internationalLocation"
+    type="text"
+    placeholder="City / State / Area"
+    required
+>
 
-                            <input
-                                id="internationalSalary"
-                                type="text"
-                                placeholder="Salary / Pay"
-                                required
-                            >
+</div>
 
-                        </div>
 
+<div class="jobs-field full">
 
-                        <div class="jobs-field">
+<label for="internationalDescription">
+Job Description
+</label>
 
-                            <label for="internationalAppointment">
-                                Appointment Type
-                            </label>
+<textarea
+    id="internationalDescription"
+    placeholder="Complete job description"
+    required
+></textarea>
 
-                            <select
-                                id="internationalAppointment"
-                                required
-                            >
+</div>
 
-                                <option value="">
-                                    Select Type
-                                </option>
 
-                                <option value="Full Time">
-                                    Full Time
-                                </option>
+<div class="jobs-field">
 
-                                <option value="Part Time">
-                                    Part Time
-                                </option>
+<label for="internationalImage">
+Image
+</label>
 
-                                <option value="Contract">
-                                    Contract
-                                </option>
+<input
+    id="internationalImage"
+    type="file"
+    accept="image/*"
+>
 
-                                <option value="Temporary">
-                                    Temporary
-                                </option>
+</div>
 
-                                <option value="Internship">
-                                    Internship
-                                </option>
 
-                                <option value="Remote">
-                                    Remote
-                                </option>
+<div class="jobs-field">
 
-                            </select>
+<label for="internationalVideo">
+Video
+</label>
 
-                        </div>
+<input
+    id="internationalVideo"
+    type="file"
+    accept="video/*"
+>
 
+</div>
 
-                        <div class="jobs-field">
+</div>
 
-                            <label for="internationalLocation">
-                                Live Location
-                            </label>
 
-                            <input
-                                id="internationalLocation"
-                                type="text"
-                                placeholder="City / State / Area"
-                                required
-                            >
+<div class="jobs-actions">
 
-                        </div>
+<button
+    type="submit"
+    class="jobs-btn"
+>
+Save International Job
+</button>
 
+<button
+    id="internationalCancelEdit"
+    type="button"
+    class="jobs-btn hidden"
+>
+Cancel Edit
+</button>
 
-                        <div class="jobs-field full">
+</div>
 
-                            <label for="internationalDescription">
-                                Job Description
-                            </label>
+</form>
 
-                            <textarea
-                                id="internationalDescription"
-                                placeholder="Enter complete job details"
-                                required
-                            ></textarea>
+</div>
 
-                        </div>
 
+<!-- =====================================================
+LOCAL JOB
+===================================================== -->
 
-                        <div class="jobs-field">
+<div
+    id="localJobsPanel"
+    class="jobs-panel"
+>
 
-                            <label for="internationalImage">
-                                Image
-                            </label>
+<h2>Local Jobs</h2>
 
-                            <input
-                                id="internationalImage"
-                                type="file"
-                                accept="image/*"
-                            >
+<form id="localJobForm">
 
-                        </div>
+<input
+    id="localJobId"
+    type="hidden"
+>
 
+<div class="jobs-grid">
 
-                        <div class="jobs-field">
 
-                            <label for="internationalVideo">
-                                Video
-                            </label>
+<div class="jobs-field">
 
-                            <input
-                                id="internationalVideo"
-                                type="file"
-                                accept="video/*"
-                            >
+<label for="localCountry">
+Country
+</label>
 
-                        </div>
+<select
+    id="localCountry"
+    required
+>
 
-                    </div>
+<option value="">
+Select Country
+</option>
 
+</select>
 
-                    <div class="jobs-buttons">
+</div>
 
-                        <button
-                            type="submit"
-                            class="jobs-btn"
-                        >
-                            Save International Job
-                        </button>
 
-                        <button
-                            id="internationalCancelEdit"
-                            type="button"
-                            class="jobs-btn secondary hidden"
-                        >
-                            Cancel Edit
-                        </button>
+<div class="jobs-field">
 
-                    </div>
+<label for="localCategory">
+Category
+</label>
 
-                </form>
+<select
+    id="localCategory"
+    required
+>
 
-            </div>
+<option value="">
+Select Category
+</option>
 
+<option>IT & Technology</option>
+<option>Engineering</option>
+<option>Healthcare</option>
+<option>Education</option>
+<option>Construction</option>
+<option>Finance</option>
+<option>Sales & Marketing</option>
+<option>Hospitality</option>
+<option>Transport</option>
+<option>Manufacturing</option>
+<option>Agriculture</option>
+<option>Other</option>
 
-            <!-- =============================================
-                 LOCAL JOBS
-            ============================================== -->
+</select>
 
-            <div
-                id="localJobsPanel"
-                class="jobs-panel"
-            >
+</div>
 
-                <h2>
-                    Local Job
-                </h2>
 
-                <form id="localJobForm">
+<div class="jobs-field">
 
-                    <input
-                        id="localJobId"
-                        type="hidden"
-                    >
+<label for="localJobTitle">
+Job Title
+</label>
 
-                    <div class="jobs-grid">
+<input
+    id="localJobTitle"
+    type="text"
+    placeholder="Job title"
+    required
+>
 
-                        <div class="jobs-field">
+</div>
 
-                            <label for="localCountry">
-                                Country
-                            </label>
 
-                            <select
-                                id="localCountry"
-                                required
-                            >
-                                <option value="">
-                                    Select Country
-                                </option>
-                            </select>
+<div class="jobs-field">
 
-                        </div>
+<label for="localSalary">
+Salary
+</label>
 
+<input
+    id="localSalary"
+    type="text"
+    placeholder="Salary / Pay"
+    required
+>
 
-                        <div class="jobs-field">
+</div>
 
-                            <label for="localCategory">
-                                Category
-                            </label>
 
-                            <select
-                                id="localCategory"
-                                required
-                            >
+<div class="jobs-field">
 
-                                <option value="">
-                                    Select Category
-                                </option>
+<label for="localAppointment">
+Appointment
+</label>
 
-                                <option value="IT & Technology">
-                                    IT & Technology
-                                </option>
+<select
+    id="localAppointment"
+    required
+>
 
-                                <option value="Engineering">
-                                    Engineering
-                                </option>
+<option value="">
+Select Appointment
+</option>
 
-                                <option value="Healthcare">
-                                    Healthcare
-                                </option>
+<option>Full Time</option>
+<option>Part Time</option>
+<option>Contract</option>
+<option>Temporary</option>
+<option>Internship</option>
+<option>Remote</option>
 
-                                <option value="Education">
-                                    Education
-                                </option>
+</select>
 
-                                <option value="Construction">
-                                    Construction
-                                </option>
+</div>
 
-                                <option value="Finance">
-                                    Finance
-                                </option>
 
-                                <option value="Sales & Marketing">
-                                    Sales & Marketing
-                                </option>
+<div class="jobs-field">
 
-                                <option value="Hospitality">
-                                    Hospitality
-                                </option>
+<label for="localLocation">
+Live Location
+</label>
 
-                                <option value="Transport">
-                                    Transport
-                                </option>
+<input
+    id="localLocation"
+    type="text"
+    placeholder="City / District / Area"
+    required
+>
 
-                                <option value="Manufacturing">
-                                    Manufacturing
-                                </option>
+</div>
 
-                                <option value="Agriculture">
-                                    Agriculture
-                                </option>
 
-                                <option value="Other">
-                                    Other
-                                </option>
+<div class="jobs-field full">
 
-                            </select>
+<label for="localDescription">
+Job Description
+</label>
 
-                        </div>
+<textarea
+    id="localDescription"
+    placeholder="Complete job description"
+    required
+></textarea>
 
+</div>
 
-                        <div class="jobs-field">
 
-                            <label for="localJobTitle">
-                                Job Title
-                            </label>
+<div class="jobs-field">
 
-                            <input
-                                id="localJobTitle"
-                                type="text"
-                                placeholder="Job title"
-                                required
-                            >
+<label for="localImage">
+Image
+</label>
 
-                        </div>
+<input
+    id="localImage"
+    type="file"
+    accept="image/*"
+>
 
+</div>
 
-                        <div class="jobs-field">
 
-                            <label for="localSalary">
-                                Salary
-                            </label>
+<div class="jobs-field">
 
-                            <input
-                                id="localSalary"
-                                type="text"
-                                placeholder="Salary / Pay"
-                                required
-                            >
+<label for="localVideo">
+Video
+</label>
 
-                        </div>
+<input
+    id="localVideo"
+    type="file"
+    accept="video/*"
+>
 
+</div>
 
-                        <div class="jobs-field">
+</div>
 
-                            <label for="localAppointment">
-                                Appointment Type
-                            </label>
 
-                            <select
-                                id="localAppointment"
-                                required
-                            >
+<div class="jobs-actions">
 
-                                <option value="">
-                                    Select Type
-                                </option>
+<button
+    type="submit"
+    class="jobs-btn"
+>
+Save Local Job
+</button>
 
-                                <option value="Full Time">
-                                    Full Time
-                                </option>
+<button
+    id="localCancelEdit"
+    type="button"
+    class="jobs-btn hidden"
+>
+Cancel Edit
+</button>
 
-                                <option value="Part Time">
-                                    Part Time
-                                </option>
+</div>
 
-                                <option value="Contract">
-                                    Contract
-                                </option>
+</form>
 
-                                <option value="Temporary">
-                                    Temporary
-                                </option>
+</div>
 
-                                <option value="Internship">
-                                    Internship
-                                </option>
+</section>
 
-                                <option value="Remote">
-                                    Remote
-                                </option>
 
-                            </select>
+<!-- =======================================================
+MY JOBS
+======================================================= -->
 
-                        </div>
+<section class="jobs-box">
 
+<h2>My Jobs</h2>
 
-                        <div class="jobs-field">
+<div id="jobsList"></div>
 
-                            <label for="localLocation">
-                                Live Location
-                            </label>
+<div
+    id="jobsEmptyMessage"
+    class="jobs-message"
+>
+No jobs saved yet.
+</div>
 
-                            <input
-                                id="localLocation"
-                                type="text"
-                                placeholder="City / District / Area"
-                                required
-                            >
+</section>
 
-                        </div>
 
+<!-- =======================================================
+CAREER CENTER
+======================================================= -->
 
-                        <div class="jobs-field full">
+<section class="jobs-box">
 
-                            <label for="localDescription">
-                                Job Description
-                            </label>
+<h2>Career Center</h2>
 
-                            <textarea
-                                id="localDescription"
-                                placeholder="Enter complete job details"
-                                required
-                            ></textarea>
+<div class="jobs-career-grid">
 
-                        </div>
+<a
+    class="jobs-career-link"
+    href="./career-center.html#careerDevelopment"
+>
+Career Development
+</a>
 
+<a
+    class="jobs-career-link"
+    href="./career-center.html#jobSkills"
+>
+Job Skills
+</a>
 
-                        <div class="jobs-field">
+<a
+    class="jobs-career-link"
+    href="./career-center.html#interview"
+>
+Interview
+</a>
 
-                            <label for="localImage">
-                                Image
-                            </label>
+<a
+    class="jobs-career-link"
+    href="./career-center.html#resume"
+>
+Resume
+</a>
 
-                            <input
-                                id="localImage"
-                                type="file"
-                                accept="image/*"
-                            >
+</div>
 
-                        </div>
+</section>
 
 
-                        <div class="jobs-field">
+<!-- =======================================================
+REGULAR MARKETPLACE
+======================================================= -->
 
-                            <label for="localVideo">
-                                Video
-                            </label>
+<section class="jobs-box">
 
-                            <input
-                                id="localVideo"
-                                type="file"
-                                accept="video/*"
-                            >
+<h2>Regular Marketplace</h2>
 
-                        </div>
+<p>
+Buy, sell and advertise products, property and vehicles.
+</p>
 
-                    </div>
+<div class="jobs-actions">
 
+<a
+    href="./regular-marketplace.html"
+    class="jobs-btn"
+>
+Open Regular Marketplace
+</a>
 
-                    <div class="jobs-buttons">
+</div>
 
-                        <button
-                            type="submit"
-                            class="jobs-btn"
-                        >
-                            Save Local Job
-                        </button>
+</section>
 
-                        <button
-                            id="localCancelEdit"
-                            type="button"
-                            class="jobs-btn secondary hidden"
-                        >
-                            Cancel Edit
-                        </button>
+</main>
 
-                    </div>
 
-                </form>
+<!-- =======================================================
+EXISTING ALON FILES
 
-            </div>
+These paths assume:
+html/jobs.html
+jss/core.js
+jss/system.js
+jss/library-engine.js
+marketplace-countries.js
 
-        </section>
+======================================================= -->
 
+<script src="../jss/core.js"></script>
 
-        <!-- =================================================
-             SAVED JOBS
-        ================================================== -->
+<script src="../jss/system.js"></script>
 
-        <section class="jobs-card">
+<script src="../jss/library-engine.js"></script>
 
-            <h2>
-                My Jobs
-            </h2>
 
-            <div
-                id="jobsList"
-                class="jobs-list"
-            ></div>
+<!-- =======================================================
+CENTRAL COUNTRY DATABASE
+THIS MUST COME BEFORE JOB COUNTRY LOGIC
+======================================================= -->
 
-            <div
-                id="jobsEmptyMessage"
-                class="jobs-message"
-            >
-                No jobs saved yet.
-            </div>
+<script src="../marketplace-countries.js"></script>
 
-        </section>
 
+<script>
 
-        <!-- =================================================
-             CAREER CENTER
-        ================================================== -->
+(function(){
 
-        <section class="jobs-card">
+"use strict";
 
-            <h2>
-                Career Center
-            </h2>
 
-            <div class="career-links">
+const LOGIN_KEY =
+"alon_historyverse_jobs_login";
 
-                <a
-                    class="career-link"
-                    href="./career-center.html#careerDevelopment"
-                >
-                    Career Development
-                </a>
+const JOBS_KEY =
+"alon_historyverse_jobs_data";
 
-                <a
-                    class="career-link"
-                    href="./career-center.html#jobSkills"
-                >
-                    Job Skills
-                </a>
+let editingJobId = null;
 
-                <a
-                    class="career-link"
-                    href="./career-center.html#interview"
-                >
-                    Interview
-                </a>
 
-                <a
-                    class="career-link"
-                    href="./career-center.html#resume"
-                >
-                    Resume
-                </a>
+/* =========================================================
+HELPERS
+========================================================= */
 
-            </div>
+function $(id){
+    return document.getElementById(id);
+}
 
-        </section>
 
+function getJobs(){
 
-        <!-- =================================================
-             REGULAR MARKETPLACE
-        ================================================== -->
+    try{
 
-        <section class="jobs-card">
+        const data =
+            JSON.parse(
+                localStorage.getItem(JOBS_KEY)
+            );
 
-            <h2>
-                Regular Marketplace
-            </h2>
+        return Array.isArray(data)
+            ? data
+            : [];
 
-            <p>
-                Buy, sell and advertise products, property and vehicles.
-            </p>
+    }catch(error){
 
-            <div class="jobs-buttons">
+        return [];
 
-                <a
-                    href="./regular-marketplace.html"
-                    class="jobs-btn"
-                    style="text-decoration:none;display:inline-block;"
-                >
-                    Open Regular Marketplace
-                </a>
+    }
 
-            </div>
+}
 
-        </section>
 
-    </main>
+function saveJobs(data){
 
+    localStorage.setItem(
+        JOBS_KEY,
+        JSON.stringify(data)
+    );
 
-    <!-- =====================================================
-         EXISTING ALON SYSTEM FILES
-    ====================================================== -->
+}
 
-    <script src="../jss/core.js"></script>
 
-    <script src="../jss/system.js"></script>
+function getLogin(){
 
-    <script src="../jss/library-engine.js"></script>
+    try{
 
+        return JSON.parse(
+            localStorage.getItem(LOGIN_KEY)
+        );
 
-    <!-- =====================================================
-         CENTRAL COUNTRY DATABASE
-         MUST LOAD BEFORE JOBS COUNTRY LOGIC
-    ====================================================== -->
+    }catch(error){
 
-    <script src="../marketplace-countries.js"></script>
+        return null;
 
+    }
 
-    <!-- =====================================================
-         JOBS ENGINE
-    ====================================================== -->
+}
 
-    <script>
 
-        /* =====================================================
-           ALON HISTORYVERSE 24
-           JOBS & CAREERS ENGINE
-        ===================================================== */
+function makeId(){
 
-        (function () {
+    return Date.now().toString(36) +
+        Math.random().toString(36).slice(2);
 
-            "use strict";
+}
 
 
-            const LOGIN_KEY =
-                "alon_historyverse_jobs_login";
+/* =========================================================
+COUNTRY DATABASE
+========================================================= */
 
-            const JOBS_KEY =
-                "alon_historyverse_jobs_data";
+function getCountryDatabase(){
 
+    if(
+        Array.isArray(
+            window.MARKETPLACE_COUNTRIES
+        ) &&
+        window.MARKETPLACE_COUNTRIES.length
+    ){
 
-            let editingJobId = null;
+        return window.MARKETPLACE_COUNTRIES;
 
+    }
 
-            /* =================================================
-               HELPERS
-            ================================================= */
 
-            function byId(id) {
-                return document.getElementById(id);
-            }
+    if(
+        Array.isArray(
+            window.ALON_MARKETPLACE_COUNTRIES
+        ) &&
+        window.ALON_MARKETPLACE_COUNTRIES.length
+    ){
 
+        return window.ALON_MARKETPLACE_COUNTRIES;
 
-            function showMessage(id, message) {
+    }
 
-                const element = byId(id);
 
-                if (!element) {
-                    return;
-                }
+    if(
+        Array.isArray(
+            window.ALON_WORLD_COUNTRIES
+        ) &&
+        window.ALON_WORLD_COUNTRIES.length
+    ){
 
-                element.textContent = message;
-                element.style.display = "block";
+        return window.ALON_WORLD_COUNTRIES;
 
-            }
+    }
 
 
-            function hideMessage(id) {
+    if(
+        Array.isArray(
+            window.WORLD_COUNTRIES
+        ) &&
+        window.WORLD_COUNTRIES.length
+    ){
 
-                const element = byId(id);
+        return window.WORLD_COUNTRIES;
 
-                if (!element) {
-                    return;
-                }
+    }
 
-                element.style.display = "none";
 
-            }
+    return [];
 
+}
 
-            function getLogin() {
 
-                try {
+function countryText(c){
 
-                    return JSON.parse(
-                        localStorage.getItem(LOGIN_KEY)
-                    );
+    if(!c){
+        return "";
+    }
 
-                } catch (error) {
+    const flag =
+        c.flag || "";
 
-                    return null;
+    const name =
+        c.name ||
+        c.country ||
+        "";
 
-                }
+    const iso =
+        c.code2 ||
+        c.iso2 ||
+        c.code ||
+        "";
 
-            }
+    const phone =
+        c.callingCode ||
+        c.phoneCode ||
+        "";
 
+    return [
+        flag,
+        name,
+        iso ? "(" + iso + ")" : "",
+        phone
+    ].filter(Boolean).join(" ");
 
-            function getJobs() {
+}
 
-                try {
 
-                    const data =
-                        JSON.parse(
-                            localStorage.getItem(JOBS_KEY)
-                        );
+/* =========================================================
+IMPORTANT:
+DO NOT WAIT FOR DOM RELOAD.
+DIRECTLY FILL BOTH JOB SELECTORS.
+========================================================= */
 
-                    return Array.isArray(data)
-                        ? data
-                        : [];
+function fillJobCountries(){
 
-                } catch (error) {
+    const countries =
+        getCountryDatabase();
 
-                    return [];
+    if(!countries.length){
 
-                }
+        return false;
 
-            }
+    }
 
 
-            function saveJobs(jobs) {
+    const ids = [
+        "internationalCountry",
+        "localCountry"
+    ];
 
-                localStorage.setItem(
-                    JOBS_KEY,
-                    JSON.stringify(jobs)
-                );
 
-            }
+    ids.forEach(function(id){
 
+        const select = $(id);
 
-            function createId() {
+        if(!select){
+            return;
+        }
 
-                return (
-                    Date.now().toString(36) +
-                    Math.random()
-                        .toString(36)
-                        .slice(2)
-                );
 
-            }
+        const oldValue =
+            select.value;
 
 
-            /* =================================================
-               COUNTRY DATABASE
-            ================================================= */
+        select.innerHTML =
+            '<option value="">Select Country</option>';
 
-            function getCountryDatabase() {
 
-                if (
-                    Array.isArray(
-                        window.MARKETPLACE_COUNTRIES
-                    ) &&
-                    window.MARKETPLACE_COUNTRIES.length
-                ) {
+        countries.forEach(function(c){
 
-                    return window.MARKETPLACE_COUNTRIES;
+            const option =
+                document.createElement("option");
 
-                }
 
+            option.value =
+                c.code2 ||
+                c.iso2 ||
+                c.code ||
+                c.name ||
+                c.country ||
+                "";
 
-                if (
-                    Array.isArray(
-                        window.ALON_MARKETPLACE_COUNTRIES
-                    ) &&
-                    window.ALON_MARKETPLACE_COUNTRIES.length
-                ) {
 
-                    return window.ALON_MARKETPLACE_COUNTRIES;
+            option.textContent =
+                countryText(c);
 
-                }
 
+            option.dataset.country =
+                c.name ||
+                c.country ||
+                "";
 
-                if (
-                    Array.isArray(
-                        window.ALON_WORLD_COUNTRIES
-                    ) &&
-                    window.ALON_WORLD_COUNTRIES.length
-                ) {
 
-                    return window.ALON_WORLD_COUNTRIES;
+            option.dataset.iso2 =
+                c.code2 ||
+                c.iso2 ||
+                "";
 
-                }
 
+            option.dataset.iso3 =
+                c.code3 ||
+                c.iso3 ||
+                "";
 
-                if (
-                    Array.isArray(
-                        window.WORLD_COUNTRIES
-                    ) &&
-                    window.WORLD_COUNTRIES.length
-                ) {
 
-                    return window.WORLD_COUNTRIES;
+            option.dataset.callingCode =
+                c.callingCode ||
+                c.phoneCode ||
+                "";
 
-                }
 
+            select.appendChild(option);
 
-                return [];
+        });
 
-            }
 
+        if(oldValue){
+            select.value = oldValue;
+        }
 
-            function getCountryLabel(country) {
+    });
 
-                if (!country) {
-                    return "";
-                }
 
+    return true;
 
-                const flag =
-                    country.flag ||
-                    "";
+}
 
-                const name =
-                    country.name ||
-                    country.country ||
-                    "";
 
-                const iso =
-                    country.code2 ||
-                    country.iso2 ||
-                    country.code ||
-                    "";
+/* =========================================================
+COUNTRY RETRY
+========================================================= */
 
-                const calling =
-                    country.callingCode ||
-                    country.phoneCode ||
-                    "";
+function startCountrySystem(){
 
+    let count = 0;
 
-                return [
-                    flag,
-                    name,
-                    iso ? "(" + iso + ")" : "",
-                    calling
-                        ? calling
-                        : ""
-                ]
-                    .filter(Boolean)
-                    .join(" ");
 
-            }
+    function check(){
 
+        count++;
 
-            function fillCountrySelect(selectId) {
 
-                const select =
-                    byId(selectId);
+        if(fillJobCountries()){
+            return;
+        }
 
-                if (!select) {
-                    return;
-                }
 
+        if(count < 40){
 
-                const countries =
-                    getCountryDatabase();
+            setTimeout(
+                check,
+                250
+            );
 
-                if (!countries.length) {
-                    return;
-                }
+        }
 
+    }
 
-                const oldValue =
-                    select.value;
 
+    check();
 
-                select.innerHTML = "";
+}
 
 
-                const firstOption =
-                    document.createElement("option");
+/* =========================================================
+LOGIN UI
+========================================================= */
 
-                firstOption.value = "";
+function updateLogin(){
 
-                firstOption.textContent =
-                    "Select Country";
+    const login =
+        getLogin();
 
-                select.appendChild(
-                    firstOption
-                );
 
+    const loginBox =
+        $("jobsLoginSection");
 
-                countries.forEach(
-                    function (country) {
 
-                        const option =
-                            document.createElement("option");
+    const profile =
+        $("jobsProfileSection");
 
-                        option.value =
-                            country.code2 ||
-                            country.iso2 ||
-                            country.code ||
-                            country.name ||
-                            country.country ||
-                            "";
 
-                        option.textContent =
-                            getCountryLabel(
-                                country
-                            );
+    const email =
+        $("jobsProfileEmail");
 
-                        option.dataset.country =
-                            country.name ||
-                            country.country ||
-                            "";
 
-                        option.dataset.iso2 =
-                            country.code2 ||
-                            country.iso2 ||
-                            "";
+    if(login){
 
-                        option.dataset.iso3 =
-                            country.code3 ||
-                            country.iso3 ||
-                            "";
+        if(loginBox){
+            loginBox.style.display =
+                "none";
+        }
 
-                        option.dataset.callingCode =
-                            country.callingCode ||
-                            country.phoneCode ||
-                            "";
 
-                        select.appendChild(
-                            option
-                        );
+        if(profile){
+            profile.style.display =
+                "flex";
+        }
 
-                    }
-                );
 
+        if(email){
+            email.textContent =
+                login.email || "";
+        }
 
-                if (oldValue) {
-                    select.value = oldValue;
-                }
+    }else{
 
-            }
+        if(loginBox){
+            loginBox.style.display =
+                "block";
+        }
 
 
-            function fillAllCountries() {
+        if(profile){
+            profile.style.display =
+                "none";
+        }
 
-                fillCountrySelect(
-                    "internationalCountry"
-                );
+    }
 
-                fillCountrySelect(
-                    "localCountry"
-                );
+}
 
-            }
 
+/* =========================================================
+LOGIN
+========================================================= */
 
-            /* =================================================
-               LOGIN UI
-            ================================================= */
+function setupLogin(){
 
-            function updateLoginUI() {
+    const form =
+        $("jobsLoginForm");
 
-                const login =
-                    getLogin();
 
-                const loginSection =
-                    byId("jobsLoginSection");
+    if(!form){
+        return;
+    }
 
-                const profileSection =
-                    byId("jobsProfileSection");
 
-                const profileEmail =
-                    byId("jobsProfileEmail");
+    form.addEventListener(
+        "submit",
+        function(e){
 
-                const mainSection =
-                    byId("jobsMainSection");
+            e.preventDefault();
 
 
-                if (login) {
+            const email =
+                $("jobsLoginEmail")
+                .value
+                .trim()
+                .toLowerCase();
 
-                    if (loginSection) {
-                        loginSection.style.display =
-                            "none";
-                    }
 
-                    if (profileSection) {
-                        profileSection.style.display =
-                            "flex";
-                    }
+            const password =
+                $("jobsLoginPassword")
+                .value;
 
-                    if (profileEmail) {
-                        profileEmail.textContent =
-                            login.email || "";
-                    }
 
-                    if (mainSection) {
-                        mainSection.style.display =
-                            "block";
-                    }
+            const agreement =
+                $("jobsAgreement")
+                .checked;
 
-                } else {
 
-                    if (loginSection) {
-                        loginSection.style.display =
-                            "block";
-                    }
-
-                    if (profileSection) {
-                        profileSection.style.display =
-                            "none";
-                    }
-
-                    if (mainSection) {
-                        mainSection.style.display =
-                            "block";
-                    }
-
-                }
-
-            }
-
-
-            /* =================================================
-               LOGIN
-            ================================================= */
-
-            function setupLogin() {
-
-                const form =
-                    byId("jobsLoginForm");
-
-                if (!form) {
-                    return;
-                }
-
-
-                form.addEventListener(
-                    "submit",
-                    function (event) {
-
-                        event.preventDefault();
-
-
-                        const email =
-                            byId(
-                                "jobsLoginEmail"
-                            ).value
-                                .trim()
-                                .toLowerCase();
-
-
-                        const password =
-                            byId(
-                                "jobsLoginPassword"
-                            ).value;
-
-
-                        const agreement =
-                            byId(
-                                "jobsAgreement"
-                            ).checked;
-
-
-                        if (!email) {
-
-                            showMessage(
-                                "jobsLoginMessage",
-                                "Please enter your email."
-                            );
-
-                            return;
-
-                        }
-
-
-                        if (!password) {
-
-                            showMessage(
-                                "jobsLoginMessage",
-                                "Please enter your password."
-                            );
-
-                            return;
-
-                        }
-
-
-                        if (!agreement) {
-
-                            showMessage(
-                                "jobsLoginMessage",
-                                "Please accept the agreement."
-                            );
-
-                            return;
-
-                        }
-
-
-                        localStorage.setItem(
-                            LOGIN_KEY,
-                            JSON.stringify({
-                                email: email,
-                                loggedIn: true,
-                                loginAt: Date.now()
-                            })
-                        );
-
-
-                        hideMessage(
-                            "jobsLoginMessage"
-                        );
-
-
-                        form.reset();
-
-                        updateLoginUI();
-
-                        renderJobs();
-
-                    }
-                );
-
-            }
-
-
-            /* =================================================
-               LOGOUT
-            ================================================= */
-
-            function setupLogout() {
-
-                const button =
-                    byId("jobsLogoutBtn");
-
-                if (!button) {
-                    return;
-                }
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        localStorage.removeItem(
-                            LOGIN_KEY
-                        );
-
-                        editingJobId = null;
-
-                        updateLoginUI();
-
-                        renderJobs();
-
-                    }
-                );
-
-            }
-
-
-            /* =================================================
-               TABS
-            ================================================= */
-
-            function setupTabs() {
-
-                const internationalTab =
-                    byId(
-                        "internationalJobsTab"
-                    );
-
-                const localTab =
-                    byId(
-                        "localJobsTab"
-                    );
-
-                const internationalPanel =
-                    byId(
-                        "internationalJobsPanel"
-                    );
-
-                const localPanel =
-                    byId(
-                        "localJobsPanel"
-                    );
-
-
-                if (
-                    !internationalTab ||
-                    !localTab ||
-                    !internationalPanel ||
-                    !localPanel
-                ) {
-                    return;
-                }
-
-
-                internationalTab.addEventListener(
-                    "click",
-                    function () {
-
-                        internationalTab.classList.add(
-                            "active"
-                        );
-
-                        localTab.classList.remove(
-                            "active"
-                        );
-
-                        internationalPanel.classList.add(
-                            "active"
-                        );
-
-                        localPanel.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-                localTab.addEventListener(
-                    "click",
-                    function () {
-
-                        localTab.classList.add(
-                            "active"
-                        );
-
-                        internationalTab.classList.remove(
-                            "active"
-                        );
-
-                        localPanel.classList.add(
-                            "active"
-                        );
-
-                        internationalPanel.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-            }
-
-
-            /* =================================================
-               FILE TO DATA URL
-            ================================================= */
-
-            function fileToDataURL(file) {
-
-                return new Promise(
-                    function (resolve) {
-
-                        if (!file) {
-
-                            resolve("");
-
-                            return;
-
-                        }
-
-
-                        const reader =
-                            new FileReader();
-
-
-                        reader.onload =
-                            function () {
-
-                                resolve(
-                                    reader.result || ""
-                                );
-
-                            };
-
-
-                        reader.onerror =
-                            function () {
-
-                                resolve("");
-
-                            };
-
-
-                        reader.readAsDataURL(
-                            file
-                        );
-
-                    }
-                );
-
-            }
-
-
-            /* =================================================
-               CREATE JOB OBJECT
-            ================================================= */
-
-            async function buildJob(
-                type
-            ) {
-
-                const prefix =
-                    type === "international"
-                        ? "international"
-                        : "local";
-
-
-                const countrySelect =
-                    byId(
-                        prefix + "Country"
-                    );
-
-
-                const category =
-                    byId(
-                        prefix + "Category"
-                    ).value;
-
-
-                const title =
-                    byId(
-                        prefix + "JobTitle"
-                    ).value.trim();
-
-
-                const salary =
-                    byId(
-                        prefix + "Salary"
-                    ).value.trim();
-
-
-                const appointment =
-                    byId(
-                        prefix + "Appointment"
-                    ).value;
-
-
-                const location =
-                    byId(
-                        prefix + "Location"
-                    ).value.trim();
-
-
-                const description =
-                    byId(
-                        prefix + "Description"
-                    ).value.trim();
-
-
-                const imageInput =
-                    byId(
-                        prefix + "Image"
-                    );
-
-
-                const videoInput =
-                    byId(
-                        prefix + "Video"
-                    );
-
-
-                const selected =
-                    countrySelect
-                        ? countrySelect
-                            .options[
-                                countrySelect.selectedIndex
-                            ]
-                        : null;
-
-
-                const country =
-                    selected
-                        ? {
-                            value:
-                                selected.value,
-                            label:
-                                selected.textContent,
-                            name:
-                                selected.dataset.country ||
-                                "",
-                            iso2:
-                                selected.dataset.iso2 ||
-                                "",
-                            iso3:
-                                selected.dataset.iso3 ||
-                                "",
-                            callingCode:
-                                selected.dataset.callingCode ||
-                                ""
-                        }
-                        : {
-                            value: "",
-                            label: "",
-                            name: "",
-                            iso2: "",
-                            iso3: "",
-                            callingCode: ""
-                        };
-
-
-                const image =
-                    imageInput &&
-                    imageInput.files &&
-                    imageInput.files[0]
-                        ? await fileToDataURL(
-                            imageInput.files[0]
-                        )
-                        : "";
-
-
-                const video =
-                    videoInput &&
-                    videoInput.files &&
-                    videoInput.files[0]
-                        ? await fileToDataURL(
-                            videoInput.files[0]
-                        )
-                        : "";
-
-
-                return {
-
-                    id:
-                        editingJobId ||
-                        createId(),
-
-                    owner:
-                        getLogin()
-                            ? getLogin().email
-                            : "",
-
-                    type:
-                        type,
-
-                    country:
-                        country,
-
-                    category:
-                        category,
-
-                    title:
-                        title,
-
-                    salary:
-                        salary,
-
-                    appointment:
-                        appointment,
-
-                    location:
-                        location,
-
-                    description:
-                        description,
-
-                    image:
-                        image,
-
-                    video:
-                        video,
-
-                    createdAt:
-                        Date.now(),
-
-                    updatedAt:
-                        Date.now()
-
-                };
-
-            }
-
-
-            /* =================================================
-               RESET FORM
-            ================================================= */
-
-            function resetForm(
-                type
-            ) {
-
-                const prefix =
-                    type === "international"
-                        ? "international"
-                        : "local";
-
-
-                const form =
-                    byId(
-                        prefix + "JobForm"
-                    );
-
-
-                if (form) {
-                    form.reset();
-                }
-
-
-                byId(
-                    prefix + "JobId"
-                ).value = "";
-
-
-                editingJobId = null;
-
-
-                const cancel =
-                    byId(
-                        prefix +
-                        "CancelEdit"
-                    );
-
-
-                if (cancel) {
-                    cancel.classList.add(
-                        "hidden"
-                    );
-                }
-
-            }
-
-
-            /* =================================================
-               SAVE JOB
-            ================================================= */
-
-            async function saveJob(
-                type
-            ) {
-
-                const login =
-                    getLogin();
-
-
-                if (!login) {
-
-                    alert(
-                        "Please login first."
-                    );
-
-                    return;
-
-                }
-
-
-                const job =
-                    await buildJob(
-                        type
-                    );
-
-
-                const jobs =
-                    getJobs();
-
-
-                const index =
-                    jobs.findIndex(
-                        function (item) {
-
-                            return item.id ===
-                                job.id &&
-                                item.owner ===
-                                login.email;
-
-                        }
-                    );
-
-
-                if (index >= 0) {
-
-                    job.createdAt =
-                        jobs[index].createdAt;
-
-                    jobs[index] =
-                        job;
-
-                } else {
-
-                    jobs.unshift(
-                        job
-                    );
-
-                }
-
-
-                saveJobs(
-                    jobs
-                );
-
-
-                resetForm(
-                    type
-                );
-
-
-                renderJobs();
-
+            if(!email){
 
                 alert(
-                    index >= 0
-                        ? "Job updated successfully."
-                        : "Job saved successfully."
+                    "Please enter your email."
+                );
+
+                return;
+
+            }
+
+
+            if(!password){
+
+                alert(
+                    "Please enter your password."
+                );
+
+                return;
+
+            }
+
+
+            if(!agreement){
+
+                alert(
+                    "Please accept the agreement."
+                );
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                LOGIN_KEY,
+                JSON.stringify({
+                    email:email,
+                    loggedIn:true
+                })
+            );
+
+
+            form.reset();
+
+            updateLogin();
+
+            renderJobs();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+LOGOUT
+========================================================= */
+
+function setupLogout(){
+
+    const button =
+        $("jobsLogoutBtn");
+
+
+    if(!button){
+        return;
+    }
+
+
+    button.addEventListener(
+        "click",
+        function(){
+
+            localStorage.removeItem(
+                LOGIN_KEY
+            );
+
+
+            editingJobId = null;
+
+            updateLogin();
+
+            renderJobs();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+TABS
+========================================================= */
+
+function setupTabs(){
+
+    const intTab =
+        $("internationalJobsTab");
+
+    const localTab =
+        $("localJobsTab");
+
+    const intPanel =
+        $("internationalJobsPanel");
+
+    const localPanel =
+        $("localJobsPanel");
+
+
+    if(
+        !intTab ||
+        !localTab ||
+        !intPanel ||
+        !localPanel
+    ){
+        return;
+    }
+
+
+    intTab.addEventListener(
+        "click",
+        function(){
+
+            intTab.classList.add("active");
+
+            localTab.classList.remove("active");
+
+            intPanel.classList.add("active");
+
+            localPanel.classList.remove("active");
+
+        }
+    );
+
+
+    localTab.addEventListener(
+        "click",
+        function(){
+
+            localTab.classList.add("active");
+
+            intTab.classList.remove("active");
+
+            localPanel.classList.add("active");
+
+            intPanel.classList.remove("active");
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+FILE DATA
+========================================================= */
+
+function readFile(file){
+
+    return new Promise(function(resolve){
+
+        if(!file){
+
+            resolve("");
+
+            return;
+
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(){
+
+                resolve(
+                    reader.result || ""
+                );
+
+            };
+
+
+        reader.onerror =
+            function(){
+
+                resolve("");
+
+            };
+
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+/* =========================================================
+BUILD JOB
+========================================================= */
+
+async function buildJob(type){
+
+    const p =
+        type === "international"
+        ? "international"
+        : "local";
+
+
+    const country =
+        $(p+"Country");
+
+
+    const selected =
+        country.options[
+            country.selectedIndex
+        ];
+
+
+    const login =
+        getLogin();
+
+
+    const imageInput =
+        $(p+"Image");
+
+
+    const videoInput =
+        $(p+"Video");
+
+
+    return {
+
+        id:
+            editingJobId ||
+            makeId(),
+
+        owner:
+            login.email,
+
+        type:type,
+
+        country:{
+            value:
+                selected
+                ? selected.value
+                : "",
+
+            label:
+                selected
+                ? selected.textContent
+                : "",
+
+            name:
+                selected
+                ? selected.dataset.country
+                : "",
+
+            iso2:
+                selected
+                ? selected.dataset.iso2
+                : "",
+
+            iso3:
+                selected
+                ? selected.dataset.iso3
+                : "",
+
+            callingCode:
+                selected
+                ? selected.dataset.callingCode
+                : ""
+        },
+
+        category:
+            $(p+"Category").value,
+
+        title:
+            $(p+"JobTitle").value.trim(),
+
+        salary:
+            $(p+"Salary").value.trim(),
+
+        appointment:
+            $(p+"Appointment").value,
+
+        location:
+            $(p+"Location").value.trim(),
+
+        description:
+            $(p+"Description").value.trim(),
+
+        image:
+            await readFile(
+                imageInput.files[0]
+            ),
+
+        video:
+            await readFile(
+                videoInput.files[0]
+            ),
+
+        createdAt:
+            Date.now(),
+
+        updatedAt:
+            Date.now()
+
+    };
+
+}
+
+
+/* =========================================================
+RESET
+========================================================= */
+
+function resetForm(type){
+
+    const p =
+        type === "international"
+        ? "international"
+        : "local";
+
+
+    const form =
+        $(p+"JobForm");
+
+
+    if(form){
+        form.reset();
+    }
+
+
+    editingJobId = null;
+
+
+    const cancel =
+        $(p+"CancelEdit");
+
+
+    if(cancel){
+        cancel.classList.add("hidden");
+    }
+
+}
+
+
+/* =========================================================
+SAVE
+========================================================= */
+
+async function saveJob(type){
+
+    const login =
+        getLogin();
+
+
+    if(!login){
+
+        alert(
+            "Please login first."
+        );
+
+        return;
+
+    }
+
+
+    const job =
+        await buildJob(type);
+
+
+    const jobs =
+        getJobs();
+
+
+    const index =
+        jobs.findIndex(function(item){
+
+            return(
+                item.id === job.id &&
+                item.owner === login.email
+            );
+
+        });
+
+
+    if(index >= 0){
+
+        job.createdAt =
+            jobs[index].createdAt;
+
+        jobs[index] =
+            job;
+
+    }else{
+
+        jobs.unshift(job);
+
+    }
+
+
+    saveJobs(jobs);
+
+    resetForm(type);
+
+    renderJobs();
+
+
+    alert(
+        index >= 0
+        ? "Job updated successfully."
+        : "Job saved successfully."
+    );
+
+}
+
+
+/* =========================================================
+FORM EVENTS
+========================================================= */
+
+function setupForms(){
+
+    const international =
+        $("internationalJobForm");
+
+
+    const local =
+        $("localJobForm");
+
+
+    if(international){
+
+        international.addEventListener(
+            "submit",
+            function(e){
+
+                e.preventDefault();
+
+                saveJob(
+                    "international"
+                );
+
+            }
+        );
+
+    }
+
+
+    if(local){
+
+        local.addEventListener(
+            "submit",
+            function(e){
+
+                e.preventDefault();
+
+                saveJob(
+                    "local"
+                );
+
+            }
+        );
+
+    }
+
+
+    const intCancel =
+        $("internationalCancelEdit");
+
+
+    const localCancel =
+        $("localCancelEdit");
+
+
+    if(intCancel){
+
+        intCancel.addEventListener(
+            "click",
+            function(){
+
+                resetForm(
+                    "international"
+                );
+
+            }
+        );
+
+    }
+
+
+    if(localCancel){
+
+        localCancel.addEventListener(
+            "click",
+            function(){
+
+                resetForm(
+                    "local"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+EDIT
+========================================================= */
+
+function editJob(id){
+
+    const login =
+        getLogin();
+
+
+    if(!login){
+        return;
+    }
+
+
+    const job =
+        getJobs().find(function(item){
+
+            return(
+                item.id === id &&
+                item.owner === login.email
+            );
+
+        });
+
+
+    if(!job){
+        return;
+    }
+
+
+    const p =
+        job.type === "international"
+        ? "international"
+        : "local";
+
+
+    editingJobId =
+        job.id;
+
+
+    $(p+"Country").value =
+        job.country.value || "";
+
+
+    $(p+"Category").value =
+        job.category || "";
+
+
+    $(p+"JobTitle").value =
+        job.title || "";
+
+
+    $(p+"Salary").value =
+        job.salary || "";
+
+
+    $(p+"Appointment").value =
+        job.appointment || "";
+
+
+    $(p+"Location").value =
+        job.location || "";
+
+
+    $(p+"Description").value =
+        job.description || "";
+
+
+    const cancel =
+        $(p+"CancelEdit");
+
+
+    if(cancel){
+        cancel.classList.remove("hidden");
+    }
+
+
+    if(p === "international"){
+        $("internationalJobsTab").click();
+    }else{
+        $("localJobsTab").click();
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+DELETE
+========================================================= */
+
+function deleteJob(id){
+
+    const login =
+        getLogin();
+
+
+    if(!login){
+        return;
+    }
+
+
+    if(
+        !confirm(
+            "Delete this job?"
+        )
+    ){
+        return;
+    }
+
+
+    const jobs =
+        getJobs().filter(function(item){
+
+            return !(
+                item.id === id &&
+                item.owner === login.email
+            );
+
+        });
+
+
+    saveJobs(jobs);
+
+    renderJobs();
+
+}
+
+
+/* =========================================================
+RENDER
+========================================================= */
+
+function renderJobs(){
+
+    const list =
+        $("jobsList");
+
+
+    const empty =
+        $("jobsEmptyMessage");
+
+
+    if(!list){
+        return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    const login =
+        getLogin();
+
+
+    if(!login){
+
+        if(empty){
+            empty.classList.remove("hidden");
+            empty.textContent =
+                "Login to manage your jobs.";
+        }
+
+        return;
+
+    }
+
+
+    const jobs =
+        getJobs().filter(function(item){
+
+            return(
+                item.owner === login.email
+            );
+
+        });
+
+
+    if(!jobs.length){
+
+        if(empty){
+            empty.classList.remove("hidden");
+            empty.textContent =
+                "No jobs saved yet.";
+        }
+
+        return;
+
+    }
+
+
+    if(empty){
+        empty.classList.add("hidden");
+    }
+
+
+    jobs.forEach(function(job){
+
+        const card =
+            document.createElement("article");
+
+
+        card.className =
+            "jobs-card";
+
+
+        const h3 =
+            document.createElement("h3");
+
+
+        h3.textContent =
+            job.title || "Job";
+
+
+        card.appendChild(h3);
+
+
+        const meta =
+            document.createElement("div");
+
+
+        meta.className =
+            "jobs-meta";
+
+
+        meta.textContent =
+            [
+                job.type === "international"
+                ? "International Job"
+                : "Local Job",
+
+                "Country: " +
+                (
+                    job.country
+                    ? job.country.label
+                    : ""
+                ),
+
+                "Category: " +
+                (job.category || ""),
+
+                "Salary: " +
+                (job.salary || ""),
+
+                "Appointment: " +
+                (job.appointment || ""),
+
+                "Location: " +
+                (job.location || "")
+
+            ].join(" • ");
+
+
+        card.appendChild(meta);
+
+
+        const desc =
+            document.createElement("div");
+
+
+        desc.className =
+            "jobs-description";
+
+
+        desc.textContent =
+            job.description || "";
+
+
+        card.appendChild(desc);
+
+
+        if(
+            job.image ||
+            job.video
+        ){
+
+            const media =
+                document.createElement("div");
+
+
+            media.className =
+                "jobs-media";
+
+
+            if(job.image){
+
+                const image =
+                    document.createElement("img");
+
+
+                image.src =
+                    job.image;
+
+
+                image.alt =
+                    job.title || "Job image";
+
+
+                media.appendChild(
+                    image
                 );
 
             }
 
 
-            /* =================================================
-               FORM SETUP
-            ================================================= */
+            if(job.video){
 
-            function setupForms() {
+                const video =
+                    document.createElement("video");
 
-                const internationalForm =
-                    byId(
-                        "internationalJobForm"
-                    );
 
+                video.src =
+                    job.video;
 
-                const localForm =
-                    byId(
-                        "localJobForm"
-                    );
 
+                video.controls =
+                    true;
 
-                if (internationalForm) {
 
-                    internationalForm.addEventListener(
-                        "submit",
-                        function (event) {
-
-                            event.preventDefault();
-
-                            saveJob(
-                                "international"
-                            );
-
-                        }
-                    );
-
-                }
-
-
-                if (localForm) {
-
-                    localForm.addEventListener(
-                        "submit",
-                        function (event) {
-
-                            event.preventDefault();
-
-                            saveJob(
-                                "local"
-                            );
-
-                        }
-                    );
-
-                }
-
-
-                const internationalCancel =
-                    byId(
-                        "internationalCancelEdit"
-                    );
-
-
-                const localCancel =
-                    byId(
-                        "localCancelEdit"
-                    );
-
-
-                if (internationalCancel) {
-
-                    internationalCancel.addEventListener(
-                        "click",
-                        function () {
-
-                            resetForm(
-                                "international"
-                            );
-
-                        }
-                    );
-
-                }
-
-
-                if (localCancel) {
-
-                    localCancel.addEventListener(
-                        "click",
-                        function () {
-
-                            resetForm(
-                                "local"
-                            );
-
-                        }
-                    );
-
-                }
-
-            }
-
-
-            /* =================================================
-               EDIT JOB
-            ================================================= */
-
-            function editJob(
-                id
-            ) {
-
-                const login =
-                    getLogin();
-
-
-                if (!login) {
-                    return;
-                }
-
-
-                const jobs =
-                    getJobs();
-
-
-                const job =
-                    jobs.find(
-                        function (item) {
-
-                            return (
-                                item.id === id &&
-                                item.owner ===
-                                login.email
-                            );
-
-                        }
-                    );
-
-
-                if (!job) {
-                    return;
-                }
-
-
-                const prefix =
-                    job.type === "international"
-                        ? "international"
-                        : "local";
-
-
-                editingJobId =
-                    job.id;
-
-
-                byId(
-                    prefix + "Country"
-                ).value =
-                    job.country.value || "";
-
-
-                byId(
-                    prefix + "Category"
-                ).value =
-                    job.category || "";
-
-
-                byId(
-                    prefix + "JobTitle"
-                ).value =
-                    job.title || "";
-
-
-                byId(
-                    prefix + "Salary"
-                ).value =
-                    job.salary || "";
-
-
-                byId(
-                    prefix + "Appointment"
-                ).value =
-                    job.appointment || "";
-
-
-                byId(
-                    prefix + "Location"
-                ).value =
-                    job.location || "";
-
-
-                byId(
-                    prefix + "Description"
-                ).value =
-                    job.description || "";
-
-
-                const cancel =
-                    byId(
-                        prefix +
-                        "CancelEdit"
-                    );
-
-
-                if (cancel) {
-                    cancel.classList.remove(
-                        "hidden"
-                    );
-                }
-
-
-                const tab =
-                    byId(
-                        prefix === "international"
-                            ? "internationalJobsTab"
-                            : "localJobsTab"
-                    );
-
-
-                if (tab) {
-                    tab.click();
-                }
-
-
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-
-            }
-
-
-            /* =================================================
-               DELETE JOB
-            ================================================= */
-
-            function deleteJob(
-                id
-            ) {
-
-                const login =
-                    getLogin();
-
-
-                if (!login) {
-                    return;
-                }
-
-
-                const confirmed =
-                    window.confirm(
-                        "Delete this job?"
-                    );
-
-
-                if (!confirmed) {
-                    return;
-                }
-
-
-                const jobs =
-                    getJobs();
-
-
-                const filtered =
-                    jobs.filter(
-                        function (item) {
-
-                            return !(
-                                item.id === id &&
-                                item.owner ===
-                                login.email
-                            );
-
-                        }
-                    );
-
-
-                saveJobs(
-                    filtered
-                );
-
-
-                renderJobs();
-
-            }
-
-
-            /* =================================================
-               RENDER JOB
-            ================================================= */
-
-            function renderJobCard(
-                job
-            ) {
-
-                const card =
-                    document.createElement(
-                        "article"
-                    );
-
-
-                card.className =
-                    "job-item";
-
-
-                const title =
-                    document.createElement(
-                        "h3"
-                    );
-
-
-                title.textContent =
-                    job.title || "Job";
-
-
-                card.appendChild(
-                    title
-                );
-
-
-                const meta =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                meta.className =
-                    "job-meta";
-
-
-                const countryText =
-                    job.country &&
-                    job.country.label
-                        ? job.country.label
-                        : "Country not specified";
-
-
-                meta.textContent =
-                    [
-                        job.type ===
-                            "international"
-                            ? "International Job"
-                            : "Local Job",
-
-                        "Country: " +
-                            countryText,
-
-                        "Category: " +
-                            (job.category || ""),
-
-                        "Salary: " +
-                            (job.salary || ""),
-
-                        "Type: " +
-                            (job.appointment || ""),
-
-                        "Location: " +
-                            (job.location || ""),
-
-                        "Posted by: " +
-                            (job.owner || "")
-
-                    ].join(
-                        " • "
-                    );
-
-
-                card.appendChild(
-                    meta
-                );
-
-
-                const description =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                description.className =
-                    "job-description";
-
-
-                description.textContent =
-                    job.description || "";
-
-
-                card.appendChild(
-                    description
-                );
-
-
-                if (
-                    job.image ||
-                    job.video
-                ) {
-
-                    const media =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    media.className =
-                        "job-media";
-
-
-                    if (job.image) {
-
-                        const image =
-                            document.createElement(
-                                "img"
-                            );
-
-                        image.src =
-                            job.image;
-
-                        image.alt =
-                            job.title || "Job image";
-
-                        media.appendChild(
-                            image
-                        );
-
-                    }
-
-
-                    if (job.video) {
-
-                        const video =
-                            document.createElement(
-                                "video"
-                            );
-
-                        video.src =
-                            job.video;
-
-                        video.controls =
-                            true;
-
-                        media.appendChild(
-                            video
-                        );
-
-                    }
-
-
-                    card.appendChild(
-                        media
-                    );
-
-                }
-
-
-                const buttons =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                buttons.className =
-                    "jobs-buttons";
-
-
-                const edit =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                edit.type =
-                    "button";
-
-                edit.className =
-                    "jobs-btn";
-
-
-                edit.textContent =
-                    "Edit";
-
-
-                edit.addEventListener(
-                    "click",
-                    function () {
-
-                        editJob(
-                            job.id
-                        );
-
-                    }
-                );
-
-
-                const remove =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                remove.type =
-                    "button";
-
-                remove.className =
-                    "jobs-btn danger";
-
-
-                remove.textContent =
-                    "Delete";
-
-
-                remove.addEventListener(
-                    "click",
-                    function () {
-
-                        deleteJob(
-                            job.id
-                        );
-
-                    }
-                );
-
-
-                buttons.appendChild(
-                    edit
-                );
-
-                buttons.appendChild(
-                    remove
-                );
-
-
-                card.appendChild(
-                    buttons
-                );
-
-
-                return card;
-
-            }
-
-
-            /* =================================================
-               RENDER JOBS
-            ================================================= */
-
-            function renderJobs() {
-
-                const list =
-                    byId(
-                        "jobsList"
-                    );
-
-
-                const empty =
-                    byId(
-                        "jobsEmptyMessage"
-                    );
-
-
-                if (!list) {
-                    return;
-                }
-
-
-                list.innerHTML =
-                    "";
-
-
-                const login =
-                    getLogin();
-
-
-                if (!login) {
-
-                    if (empty) {
-
-                        empty.style.display =
-                            "block";
-
-                        empty.textContent =
-                            "Login to manage your jobs.";
-
-                    }
-
-                    return;
-
-                }
-
-
-                const jobs =
-                    getJobs()
-                        .filter(
-                            function (job) {
-
-                                return (
-                                    job.owner ===
-                                    login.email
-                                );
-
-                            }
-                        );
-
-
-                if (!jobs.length) {
-
-                    if (empty) {
-
-                        empty.style.display =
-                            "block";
-
-                        empty.textContent =
-                            "No jobs saved yet.";
-
-                    }
-
-                    return;
-
-                }
-
-
-                if (empty) {
-                    empty.style.display =
-                        "none";
-                }
-
-
-                jobs.forEach(
-                    function (job) {
-
-                        list.appendChild(
-                            renderJobCard(
-                                job
-                            )
-                        );
-
-                    }
+                media.appendChild(
+                    video
                 );
 
             }
 
 
-            /* =================================================
-               COUNTRY RETRY
-            ================================================= */
+            card.appendChild(
+                media
+            );
 
-            function startCountryLoader() {
-
-                let attempts = 0;
+        }
 
 
-                function attempt() {
-
-                    attempts++;
-
-
-                    const countries =
-                        getCountryDatabase();
+        const actions =
+            document.createElement("div");
 
 
-                    if (countries.length) {
-
-                        fillAllCountries();
-
-                        return;
-
-                    }
+        actions.className =
+            "jobs-actions";
 
 
-                    if (attempts < 30) {
-
-                        setTimeout(
-                            attempt,
-                            300
-                        );
-
-                    }
-
-                }
+        const edit =
+            document.createElement("button");
 
 
-                attempt();
-
-            }
-
-
-            /* =================================================
-               START
-            ================================================= */
-
-            function init() {
-
-                setupLogin();
-
-                setupLogout();
-
-                setupTabs();
-
-                setupForms();
-
-                updateLoginUI();
-
-                startCountryLoader();
-
-                renderJobs();
-
-            }
+        edit.type =
+            "button";
 
 
-            if (
-                document.readyState ===
-                "loading"
-            ) {
+        edit.className =
+            "jobs-btn";
 
-                document.addEventListener(
-                    "DOMContentLoaded",
-                    init
-                );
 
-            } else {
+        edit.textContent =
+            "Edit";
 
-                init();
 
-            }
+        edit.onclick =
+            function(){
 
-        })();
+                editJob(job.id);
 
-    </script>
+            };
+
+
+        const remove =
+            document.createElement("button");
+
+
+        remove.type =
+            "button";
+
+
+        remove.className =
+            "jobs-btn jobs-btn-danger";
+
+
+        remove.textContent =
+            "Delete";
+
+
+        remove.onclick =
+            function(){
+
+                deleteJob(job.id);
+
+            };
+
+
+        actions.appendChild(edit);
+
+        actions.appendChild(remove);
+
+        card.appendChild(actions);
+
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+INIT
+========================================================= */
+
+function init(){
+
+    setupLogin();
+
+    setupLogout();
+
+    setupTabs();
+
+    setupForms();
+
+    updateLogin();
+
+    startCountrySystem();
+
+    renderJobs();
+
+}
+
+
+if(
+    document.readyState ===
+    "loading"
+){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        init
+    );
+
+}else{
+
+    init();
+
+}
+
+})();
+
+</script>
 
 </body>
-
 </html>
