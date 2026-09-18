@@ -1,0 +1,1470 @@
+<!-- =========================================================
+     ALON HISTORYVERSE 24
+     REGULAR MARKETPLACE
+     File: html/regular-marketplace.html
+     Version: 24.8 PASSWORDLESS REGULAR MARKETPLACE
+     Creator: Baba Thecno Guru
+     ========================================================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Regular Marketplace — ALON HISTORYVERSE 24
+    </title>
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 Regular Marketplace — sell items, property, vehicles and create business or showroom advertisements."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           REGULAR MARKETPLACE LOCAL STYLE
+           ===================================================== */
+
+        .rm-page {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .rm-hero {
+            text-align: center;
+            padding: 30px 15px;
+            margin-bottom: 20px;
+        }
+
+        .rm-hero h1 {
+            margin: 0 0 10px;
+        }
+
+        .rm-hero p {
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .rm-section {
+            width: 100%;
+            margin: 20px 0;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 14px;
+        }
+
+        .rm-section h2 {
+            margin-top: 0;
+        }
+
+        .rm-login-section {
+            border: 1px solid rgba(215, 179, 90, 0.35);
+        }
+
+        .rm-profile {
+            display: none;
+        }
+
+        .rm-sell-section,
+        .rm-my-section,
+        .rm-showroom-section {
+            display: block;
+        }
+
+        .rm-form {
+            width: 100%;
+        }
+
+        .rm-form-group {
+            margin-bottom: 15px;
+        }
+
+        .rm-form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .rm-form-group input,
+        .rm-form-group select,
+        .rm-form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font: inherit;
+        }
+
+        .rm-form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .rm-type-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(130px, 1fr)
+            );
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .rm-type-card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .rm-type-card input {
+            margin-right: 6px;
+        }
+
+        .rm-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .rm-actions button,
+        .rm-ad-actions button {
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .rm-status {
+            min-height: 20px;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+
+        .rm-status.error {
+            color: #b00020;
+        }
+
+        .rm-status.success {
+            color: #087f23;
+        }
+
+        .rm-profile-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .rm-profile-info {
+            word-break: break-word;
+        }
+
+        .rm-type-hidden {
+            display: none;
+        }
+
+        .rm-listings,
+        .rm-showrooms {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(280px, 1fr)
+            );
+            gap: 18px;
+        }
+
+        .rm-ad-card,
+        .rm-showroom-card {
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            overflow: hidden;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .rm-ad-media,
+        .rm-showroom-media {
+            margin-bottom: 12px;
+        }
+
+        .rm-ad-media img,
+        .rm-showroom-media img,
+        .rm-ad-media video,
+        .rm-showroom-media video {
+            display: block;
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .rm-ad-content h3,
+        .rm-showroom-content h3 {
+            margin-top: 0;
+        }
+
+        .rm-ad-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .rm-empty {
+            padding: 20px;
+            border: 1px dashed #bbb;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .rm-price-note {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+
+            .rm-page {
+                padding: 12px;
+            }
+
+            .rm-section {
+                padding: 15px;
+            }
+
+            .rm-actions {
+                flex-direction: column;
+            }
+
+            .rm-actions button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="rm-page">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="rm-hero">
+
+        <h1>
+            Regular Marketplace
+        </h1>
+
+        <p>
+            ALON HISTORYVERSE 24 — Buy, sell and advertise
+            items, property, vehicles and businesses.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         PASSWORDLESS LOGIN
+         ===================================================== -->
+
+    <section
+        id="rmLoginSection"
+        class="rm-section rm-login-section"
+    >
+
+        <h2>
+            Login
+        </h2>
+
+        <p>
+            Login with your name and email.
+            No password required.
+        </p>
+
+        <form
+            id="rmLoginForm"
+            class="rm-form"
+        >
+
+            <div class="rm-form-group">
+
+                <label for="rmLoginName">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="rmLoginName"
+                    name="name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmLoginEmail">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="rmLoginEmail"
+                    name="email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="rmAgreement"
+                        required
+                    >
+
+                    I agree to use the Regular Marketplace
+                    according to its rules.
+
+                </label>
+
+            </div>
+
+
+            <div class="rm-actions">
+
+                <button
+                    type="submit"
+                >
+                    Login / Continue
+                </button>
+
+            </div>
+
+
+            <div
+                id="rmLoginStatus"
+                class="rm-status"
+                aria-live="polite"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROFILE
+         ===================================================== -->
+
+    <section
+        id="rmProfileSection"
+        class="rm-section rm-profile"
+    >
+
+        <h2>
+            My Profile
+        </h2>
+
+        <div class="rm-profile-box">
+
+            <div class="rm-profile-info">
+
+                <div>
+                    <strong>Name:</strong>
+                    <span id="rmProfileName"></span>
+                </div>
+
+                <div>
+                    <strong>Email:</strong>
+                    <span id="rmProfileEmail"></span>
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="rmLogoutBtn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SELL AD
+         ===================================================== -->
+
+    <section
+        id="rmSellSection"
+        class="rm-section rm-sell-section"
+    >
+
+        <h2>
+            Sell Advertisement
+        </h2>
+
+        <p>
+            Create an advertisement for an item,
+            property or vehicle.
+        </p>
+
+
+        <!-- TYPE -->
+
+        <div class="rm-type-grid">
+
+            <label class="rm-type-card">
+
+                <input
+                    type="radio"
+                    name="rmTypeChoice"
+                    value="item"
+                    checked
+                >
+
+                Item
+
+            </label>
+
+
+            <label class="rm-type-card">
+
+                <input
+                    type="radio"
+                    name="rmTypeChoice"
+                    value="property"
+                >
+
+                Property
+
+            </label>
+
+
+            <label class="rm-type-card">
+
+                <input
+                    type="radio"
+                    name="rmTypeChoice"
+                    value="vehicle"
+                >
+
+                Vehicle
+
+            </label>
+
+        </div>
+
+
+        <form
+            id="rmListingForm"
+            class="rm-form"
+        >
+
+            <input
+                type="hidden"
+                id="rmListingId"
+                value=""
+            >
+
+
+            <div class="rm-form-group">
+
+                <label for="rmListingTitle">
+                    Advertisement Title
+                </label>
+
+                <input
+                    type="text"
+                    id="rmListingTitle"
+                    required
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmListingType">
+                    Listing Type
+                </label>
+
+                <select
+                    id="rmListingType"
+                    required
+                >
+
+                    <option value="item">
+                        Item
+                    </option>
+
+                    <option value="property">
+                        Property
+                    </option>
+
+                    <option value="vehicle">
+                        Vehicle
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmListingCategory">
+                    Category
+                </label>
+
+                <select
+                    id="rmListingCategory"
+                    required
+                >
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmListingCondition">
+                    Condition
+                </label>
+
+                <select
+                    id="rmListingCondition"
+                    required
+                >
+
+                    <option value="">
+                        Select Condition
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmCountry">
+                    Country
+                </label>
+
+                <select
+                    id="rmCountry"
+                    required
+                >
+
+                    <option value="">
+                        Select Country
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmState">
+                    State / Province
+                </label>
+
+                <input
+                    type="text"
+                    id="rmState"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmDistrict">
+                    District
+                </label>
+
+                <input
+                    type="text"
+                    id="rmDistrict"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmPin">
+                    PIN / ZIP
+                </label>
+
+                <input
+                    type="text"
+                    id="rmPin"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmPrice">
+                    Price
+                </label>
+
+                <input
+                    type="number"
+                    id="rmPrice"
+                    min="0"
+                    step="any"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmCurrency">
+                    Currency
+                </label>
+
+                <select id="rmCurrency">
+
+                    <option value="USD">
+                        USD
+                    </option>
+
+                    <option value="INR">
+                        INR
+                    </option>
+
+                    <option value="EUR">
+                        EUR
+                    </option>
+
+                    <option value="GBP">
+                        GBP
+                    </option>
+
+                    <option value="AED">
+                        AED
+                    </option>
+
+                    <option value="BDT">
+                        BDT
+                    </option>
+
+                    <option value="PKR">
+                        PKR
+                    </option>
+
+                    <option value="CAD">
+                        CAD
+                    </option>
+
+                    <option value="AUD">
+                        AUD
+                    </option>
+
+                    <option value="JPY">
+                        JPY
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmLocation">
+                    Location
+                </label>
+
+                <input
+                    type="text"
+                    id="rmLocation"
+                    placeholder="City / Area / Local Location"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmReach">
+                    Advertisement Reach
+                </label>
+
+                <select id="rmReach">
+
+                    <option value="">
+                        Select Reach
+                    </option>
+
+                    <option value="Local">
+                        Local
+                    </option>
+
+                    <option value="Country">
+                        Country
+                    </option>
+
+                    <option value="Global">
+                        Global
+                    </option>
+
+                    <option value="All Countries">
+                        All Countries
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="rmDescription"
+                ></textarea>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmImage">
+                    Image
+                </label>
+
+                <input
+                    type="file"
+                    id="rmImage"
+                    accept="image/*"
+                >
+
+                <small>
+                    Maximum 8 MB.
+                </small>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmVideo">
+                    Video
+                </label>
+
+                <input
+                    type="file"
+                    id="rmVideo"
+                    accept="video/*"
+                >
+
+                <small>
+                    Maximum 40 MB.
+                </small>
+
+            </div>
+
+
+            <div class="rm-actions">
+
+                <button
+                    type="submit"
+                    id="rmSaveBtn"
+                >
+                    Save Advertisement
+                </button>
+
+
+                <button
+                    type="submit"
+                    id="rmUpdateBtn"
+                    style="display:none;"
+                >
+                    Update Advertisement
+                </button>
+
+
+                <button
+                    type="button"
+                    id="rmCancelEditBtn"
+                    style="display:none;"
+                >
+                    Cancel Edit
+                </button>
+
+
+                <button
+                    type="button"
+                    id="rmResetBtn"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div
+                id="rmListingStatus"
+                class="rm-status"
+                aria-live="polite"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         MY ADS
+         ===================================================== -->
+
+    <section
+        id="rmMyAdsSection"
+        class="rm-section rm-my-section"
+    >
+
+        <h2>
+            My Ads
+        </h2>
+
+        <div
+            id="rmListings"
+            class="rm-listings"
+        ></div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BUSINESS / SHOWROOM
+         ===================================================== -->
+
+    <section
+        id="rmShowroomSection"
+        class="rm-section rm-showroom-section"
+    >
+
+        <h2>
+            Business / Showroom Advertisement
+        </h2>
+
+        <div class="rm-price-note">
+
+            Business / Showroom Advertisement Price:
+            <strong>$10 USD</strong>
+
+        </div>
+
+
+        <form
+            id="rmShowroomForm"
+            class="rm-form"
+        >
+
+            <input
+                type="hidden"
+                id="rmShowroomId"
+                value=""
+            >
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomName">
+                    Business / Showroom Name
+                </label>
+
+                <input
+                    type="text"
+                    id="rmShowroomName"
+                    required
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomCountry">
+                    Country
+                </label>
+
+                <select
+                    id="rmShowroomCountry"
+                    required
+                >
+
+                    <option value="">
+                        Select Country
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomState">
+                    State / Province
+                </label>
+
+                <input
+                    type="text"
+                    id="rmShowroomState"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomDistrict">
+                    District
+                </label>
+
+                <input
+                    type="text"
+                    id="rmShowroomDistrict"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomTaluka">
+                    Taluka / City
+                </label>
+
+                <input
+                    type="text"
+                    id="rmShowroomTaluka"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomPin">
+                    PIN / ZIP
+                </label>
+
+                <input
+                    type="text"
+                    id="rmShowroomPin"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomCategory">
+                    Business Category
+                </label>
+
+                <input
+                    type="text"
+                    id="rmShowroomCategory"
+                    placeholder="Example: Electronics, Clothing, Auto"
+                >
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomReach">
+                    Advertisement Reach
+                </label>
+
+                <select id="rmShowroomReach">
+
+                    <option value="">
+                        Select Reach
+                    </option>
+
+                    <option value="Local">
+                        Local
+                    </option>
+
+                    <option value="Country">
+                        Country
+                    </option>
+
+                    <option value="Global">
+                        Global
+                    </option>
+
+                    <option value="All Countries">
+                        All Countries
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="rmShowroomDescription"
+                ></textarea>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomImage">
+                    Business / Showroom Image
+                </label>
+
+                <input
+                    type="file"
+                    id="rmShowroomImage"
+                    accept="image/*"
+                >
+
+                <small>
+                    Maximum 8 MB.
+                </small>
+
+            </div>
+
+
+            <div class="rm-form-group">
+
+                <label for="rmShowroomVideo">
+                    Business / Showroom Video
+                </label>
+
+                <input
+                    type="file"
+                    id="rmShowroomVideo"
+                    accept="video/*"
+                >
+
+                <small>
+                    Maximum 40 MB.
+                </small>
+
+            </div>
+
+
+            <div class="rm-actions">
+
+                <button
+                    type="submit"
+                    id="rmShowroomSaveBtn"
+                >
+                    Save Showroom Advertisement
+                </button>
+
+
+                <button
+                    type="submit"
+                    id="rmShowroomUpdateBtn"
+                    style="display:none;"
+                >
+                    Update Showroom Advertisement
+                </button>
+
+
+                <button
+                    type="button"
+                    id="rmShowroomResetBtn"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div
+                id="rmShowroomStatus"
+                class="rm-status"
+                aria-live="polite"
+            ></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         MY BUSINESS / SHOWROOM ADS
+         ===================================================== -->
+
+    <section
+        id="rmShowroomsSection"
+        class="rm-section rm-my-section"
+    >
+
+        <h2>
+            My Business / Showroom Ads
+        </h2>
+
+        <div
+            id="rmShowrooms"
+            class="rm-showrooms"
+        ></div>
+
+    </section>
+
+
+</div>
+
+
+<!-- =========================================================
+     CENTRAL COUNTRY DATABASE
+     MUST LOAD FIRST
+     ========================================================= -->
+
+<script
+    src="../marketplace-countries.js"
+></script>
+
+
+<!-- =========================================================
+     REGULAR MARKETPLACE ENGINE
+     ========================================================= -->
+
+<script
+    src="../regular-marketplace.js"
+></script>
+
+
+<!-- =========================================================
+     SMALL HTML ↔ JS BRIDGE
+     ========================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    function getCountries() {
+
+        if (
+            Array.isArray(
+                window.MARKETPLACE_COUNTRIES
+            )
+        ) {
+
+            return window.MARKETPLACE_COUNTRIES;
+        }
+
+
+        if (
+            window.MARKETPLACE_COUNTRIES &&
+            typeof window.MARKETPLACE_COUNTRIES === "object"
+        ) {
+
+            return Object.keys(
+                window.MARKETPLACE_COUNTRIES
+            ).map(function (key) {
+
+                var item =
+                    window.MARKETPLACE_COUNTRIES[key];
+
+                if (
+                    item &&
+                    typeof item === "object"
+                ) {
+
+                    return Object.assign(
+                        {
+                            code: key
+                        },
+                        item
+                    );
+                }
+
+                return {
+                    code: key,
+                    name: item
+                };
+            });
+        }
+
+
+        if (
+            Array.isArray(
+                window.ALON_WORLD_COUNTRIES
+            )
+        ) {
+
+            return window.ALON_WORLD_COUNTRIES;
+        }
+
+
+        if (
+            Array.isArray(
+                window.WORLD_COUNTRIES
+            )
+        ) {
+
+            return window.WORLD_COUNTRIES;
+        }
+
+
+        return [];
+    }
+
+
+    function fillCountrySelect(
+        id
+    ) {
+
+        var select =
+            document.getElementById(id);
+
+        if (!select) {
+            return;
+        }
+
+
+        var countries =
+            getCountries();
+
+        if (!countries.length) {
+            return;
+        }
+
+
+        var oldValue =
+            select.value;
+
+
+        select.innerHTML =
+            "";
+
+
+        var first =
+            document.createElement(
+                "option"
+            );
+
+        first.value = "";
+
+        first.textContent =
+            "Select Country";
+
+        select.appendChild(
+            first
+        );
+
+
+        countries.forEach(
+            function (country) {
+
+                if (!country) {
+                    return;
+                }
+
+
+                var name =
+                    country.name ||
+                    country.country ||
+                    country.label ||
+                    "";
+
+
+                var code =
+                    country.code ||
+                    country.iso ||
+                    country.isoCode ||
+                    country.iso2 ||
+                    "";
+
+
+                var flag =
+                    country.flag ||
+                    country.emoji ||
+                    country.icon ||
+                    "";
+
+
+                var calling =
+                    country.callingCode ||
+                    country.calling ||
+                    country.dialCode ||
+                    country.phoneCode ||
+                    "";
+
+
+                var option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    code;
+
+
+                var label =
+                    "";
+
+
+                if (flag) {
+                    label +=
+                        flag + " ";
+                }
+
+
+                label +=
+                    name || code;
+
+
+                if (code) {
+
+                    label +=
+                        " (" +
+                        code +
+                        ")";
+                }
+
+
+                if (calling) {
+
+                    label +=
+                        " +" +
+                        String(calling)
+                            .replace(
+                                /^\+/,
+                                ""
+                            );
+                }
+
+
+                option.textContent =
+                    label;
+
+
+                select.appendChild(
+                    option
+                );
+            }
+        );
+
+
+        if (oldValue) {
+            select.value =
+                oldValue;
+        }
+    }
+
+
+    function initBridge() {
+
+        fillCountrySelect(
+            "rmCountry"
+        );
+
+        fillCountrySelect(
+            "rmShowroomCountry"
+        );
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initBridge
+        );
+
+    } else {
+
+        initBridge();
+    }
+
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            initBridge();
+
+        }
+    );
+
+})();
+
+</script>
+
+
+</body>
+
+</html>
