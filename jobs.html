@@ -3,12 +3,15 @@ ALON HISTORYVERSE 24
 JOBS & CAREERS
 
 FILE:
-html/jobs.html
+jobs.html
 
-IMPORTANT PATHS:
-• Country DB = ../marketplace-countries.js
-• Jobs files = ../jss/
-• Regular Marketplace = ./regular-marketplace.html
+ROOT FILE PATHS
+• CSS = ./style.css
+• Core = ./core.js
+• System = ./system.js
+• Library Engine = ./library-engine.js
+• Country DB = ./marketplace-countries.js
+• Regular Marketplace = ./regular-marketpkes.html
 • Regular Marketplace JS is NOT loaded here
 ========================================================= -->
 
@@ -33,7 +36,7 @@ IMPORTANT PATHS:
 
 <link
     rel="stylesheet"
-    href="../css/style.css"
+    href="./style.css"
 >
 
 <style>
@@ -92,10 +95,12 @@ IMPORTANT PATHS:
     border:1px solid #46505f;
     background:#070c14;
     color:white;
+    box-sizing:border-box;
 }
 
 .jobs-field textarea{
     min-height:120px;
+    resize:vertical;
 }
 
 .jobs-btn{
@@ -112,6 +117,11 @@ IMPORTANT PATHS:
 
 .jobs-btn-danger{
     background:#8d3030;
+    color:white;
+}
+
+.jobs-btn-secondary{
+    background:#46505f;
     color:white;
 }
 
@@ -212,6 +222,7 @@ IMPORTANT PATHS:
     gap:8px;
     margin-top:15px;
     color:#ccc;
+    align-items:flex-start;
 }
 
 .jobs-career-grid{
@@ -233,6 +244,12 @@ IMPORTANT PATHS:
 .jobs-career-link:hover{
     border-color:#d7b35a;
     color:#f0d27a;
+}
+
+.jobs-account-note{
+    color:#aaa;
+    line-height:1.6;
+    margin-top:8px;
 }
 
 .hidden{
@@ -294,21 +311,48 @@ IMPORTANT PATHS:
 
 
 <!-- =======================================================
-LOGIN
+ACCOUNT
 ======================================================= -->
 
 <section
-    id="jobsLoginSection"
+    id="jobsAccountSection"
     class="jobs-box"
 >
 
-<h2>Jobs Login</h2>
+<div
+    id="jobsAuthArea"
+>
+
+<h2>Jobs Account</h2>
+
+<div class="jobs-tabs">
+
+<button
+    id="jobsLoginTab"
+    type="button"
+    class="jobs-tab active"
+>
+Login
+</button>
+
+<button
+    id="jobsSignupTab"
+    type="button"
+    class="jobs-tab"
+>
+Sign Up
+</button>
+
+</div>
+
+
+<!-- LOGIN -->
 
 <form id="jobsLoginForm">
 
 <div class="jobs-grid">
 
-<div class="jobs-field">
+<div class="jobs-field full">
 
 <label for="jobsLoginEmail">
 Email
@@ -324,7 +368,8 @@ Email
 
 </div>
 
-<div class="jobs-field">
+
+<div class="jobs-field full">
 
 <label for="jobsLoginPassword">
 Password
@@ -345,13 +390,13 @@ Password
 <label class="jobs-agreement">
 
 <input
-    id="jobsAgreement"
+    id="jobsLoginAgreement"
     type="checkbox"
 >
 
 <span>
-I agree to use ALON HISTORYVERSE 24 Jobs & Careers
-responsibly and provide genuine information.
+I agree to use ALON HISTORYVERSE 24 Jobs & Careers responsibly
+and provide genuine information.
 </span>
 
 </label>
@@ -369,26 +414,137 @@ Login
 
 </form>
 
+
+<!-- SIGNUP -->
+
+<form
+    id="jobsSignupForm"
+    class="hidden"
+>
+
+<div class="jobs-grid">
+
+<div class="jobs-field full">
+
+<label for="jobsSignupName">
+Name
+</label>
+
+<input
+    id="jobsSignupName"
+    type="text"
+    placeholder="Enter your name"
+    autocomplete="name"
+    required
+>
+
+</div>
+
+
+<div class="jobs-field full">
+
+<label for="jobsSignupEmail">
+Email
+</label>
+
+<input
+    id="jobsSignupEmail"
+    type="email"
+    placeholder="Enter email"
+    autocomplete="email"
+    required
+>
+
+</div>
+
+
+<div class="jobs-field">
+
+<label for="jobsSignupPassword">
+Password
+</label>
+
+<input
+    id="jobsSignupPassword"
+    type="password"
+    placeholder="Create password"
+    autocomplete="new-password"
+    minlength="6"
+    required
+>
+
+</div>
+
+
+<div class="jobs-field">
+
+<label for="jobsSignupPassword2">
+Confirm Password
+</label>
+
+<input
+    id="jobsSignupPassword2"
+    type="password"
+    placeholder="Confirm password"
+    autocomplete="new-password"
+    minlength="6"
+    required
+>
+
+</div>
+
+</div>
+
+
+<label class="jobs-agreement">
+
+<input
+    id="jobsSignupAgreement"
+    type="checkbox"
+>
+
+<span>
+I agree to use ALON HISTORYVERSE 24 Jobs & Careers responsibly
+and provide genuine information.
+</span>
+
+</label>
+
+
+<div class="jobs-actions">
+
+<button
+    type="submit"
+    class="jobs-btn"
+>
+Create Account
+</button>
+
+</div>
+
+</form>
+
+
 <div
-    id="jobsLoginMessage"
+    id="jobsAuthMessage"
     class="jobs-message hidden"
 ></div>
 
-</section>
+</div>
 
 
-<!-- =======================================================
-PROFILE
-======================================================= -->
+<!-- PROFILE -->
 
-<section
+<div
     id="jobsProfileSection"
-    class="jobs-box jobs-profile"
+    class="jobs-profile"
 >
 
 <div>
 
 <strong>Logged in:</strong>
+
+<div id="jobsProfileName"></div>
 
 <div id="jobsProfileEmail"></div>
 
@@ -401,6 +557,8 @@ PROFILE
 >
 Logout
 </button>
+
+</div>
 
 </section>
 
@@ -640,7 +798,7 @@ Save International Job
 <button
     id="internationalCancelEdit"
     type="button"
-    class="jobs-btn hidden"
+    class="jobs-btn jobs-btn-secondary hidden"
 >
 Cancel Edit
 </button>
@@ -860,7 +1018,7 @@ Save Local Job
 <button
     id="localCancelEdit"
     type="button"
-    class="jobs-btn hidden"
+    class="jobs-btn jobs-btn-secondary hidden"
 >
 Cancel Edit
 </button>
@@ -888,7 +1046,7 @@ MY JOBS
     id="jobsEmptyMessage"
     class="jobs-message"
 >
-No jobs saved yet.
+Please login to manage your jobs.
 </div>
 
 </section>
@@ -952,7 +1110,7 @@ Buy, sell and advertise products, property and vehicles.
 <div class="jobs-actions">
 
 <a
-    href="./regular-marketplace.html"
+    href="./regular-marketpkes.html"
     class="jobs-btn"
 >
 Open Regular Marketplace
@@ -967,29 +1125,22 @@ Open Regular Marketplace
 
 <!-- =======================================================
 EXISTING ALON FILES
-
-These paths assume:
-html/jobs.html
-jss/core.js
-jss/system.js
-jss/library-engine.js
-marketplace-countries.js
-
+ROOT PATHS
 ======================================================= -->
 
-<script src="../jss/core.js"></script>
+<script src="./core.js"></script>
 
-<script src="../jss/system.js"></script>
+<script src="./system.js"></script>
 
-<script src="../jss/library-engine.js"></script>
+<script src="./library-engine.js"></script>
 
 
 <!-- =======================================================
 CENTRAL COUNTRY DATABASE
-THIS MUST COME BEFORE JOB COUNTRY LOGIC
+MUST LOAD BEFORE JOB COUNTRY LOGIC
 ======================================================= -->
 
-<script src="../marketplace-countries.js"></script>
+<script src="./marketplace-countries.js"></script>
 
 
 <script>
@@ -998,6 +1149,9 @@ THIS MUST COME BEFORE JOB COUNTRY LOGIC
 
 "use strict";
 
+
+const USERS_KEY =
+"alon_historyverse_jobs_users";
 
 const LOGIN_KEY =
 "alon_historyverse_jobs_login";
@@ -1013,9 +1167,97 @@ HELPERS
 ========================================================= */
 
 function $(id){
+
     return document.getElementById(id);
+
 }
 
+
+function showMessage(message){
+
+    const box =
+        $("jobsAuthMessage");
+
+    if(!box){
+        return;
+    }
+
+    box.textContent =
+        message;
+
+    box.classList.remove("hidden");
+
+}
+
+
+function hideMessage(){
+
+    const box =
+        $("jobsAuthMessage");
+
+    if(box){
+        box.classList.add("hidden");
+    }
+
+}
+
+
+/* =========================================================
+USERS
+========================================================= */
+
+function getUsers(){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(USERS_KEY)
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+function saveUsers(users){
+
+    localStorage.setItem(
+        USERS_KEY,
+        JSON.stringify(users)
+    );
+
+}
+
+
+function getLogin(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(LOGIN_KEY)
+        );
+
+    }catch(error){
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+JOBS
+========================================================= */
 
 function getJobs(){
 
@@ -1049,23 +1291,6 @@ function saveJobs(data){
 }
 
 
-function getLogin(){
-
-    try{
-
-        return JSON.parse(
-            localStorage.getItem(LOGIN_KEY)
-        );
-
-    }catch(error){
-
-        return null;
-
-    }
-
-}
-
-
 function makeId(){
 
     return Date.now().toString(36) +
@@ -1080,50 +1305,35 @@ COUNTRY DATABASE
 
 function getCountryDatabase(){
 
-    if(
-        Array.isArray(
-            window.MARKETPLACE_COUNTRIES
-        ) &&
-        window.MARKETPLACE_COUNTRIES.length
+    const sources = [
+
+        window.MARKETPLACE_COUNTRIES,
+
+        window.ALON_MARKETPLACE_COUNTRIES,
+
+        window.ALON_WORLD_COUNTRIES,
+
+        window.WORLD_COUNTRIES,
+
+        window.GLOBAL_COUNTRIES
+
+    ];
+
+
+    for(
+        let i = 0;
+        i < sources.length;
+        i++
     ){
 
-        return window.MARKETPLACE_COUNTRIES;
+        if(
+            Array.isArray(sources[i]) &&
+            sources[i].length
+        ){
 
-    }
+            return sources[i];
 
-
-    if(
-        Array.isArray(
-            window.ALON_MARKETPLACE_COUNTRIES
-        ) &&
-        window.ALON_MARKETPLACE_COUNTRIES.length
-    ){
-
-        return window.ALON_MARKETPLACE_COUNTRIES;
-
-    }
-
-
-    if(
-        Array.isArray(
-            window.ALON_WORLD_COUNTRIES
-        ) &&
-        window.ALON_WORLD_COUNTRIES.length
-    ){
-
-        return window.ALON_WORLD_COUNTRIES;
-
-    }
-
-
-    if(
-        Array.isArray(
-            window.WORLD_COUNTRIES
-        ) &&
-        window.WORLD_COUNTRIES.length
-    ){
-
-        return window.WORLD_COUNTRIES;
+        }
 
     }
 
@@ -1138,6 +1348,7 @@ function countryText(c){
     if(!c){
         return "";
     }
+
 
     const flag =
         c.flag || "";
@@ -1158,26 +1369,33 @@ function countryText(c){
         c.phoneCode ||
         "";
 
+
     return [
+
         flag,
+
         name,
-        iso ? "(" + iso + ")" : "",
+
+        iso
+            ? "(" + iso + ")"
+            : "",
+
         phone
+
     ].filter(Boolean).join(" ");
 
 }
 
 
 /* =========================================================
-IMPORTANT:
-DO NOT WAIT FOR DOM RELOAD.
-DIRECTLY FILL BOTH JOB SELECTORS.
+FILL COUNTRY SELECTORS
 ========================================================= */
 
 function fillJobCountries(){
 
     const countries =
         getCountryDatabase();
+
 
     if(!countries.length){
 
@@ -1187,14 +1405,19 @@ function fillJobCountries(){
 
 
     const ids = [
+
         "internationalCountry",
+
         "localCountry"
+
     ];
 
 
     ids.forEach(function(id){
 
-        const select = $(id);
+        const select =
+            $(id);
+
 
         if(!select){
             return;
@@ -1215,13 +1438,22 @@ function fillJobCountries(){
                 document.createElement("option");
 
 
-            option.value =
+            const code2 =
                 c.code2 ||
                 c.iso2 ||
                 c.code ||
+                "";
+
+
+            const name =
                 c.name ||
                 c.country ||
                 "";
+
+
+            option.value =
+                code2 ||
+                name;
 
 
             option.textContent =
@@ -1229,9 +1461,7 @@ function fillJobCountries(){
 
 
             option.dataset.country =
-                c.name ||
-                c.country ||
-                "";
+                name;
 
 
             option.dataset.iso2 =
@@ -1252,13 +1482,18 @@ function fillJobCountries(){
                 "";
 
 
-            select.appendChild(option);
+            select.appendChild(
+                option
+            );
 
         });
 
 
         if(oldValue){
-            select.value = oldValue;
+
+            select.value =
+                oldValue;
+
         }
 
     });
@@ -1284,7 +1519,9 @@ function startCountrySystem(){
 
 
         if(fillJobCountries()){
+
             return;
+
         }
 
 
@@ -1306,6 +1543,91 @@ function startCountrySystem(){
 
 
 /* =========================================================
+AUTH TABS
+========================================================= */
+
+function setupAuthTabs(){
+
+    const loginTab =
+        $("jobsLoginTab");
+
+    const signupTab =
+        $("jobsSignupTab");
+
+    const loginForm =
+        $("jobsLoginForm");
+
+    const signupForm =
+        $("jobsSignupForm");
+
+
+    if(
+        !loginTab ||
+        !signupTab ||
+        !loginForm ||
+        !signupForm
+    ){
+
+        return;
+
+    }
+
+
+    loginTab.addEventListener(
+        "click",
+        function(){
+
+            loginTab.classList.add(
+                "active"
+            );
+
+            signupTab.classList.remove(
+                "active"
+            );
+
+            loginForm.classList.remove(
+                "hidden"
+            );
+
+            signupForm.classList.add(
+                "hidden"
+            );
+
+            hideMessage();
+
+        }
+    );
+
+
+    signupTab.addEventListener(
+        "click",
+        function(){
+
+            signupTab.classList.add(
+                "active"
+            );
+
+            loginTab.classList.remove(
+                "active"
+            );
+
+            signupForm.classList.remove(
+                "hidden"
+            );
+
+            loginForm.classList.add(
+                "hidden"
+            );
+
+            hideMessage();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
 LOGIN UI
 ========================================================= */
 
@@ -1315,12 +1637,16 @@ function updateLogin(){
         getLogin();
 
 
-    const loginBox =
-        $("jobsLoginSection");
+    const auth =
+        $("jobsAuthArea");
 
 
     const profile =
         $("jobsProfileSection");
+
+
+    const name =
+        $("jobsProfileName");
 
 
     const email =
@@ -1329,37 +1655,242 @@ function updateLogin(){
 
     if(login){
 
-        if(loginBox){
-            loginBox.style.display =
-                "none";
+        if(auth){
+
+            auth.classList.add(
+                "hidden"
+            );
+
         }
 
 
         if(profile){
+
             profile.style.display =
                 "flex";
+
+        }
+
+
+        if(name){
+
+            name.textContent =
+                login.name || "";
+
         }
 
 
         if(email){
+
             email.textContent =
                 login.email || "";
+
         }
 
     }else{
 
-        if(loginBox){
-            loginBox.style.display =
-                "block";
+        if(auth){
+
+            auth.classList.remove(
+                "hidden"
+            );
+
         }
 
 
         if(profile){
+
             profile.style.display =
                 "none";
+
         }
 
     }
+
+}
+
+
+/* =========================================================
+SIGNUP
+========================================================= */
+
+function setupSignup(){
+
+    const form =
+        $("jobsSignupForm");
+
+
+    if(!form){
+        return;
+    }
+
+
+    form.addEventListener(
+        "submit",
+        function(e){
+
+            e.preventDefault();
+
+
+            const name =
+                $("jobsSignupName")
+                .value
+                .trim();
+
+
+            const email =
+                $("jobsSignupEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+            const password =
+                $("jobsSignupPassword")
+                .value;
+
+
+            const password2 =
+                $("jobsSignupPassword2")
+                .value;
+
+
+            const agreement =
+                $("jobsSignupAgreement")
+                .checked;
+
+
+            if(!name){
+
+                showMessage(
+                    "Please enter your name."
+                );
+
+                return;
+
+            }
+
+
+            if(!email){
+
+                showMessage(
+                    "Please enter your email."
+                );
+
+                return;
+
+            }
+
+
+            if(password.length < 6){
+
+                showMessage(
+                    "Password must contain at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            if(password !== password2){
+
+                showMessage(
+                    "Passwords do not match."
+                );
+
+                return;
+
+            }
+
+
+            if(!agreement){
+
+                showMessage(
+                    "Please accept the agreement."
+                );
+
+                return;
+
+            }
+
+
+            const users =
+                getUsers();
+
+
+            const exists =
+                users.some(function(user){
+
+                    return(
+                        user.email === email
+                    );
+
+                });
+
+
+            if(exists){
+
+                showMessage(
+                    "An account with this email already exists. Please login."
+                );
+
+                return;
+
+            }
+
+
+            users.push({
+
+                id:makeId(),
+
+                name:name,
+
+                email:email,
+
+                password:password,
+
+                createdAt:Date.now()
+
+            });
+
+
+            saveUsers(users);
+
+
+            localStorage.setItem(
+
+                LOGIN_KEY,
+
+                JSON.stringify({
+
+                    id:users[users.length - 1].id,
+
+                    name:name,
+
+                    email:email,
+
+                    loggedIn:true
+
+                })
+
+            );
+
+
+            form.reset();
+
+
+            updateLogin();
+
+            renderJobs();
+
+
+            showMessage(
+                "Account created successfully."
+            );
+
+        }
+    );
 
 }
 
@@ -1399,13 +1930,13 @@ function setupLogin(){
 
 
             const agreement =
-                $("jobsAgreement")
+                $("jobsLoginAgreement")
                 .checked;
 
 
             if(!email){
 
-                alert(
+                showMessage(
                     "Please enter your email."
                 );
 
@@ -1416,7 +1947,7 @@ function setupLogin(){
 
             if(!password){
 
-                alert(
+                showMessage(
                     "Please enter your password."
                 );
 
@@ -1427,7 +1958,7 @@ function setupLogin(){
 
             if(!agreement){
 
-                alert(
+                showMessage(
                     "Please accept the agreement."
                 );
 
@@ -1436,20 +1967,59 @@ function setupLogin(){
             }
 
 
+            const users =
+                getUsers();
+
+
+            const user =
+                users.find(function(item){
+
+                    return(
+                        item.email === email &&
+                        item.password === password
+                    );
+
+                });
+
+
+            if(!user){
+
+                showMessage(
+                    "Incorrect email or password."
+                );
+
+                return;
+
+            }
+
+
             localStorage.setItem(
+
                 LOGIN_KEY,
+
                 JSON.stringify({
-                    email:email,
+
+                    id:user.id,
+
+                    name:user.name,
+
+                    email:user.email,
+
                     loggedIn:true
+
                 })
+
             );
 
 
             form.reset();
 
+
             updateLogin();
 
             renderJobs();
+
+            hideMessage();
 
         }
     );
@@ -1482,6 +2052,17 @@ function setupLogout(){
 
 
             editingJobId = null;
+
+
+            resetForm(
+                "international"
+            );
+
+
+            resetForm(
+                "local"
+            );
+
 
             updateLogin();
 
@@ -1518,7 +2099,9 @@ function setupTabs(){
         !intPanel ||
         !localPanel
     ){
+
         return;
+
     }
 
 
@@ -1526,13 +2109,21 @@ function setupTabs(){
         "click",
         function(){
 
-            intTab.classList.add("active");
+            intTab.classList.add(
+                "active"
+            );
 
-            localTab.classList.remove("active");
+            localTab.classList.remove(
+                "active"
+            );
 
-            intPanel.classList.add("active");
+            intPanel.classList.add(
+                "active"
+            );
 
-            localPanel.classList.remove("active");
+            localPanel.classList.remove(
+                "active"
+            );
 
         }
     );
@@ -1542,13 +2133,21 @@ function setupTabs(){
         "click",
         function(){
 
-            localTab.classList.add("active");
+            localTab.classList.add(
+                "active"
+            );
 
-            intTab.classList.remove("active");
+            intTab.classList.remove(
+                "active"
+            );
 
-            localPanel.classList.add("active");
+            localPanel.classList.add(
+                "active"
+            );
 
-            intPanel.classList.remove("active");
+            intPanel.classList.remove(
+                "active"
+            );
 
         }
     );
@@ -1615,7 +2214,7 @@ async function buildJob(type){
 
 
     const country =
-        $(p+"Country");
+        $(p + "Country");
 
 
     const selected =
@@ -1629,11 +2228,11 @@ async function buildJob(type){
 
 
     const imageInput =
-        $(p+"Image");
+        $(p + "Image");
 
 
     const videoInput =
-        $(p+"Video");
+        $(p + "Video");
 
 
     return {
@@ -1642,12 +2241,17 @@ async function buildJob(type){
             editingJobId ||
             makeId(),
 
+
         owner:
             login.email,
 
-        type:type,
+
+        type:
+            type,
+
 
         country:{
+
             value:
                 selected
                 ? selected.value
@@ -1677,38 +2281,57 @@ async function buildJob(type){
                 selected
                 ? selected.dataset.callingCode
                 : ""
+
         },
 
+
         category:
-            $(p+"Category").value,
+            $(p + "Category").value,
+
 
         title:
-            $(p+"JobTitle").value.trim(),
+            $(p + "JobTitle")
+            .value
+            .trim(),
+
 
         salary:
-            $(p+"Salary").value.trim(),
+            $(p + "Salary")
+            .value
+            .trim(),
+
 
         appointment:
-            $(p+"Appointment").value,
+            $(p + "Appointment").value,
+
 
         location:
-            $(p+"Location").value.trim(),
+            $(p + "Location")
+            .value
+            .trim(),
+
 
         description:
-            $(p+"Description").value.trim(),
+            $(p + "Description")
+            .value
+            .trim(),
+
 
         image:
             await readFile(
                 imageInput.files[0]
             ),
 
+
         video:
             await readFile(
                 videoInput.files[0]
             ),
 
+
         createdAt:
             Date.now(),
+
 
         updatedAt:
             Date.now()
@@ -1719,7 +2342,7 @@ async function buildJob(type){
 
 
 /* =========================================================
-RESET
+RESET FORM
 ========================================================= */
 
 function resetForm(type){
@@ -1731,30 +2354,47 @@ function resetForm(type){
 
 
     const form =
-        $(p+"JobForm");
+        $(p + "JobForm");
 
 
     if(form){
+
         form.reset();
+
     }
 
 
     editingJobId = null;
 
 
+    const hiddenId =
+        $(p + "JobId");
+
+
+    if(hiddenId){
+
+        hiddenId.value = "";
+
+    }
+
+
     const cancel =
-        $(p+"CancelEdit");
+        $(p + "CancelEdit");
 
 
     if(cancel){
-        cancel.classList.add("hidden");
+
+        cancel.classList.add(
+            "hidden"
+        );
+
     }
 
 }
 
 
 /* =========================================================
-SAVE
+SAVE JOB
 ========================================================= */
 
 async function saveJob(type){
@@ -1786,8 +2426,11 @@ async function saveJob(type){
         jobs.findIndex(function(item){
 
             return(
+
                 item.id === job.id &&
+
                 item.owner === login.email
+
             );
 
         });
@@ -1797,6 +2440,23 @@ async function saveJob(type){
 
         job.createdAt =
             jobs[index].createdAt;
+
+
+        if(!job.image){
+
+            job.image =
+                jobs[index].image || "";
+
+        }
+
+
+        if(!job.video){
+
+            job.video =
+                jobs[index].video || "";
+
+        }
+
 
         jobs[index] =
             job;
@@ -1810,15 +2470,21 @@ async function saveJob(type){
 
     saveJobs(jobs);
 
+
     resetForm(type);
+
 
     renderJobs();
 
 
     alert(
+
         index >= 0
+
         ? "Job updated successfully."
+
         : "Job saved successfully."
+
     );
 
 }
@@ -1917,7 +2583,7 @@ function setupForms(){
 
 
 /* =========================================================
-EDIT
+EDIT JOB
 ========================================================= */
 
 function editJob(id){
@@ -1927,7 +2593,9 @@ function editJob(id){
 
 
     if(!login){
+
         return;
+
     }
 
 
@@ -1935,15 +2603,20 @@ function editJob(id){
         getJobs().find(function(item){
 
             return(
+
                 item.id === id &&
+
                 item.owner === login.email
+
             );
 
         });
 
 
     if(!job){
+
         return;
+
     }
 
 
@@ -1957,60 +2630,77 @@ function editJob(id){
         job.id;
 
 
-    $(p+"Country").value =
-        job.country.value || "";
+    $(p + "JobId").value =
+        job.id;
 
 
-    $(p+"Category").value =
+    $(p + "Country").value =
+        job.country
+        ? job.country.value || ""
+        : "";
+
+
+    $(p + "Category").value =
         job.category || "";
 
 
-    $(p+"JobTitle").value =
+    $(p + "JobTitle").value =
         job.title || "";
 
 
-    $(p+"Salary").value =
+    $(p + "Salary").value =
         job.salary || "";
 
 
-    $(p+"Appointment").value =
+    $(p + "Appointment").value =
         job.appointment || "";
 
 
-    $(p+"Location").value =
+    $(p + "Location").value =
         job.location || "";
 
 
-    $(p+"Description").value =
+    $(p + "Description").value =
         job.description || "";
 
 
     const cancel =
-        $(p+"CancelEdit");
+        $(p + "CancelEdit");
 
 
     if(cancel){
-        cancel.classList.remove("hidden");
+
+        cancel.classList.remove(
+            "hidden"
+        );
+
     }
 
 
     if(p === "international"){
+
         $("internationalJobsTab").click();
+
     }else{
+
         $("localJobsTab").click();
+
     }
 
 
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
 
 }
 
 
 /* =========================================================
-DELETE
+DELETE JOB
 ========================================================= */
 
 function deleteJob(id){
@@ -2020,16 +2710,45 @@ function deleteJob(id){
 
 
     if(!login){
+
+        alert(
+            "Please login first."
+        );
+
         return;
+
+    }
+
+
+    const job =
+        getJobs().find(function(item){
+
+            return(
+
+                item.id === id &&
+
+                item.owner === login.email
+
+            );
+
+        });
+
+
+    if(!job){
+
+        return;
+
     }
 
 
     if(
         !confirm(
-            "Delete this job?"
+            "Delete this job permanently?"
         )
     ){
+
         return;
+
     }
 
 
@@ -2046,13 +2765,23 @@ function deleteJob(id){
 
     saveJobs(jobs);
 
+
+    if(editingJobId === id){
+
+        resetForm(
+            job.type
+        );
+
+    }
+
+
     renderJobs();
 
 }
 
 
 /* =========================================================
-RENDER
+RENDER JOBS
 ========================================================= */
 
 function renderJobs(){
@@ -2066,7 +2795,9 @@ function renderJobs(){
 
 
     if(!list){
+
         return;
+
     }
 
 
@@ -2080,9 +2811,14 @@ function renderJobs(){
     if(!login){
 
         if(empty){
-            empty.classList.remove("hidden");
+
+            empty.classList.remove(
+                "hidden"
+            );
+
             empty.textContent =
-                "Login to manage your jobs.";
+                "Please login to manage your jobs.";
+
         }
 
         return;
@@ -2103,9 +2839,14 @@ function renderJobs(){
     if(!jobs.length){
 
         if(empty){
-            empty.classList.remove("hidden");
+
+            empty.classList.remove(
+                "hidden"
+            );
+
             empty.textContent =
                 "No jobs saved yet.";
+
         }
 
         return;
@@ -2114,14 +2855,20 @@ function renderJobs(){
 
 
     if(empty){
-        empty.classList.add("hidden");
+
+        empty.classList.add(
+            "hidden"
+        );
+
     }
 
 
     jobs.forEach(function(job){
 
         const card =
-            document.createElement("article");
+            document.createElement(
+                "article"
+            );
 
 
         card.className =
@@ -2129,18 +2876,23 @@ function renderJobs(){
 
 
         const h3 =
-            document.createElement("h3");
+            document.createElement(
+                "h3"
+            );
 
 
         h3.textContent =
-            job.title || "Job";
+            job.title ||
+            "Job";
 
 
         card.appendChild(h3);
 
 
         const meta =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         meta.className =
@@ -2149,6 +2901,7 @@ function renderJobs(){
 
         meta.textContent =
             [
+
                 job.type === "international"
                 ? "International Job"
                 : "Local Job",
@@ -2161,16 +2914,24 @@ function renderJobs(){
                 ),
 
                 "Category: " +
-                (job.category || ""),
+                (
+                    job.category || ""
+                ),
 
                 "Salary: " +
-                (job.salary || ""),
+                (
+                    job.salary || ""
+                ),
 
                 "Appointment: " +
-                (job.appointment || ""),
+                (
+                    job.appointment || ""
+                ),
 
                 "Location: " +
-                (job.location || "")
+                (
+                    job.location || ""
+                )
 
             ].join(" • ");
 
@@ -2179,7 +2940,9 @@ function renderJobs(){
 
 
         const desc =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         desc.className =
@@ -2199,7 +2962,9 @@ function renderJobs(){
         ){
 
             const media =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             media.className =
@@ -2209,7 +2974,9 @@ function renderJobs(){
             if(job.image){
 
                 const image =
-                    document.createElement("img");
+                    document.createElement(
+                        "img"
+                    );
 
 
                 image.src =
@@ -2217,7 +2984,12 @@ function renderJobs(){
 
 
                 image.alt =
-                    job.title || "Job image";
+                    job.title ||
+                    "Job image";
+
+
+                image.loading =
+                    "lazy";
 
 
                 media.appendChild(
@@ -2230,7 +3002,9 @@ function renderJobs(){
             if(job.video){
 
                 const video =
-                    document.createElement("video");
+                    document.createElement(
+                        "video"
+                    );
 
 
                 video.src =
@@ -2239,6 +3013,10 @@ function renderJobs(){
 
                 video.controls =
                     true;
+
+
+                video.preload =
+                    "metadata";
 
 
                 media.appendChild(
@@ -2256,7 +3034,9 @@ function renderJobs(){
 
 
         const actions =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         actions.className =
@@ -2264,7 +3044,9 @@ function renderJobs(){
 
 
         const edit =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         edit.type =
@@ -2282,13 +3064,17 @@ function renderJobs(){
         edit.onclick =
             function(){
 
-                editJob(job.id);
+                editJob(
+                    job.id
+                );
 
             };
 
 
         const remove =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         remove.type =
@@ -2306,19 +3092,31 @@ function renderJobs(){
         remove.onclick =
             function(){
 
-                deleteJob(job.id);
+                deleteJob(
+                    job.id
+                );
 
             };
 
 
-        actions.appendChild(edit);
-
-        actions.appendChild(remove);
-
-        card.appendChild(actions);
+        actions.appendChild(
+            edit
+        );
 
 
-        list.appendChild(card);
+        actions.appendChild(
+            remove
+        );
+
+
+        card.appendChild(
+            actions
+        );
+
+
+        list.appendChild(
+            card
+        );
 
     });
 
@@ -2330,6 +3128,10 @@ INIT
 ========================================================= */
 
 function init(){
+
+    setupAuthTabs();
+
+    setupSignup();
 
     setupLogin();
 
