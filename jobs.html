@@ -5,14 +5,19 @@ JOBS & CAREERS
 FILE:
 jobs.html
 
-ROOT FILE PATHS
+ROOT PATHS
 • CSS = ./style.css
 • Core = ./core.js
 • System = ./system.js
 • Library Engine = ./library-engine.js
 • Country DB = ./marketplace-countries.js
 • Regular Marketplace = ./regular-marketpkes.html
-• Regular Marketplace JS is NOT loaded here
+
+CENTRAL COUNTRY SYSTEM
+Uses marketplace-countries.js directly.
+
+CREATOR:
+Baba Thecno Guru
 ========================================================= -->
 
 <!DOCTYPE html>
@@ -27,7 +32,9 @@ ROOT FILE PATHS
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Jobs & Careers • ALON HISTORYVERSE 24</title>
+<title>
+Jobs & Careers • ALON HISTORYVERSE 24
+</title>
 
 <meta
     name="description"
@@ -41,33 +48,45 @@ ROOT FILE PATHS
 
 <style>
 
+/* =========================================================
+   JOBS PAGE
+========================================================= */
+
 .jobs-wrap{
     max-width:1200px;
     margin:auto;
     padding:20px;
 }
 
-.jobs-box{
-    background:#0b111c;
-    border:1px solid #3d4655;
-    border-radius:15px;
-    padding:20px;
-    margin:20px 0;
-}
-
 .jobs-title{
     text-align:center;
     color:#f0d27a;
+    margin:10px 0;
 }
 
 .jobs-subtitle{
     text-align:center;
-    color:#ccc;
+    color:#bbb;
+    line-height:1.6;
+}
+
+.jobs-box{
+    background:#0b111c;
+    border:1px solid rgba(215,179,90,.35);
+    border-radius:15px;
+    padding:20px;
+    margin:20px 0;
+    box-sizing:border-box;
+}
+
+.jobs-box h2,
+.jobs-box h3{
+    color:#f0d27a;
 }
 
 .jobs-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:15px;
 }
 
@@ -90,39 +109,34 @@ ROOT FILE PATHS
 .jobs-field select,
 .jobs-field textarea{
     width:100%;
+    box-sizing:border-box;
     padding:12px;
-    border-radius:8px;
+    border-radius:9px;
     border:1px solid #46505f;
     background:#070c14;
-    color:white;
-    box-sizing:border-box;
+    color:#fff;
+    font:inherit;
+    outline:none;
+}
+
+.jobs-field input:focus,
+.jobs-field select:focus,
+.jobs-field textarea:focus{
+    border-color:#f0d27a;
+}
+
+.jobs-field select option{
+    background:#070c14;
+    color:#fff;
 }
 
 .jobs-field textarea{
-    min-height:120px;
+    min-height:130px;
     resize:vertical;
 }
 
-.jobs-btn{
-    border:0;
-    border-radius:8px;
-    padding:12px 18px;
-    background:#d7b35a;
-    color:#05080f;
-    font-weight:bold;
-    cursor:pointer;
-    text-decoration:none;
-    display:inline-block;
-}
-
-.jobs-btn-danger{
-    background:#8d3030;
-    color:white;
-}
-
-.jobs-btn-secondary{
-    background:#46505f;
-    color:white;
+.jobs-field input[type="file"]{
+    padding:9px;
 }
 
 .jobs-actions{
@@ -132,11 +146,32 @@ ROOT FILE PATHS
     margin-top:15px;
 }
 
-.jobs-tabs{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
+.jobs-btn{
+    border:1px solid #d7b35a;
+    border-radius:9px;
+    padding:12px 18px;
+    background:#d7b35a;
+    color:#05080f;
+    font-weight:bold;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+}
+
+.jobs-btn:hover{
+    opacity:.9;
+}
+
+.jobs-btn-secondary{
+    background:#46505f;
+    color:#fff;
+    border-color:#46505f;
+}
+
+.jobs-btn-danger{
+    background:#8d3030;
+    color:#fff;
+    border-color:#8d3030;
 }
 
 .jobs-tab{
@@ -144,7 +179,7 @@ ROOT FILE PATHS
     border:1px solid #d7b35a;
     background:transparent;
     color:#f0d27a;
-    border-radius:8px;
+    border-radius:9px;
     cursor:pointer;
     font-weight:bold;
 }
@@ -152,6 +187,13 @@ ROOT FILE PATHS
 .jobs-tab.active{
     background:#d7b35a;
     color:#05080f;
+}
+
+.jobs-tabs{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
 }
 
 .jobs-panel{
@@ -170,6 +212,48 @@ ROOT FILE PATHS
     flex-wrap:wrap;
 }
 
+.jobs-profile-email{
+    color:#aaa;
+    margin-top:5px;
+}
+
+.jobs-message{
+    padding:12px;
+    background:#111927;
+    border-radius:8px;
+    color:#f0d27a;
+    margin-top:10px;
+    line-height:1.6;
+}
+
+.jobs-message.error{
+    color:#ff9999;
+}
+
+.jobs-message.success{
+    color:#8ee0a9;
+}
+
+.jobs-agreement{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+    color:#ccc;
+    align-items:flex-start;
+    line-height:1.5;
+}
+
+.country-info{
+    margin-top:7px;
+    color:#aaa;
+    font-size:13px;
+    min-height:18px;
+}
+
+.country-info strong{
+    color:#f0d27a;
+}
+
 .jobs-card{
     background:#111927;
     border:1px solid #303a49;
@@ -179,12 +263,16 @@ ROOT FILE PATHS
 }
 
 .jobs-card h3{
-    color:#f0d27a;
+    margin-top:0;
 }
 
 .jobs-meta{
     color:#c9ced6;
     line-height:1.7;
+}
+
+.jobs-meta strong{
+    color:#fff;
 }
 
 .jobs-description{
@@ -209,20 +297,10 @@ ROOT FILE PATHS
     border-radius:10px;
 }
 
-.jobs-message{
-    padding:12px;
-    background:#111927;
-    border-radius:8px;
-    color:#f0d27a;
+.jobs-owner{
+    color:#aaa;
+    font-size:12px;
     margin-top:10px;
-}
-
-.jobs-agreement{
-    display:flex;
-    gap:8px;
-    margin-top:15px;
-    color:#ccc;
-    align-items:flex-start;
 }
 
 .jobs-career-grid{
@@ -234,7 +312,7 @@ ROOT FILE PATHS
 .jobs-career-link{
     padding:15px;
     text-align:center;
-    color:white;
+    color:#fff;
     text-decoration:none;
     background:#111927;
     border:1px solid #3c4656;
@@ -246,20 +324,29 @@ ROOT FILE PATHS
     color:#f0d27a;
 }
 
-.jobs-account-note{
-    color:#aaa;
-    line-height:1.6;
-    margin-top:8px;
-}
-
 .hidden{
     display:none!important;
+}
+
+.category-note{
+    color:#aaa;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.edit-note{
+    padding:10px;
+    margin:10px 0;
+    border-radius:8px;
+    background:rgba(215,179,90,.08);
+    border:1px solid rgba(215,179,90,.25);
+    color:#f0d27a;
 }
 
 @media(max-width:700px){
 
     .jobs-wrap{
-        padding:12px;
+        padding:10px;
     }
 
     .jobs-grid{
@@ -278,6 +365,17 @@ ROOT FILE PATHS
         grid-template-columns:1fr;
     }
 
+    .jobs-actions{
+        flex-direction:column;
+    }
+
+    .jobs-btn,
+    .jobs-tab{
+        width:100%;
+        text-align:center;
+        box-sizing:border-box;
+    }
+
 }
 
 @media(max-width:430px){
@@ -286,44 +384,40 @@ ROOT FILE PATHS
         grid-template-columns:1fr;
     }
 
-    .jobs-actions .jobs-btn{
-        width:100%;
-        text-align:center;
-    }
-
 }
 
 </style>
 
 </head>
 
+
 <body>
 
+
 <main class="jobs-wrap">
+
 
 <h1 class="jobs-title">
     Jobs & Careers
 </h1>
 
 <p class="jobs-subtitle">
-    ALON HISTORYVERSE 24 • International & Local Jobs
+    ALON HISTORYVERSE 24 • International Jobs • Local Jobs
 </p>
 
 
 <!-- =======================================================
-ACCOUNT
+     ACCOUNT
 ======================================================= -->
 
-<section
-    id="jobsAccountSection"
-    class="jobs-box"
->
+<section class="jobs-box">
 
-<div
-    id="jobsAuthArea"
->
+<h2>
+    Jobs Account
+</h2>
 
-<h2>Jobs Account</h2>
+<div id="jobsAuthArea">
+
 
 <div class="jobs-tabs">
 
@@ -332,7 +426,7 @@ ACCOUNT
     type="button"
     class="jobs-tab active"
 >
-Login
+    Login
 </button>
 
 <button
@@ -340,7 +434,7 @@ Login
     type="button"
     class="jobs-tab"
 >
-Sign Up
+    Sign Up
 </button>
 
 </div>
@@ -355,14 +449,14 @@ Sign Up
 <div class="jobs-field full">
 
 <label for="jobsLoginEmail">
-Email
+    Email
 </label>
 
 <input
     id="jobsLoginEmail"
     type="email"
-    placeholder="Enter email"
     autocomplete="email"
+    placeholder="Enter email"
     required
 >
 
@@ -372,20 +466,21 @@ Email
 <div class="jobs-field full">
 
 <label for="jobsLoginPassword">
-Password
+    Password
 </label>
 
 <input
     id="jobsLoginPassword"
     type="password"
-    placeholder="Enter password"
     autocomplete="current-password"
+    placeholder="Enter password"
     required
 >
 
 </div>
 
 </div>
+
 
 <label class="jobs-agreement">
 
@@ -395,11 +490,12 @@ Password
 >
 
 <span>
-I agree to use ALON HISTORYVERSE 24 Jobs & Careers responsibly
-and provide genuine information.
+I agree to use ALON HISTORYVERSE 24 Jobs & Careers
+responsibly and provide genuine information.
 </span>
 
 </label>
+
 
 <div class="jobs-actions">
 
@@ -407,7 +503,7 @@ and provide genuine information.
     type="submit"
     class="jobs-btn"
 >
-Login
+    Login
 </button>
 
 </div>
@@ -415,7 +511,7 @@ Login
 </form>
 
 
-<!-- SIGNUP -->
+<!-- SIGN UP -->
 
 <form
     id="jobsSignupForm"
@@ -427,14 +523,14 @@ Login
 <div class="jobs-field full">
 
 <label for="jobsSignupName">
-Name
+    Name
 </label>
 
 <input
     id="jobsSignupName"
     type="text"
-    placeholder="Enter your name"
     autocomplete="name"
+    placeholder="Enter your name"
     required
 >
 
@@ -444,14 +540,14 @@ Name
 <div class="jobs-field full">
 
 <label for="jobsSignupEmail">
-Email
+    Email
 </label>
 
 <input
     id="jobsSignupEmail"
     type="email"
-    placeholder="Enter email"
     autocomplete="email"
+    placeholder="Enter email"
     required
 >
 
@@ -461,15 +557,15 @@ Email
 <div class="jobs-field">
 
 <label for="jobsSignupPassword">
-Password
+    Password
 </label>
 
 <input
     id="jobsSignupPassword"
     type="password"
-    placeholder="Create password"
     autocomplete="new-password"
     minlength="6"
+    placeholder="Create password"
     required
 >
 
@@ -479,15 +575,15 @@ Password
 <div class="jobs-field">
 
 <label for="jobsSignupPassword2">
-Confirm Password
+    Confirm Password
 </label>
 
 <input
     id="jobsSignupPassword2"
     type="password"
-    placeholder="Confirm password"
     autocomplete="new-password"
     minlength="6"
+    placeholder="Confirm password"
     required
 >
 
@@ -504,8 +600,8 @@ Confirm Password
 >
 
 <span>
-I agree to use ALON HISTORYVERSE 24 Jobs & Careers responsibly
-and provide genuine information.
+I agree to use ALON HISTORYVERSE 24 Jobs & Careers
+responsibly and provide genuine information.
 </span>
 
 </label>
@@ -517,7 +613,7 @@ and provide genuine information.
     type="submit"
     class="jobs-btn"
 >
-Create Account
+    Create Account
 </button>
 
 </div>
@@ -529,6 +625,7 @@ Create Account
     id="jobsAuthMessage"
     class="jobs-message hidden"
 ></div>
+
 
 </div>
 
@@ -542,20 +639,26 @@ Create Account
 
 <div>
 
-<strong>Logged in:</strong>
+<strong>
+    Logged in:
+</strong>
 
 <div id="jobsProfileName"></div>
 
-<div id="jobsProfileEmail"></div>
+<div
+    id="jobsProfileEmail"
+    class="jobs-profile-email"
+></div>
 
 </div>
+
 
 <button
     id="jobsLogoutBtn"
     type="button"
     class="jobs-btn jobs-btn-danger"
 >
-Logout
+    Logout
 </button>
 
 </div>
@@ -564,10 +667,11 @@ Logout
 
 
 <!-- =======================================================
-JOB SYSTEM
+     JOB SYSTEM
 ======================================================= -->
 
 <section class="jobs-box">
+
 
 <div class="jobs-tabs">
 
@@ -576,7 +680,7 @@ JOB SYSTEM
     type="button"
     class="jobs-tab active"
 >
-International Jobs
+    International Jobs
 </button>
 
 <button
@@ -584,14 +688,14 @@ International Jobs
     type="button"
     class="jobs-tab"
 >
-Local Jobs
+    Local Jobs
 </button>
 
 </div>
 
 
 <!-- =====================================================
-INTERNATIONAL JOB
+     INTERNATIONAL JOB
 ===================================================== -->
 
 <div
@@ -599,7 +703,18 @@ INTERNATIONAL JOB
     class="jobs-panel active"
 >
 
-<h2>International Jobs</h2>
+<h2>
+    🌍 International Jobs
+</h2>
+
+
+<div
+    id="internationalEditNote"
+    class="edit-note hidden"
+>
+    International Job edit mode active.
+</div>
+
 
 <form id="internationalJobForm">
 
@@ -608,13 +723,16 @@ INTERNATIONAL JOB
     type="hidden"
 >
 
+
 <div class="jobs-grid">
 
+
+<!-- COUNTRY -->
 
 <div class="jobs-field">
 
 <label for="internationalCountry">
-Country
+    Country
 </label>
 
 <select
@@ -623,18 +741,25 @@ Country
 >
 
 <option value="">
-Select Country
+    Loading all countries...
 </option>
 
 </select>
 
+<div
+    id="internationalCountryInfo"
+    class="country-info"
+></div>
+
 </div>
 
+
+<!-- INTERNATIONAL CATEGORY -->
 
 <div class="jobs-field">
 
 <label for="internationalCategory">
-Category
+    International Job Category
 </label>
 
 <select
@@ -643,63 +768,78 @@ Category
 >
 
 <option value="">
-Select Category
+    Select International Job Category
 </option>
 
 <option>IT & Technology</option>
 <option>Engineering</option>
 <option>Healthcare</option>
 <option>Education</option>
+<option>Finance & Banking</option>
+<option>International Sales & Marketing</option>
+<option>Hospitality & Tourism</option>
+<option>International Transport & Logistics</option>
+<option>Aviation</option>
+<option>Marine & Shipping</option>
 <option>Construction</option>
-<option>Finance</option>
-<option>Sales & Marketing</option>
-<option>Hospitality</option>
-<option>Transport</option>
 <option>Manufacturing</option>
 <option>Agriculture</option>
-<option>Other</option>
+<option>Research & Science</option>
+<option>Skilled Trades</option>
+<option>Remote International</option>
+<option>Other International Jobs</option>
 
 </select>
+
+<div class="category-note">
+    International employment categories.
+</div>
 
 </div>
 
 
+<!-- TITLE -->
+
 <div class="jobs-field">
 
 <label for="internationalJobTitle">
-Job Title
+    Job Title
 </label>
 
 <input
     id="internationalJobTitle"
     type="text"
-    placeholder="Job title"
+    placeholder="Example: Software Engineer"
     required
 >
 
 </div>
 
 
+<!-- SALARY -->
+
 <div class="jobs-field">
 
 <label for="internationalSalary">
-Salary
+    Salary
 </label>
 
 <input
     id="internationalSalary"
     type="text"
-    placeholder="Salary / Pay"
+    placeholder="Example: $2500 per month"
     required
 >
 
 </div>
 
 
+<!-- APPOINTMENT -->
+
 <div class="jobs-field">
 
 <label for="internationalAppointment">
-Appointment
+    Appointment
 </label>
 
 <select
@@ -708,7 +848,7 @@ Appointment
 >
 
 <option value="">
-Select Appointment
+    Select Appointment
 </option>
 
 <option>Full Time</option>
@@ -723,41 +863,47 @@ Select Appointment
 </div>
 
 
+<!-- LOCATION -->
+
 <div class="jobs-field">
 
 <label for="internationalLocation">
-Live Location
+    Live Location
 </label>
 
 <input
     id="internationalLocation"
     type="text"
-    placeholder="City / State / Area"
+    placeholder="City / State / Area / Remote"
     required
 >
 
 </div>
 
 
+<!-- DESCRIPTION -->
+
 <div class="jobs-field full">
 
 <label for="internationalDescription">
-Job Description
+    Job Description
 </label>
 
 <textarea
     id="internationalDescription"
-    placeholder="Complete job description"
+    placeholder="Complete international job description"
     required
 ></textarea>
 
 </div>
 
 
+<!-- IMAGE -->
+
 <div class="jobs-field">
 
 <label for="internationalImage">
-Image
+    Job Image
 </label>
 
 <input
@@ -769,10 +915,12 @@ Image
 </div>
 
 
+<!-- VIDEO -->
+
 <div class="jobs-field">
 
 <label for="internationalVideo">
-Video
+    Job Video
 </label>
 
 <input
@@ -783,6 +931,7 @@ Video
 
 </div>
 
+
 </div>
 
 
@@ -792,7 +941,7 @@ Video
     type="submit"
     class="jobs-btn"
 >
-Save International Job
+    Save International Job
 </button>
 
 <button
@@ -800,7 +949,7 @@ Save International Job
     type="button"
     class="jobs-btn jobs-btn-secondary hidden"
 >
-Cancel Edit
+    Cancel Edit
 </button>
 
 </div>
@@ -811,7 +960,7 @@ Cancel Edit
 
 
 <!-- =====================================================
-LOCAL JOB
+     LOCAL JOB
 ===================================================== -->
 
 <div
@@ -819,7 +968,18 @@ LOCAL JOB
     class="jobs-panel"
 >
 
-<h2>Local Jobs</h2>
+<h2>
+    📍 Local Jobs
+</h2>
+
+
+<div
+    id="localEditNote"
+    class="edit-note hidden"
+>
+    Local Job edit mode active.
+</div>
+
 
 <form id="localJobForm">
 
@@ -828,13 +988,16 @@ LOCAL JOB
     type="hidden"
 >
 
+
 <div class="jobs-grid">
 
+
+<!-- COUNTRY -->
 
 <div class="jobs-field">
 
 <label for="localCountry">
-Country
+    Country
 </label>
 
 <select
@@ -843,18 +1006,25 @@ Country
 >
 
 <option value="">
-Select Country
+    Loading all countries...
 </option>
 
 </select>
 
+<div
+    id="localCountryInfo"
+    class="country-info"
+></div>
+
 </div>
 
+
+<!-- LOCAL CATEGORY -->
 
 <div class="jobs-field">
 
 <label for="localCategory">
-Category
+    Local Job Category
 </label>
 
 <select
@@ -863,63 +1033,89 @@ Category
 >
 
 <option value="">
-Select Category
+    Select Local Job Category
 </option>
 
-<option>IT & Technology</option>
-<option>Engineering</option>
+<option>Local IT & Technology</option>
+<option>Office & Administration</option>
+<option>Retail & Shop</option>
+<option>Sales</option>
+<option>Delivery</option>
+<option>Driver</option>
+<option>Security</option>
+<option>Teaching</option>
 <option>Healthcare</option>
-<option>Education</option>
 <option>Construction</option>
-<option>Finance</option>
-<option>Sales & Marketing</option>
-<option>Hospitality</option>
-<option>Transport</option>
-<option>Manufacturing</option>
+<option>Electrician</option>
+<option>Plumber</option>
+<option>Carpenter</option>
+<option>Mechanic</option>
+<option>Factory & Manufacturing</option>
 <option>Agriculture</option>
-<option>Other</option>
+<option>Hotel & Restaurant</option>
+<option>Local Business</option>
+<option>Cleaning</option>
+<option>Domestic Work</option>
+<option>Computer / IT</option>
+<option>Mobile Shop</option>
+<option>Medical Store</option>
+<option>Beauty / Salon</option>
+<option>Transport</option>
+<option>Courier</option>
+<option>Warehouse</option>
+<option>Other Local Jobs</option>
 
 </select>
+
+<div class="category-note">
+    Local employment categories.
+</div>
 
 </div>
 
 
+<!-- TITLE -->
+
 <div class="jobs-field">
 
 <label for="localJobTitle">
-Job Title
+    Job Title
 </label>
 
 <input
     id="localJobTitle"
     type="text"
-    placeholder="Job title"
+    placeholder="Example: Shop Manager"
     required
 >
 
 </div>
 
 
+<!-- SALARY -->
+
 <div class="jobs-field">
 
 <label for="localSalary">
-Salary
+    Salary
 </label>
 
 <input
     id="localSalary"
     type="text"
-    placeholder="Salary / Pay"
+    placeholder="Example: ₹18,000 per month"
     required
 >
 
 </div>
 
 
+<!-- APPOINTMENT -->
+
 <div class="jobs-field">
 
 <label for="localAppointment">
-Appointment
+    Appointment
 </label>
 
 <select
@@ -928,7 +1124,7 @@ Appointment
 >
 
 <option value="">
-Select Appointment
+    Select Appointment
 </option>
 
 <option>Full Time</option>
@@ -943,10 +1139,12 @@ Select Appointment
 </div>
 
 
+<!-- LOCATION -->
+
 <div class="jobs-field">
 
 <label for="localLocation">
-Live Location
+    Live Location
 </label>
 
 <input
@@ -959,25 +1157,29 @@ Live Location
 </div>
 
 
+<!-- DESCRIPTION -->
+
 <div class="jobs-field full">
 
 <label for="localDescription">
-Job Description
+    Job Description
 </label>
 
 <textarea
     id="localDescription"
-    placeholder="Complete job description"
+    placeholder="Complete local job description"
     required
 ></textarea>
 
 </div>
 
 
+<!-- IMAGE -->
+
 <div class="jobs-field">
 
 <label for="localImage">
-Image
+    Job Image
 </label>
 
 <input
@@ -989,10 +1191,12 @@ Image
 </div>
 
 
+<!-- VIDEO -->
+
 <div class="jobs-field">
 
 <label for="localVideo">
-Video
+    Job Video
 </label>
 
 <input
@@ -1003,6 +1207,7 @@ Video
 
 </div>
 
+
 </div>
 
 
@@ -1012,7 +1217,7 @@ Video
     type="submit"
     class="jobs-btn"
 >
-Save Local Job
+    Save Local Job
 </button>
 
 <button
@@ -1020,7 +1225,7 @@ Save Local Job
     type="button"
     class="jobs-btn jobs-btn-secondary hidden"
 >
-Cancel Edit
+    Cancel Edit
 </button>
 
 </div>
@@ -1033,12 +1238,14 @@ Cancel Edit
 
 
 <!-- =======================================================
-MY JOBS
+     MY JOBS
 ======================================================= -->
 
 <section class="jobs-box">
 
-<h2>My Jobs</h2>
+<h2>
+    My Jobs
+</h2>
 
 <div id="jobsList"></div>
 
@@ -1053,12 +1260,14 @@ Please login to manage your jobs.
 
 
 <!-- =======================================================
-CAREER CENTER
+     CAREER CENTER
 ======================================================= -->
 
 <section class="jobs-box">
 
-<h2>Career Center</h2>
+<h2>
+    Career Center
+</h2>
 
 <div class="jobs-career-grid">
 
@@ -1096,12 +1305,14 @@ Resume
 
 
 <!-- =======================================================
-REGULAR MARKETPLACE
+     REGULAR MARKETPLACE
 ======================================================= -->
 
 <section class="jobs-box">
 
-<h2>Regular Marketplace</h2>
+<h2>
+    Regular Marketplace
+</h2>
 
 <p>
 Buy, sell and advertise products, property and vehicles.
@@ -1120,12 +1331,12 @@ Open Regular Marketplace
 
 </section>
 
+
 </main>
 
 
 <!-- =======================================================
-EXISTING ALON FILES
-ROOT PATHS
+     EXISTING ALON FILES
 ======================================================= -->
 
 <script src="./core.js"></script>
@@ -1136,8 +1347,8 @@ ROOT PATHS
 
 
 <!-- =======================================================
-CENTRAL COUNTRY DATABASE
-MUST LOAD BEFORE JOB COUNTRY LOGIC
+     CENTRAL COUNTRY DATABASE
+     MUST LOAD BEFORE JOB COUNTRY SYSTEM
 ======================================================= -->
 
 <script src="./marketplace-countries.js"></script>
@@ -1150,20 +1361,25 @@ MUST LOAD BEFORE JOB COUNTRY LOGIC
 "use strict";
 
 
+/* =========================================================
+   STORAGE
+========================================================= */
+
 const USERS_KEY =
-"alon_historyverse_jobs_users";
+    "alon_historyverse_jobs_users";
 
 const LOGIN_KEY =
-"alon_historyverse_jobs_login";
+    "alon_historyverse_jobs_login";
 
 const JOBS_KEY =
-"alon_historyverse_jobs_data";
+    "alon_historyverse_jobs_data";
+
 
 let editingJobId = null;
 
 
 /* =========================================================
-HELPERS
+   BASIC HELPER
 ========================================================= */
 
 function $(id){
@@ -1173,7 +1389,11 @@ function $(id){
 }
 
 
-function showMessage(message){
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(message,type){
 
     const box =
         $("jobsAuthMessage");
@@ -1185,7 +1405,16 @@ function showMessage(message){
     box.textContent =
         message;
 
-    box.classList.remove("hidden");
+    box.className =
+        "jobs-message";
+
+    if(type === "error"){
+        box.classList.add("error");
+    }
+
+    if(type === "success"){
+        box.classList.add("success");
+    }
 
 }
 
@@ -1203,7 +1432,7 @@ function hideMessage(){
 
 
 /* =========================================================
-USERS
+   USERS
 ========================================================= */
 
 function getUsers(){
@@ -1212,7 +1441,9 @@ function getUsers(){
 
         const data =
             JSON.parse(
-                localStorage.getItem(USERS_KEY)
+                localStorage.getItem(
+                    USERS_KEY
+                )
             );
 
         return Array.isArray(data)
@@ -1243,7 +1474,9 @@ function getLogin(){
     try{
 
         return JSON.parse(
-            localStorage.getItem(LOGIN_KEY)
+            localStorage.getItem(
+                LOGIN_KEY
+            )
         );
 
     }catch(error){
@@ -1256,7 +1489,7 @@ function getLogin(){
 
 
 /* =========================================================
-JOBS
+   JOBS
 ========================================================= */
 
 function getJobs(){
@@ -1265,7 +1498,9 @@ function getJobs(){
 
         const data =
             JSON.parse(
-                localStorage.getItem(JOBS_KEY)
+                localStorage.getItem(
+                    JOBS_KEY
+                )
             );
 
         return Array.isArray(data)
@@ -1281,11 +1516,11 @@ function getJobs(){
 }
 
 
-function saveJobs(data){
+function saveJobs(jobs){
 
     localStorage.setItem(
         JOBS_KEY,
-        JSON.stringify(data)
+        JSON.stringify(jobs)
     );
 
 }
@@ -1293,243 +1528,138 @@ function saveJobs(data){
 
 function makeId(){
 
-    return Date.now().toString(36) +
-        Math.random().toString(36).slice(2);
+    return (
+        Date.now().toString(36) +
+        Math.random()
+            .toString(36)
+            .slice(2)
+    );
 
 }
 
 
 /* =========================================================
-COUNTRY DATABASE
-========================================================= */
+   CENTRAL COUNTRY SYSTEM
+   ALON HISTORYVERSE 24
 
-function getCountryDatabase(){
+   DIRECTLY USES:
+   marketplace-countries.js
 
-    const sources = [
-
-        window.MARKETPLACE_COUNTRIES,
-
-        window.ALON_MARKETPLACE_COUNTRIES,
-
-        window.ALON_WORLD_COUNTRIES,
-
-        window.WORLD_COUNTRIES,
-
-        window.GLOBAL_COUNTRIES
-
-    ];
-
-
-    for(
-        let i = 0;
-        i < sources.length;
-        i++
-    ){
-
-        if(
-            Array.isArray(sources[i]) &&
-            sources[i].length
-        ){
-
-            return sources[i];
-
-        }
-
-    }
-
-
-    return [];
-
-}
-
-
-function countryText(c){
-
-    if(!c){
-        return "";
-    }
-
-
-    const flag =
-        c.flag || "";
-
-    const name =
-        c.name ||
-        c.country ||
-        "";
-
-    const iso =
-        c.code2 ||
-        c.iso2 ||
-        c.code ||
-        "";
-
-    const phone =
-        c.callingCode ||
-        c.phoneCode ||
-        "";
-
-
-    return [
-
-        flag,
-
-        name,
-
-        iso
-            ? "(" + iso + ")"
-            : "",
-
-        phone
-
-    ].filter(Boolean).join(" ");
-
-}
-
-
-/* =========================================================
-FILL COUNTRY SELECTORS
+   NO SECOND COUNTRY DATABASE
 ========================================================= */
 
 function fillJobCountries(){
 
-    const countries =
-        getCountryDatabase();
+    const international =
+        $("internationalCountry");
+
+    const local =
+        $("localCountry");
 
 
-    if(!countries.length){
+    if(
+        typeof window.ALON_FILL_COUNTRY_SELECT !==
+        "function"
+    ){
 
         return false;
 
     }
 
 
-    const ids = [
-
-        "internationalCountry",
-
-        "localCountry"
-
-    ];
+    const internationalOld =
+        international
+        ? international.value
+        : "";
 
 
-    ids.forEach(function(id){
-
-        const select =
-            $(id);
-
-
-        if(!select){
-            return;
-        }
+    const localOld =
+        local
+        ? local.value
+        : "";
 
 
-        const oldValue =
-            select.value;
+    if(international){
+
+        window.ALON_FILL_COUNTRY_SELECT(
+            international,
+            internationalOld
+        );
+
+    }
 
 
-        select.innerHTML =
-            '<option value="">Select Country</option>';
+    if(local){
+
+        window.ALON_FILL_COUNTRY_SELECT(
+            local,
+            localOld
+        );
+
+    }
 
 
-        countries.forEach(function(c){
+    return Boolean(
 
-            const option =
-                document.createElement("option");
+        international &&
+        international.options.length > 1 &&
 
+        local &&
+        local.options.length > 1
 
-            const code2 =
-                c.code2 ||
-                c.iso2 ||
-                c.code ||
-                "";
-
-
-            const name =
-                c.name ||
-                c.country ||
-                "";
-
-
-            option.value =
-                code2 ||
-                name;
-
-
-            option.textContent =
-                countryText(c);
-
-
-            option.dataset.country =
-                name;
-
-
-            option.dataset.iso2 =
-                c.code2 ||
-                c.iso2 ||
-                "";
-
-
-            option.dataset.iso3 =
-                c.code3 ||
-                c.iso3 ||
-                "";
-
-
-            option.dataset.callingCode =
-                c.callingCode ||
-                c.phoneCode ||
-                "";
-
-
-            select.appendChild(
-                option
-            );
-
-        });
-
-
-        if(oldValue){
-
-            select.value =
-                oldValue;
-
-        }
-
-    });
-
-
-    return true;
+    );
 
 }
 
 
 /* =========================================================
-COUNTRY RETRY
+   COUNTRY RETRY
 ========================================================= */
 
 function startCountrySystem(){
 
-    let count = 0;
+    let attempts = 0;
 
 
-    function check(){
+    function checkCountries(){
 
-        count++;
+        attempts++;
 
 
-        if(fillJobCountries()){
+        const ready =
+            fillJobCountries();
+
+
+        if(ready){
+
+            console.log(
+                "ALON Jobs Country System: READY"
+            );
+
+            updateCountryInfo(
+                "international"
+            );
+
+            updateCountryInfo(
+                "local"
+            );
 
             return;
 
         }
 
 
-        if(count < 40){
+        if(attempts < 50){
 
             setTimeout(
-                check,
-                250
+                checkCountries,
+                200
+            );
+
+        }else{
+
+            console.warn(
+                "ALON Jobs Country System: Country database not loaded."
             );
 
         }
@@ -1537,13 +1667,113 @@ function startCountrySystem(){
     }
 
 
-    check();
+    checkCountries();
 
 }
 
 
 /* =========================================================
-AUTH TABS
+   COUNTRY INFO
+========================================================= */
+
+function updateCountryInfo(type){
+
+    const prefix =
+        type === "international"
+        ? "international"
+        : "local";
+
+
+    const select =
+        $(prefix + "Country");
+
+    const info =
+        $(prefix + "CountryInfo");
+
+
+    if(
+        !select ||
+        !info
+    ){
+
+        return;
+
+    }
+
+
+    const option =
+        select.options[
+            select.selectedIndex
+        ];
+
+
+    if(
+        !option ||
+        !select.value
+    ){
+
+        info.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    const name =
+        option.dataset.countryName ||
+        "";
+
+    const iso2 =
+        option.dataset.countryCode ||
+        option.dataset.iso2 ||
+        "";
+
+    const iso3 =
+        option.dataset.countryISO3 ||
+        option.dataset.iso3 ||
+        "";
+
+    const calling =
+        option.dataset.callingCode ||
+        "";
+
+    const flag =
+        option.dataset.flag ||
+        "";
+
+
+    const parts = [];
+
+
+    if(name){
+        parts.push(name);
+    }
+
+    if(iso2){
+        parts.push(iso2);
+    }
+
+    if(iso3){
+        parts.push(iso3);
+    }
+
+    if(calling){
+        parts.push(calling);
+    }
+
+
+    info.innerHTML =
+        flag +
+        " <strong>" +
+        parts.join(" • ") +
+        "</strong>";
+
+}
+
+
+/* =========================================================
+   AUTH TABS
 ========================================================= */
 
 function setupAuthTabs(){
@@ -1628,7 +1858,7 @@ function setupAuthTabs(){
 
 
 /* =========================================================
-LOGIN UI
+   LOGIN UI
 ========================================================= */
 
 function updateLogin(){
@@ -1640,14 +1870,11 @@ function updateLogin(){
     const auth =
         $("jobsAuthArea");
 
-
     const profile =
         $("jobsProfileSection");
 
-
     const name =
         $("jobsProfileName");
-
 
     const email =
         $("jobsProfileEmail");
@@ -1711,7 +1938,7 @@ function updateLogin(){
 
 
 /* =========================================================
-SIGNUP
+   SIGN UP
 ========================================================= */
 
 function setupSignup(){
@@ -1756,36 +1983,14 @@ function setupSignup(){
 
 
             const agreement =
-                $("jobsSignupAgreement")
-                .checked;
+                $("jobsSignupAgreement");
 
 
-            if(!name){
-
-                showMessage(
-                    "Please enter your name."
-                );
-
-                return;
-
-            }
-
-
-            if(!email){
+            if(!agreement.checked){
 
                 showMessage(
-                    "Please enter your email."
-                );
-
-                return;
-
-            }
-
-
-            if(password.length < 6){
-
-                showMessage(
-                    "Password must contain at least 6 characters."
+                    "Please accept the Jobs & Careers agreement.",
+                    "error"
                 );
 
                 return;
@@ -1796,18 +2001,8 @@ function setupSignup(){
             if(password !== password2){
 
                 showMessage(
-                    "Passwords do not match."
-                );
-
-                return;
-
-            }
-
-
-            if(!agreement){
-
-                showMessage(
-                    "Please accept the agreement."
+                    "Passwords do not match.",
+                    "error"
                 );
 
                 return;
@@ -1820,19 +2015,23 @@ function setupSignup(){
 
 
             const exists =
-                users.some(function(user){
+                users.some(
+                    function(user){
 
-                    return(
-                        user.email === email
-                    );
+                        return (
+                            user.email ===
+                            email
+                        );
 
-                });
+                    }
+                );
 
 
             if(exists){
 
                 showMessage(
-                    "An account with this email already exists. Please login."
+                    "This email is already registered. Please login.",
+                    "error"
                 );
 
                 return;
@@ -1840,7 +2039,7 @@ function setupSignup(){
             }
 
 
-            users.push({
+            const user = {
 
                 id:makeId(),
 
@@ -1848,12 +2047,12 @@ function setupSignup(){
 
                 email:email,
 
-                password:password,
+                password:password
 
-                createdAt:Date.now()
+            };
 
-            });
 
+            users.push(user);
 
             saveUsers(users);
 
@@ -1864,11 +2063,11 @@ function setupSignup(){
 
                 JSON.stringify({
 
-                    id:users[users.length - 1].id,
+                    id:user.id,
 
-                    name:name,
+                    name:user.name,
 
-                    email:email,
+                    email:user.email,
 
                     loggedIn:true
 
@@ -1886,7 +2085,8 @@ function setupSignup(){
 
 
             showMessage(
-                "Account created successfully."
+                "Account created successfully.",
+                "success"
             );
 
         }
@@ -1896,7 +2096,7 @@ function setupSignup(){
 
 
 /* =========================================================
-LOGIN
+   LOGIN
 ========================================================= */
 
 function setupLogin(){
@@ -1930,36 +2130,14 @@ function setupLogin(){
 
 
             const agreement =
-                $("jobsLoginAgreement")
-                .checked;
+                $("jobsLoginAgreement");
 
 
-            if(!email){
-
-                showMessage(
-                    "Please enter your email."
-                );
-
-                return;
-
-            }
-
-
-            if(!password){
+            if(!agreement.checked){
 
                 showMessage(
-                    "Please enter your password."
-                );
-
-                return;
-
-            }
-
-
-            if(!agreement){
-
-                showMessage(
-                    "Please accept the agreement."
+                    "Please accept the Jobs & Careers agreement.",
+                    "error"
                 );
 
                 return;
@@ -1972,20 +2150,28 @@ function setupLogin(){
 
 
             const user =
-                users.find(function(item){
+                users.find(
+                    function(item){
 
-                    return(
-                        item.email === email &&
-                        item.password === password
-                    );
+                        return (
 
-                });
+                            item.email ===
+                            email &&
+
+                            item.password ===
+                            password
+
+                        );
+
+                    }
+                );
 
 
             if(!user){
 
                 showMessage(
-                    "Incorrect email or password."
+                    "Incorrect email or password.",
+                    "error"
                 );
 
                 return;
@@ -2028,7 +2214,7 @@ function setupLogin(){
 
 
 /* =========================================================
-LOGOUT
+   LOGOUT
 ========================================================= */
 
 function setupLogout(){
@@ -2051,7 +2237,8 @@ function setupLogout(){
             );
 
 
-            editingJobId = null;
+            editingJobId =
+                null;
 
 
             resetForm(
@@ -2075,7 +2262,7 @@ function setupLogout(){
 
 
 /* =========================================================
-TABS
+   TABS
 ========================================================= */
 
 function setupTabs(){
@@ -2156,83 +2343,163 @@ function setupTabs(){
 
 
 /* =========================================================
-FILE DATA
+   FILE READER
 ========================================================= */
 
 function readFile(file){
 
-    return new Promise(function(resolve){
+    return new Promise(
+        function(resolve){
 
-        if(!file){
-
-            resolve("");
-
-            return;
-
-        }
-
-
-        const reader =
-            new FileReader();
-
-
-        reader.onload =
-            function(){
-
-                resolve(
-                    reader.result || ""
-                );
-
-            };
-
-
-        reader.onerror =
-            function(){
+            if(!file){
 
                 resolve("");
 
-            };
+                return;
+
+            }
 
 
-        reader.readAsDataURL(file);
+            const reader =
+                new FileReader();
 
-    });
+
+            reader.onload =
+                function(){
+
+                    resolve(
+                        reader.result || ""
+                    );
+
+                };
+
+
+            reader.onerror =
+                function(){
+
+                    resolve("");
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
 
 }
 
 
 /* =========================================================
-BUILD JOB
+   BUILD JOB
 ========================================================= */
 
 async function buildJob(type){
 
-    const p =
+    const prefix =
         type === "international"
         ? "international"
         : "local";
-
-
-    const country =
-        $(p + "Country");
-
-
-    const selected =
-        country.options[
-            country.selectedIndex
-        ];
 
 
     const login =
         getLogin();
 
 
+    if(!login){
+        return null;
+    }
+
+
+    const country =
+        $(prefix + "Country");
+
+
+    const option =
+        country.options[
+            country.selectedIndex
+        ];
+
+
     const imageInput =
-        $(p + "Image");
+        $(prefix + "Image");
 
 
     const videoInput =
-        $(p + "Video");
+        $(prefix + "Video");
+
+
+    const imageFile =
+        imageInput &&
+        imageInput.files
+        ? imageInput.files[0]
+        : null;
+
+
+    const videoFile =
+        videoInput &&
+        videoInput.files
+        ? videoInput.files[0]
+        : null;
+
+
+    if(
+        imageFile &&
+        imageFile.size >
+        5 * 1024 * 1024
+    ){
+
+        alert(
+            "Image must be 5 MB or smaller."
+        );
+
+        return null;
+
+    }
+
+
+    if(
+        videoFile &&
+        videoFile.size >
+        8 * 1024 * 1024
+    ){
+
+        alert(
+            "Video must be 8 MB or smaller."
+        );
+
+        return null;
+
+    }
+
+
+    const image =
+        await readFile(
+            imageFile
+        );
+
+
+    const video =
+        await readFile(
+            videoFile
+        );
+
+
+    const existing =
+        editingJobId
+        ? getJobs().find(
+            function(item){
+
+                return (
+                    item.id ===
+                    editingJobId
+                );
+
+            }
+        )
+        : null;
 
 
     return {
@@ -2241,100 +2508,115 @@ async function buildJob(type){
             editingJobId ||
             makeId(),
 
-
         owner:
             login.email,
 
+        ownerName:
+            login.name,
 
         type:
             type,
 
-
         country:{
-
             value:
-                selected
-                ? selected.value
-                : "",
-
-            label:
-                selected
-                ? selected.textContent
-                : "",
+                country.value,
 
             name:
-                selected
-                ? selected.dataset.country
+                option
+                ? (
+                    option.dataset.countryName ||
+                    option.textContent ||
+                    ""
+                )
                 : "",
 
             iso2:
-                selected
-                ? selected.dataset.iso2
+                option
+                ? (
+                    option.dataset.countryCode ||
+                    option.dataset.iso2 ||
+                    ""
+                )
                 : "",
 
             iso3:
-                selected
-                ? selected.dataset.iso3
+                option
+                ? (
+                    option.dataset.countryISO3 ||
+                    option.dataset.iso3 ||
+                    ""
+                )
                 : "",
 
             callingCode:
-                selected
-                ? selected.dataset.callingCode
+                option
+                ? (
+                    option.dataset.callingCode ||
+                    ""
+                )
+                : "",
+
+            flag:
+                option
+                ? (
+                    option.dataset.flag ||
+                    ""
+                )
                 : ""
 
         },
 
-
         category:
-            $(p + "Category").value,
-
+            $(prefix + "Category")
+            .value,
 
         title:
-            $(p + "JobTitle")
+            $(prefix + "JobTitle")
             .value
             .trim(),
-
 
         salary:
-            $(p + "Salary")
+            $(prefix + "Salary")
             .value
             .trim(),
-
 
         appointment:
-            $(p + "Appointment").value,
-
+            $(prefix + "Appointment")
+            .value,
 
         location:
-            $(p + "Location")
+            $(prefix + "Location")
             .value
             .trim(),
-
 
         description:
-            $(p + "Description")
+            $(prefix + "Description")
             .value
             .trim(),
 
-
         image:
-            await readFile(
-                imageInput.files[0]
+            image ||
+            (
+                existing
+                ? existing.image || ""
+                : ""
             ),
-
 
         video:
-            await readFile(
-                videoInput.files[0]
+            video ||
+            (
+                existing
+                ? existing.video || ""
+                : ""
             ),
 
+        updatedAt:
+            new Date().toISOString(),
 
         createdAt:
-            Date.now(),
-
-
-        updatedAt:
-            Date.now()
+            existing
+            ? existing.createdAt
+            : new Date().toISOString()
 
     };
 
@@ -2342,59 +2624,7 @@ async function buildJob(type){
 
 
 /* =========================================================
-RESET FORM
-========================================================= */
-
-function resetForm(type){
-
-    const p =
-        type === "international"
-        ? "international"
-        : "local";
-
-
-    const form =
-        $(p + "JobForm");
-
-
-    if(form){
-
-        form.reset();
-
-    }
-
-
-    editingJobId = null;
-
-
-    const hiddenId =
-        $(p + "JobId");
-
-
-    if(hiddenId){
-
-        hiddenId.value = "";
-
-    }
-
-
-    const cancel =
-        $(p + "CancelEdit");
-
-
-    if(cancel){
-
-        cancel.classList.add(
-            "hidden"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-SAVE JOB
+   SAVE JOB
 ========================================================= */
 
 async function saveJob(type){
@@ -2418,52 +2648,40 @@ async function saveJob(type){
         await buildJob(type);
 
 
-    const jobs =
+    if(!job){
+        return;
+    }
+
+
+    let jobs =
         getJobs();
 
 
     const index =
-        jobs.findIndex(function(item){
+        jobs.findIndex(
+            function(item){
 
-            return(
+                return (
+                    item.id ===
+                    job.id &&
+                    item.owner ===
+                    login.email
+                );
 
-                item.id === job.id &&
-
-                item.owner === login.email
-
-            );
-
-        });
+            }
+        );
 
 
     if(index >= 0){
-
-        job.createdAt =
-            jobs[index].createdAt;
-
-
-        if(!job.image){
-
-            job.image =
-                jobs[index].image || "";
-
-        }
-
-
-        if(!job.video){
-
-            job.video =
-                jobs[index].video || "";
-
-        }
-
 
         jobs[index] =
             job;
 
     }else{
 
-        jobs.unshift(job);
+        jobs.unshift(
+            job
+        );
 
     }
 
@@ -2471,30 +2689,25 @@ async function saveJob(type){
     saveJobs(jobs);
 
 
-    resetForm(type);
+    editingJobId =
+        null;
+
+
+    resetForm(
+        type
+    );
 
 
     renderJobs();
-
-
-    alert(
-
-        index >= 0
-
-        ? "Job updated successfully."
-
-        : "Job saved successfully."
-
-    );
 
 }
 
 
 /* =========================================================
-FORM EVENTS
+   FORM SETUP
 ========================================================= */
 
-function setupForms(){
+function setupJobForms(){
 
     const international =
         $("internationalJobForm");
@@ -2579,11 +2792,122 @@ function setupForms(){
 
     }
 
+
+    const intCountry =
+        $("internationalCountry");
+
+
+    const localCountry =
+        $("localCountry");
+
+
+    if(intCountry){
+
+        intCountry.addEventListener(
+            "change",
+            function(){
+
+                updateCountryInfo(
+                    "international"
+                );
+
+            }
+        );
+
+    }
+
+
+    if(localCountry){
+
+        localCountry.addEventListener(
+            "change",
+            function(){
+
+                updateCountryInfo(
+                    "local"
+                );
+
+            }
+        );
+
+    }
+
 }
 
 
 /* =========================================================
-EDIT JOB
+   RESET FORM
+========================================================= */
+
+function resetForm(type){
+
+    const prefix =
+        type === "international"
+        ? "international"
+        : "local";
+
+
+    const form =
+        $(prefix + "JobForm");
+
+
+    if(form){
+        form.reset();
+    }
+
+
+    $(prefix + "JobId").value =
+        "";
+
+
+    const cancel =
+        $(prefix + "CancelEdit");
+
+
+    if(cancel){
+
+        cancel.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    const note =
+        $(prefix + "EditNote");
+
+
+    if(note){
+
+        note.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    editingJobId =
+        null;
+
+
+    setTimeout(
+        function(){
+
+            fillJobCountries();
+
+            updateCountryInfo(
+                prefix
+            );
+
+        },
+        0
+    );
+
+}
+
+
+/* =========================================================
+   EDIT JOB
 ========================================================= */
 
 function editJob(id){
@@ -2594,33 +2918,38 @@ function editJob(id){
 
     if(!login){
 
+        alert(
+            "Please login first."
+        );
+
         return;
 
     }
 
 
     const job =
-        getJobs().find(function(item){
+        getJobs().find(
+            function(item){
 
-            return(
+                return (
 
-                item.id === id &&
+                    item.id === id &&
 
-                item.owner === login.email
+                    item.owner ===
+                    login.email
 
-            );
+                );
 
-        });
+            }
+        );
 
 
     if(!job){
-
         return;
-
     }
 
 
-    const p =
+    const prefix =
         job.type === "international"
         ? "international"
         : "local";
@@ -2630,42 +2959,46 @@ function editJob(id){
         job.id;
 
 
-    $(p + "JobId").value =
+    $(prefix + "JobId").value =
         job.id;
 
 
-    $(p + "Country").value =
+    const country =
+        $(prefix + "Country");
+
+
+    country.value =
         job.country
         ? job.country.value || ""
         : "";
 
 
-    $(p + "Category").value =
+    $(prefix + "Category").value =
         job.category || "";
 
 
-    $(p + "JobTitle").value =
+    $(prefix + "JobTitle").value =
         job.title || "";
 
 
-    $(p + "Salary").value =
+    $(prefix + "Salary").value =
         job.salary || "";
 
 
-    $(p + "Appointment").value =
+    $(prefix + "Appointment").value =
         job.appointment || "";
 
 
-    $(p + "Location").value =
+    $(prefix + "Location").value =
         job.location || "";
 
 
-    $(p + "Description").value =
+    $(prefix + "Description").value =
         job.description || "";
 
 
     const cancel =
-        $(p + "CancelEdit");
+        $(prefix + "CancelEdit");
 
 
     if(cancel){
@@ -2677,7 +3010,20 @@ function editJob(id){
     }
 
 
-    if(p === "international"){
+    const note =
+        $(prefix + "EditNote");
+
+
+    if(note){
+
+        note.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    if(prefix === "international"){
 
         $("internationalJobsTab").click();
 
@@ -2686,6 +3032,11 @@ function editJob(id){
         $("localJobsTab").click();
 
     }
+
+
+    updateCountryInfo(
+        prefix
+    );
 
 
     window.scrollTo({
@@ -2700,7 +3051,7 @@ function editJob(id){
 
 
 /* =========================================================
-DELETE JOB
+   DELETE JOB
 ========================================================= */
 
 function deleteJob(id){
@@ -2721,23 +3072,24 @@ function deleteJob(id){
 
 
     const job =
-        getJobs().find(function(item){
+        getJobs().find(
+            function(item){
 
-            return(
+                return (
 
-                item.id === id &&
+                    item.id === id &&
 
-                item.owner === login.email
+                    item.owner ===
+                    login.email
 
-            );
+                );
 
-        });
+            }
+        );
 
 
     if(!job){
-
         return;
-
     }
 
 
@@ -2753,17 +3105,21 @@ function deleteJob(id){
 
 
     const jobs =
-        getJobs().filter(function(item){
+        getJobs().filter(
+            function(item){
 
-            return !(
-                item.id === id &&
-                item.owner === login.email
-            );
+                return !(
+                    item.id === id &&
+                    item.owner === login.email
+                );
 
-        });
+            }
+        );
 
 
-    saveJobs(jobs);
+    saveJobs(
+        jobs
+    );
 
 
     if(editingJobId === id){
@@ -2781,7 +3137,40 @@ function deleteJob(id){
 
 
 /* =========================================================
-RENDER JOBS
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(
+        value || ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   RENDER JOBS
 ========================================================= */
 
 function renderJobs(){
@@ -2789,19 +3178,13 @@ function renderJobs(){
     const list =
         $("jobsList");
 
-
     const empty =
         $("jobsEmptyMessage");
 
 
-    if(!list){
-
+    if(!list || !empty){
         return;
-
     }
-
-
-    list.innerHTML = "";
 
 
     const login =
@@ -2810,16 +3193,15 @@ function renderJobs(){
 
     if(!login){
 
-        if(empty){
+        list.innerHTML =
+            "";
 
-            empty.classList.remove(
-                "hidden"
-            );
+        empty.textContent =
+            "Please login to manage your jobs.";
 
-            empty.textContent =
-                "Please login to manage your jobs.";
-
-        }
+        empty.classList.remove(
+            "hidden"
+        );
 
         return;
 
@@ -2827,307 +3209,344 @@ function renderJobs(){
 
 
     const jobs =
-        getJobs().filter(function(item){
+        getJobs().filter(
+            function(item){
 
-            return(
-                item.owner === login.email
-            );
+                return (
+                    item.owner ===
+                    login.email
+                );
 
-        });
+            }
+        );
 
 
     if(!jobs.length){
 
-        if(empty){
+        list.innerHTML =
+            "";
 
-            empty.classList.remove(
-                "hidden"
-            );
+        empty.textContent =
+            "You have not saved any jobs yet.";
 
-            empty.textContent =
-                "No jobs saved yet.";
-
-        }
+        empty.classList.remove(
+            "hidden"
+        );
 
         return;
 
     }
 
 
-    if(empty){
-
-        empty.classList.add(
-            "hidden"
-        );
-
-    }
+    empty.classList.add(
+        "hidden"
+    );
 
 
-    jobs.forEach(function(job){
+    list.innerHTML =
+        jobs.map(
+            function(job){
 
-        const card =
-            document.createElement(
-                "article"
-            );
-
-
-        card.className =
-            "jobs-card";
+                const country =
+                    job.country || {};
 
 
-        const h3 =
-            document.createElement(
-                "h3"
-            );
+                const typeLabel =
+                    job.type ===
+                    "international"
+                    ? "🌍 International Job"
+                    : "📍 Local Job";
 
 
-        h3.textContent =
-            job.title ||
-            "Job";
+                const media = [];
 
 
-        card.appendChild(h3);
+                if(job.image){
 
+                    media.push(
 
-        const meta =
-            document.createElement(
-                "div"
-            );
+                        "<img src=\"" +
+                        job.image +
+                        "\" alt=\"Job Image\">"
 
-
-        meta.className =
-            "jobs-meta";
-
-
-        meta.textContent =
-            [
-
-                job.type === "international"
-                ? "International Job"
-                : "Local Job",
-
-                "Country: " +
-                (
-                    job.country
-                    ? job.country.label
-                    : ""
-                ),
-
-                "Category: " +
-                (
-                    job.category || ""
-                ),
-
-                "Salary: " +
-                (
-                    job.salary || ""
-                ),
-
-                "Appointment: " +
-                (
-                    job.appointment || ""
-                ),
-
-                "Location: " +
-                (
-                    job.location || ""
-                )
-
-            ].join(" • ");
-
-
-        card.appendChild(meta);
-
-
-        const desc =
-            document.createElement(
-                "div"
-            );
-
-
-        desc.className =
-            "jobs-description";
-
-
-        desc.textContent =
-            job.description || "";
-
-
-        card.appendChild(desc);
-
-
-        if(
-            job.image ||
-            job.video
-        ){
-
-            const media =
-                document.createElement(
-                    "div"
-                );
-
-
-            media.className =
-                "jobs-media";
-
-
-            if(job.image){
-
-                const image =
-                    document.createElement(
-                        "img"
                     );
 
-
-                image.src =
-                    job.image;
+                }
 
 
-                image.alt =
-                    job.title ||
-                    "Job image";
+                if(job.video){
+
+                    media.push(
+
+                        "<video controls>" +
+                        "<source src=\"" +
+                        job.video +
+                        "\">" +
+                        "</video>"
+
+                    );
+
+                }
 
 
-                image.loading =
-                    "lazy";
+                return (
 
+                    "<article class=\"jobs-card\">" +
 
-                media.appendChild(
-                    image
+                    "<h3>" +
+                    escapeHTML(
+                        job.title
+                    ) +
+                    "</h3>" +
+
+                    "<div class=\"jobs-meta\">" +
+
+                    "<strong>" +
+                    escapeHTML(
+                        typeLabel
+                    ) +
+                    "</strong><br>" +
+
+                    "Category: " +
+                    escapeHTML(
+                        job.category
+                    ) +
+                    "<br>" +
+
+                    "Country: " +
+                    escapeHTML(
+                        country.flag || ""
+                    ) +
+                    " " +
+                    escapeHTML(
+                        country.name || ""
+                    ) +
+                    " " +
+                    escapeHTML(
+                        country.iso2 || ""
+                    ) +
+                    " " +
+                    escapeHTML(
+                        country.iso3 || ""
+                    ) +
+                    (
+                        country.callingCode
+                        ? " • " +
+                        escapeHTML(
+                            country.callingCode
+                        )
+                        : ""
+                    ) +
+                    "<br>" +
+
+                    "Salary: " +
+                    escapeHTML(
+                        job.salary
+                    ) +
+                    "<br>" +
+
+                    "Appointment: " +
+                    escapeHTML(
+                        job.appointment
+                    ) +
+                    "<br>" +
+
+                    "Live Location: " +
+                    escapeHTML(
+                        job.location
+                    ) +
+
+                    "</div>" +
+
+                    "<div class=\"jobs-description\">" +
+                    escapeHTML(
+                        job.description
+                    ) +
+                    "</div>" +
+
+                    (
+                        media.length
+                        ? (
+                            "<div class=\"jobs-media\">" +
+                            media.join("") +
+                            "</div>"
+                        )
+                        : ""
+                    ) +
+
+                    "<div class=\"jobs-owner\">" +
+                    "Posted by: " +
+                    escapeHTML(
+                        job.ownerName
+                    ) +
+                    " • " +
+                    escapeHTML(
+                        job.owner
+                    ) +
+                    "</div>" +
+
+                    "<div class=\"jobs-actions\">" +
+
+                    "<button " +
+                    "type=\"button\" " +
+                    "class=\"jobs-btn\" " +
+                    "onclick=\"window.ALON_EDIT_JOB('" +
+                    job.id +
+                    "')\">" +
+                    "Edit" +
+                    "</button>" +
+
+                    "<button " +
+                    "type=\"button\" " +
+                    "class=\"jobs-btn jobs-btn-danger\" " +
+                    "onclick=\"window.ALON_DELETE_JOB('" +
+                    job.id +
+                    "')\">" +
+                    "Delete" +
+                    "</button>" +
+
+                    "</div>" +
+
+                    "</article>"
+
                 );
 
             }
-
-
-            if(job.video){
-
-                const video =
-                    document.createElement(
-                        "video"
-                    );
-
-
-                video.src =
-                    job.video;
-
-
-                video.controls =
-                    true;
-
-
-                video.preload =
-                    "metadata";
-
-
-                media.appendChild(
-                    video
-                );
-
-            }
-
-
-            card.appendChild(
-                media
-            );
-
-        }
-
-
-        const actions =
-            document.createElement(
-                "div"
-            );
-
-
-        actions.className =
-            "jobs-actions";
-
-
-        const edit =
-            document.createElement(
-                "button"
-            );
-
-
-        edit.type =
-            "button";
-
-
-        edit.className =
-            "jobs-btn";
-
-
-        edit.textContent =
-            "Edit";
-
-
-        edit.onclick =
-            function(){
-
-                editJob(
-                    job.id
-                );
-
-            };
-
-
-        const remove =
-            document.createElement(
-                "button"
-            );
-
-
-        remove.type =
-            "button";
-
-
-        remove.className =
-            "jobs-btn jobs-btn-danger";
-
-
-        remove.textContent =
-            "Delete";
-
-
-        remove.onclick =
-            function(){
-
-                deleteJob(
-                    job.id
-                );
-
-            };
-
-
-        actions.appendChild(
-            edit
-        );
-
-
-        actions.appendChild(
-            remove
-        );
-
-
-        card.appendChild(
-            actions
-        );
-
-
-        list.appendChild(
-            card
-        );
-
-    });
+        )
+        .join("");
 
 }
 
 
 /* =========================================================
-INIT
+   FILE PREVIEW
 ========================================================= */
 
-function init(){
+function setupFilePreview(){
+
+    const inputs = [
+
+        [
+            "internationalImage",
+            "internationalImagePreview",
+            "image"
+        ],
+
+        [
+            "internationalVideo",
+            "internationalVideoPreview",
+            "video"
+        ],
+
+        [
+            "localImage",
+            "localImagePreview",
+            "image"
+        ],
+
+        [
+            "localVideo",
+            "localVideoPreview",
+            "video"
+        ]
+
+    ];
+
+
+    inputs.forEach(
+        function(item){
+
+            const input =
+                $(item[0]);
+
+            const preview =
+                $(item[1]);
+
+            const type =
+                item[2];
+
+
+            if(!input || !preview){
+                return;
+            }
+
+
+            input.addEventListener(
+                "change",
+                function(){
+
+                    preview.innerHTML =
+                        "";
+
+
+                    const file =
+                        input.files &&
+                        input.files[0];
+
+
+                    if(!file){
+                        return;
+                    }
+
+
+                    const url =
+                        URL.createObjectURL(
+                            file
+                        );
+
+
+                    if(type === "image"){
+
+                        preview.innerHTML =
+                            "<img src=\"" +
+                            url +
+                            "\" alt=\"Preview\">";
+
+                    }else{
+
+                        preview.innerHTML =
+                            "<video controls>" +
+                            "<source src=\"" +
+                            url +
+                            "\">" +
+                            "</video>";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GLOBAL ACTIONS
+========================================================= */
+
+window.ALON_EDIT_JOB =
+    function(id){
+
+        editJob(id);
+
+    };
+
+
+window.ALON_DELETE_JOB =
+    function(id){
+
+        deleteJob(id);
+
+    };
+
+
+/* =========================================================
+   START SYSTEM
+========================================================= */
+
+function startJobsSystem(){
 
     setupAuthTabs();
 
@@ -3139,16 +3558,22 @@ function init(){
 
     setupTabs();
 
-    setupForms();
+    setupJobForms();
+
+    setupFilePreview();
 
     updateLogin();
 
-    startCountrySystem();
-
     renderJobs();
+
+    startCountrySystem();
 
 }
 
+
+/* =========================================================
+   DOM READY
+========================================================= */
 
 if(
     document.readyState ===
@@ -3157,18 +3582,22 @@ if(
 
     document.addEventListener(
         "DOMContentLoaded",
-        init
+        startJobsSystem
     );
 
 }else{
 
-    init();
+    startJobsSystem();
 
 }
+
 
 })();
 
 </script>
 
+
 </body>
+
 </html>
+```0
