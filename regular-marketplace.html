@@ -519,15 +519,16 @@
            ========================================================= */
 
         .rm-discovery-section {
-            margin: 24px 0;
+            width: 100%;
+            max-width: 1200px;
 
-            padding: 0;
+            margin: 28px auto 0;
 
-            border: 0;
+            padding: 0 20px 30px;
+
+            box-sizing: border-box;
 
             background: transparent;
-
-            box-shadow: none;
         }
 
         .rm-discovery-folder {
@@ -644,6 +645,84 @@
 
 
         /* =========================================================
+           ADVANCED DISCOVERY CATEGORIES
+           ========================================================= */
+
+        .rm-discovery-categories {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 14px;
+
+            margin-top: 18px;
+        }
+
+        .rm-discovery-category {
+            padding: 18px;
+
+            border: 1px solid #dddddd;
+            border-radius: 15px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.06);
+        }
+
+        .rm-discovery-category h3 {
+            margin: 0 0 10px;
+
+            color: #8b6508;
+
+            font-size: 18px;
+
+            line-height: 1.4;
+        }
+
+        .rm-discovery-category p {
+            margin: 0;
+
+            color: #555555;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .rm-discovery-upcoming {
+            border-color: #d7b35a;
+
+            background: #fffdf5;
+        }
+
+        .rm-discovery-local {
+            border-color: #cfcfcf;
+        }
+
+        .rm-discovery-guide {
+            border-color: #d7b35a;
+
+            background: #fffaf0;
+        }
+
+        .rm-discovery-guide-list {
+            margin: 10px 0 0;
+
+            padding-left: 20px;
+
+            color: #444444;
+
+            line-height: 1.7;
+        }
+
+        .rm-discovery-guide-list li {
+            margin-bottom: 5px;
+        }
+
+
+        /* =========================================================
            MOBILE
            ========================================================= */
 
@@ -681,6 +760,11 @@
                 font-size: 24px;
             }
 
+            .rm-discovery-section {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
             .rm-discovery-folder {
                 align-items: flex-start;
 
@@ -703,6 +787,10 @@
                 margin-top: 4px;
             }
 
+            .rm-discovery-categories {
+                grid-template-columns: 1fr 1fr;
+            }
+
         }
 
 
@@ -718,6 +806,10 @@
 
             .rm-actions .rm-btn {
                 width: 100%;
+            }
+
+            .rm-discovery-categories {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -1896,89 +1988,6 @@
 
 
     <!-- =========================================================
-         MARKETPLACE DISCOVERY
-         ========================================================= -->
-
-    <section
-        id="rmDiscoverySection"
-        class="rm-discovery-section"
-    >
-
-
-        <!-- OPEN DISCOVERY -->
-
-        <div
-            id="rmDiscoveryFolder"
-            class="rm-discovery-folder"
-        >
-
-
-            <div class="rm-discovery-folder-icon">
-                📁
-            </div>
-
-
-            <div class="rm-discovery-folder-content">
-
-                <h2>
-                    MARKETPLACE DISCOVERY
-                </h2>
-
-                <p>
-                    🏷️ Brand Promoter
-                    • 🌍 Travel & Tourist
-                    • 🎬 Movie Promoter
-                    • 🌎 World Culture
-                </p>
-
-            </div>
-
-
-            <button
-                type="button"
-                id="rmDiscoveryOpen"
-                class="rm-discovery-toggle"
-                aria-expanded="false"
-                aria-controls="rmDiscoveryContent"
-            >
-                📁 Open Discovery
-            </button>
-
-
-        </div>
-
-
-        <!-- DISCOVERY CONTENT -->
-
-        <div
-            id="rmDiscoveryContent"
-            class="rm-discovery-content rm-discovery-closed"
-            style="display:none;"
-        >
-
-
-            <button
-                type="button"
-                id="rmDiscoveryBack"
-                class="rm-btn"
-            >
-                ← Back
-            </button>
-
-
-            <div
-                id="rmDiscoveryHub"
-            ></div>
-
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- =========================================================
          SELLER RESPONSIBILITY
          ========================================================= -->
 
@@ -2041,6 +2050,403 @@
 
 
 </div>
+
+
+
+<!-- =========================================================
+     MARKETPLACE DISCOVERY
+     OUTSIDE REGULAR MARKETPLACE
+     ========================================================= -->
+
+<section
+    id="rmDiscoverySection"
+    class="rm-discovery-section"
+>
+
+
+    <!-- =====================================================
+         DISCOVERY FOLDER
+         ===================================================== -->
+
+    <div
+        id="rmDiscoveryFolder"
+        class="rm-discovery-folder"
+    >
+
+        <div class="rm-discovery-folder-icon">
+            📁
+        </div>
+
+
+        <div class="rm-discovery-folder-content">
+
+            <h2>
+                MARKETPLACE DISCOVERY
+            </h2>
+
+            <p>
+                🎬 Entertainment
+                • 🌍 Travel
+                • 🏛️ Culture
+                • 🎵 Music
+                • 🎮 Games
+                • 🏆 Sports
+                • 💎 Luxury
+                • 🚀 Upcoming
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="rmDiscoveryOpen"
+            class="rm-discovery-toggle"
+            aria-expanded="false"
+            aria-controls="rmDiscoveryContent"
+        >
+            📁 Open Discovery
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         DISCOVERY CONTENT
+         ===================================================== -->
+
+    <div
+        id="rmDiscoveryContent"
+        class="rm-discovery-content rm-discovery-closed"
+        style="display:none;"
+    >
+
+
+        <button
+            type="button"
+            id="rmDiscoveryBack"
+            class="rm-btn"
+        >
+            ← Back
+        </button>
+
+
+        <!-- =================================================
+             ADVANCED DISCOVERY CATEGORIES
+             ================================================= -->
+
+        <div class="rm-discovery-categories">
+
+
+            <!-- ENTERTAINMENT -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🎬 Entertainment
+                </h3>
+
+                <p>
+                    Movies • TV Serials • Web Series •
+                    Podcasts • Hosting • Shows
+                </p>
+
+            </div>
+
+
+            <!-- MUSIC -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🎵 Music
+                </h3>
+
+                <p>
+                    Songs • Albums • Artists • Music Shows •
+                    New Releases
+                </p>
+
+            </div>
+
+
+            <!-- SPORTS -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🏆 Sports
+                </h3>
+
+                <p>
+                    Sports • Tournaments • Matches •
+                    Players • Teams • Upcoming Events
+                </p>
+
+            </div>
+
+
+            <!-- GAMES -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🎮 Games
+                </h3>
+
+                <p>
+                    Video Games • Mobile Games • PC Games •
+                    Console Games • Upcoming Games
+                </p>
+
+            </div>
+
+
+            <!-- LUXURY -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    💎 Luxury & Lifestyle
+                </h3>
+
+                <p>
+                    Luxury Items • Cars • Watches • Jewellery •
+                    Resorts • Premium Lifestyle
+                </p>
+
+            </div>
+
+
+            <!-- UPCOMING -->
+
+            <div class="rm-discovery-category rm-discovery-upcoming">
+
+                <h3>
+                    🚀 Coming Soon
+                </h3>
+
+                <p>
+                    Upcoming Movies • Serials • Web Series •
+                    Podcasts • Songs • Albums • Games •
+                    Sports Events • Shows
+                </p>
+
+            </div>
+
+
+            <!-- ADVANCED TRAVEL -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🌍 Advanced Travel & Tourist
+                </h3>
+
+                <p>
+                    Countries • States / Provinces • Cities •
+                    Villages • Beaches • Mountains • Forests •
+                    Heritage • Museums • Hidden Places
+                </p>
+
+            </div>
+
+
+            <!-- TRAVEL PLANNING -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🧳 Travel Planning
+                </h3>
+
+                <p>
+                    Solo Travel • Family Travel • Group Travel •
+                    Budget Travel • Luxury Travel • Adventure •
+                    Road Trips • Weekend Trips
+                </p>
+
+            </div>
+
+
+            <!-- LOCAL GUIDE -->
+
+            <div class="rm-discovery-category rm-discovery-local">
+
+                <h3>
+                    🧭 Local Guide
+                </h3>
+
+                <p>
+                    Discover local places through people who
+                    know the area, its history, culture, food,
+                    markets, transport and local experiences.
+                </p>
+
+            </div>
+
+
+            <!-- CULTURE TOUR GUIDE -->
+
+            <div class="rm-discovery-category rm-discovery-guide">
+
+                <h3>
+                    🏛️ Culture Tour Guide
+                </h3>
+
+                <p>
+                    Discover a place through experienced local
+                    knowledge and cultural information.
+                </p>
+
+                <ul class="rm-discovery-guide-list">
+
+                    <li>
+                        Local History
+                    </li>
+
+                    <li>
+                        Culture & Traditions
+                    </li>
+
+                    <li>
+                        Local Language
+                    </li>
+
+                    <li>
+                        Local Food
+                    </li>
+
+                    <li>
+                        Festivals
+                    </li>
+
+                    <li>
+                        Heritage & Important Places
+                    </li>
+
+                    <li>
+                        Local Markets
+                    </li>
+
+                    <li>
+                        Local Transport
+                    </li>
+
+                    <li>
+                        Local Stories & Knowledge
+                    </li>
+
+                    <li>
+                        Practical Local Information
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- EXPERIENCED LOCAL GUIDE -->
+
+            <div class="rm-discovery-category rm-discovery-guide">
+
+                <h3>
+                    👨‍🏫 Experienced Local Guide
+                </h3>
+
+                <p>
+                    Guides can describe their local knowledge,
+                    experience and areas they know well.
+                </p>
+
+                <ul class="rm-discovery-guide-list">
+
+                    <li>
+                        📍 Local Area
+                    </li>
+
+                    <li>
+                        🕐 Years of Local Knowledge
+                    </li>
+
+                    <li>
+                        🗣️ Languages
+                    </li>
+
+                    <li>
+                        🏛️ History & Heritage
+                    </li>
+
+                    <li>
+                        🍲 Local Food
+                    </li>
+
+                    <li>
+                        🎭 Culture & Festivals
+                    </li>
+
+                    <li>
+                        🛍️ Local Markets
+                    </li>
+
+                    <li>
+                        🚕 Local Transport
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- WORLD CULTURE -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🌎 World Culture
+                </h3>
+
+                <p>
+                    Countries • Peoples • Languages •
+                    Traditions • Heritage • Festivals •
+                    Food • Cultural Knowledge
+                </p>
+
+            </div>
+
+
+            <!-- BRAND PROMOTION -->
+
+            <div class="rm-discovery-category">
+
+                <h3>
+                    🏷️ Promotion
+                </h3>
+
+                <p>
+                    Brand Promoter • Movie Promoter •
+                    Music Promoter • Event Promoter •
+                    Travel Promoter • Product Promoter
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             EXISTING DISCOVERY ENGINE TARGET
+             ================================================= -->
+
+        <div
+            id="rmDiscoveryHub"
+        ></div>
+
+
+    </div>
+
+</section>
 
 
 
