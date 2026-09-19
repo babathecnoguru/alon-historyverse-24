@@ -3,38 +3,31 @@
    REGULAR MARKETPLACE DISCOVERY
    ---------------------------------------------------------
    File: regular-marketplace-discovery.js
-   Version: 1.1
-   Creator: Baba Thecno Guru
-
-   FEATURES
+   Version: 1.2 SAFE DISCOVERY
+   ---------------------------------------------------------
+   Features:
    • Brand Promoter
    • Travel & Tourist Places
    • Movie Promoter
    • World Culture & Local Life
-   • Existing MARKETPLACE_COUNTRIES support
-   • Save / Delete
-   • Mobile friendly
-   • Local browser storage
-   • Does NOT modify Global Marketplace
-   • Does NOT modify Jobs
-   • Does NOT modify marketplace-countries.js
+   • Central Marketplace Country Database
+   • Image Upload
+   • Video Upload
+   • Reach / Links
+   • Local Storage
+   • Delete
+   • Safe Initialization
+   • Visible Error Reporting
    ========================================================= */
 
 (function () {
 
     "use strict";
 
-
-    /* =========================================================
-       CONFIGURATION
-       ========================================================= */
-
-    const CONFIG = {
-
-        version: "1.1",
+    var CONFIG = {
+        version: "1.2",
 
         storage: {
-
             brands:
                 "alon_historyverse_regular_brand_promoters",
 
@@ -46,31 +39,25 @@
 
             culture:
                 "alon_historyverse_regular_world_culture"
-
         },
 
-        maxImageSize:
-            8 * 1024 * 1024,
-
-        maxVideoSize:
-            40 * 1024 * 1024
-
+        maxImageSize: 8 * 1024 * 1024,
+        maxVideoSize: 40 * 1024 * 1024
     };
 
 
-    /* =========================================================
+    /* =====================================================
        BASIC HELPERS
-       ========================================================= */
+       ===================================================== */
 
     function escapeHTML(value) {
 
-        return String(value || "")
+        return String(value == null ? "" : value)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
-
     }
 
 
@@ -83,9 +70,8 @@
             "_" +
             Math.random()
                 .toString(36)
-                .substring(2, 10)
+                .substring(2, 9)
         );
-
     }
 
 
@@ -93,15 +79,13 @@
 
         try {
 
-            const value =
-                localStorage.getItem(key);
+            var raw = localStorage.getItem(key);
 
-            if (!value) {
+            if (!raw) {
                 return [];
             }
 
-            const parsed =
-                JSON.parse(value);
+            var parsed = JSON.parse(raw);
 
             return Array.isArray(parsed)
                 ? parsed
@@ -110,18 +94,16 @@
         } catch (error) {
 
             console.error(
-                "Regular Marketplace Discovery storage error:",
+                "Discovery storage read error:",
                 error
             );
 
             return [];
-
         }
-
     }
 
 
-    function setStorage(key, data) {
+    function saveStorage(key, data) {
 
         try {
 
@@ -135,14 +117,59 @@
         } catch (error) {
 
             console.error(
-                "Regular Marketplace Discovery save error:",
+                "Discovery storage save error:",
                 error
             );
 
             return false;
+        }
+    }
 
+
+    function getCountryDatabase() {
+
+        try {
+
+            if (
+                Array.isArray(
+                    window.MARKETPLACE_COUNTRIES
+                )
+            ) {
+
+                return window.MARKETPLACE_COUNTRIES;
+
+            }
+
+
+            if (
+                Array.isArray(
+                    window.ALON_WORLD_COUNTRIES
+                )
+            ) {
+
+                return window.ALON_WORLD_COUNTRIES;
+
+            }
+
+
+            if (
+                Array.isArray(
+                    window.WORLD_COUNTRIES
+                )
+            ) {
+
+                return window.WORLD_COUNTRIES;
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Country database error:",
+                error
+            );
         }
 
+        return [];
     }
 
 
@@ -150,3298 +177,1173 @@
 
         try {
 
-            const possibleKeys = [
-
-                "alon_historyverse_regular_marketpkes_session",
-
-                "alon_historyverse_regular_marketplace_session"
-
+            var keys = [
+                "alon_user",
+                "alonUser",
+                "alon_historyverse_user",
+                "currentUser",
+                "user"
             ];
 
+
             for (
-                let i = 0;
-                i < possibleKeys.length;
+                var i = 0;
+                i < keys.length;
                 i++
             ) {
 
-                const raw =
+                var value =
                     localStorage.getItem(
-                        possibleKeys[i]
+                        keys[i]
                     );
 
-                if (!raw) {
+                if (!value) {
                     continue;
                 }
 
+
                 try {
 
-                    const parsed =
-                        JSON.parse(raw);
+                    var parsed =
+                        JSON.parse(value);
 
                     if (parsed) {
                         return parsed;
                     }
 
-                } catch (error) {
+                } catch (ignore) {
 
-                    /* Continue to next possible key */
-
+                    return {
+                        email: value
+                    };
                 }
-
             }
 
         } catch (error) {
 
-            console.error(error);
-
+            console.error(
+                "Account read error:",
+                error
+            );
         }
 
-        return null;
-
+        return {
+            email: "Guest"
+        };
     }
 
 
     function getOwner() {
 
-        const account =
-            getAccount();
+        var account = getAccount();
 
-        if (!account) {
-
-            return {
-
-                id: "local-user",
-
-                name: "ALON User",
-
-                email: ""
-
-            };
-
-        }
-
-        return {
-
-            id:
-                account.id ||
-                account.email ||
-                account.name ||
-                "local-user",
-
-            name:
-                account.name ||
-                "ALON User",
-
-            email:
-                account.email ||
-                ""
-
-        };
-
+        return (
+            account.email ||
+            account.id ||
+            account.userId ||
+            account.name ||
+            "Guest"
+        );
     }
 
 
-    /* =========================================================
-       COUNTRY DATABASE
-       IMPORTANT:
-       Existing country database is ONLY READ.
-       Nothing is changed here.
-       ========================================================= */
+    /* =====================================================
+       COUNTRY SYSTEM
+       ===================================================== */
 
-    function getCountryDatabase() {
+    function buildCountryOptions(selected) {
 
-        if (
-            Array.isArray(
-                window.MARKETPLACE_COUNTRIES
-            ) &&
-            window.MARKETPLACE_COUNTRIES.length
-        ) {
-
-            return window.MARKETPLACE_COUNTRIES;
-
-        }
-
-
-        if (
-            Array.isArray(
-                window.ALON_WORLD_COUNTRIES
-            ) &&
-            window.ALON_WORLD_COUNTRIES.length
-        ) {
-
-            return window.ALON_WORLD_COUNTRIES;
-
-        }
-
-
-        if (
-            Array.isArray(
-                window.WORLD_COUNTRIES
-            ) &&
-            window.WORLD_COUNTRIES.length
-        ) {
-
-            return window.WORLD_COUNTRIES;
-
-        }
-
-
-        return [];
-
-    }
-
-
-    function countryLabel(country) {
-
-        if (!country) {
-            return "";
-        }
-
-        const flag =
-            country.flag || "";
-
-        const name =
-            country.name ||
-            country.country ||
-            "";
-
-        const code =
-            country.code ||
-            country.iso ||
-            "";
-
-        const callingCode =
-            country.callingCode ||
-            country.phone ||
-            "";
-
-        let label =
-            (flag ? flag + " " : "") +
-            name;
-
-        if (code) {
-
-            label +=
-                " (" +
-                code +
-                ")";
-
-        }
-
-        if (callingCode) {
-
-            label +=
-                " " +
-                callingCode;
-
-        }
-
-        return label.trim();
-
-    }
-
-
-    function buildCountryOptions() {
-
-        const countries =
+        var countries =
             getCountryDatabase();
 
-        let html =
+        var html =
             '<option value="">Select Country</option>';
+
+
+        if (!countries.length) {
+
+            return (
+                html +
+                '<option value="">Country database loading...</option>'
+            );
+        }
+
 
         countries.forEach(function (country) {
 
-            const value =
-                country.code ||
-                country.iso ||
-                country.name ||
-                "";
-
-            const label =
-                countryLabel(country);
-
-            if (!value || !label) {
+            if (!country) {
                 return;
             }
+
+
+            var code =
+                country.code ||
+                country.iso ||
+                country.isoCode ||
+                "";
+
+
+            var name =
+                country.name ||
+                country.country ||
+                "";
+
+
+            var flag =
+                country.flag ||
+                "";
+
+
+            if (!name) {
+                return;
+            }
+
+
+            var value =
+                code || name;
+
+
+            var selectedAttr =
+                String(selected || "") ===
+                String(value)
+                    ? " selected"
+                    : "";
+
 
             html +=
                 '<option value="' +
                 escapeHTML(value) +
-                '">' +
-                escapeHTML(label) +
+                '"' +
+                selectedAttr +
+                ">" +
+                escapeHTML(
+                    (flag ? flag + " " : "") +
+                    name
+                ) +
                 "</option>";
-
         });
+
 
         return html;
-
     }
 
 
-    /* =========================================================
-       FILE READER
-       ========================================================= */
-
-    function readFileAsDataURL(file) {
-
-        return new Promise(function (resolve, reject) {
-
-            if (!file) {
-
-                resolve("");
-
-                return;
-
-            }
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                function () {
-
-                    resolve(
-                        reader.result || ""
-                    );
-
-                };
-
-            reader.onerror =
-                function () {
-
-                    reject(
-                        new Error(
-                            "Unable to read file."
-                        )
-                    );
-
-                };
-
-            reader.readAsDataURL(file);
-
-        });
-
-    }
-
-
-    function validateMedia(
-        file,
-        type
-    ) {
-
-        if (!file) {
-
-            return {
-                valid: true
-            };
-
-        }
-
-        if (
-            type === "image" &&
-            file.size > CONFIG.maxImageSize
-        ) {
-
-            return {
-
-                valid: false,
-
-                message:
-                    "Image must be 8 MB or smaller."
-
-            };
-
-        }
-
-        if (
-            type === "video" &&
-            file.size > CONFIG.maxVideoSize
-        ) {
-
-            return {
-
-                valid: false,
-
-                message:
-                    "Video must be 40 MB or smaller."
-
-            };
-
-        }
-
-        return {
-            valid: true
-        };
-
-    }
-
-
-    /* =========================================================
-       GLOBAL STYLE
-       ========================================================= */
+    /* =====================================================
+       CSS
+       ===================================================== */
 
     function injectStyle() {
 
         if (
             document.getElementById(
-                "rmDiscoveryStyle"
+                "alonDiscoveryInjectedStyle"
             )
         ) {
-
             return;
-
         }
 
-        const style =
+
+        var style =
             document.createElement("style");
 
         style.id =
-            "rmDiscoveryStyle";
+            "alonDiscoveryInjectedStyle";
+
 
         style.textContent = `
 
-            .rmd-wrapper {
-                width: 100%;
-                box-sizing: border-box;
-            }
+        .rmd-root {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 20px 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-            .rmd-title {
-                margin: 0 0 8px;
-                color: #8b6508;
-                font-size: 28px;
-            }
+        .rmd-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
 
-            .rmd-intro {
-                color: #555;
-                line-height: 1.6;
-                margin-bottom: 20px;
-            }
+        .rmd-tab {
+            border: 1px solid #d7b35a;
+            background: #05080f;
+            color: #f0d27a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 700;
+        }
 
-            .rmd-tabs {
+        .rmd-tab.active {
+            background: #d7b35a;
+            color: #05080f;
+        }
+
+        .rmd-panel {
+            display: none;
+        }
+
+        .rmd-panel.active {
+            display: block;
+        }
+
+        .rmd-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 18px;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        .rmd-card h3 {
+            margin-top: 0;
+        }
+
+        .rmd-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .rmd-form input,
+        .rmd-form select,
+        .rmd-form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .rmd-form textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .rmd-submit {
+            border: 0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            background: #05080f;
+            color: #f0d27a;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .rmd-feed {
+            margin-top: 18px;
+        }
+
+        .rmd-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+            background: #fafafa;
+        }
+
+        .rmd-item-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .rmd-meta {
+            font-size: 13px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .rmd-description {
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+
+        .rmd-media {
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .rmd-delete {
+            margin-top: 12px;
+            padding: 8px 12px;
+            border: 0;
+            border-radius: 7px;
+            background: #222;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .rmd-empty {
+            padding: 15px;
+            border: 1px dashed #aaa;
+            border-radius: 8px;
+            color: #666;
+        }
+
+        .rmd-status {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .rmd-error {
+            background: #fff0f0;
+            border: 1px solid #d00;
+            color: #900;
+            padding: 14px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .rmd-success {
+            background: #f0fff4;
+            border: 1px solid #198754;
+            color: #146c43;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .rmd-section-title {
+            margin-top: 0;
+            color: #111;
+        }
+
+        .rmd-small {
+            font-size: 12px;
+            color: #777;
+        }
+
+        @media (min-width: 700px) {
+
+            .rmd-form-grid {
                 display: grid;
                 grid-template-columns:
-                    repeat(4, minmax(0, 1fr));
+                    repeat(2, minmax(0, 1fr));
                 gap: 10px;
-                margin-bottom: 18px;
             }
 
-            .rmd-tab {
-                border: 1px solid #d7b35a;
-                border-radius: 12px;
-                background: #fff;
-                color: #795600;
-                padding: 12px 8px;
-                cursor: pointer;
-                font-weight: 700;
-                line-height: 1.3;
-            }
-
-            .rmd-tab:hover {
-                background: #fff8df;
-            }
-
-            .rmd-tab.active {
-                background: #d7b35a;
-                color: #111;
-            }
-
-            .rmd-panel {
-                display: none;
-                padding: 18px;
-                border: 1px solid #ddd;
-                border-radius: 16px;
-                background: #fff;
-            }
-
-            .rmd-panel.active {
-                display: block;
-            }
-
-            .rmd-panel h3 {
-                margin-top: 0;
-                color: #8b6508;
-            }
-
-            .rmd-grid {
-                display: grid;
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-                gap: 14px;
-            }
-
-            .rmd-field {
-                width: 100%;
-            }
-
-            .rmd-full {
-                grid-column: 1 / -1;
-            }
-
-            .rmd-field label {
-                display: block;
-                margin-bottom: 6px;
-                color: #222;
-                font-weight: 700;
-            }
-
-            .rmd-field input,
-            .rmd-field select,
-            .rmd-field textarea {
-                width: 100%;
-                padding: 11px;
-                border: 1px solid #ccc;
-                border-radius: 10px;
-                background: #fff;
-                color: #111;
-                font-size: 15px;
-                box-sizing: border-box;
-            }
-
-            .rmd-field textarea {
-                min-height: 120px;
-                resize: vertical;
-            }
-
-            .rmd-actions {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 9px;
-                margin-top: 15px;
-            }
-
-            .rmd-btn {
-                border: 1px solid #b58d28;
-                border-radius: 10px;
-                padding: 10px 16px;
-                background: #fff;
-                color: #795600;
-                cursor: pointer;
-                font-weight: 700;
-            }
-
-            .rmd-btn-primary {
-                background: #d7b35a;
-                color: #111;
-            }
-
-            .rmd-btn-danger {
-                border-color: #c44b4b;
-                color: #b00000;
-            }
-
-            .rmd-status {
-                display: none;
-                margin-top: 12px;
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 9px;
-                background: #fafafa;
-                line-height: 1.5;
-            }
-
-            .rmd-status.show {
-                display: block;
-            }
-
-            .rmd-feed {
-                display: grid;
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-                gap: 14px;
-                margin-top: 18px;
-            }
-
-            .rmd-card {
-                border: 1px solid #ddd;
-                border-radius: 14px;
-                overflow: hidden;
-                background: #fff;
-                padding: 14px;
-                box-shadow:
-                    0 3px 12px rgba(0,0,0,.05);
-            }
-
-            .rmd-card h4 {
-                margin: 0 0 8px;
-                color: #8b6508;
-                font-size: 19px;
-            }
-
-            .rmd-card p {
-                margin: 6px 0;
-                color: #333;
-                line-height: 1.5;
-            }
-
-            .rmd-card-media {
-                width: 100%;
-                max-height: 260px;
-                object-fit: cover;
-                border-radius: 10px;
-                margin: 9px 0;
-                display: block;
-            }
-
-            .rmd-card-video {
-                width: 100%;
-                max-height: 280px;
-                border-radius: 10px;
-                margin: 9px 0;
-                display: block;
-            }
-
-            .rmd-meta {
-                font-size: 13px;
-                color: #777;
-            }
-
-            .rmd-empty {
-                grid-column: 1 / -1;
-                padding: 15px;
-                border: 1px dashed #ccc;
-                border-radius: 10px;
-                color: #666;
-                background: #fafafa;
-            }
-
-            .rmd-small {
-                color: #777;
-                font-size: 13px;
-                line-height: 1.5;
-            }
-
-            .rmd-check {
-                display: flex;
-                align-items: flex-start;
-                gap: 8px;
-                margin-top: 8px;
-                line-height: 1.5;
-            }
-
-            .rmd-check input {
-                width: auto;
-                margin-top: 4px;
-            }
-
-            @media (max-width: 800px) {
-
-                .rmd-tabs {
-                    grid-template-columns: 1fr 1fr;
-                }
-
-                .rmd-grid,
-                .rmd-feed {
-                    grid-template-columns: 1fr;
-                }
-
-                .rmd-full {
-                    grid-column: auto;
-                }
-
-            }
-
-            @media (max-width: 480px) {
-
-                .rmd-tabs {
-                    grid-template-columns: 1fr;
-                }
-
-                .rmd-panel {
-                    padding: 13px;
-                }
-
-            }
+        }
 
         `;
 
-        document.head.appendChild(style);
 
+        document.head.appendChild(style);
     }
 
 
-    /* =========================================================
-       FORM FIELD BUILDERS
-       ========================================================= */
+    /* =====================================================
+       MEDIA
+       ===================================================== */
 
-    function commonLocationFields(prefix) {
+    function readFileAsDataURL(file) {
+
+        return new Promise(function (
+            resolve,
+            reject
+        ) {
+
+            if (!file) {
+                resolve("");
+                return;
+            }
+
+
+            var reader =
+                new FileReader();
+
+
+            reader.onload = function () {
+                resolve(reader.result);
+            };
+
+
+            reader.onerror = function () {
+                reject(
+                    new Error(
+                        "File could not be read."
+                    )
+                );
+            };
+
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+
+    function validateImage(file) {
+
+        if (!file) {
+            return true;
+        }
+
+
+        if (
+            file.size >
+            CONFIG.maxImageSize
+        ) {
+
+            alert(
+                "Image is too large. Maximum size is 8 MB."
+            );
+
+            return false;
+        }
+
+
+        if (
+            !String(file.type)
+                .toLowerCase()
+                .startsWith("image/")
+        ) {
+
+            alert(
+                "Please select a valid image file."
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    function validateVideo(file) {
+
+        if (!file) {
+            return true;
+        }
+
+
+        if (
+            file.size >
+            CONFIG.maxVideoSize
+        ) {
+
+            alert(
+                "Video is too large. Maximum size is 40 MB."
+            );
+
+            return false;
+        }
+
+
+        if (
+            !String(file.type)
+                .toLowerCase()
+                .startsWith("video/")
+        ) {
+
+            alert(
+                "Please select a valid video file."
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    /* =====================================================
+       FORM FIELD
+       ===================================================== */
+
+    function commonLocationFields() {
 
         return `
 
-            <div class="rmd-field">
+        <div class="rmd-form-grid">
 
-                <label>
-                    Country
-                </label>
+            <input
+                type="text"
+                name="state"
+                placeholder="State / Province"
+            >
 
-                <select
-                    id="${prefix}Country"
-                >
-                    ${buildCountryOptions()}
-                </select>
+            <input
+                type="text"
+                name="district"
+                placeholder="District"
+            >
 
-            </div>
+            <input
+                type="text"
+                name="city"
+                placeholder="City / Town"
+            >
 
+            <input
+                type="text"
+                name="village"
+                placeholder="Village / Local Area"
+            >
 
-            <div class="rmd-field">
-
-                <label>
-                    State / Province
-                </label>
-
-                <input
-                    id="${prefix}State"
-                    type="text"
-                    placeholder="Enter state / province"
-                >
-
-            </div>
-
-
-            <div class="rmd-field">
-
-                <label>
-                    City
-                </label>
-
-                <input
-                    id="${prefix}City"
-                    type="text"
-                    placeholder="Enter city"
-                >
-
-            </div>
-
-
-            <div class="rmd-field">
-
-                <label>
-                    Village / Local Area
-                </label>
-
-                <input
-                    id="${prefix}Village"
-                    type="text"
-                    placeholder="Enter village / local area"
-                >
-
-            </div>
-
-
-            <div class="rmd-field rmd-full">
-
-                <label>
-                    Local Location
-                </label>
-
-                <input
-                    id="${prefix}Location"
-                    type="text"
-                    placeholder="Enter local location / landmark"
-                >
-
-            </div>
+        </div>
 
         `;
-
     }
 
 
-    /* =========================================================
-       DISCOVERY HUB HTML
-       ========================================================= */
+    function commonMediaFields() {
+
+        return `
+
+        <div class="rmd-form-grid">
+
+            <div>
+                <label>
+                    Image
+                </label>
+
+                <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                >
+
+                <div class="rmd-small">
+                    Maximum 8 MB
+                </div>
+            </div>
+
+
+            <div>
+                <label>
+                    Video
+                </label>
+
+                <input
+                    type="file"
+                    name="video"
+                    accept="video/*"
+                >
+
+                <div class="rmd-small">
+                    Maximum 40 MB
+                </div>
+            </div>
+
+        </div>
+
+        `;
+    }
+
+
+    function commonReachFields() {
+
+        return `
+
+        <div class="rmd-form-grid">
+
+            <input
+                type="text"
+                name="website"
+                placeholder="Website / Page Link"
+            >
+
+            <input
+                type="text"
+                name="social"
+                placeholder="Social Media Link"
+            >
+
+            <input
+                type="text"
+                name="reach"
+                placeholder="Reach / Audience"
+            >
+
+        </div>
+
+        `;
+    }
+
+
+    /* =====================================================
+       BUILD HUB
+       ===================================================== */
 
     function buildHub() {
 
-        const hub =
+        var hub =
             document.getElementById(
                 "rmDiscoveryHub"
             );
 
+
         if (!hub) {
 
-            console.error(
-                "ALON Discovery Hub: #rmDiscoveryHub not found."
+            throw new Error(
+                "rmDiscoveryHub element was not found."
             );
-
-            return false;
-
         }
 
 
         hub.innerHTML = `
 
-            <div class="rmd-wrapper">
+        <div class="rmd-root">
 
-                <h2 class="rmd-title">
-                    🌍 ALON Discovery & Promotion Hub
-                </h2>
-
-                <p class="rmd-intro">
-                    Promote brands, discover tourist places,
-                    promote movies and share world culture
-                    and local life through ALON HISTORYVERSE 24.
-                </p>
+            <div
+                id="rmdStatus"
+                class="rmd-status"
+            >
+                Marketplace Discovery is ready.
+            </div>
 
 
-                <div class="rmd-tabs">
+            <div class="rmd-tabs">
 
-                    <button
-                        type="button"
-                        class="rmd-tab active"
-                        data-rmd-tab="brand"
-                    >
-                        🏷️ Brand Promoter
-                    </button>
-
-                    <button
-                        type="button"
-                        class="rmd-tab"
-                        data-rmd-tab="travel"
-                    >
-                        🌍 Travel & Tourist
-                    </button>
-
-                    <button
-                        type="button"
-                        class="rmd-tab"
-                        data-rmd-tab="movie"
-                    >
-                        🎬 Movie Promoter
-                    </button>
-
-                    <button
-                        type="button"
-                        class="rmd-tab"
-                        data-rmd-tab="culture"
-                    >
-                        🌎 World Culture
-                    </button>
-
-                </div>
-
-
-                <!-- =================================================
-                     BRAND
-                     ================================================= -->
-
-                <div
-                    class="rmd-panel active"
-                    id="rmdPanelBrand"
+                <button
+                    type="button"
+                    class="rmd-tab active"
+                    data-panel="rmdBrands"
                 >
+                    🏷️ Brand Promoter
+                </button>
 
-                    <h3>
-                        🏷️ Brand Promoter
-                    </h3>
 
-                    <p class="rmd-small">
-                        Promote your brand nationally,
-                        internationally or worldwide.
-                    </p>
-
-                    <form id="rmdBrandForm">
-
-                        <div class="rmd-grid">
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Brand Name
-                                </label>
-
-                                <input
-                                    id="rmdBrandName"
-                                    type="text"
-                                    required
-                                    placeholder="Enter brand name"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Brand Category
-                                </label>
-
-                                <select
-                                    id="rmdBrandCategory"
-                                    required
-                                >
-
-                                    <option value="">
-                                        Select Category
-                                    </option>
-
-                                    <option value="fashion">
-                                        Fashion
-                                    </option>
-
-                                    <option value="food">
-                                        Food & Beverage
-                                    </option>
-
-                                    <option value="technology">
-                                        Technology
-                                    </option>
-
-                                    <option value="electronics">
-                                        Electronics
-                                    </option>
-
-                                    <option value="automobile">
-                                        Automobile
-                                    </option>
-
-                                    <option value="beauty">
-                                        Beauty
-                                    </option>
-
-                                    <option value="education">
-                                        Education
-                                    </option>
-
-                                    <option value="travel">
-                                        Travel
-                                    </option>
-
-                                    <option value="real-estate">
-                                        Real Estate
-                                    </option>
-
-                                    <option value="agriculture">
-                                        Agriculture
-                                    </option>
-
-                                    <option value="manufacturing">
-                                        Manufacturing
-                                    </option>
-
-                                    <option value="services">
-                                        Services
-                                    </option>
-
-                                    <option value="other">
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            ${commonLocationFields("rmdBrand")}
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Promotion Reach
-                                </label>
-
-                                <select
-                                    id="rmdBrandReach"
-                                >
-
-                                    <option value="local">
-                                        Local
-                                    </option>
-
-                                    <option value="national">
-                                        National
-                                    </option>
-
-                                    <option value="international">
-                                        International
-                                    </option>
-
-                                    <option value="global">
-                                        Global / Worldwide
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Website / Social Link
-                                </label>
-
-                                <input
-                                    id="rmdBrandLink"
-                                    type="url"
-                                    placeholder="https://example.com"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field rmd-full">
-
-                                <label>
-                                    Brand Description
-                                </label>
-
-                                <textarea
-                                    id="rmdBrandDescription"
-                                    required
-                                    placeholder="Describe your brand, products and services"
-                                ></textarea>
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Brand Image
-                                </label>
-
-                                <input
-                                    id="rmdBrandImage"
-                                    type="file"
-                                    accept="image/*"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Brand Video
-                                </label>
-
-                                <input
-                                    id="rmdBrandVideo"
-                                    type="file"
-                                    accept="video/*"
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="rmd-actions">
-
-                            <button
-                                type="submit"
-                                class="rmd-btn rmd-btn-primary"
-                            >
-                                Publish Brand
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            id="rmdBrandStatus"
-                            class="rmd-status"
-                        ></div>
-
-                    </form>
-
-
-                    <div
-                        id="rmdBrandFeed"
-                        class="rmd-feed"
-                    ></div>
-
-                </div>
-
-
-                <!-- =================================================
-                     TRAVEL
-                     ================================================= -->
-
-                <div
-                    class="rmd-panel"
-                    id="rmdPanelTravel"
+                <button
+                    type="button"
+                    class="rmd-tab"
+                    data-panel="rmdTravel"
                 >
+                    🌍 Travel & Tourist
+                </button>
 
-                    <h3>
-                        🌍 Travel & Tourist Places
-                    </h3>
 
-                    <p class="rmd-small">
-                        Share tourist places from country to
-                        state, city, village and local location.
-                    </p>
-
-                    <form id="rmdTravelForm">
-
-                        <div class="rmd-grid">
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Tourist Place Name
-                                </label>
-
-                                <input
-                                    id="rmdTravelName"
-                                    type="text"
-                                    required
-                                    placeholder="Enter tourist place"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Place Category
-                                </label>
-
-                                <select
-                                    id="rmdTravelCategory"
-                                    required
-                                >
-
-                                    <option value="">
-                                        Select Category
-                                    </option>
-
-                                    <option value="heritage">
-                                        Heritage
-                                    </option>
-
-                                    <option value="historical">
-                                        Historical
-                                    </option>
-
-                                    <option value="nature">
-                                        Nature
-                                    </option>
-
-                                    <option value="beach">
-                                        Beach
-                                    </option>
-
-                                    <option value="mountain">
-                                        Mountain
-                                    </option>
-
-                                    <option value="wildlife">
-                                        Wildlife
-                                    </option>
-
-                                    <option value="religious">
-                                        Religious / Spiritual
-                                    </option>
-
-                                    <option value="city">
-                                        City Attraction
-                                    </option>
-
-                                    <option value="village">
-                                        Village Tourism
-                                    </option>
-
-                                    <option value="local">
-                                        Local Attraction
-                                    </option>
-
-                                    <option value="other">
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            ${commonLocationFields("rmdTravel")}
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Tour Guide Type
-                                </label>
-
-                                <select
-                                    id="rmdTravelGuide"
-                                >
-
-                                    <option value="none">
-                                        No Guide
-                                    </option>
-
-                                    <option value="local">
-                                        Local Tour Guide
-                                    </option>
-
-                                    <option value="vip">
-                                        VIP Tour Guide
-                                    </option>
-
-                                    <option value="local-vip">
-                                        Local + VIP Guide
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Promotion Reach
-                                </label>
-
-                                <select
-                                    id="rmdTravelReach"
-                                >
-
-                                    <option value="local">
-                                        Local
-                                    </option>
-
-                                    <option value="national">
-                                        National
-                                    </option>
-
-                                    <option value="international">
-                                        International
-                                    </option>
-
-                                    <option value="global">
-                                        Global / Worldwide
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="rmd-field rmd-full">
-
-                                <label>
-                                    Travel Post
-                                </label>
-
-                                <textarea
-                                    id="rmdTravelDescription"
-                                    required
-                                    placeholder="Describe the place, attractions, local experience, travel information, etc."
-                                ></textarea>
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Place Image
-                                </label>
-
-                                <input
-                                    id="rmdTravelImage"
-                                    type="file"
-                                    accept="image/*"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Place Video / Reel
-                                </label>
-
-                                <input
-                                    id="rmdTravelVideo"
-                                    type="file"
-                                    accept="video/*"
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="rmd-actions">
-
-                            <button
-                                type="submit"
-                                class="rmd-btn rmd-btn-primary"
-                            >
-                                Publish Travel Post
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            id="rmdTravelStatus"
-                            class="rmd-status"
-                        ></div>
-
-                    </form>
-
-
-                    <div
-                        id="rmdTravelFeed"
-                        class="rmd-feed"
-                    ></div>
-
-                </div>
-
-
-                <!-- =================================================
-                     MOVIE
-                     ================================================= -->
-
-                <div
-                    class="rmd-panel"
-                    id="rmdPanelMovie"
+                <button
+                    type="button"
+                    class="rmd-tab"
+                    data-panel="rmdMovies"
                 >
+                    🎬 Movie Promoter
+                </button>
 
-                    <h3>
-                        🎬 Movie Promoter
-                    </h3>
 
-                    <p class="rmd-small">
-                        Filmmakers and movie teams can promote
-                        movies locally, nationally and worldwide.
-                    </p>
-
-                    <form id="rmdMovieForm">
-
-                        <div class="rmd-grid">
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Movie Name
-                                </label>
-
-                                <input
-                                    id="rmdMovieName"
-                                    type="text"
-                                    required
-                                    placeholder="Enter movie name"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Movie Language
-                                </label>
-
-                                <input
-                                    id="rmdMovieLanguage"
-                                    type="text"
-                                    placeholder="Hindi, English, Tamil, etc."
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Movie Type
-                                </label>
-
-                                <select
-                                    id="rmdMovieType"
-                                >
-
-                                    <option value="film">
-                                        Film
-                                    </option>
-
-                                    <option value="short-film">
-                                        Short Film
-                                    </option>
-
-                                    <option value="documentary">
-                                        Documentary
-                                    </option>
-
-                                    <option value="series">
-                                        Web Series
-                                    </option>
-
-                                    <option value="music-video">
-                                        Music Video
-                                    </option>
-
-                                    <option value="other">
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Promotion Reach
-                                </label>
-
-                                <select
-                                    id="rmdMovieReach"
-                                >
-
-                                    <option value="local">
-                                        Local
-                                    </option>
-
-                                    <option value="national">
-                                        National
-                                    </option>
-
-                                    <option value="international">
-                                        International
-                                    </option>
-
-                                    <option value="global">
-                                        Global / Worldwide
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            ${commonLocationFields("rmdMovie")}
-
-
-                            <div class="rmd-field rmd-full">
-
-                                <label>
-                                    Movie Description
-                                </label>
-
-                                <textarea
-                                    id="rmdMovieDescription"
-                                    required
-                                    placeholder="Movie story, cast, production information, release information, etc."
-                                ></textarea>
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Poster / Image
-                                </label>
-
-                                <input
-                                    id="rmdMovieImage"
-                                    type="file"
-                                    accept="image/*"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Trailer / Reel / Video
-                                </label>
-
-                                <input
-                                    id="rmdMovieVideo"
-                                    type="file"
-                                    accept="video/*"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field rmd-full">
-
-                                <label>
-                                    Trailer / Movie Link
-                                </label>
-
-                                <input
-                                    id="rmdMovieLink"
-                                    type="url"
-                                    placeholder="https://example.com"
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="rmd-actions">
-
-                            <button
-                                type="submit"
-                                class="rmd-btn rmd-btn-primary"
-                            >
-                                Publish Movie
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            id="rmdMovieStatus"
-                            class="rmd-status"
-                        ></div>
-
-                    </form>
-
-
-                    <div
-                        id="rmdMovieFeed"
-                        class="rmd-feed"
-                    ></div>
-
-                </div>
-
-
-                <!-- =================================================
-                     CULTURE
-                     ================================================= -->
-
-                <div
-                    class="rmd-panel"
-                    id="rmdPanelCulture"
+                <button
+                    type="button"
+                    class="rmd-tab"
+                    data-panel="rmdCulture"
                 >
-
-                    <h3>
-                        🌎 World Culture & Local Life
-                    </h3>
-
-                    <p class="rmd-small">
-                        Share countries, states, cities,
-                        villages and local culture, food,
-                        dress, music, dance, festivals,
-                        art, heritage, language and local life.
-                    </p>
-
-                    <form id="rmdCultureForm">
-
-                        <div class="rmd-grid">
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Culture / Place Title
-                                </label>
-
-                                <input
-                                    id="rmdCultureName"
-                                    type="text"
-                                    required
-                                    placeholder="Enter title"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Culture Category
-                                </label>
-
-                                <select
-                                    id="rmdCultureCategory"
-                                    required
-                                >
-
-                                    <option value="">
-                                        Select Category
-                                    </option>
-
-                                    <option value="country">
-                                        Country
-                                    </option>
-
-                                    <option value="state">
-                                        State / Province
-                                    </option>
-
-                                    <option value="city">
-                                        City
-                                    </option>
-
-                                    <option value="village">
-                                        Village
-                                    </option>
-
-                                    <option value="local-life">
-                                        Local Life
-                                    </option>
-
-                                    <option value="food">
-                                        Food
-                                    </option>
-
-                                    <option value="dress">
-                                        Dress
-                                    </option>
-
-                                    <option value="music">
-                                        Music
-                                    </option>
-
-                                    <option value="dance">
-                                        Dance
-                                    </option>
-
-                                    <option value="festival">
-                                        Festival
-                                    </option>
-
-                                    <option value="art">
-                                        Art
-                                    </option>
-
-                                    <option value="heritage">
-                                        Heritage
-                                    </option>
-
-                                    <option value="language">
-                                        Language
-                                    </option>
-
-                                    <option value="tradition">
-                                        Tradition
-                                    </option>
-
-                                    <option value="other">
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            ${commonLocationFields("rmdCulture")}
-
-
-                            <div class="rmd-field rmd-full">
-
-                                <label>
-                                    Culture / Local Life Description
-                                </label>
-
-                                <textarea
-                                    id="rmdCultureDescription"
-                                    required
-                                    placeholder="Describe the culture, food, dress, music, dance, festival, heritage, language or local life."
-                                ></textarea>
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Image
-                                </label>
-
-                                <input
-                                    id="rmdCultureImage"
-                                    type="file"
-                                    accept="image/*"
-                                >
-
-                            </div>
-
-
-                            <div class="rmd-field">
-
-                                <label>
-                                    Video / Reel / Short
-                                </label>
-
-                                <input
-                                    id="rmdCultureVideo"
-                                    type="file"
-                                    accept="video/*"
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="rmd-actions">
-
-                            <button
-                                type="submit"
-                                class="rmd-btn rmd-btn-primary"
-                            >
-                                Publish Culture Post
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            id="rmdCultureStatus"
-                            class="rmd-status"
-                        ></div>
-
-                    </form>
-
-
-                    <div
-                        id="rmdCultureFeed"
-                        class="rmd-feed"
-                    ></div>
-
-                </div>
+                    🌎 World Culture
+                </button>
 
             </div>
 
+
+            <!-- BRAND -->
+
+            <div
+                id="rmdBrands"
+                class="rmd-panel active"
+            >
+
+                <div class="rmd-card">
+
+                    <h3 class="rmd-section-title">
+                        🏷️ Brand Promoter
+                    </h3>
+
+                    <form
+                        id="rmdBrandForm"
+                        class="rmd-form"
+                    >
+
+                        <input
+                            type="text"
+                            name="brandName"
+                            placeholder="Brand / Company Name"
+                            required
+                        >
+
+
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Promotion Title"
+                            required
+                        >
+
+
+                        <select
+                            name="country"
+                            required
+                        >
+                            ${buildCountryOptions("")}
+                        </select>
+
+
+                        ${commonLocationFields()}
+
+
+                        <textarea
+                            name="description"
+                            placeholder="Brand description / promotion details"
+                            required
+                        ></textarea>
+
+
+                        ${commonMediaFields()}
+
+
+                        ${commonReachFields()}
+
+
+                        <button
+                            type="submit"
+                            class="rmd-submit"
+                        >
+                            Publish Brand Promotion
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div
+                    id="rmdBrandFeed"
+                    class="rmd-feed"
+                ></div>
+
+            </div>
+
+
+            <!-- TRAVEL -->
+
+            <div
+                id="rmdTravel"
+                class="rmd-panel"
+            >
+
+                <div class="rmd-card">
+
+                    <h3 class="rmd-section-title">
+                        🌍 Travel & Tourist Places
+                    </h3>
+
+                    <form
+                        id="rmdTravelForm"
+                        class="rmd-form"
+                    >
+
+                        <input
+                            type="text"
+                            name="placeName"
+                            placeholder="Place / Tourist Destination"
+                            required
+                        >
+
+
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Travel Title"
+                            required
+                        >
+
+
+                        <select
+                            name="country"
+                            required
+                        >
+                            ${buildCountryOptions("")}
+                        </select>
+
+
+                        ${commonLocationFields()}
+
+
+                        <input
+                            type="text"
+                            name="localLocation"
+                            placeholder="Local Location / Landmark"
+                        >
+
+
+                        <textarea
+                            name="description"
+                            placeholder="Tourist place description"
+                            required
+                        ></textarea>
+
+
+                        ${commonMediaFields()}
+
+
+                        ${commonReachFields()}
+
+
+                        <button
+                            type="submit"
+                            class="rmd-submit"
+                        >
+                            Publish Travel Place
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div
+                    id="rmdTravelFeed"
+                    class="rmd-feed"
+                ></div>
+
+            </div>
+
+
+            <!-- MOVIE -->
+
+            <div
+                id="rmdMovies"
+                class="rmd-panel"
+            >
+
+                <div class="rmd-card">
+
+                    <h3 class="rmd-section-title">
+                        🎬 Movie Promoter
+                    </h3>
+
+                    <form
+                        id="rmdMovieForm"
+                        class="rmd-form"
+                    >
+
+                        <input
+                            type="text"
+                            name="movieName"
+                            placeholder="Movie / Film Name"
+                            required
+                        >
+
+
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Promotion Title"
+                            required
+                        >
+
+
+                        <input
+                            type="text"
+                            name="language"
+                            placeholder="Movie Language"
+                        >
+
+
+                        <select
+                            name="country"
+                            required
+                        >
+                            ${buildCountryOptions("")}
+                        </select>
+
+
+                        ${commonLocationFields()}
+
+
+                        <textarea
+                            name="description"
+                            placeholder="Movie / promotion description"
+                            required
+                        ></textarea>
+
+
+                        ${commonMediaFields()}
+
+
+                        ${commonReachFields()}
+
+
+                        <button
+                            type="submit"
+                            class="rmd-submit"
+                        >
+                            Publish Movie Promotion
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div
+                    id="rmdMovieFeed"
+                    class="rmd-feed"
+                ></div>
+
+            </div>
+
+
+            <!-- CULTURE -->
+
+            <div
+                id="rmdCulture"
+                class="rmd-panel"
+            >
+
+                <div class="rmd-card">
+
+                    <h3 class="rmd-section-title">
+                        🌎 World Culture & Local Life
+                    </h3>
+
+                    <form
+                        id="rmdCultureForm"
+                        class="rmd-form"
+                    >
+
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Culture / Local Life Title"
+                            required
+                        >
+
+
+                        <input
+                            type="text"
+                            name="category"
+                            placeholder="Culture Category"
+                        >
+
+
+                        <select
+                            name="country"
+                            required
+                        >
+                            ${buildCountryOptions("")}
+                        </select>
+
+
+                        ${commonLocationFields()}
+
+
+                        <textarea
+                            name="description"
+                            placeholder="Describe culture, heritage, food, traditions, local life, etc."
+                            required
+                        ></textarea>
+
+
+                        ${commonMediaFields()}
+
+
+                        ${commonReachFields()}
+
+
+                        <button
+                            type="submit"
+                            class="rmd-submit"
+                        >
+                            Publish World Culture
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div
+                    id="rmdCultureFeed"
+                    class="rmd-feed"
+                ></div>
+
+            </div>
+
+        </div>
+
         `;
-
-        return true;
-
     }
 
 
-    /* =========================================================
-       TAB SYSTEM
-       ========================================================= */
-
-    function bindTabs() {
-
-        const tabs =
-            document.querySelectorAll(
-                ".rmd-tab"
-            );
-
-        tabs.forEach(function (tab) {
-
-            tab.addEventListener(
-                "click",
-                function () {
-
-                    const target =
-                        tab.getAttribute(
-                            "data-rmd-tab"
-                        );
-
-                    document
-                        .querySelectorAll(
-                            ".rmd-tab"
-                        )
-                        .forEach(function (item) {
-
-                            item.classList.remove(
-                                "active"
-                            );
-
-                        });
-
-                    document
-                        .querySelectorAll(
-                            ".rmd-panel"
-                        )
-                        .forEach(function (panel) {
-
-                            panel.classList.remove(
-                                "active"
-                            );
-
-                        });
-
-                    tab.classList.add(
-                        "active"
-                    );
-
-                    const panel =
-                        document.getElementById(
-                            "rmdPanel" +
-                            target.charAt(0).toUpperCase() +
-                            target.slice(1)
-                        );
-
-                    if (panel) {
-
-                        panel.classList.add(
-                            "active"
-                        );
-
-                    }
-
-                }
-            );
-
-        });
-
-    }
-
-
-    /* =========================================================
+    /* =====================================================
        STATUS
-       ========================================================= */
+       ===================================================== */
 
-    function showStatus(
-        id,
-        message
-    ) {
+    function showStatus(message, error) {
 
-        const element =
-            document.getElementById(id);
+        var status =
+            document.getElementById(
+                "rmdStatus"
+            );
 
-        if (!element) {
+
+        if (!status) {
             return;
         }
 
-        element.textContent =
+
+        status.className =
+            error
+                ? "rmd-error"
+                : "rmd-success";
+
+
+        status.textContent =
             message;
-
-        element.classList.add(
-            "show"
-        );
-
     }
 
 
-    /* =========================================================
-       MEDIA DATA
-       ========================================================= */
+    /* =====================================================
+       FORM DATA
+       ===================================================== */
 
-    async function getMediaData(
-        imageId,
-        videoId
+    async function formToObject(
+        form,
+        type
     ) {
 
-        const imageInput =
-            document.getElementById(
-                imageId
-            );
+        var data = {};
 
-        const videoInput =
-            document.getElementById(
-                videoId
-            );
-
-        const imageFile =
-            imageInput &&
-            imageInput.files &&
-            imageInput.files[0]
-                ? imageInput.files[0]
-                : null;
-
-        const videoFile =
-            videoInput &&
-            videoInput.files &&
-            videoInput.files[0]
-                ? videoInput.files[0]
-                : null;
+        var formData =
+            new FormData(form);
 
 
-        const imageCheck =
-            validateMedia(
-                imageFile,
-                "image"
-            );
+        formData.forEach(
+            function (value, key) {
 
-        if (!imageCheck.valid) {
+                if (
+                    !(
+                        value instanceof
+                        File
+                    )
+                ) {
 
-            throw new Error(
-                imageCheck.message
-            );
-
-        }
-
-
-        const videoCheck =
-            validateMedia(
-                videoFile,
-                "video"
-            );
-
-        if (!videoCheck.valid) {
-
-            throw new Error(
-                videoCheck.message
-            );
-
-        }
-
-
-        let image = "";
-        let video = "";
-
-
-        if (imageFile) {
-
-            image =
-                await readFileAsDataURL(
-                    imageFile
-                );
-
-        }
-
-
-        if (videoFile) {
-
-            video =
-                await readFileAsDataURL(
-                    videoFile
-                );
-
-        }
-
-
-        return {
-            image,
-            video
-        };
-
-    }
-
-
-    /* =========================================================
-       LOCATION DATA
-       ========================================================= */
-
-    function getLocation(
-        prefix
-    ) {
-
-        return {
-
-            country:
-                document.getElementById(
-                    prefix + "Country"
-                )?.value || "",
-
-            state:
-                document.getElementById(
-                    prefix + "State"
-                )?.value || "",
-
-            city:
-                document.getElementById(
-                    prefix + "City"
-                )?.value || "",
-
-            village:
-                document.getElementById(
-                    prefix + "Village"
-                )?.value || "",
-
-            location:
-                document.getElementById(
-                    prefix + "Location"
-                )?.value || ""
-
-        };
-
-    }
-
-
-    /* =========================================================
-       CARD MEDIA
-       ========================================================= */
-
-    function renderMedia(item) {
-
-        let html = "";
-
-
-        if (item.image) {
-
-            html +=
-                '<img class="rmd-card-media" ' +
-                'src="' +
-                escapeHTML(item.image) +
-                '" alt="Published image">';
-
-        }
-
-
-        if (item.video) {
-
-            html +=
-                '<video class="rmd-card-video" ' +
-                'controls playsinline ' +
-                'src="' +
-                escapeHTML(item.video) +
-                '"></video>';
-
-        }
-
-
-        return html;
-
-    }
-
-
-    function renderLocation(item) {
-
-        const parts = [];
-
-        if (item.country) {
-            parts.push(item.country);
-        }
-
-        if (item.state) {
-            parts.push(item.state);
-        }
-
-        if (item.city) {
-            parts.push(item.city);
-        }
-
-        if (item.village) {
-            parts.push(item.village);
-        }
-
-        if (item.location) {
-            parts.push(item.location);
-        }
-
-        if (!parts.length) {
-            return "";
-        }
-
-        return escapeHTML(
-            parts.join(" • ")
+                    data[key] =
+                        String(value || "")
+                            .trim();
+                }
+            }
         );
 
-    }
+
+        var image =
+            form.querySelector(
+                'input[name="image"]'
+            );
 
 
-    /* =========================================================
-       OWNER CHECK
-       ========================================================= */
+        var video =
+            form.querySelector(
+                'input[name="video"]'
+            );
 
-    function isOwner(item) {
 
-        const owner =
+        if (
+            image &&
+            image.files &&
+            image.files[0]
+        ) {
+
+            if (
+                !validateImage(
+                    image.files[0]
+                )
+            ) {
+
+                throw new Error(
+                    "Invalid image."
+                );
+            }
+
+
+            data.image =
+                await readFileAsDataURL(
+                    image.files[0]
+                );
+        }
+
+
+        if (
+            video &&
+            video.files &&
+            video.files[0]
+        ) {
+
+            if (
+                !validateVideo(
+                    video.files[0]
+                )
+            ) {
+
+                throw new Error(
+                    "Invalid video."
+                );
+            }
+
+
+            data.video =
+                await readFileAsDataURL(
+                    video.files[0]
+                );
+        }
+
+
+        data.id =
+            createId("rmd");
+
+
+        data.type =
+            type;
+
+
+        data.owner =
             getOwner();
 
-        if (!item) {
-            return false;
-        }
 
-        if (
-            item.ownerId &&
-            owner.id &&
-            item.ownerId === owner.id
-        ) {
+        data.createdAt =
+            new Date().toISOString();
 
-            return true;
 
-        }
-
-        if (
-            item.ownerEmail &&
-            owner.email &&
-            item.ownerEmail === owner.email
-        ) {
-
-            return true;
-
-        }
-
-        return false;
-
+        return data;
     }
 
 
-    /* =========================================================
-       GENERIC DELETE
-       ========================================================= */
-
-    function deleteItem(
-        storageKey,
-        id
-    ) {
-
-        const data =
-            getStorage(
-                storageKey
-            );
-
-        const item =
-            data.find(function (entry) {
-
-                return entry.id === id;
-
-            });
-
-
-        if (!item) {
-            return;
-        }
-
-
-        if (!isOwner(item)) {
-
-            alert(
-                "Only the owner can delete this post."
-            );
-
-            return;
-
-        }
-
-
-        const confirmed =
-            window.confirm(
-                "Delete this post?"
-            );
-
-        if (!confirmed) {
-            return;
-        }
-
-
-        const updated =
-            data.filter(function (entry) {
-
-                return entry.id !== id;
-
-            });
-
-
-        setStorage(
-            storageKey,
-            updated
-        );
-
-    }
-
-
-    /* =========================================================
-       BRAND RENDER
-       ========================================================= */
-
-    function renderBrands() {
-
-        const feed =
-            document.getElementById(
-                "rmdBrandFeed"
-            );
-
-        if (!feed) {
-            return;
-        }
-
-
-        const data =
-            getStorage(
-                CONFIG.storage.brands
-            );
-
-
-        if (!data.length) {
-
-            feed.innerHTML =
-                '<div class="rmd-empty">' +
-                'No brand promotions published yet.' +
-                '</div>';
-
-            return;
-
-        }
-
-
-        feed.innerHTML =
-            data
-                .slice()
-                .reverse()
-                .map(function (item) {
-
-                    const ownerControls =
-                        isOwner(item)
-                            ? `
-                                <div class="rmd-actions">
-
-                                    <button
-                                        type="button"
-                                        class="rmd-btn rmd-btn-danger"
-                                        data-rmd-delete-brand="${escapeHTML(item.id)}"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-                              `
-                            : "";
-
-
-                    const link =
-                        item.link
-                            ? `
-                                <p>
-                                    <strong>Link:</strong>
-                                    <a
-                                        href="${escapeHTML(item.link)}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        Visit
-                                    </a>
-                                </p>
-                              `
-                            : "";
-
-
-                    return `
-
-                        <article class="rmd-card">
-
-                            <h4>
-                                🏷️ ${escapeHTML(item.name)}
-                            </h4>
-
-                            ${renderMedia(item)}
-
-                            <p>
-                                <strong>Category:</strong>
-                                ${escapeHTML(item.category)}
-                            </p>
-
-                            <p>
-                                <strong>Reach:</strong>
-                                ${escapeHTML(item.reach)}
-                            </p>
-
-                            <p>
-                                <strong>Location:</strong>
-                                ${renderLocation(item) || "Not specified"}
-                            </p>
-
-                            <p>
-                                ${escapeHTML(item.description)}
-                            </p>
-
-                            ${link}
-
-                            <div class="rmd-meta">
-                                Published by
-                                ${escapeHTML(item.ownerName)}
-                            </div>
-
-                            ${ownerControls}
-
-                        </article>
-
-                    `;
-
-                })
-                .join("");
-
-    }
-
-
-    /* =========================================================
-       TRAVEL RENDER
-       ========================================================= */
-
-    function renderTravel() {
-
-        const feed =
-            document.getElementById(
-                "rmdTravelFeed"
-            );
-
-        if (!feed) {
-            return;
-        }
-
-
-        const data =
-            getStorage(
-                CONFIG.storage.travel
-            );
-
-
-        if (!data.length) {
-
-            feed.innerHTML =
-                '<div class="rmd-empty">' +
-                'No tourist places published yet.' +
-                '</div>';
-
-            return;
-
-        }
-
-
-        feed.innerHTML =
-            data
-                .slice()
-                .reverse()
-                .map(function (item) {
-
-                    const ownerControls =
-                        isOwner(item)
-                            ? `
-                                <div class="rmd-actions">
-
-                                    <button
-                                        type="button"
-                                        class="rmd-btn rmd-btn-danger"
-                                        data-rmd-delete-travel="${escapeHTML(item.id)}"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-                              `
-                            : "";
-
-
-                    return `
-
-                        <article class="rmd-card">
-
-                            <h4>
-                                🌍 ${escapeHTML(item.name)}
-                            </h4>
-
-                            ${renderMedia(item)}
-
-                            <p>
-                                <strong>Category:</strong>
-                                ${escapeHTML(item.category)}
-                            </p>
-
-                            <p>
-                                <strong>Guide:</strong>
-                                ${escapeHTML(item.guide)}
-                            </p>
-
-                            <p>
-                                <strong>Reach:</strong>
-                                ${escapeHTML(item.reach)}
-                            </p>
-
-                            <p>
-                                <strong>Location:</strong>
-                                ${renderLocation(item) || "Not specified"}
-                            </p>
-
-                            <p>
-                                ${escapeHTML(item.description)}
-                            </p>
-
-                            <div class="rmd-meta">
-                                Published by
-                                ${escapeHTML(item.ownerName)}
-                            </div>
-
-                            ${ownerControls}
-
-                        </article>
-
-                    `;
-
-                })
-                .join("");
-
-    }
-
-
-    /* =========================================================
-       MOVIE RENDER
-       ========================================================= */
-
-    function renderMovies() {
-
-        const feed =
-            document.getElementById(
-                "rmdMovieFeed"
-            );
-
-        if (!feed) {
-            return;
-        }
-
-
-        const data =
-            getStorage(
-                CONFIG.storage.movies
-            );
-
-
-        if (!data.length) {
-
-            feed.innerHTML =
-                '<div class="rmd-empty">' +
-                'No movie promotions published yet.' +
-                '</div>';
-
-            return;
-
-        }
-
-
-        feed.innerHTML =
-            data
-                .slice()
-                .reverse()
-                .map(function (item) {
-
-                    const ownerControls =
-                        isOwner(item)
-                            ? `
-                                <div class="rmd-actions">
-
-                                    <button
-                                        type="button"
-                                        class="rmd-btn rmd-btn-danger"
-                                        data-rmd-delete-movie="${escapeHTML(item.id)}"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-                              `
-                            : "";
-
-
-                    const link =
-                        item.link
-                            ? `
-                                <p>
-                                    <strong>Trailer / Link:</strong>
-                                    <a
-                                        href="${escapeHTML(item.link)}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        Open
-                                    </a>
-                                </p>
-                              `
-                            : "";
-
-
-                    return `
-
-                        <article class="rmd-card">
-
-                            <h4>
-                                🎬 ${escapeHTML(item.name)}
-                            </h4>
-
-                            ${renderMedia(item)}
-
-                            <p>
-                                <strong>Type:</strong>
-                                ${escapeHTML(item.type)}
-                            </p>
-
-                            <p>
-                                <strong>Language:</strong>
-                                ${escapeHTML(item.language || "Not specified")}
-                            </p>
-
-                            <p>
-                                <strong>Reach:</strong>
-                                ${escapeHTML(item.reach)}
-                            </p>
-
-                            <p>
-                                <strong>Location:</strong>
-                                ${renderLocation(item) || "Not specified"}
-                            </p>
-
-                            <p>
-                                ${escapeHTML(item.description)}
-                            </p>
-
-                            ${link}
-
-                            <div class="rmd-meta">
-                                Published by
-                                ${escapeHTML(item.ownerName)}
-                            </div>
-
-                            ${ownerControls}
-
-                        </article>
-
-                    `;
-
-                })
-                .join("");
-
-    }
-
-
-    /* =========================================================
-       CULTURE RENDER
-       ========================================================= */
-
-    function renderCulture() {
-
-        const feed =
-            document.getElementById(
-                "rmdCultureFeed"
-            );
-
-        if (!feed) {
-            return;
-        }
-
-
-        const data =
-            getStorage(
-                CONFIG.storage.culture
-            );
-
-
-        if (!data.length) {
-
-            feed.innerHTML =
-                '<div class="rmd-empty">' +
-                'No culture posts published yet.' +
-                '</div>';
-
-            return;
-
-        }
-
-
-        feed.innerHTML =
-            data
-                .slice()
-                .reverse()
-                .map(function (item) {
-
-                    const ownerControls =
-                        isOwner(item)
-                            ? `
-                                <div class="rmd-actions">
-
-                                    <button
-                                        type="button"
-                                        class="rmd-btn rmd-btn-danger"
-                                        data-rmd-delete-culture="${escapeHTML(item.id)}"
-                                    >
-                                        Delete
-                                    </button>
-
-                                </div>
-                              `
-                            : "";
-
-
-                    return `
-
-                        <article class="rmd-card">
-
-                            <h4>
-                                🌎 ${escapeHTML(item.name)}
-                            </h4>
-
-                            ${renderMedia(item)}
-
-                            <p>
-                                <strong>Category:</strong>
-                                ${escapeHTML(item.category)}
-                            </p>
-
-                            <p>
-                                <strong>Location:</strong>
-                                ${renderLocation(item) || "Not specified"}
-                            </p>
-
-                            <p>
-                                ${escapeHTML(item.description)}
-                            </p>
-
-                            <div class="rmd-meta">
-                                Published by
-                                ${escapeHTML(item.ownerName)}
-                            </div>
-
-                            ${ownerControls}
-
-                        </article>
-
-                    `;
-
-                })
-                .join("");
-
-    }
-
-
-    /* =========================================================
-       BRAND SUBMIT
-       ========================================================= */
-
-    async function submitBrand(
-        event
-    ) {
-
-        event.preventDefault();
-
-
-        try {
-
-            const owner =
-                getOwner();
-
-
-            const name =
-                document.getElementById(
-                    "rmdBrandName"
-                ).value.trim();
-
-            const category =
-                document.getElementById(
-                    "rmdBrandCategory"
-                ).value;
-
-            const reach =
-                document.getElementById(
-                    "rmdBrandReach"
-                ).value;
-
-            const link =
-                document.getElementById(
-                    "rmdBrandLink"
-                ).value.trim();
-
-            const description =
-                document.getElementById(
-                    "rmdBrandDescription"
-                ).value.trim();
-
-
-            if (!name ||
-                !category ||
-                !description
-            ) {
-
-                showStatus(
-                    "rmdBrandStatus",
-                    "Please complete the required brand fields."
-                );
-
-                return;
-
-            }
-
-
-            const media =
-                await getMediaData(
-                    "rmdBrandImage",
-                    "rmdBrandVideo"
-                );
-
-
-            const location =
-                getLocation(
-                    "rmdBrand"
-                );
-
-
-            const item = {
-
-                id:
-                    createId("brand"),
-
-                ownerId:
-                    owner.id,
-
-                ownerName:
-                    owner.name,
-
-                ownerEmail:
-                    owner.email,
-
-                name,
-
-                category,
-
-                reach,
-
-                link,
-
-                description,
-
-                ...location,
-
-                image:
-                    media.image,
-
-                video:
-                    media.video,
-
-                createdAt:
-                    new Date().toISOString()
-
-            };
-
-
-            const data =
-                getStorage(
-                    CONFIG.storage.brands
-                );
-
-
-            data.push(item);
-
-
-            if (
-                !setStorage(
-                    CONFIG.storage.brands,
-                    data
-                )
-            ) {
-
-                throw new Error(
-                    "Could not save the brand promotion."
-                );
-
-            }
-
-
-            event.target.reset();
-
-            showStatus(
-                "rmdBrandStatus",
-                "Brand promotion published successfully."
-            );
-
-            renderBrands();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showStatus(
-                "rmdBrandStatus",
-                error.message ||
-                "Unable to publish brand promotion."
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       TRAVEL SUBMIT
-       ========================================================= */
-
-    async function submitTravel(
-        event
-    ) {
-
-        event.preventDefault();
-
-
-        try {
-
-            const owner =
-                getOwner();
-
-
-            const name =
-                document.getElementById(
-                    "rmdTravelName"
-                ).value.trim();
-
-            const category =
-                document.getElementById(
-                    "rmdTravelCategory"
-                ).value;
-
-            const guide =
-                document.getElementById(
-                    "rmdTravelGuide"
-                ).value;
-
-            const reach =
-                document.getElementById(
-                    "rmdTravelReach"
-                ).value;
-
-            const description =
-                document.getElementById(
-                    "rmdTravelDescription"
-                ).value.trim();
-
-
-            if (
-                !name ||
-                !category ||
-                !description
-            ) {
-
-                showStatus(
-                    "rmdTravelStatus",
-                    "Please complete the required travel fields."
-                );
-
-                return;
-
-            }
-
-
-            const media =
-                await getMediaData(
-                    "rmdTravelImage",
-                    "rmdTravelVideo"
-                );
-
-
-            const location =
-                getLocation(
-                    "rmdTravel"
-                );
-
-
-            const item = {
-
-                id:
-                    createId("travel"),
-
-                ownerId:
-                    owner.id,
-
-                ownerName:
-                    owner.name,
-
-                ownerEmail:
-                    owner.email,
-
-                name,
-
-                category,
-
-                guide,
-
-                reach,
-
-                description,
-
-                ...location,
-
-                image:
-                    media.image,
-
-                video:
-                    media.video,
-
-                createdAt:
-                    new Date().toISOString()
-
-            };
-
-
-            const data =
-                getStorage(
-                    CONFIG.storage.travel
-                );
-
-
-            data.push(item);
-
-
-            if (
-                !setStorage(
-                    CONFIG.storage.travel,
-                    data
-                )
-            ) {
-
-                throw new Error(
-                    "Could not save the travel post."
-                );
-
-            }
-
-
-            event.target.reset();
-
-            showStatus(
-                "rmdTravelStatus",
-                "Travel post published successfully."
-            );
-
-            renderTravel();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showStatus(
-                "rmdTravelStatus",
-                error.message ||
-                "Unable to publish travel post."
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       MOVIE SUBMIT
-       ========================================================= */
-
-    async function submitMovie(
-        event
-    ) {
-
-        event.preventDefault();
-
-
-        try {
-
-            const owner =
-                getOwner();
-
-
-            const name =
-                document.getElementById(
-                    "rmdMovieName"
-                ).value.trim();
-
-            const language =
-                document.getElementById(
-                    "rmdMovieLanguage"
-                ).value.trim();
-
-            const type =
-                document.getElementById(
-                    "rmdMovieType"
-                ).value;
-
-            const reach =
-                document.getElementById(
-                    "rmdMovieReach"
-                ).value;
-
-            const link =
-                document.getElementById(
-                    "rmdMovieLink"
-                ).value.trim();
-
-            const description =
-                document.getElementById(
-                    "rmdMovieDescription"
-                ).value.trim();
-
-
-            if (
-                !name ||
-                !description
-            ) {
-
-                showStatus(
-                    "rmdMovieStatus",
-                    "Please complete the required movie fields."
-                );
-
-                return;
-
-            }
-
-
-            const media =
-                await getMediaData(
-                    "rmdMovieImage",
-                    "rmdMovieVideo"
-                );
-
-
-            const location =
-                getLocation(
-                    "rmdMovie"
-                );
-
-
-            const item = {
-
-                id:
-                    createId("movie"),
-
-                ownerId:
-                    owner.id,
-
-                ownerName:
-                    owner.name,
-
-                ownerEmail:
-                    owner.email,
-
-                name,
-
-                language,
-
-                type,
-
-                reach,
-
-                link,
-
-                description,
-
-                ...location,
-
-                image:
-                    media.image,
-
-                video:
-                    media.video,
-
-                createdAt:
-                    new Date().toISOString()
-
-            };
-
-
-            const data =
-                getStorage(
-                    CONFIG.storage.movies
-                );
-
-
-            data.push(item);
-
-
-            if (
-                !setStorage(
-                    CONFIG.storage.movies,
-                    data
-                )
-            ) {
-
-                throw new Error(
-                    "Could not save the movie promotion."
-                );
-
-            }
-
-
-            event.target.reset();
-
-            showStatus(
-                "rmdMovieStatus",
-                "Movie promotion published successfully."
-            );
-
-            renderMovies();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showStatus(
-                "rmdMovieStatus",
-                error.message ||
-                "Unable to publish movie promotion."
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       CULTURE SUBMIT
-       ========================================================= */
-
-    async function submitCulture(
-        event
-    ) {
-
-        event.preventDefault();
-
-
-        try {
-
-            const owner =
-                getOwner();
-
-
-            const name =
-                document.getElementById(
-                    "rmdCultureName"
-                ).value.trim();
-
-            const category =
-                document.getElementById(
-                    "rmdCultureCategory"
-                ).value;
-
-            const description =
-                document.getElementById(
-                    "rmdCultureDescription"
-                ).value.trim();
-
-
-            if (
-                !name ||
-                !category ||
-                !description
-            ) {
-
-                showStatus(
-                    "rmdCultureStatus",
-                    "Please complete the required culture fields."
-                );
-
-                return;
-
-            }
-
-
-            const media =
-                await getMediaData(
-                    "rmdCultureImage",
-                    "rmdCultureVideo"
-                );
-
-
-            const location =
-                getLocation(
-                    "rmdCulture"
-                );
-
-
-            const item = {
-
-                id:
-                    createId("culture"),
-
-                ownerId:
-                    owner.id,
-
-                ownerName:
-                    owner.name,
-
-                ownerEmail:
-                    owner.email,
-
-                name,
-
-                category,
-
-                description,
-
-                ...location,
-
-                image:
-                    media.image,
-
-                video:
-                    media.video,
-
-                createdAt:
-                    new Date().toISOString()
-
-            };
-
-
-            const data =
-                getStorage(
-                    CONFIG.storage.culture
-                );
-
-
-            data.push(item);
-
-
-            if (
-                !setStorage(
-                    CONFIG.storage.culture,
-                    data
-                )
-            ) {
-
-                throw new Error(
-                    "Could not save the culture post."
-                );
-
-            }
-
-
-            event.target.reset();
-
-            showStatus(
-                "rmdCultureStatus",
-                "Culture post published successfully."
-            );
-
-            renderCulture();
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            showStatus(
-                "rmdCultureStatus",
-                error.message ||
-                "Unable to publish culture post."
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       EVENT DELEGATION
-       ========================================================= */
-
-    function bindDeleteEvents() {
-
-        const hub =
-            document.getElementById(
-                "rmDiscoveryHub"
-            );
-
-        if (!hub) {
-            return;
-        }
-
-
-        hub.addEventListener(
-            "click",
-            function (event) {
-
-                const button =
-                    event.target.closest(
-                        "button"
-                    );
-
-                if (!button) {
-                    return;
-                }
-
-
-                const brandId =
-                    button.getAttribute(
-                        "data-rmd-delete-brand"
-                    );
-
-                if (brandId) {
-
-                    deleteItem(
-                        CONFIG.storage.brands,
-                        brandId
-                    );
-
-                    renderBrands();
-
-                    return;
-
-                }
-
-
-                const travelId =
-                    button.getAttribute(
-                        "data-rmd-delete-travel"
-                    );
-
-                if (travelId) {
-
-                    deleteItem(
-                        CONFIG.storage.travel,
-                        travelId
-                    );
-
-                    renderTravel();
-
-                    return;
-
-                }
-
-
-                const movieId =
-                    button.getAttribute(
-                        "data-rmd-delete-movie"
-                    );
-
-                if (movieId) {
-
-                    deleteItem(
-                        CONFIG.storage.movies,
-                        movieId
-                    );
-
-                    renderMovies();
-
-                    return;
-
-                }
-
-
-                const cultureId =
-                    button.getAttribute(
-                        "data-rmd-delete-culture"
-                    );
-
-                if (cultureId) {
-
-                    deleteItem(
-                        CONFIG.storage.culture,
-                        cultureId
-                    );
-
-                    renderCulture();
-
-                    return;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =========================================================
+    /* =====================================================
        FORM BINDING
-       ========================================================= */
+       ===================================================== */
 
     function bindForms() {
 
-        const brandForm =
+        var brandForm =
             document.getElementById(
                 "rmdBrandForm"
             );
 
-        const travelForm =
+
+        var travelForm =
             document.getElementById(
                 "rmdTravelForm"
             );
 
-        const movieForm =
+
+        var movieForm =
             document.getElementById(
                 "rmdMovieForm"
             );
 
-        const cultureForm =
+
+        var cultureForm =
             document.getElementById(
                 "rmdCultureForm"
             );
@@ -3451,9 +1353,61 @@
 
             brandForm.addEventListener(
                 "submit",
-                submitBrand
-            );
+                async function (event) {
 
+                    event.preventDefault();
+
+
+                    try {
+
+                        var item =
+                            await formToObject(
+                                brandForm,
+                                "brand"
+                            );
+
+
+                        var list =
+                            getStorage(
+                                CONFIG.storage.brands
+                            );
+
+
+                        list.unshift(item);
+
+
+                        saveStorage(
+                            CONFIG.storage.brands,
+                            list
+                        );
+
+
+                        brandForm.reset();
+
+
+                        renderBrands();
+
+
+                        showStatus(
+                            "Brand promotion published successfully.",
+                            false
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+
+                        showStatus(
+                            error.message ||
+                            "Could not publish brand promotion.",
+                            true
+                        );
+                    }
+                }
+            );
         }
 
 
@@ -3461,9 +1415,61 @@
 
             travelForm.addEventListener(
                 "submit",
-                submitTravel
-            );
+                async function (event) {
 
+                    event.preventDefault();
+
+
+                    try {
+
+                        var item =
+                            await formToObject(
+                                travelForm,
+                                "travel"
+                            );
+
+
+                        var list =
+                            getStorage(
+                                CONFIG.storage.travel
+                            );
+
+
+                        list.unshift(item);
+
+
+                        saveStorage(
+                            CONFIG.storage.travel,
+                            list
+                        );
+
+
+                        travelForm.reset();
+
+
+                        renderTravel();
+
+
+                        showStatus(
+                            "Travel place published successfully.",
+                            false
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+
+                        showStatus(
+                            error.message ||
+                            "Could not publish travel place.",
+                            true
+                        );
+                    }
+                }
+            );
         }
 
 
@@ -3471,9 +1477,61 @@
 
             movieForm.addEventListener(
                 "submit",
-                submitMovie
-            );
+                async function (event) {
 
+                    event.preventDefault();
+
+
+                    try {
+
+                        var item =
+                            await formToObject(
+                                movieForm,
+                                "movie"
+                            );
+
+
+                        var list =
+                            getStorage(
+                                CONFIG.storage.movies
+                            );
+
+
+                        list.unshift(item);
+
+
+                        saveStorage(
+                            CONFIG.storage.movies,
+                            list
+                        );
+
+
+                        movieForm.reset();
+
+
+                        renderMovies();
+
+
+                        showStatus(
+                            "Movie promotion published successfully.",
+                            false
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+
+                        showStatus(
+                            error.message ||
+                            "Could not publish movie promotion.",
+                            true
+                        );
+                    }
+                }
+            );
         }
 
 
@@ -3481,17 +1539,621 @@
 
             cultureForm.addEventListener(
                 "submit",
-                submitCulture
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    try {
+
+                        var item =
+                            await formToObject(
+                                cultureForm,
+                                "culture"
+                            );
+
+
+                        var list =
+                            getStorage(
+                                CONFIG.storage.culture
+                            );
+
+
+                        list.unshift(item);
+
+
+                        saveStorage(
+                            CONFIG.storage.culture,
+                            list
+                        );
+
+
+                        cultureForm.reset();
+
+
+                        renderCulture();
+
+
+                        showStatus(
+                            "World culture post published successfully.",
+                            false
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+
+                        showStatus(
+                            error.message ||
+                            "Could not publish culture post.",
+                            true
+                        );
+                    }
+                }
             );
-
         }
-
     }
 
 
-    /* =========================================================
+    /* =====================================================
+       TABS
+       ===================================================== */
+
+    function bindTabs() {
+
+        var tabs =
+            document.querySelectorAll(
+                ".rmd-tab"
+            );
+
+
+        tabs.forEach(
+            function (tab) {
+
+                tab.addEventListener(
+                    "click",
+                    function () {
+
+                        tabs.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+                            }
+                        );
+
+
+                        document
+                            .querySelectorAll(
+                                ".rmd-panel"
+                            )
+                            .forEach(
+                                function (panel) {
+
+                                    panel.classList.remove(
+                                        "active"
+                                    );
+                                }
+                            );
+
+
+                        tab.classList.add(
+                            "active"
+                        );
+
+
+                        var panelId =
+                            tab.getAttribute(
+                                "data-panel"
+                            );
+
+
+                        var panel =
+                            document.getElementById(
+                                panelId
+                            );
+
+
+                        if (panel) {
+
+                            panel.classList.add(
+                                "active"
+                            );
+                        }
+                    }
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       MEDIA RENDER
+       ===================================================== */
+
+    function renderMedia(item) {
+
+        var html = "";
+
+
+        if (item.image) {
+
+            html +=
+                '<img class="rmd-media" src="' +
+                escapeHTML(item.image) +
+                '" alt="Discovery image">';
+        }
+
+
+        if (item.video) {
+
+            html +=
+                '<video class="rmd-media" controls preload="metadata">' +
+                '<source src="' +
+                escapeHTML(item.video) +
+                '">' +
+                "Your browser does not support video." +
+                "</video>";
+        }
+
+
+        return html;
+    }
+
+
+    /* =====================================================
+       ITEM RENDER
+       ===================================================== */
+
+    function renderItem(
+        item,
+        title,
+        key,
+        list
+    ) {
+
+        var locationParts = [];
+
+
+        [
+            item.village,
+            item.city,
+            item.district,
+            item.state,
+            item.country
+        ].forEach(
+            function (part) {
+
+                if (part) {
+                    locationParts.push(
+                        part
+                    );
+                }
+            }
+        );
+
+
+        var location =
+            locationParts.join(
+                " • "
+            );
+
+
+        return `
+
+        <article
+            class="rmd-item"
+            data-id="${escapeHTML(item.id)}"
+        >
+
+            <div class="rmd-item-title">
+                ${escapeHTML(
+                    title
+                )}
+            </div>
+
+
+            ${
+                item.brandName
+                    ? `
+                    <div class="rmd-meta">
+                        🏷️ Brand:
+                        ${escapeHTML(
+                            item.brandName
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                item.movieName
+                    ? `
+                    <div class="rmd-meta">
+                        🎬 Movie:
+                        ${escapeHTML(
+                            item.movieName
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                item.placeName
+                    ? `
+                    <div class="rmd-meta">
+                        📍 Place:
+                        ${escapeHTML(
+                            item.placeName
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                item.category
+                    ? `
+                    <div class="rmd-meta">
+                        Category:
+                        ${escapeHTML(
+                            item.category
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                item.language
+                    ? `
+                    <div class="rmd-meta">
+                        Language:
+                        ${escapeHTML(
+                            item.language
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                location
+                    ? `
+                    <div class="rmd-meta">
+                        🌍 ${escapeHTML(
+                            location
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                item.description
+                    ? `
+                    <div class="rmd-description">
+                        ${escapeHTML(
+                            item.description
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${renderMedia(item)}
+
+
+            ${
+                item.website
+                    ? `
+                    <div class="rmd-meta">
+                        🔗
+                        ${escapeHTML(
+                            item.website
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                item.social
+                    ? `
+                    <div class="rmd-meta">
+                        📱
+                        ${escapeHTML(
+                            item.social
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            ${
+                item.reach
+                    ? `
+                    <div class="rmd-meta">
+                        👥 Reach:
+                        ${escapeHTML(
+                            item.reach
+                        )}
+                    </div>
+                    `
+                    : ""
+            }
+
+
+            <div class="rmd-meta">
+                Published:
+                ${escapeHTML(
+                    item.createdAt
+                        ? new Date(
+                            item.createdAt
+                        ).toLocaleString()
+                        : ""
+                )}
+            </div>
+
+
+            <button
+                type="button"
+                class="rmd-delete"
+                data-delete-key="${escapeHTML(key)}"
+                data-delete-id="${escapeHTML(item.id)}"
+            >
+                Delete
+            </button>
+
+        </article>
+
+        `;
+    }
+
+
+    /* =====================================================
+       FEED
+       ===================================================== */
+
+    function renderFeed(
+        elementId,
+        list,
+        key,
+        titleResolver
+    ) {
+
+        var element =
+            document.getElementById(
+                elementId
+            );
+
+
+        if (!element) {
+            return;
+        }
+
+
+        if (!list.length) {
+
+            element.innerHTML =
+                '<div class="rmd-empty">' +
+                "No posts published yet." +
+                "</div>";
+
+            return;
+        }
+
+
+        element.innerHTML =
+            list.map(
+                function (item) {
+
+                    return renderItem(
+                        item,
+                        titleResolver(item),
+                        key,
+                        list
+                    );
+                }
+            ).join("");
+    }
+
+
+    /* =====================================================
+       RENDER BRANDS
+       ===================================================== */
+
+    function renderBrands() {
+
+        renderFeed(
+            "rmdBrandFeed",
+            getStorage(
+                CONFIG.storage.brands
+            ),
+            CONFIG.storage.brands,
+            function (item) {
+
+                return (
+                    item.title ||
+                    item.brandName ||
+                    "Brand Promotion"
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       RENDER TRAVEL
+       ===================================================== */
+
+    function renderTravel() {
+
+        renderFeed(
+            "rmdTravelFeed",
+            getStorage(
+                CONFIG.storage.travel
+            ),
+            CONFIG.storage.travel,
+            function (item) {
+
+                return (
+                    item.title ||
+                    item.placeName ||
+                    "Travel Place"
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       RENDER MOVIES
+       ===================================================== */
+
+    function renderMovies() {
+
+        renderFeed(
+            "rmdMovieFeed",
+            getStorage(
+                CONFIG.storage.movies
+            ),
+            CONFIG.storage.movies,
+            function (item) {
+
+                return (
+                    item.title ||
+                    item.movieName ||
+                    "Movie Promotion"
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       RENDER CULTURE
+       ===================================================== */
+
+    function renderCulture() {
+
+        renderFeed(
+            "rmdCultureFeed",
+            getStorage(
+                CONFIG.storage.culture
+            ),
+            CONFIG.storage.culture,
+            function (item) {
+
+                return (
+                    item.title ||
+                    "World Culture"
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
+       DELETE
+       ===================================================== */
+
+    function bindDeleteEvents() {
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                var button =
+                    event.target.closest(
+                        ".rmd-delete"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                var key =
+                    button.getAttribute(
+                        "data-delete-key"
+                    );
+
+
+                var id =
+                    button.getAttribute(
+                        "data-delete-id"
+                    );
+
+
+                if (!key || !id) {
+                    return;
+                }
+
+
+                var confirmDelete =
+                    window.confirm(
+                        "Delete this Discovery post?"
+                    );
+
+
+                if (!confirmDelete) {
+                    return;
+                }
+
+
+                var list =
+                    getStorage(key);
+
+
+                var filtered =
+                    list.filter(
+                        function (item) {
+
+                            return (
+                                String(item.id) !==
+                                String(id)
+                            );
+                        }
+                    );
+
+
+                saveStorage(
+                    key,
+                    filtered
+                );
+
+
+                renderAll();
+
+
+                showStatus(
+                    "Discovery post deleted.",
+                    false
+                );
+            }
+        );
+    }
+
+
+    /* =====================================================
        RENDER ALL
-       ========================================================= */
+       ===================================================== */
 
     function renderAll() {
 
@@ -3502,42 +2164,36 @@
         renderMovies();
 
         renderCulture();
-
     }
 
 
-    /* =========================================================
-       INITIALIZATION
-       ========================================================= */
+    /* =====================================================
+       SAFE INITIALIZATION
+       ===================================================== */
 
     function initialize() {
 
+        var hub =
+            document.getElementById(
+                "rmDiscoveryHub"
+            );
+
+
+        if (!hub) {
+
+            console.error(
+                "ALON Discovery: #rmDiscoveryHub not found."
+            );
+
+            return;
+        }
+
+
         try {
-
-            const hub =
-                document.getElementById(
-                    "rmDiscoveryHub"
-                );
-
-            if (!hub) {
-
-                console.error(
-                    "ALON HISTORYVERSE 24: " +
-                    "rmDiscoveryHub container was not found."
-                );
-
-                return;
-
-            }
-
 
             injectStyle();
 
-
-            if (!buildHub()) {
-                return;
-            }
-
+            buildHub();
 
             bindTabs();
 
@@ -3548,12 +2204,17 @@
             renderAll();
 
 
-            console.log(
-                "ALON HISTORYVERSE 24 Regular Marketplace Discovery " +
-                "loaded successfully. Version:",
-                CONFIG.version
+            showStatus(
+                "ALON Marketplace Discovery loaded successfully.",
+                false
             );
 
+
+            console.log(
+                "ALON Regular Marketplace Discovery " +
+                CONFIG.version +
+                " loaded successfully."
+            );
 
         } catch (error) {
 
@@ -3562,34 +2223,37 @@
                 error
             );
 
+
+            hub.innerHTML = `
+
+                <div class="rmd-error">
+
+                    <strong>
+                        ALON Marketplace Discovery could not start.
+                    </strong>
+
+                    <br><br>
+
+                    Error:
+                    ${escapeHTML(
+                        error.message ||
+                        String(error)
+                    )}
+
+                    <br><br>
+
+                    Please refresh the page once.
+
+                </div>
+
+            `;
         }
-
     }
 
 
-    /* =========================================================
-       START
-       ========================================================= */
-
-    if (
-        document.readyState === "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            initialize
-        );
-
-    } else {
-
-        initialize();
-
-    }
-
-
-    /* =========================================================
+    /* =====================================================
        PUBLIC API
-       ========================================================= */
+       ===================================================== */
 
     window.ALON_REGULAR_MARKETPLACE_DISCOVERY = {
 
@@ -3615,6 +2279,26 @@
             getCountryDatabase
 
     };
+
+
+    /* =====================================================
+       START
+       ===================================================== */
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initialize
+        );
+
+    } else {
+
+        initialize();
+    }
 
 
 })();
