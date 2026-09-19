@@ -2007,112 +2007,82 @@
 </div>
 
 
-<!-- =============================================================
-     ALON HISTORYVERSE 24
+<!-- =========================================================
      MARKETPLACE DISCOVERY
      OPEN / BACK
-     ============================================================= -->
+     ========================================================= -->
 
-<style>
+<section
+    id="rmDiscoverySection"
+    class="rm-discovery-section"
+>
 
-    .rm-discovery-folder {
-        margin: 20px 0;
-        border: 2px solid #d7b35a;
-        border-radius: 15px;
-        background: #ffffff;
-        overflow: hidden;
-    }
+    <div class="rm-discovery-folder">
 
-    .rm-discovery-open {
-        width: 100%;
-        padding: 18px;
-        border: 0;
-        background: #fffdf5;
-        color: #8b6508;
-        font-size: 20px;
-        font-weight: 700;
-        cursor: pointer;
-        text-align: left;
-    }
+        <div class="rm-discovery-folder-icon">
+            📁
+        </div>
 
-    .rm-discovery-content {
-        display: none;
-        padding: 15px;
-    }
+        <div class="rm-discovery-folder-content">
 
-    .rm-discovery-content.active {
-        display: block;
-    }
+            <h2>
+                MARKETPLACE DISCOVERY
+            </h2>
 
-    .rm-discovery-back {
-        display: block;
-        margin-bottom: 15px;
-        padding: 10px 18px;
-        border: 1px solid #d7b35a;
-        border-radius: 10px;
-        background: #ffffff;
-        color: #8b6508;
-        font-weight: 700;
-        cursor: pointer;
-    }
+            <p>
+                🏷️ Brand Promoter
+                • 🌍 Travel & Tourist
+                • 🎬 Movie Promoter
+                • 🌎 World Culture
+            </p>
 
-</style>
+        </div>
 
+        <button
+            type="button"
+            id="rmDiscoveryOpen"
+            class="rm-discovery-toggle"
+            aria-expanded="false"
+            aria-controls="rmDiscoveryContent"
+        >
+            📁 Open Discovery
+        </button>
 
-<div class="rm-discovery-folder">
-
-    <button
-        type="button"
-        class="rm-discovery-open"
-        id="rmDiscoveryOpen"
-    >
-        📁 Open Discovery
-    </button>
-
+    </div>
 
     <div
-        class="rm-discovery-content"
         id="rmDiscoveryContent"
+        class="rm-discovery-content rm-discovery-closed"
     >
 
         <button
             type="button"
-            class="rm-discovery-back"
             id="rmDiscoveryBack"
+            class="rm-btn"
         >
             ← Back
         </button>
-
 
         <div id="rmDiscoveryHub"></div>
 
     </div>
 
-</div>
-
+</section>
 
 <script>
-
 (function () {
-
     "use strict";
 
     function initializeDiscoveryFolder() {
 
         var openButton =
-            document.getElementById(
-                "rmDiscoveryOpen"
-            );
+            document.getElementById("rmDiscoveryOpen");
 
         var backButton =
-            document.getElementById(
-                "rmDiscoveryBack"
-            );
+            document.getElementById("rmDiscoveryBack");
 
         var content =
-            document.getElementById(
-                "rmDiscoveryContent"
-            );
+            document.getElementById("rmDiscoveryContent");
 
         if (
             !openButton ||
@@ -2122,38 +2092,42 @@
             return;
         }
 
-
         openButton.addEventListener(
             "click",
             function () {
 
-                content.classList.add(
-                    "active"
+                content.classList.remove(
+                    "rm-discovery-closed"
                 );
 
                 openButton.style.display =
                     "none";
 
+                openButton.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
             }
         );
-
 
         backButton.addEventListener(
             "click",
             function () {
 
-                content.classList.remove(
-                    "active"
+                content.classList.add(
+                    "rm-discovery-closed"
                 );
 
                 openButton.style.display =
                     "block";
 
+                openButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
             }
         );
-
     }
-
 
     if (
         document.readyState ===
@@ -2172,9 +2146,7 @@
     }
 
 })();
-
 </script>
-
 
 <!-- =============================================================
      REQUIRED FILES
