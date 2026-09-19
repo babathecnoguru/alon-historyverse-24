@@ -464,6 +464,125 @@
             display: none !important;
         }
 
+
+        /* =========================================================
+           MARKETPLACE DISCOVERY
+           SEPARATE FOLDER / CARD SECTION
+           ========================================================= */
+
+        .rm-discovery-section {
+            margin: 24px 0;
+            padding: 0;
+
+            border: 0;
+            background: transparent;
+
+            box-shadow: none;
+        }
+
+        .rm-discovery-folder {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            width: 100%;
+            padding: 18px;
+
+            border: 1px solid #d7b35a;
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffdf5 0%,
+                    #ffffff 55%,
+                    #fffaf0 100%
+                );
+
+            box-shadow: 0 4px 18px rgba(0,0,0,.08);
+        }
+
+        .rm-discovery-folder-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex: 0 0 auto;
+
+            width: 54px;
+            height: 54px;
+
+            border-radius: 14px;
+
+            background: #d7b35a;
+
+            font-size: 28px;
+
+            box-shadow: 0 3px 10px rgba(0,0,0,.08);
+        }
+
+        .rm-discovery-folder-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .rm-discovery-folder-content h2 {
+            margin: 0 0 5px;
+
+            color: #8b6508;
+
+            font-size: 22px;
+            line-height: 1.3;
+        }
+
+        .rm-discovery-folder-content p {
+            margin: 0;
+
+            color: #555555;
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .rm-discovery-toggle {
+            flex: 0 0 auto;
+
+            border: 1px solid #b58d28;
+            border-radius: 10px;
+
+            padding: 11px 15px;
+
+            cursor: pointer;
+
+            background: #d7b35a;
+            color: #111111;
+
+            font-weight: 800;
+        }
+
+        .rm-discovery-toggle:hover {
+            background: #cba84d;
+        }
+
+        .rm-discovery-content {
+            margin-top: 12px;
+
+            padding: 4px;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+        }
+
+        .rm-discovery-content.rm-discovery-closed {
+            display: none;
+        }
+
+        #rmDiscoveryHub {
+            width: 100%;
+        }
+
+
         /* =========================================================
            MOBILE
            ========================================================= */
@@ -493,6 +612,25 @@
 
             .rm-hero h1 {
                 font-size: 24px;
+            }
+
+            .rm-discovery-folder {
+                align-items: flex-start;
+                flex-wrap: wrap;
+                padding: 15px;
+            }
+
+            .rm-discovery-folder-content {
+                flex: 1 1 calc(100% - 70px);
+            }
+
+            .rm-discovery-folder-content h2 {
+                font-size: 19px;
+            }
+
+            .rm-discovery-toggle {
+                width: 100%;
+                margin-top: 4px;
             }
 
         }
@@ -1250,13 +1388,57 @@
 
 
     <!-- =========================================================
-         REGULAR MARKETPLACE DISCOVERY HUB
-         Brand / Travel / Movies / Culture
+         MARKETPLACE DISCOVERY
+         SEPARATE FOLDER / CARD
          ========================================================= -->
 
-    <section class="rm-section">
+    <section
+        id="rmDiscoverySection"
+        class="rm-discovery-section"
+    >
 
-        <div id="rmDiscoveryHub"></div>
+        <div class="rm-discovery-folder">
+
+            <div class="rm-discovery-folder-icon">
+                📁
+            </div>
+
+            <div class="rm-discovery-folder-content">
+
+                <h2>
+                    MARKETPLACE DISCOVERY
+                </h2>
+
+                <p>
+                    🏷️ Brand Promoter
+                    • 🌍 Travel & Tourist
+                    • 🎬 Movie Promoter
+                    • 🌎 World Culture
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                id="rmDiscoveryToggle"
+                class="rm-discovery-toggle"
+                aria-expanded="true"
+                aria-controls="rmDiscoveryContent"
+            >
+                Close Discovery
+            </button>
+
+        </div>
+
+
+        <div
+            id="rmDiscoveryContent"
+            class="rm-discovery-content"
+        >
+
+            <div id="rmDiscoveryHub"></div>
+
+        </div>
 
     </section>
 
@@ -1823,6 +2005,70 @@
     </section>
 
 </div>
+
+
+<!-- =============================================================
+     DISCOVERY FOLDER OPEN / CLOSE
+     ============================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+    function initializeDiscoveryFolder() {
+
+        var toggle = document.getElementById(
+            "rmDiscoveryToggle"
+        );
+
+        var content = document.getElementById(
+            "rmDiscoveryContent"
+        );
+
+        if (!toggle || !content) {
+            return;
+        }
+
+        toggle.addEventListener("click", function () {
+
+            var isClosed =
+                content.classList.toggle(
+                    "rm-discovery-closed"
+                );
+
+            toggle.setAttribute(
+                "aria-expanded",
+                isClosed ? "false" : "true"
+            );
+
+            toggle.textContent =
+                isClosed
+                    ? "Open Discovery"
+                    : "Close Discovery";
+
+        });
+
+    }
+
+
+    if (document.readyState === "loading") {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeDiscoveryFolder
+        );
+
+    } else {
+
+        initializeDiscoveryFolder();
+
+    }
+
+})();
+
+</script>
 
 
 <!-- =============================================================
