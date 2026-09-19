@@ -5,6 +5,7 @@
      ========================================================= -->
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -213,6 +214,7 @@
             display: block;
         }
 
+
         /* =========================================================
            LOGIN
            ========================================================= */
@@ -245,7 +247,6 @@
             display: flex;
 
             align-items: flex-start;
-
             gap: 8px;
 
             margin-top: 16px;
@@ -280,7 +281,6 @@
             display: flex;
 
             align-items: flex-start;
-
             gap: 9px;
 
             margin-top: 12px;
@@ -294,6 +294,7 @@
             margin-top: 4px;
         }
 
+
         /* =========================================================
            CATEGORY HELP
            ========================================================= */
@@ -306,6 +307,7 @@
             font-size: 13px;
             line-height: 1.5;
         }
+
 
         /* =========================================================
            PAYMENT
@@ -326,6 +328,7 @@
         .rm-price {
             font-size: 26px;
             font-weight: 800;
+
             color: #8b6508;
         }
 
@@ -361,6 +364,7 @@
 
             color: #333333;
         }
+
 
         /* =========================================================
            LISTINGS / SHOWROOM CARDS
@@ -482,10 +486,12 @@
 
         .rm-discovery-folder {
             display: flex;
+
             align-items: center;
             gap: 14px;
 
             width: 100%;
+
             padding: 18px;
 
             border: 1px solid #d7b35a;
@@ -504,6 +510,7 @@
 
         .rm-discovery-folder-icon {
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -616,7 +623,9 @@
 
             .rm-discovery-folder {
                 align-items: flex-start;
+
                 flex-wrap: wrap;
+
                 padding: 15px;
             }
 
@@ -630,6 +639,7 @@
 
             .rm-discovery-toggle {
                 width: 100%;
+
                 margin-top: 4px;
             }
 
@@ -755,11 +765,14 @@
         >
 
             <div>
+
                 Logged in as:
+
                 <span
                     id="rmProfileEmail"
                     class="rm-profile-email"
                 ></span>
+
             </div>
 
             <div class="rm-actions">
@@ -919,6 +932,7 @@
 
                         </optgroup>
 
+
                         <optgroup label="Property">
 
                             <option value="house">
@@ -982,6 +996,7 @@
                             </option>
 
                         </optgroup>
+
 
                         <optgroup label="Vehicles">
 
@@ -1407,9 +1422,11 @@
 
         </div>
 
+
         <div
             id="rmDiscoveryContent"
             class="rm-discovery-content rm-discovery-closed"
+            style="display: none;"
         >
 
             <button
@@ -1445,6 +1462,7 @@
         <form id="rmShowroomForm">
 
             <div class="rm-form-grid">
+
 
                 <div class="rm-field">
 
@@ -1707,6 +1725,7 @@
                     $10 USD
                 </div>
 
+
                 <div class="rm-bank-box">
 
                     <h4>
@@ -1714,12 +1733,15 @@
                     </h4>
 
                     <p class="rm-bank-note">
+
                         यहाँ अपने बैंक अकाउंट की जानकारी डाल सकते हैं।
                         नीचे दिए fields में अपनी वास्तविक payment
                         information रखनी है।
+
                     </p>
 
                     <div class="rm-form-grid">
+
 
                         <div class="rm-field">
 
@@ -1735,6 +1757,7 @@
 
                         </div>
 
+
                         <div class="rm-field">
 
                             <label for="rmBankName">
@@ -1748,6 +1771,7 @@
                             >
 
                         </div>
+
 
                         <div class="rm-field">
 
@@ -1763,6 +1787,7 @@
 
                         </div>
 
+
                         <div class="rm-field">
 
                             <label for="rmBankIfsc">
@@ -1777,6 +1802,7 @@
 
                         </div>
 
+
                         <div class="rm-field">
 
                             <label for="rmBankBranch">
@@ -1790,6 +1816,7 @@
                             >
 
                         </div>
+
 
                         <div class="rm-field">
 
@@ -1809,6 +1836,7 @@
 
                 </div>
 
+
                 <p class="rm-note">
                     Advertisement price: $10 USD.
                 </p>
@@ -1818,6 +1846,7 @@
                     cannot securely verify a real bank transaction.
                     The button below is only a local publishing gate.
                 </p>
+
 
                 <div class="rm-actions">
 
@@ -1830,6 +1859,7 @@
                     </button>
 
                 </div>
+
 
                 <div
                     id="rmPaymentStatus"
@@ -1860,6 +1890,7 @@
                 </button>
 
             </div>
+
 
             <div
                 id="rmShowroomStatus"
@@ -1960,8 +1991,11 @@
      ============================================================= -->
 
 <script>
+
 (function () {
+
     "use strict";
+
 
     function initializeDiscoveryFolder() {
 
@@ -1974,6 +2008,7 @@
         var content =
             document.getElementById("rmDiscoveryContent");
 
+
         if (
             !openButton ||
             !backButton ||
@@ -1982,42 +2017,62 @@
             return;
         }
 
+
+        /*
+         * OPEN DISCOVERY
+         */
+
         openButton.addEventListener(
             "click",
-            function () {
+            function (event) {
+
+                event.preventDefault();
 
                 content.classList.remove(
                     "rm-discovery-closed"
                 );
 
-                openButton.style.display =
-                    "none";
+                content.style.display = "block";
+
+                openButton.style.display = "none";
 
                 openButton.setAttribute(
                     "aria-expanded",
                     "true"
                 );
+
             }
         );
 
+
+        /*
+         * BACK FROM DISCOVERY
+         */
+
         backButton.addEventListener(
             "click",
-            function () {
+            function (event) {
+
+                event.preventDefault();
 
                 content.classList.add(
                     "rm-discovery-closed"
                 );
 
-                openButton.style.display =
-                    "block";
+                content.style.display = "none";
+
+                openButton.style.display = "block";
 
                 openButton.setAttribute(
                     "aria-expanded",
                     "false"
                 );
+
             }
         );
+
     }
+
 
     if (
         document.readyState ===
@@ -2036,6 +2091,7 @@
     }
 
 })();
+
 </script>
 
 
@@ -2044,7 +2100,9 @@
      ============================================================= -->
 
 <script src="./marketplace-countries.js"></script>
+
 <script src="./regular-marketplace.js"></script>
+
 <script src="../regular-marketplace-discovery.js"></script>
 
 
