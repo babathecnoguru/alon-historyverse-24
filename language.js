@@ -3,7 +3,7 @@
    LANGUAGE ENGINE
    File: jss/language.js
    Creator: Baba Thecno Guru
-   Version: 24.0
+   Version: 24.1
    ========================================================= */
 
 (function () {
@@ -16,7 +16,7 @@
     const CONFIG = {
         project: "ALON HISTORYVERSE 24",
         creator: "Baba Thecno Guru",
-        version: "24.0",
+        version: "24.1",
 
         storageKey: "alon_historyverse_language",
 
@@ -29,13 +29,18 @@
             "#languageBtn",
             "[data-language-button]",
             "[data-open-language]"
-        ]
+        ],
+
+        translationAttribute: "data-i18n",
+        placeholderAttribute: "data-i18n-placeholder",
+        titleAttribute: "data-i18n-title",
+        ariaAttribute: "data-i18n-aria"
     };
 
 
     /* =====================================================
        WORLD LANGUAGE CONFIG
-    ===================================================== */
+       ===================================================== */
 
     const WORLD_LANGUAGE_CONFIG = {
 
@@ -252,10 +257,88 @@
 
 
     /* =====================================================
+       WORLD LANGUAGE ENGINE COMPATIBILITY
+       If world-language.js is loaded, its larger registry
+       is automatically adopted without deleting this file's
+       original fallback language registry.
+    ===================================================== */
+
+    function getActiveLanguageConfig() {
+
+        if (
+            window.WORLD_LANGUAGE_CONFIG &&
+            typeof window.WORLD_LANGUAGE_CONFIG === "object"
+        ) {
+            return window.WORLD_LANGUAGE_CONFIG;
+        }
+
+        return WORLD_LANGUAGE_CONFIG;
+    }
+
+
+    function getAvailableLanguages() {
+
+        return getActiveLanguageConfig();
+    }
+
+
+    function syncWorldLanguageConfig() {
+
+        const external =
+            window.WORLD_LANGUAGE_CONFIG;
+
+        if (
+            external &&
+            typeof external === "object"
+        ) {
+
+            Object.keys(external).forEach(
+                function (code) {
+
+                    if (
+                        !WORLD_LANGUAGE_CONFIG[code]
+                    ) {
+                        WORLD_LANGUAGE_CONFIG[code] =
+                            external[code];
+                    }
+
+                }
+            );
+        }
+    }
+
+
+    /* =====================================================
        STATE
     ===================================================== */
 
-    let currentLanguage = CONFIG.defaultLanguage;
+    let currentLanguage =
+        CONFIG.defaultLanguage;
+
+
+    let translationObserver = null;
+
+
+    /* =====================================================
+       RTL
+    ===================================================== */
+
+    const RTL_LANGUAGES = [
+        "ar",
+        "fa",
+        "ur",
+        "he",
+        "ps",
+        "ku"
+    ];
+
+
+    function isRTL(code) {
+
+        return RTL_LANGUAGES.includes(
+            String(code || "").toLowerCase()
+        );
+    }
 
 
     /* =====================================================
@@ -266,13 +349,14 @@
 
         try {
 
-            const saved = localStorage.getItem(
-                CONFIG.storageKey
-            );
+            const saved =
+                localStorage.getItem(
+                    CONFIG.storageKey
+                );
 
             if (
                 saved &&
-                WORLD_LANGUAGE_CONFIG[saved]
+                getAvailableLanguages()[saved]
             ) {
                 return saved;
             }
@@ -323,9 +407,13 @@
         const languageCode =
             code || currentLanguage;
 
+        const languages =
+            getAvailableLanguages();
+
         return (
-            WORLD_LANGUAGE_CONFIG[languageCode] ||
-            WORLD_LANGUAGE_CONFIG[CONFIG.defaultLanguage]
+            languages[languageCode] ||
+            languages[CONFIG.defaultLanguage] ||
+            WORLD_LANGUAGE_CONFIG.en
         );
     }
 
@@ -336,14 +424,8 @@
 
     function updateDirection(code) {
 
-        const rtlLanguages = [
-            "ar",
-            "fa",
-            "ur"
-        ];
-
         const direction =
-            rtlLanguages.includes(code)
+            isRTL(code)
                 ? "rtl"
                 : "ltr";
 
@@ -352,6 +434,16 @@
 
         document.documentElement.lang =
             code;
+
+        document.documentElement.setAttribute(
+            "data-direction",
+            direction
+        );
+
+        document.documentElement.classList.toggle(
+            "alon-rtl",
+            direction === "rtl"
+        );
     }
 
 
@@ -370,6 +462,707 @@
             "lang",
             code
         );
+
+        const info =
+            getLanguageInfo(code);
+
+        if (info) {
+
+            document.documentElement.setAttribute(
+                "data-language-name",
+                info.name || ""
+            );
+
+            document.documentElement.setAttribute(
+                "data-language-native",
+                info.nativeName || ""
+            );
+        }
+    }
+
+
+    /* =====================================================
+       TRANSLATION DICTIONARY
+       English + Hindi core website interface
+    ===================================================== */
+
+    const TRANSLATIONS = {
+
+        hi: {
+
+            "Home": "होम",
+            "Back": "वापस",
+            "Search": "खोजें",
+            "Search...": "खोजें...",
+            "Login": "लॉगिन",
+            "Logout": "लॉगआउट",
+            "Register": "रजिस्टर करें",
+            "Account": "खाता",
+            "Profile": "प्रोफ़ाइल",
+            "Settings": "सेटिंग्स",
+            "Language": "भाषा",
+            "Languages": "भाषाएँ",
+            "World Languages": "विश्व भाषाएँ",
+            "Choose Language": "भाषा चुनें",
+            "Select your preferred language":
+                "अपनी पसंदीदा भाषा चुनें",
+            "Close": "बंद करें",
+            "Save": "सहेजें",
+            "Delete": "हटाएँ",
+            "Edit": "संपादित करें",
+            "Cancel": "रद्द करें",
+            "Submit": "जमा करें",
+            "Submit Ad": "विज्ञापन जमा करें",
+            "Continue": "जारी रखें",
+            "Next": "आगे",
+            "Previous": "पिछला",
+            "Open": "खोलें",
+            "Close Menu": "मेनू बंद करें",
+            "Menu": "मेनू",
+
+            "Explore": "अन्वेषण",
+            "Library": "पुस्तकालय",
+            "History": "इतिहास",
+            "Countries": "देश",
+            "Civilizations": "सभ्यताएँ",
+            "Heritage": "विरासत",
+            "Timeline": "समयरेखा",
+            "Articles": "लेख",
+            "Knowledge": "ज्ञान",
+            "Community": "समुदाय",
+            "Information": "जानकारी",
+            "About": "हमारे बारे में",
+            "Contact": "संपर्क",
+            "Privacy": "गोपनीयता",
+            "Terms": "नियम और शर्तें",
+            "Copyright": "कॉपीराइट",
+            "Admin": "एडमिन",
+
+            "Marketplace": "मार्केटप्लेस",
+            "Global Marketplace":
+                "ग्लोबल मार्केटप्लेस",
+            "Regular Marketplace":
+                "रेगुलर मार्केटप्लेस",
+            "Jobs": "नौकरियाँ",
+            "Careers": "करियर",
+            "Sell": "बेचें",
+            "Buy": "खरीदें",
+            "My Ads": "मेरे विज्ञापन",
+            "Business": "व्यवसाय",
+            "Showroom": "शोरूम",
+            "Advertisement": "विज्ञापन",
+            "Price": "कीमत",
+            "Currency": "मुद्रा",
+            "Country": "देश",
+            "State": "राज्य",
+            "District": "ज़िला",
+            "City": "शहर",
+            "Location": "स्थान",
+            "Description": "विवरण",
+            "Category": "श्रेणी",
+            "Image": "चित्र",
+            "Video": "वीडियो",
+
+            "Item": "वस्तु",
+            "Property": "संपत्ति",
+            "Vehicle": "वाहन",
+            "New": "नया",
+            "Used": "पुराना",
+            "Refurbished": "नवीनीकृत",
+
+            "House": "मकान",
+            "Shop": "दुकान",
+            "Flat": "फ्लैट",
+            "Bungalow": "बंगला",
+            "Plot": "प्लॉट",
+            "Land": "भूमि",
+            "Car": "कार",
+            "SUV": "एसयूवी",
+            "Motorcycle": "मोटरसाइकिल",
+            "Bike": "बाइक",
+            "Scooter": "स्कूटर",
+            "Truck": "ट्रक",
+            "Bus": "बस",
+            "Van": "वैन",
+
+            "Open Discovery": "डिस्कवरी खोलें",
+            "Discovery": "डिस्कवरी",
+            "← Back": "← वापस",
+
+            "Choose Country": "देश चुनें",
+            "Select Country": "देश चुनें",
+            "Select Category": "श्रेणी चुनें",
+            "Select Language": "भाषा चुनें",
+
+            "Email": "ईमेल",
+            "Password": "पासवर्ड",
+            "Username": "यूज़रनेम",
+            "Name": "नाम",
+            "Phone": "फ़ोन",
+            "Mobile": "मोबाइल",
+
+            "Welcome": "स्वागत है",
+            "Welcome to ALON HISTORYVERSE 24":
+                "ALON HISTORYVERSE 24 में आपका स्वागत है",
+
+            "History, civilizations, countries, culture, heritage and knowledge":
+                "इतिहास, सभ्यताएँ, देश, संस्कृति, विरासत और ज्ञान",
+
+            "No results found":
+                "कोई परिणाम नहीं मिला",
+
+            "Loading...":
+                "लोड हो रहा है...",
+
+            "Please wait...":
+                "कृपया प्रतीक्षा करें...",
+
+            "Are you sure?":
+                "क्या आप सुनिश्चित हैं?",
+
+            "Yes": "हाँ",
+            "No": "नहीं",
+            "OK": "ठीक है",
+
+            "Login required":
+                "लॉगिन आवश्यक है",
+
+            "Please login first":
+                "कृपया पहले लॉगिन करें",
+
+            "Logout successful":
+                "लॉगआउट सफल रहा",
+
+            "Saved successfully":
+                "सफलतापूर्वक सहेजा गया",
+
+            "Deleted successfully":
+                "सफलतापूर्वक हटा दिया गया",
+
+            "Updated successfully":
+                "सफलतापूर्वक अपडेट किया गया",
+
+            "Error":
+                "त्रुटि",
+
+            "Success":
+                "सफलता"
+        }
+    };
+
+
+    /* =====================================================
+       TRANSLATION HELPERS
+    ===================================================== */
+
+    function getTranslation(
+        text,
+        languageCode
+    ) {
+
+        if (
+            !text ||
+            typeof text !== "string"
+        ) {
+            return text;
+        }
+
+        const code =
+            languageCode || currentLanguage;
+
+        if (code === "en") {
+            return text;
+        }
+
+        const dictionary =
+            TRANSLATIONS[code];
+
+        if (
+            dictionary &&
+            Object.prototype.hasOwnProperty.call(
+                dictionary,
+                text
+            )
+        ) {
+            return dictionary[text];
+        }
+
+        return text;
+    }
+
+
+    function normalizeTranslationKey(text) {
+
+        return String(text || "")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+
+    /* =====================================================
+       TRANSLATE ELEMENT
+    ===================================================== */
+
+    function translateElement(
+        element,
+        languageCode
+    ) {
+
+        if (
+            !element ||
+            element.nodeType !== 1
+        ) {
+            return;
+        }
+
+        const code =
+            languageCode || currentLanguage;
+
+
+        /* -----------------------------------------------
+           Explicit data-i18n
+        ------------------------------------------------ */
+
+        if (
+            element.hasAttribute(
+                CONFIG.translationAttribute
+            )
+        ) {
+
+            const key =
+                element.getAttribute(
+                    CONFIG.translationAttribute
+                );
+
+            const translated =
+                getTranslation(
+                    key,
+                    code
+                );
+
+            if (
+                element.children.length === 0
+            ) {
+                element.textContent =
+                    translated;
+            } else {
+
+                const textNode =
+                    Array.from(
+                        element.childNodes
+                    ).find(function (node) {
+
+                        return (
+                            node.nodeType ===
+                            Node.TEXT_NODE &&
+                            node.textContent.trim()
+                        );
+                    });
+
+                if (textNode) {
+                    textNode.textContent =
+                        translated;
+                }
+            }
+        }
+
+
+        /* -----------------------------------------------
+           Placeholder
+        ------------------------------------------------ */
+
+        if (
+            element.hasAttribute(
+                CONFIG.placeholderAttribute
+            )
+        ) {
+
+            const key =
+                element.getAttribute(
+                    CONFIG.placeholderAttribute
+                );
+
+            element.setAttribute(
+                "placeholder",
+                getTranslation(
+                    key,
+                    code
+                )
+            );
+        }
+
+
+        /* -----------------------------------------------
+           Title
+        ------------------------------------------------ */
+
+        if (
+            element.hasAttribute(
+                CONFIG.titleAttribute
+            )
+        ) {
+
+            const key =
+                element.getAttribute(
+                    CONFIG.titleAttribute
+                );
+
+            element.setAttribute(
+                "title",
+                getTranslation(
+                    key,
+                    code
+                )
+            );
+        }
+
+
+        /* -----------------------------------------------
+           ARIA
+        ------------------------------------------------ */
+
+        if (
+            element.hasAttribute(
+                CONFIG.ariaAttribute
+            )
+        ) {
+
+            const key =
+                element.getAttribute(
+                    CONFIG.ariaAttribute
+                );
+
+            element.setAttribute(
+                "aria-label",
+                getTranslation(
+                    key,
+                    code
+                )
+            );
+        }
+    }
+
+
+    /* =====================================================
+       TRANSLATE PAGE
+    ===================================================== */
+
+    function translatePage() {
+
+        const code =
+            currentLanguage;
+
+
+        /* -----------------------------------------------
+           Explicit translation attributes
+        ------------------------------------------------ */
+
+        document
+            .querySelectorAll(
+                "[" +
+                CONFIG.translationAttribute +
+                "],[" +
+                CONFIG.placeholderAttribute +
+                "],[" +
+                CONFIG.titleAttribute +
+                "],[" +
+                CONFIG.ariaAttribute +
+                "]"
+            )
+            .forEach(function (element) {
+
+                translateElement(
+                    element,
+                    code
+                );
+
+            });
+
+
+        /* -----------------------------------------------
+           Common interface text
+           Only direct text nodes are processed.
+           Script/style/code content is ignored.
+        ------------------------------------------------ */
+
+        translateCommonText(
+            document.body,
+            code
+        );
+
+
+        /* -----------------------------------------------
+           Document title
+        ------------------------------------------------ */
+
+        const title =
+            document.title;
+
+        if (
+            title &&
+            code !== "en"
+        ) {
+
+            const translatedTitle =
+                getTranslation(
+                    normalizeTranslationKey(title),
+                    code
+                );
+
+            if (
+                translatedTitle !== title
+            ) {
+                document.title =
+                    translatedTitle;
+            }
+        }
+
+
+        document.documentElement.setAttribute(
+            "data-translation-ready",
+            "true"
+        );
+
+
+        dispatchTranslationEvent(
+            code
+        );
+    }
+
+
+    /* =====================================================
+       COMMON TEXT TRANSLATION
+    ===================================================== */
+
+    function translateCommonText(
+        root,
+        languageCode
+    ) {
+
+        if (!root) {
+            return;
+        }
+
+        const walker =
+            document.createTreeWalker(
+                root,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode:
+                        function (node) {
+
+                            const parent =
+                                node.parentElement;
+
+                            if (!parent) {
+                                return NodeFilter.FILTER_REJECT;
+                            }
+
+                            const tag =
+                                parent.tagName
+                                    .toLowerCase();
+
+                            if (
+                                tag === "script" ||
+                                tag === "style" ||
+                                tag === "noscript" ||
+                                tag === "template" ||
+                                tag === "code" ||
+                                tag === "pre"
+                            ) {
+                                return NodeFilter.FILTER_REJECT;
+                            }
+
+                            if (
+                                parent.hasAttribute(
+                                    "data-i18n-ignore"
+                                )
+                            ) {
+                                return NodeFilter.FILTER_REJECT;
+                            }
+
+                            if (
+                                !node.textContent.trim()
+                            ) {
+                                return NodeFilter.FILTER_REJECT;
+                            }
+
+                            return NodeFilter.FILTER_ACCEPT;
+                        }
+                }
+            );
+
+
+        const nodes = [];
+
+        let node;
+
+        while (
+            (node = walker.nextNode())
+        ) {
+            nodes.push(node);
+        }
+
+
+        nodes.forEach(function (textNode) {
+
+            const original =
+                textNode.textContent;
+
+            const trimmed =
+                normalizeTranslationKey(
+                    original
+                );
+
+            if (!trimmed) {
+                return;
+            }
+
+            const translated =
+                getTranslation(
+                    trimmed,
+                    languageCode
+                );
+
+            if (
+                translated !== trimmed
+            ) {
+
+                const leading =
+                    original.match(
+                        /^\s*/
+                    );
+
+                const trailing =
+                    original.match(
+                        /\s*$/
+                    );
+
+                textNode.textContent =
+                    (leading
+                        ? leading[0]
+                        : "") +
+                    translated +
+                    (trailing
+                        ? trailing[0]
+                        : "");
+            }
+
+        });
+    }
+
+
+    /* =====================================================
+       TRANSLATION EVENT
+    ===================================================== */
+
+    function dispatchTranslationEvent(
+        code
+    ) {
+
+        try {
+
+            document.dispatchEvent(
+                new CustomEvent(
+                    "alon:translation-ready",
+                    {
+                        detail: {
+                            code: code,
+                            language:
+                                getLanguageInfo(code)
+                        }
+                    }
+                )
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "Translation event error:",
+                error
+            );
+        }
+    }
+
+
+    /* =====================================================
+       TRANSLATION OBSERVER
+       Automatically translates newly added UI.
+    ===================================================== */
+
+    function startTranslationObserver() {
+
+        if (
+            translationObserver ||
+            !document.body
+        ) {
+            return;
+        }
+
+        translationObserver =
+            new MutationObserver(
+                function (mutations) {
+
+                    let shouldTranslate =
+                        false;
+
+                    mutations.forEach(
+                        function (mutation) {
+
+                            if (
+                                mutation.type ===
+                                "childList" &&
+                                mutation.addedNodes.length
+                            ) {
+                                shouldTranslate =
+                                    true;
+                            }
+
+                            if (
+                                mutation.type ===
+                                "attributes"
+                            ) {
+                                shouldTranslate =
+                                    true;
+                            }
+
+                        }
+                    );
+
+                    if (shouldTranslate) {
+
+                        window.clearTimeout(
+                            startTranslationObserver.timer
+                        );
+
+                        startTranslationObserver.timer =
+                            window.setTimeout(
+                                function () {
+
+                                    translatePage();
+
+                                },
+                                40
+                            );
+                    }
+
+                }
+            );
+
+        translationObserver.observe(
+            document.body,
+            {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: [
+                    "data-i18n",
+                    "data-i18n-placeholder",
+                    "data-i18n-title",
+                    "data-i18n-aria"
+                ]
+            }
+        );
     }
 
 
@@ -380,7 +1173,9 @@
     function updateLanguageButtons() {
 
         const info =
-            getLanguageInfo(currentLanguage);
+            getLanguageInfo(
+                currentLanguage
+            );
 
         CONFIG.buttonSelectors.forEach(
             function (selector) {
@@ -657,6 +1452,20 @@
                 font-size: 12px;
             }
 
+            [dir="rtl"] .alon-language-option {
+                text-align: right;
+            }
+
+            [dir="rtl"] .alon-language-heading {
+                padding-right: 0;
+                padding-left: 45px;
+            }
+
+            [dir="rtl"] .alon-language-close {
+                right: auto;
+                left: 14px;
+            }
+
             @media (max-width: 520px) {
 
                 .alon-language-box {
@@ -688,6 +1497,8 @@
 
     function renderLanguageList() {
 
+        syncWorldLanguageConfig();
+
         const overlay =
             createOverlay();
 
@@ -702,12 +1513,20 @@
 
         list.innerHTML = "";
 
+        const languages =
+            getAvailableLanguages();
+
+
         Object.keys(
-            WORLD_LANGUAGE_CONFIG
+            languages
         ).forEach(function (code) {
 
             const language =
-                WORLD_LANGUAGE_CONFIG[code];
+                languages[code];
+
+            if (!language) {
+                return;
+            }
 
             const button =
                 document.createElement("button");
@@ -729,20 +1548,25 @@
             button.innerHTML = `
 
                 <span class="alon-language-flag">
-                    ${language.flag}
+                    ${escapeHTML(
+                        language.flag || "🌐"
+                    )}
                 </span>
 
                 <span class="alon-language-name">
 
                     <span class="alon-language-native">
                         ${escapeHTML(
-                            language.nativeName
+                            language.nativeName ||
+                            language.name ||
+                            code
                         )}
                     </span>
 
                     <span class="alon-language-english">
                         ${escapeHTML(
-                            language.name
+                            language.name ||
+                            code
                         )}
                     </span>
 
@@ -773,6 +1597,8 @@
     ===================================================== */
 
     function openSelector() {
+
+        syncWorldLanguageConfig();
 
         const overlay =
             createOverlay();
@@ -817,9 +1643,15 @@
 
     function setLanguage(code) {
 
+        syncWorldLanguageConfig();
+
+        const languages =
+            getAvailableLanguages();
+
         if (
-            !WORLD_LANGUAGE_CONFIG[code]
+            !languages[code]
         ) {
+
             console.warn(
                 "Unsupported language:",
                 code
@@ -833,13 +1665,21 @@
 
         saveLanguage(code);
 
-        updateLanguageAttribute(code);
+        updateLanguageAttribute(
+            code
+        );
 
-        updateDirection(code);
+        updateDirection(
+            code
+        );
 
         updateLanguageButtons();
 
-        dispatchLanguageEvent(code);
+        translatePage();
+
+        dispatchLanguageEvent(
+            code
+        );
 
         return true;
     }
@@ -876,6 +1716,66 @@
                 error
             );
         }
+    }
+
+
+    /* =====================================================
+       CONNECT TO WORLD LANGUAGE ENGINE
+       world-language.js can be loaded after this file.
+    ===================================================== */
+
+    function bindWorldLanguageEngine() {
+
+        document.addEventListener(
+            "alon:world-language-change",
+            function (event) {
+
+                const detail =
+                    event &&
+                    event.detail
+                        ? event.detail
+                        : null;
+
+                if (
+                    !detail ||
+                    !detail.code
+                ) {
+                    return;
+                }
+
+                const code =
+                    detail.code;
+
+                syncWorldLanguageConfig();
+
+                if (
+                    getAvailableLanguages()[code]
+                ) {
+
+                    currentLanguage =
+                        code;
+
+                    saveLanguage(code);
+
+                    updateLanguageAttribute(
+                        code
+                    );
+
+                    updateDirection(
+                        code
+                    );
+
+                    updateLanguageButtons();
+
+                    translatePage();
+
+                    dispatchLanguageEvent(
+                        code
+                    );
+                }
+
+            }
+        );
     }
 
 
@@ -939,6 +1839,16 @@
 
     function bindKeyboard() {
 
+        if (
+            document.documentElement.dataset
+                .languageKeyboardBound === "true"
+        ) {
+            return;
+        }
+
+        document.documentElement.dataset
+            .languageKeyboardBound = "true";
+
         document.addEventListener(
             "keydown",
             function (event) {
@@ -956,13 +1866,18 @@
 
 
     /* =====================================================
-       INITIALIZE
+       CROSS-PAGE LANGUAGE SUPPORT
     ===================================================== */
 
-    function initialize() {
+    function applySavedLanguage() {
+
+        syncWorldLanguageConfig();
+
+        const saved =
+            getSavedLanguage();
 
         currentLanguage =
-            getSavedLanguage();
+            saved;
 
         updateLanguageAttribute(
             currentLanguage
@@ -973,15 +1888,169 @@
         );
 
         updateLanguageButtons();
+    }
+
+
+    /* =====================================================
+       TRANSLATION MARKUP HELPER
+       Existing/new HTML can use:
+
+       data-i18n="Search"
+
+       data-i18n-placeholder="Search..."
+
+       data-i18n-title="Settings"
+
+       data-i18n-aria="Close"
+    ===================================================== */
+
+    function markElement(
+        element,
+        key
+    ) {
+
+        if (
+            !element ||
+            !key
+        ) {
+            return;
+        }
+
+        element.setAttribute(
+            CONFIG.translationAttribute,
+            key
+        );
+
+        translateElement(
+            element,
+            currentLanguage
+        );
+    }
+
+
+    /* =====================================================
+       BACK BUTTON ENGINE
+       Only elements explicitly marked as:
+       data-alon-back
+       are changed.
+
+       This prevents the real top/header Home link
+       from being accidentally changed.
+    ===================================================== */
+
+    function bindBackButtons() {
+
+        document
+            .querySelectorAll(
+                "[data-alon-back]"
+            )
+            .forEach(function (button) {
+
+                if (
+                    button.dataset
+                        .alonBackBound === "true"
+                ) {
+                    return;
+                }
+
+                button.dataset
+                    .alonBackBound = "true";
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+
+                        if (
+                            window.history.length > 1
+                        ) {
+
+                            window.history.back();
+
+                        } else {
+
+                            window.location.href =
+                                "./index.html";
+                        }
+
+                    }
+                );
+
+            });
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    function initialize() {
+
+        syncWorldLanguageConfig();
+
+        applySavedLanguage();
 
         bindLanguageButtons();
 
         bindKeyboard();
 
+        bindWorldLanguageEngine();
+
+        bindBackButtons();
+
         /*
-         * Create selector only when needed.
-         * This keeps the page lightweight.
+         * Translate existing page.
          */
+
+        translatePage();
+
+        /*
+         * Automatically handle dynamically
+         * created Marketplace / Discovery /
+         * menu / modal content.
+         */
+
+        startTranslationObserver();
+
+
+        /*
+         * Wait briefly for world-language.js
+         * when it is loaded after language.js.
+         */
+
+        window.setTimeout(
+            function () {
+
+                syncWorldLanguageConfig();
+
+                const saved =
+                    getSavedLanguage();
+
+                if (
+                    saved !== currentLanguage
+                ) {
+
+                    currentLanguage =
+                        saved;
+
+                    updateLanguageAttribute(
+                        saved
+                    );
+
+                    updateDirection(
+                        saved
+                    );
+
+                    updateLanguageButtons();
+
+                    translatePage();
+                }
+
+            },
+            0
+        );
+
 
         console.log(
             "ALON HISTORYVERSE 24 Language Engine ready:",
@@ -999,10 +2068,11 @@
 
     window.ALON_LANGUAGE = {
 
-        config: CONFIG,
+        config:
+            CONFIG,
 
         languages:
-            WORLD_LANGUAGE_CONFIG,
+            getAvailableLanguages(),
 
         initialize:
             initialize,
@@ -1012,6 +2082,15 @@
 
         getLanguageInfo:
             getLanguageInfo,
+
+        getTranslation:
+            getTranslation,
+
+        translate:
+            translatePage,
+
+        translateElement:
+            translateElement,
 
         setLanguage:
             setLanguage,
@@ -1023,19 +2102,37 @@
             closeSelector,
 
         render:
-            renderLanguageList
+            renderLanguageList,
+
+        isRTL:
+            isRTL,
+
+        mark:
+            markElement,
+
+        bindBack:
+            bindBackButtons
     };
 
 
-    /*
-     * Compatibility function.
-     * Other project files can call:
-     *
-     * window.openLanguageSelector()
-     */
+    /* =====================================================
+       COMPATIBILITY FUNCTIONS
+    ===================================================== */
 
     window.openLanguageSelector =
         openSelector;
+
+
+    window.setALONLanguage =
+        setLanguage;
+
+
+    window.getALONLanguage =
+        getLanguage;
+
+
+    window.translateALONPage =
+        translatePage;
 
 
     /* =====================================================
