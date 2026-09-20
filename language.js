@@ -4,49 +4,71 @@
    File: jss/language.js
    Creator: Baba Thecno Guru
    Version: 24.2 SAFE LANGUAGE ENGINE
-   ========================================================= */
+========================================================= */
 
 (function () {
+
     "use strict";
+
 
     /* =====================================================
        CONFIGURATION
     ===================================================== */
 
     const CONFIG = {
+
         project: "ALON HISTORYVERSE 24",
+
         creator: "Baba Thecno Guru",
+
         version: "24.2",
 
-        storageKey: "alon_historyverse_language",
+        storageKey:
+            "alon_historyverse_language",
 
-        defaultLanguage: "en",
+        defaultLanguage:
+            "en",
 
-        selectorId: "alonLanguageSelector",
-        overlayId: "alonLanguageOverlay",
+        selectorId:
+            "alonLanguageSelector",
+
+        overlayId:
+            "alonLanguageOverlay",
 
         buttonSelectors: [
+
             "#languageBtn",
+
             "[data-language-button]",
+
             "[data-open-language]"
+
         ],
 
-        translationAttribute: "data-i18n",
-        placeholderAttribute: "data-i18n-placeholder",
-        titleAttribute: "data-i18n-title",
-        ariaAttribute: "data-i18n-aria",
+        translationAttribute:
+            "data-i18n",
+
+        placeholderAttribute:
+            "data-i18n-placeholder",
+
+        titleAttribute:
+            "data-i18n-title",
+
+        ariaAttribute:
+            "data-i18n-aria",
+
+        originalTextAttribute:
+            "data-alon-original",
 
         /*
-         * Original English text is stored on the DOM node.
-         * This prevents Hindi -> English from getting stuck.
-         */
-        originalTextAttribute: "data-alon-original",
-
-        /*
-         * Home is translated normally.
-         * Every page therefore follows the selected language.
+         * Home interface follows the selected language.
+         *
+         * IMPORTANT:
+         * Home card/file names are protected separately
+         * and remain English.
          */
         homeAlwaysEnglish: false
+
     };
 
 
@@ -265,6 +287,7 @@
             nativeName: "Bahasa Melayu",
             flag: "🇲🇾"
         }
+
     };
 
 
@@ -276,18 +299,23 @@
 
         if (
             window.WORLD_LANGUAGE_CONFIG &&
-            typeof window.WORLD_LANGUAGE_CONFIG === "object"
+            typeof window.WORLD_LANGUAGE_CONFIG ===
+                "object"
         ) {
+
             return window.WORLD_LANGUAGE_CONFIG;
+
         }
 
         return WORLD_LANGUAGE_CONFIG;
+
     }
 
 
     function getAvailableLanguages() {
 
         return getActiveLanguageConfig();
+
     }
 
 
@@ -307,13 +335,17 @@
                     if (
                         !WORLD_LANGUAGE_CONFIG[code]
                     ) {
+
                         WORLD_LANGUAGE_CONFIG[code] =
                             external[code];
+
                     }
 
                 }
             );
+
         }
+
     }
 
 
@@ -324,11 +356,14 @@
     let currentLanguage =
         CONFIG.defaultLanguage;
 
-    let translationObserver = null;
+    let translationObserver =
+        null;
 
-    let translationTimer = null;
+    let translationTimer =
+        null;
 
-    let isTranslating = false;
+    let isTranslating =
+        false;
 
 
     /* =====================================================
@@ -336,12 +371,14 @@
     ===================================================== */
 
     const RTL_LANGUAGES = [
+
         "ar",
         "fa",
         "ur",
         "he",
         "ps",
         "ku"
+
     ];
 
 
@@ -350,6 +387,7 @@
         return RTL_LANGUAGES.includes(
             String(code || "").toLowerCase()
         );
+
     }
 
 
@@ -370,7 +408,9 @@
                 saved &&
                 getAvailableLanguages()[saved]
             ) {
+
                 return saved;
+
             }
 
         } catch (error) {
@@ -379,9 +419,11 @@
                 "Language storage unavailable:",
                 error
             );
+
         }
 
         return CONFIG.defaultLanguage;
+
     }
 
 
@@ -400,7 +442,9 @@
                 "Unable to save language:",
                 error
             );
+
         }
+
     }
 
 
@@ -411,6 +455,7 @@
     function getLanguage() {
 
         return currentLanguage;
+
     }
 
 
@@ -427,6 +472,7 @@
             languages[CONFIG.defaultLanguage] ||
             WORLD_LANGUAGE_CONFIG.en
         );
+
     }
 
 
@@ -456,6 +502,7 @@
             "alon-rtl",
             direction === "rtl"
         );
+
     }
 
 
@@ -489,7 +536,9 @@
                 "data-language-native",
                 info.nativeName || ""
             );
+
         }
+
     }
 
 
@@ -503,119 +552,228 @@
         hi: {
 
             "Home": "होम",
+
             "Back": "वापस",
+
             "Search": "खोजें",
+
             "Search...": "खोजें...",
+
             "Login": "लॉगिन",
+
             "Logout": "लॉगआउट",
+
             "Register": "रजिस्टर करें",
+
             "Account": "खाता",
+
             "Profile": "प्रोफ़ाइल",
+
             "Settings": "सेटिंग्स",
+
             "Language": "भाषा",
+
             "Languages": "भाषाएँ",
+
             "World Languages": "विश्व भाषाएँ",
+
             "Choose Language": "भाषा चुनें",
+
             "Select your preferred language":
                 "अपनी पसंदीदा भाषा चुनें",
+
             "Close": "बंद करें",
+
             "Close language selector":
                 "भाषा चयन बंद करें",
+
             "Save": "सहेजें",
+
             "Delete": "हटाएँ",
+
             "Edit": "संपादित करें",
+
             "Cancel": "रद्द करें",
+
             "Submit": "जमा करें",
+
             "Submit Ad": "विज्ञापन जमा करें",
+
             "Continue": "जारी रखें",
+
             "Next": "आगे",
+
             "Previous": "पिछला",
+
             "Open": "खोलें",
+
             "Close Menu": "मेनू बंद करें",
+
             "Menu": "मेनू",
 
             "Explore": "अन्वेषण",
+
             "Library": "पुस्तकालय",
+
             "History": "इतिहास",
+
             "Countries": "देश",
+
             "Civilizations": "सभ्यताएँ",
+
             "Heritage": "विरासत",
+
             "Timeline": "समयरेखा",
+
             "Articles": "लेख",
+
             "Knowledge": "ज्ञान",
+
             "Community": "समुदाय",
+
             "Information": "जानकारी",
+
             "About": "हमारे बारे में",
+
             "Contact": "संपर्क",
+
             "Privacy": "गोपनीयता",
+
             "Terms": "नियम और शर्तें",
+
             "Copyright": "कॉपीराइट",
+
             "Admin": "एडमिन",
 
-            "Marketplace": "मार्केटप्लेस",
+            "Marketplace":
+                "मार्केटप्लेस",
+
             "Global Marketplace":
                 "ग्लोबल मार्केटप्लेस",
+
             "Regular Marketplace":
                 "रेगुलर मार्केटप्लेस",
+
             "Jobs": "नौकरियाँ",
+
             "Careers": "करियर",
+
             "Sell": "बेचें",
+
             "Buy": "खरीदें",
+
             "My Ads": "मेरे विज्ञापन",
+
             "Business": "व्यवसाय",
+
             "Showroom": "शोरूम",
+
             "Advertisement": "विज्ञापन",
+
             "Price": "कीमत",
+
             "Currency": "मुद्रा",
+
             "Country": "देश",
+
             "State": "राज्य",
+
             "District": "ज़िला",
+
             "City": "शहर",
+
             "Location": "स्थान",
+
             "Description": "विवरण",
+
             "Category": "श्रेणी",
+
             "Image": "चित्र",
+
             "Video": "वीडियो",
 
             "Item": "वस्तु",
+
             "Property": "संपत्ति",
+
             "Vehicle": "वाहन",
+
             "New": "नया",
+
             "Used": "पुराना",
+
             "Refurbished": "नवीनीकृत",
 
             "House": "मकान",
+
             "Shop": "दुकान",
+
             "Flat": "फ्लैट",
+
             "Bungalow": "बंगला",
+
             "Plot": "प्लॉट",
+
             "Land": "भूमि",
+
             "Car": "कार",
+
             "SUV": "एसयूवी",
+
             "Motorcycle": "मोटरसाइकिल",
+
             "Bike": "बाइक",
+
             "Scooter": "स्कूटर",
+
             "Truck": "ट्रक",
+
             "Bus": "बस",
+
             "Van": "वैन",
 
-            "Open Discovery": "डिस्कवरी खोलें",
-            "Discovery": "डिस्कवरी",
-            "← Back": "← वापस",
+            "Open Discovery":
+                "डिस्कवरी खोलें",
 
-            "Choose Country": "देश चुनें",
-            "Select Country": "देश चुनें",
-            "Select Category": "श्रेणी चुनें",
-            "Select Language": "भाषा चुनें",
+            "Discovery":
+                "डिस्कवरी",
 
-            "Email": "ईमेल",
-            "Password": "पासवर्ड",
-            "Username": "यूज़रनेम",
-            "Name": "नाम",
-            "Phone": "फ़ोन",
-            "Mobile": "मोबाइल",
+            "← Back":
+                "← वापस",
 
-            "Welcome": "स्वागत है",
+            "Choose Country":
+                "देश चुनें",
+
+            "Select Country":
+                "देश चुनें",
+
+            "Select Category":
+                "श्रेणी चुनें",
+
+            "Select Language":
+                "भाषा चुनें",
+
+            "Email":
+                "ईमेल",
+
+            "Password":
+                "पासवर्ड",
+
+            "Username":
+                "यूज़रनेम",
+
+            "Name":
+                "नाम",
+
+            "Phone":
+                "फ़ोन",
+
+            "Mobile":
+                "मोबाइल",
+
+            "Welcome":
+                "स्वागत है",
+
             "Welcome to ALON HISTORYVERSE 24":
                 "ALON HISTORYVERSE 24 में आपका स्वागत है",
 
@@ -634,9 +792,14 @@
             "Are you sure?":
                 "क्या आप सुनिश्चित हैं?",
 
-            "Yes": "हाँ",
-            "No": "नहीं",
-            "OK": "ठीक है",
+            "Yes":
+                "हाँ",
+
+            "No":
+                "नहीं",
+
+            "OK":
+                "ठीक है",
 
             "Login required":
                 "लॉगिन आवश्यक है",
@@ -661,7 +824,9 @@
 
             "Success":
                 "सफलता"
+
         }
+
     };
 
 
@@ -678,7 +843,9 @@
             !text ||
             typeof text !== "string"
         ) {
+
             return text;
+
         }
 
         const code =
@@ -688,14 +855,20 @@
             normalizeTranslationKey(text);
 
         if (!cleanText) {
+
             return text;
+
         }
 
         /*
-         * English always returns the original English key.
+         * English always returns the original
+         * English key.
          */
+
         if (code === "en") {
+
             return cleanText;
+
         }
 
         const dictionary =
@@ -708,10 +881,13 @@
                 cleanText
             )
         ) {
+
             return dictionary[cleanText];
+
         }
 
         return cleanText;
+
     }
 
 
@@ -720,43 +896,140 @@
         return String(text || "")
             .replace(/\s+/g, " ")
             .trim();
+
     }
 
 
     /* =====================================================
-       ORIGINAL TEXT MANAGEMENT
-       This is the main fix for English <-> Hindi.
+       HOME ENGLISH PROTECTION
     ===================================================== */
 
-    function getOriginalTextNodeText(textNode) {
+    function isProtectedHomeElement(element) {
+
+        if (
+            !element ||
+            element.nodeType !== Node.ELEMENT_NODE
+        ) {
+
+            return false;
+
+        }
+
+        /*
+         * Explicit protection always wins.
+         */
+
+        if (
+            element.hasAttribute(
+                "data-i18n-ignore"
+            )
+        ) {
+
+            return true;
+
+        }
+
+        if (
+            element.closest &&
+            element.closest(
+                "[data-i18n-ignore]"
+            )
+        ) {
+
+            return true;
+
+        }
+
+        /*
+         * Home card/file names must always remain
+         * English.
+         *
+         * This protects the visible page/card names
+         * without requiring every Home card to carry
+         * an additional attribute.
+         */
+
+        if (isHomePage()) {
+
+            if (
+                element.matches &&
+                element.matches(
+                    ".card h3"
+                )
+            ) {
+
+                return true;
+
+            }
+
+            if (
+                element.closest &&
+                element.closest(
+                    ".card h3"
+                )
+            ) {
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+
+    function isProtectedHomeTextNode(textNode) {
 
         if (!textNode) {
-            return "";
+
+            return true;
+
         }
 
         const parent =
             textNode.parentElement;
 
         if (!parent) {
-            return textNode.textContent || "";
+
+            return false;
+
+        }
+
+        return isProtectedHomeElement(
+            parent
+        );
+
+    }
+
+
+    /* =====================================================
+       ORIGINAL TEXT MANAGEMENT
+       SAFE REVERSIBLE VERSION
+    ===================================================== */
+
+    function getOriginalTextNodeText(
+        textNode
+    ) {
+
+        if (!textNode) {
+
+            return "";
+
         }
 
         if (
-            textNode.hasOwnProperty(
-                "__alonOriginalText"
-            )
+            typeof textNode.__alonOriginalText ===
+            "string"
         ) {
+
             return textNode.__alonOriginalText;
-        }
 
-        const stored =
-            textNode.__alonOriginalText;
-
-        if (typeof stored === "string") {
-            return stored;
         }
 
         return textNode.textContent || "";
+
     }
 
 
@@ -765,18 +1038,38 @@
     ) {
 
         if (!textNode) {
+
             return;
+
         }
 
         if (
             typeof textNode.__alonOriginalText ===
             "string"
         ) {
+
             return;
+
+        }
+
+        /*
+         * Never record protected Home card names
+         * as translation sources.
+         */
+
+        if (
+            isProtectedHomeTextNode(
+                textNode
+            )
+        ) {
+
+            return;
+
         }
 
         textNode.__alonOriginalText =
             textNode.textContent;
+
     }
 
 
@@ -785,7 +1078,9 @@
     ) {
 
         if (!textNode) {
+
             return;
+
         }
 
         if (
@@ -795,7 +1090,9 @@
 
             textNode.textContent =
                 textNode.__alonOriginalText;
+
         }
+
     }
 
 
@@ -810,9 +1107,26 @@
 
         if (
             !element ||
-            element.nodeType !== 1
+            element.nodeType !== Node.ELEMENT_NODE
         ) {
+
             return;
+
+        }
+
+        /*
+         * Explicitly ignored elements must never
+         * be translated.
+         */
+
+        if (
+            isProtectedHomeElement(
+                element
+            )
+        ) {
+
+            return;
+
         }
 
         const code =
@@ -858,29 +1172,24 @@
 
                         return (
                             node.nodeType ===
-                            Node.TEXT_NODE &&
+                                Node.TEXT_NODE &&
                             node.textContent.trim()
                         );
+
                     });
 
                 if (textNode) {
 
-                    rememberOriginalText(
-                        textNode
-                    );
-
-                    /*
-                     * Explicit data-i18n is authoritative.
-                     * Use its English key rather than already
-                     * translated DOM text.
-                     */
                     textNode.__alonOriginalText =
                         key;
 
                     textNode.textContent =
                         translated;
+
                 }
+
             }
+
         }
 
 
@@ -908,6 +1217,7 @@
                     code
                 )
             );
+
         }
 
 
@@ -935,6 +1245,7 @@
                     code
                 )
             );
+
         }
 
 
@@ -962,7 +1273,9 @@
                     code
                 )
             );
+
         }
+
     }
 
 
@@ -973,7 +1286,9 @@
     function translatePage() {
 
         if (isTranslating) {
+
             return;
+
         }
 
         isTranslating = true;
@@ -995,11 +1310,14 @@
                 .querySelectorAll(
                     "[" +
                     CONFIG.translationAttribute +
-                    "],[" +
+                    "]," +
+                    "[" +
                     CONFIG.placeholderAttribute +
-                    "],[" +
+                    "]," +
+                    "[" +
                     CONFIG.titleAttribute +
-                    "],[" +
+                    "]," +
+                    "[" +
                     CONFIG.ariaAttribute +
                     "]"
                 )
@@ -1023,6 +1341,7 @@
                     document.body,
                     code
                 );
+
             }
 
 
@@ -1030,16 +1349,22 @@
                Document title
             ------------------------------------------- */
 
-            translateDocumentTitle(code);
+            translateDocumentTitle(
+                code
+            );
 
 
             /* -------------------------------------------
                HTML language metadata
             ------------------------------------------- */
 
-            updateLanguageAttribute(code);
+            updateLanguageAttribute(
+                code
+            );
 
-            updateDirection(code);
+            updateDirection(
+                code
+            );
 
             updateLanguageButtons();
 
@@ -1057,7 +1382,9 @@
         } finally {
 
             isTranslating = false;
+
         }
+
     }
 
 
@@ -1070,7 +1397,9 @@
     ) {
 
         if (!document.title) {
+
             return;
+
         }
 
         const code =
@@ -1082,22 +1411,24 @@
             );
 
         /*
-         * Keep a permanent English title source.
+         * Keep a permanent source title.
          */
+
         if (
             titleElement &&
             typeof titleElement.__alonOriginalTitle !==
-            "string"
+                "string"
         ) {
 
             titleElement.__alonOriginalTitle =
                 document.title;
+
         }
 
         let originalTitle =
             titleElement &&
             typeof titleElement.__alonOriginalTitle ===
-            "string"
+                "string"
                 ? titleElement.__alonOriginalTitle
                 : document.title;
 
@@ -1107,7 +1438,9 @@
             );
 
         if (!originalTitle) {
+
             return;
+
         }
 
         if (code === "en") {
@@ -1116,6 +1449,7 @@
                 originalTitle;
 
             return;
+
         }
 
         document.title =
@@ -1123,6 +1457,7 @@
                 originalTitle,
                 code
             );
+
     }
 
 
@@ -1137,7 +1472,9 @@
     ) {
 
         if (!root) {
+
             return;
+
         }
 
         const walker =
@@ -1145,6 +1482,7 @@
                 root,
                 NodeFilter.SHOW_TEXT,
                 {
+
                     acceptNode:
                         function (node) {
 
@@ -1152,12 +1490,28 @@
                                 node.parentElement;
 
                             if (!parent) {
+
                                 return NodeFilter.FILTER_REJECT;
+
+                            }
+
+                            /*
+                             * Never touch protected Home
+                             * card/file names.
+                             */
+
+                            if (
+                                isProtectedHomeTextNode(
+                                    node
+                                )
+                            ) {
+
+                                return NodeFilter.FILTER_REJECT;
+
                             }
 
                             const tag =
-                                parent.tagName
-                                    .toLowerCase();
+                                parent.tagName.toLowerCase();
 
                             if (
                                 tag === "script" ||
@@ -1167,7 +1521,9 @@
                                 tag === "code" ||
                                 tag === "pre"
                             ) {
+
                                 return NodeFilter.FILTER_REJECT;
+
                             }
 
                             if (
@@ -1175,7 +1531,9 @@
                                     "data-i18n-ignore"
                                 )
                             ) {
+
                                 return NodeFilter.FILTER_REJECT;
+
                             }
 
                             if (
@@ -1183,17 +1541,23 @@
                                     "[data-i18n-ignore]"
                                 )
                             ) {
+
                                 return NodeFilter.FILTER_REJECT;
+
                             }
 
                             if (
                                 !node.textContent.trim()
                             ) {
+
                                 return NodeFilter.FILTER_REJECT;
+
                             }
 
                             return NodeFilter.FILTER_ACCEPT;
+
                         }
+
                 }
             );
 
@@ -1205,109 +1569,133 @@
         while (
             (node = walker.nextNode())
         ) {
+
             nodes.push(node);
+
         }
 
 
-        nodes.forEach(function (textNode) {
+        nodes.forEach(
+            function (textNode) {
 
-            if (!textNode) {
-                return;
-            }
+                if (!textNode) {
 
-            /*
-             * Remember the real English DOM text before
-             * changing anything.
-             */
-            rememberOriginalText(
-                textNode
-            );
+                    return;
 
-            const original =
-                textNode.__alonOriginalText;
+                }
 
-            if (
-                typeof original !== "string"
-            ) {
-                return;
-            }
+                /*
+                 * Remember only the original DOM text.
+                 */
 
-            const trimmed =
-                normalizeTranslationKey(
-                    original
+                rememberOriginalText(
+                    textNode
                 );
 
-            if (!trimmed) {
-                return;
-            }
-
-            /*
-             * Do not replace arbitrary long content.
-             * This protects articles, descriptions,
-             * Marketplace data and user-created content.
-             */
-            if (
-                trimmed.length > 120
-            ) {
-                return;
-            }
-
-            /*
-             * Only translate known dictionary entries.
-             * Unknown content remains untouched.
-             */
-            const dictionary =
-                TRANSLATIONS[languageCode];
-
-            if (
-                languageCode !== "en" &&
-                !dictionary
-            ) {
-                return;
-            }
-
-            if (
-                languageCode !== "en" &&
-                !Object.prototype.hasOwnProperty.call(
-                    dictionary,
-                    trimmed
-                )
-            ) {
-                return;
-            }
-
-            const translated =
-                getTranslation(
-                    trimmed,
-                    languageCode
-                );
-
-            if (
-                textNode.textContent !==
-                translated
-            ) {
-
-                const leading =
-                    original.match(
-                        /^\s*/
+                const original =
+                    getOriginalTextNodeText(
+                        textNode
                     );
 
-                const trailing =
-                    original.match(
-                        /\s*$/
+                if (
+                    typeof original !== "string"
+                ) {
+
+                    return;
+
+                }
+
+                const trimmed =
+                    normalizeTranslationKey(
+                        original
                     );
 
-                textNode.textContent =
-                    (leading
-                        ? leading[0]
-                        : "") +
-                    translated +
-                    (trailing
-                        ? trailing[0]
-                        : "");
-            }
+                if (!trimmed) {
 
-        });
+                    return;
+
+                }
+
+                /*
+                 * Protect long user/article content.
+                 */
+
+                if (
+                    trimmed.length > 120
+                ) {
+
+                    return;
+
+                }
+
+                const dictionary =
+                    TRANSLATIONS[languageCode];
+
+                if (
+                    languageCode !== "en" &&
+                    !dictionary
+                ) {
+
+                    return;
+
+                }
+
+                /*
+                 * Only translate known dictionary
+                 * entries.
+                 */
+
+                if (
+                    languageCode !== "en" &&
+                    !Object.prototype.hasOwnProperty.call(
+                        dictionary,
+                        trimmed
+                    )
+                ) {
+
+                    return;
+
+                }
+
+                const translated =
+                    getTranslation(
+                        trimmed,
+                        languageCode
+                    );
+
+                if (
+                    textNode.textContent !==
+                    translated
+                ) {
+
+                    const leading =
+                        original.match(
+                            /^\s*/
+                        );
+
+                    const trailing =
+                        original.match(
+                            /\s*$/
+                        );
+
+                    textNode.textContent =
+                        (
+                            leading
+                                ? leading[0]
+                                : ""
+                        ) +
+                        translated +
+                        (
+                            trailing
+                                ? trailing[0]
+                                : ""
+                        );
+
+                }
+
+            }
+        );
+
     }
 
 
@@ -1326,10 +1714,15 @@
             path.split("/").pop();
 
         return (
+
             file === "" ||
+
             file === "index.html" ||
+
             file === "index.htm"
+
         );
+
     }
 
 
@@ -1348,9 +1741,14 @@
                     "alon:translation-ready",
                     {
                         detail: {
+
                             code: code,
+
                             language:
-                                getLanguageInfo(code)
+                                getLanguageInfo(
+                                    code
+                                )
+
                         }
                     }
                 )
@@ -1362,7 +1760,9 @@
                 "Translation event error:",
                 error
             );
+
         }
+
     }
 
 
@@ -1377,7 +1777,9 @@
             translationObserver ||
             !document.body
         ) {
+
             return;
+
         }
 
         translationObserver =
@@ -1387,25 +1789,19 @@
                     let shouldTranslate =
                         false;
 
+
                     mutations.forEach(
                         function (mutation) {
 
-                            /*
-                             * Only newly added UI needs
-                             * another translation pass.
-                             */
                             if (
                                 mutation.type ===
-                                "childList" &&
+                                    "childList" &&
                                 mutation.addedNodes.length
                             ) {
 
-                                /*
-                                 * Ignore our own language
-                                 * overlay changes.
-                                 */
                                 let relevant =
                                     false;
+
 
                                 Array.from(
                                     mutation.addedNodes
@@ -1416,14 +1812,18 @@
                                             added.nodeType !==
                                             Node.ELEMENT_NODE
                                         ) {
+
                                             return;
+
                                         }
 
                                         if (
                                             added.id ===
                                             CONFIG.overlayId
                                         ) {
+
                                             return;
+
                                         }
 
                                         if (
@@ -1433,21 +1833,29 @@
                                                 CONFIG.overlayId
                                             )
                                         ) {
+
                                             return;
+
                                         }
 
                                         relevant = true;
+
                                     }
                                 );
 
+
                                 if (relevant) {
+
                                     shouldTranslate =
                                         true;
+
                                 }
+
                             }
 
                         }
                     );
+
 
                     if (
                         shouldTranslate &&
@@ -1467,10 +1875,12 @@
                                 },
                                 80
                             );
+
                     }
 
                 }
             );
+
 
         translationObserver.observe(
             document.body,
@@ -1479,6 +1889,7 @@
                 subtree: true
             }
         );
+
     }
 
 
@@ -1487,13 +1898,6 @@
     ===================================================== */
 
     function updateLanguageButtons() {
-
-        /*
-         * Use the English language name for the
-         * visible accessibility label.
-         * This prevents "Language: हिन्दी" appearing
-         * unexpectedly at the top.
-         */
 
         const info =
             getLanguageInfo(
@@ -1506,31 +1910,38 @@
                 ? info.name
                 : "Language";
 
+
         CONFIG.buttonSelectors.forEach(
             function (selector) {
 
                 document
-                    .querySelectorAll(selector)
-                    .forEach(function (button) {
+                    .querySelectorAll(
+                        selector
+                    )
+                    .forEach(
+                        function (button) {
 
-                        button.setAttribute(
-                            "aria-label",
-                            "Language: " +
-                            englishName
-                        );
+                            button.setAttribute(
+                                "aria-label",
+                                "Language: " +
+                                englishName
+                            );
 
-                        button.setAttribute(
-                            "title",
-                            "Language: " +
-                            englishName
-                        );
+                            button.setAttribute(
+                                "title",
+                                "Language: " +
+                                englishName
+                            );
 
-                        button.dataset.language =
-                            currentLanguage;
+                            button.dataset.language =
+                                currentLanguage;
 
-                    });
+                        }
+                    );
+
             }
         );
+
     }
 
 
@@ -1546,11 +1957,15 @@
             );
 
         if (overlay) {
+
             return overlay;
+
         }
 
         overlay =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         overlay.id =
             CONFIG.overlayId;
@@ -1559,17 +1974,13 @@
             "alon-language-overlay";
 
         overlay.innerHTML = `
-            <div
-                class="alon-language-box"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="alonLanguageTitle"
-            >
+
+            <div class="alon-language-box">
 
                 <button
-                    type="button"
-                    class="alon-language-close"
                     id="alonLanguageClose"
+                    class="alon-language-close"
+                    type="button"
                     aria-label="Close language selector"
                     title="Close language selector"
                 >
@@ -1583,13 +1994,15 @@
                     </div>
 
                     <div>
-                        <h2 id="alonLanguageTitle">
+
+                        <h2>
                             Choose Language
                         </h2>
 
                         <p>
                             Select your preferred language
                         </p>
+
                     </div>
 
                 </div>
@@ -1600,18 +2013,23 @@
                 ></div>
 
             </div>
+
         `;
+
 
         document.body.appendChild(
             overlay
         );
 
+
         injectSelectorStyles();
+
 
         const closeButton =
             overlay.querySelector(
                 "#alonLanguageClose"
             );
+
 
         if (closeButton) {
 
@@ -1619,21 +2037,29 @@
                 "click",
                 closeSelector
             );
+
         }
+
 
         overlay.addEventListener(
             "click",
             function (event) {
 
                 if (
-                    event.target === overlay
+                    event.target ===
+                    overlay
                 ) {
+
                     closeSelector();
+
                 }
+
             }
         );
 
+
         return overlay;
+
     }
 
 
@@ -1648,11 +2074,15 @@
                 "alonLanguageStyles"
             )
         ) {
+
             return;
+
         }
 
         const style =
-            document.createElement("style");
+            document.createElement(
+                "style"
+            );
 
         style.id =
             "alonLanguageStyles";
@@ -1660,171 +2090,324 @@
         style.textContent = `
 
             .alon-language-overlay {
+
                 position: fixed;
+
                 inset: 0;
+
                 z-index: 99999;
+
                 display: none;
+
                 align-items: center;
+
                 justify-content: center;
+
                 padding: 20px;
-                background: rgba(0,0,0,.78);
-                backdrop-filter: blur(7px);
+
+                background:
+                    rgba(0,0,0,.78);
+
+                backdrop-filter:
+                    blur(7px);
+
             }
+
 
             .alon-language-overlay.active {
+
                 display: flex;
+
             }
+
 
             .alon-language-box {
+
                 position: relative;
-                width: min(620px, 100%);
-                max-height: 88vh;
+
+                width:
+                    min(620px, 100%);
+
+                max-height:
+                    88vh;
+
                 overflow: auto;
+
                 padding: 26px;
-                border: 1px solid #d7b35a;
+
+                border:
+                    1px solid #d7b35a;
+
                 border-radius: 20px;
-                background: #05080f;
-                color: #f5f0df;
+
+                background:
+                    #05080f;
+
+                color:
+                    #f5f0df;
+
                 box-shadow:
-                    0 25px 80px rgba(0,0,0,.65);
+                    0 25px 80px
+                    rgba(0,0,0,.65);
+
             }
+
 
             .alon-language-close {
+
                 position: absolute;
+
                 top: 12px;
+
                 right: 14px;
+
                 width: 38px;
+
                 height: 38px;
-                border: 1px solid #555;
+
+                border:
+                    1px solid #555;
+
                 border-radius: 50%;
-                background: #111722;
-                color: #f0d27a;
+
+                background:
+                    #111722;
+
+                color:
+                    #f0d27a;
+
                 font-size: 25px;
+
                 cursor: pointer;
+
             }
+
 
             .alon-language-heading {
+
                 display: flex;
+
                 align-items: center;
+
                 gap: 15px;
+
                 padding-right: 45px;
+
                 margin-bottom: 22px;
+
             }
+
 
             .alon-language-globe {
+
                 font-size: 42px;
+
             }
+
 
             .alon-language-heading h2 {
-                margin: 0 0 5px;
-                color: #f0d27a;
-                font-family: Georgia, serif;
+
+                margin:
+                    0 0 5px;
+
+                color:
+                    #f0d27a;
+
+                font-family:
+                    Georgia, serif;
+
             }
+
 
             .alon-language-heading p {
+
                 margin: 0;
-                color: #aaa;
-                font-size: 14px;
+
+                color:
+                    #aaa;
+
+                font-size:
+                    14px;
+
             }
+
 
             .alon-language-list {
+
                 display: grid;
+
                 grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
                 gap: 10px;
+
             }
+
 
             .alon-language-option {
+
                 display: flex;
+
                 align-items: center;
+
                 gap: 12px;
+
                 width: 100%;
+
                 padding: 13px;
-                border: 1px solid #29303d;
+
+                border:
+                    1px solid #29303d;
+
                 border-radius: 12px;
-                background: #0b111b;
-                color: #eee;
+
+                background:
+                    #0b111b;
+
+                color:
+                    #eee;
+
                 text-align: left;
+
                 cursor: pointer;
-                transition: .2s ease;
+
+                transition:
+                    .2s ease;
+
             }
+
 
             .alon-language-option:hover {
-                border-color: #d7b35a;
-                transform: translateY(-1px);
+
+                border-color:
+                    #d7b35a;
+
+                transform:
+                    translateY(-1px);
+
             }
+
 
             .alon-language-option.active {
-                border-color: #f0d27a;
-                background: #17150e;
+
+                border-color:
+                    #f0d27a;
+
+                background:
+                    #17150e;
+
                 box-shadow:
-                    0 0 0 1px #d7b35a inset;
+                    0 0 0 1px
+                    #d7b35a inset;
+
             }
+
 
             .alon-language-flag {
+
                 width: 30px;
+
                 font-size: 22px;
+
                 text-align: center;
+
             }
+
 
             .alon-language-name {
+
                 display: flex;
+
                 flex-direction: column;
+
                 gap: 2px;
+
             }
 
-            /*
-             * English name is now the primary visible name.
-             * This keeps "Hindi" visible instead of "हिन्दी"
-             * when the selector is being displayed.
-             */
 
             .alon-language-english {
+
                 font-weight: 700;
+
                 color: #eee;
+
             }
+
 
             .alon-language-native {
+
                 color: #999;
+
                 font-size: 12px;
+
             }
 
-            [dir="rtl"] .alon-language-option {
+
+            [dir="rtl"]
+            .alon-language-option {
+
                 text-align: right;
+
             }
 
-            [dir="rtl"] .alon-language-heading {
+
+            [dir="rtl"]
+            .alon-language-heading {
+
                 padding-right: 0;
+
                 padding-left: 45px;
+
             }
 
-            [dir="rtl"] .alon-language-close {
+
+            [dir="rtl"]
+            .alon-language-close {
+
                 right: auto;
+
                 left: 14px;
+
             }
+
 
             @media (max-width: 520px) {
 
                 .alon-language-box {
+
                     padding: 20px;
+
                     border-radius: 16px;
+
                 }
+
 
                 .alon-language-list {
-                    grid-template-columns: 1fr;
+
+                    grid-template-columns:
+                        1fr;
+
                 }
 
+
                 .alon-language-heading h2 {
+
                     font-size: 20px;
+
                 }
 
             }
 
         `;
 
+
         document.head.appendChild(
             style
         );
+
     }
 
 
@@ -1836,19 +2419,26 @@
 
         syncWorldLanguageConfig();
 
+
         const overlay =
             createOverlay();
+
 
         const list =
             overlay.querySelector(
                 "#alonLanguageList"
             );
 
+
         if (!list) {
+
             return;
+
         }
 
+
         list.innerHTML = "";
+
 
         const languages =
             getAvailableLanguages();
@@ -1856,81 +2446,104 @@
 
         Object.keys(
             languages
-        ).forEach(function (code) {
+        ).forEach(
+            function (code) {
 
-            const language =
-                languages[code];
+                const language =
+                    languages[code];
 
-            if (!language) {
-                return;
-            }
 
-            const button =
-                document.createElement("button");
+                if (!language) {
 
-            button.type =
-                "button";
+                    return;
 
-            button.className =
-                "alon-language-option" +
-                (
-                    code === currentLanguage
-                        ? " active"
-                        : ""
+                }
+
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.type =
+                    "button";
+
+
+                button.className =
+                    "alon-language-option" +
+                    (
+                        code ===
+                        currentLanguage
+                            ? " active"
+                            : ""
+                    );
+
+
+                button.dataset.language =
+                    code;
+
+
+                button.innerHTML = `
+
+                    <span
+                        class="alon-language-flag"
+                    >
+                        ${escapeHTML(
+                            language.flag ||
+                            "🌐"
+                        )}
+                    </span>
+
+                    <span
+                        class="alon-language-name"
+                    >
+
+                        <span
+                            class="alon-language-english"
+                        >
+                            ${escapeHTML(
+                                language.name ||
+                                code
+                            )}
+                        </span>
+
+                        <span
+                            class="alon-language-native"
+                        >
+                            ${escapeHTML(
+                                language.nativeName ||
+                                language.name ||
+                                code
+                            )}
+                        </span>
+
+                    </span>
+
+                `;
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        setLanguage(
+                            code
+                        );
+
+                        closeSelector();
+
+                    }
                 );
 
-            button.dataset.language =
-                code;
 
-            /*
-             * English name is intentionally shown first.
-             * Native name is secondary.
-             */
+                list.appendChild(
+                    button
+                );
 
-            button.innerHTML = `
+            }
+        );
 
-                <span class="alon-language-flag">
-                    ${escapeHTML(
-                        language.flag || "🌐"
-                    )}
-                </span>
-
-                <span class="alon-language-name">
-
-                    <span class="alon-language-english">
-                        ${escapeHTML(
-                            language.name ||
-                            code
-                        )}
-                    </span>
-
-                    <span class="alon-language-native">
-                        ${escapeHTML(
-                            language.nativeName ||
-                            language.name ||
-                            code
-                        )}
-                    </span>
-
-                </span>
-
-            `;
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    setLanguage(code);
-
-                    closeSelector();
-                }
-            );
-
-            list.appendChild(
-                button
-            );
-
-        });
     }
 
 
@@ -1942,17 +2555,22 @@
 
         syncWorldLanguageConfig();
 
+
         const overlay =
             createOverlay();
 
+
         renderLanguageList();
+
 
         overlay.classList.add(
             "active"
         );
 
+
         document.body.style.overflow =
             "hidden";
+
     }
 
 
@@ -1967,15 +2585,19 @@
                 CONFIG.overlayId
             );
 
+
         if (overlay) {
 
             overlay.classList.remove(
                 "active"
             );
+
         }
+
 
         document.body.style.overflow =
             "";
+
     }
 
 
@@ -1987,8 +2609,10 @@
 
         syncWorldLanguageConfig();
 
+
         const languages =
             getAvailableLanguages();
+
 
         if (
             !languages[code]
@@ -2000,43 +2624,60 @@
             );
 
             return false;
+
         }
+
 
         currentLanguage =
             code;
 
-        saveLanguage(code);
+
+        /*
+         * Save BEFORE translating.
+         * This guarantees refresh persistence.
+         */
+
+        saveLanguage(
+            code
+        );
+
 
         updateLanguageAttribute(
             code
         );
 
+
         updateDirection(
             code
         );
 
+
         updateLanguageButtons();
 
+
         translatePage();
+
 
         dispatchLanguageEvent(
             code
         );
 
-        /*
-         * Refresh selector so active language
-         * is immediately updated.
-         */
+
         const overlay =
             document.getElementById(
                 CONFIG.overlayId
             );
 
+
         if (overlay) {
+
             renderLanguageList();
+
         }
 
+
         return true;
+
     }
 
 
@@ -2044,7 +2685,9 @@
        LANGUAGE EVENT
     ===================================================== */
 
-    function dispatchLanguageEvent(code) {
+    function dispatchLanguageEvent(
+        code
+    ) {
 
         try {
 
@@ -2053,12 +2696,18 @@
                     "alon:language-change",
                     {
                         detail: {
+
                             code: code,
+
                             language:
-                                getLanguageInfo(code)
+                                getLanguageInfo(
+                                    code
+                                )
+
                         }
                     }
                 );
+
 
             document.dispatchEvent(
                 event
@@ -2070,7 +2719,9 @@
                 "Language event error:",
                 error
             );
+
         }
+
     }
 
 
@@ -2091,17 +2742,23 @@
                         ? event.detail
                         : null;
 
+
                 if (
                     !detail ||
                     !detail.code
                 ) {
+
                     return;
+
                 }
+
 
                 const code =
                     detail.code;
 
+
                 syncWorldLanguageConfig();
+
 
                 if (
                     getAvailableLanguages()[code]
@@ -2110,27 +2767,37 @@
                     currentLanguage =
                         code;
 
-                    saveLanguage(code);
+
+                    saveLanguage(
+                        code
+                    );
+
 
                     updateLanguageAttribute(
                         code
                     );
 
+
                     updateDirection(
                         code
                     );
 
+
                     updateLanguageButtons();
 
+
                     translatePage();
+
 
                     dispatchLanguageEvent(
                         code
                     );
+
                 }
 
             }
         );
+
     }
 
 
@@ -2141,11 +2808,32 @@
     function escapeHTML(value) {
 
         return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
     }
 
 
@@ -2159,32 +2847,45 @@
             function (selector) {
 
                 document
-                    .querySelectorAll(selector)
-                    .forEach(function (button) {
+                    .querySelectorAll(
+                        selector
+                    )
+                    .forEach(
+                        function (button) {
 
-                        if (
-                            button.dataset
-                                .languageBound === "true"
-                        ) {
-                            return;
-                        }
+                            if (
+                                button.dataset
+                                    .languageBound ===
+                                "true"
+                            ) {
 
-                        button.dataset
-                            .languageBound = "true";
+                                return;
 
-                        button.addEventListener(
-                            "click",
-                            function (event) {
-
-                                event.preventDefault();
-
-                                openSelector();
                             }
-                        );
 
-                    });
+
+                            button.dataset
+                                .languageBound =
+                                "true";
+
+
+                            button.addEventListener(
+                                "click",
+                                function (event) {
+
+                                    event.preventDefault();
+
+                                    openSelector();
+
+                                }
+                            );
+
+                        }
+                    );
+
             }
         );
+
     }
 
 
@@ -2196,27 +2897,36 @@
 
         if (
             document.documentElement.dataset
-                .languageKeyboardBound === "true"
+                .languageKeyboardBound ===
+            "true"
         ) {
+
             return;
+
         }
 
+
         document.documentElement.dataset
-            .languageKeyboardBound = "true";
+            .languageKeyboardBound =
+            "true";
+
 
         document.addEventListener(
             "keydown",
             function (event) {
 
                 if (
-                    event.key === "Escape"
+                    event.key ===
+                    "Escape"
                 ) {
 
                     closeSelector();
+
                 }
 
             }
         );
+
     }
 
 
@@ -2228,21 +2938,27 @@
 
         syncWorldLanguageConfig();
 
+
         const saved =
             getSavedLanguage();
 
+
         currentLanguage =
             saved;
+
 
         updateLanguageAttribute(
             currentLanguage
         );
 
+
         updateDirection(
             currentLanguage
         );
 
+
         updateLanguageButtons();
+
     }
 
 
@@ -2259,18 +2975,34 @@
             !element ||
             !key
         ) {
+
             return;
+
         }
+
+
+        if (
+            isProtectedHomeElement(
+                element
+            )
+        ) {
+
+            return;
+
+        }
+
 
         element.setAttribute(
             CONFIG.translationAttribute,
             key
         );
 
+
         translateElement(
             element,
             currentLanguage
         );
+
     }
 
 
@@ -2287,40 +3019,52 @@
             .querySelectorAll(
                 "[data-alon-back]"
             )
-            .forEach(function (button) {
+            .forEach(
+                function (button) {
 
-                if (
-                    button.dataset
-                        .alonBackBound === "true"
-                ) {
-                    return;
-                }
+                    if (
+                        button.dataset
+                            .alonBackBound ===
+                        "true"
+                    ) {
 
-                button.dataset
-                    .alonBackBound = "true";
-
-                button.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
-
-                        if (
-                            window.history.length > 1
-                        ) {
-
-                            window.history.back();
-
-                        } else {
-
-                            window.location.href =
-                                "./index.html";
-                        }
+                        return;
 
                     }
-                );
 
-            });
+
+                    button.dataset
+                        .alonBackBound =
+                        "true";
+
+
+                    button.addEventListener(
+                        "click",
+                        function (event) {
+
+                            event.preventDefault();
+
+
+                            if (
+                                window.history.length >
+                                1
+                            ) {
+
+                                window.history.back();
+
+                            } else {
+
+                                window.location.href =
+                                    "./index.html";
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
     }
 
 
@@ -2332,26 +3076,36 @@
 
         syncWorldLanguageConfig();
 
+
+        /*
+         * Load saved language before the first
+         * translation pass.
+         */
+
         applySavedLanguage();
+
 
         bindLanguageButtons();
 
+
         bindKeyboard();
+
 
         bindWorldLanguageEngine();
 
+
         bindBackButtons();
 
+
         /*
-         * Translate existing page.
+         * Translate the existing page.
          */
 
         translatePage();
 
+
         /*
          * Handle dynamically-created UI safely.
-         * The observer no longer watches attribute changes,
-         * preventing loops and interference with other systems.
          */
 
         startTranslationObserver();
@@ -2367,27 +3121,35 @@
 
                 syncWorldLanguageConfig();
 
+
                 const saved =
                     getSavedLanguage();
 
+
                 if (
-                    saved !== currentLanguage
+                    saved !==
+                    currentLanguage
                 ) {
 
                     currentLanguage =
                         saved;
 
+
                     updateLanguageAttribute(
                         saved
                     );
+
 
                     updateDirection(
                         saved
                     );
 
+
                     updateLanguageButtons();
 
+
                     translatePage();
+
                 }
 
             },
@@ -2399,6 +3161,7 @@
             "ALON HISTORYVERSE 24 Language Engine ready:",
             currentLanguage
         );
+
     }
 
 
@@ -2420,6 +3183,7 @@
 
         window.WORLD_LANGUAGE_CONFIG =
             WORLD_LANGUAGE_CONFIG;
+
     }
 
 
@@ -2469,6 +3233,7 @@
 
         bindBack:
             bindBackButtons
+
     };
 
 
@@ -2509,6 +3274,8 @@
     } else {
 
         initialize();
+
     }
+
 
 })();
