@@ -3,7 +3,7 @@
    LANGUAGE ENGINE
    File: jss/language.js
    Creator: Baba Thecno Guru
-   Version: 24.1
+   Version: 24.2 SAFE LANGUAGE ENGINE
    ========================================================= */
 
 (function () {
@@ -16,7 +16,7 @@
     const CONFIG = {
         project: "ALON HISTORYVERSE 24",
         creator: "Baba Thecno Guru",
-        version: "24.1",
+        version: "24.2",
 
         storageKey: "alon_historyverse_language",
 
@@ -34,13 +34,25 @@
         translationAttribute: "data-i18n",
         placeholderAttribute: "data-i18n-placeholder",
         titleAttribute: "data-i18n-title",
-        ariaAttribute: "data-i18n-aria"
+        ariaAttribute: "data-i18n-aria",
+
+        /*
+         * Original English text is stored on the DOM node.
+         * This prevents Hindi -> English from getting stuck.
+         */
+        originalTextAttribute: "data-alon-original",
+
+        /*
+         * Home is translated normally.
+         * Every page therefore follows the selected language.
+         */
+        homeAlwaysEnglish: false
     };
 
 
     /* =====================================================
        WORLD LANGUAGE CONFIG
-       ===================================================== */
+    ===================================================== */
 
     const WORLD_LANGUAGE_CONFIG = {
 
@@ -258,9 +270,6 @@
 
     /* =====================================================
        WORLD LANGUAGE ENGINE COMPATIBILITY
-       If world-language.js is loaded, its larger registry
-       is automatically adopted without deleting this file's
-       original fallback language registry.
     ===================================================== */
 
     function getActiveLanguageConfig() {
@@ -315,8 +324,11 @@
     let currentLanguage =
         CONFIG.defaultLanguage;
 
-
     let translationObserver = null;
+
+    let translationTimer = null;
+
+    let isTranslating = false;
 
 
     /* =====================================================
@@ -507,6 +519,8 @@
             "Select your preferred language":
                 "अपनी पसंदीदा भाषा चुनें",
             "Close": "बंद करें",
+            "Close language selector":
+                "भाषा चयन बंद करें",
             "Save": "सहेजें",
             "Delete": "हटाएँ",
             "Edit": "संपादित करें",
@@ -670,8 +684,18 @@
         const code =
             languageCode || currentLanguage;
 
-        if (code === "en") {
+        const cleanText =
+            normalizeTranslationKey(text);
+
+        if (!cleanText) {
             return text;
+        }
+
+        /*
+         * English always returns the original English key.
+         */
+        if (code === "en") {
+            return cleanText;
         }
 
         const dictionary =
@@ -681,13 +705,13 @@
             dictionary &&
             Object.prototype.hasOwnProperty.call(
                 dictionary,
-                text
+                cleanText
             )
         ) {
-            return dictionary[text];
+            return dictionary[cleanText];
         }
 
-        return text;
+        return cleanText;
     }
 
 
@@ -696,6 +720,82 @@
         return String(text || "")
             .replace(/\s+/g, " ")
             .trim();
+    }
+
+
+    /* =====================================================
+       ORIGINAL TEXT MANAGEMENT
+       This is the main fix for English <-> Hindi.
+    ===================================================== */
+
+    function getOriginalTextNodeText(textNode) {
+
+        if (!textNode) {
+            return "";
+        }
+
+        const parent =
+            textNode.parentElement;
+
+        if (!parent) {
+            return textNode.textContent || "";
+        }
+
+        if (
+            textNode.hasOwnProperty(
+                "__alonOriginalText"
+            )
+        ) {
+            return textNode.__alonOriginalText;
+        }
+
+        const stored =
+            textNode.__alonOriginalText;
+
+        if (typeof stored === "string") {
+            return stored;
+        }
+
+        return textNode.textContent || "";
+    }
+
+
+    function rememberOriginalText(
+        textNode
+    ) {
+
+        if (!textNode) {
+            return;
+        }
+
+        if (
+            typeof textNode.__alonOriginalText ===
+            "string"
+        ) {
+            return;
+        }
+
+        textNode.__alonOriginalText =
+            textNode.textContent;
+    }
+
+
+    function restoreOriginalText(
+        textNode
+    ) {
+
+        if (!textNode) {
+            return;
+        }
+
+        if (
+            typeof textNode.__alonOriginalText ===
+            "string"
+        ) {
+
+            textNode.textContent =
+                textNode.__alonOriginalText;
+        }
     }
 
 
@@ -730,8 +830,10 @@
         ) {
 
             const key =
-                element.getAttribute(
-                    CONFIG.translationAttribute
+                normalizeTranslationKey(
+                    element.getAttribute(
+                        CONFIG.translationAttribute
+                    )
                 );
 
             const translated =
@@ -743,8 +845,10 @@
             if (
                 element.children.length === 0
             ) {
+
                 element.textContent =
                     translated;
+
             } else {
 
                 const textNode =
@@ -760,6 +864,19 @@
                     });
 
                 if (textNode) {
+
+                    rememberOriginalText(
+                        textNode
+                    );
+
+                    /*
+                     * Explicit data-i18n is authoritative.
+                     * Use its English key rather than already
+                     * translated DOM text.
+                     */
+                    textNode.__alonOriginalText =
+                        key;
+
                     textNode.textContent =
                         translated;
                 }
@@ -778,8 +895,10 @@
         ) {
 
             const key =
-                element.getAttribute(
-                    CONFIG.placeholderAttribute
+                normalizeTranslationKey(
+                    element.getAttribute(
+                        CONFIG.placeholderAttribute
+                    )
                 );
 
             element.setAttribute(
@@ -803,8 +922,10 @@
         ) {
 
             const key =
-                element.getAttribute(
-                    CONFIG.titleAttribute
+                normalizeTranslationKey(
+                    element.getAttribute(
+                        CONFIG.titleAttribute
+                    )
                 );
 
             element.setAttribute(
@@ -828,8 +949,10 @@
         ) {
 
             const key =
-                element.getAttribute(
-                    CONFIG.ariaAttribute
+                normalizeTranslationKey(
+                    element.getAttribute(
+                        CONFIG.ariaAttribute
+                    )
                 );
 
             element.setAttribute(
@@ -849,89 +972,163 @@
 
     function translatePage() {
 
-        const code =
-            currentLanguage;
-
-
-        /* -----------------------------------------------
-           Explicit translation attributes
-        ------------------------------------------------ */
-
-        document
-            .querySelectorAll(
-                "[" +
-                CONFIG.translationAttribute +
-                "],[" +
-                CONFIG.placeholderAttribute +
-                "],[" +
-                CONFIG.titleAttribute +
-                "],[" +
-                CONFIG.ariaAttribute +
-                "]"
-            )
-            .forEach(function (element) {
-
-                translateElement(
-                    element,
-                    code
-                );
-
-            });
-
-
-        /* -----------------------------------------------
-           Common interface text
-           Only direct text nodes are processed.
-           Script/style/code content is ignored.
-        ------------------------------------------------ */
-
-        translateCommonText(
-            document.body,
-            code
-        );
-
-
-        /* -----------------------------------------------
-           Document title
-        ------------------------------------------------ */
-
-        const title =
-            document.title;
-
-        if (
-            title &&
-            code !== "en"
-        ) {
-
-            const translatedTitle =
-                getTranslation(
-                    normalizeTranslationKey(title),
-                    code
-                );
-
-            if (
-                translatedTitle !== title
-            ) {
-                document.title =
-                    translatedTitle;
-            }
+        if (isTranslating) {
+            return;
         }
 
+        isTranslating = true;
 
-        document.documentElement.setAttribute(
-            "data-translation-ready",
-            "true"
-        );
+        try {
+
+            const code =
+                CONFIG.homeAlwaysEnglish &&
+                isHomePage()
+                    ? "en"
+                    : currentLanguage;
 
 
-        dispatchTranslationEvent(
-            code
-        );
+            /* -------------------------------------------
+               Explicit translation attributes
+            ------------------------------------------- */
+
+            document
+                .querySelectorAll(
+                    "[" +
+                    CONFIG.translationAttribute +
+                    "],[" +
+                    CONFIG.placeholderAttribute +
+                    "],[" +
+                    CONFIG.titleAttribute +
+                    "],[" +
+                    CONFIG.ariaAttribute +
+                    "]"
+                )
+                .forEach(function (element) {
+
+                    translateElement(
+                        element,
+                        code
+                    );
+
+                });
+
+
+            /* -------------------------------------------
+               Common interface text
+            ------------------------------------------- */
+
+            if (document.body) {
+
+                translateCommonText(
+                    document.body,
+                    code
+                );
+            }
+
+
+            /* -------------------------------------------
+               Document title
+            ------------------------------------------- */
+
+            translateDocumentTitle(code);
+
+
+            /* -------------------------------------------
+               HTML language metadata
+            ------------------------------------------- */
+
+            updateLanguageAttribute(code);
+
+            updateDirection(code);
+
+            updateLanguageButtons();
+
+
+            document.documentElement.setAttribute(
+                "data-translation-ready",
+                "true"
+            );
+
+
+            dispatchTranslationEvent(
+                code
+            );
+
+        } finally {
+
+            isTranslating = false;
+        }
+    }
+
+
+    /* =====================================================
+       DOCUMENT TITLE
+    ===================================================== */
+
+    function translateDocumentTitle(
+        languageCode
+    ) {
+
+        if (!document.title) {
+            return;
+        }
+
+        const code =
+            languageCode || currentLanguage;
+
+        const titleElement =
+            document.querySelector(
+                "title"
+            );
+
+        /*
+         * Keep a permanent English title source.
+         */
+        if (
+            titleElement &&
+            typeof titleElement.__alonOriginalTitle !==
+            "string"
+        ) {
+
+            titleElement.__alonOriginalTitle =
+                document.title;
+        }
+
+        let originalTitle =
+            titleElement &&
+            typeof titleElement.__alonOriginalTitle ===
+            "string"
+                ? titleElement.__alonOriginalTitle
+                : document.title;
+
+        originalTitle =
+            normalizeTranslationKey(
+                originalTitle
+            );
+
+        if (!originalTitle) {
+            return;
+        }
+
+        if (code === "en") {
+
+            document.title =
+                originalTitle;
+
+            return;
+        }
+
+        document.title =
+            getTranslation(
+                originalTitle,
+                code
+            );
     }
 
 
     /* =====================================================
        COMMON TEXT TRANSLATION
+       SAFE REVERSIBLE VERSION
     ===================================================== */
 
     function translateCommonText(
@@ -982,6 +1179,14 @@
                             }
 
                             if (
+                                parent.closest(
+                                    "[data-i18n-ignore]"
+                                )
+                            ) {
+                                return NodeFilter.FILTER_REJECT;
+                            }
+
+                            if (
                                 !node.textContent.trim()
                             ) {
                                 return NodeFilter.FILTER_REJECT;
@@ -1006,8 +1211,26 @@
 
         nodes.forEach(function (textNode) {
 
+            if (!textNode) {
+                return;
+            }
+
+            /*
+             * Remember the real English DOM text before
+             * changing anything.
+             */
+            rememberOriginalText(
+                textNode
+            );
+
             const original =
-                textNode.textContent;
+                textNode.__alonOriginalText;
+
+            if (
+                typeof original !== "string"
+            ) {
+                return;
+            }
 
             const trimmed =
                 normalizeTranslationKey(
@@ -1018,6 +1241,41 @@
                 return;
             }
 
+            /*
+             * Do not replace arbitrary long content.
+             * This protects articles, descriptions,
+             * Marketplace data and user-created content.
+             */
+            if (
+                trimmed.length > 120
+            ) {
+                return;
+            }
+
+            /*
+             * Only translate known dictionary entries.
+             * Unknown content remains untouched.
+             */
+            const dictionary =
+                TRANSLATIONS[languageCode];
+
+            if (
+                languageCode !== "en" &&
+                !dictionary
+            ) {
+                return;
+            }
+
+            if (
+                languageCode !== "en" &&
+                !Object.prototype.hasOwnProperty.call(
+                    dictionary,
+                    trimmed
+                )
+            ) {
+                return;
+            }
+
             const translated =
                 getTranslation(
                     trimmed,
@@ -1025,7 +1283,8 @@
                 );
 
             if (
-                translated !== trimmed
+                textNode.textContent !==
+                translated
             ) {
 
                 const leading =
@@ -1049,6 +1308,28 @@
             }
 
         });
+    }
+
+
+    /* =====================================================
+       HOME PAGE DETECTION
+    ===================================================== */
+
+    function isHomePage() {
+
+        const path =
+            String(
+                window.location.pathname || ""
+            ).toLowerCase();
+
+        const file =
+            path.split("/").pop();
+
+        return (
+            file === "" ||
+            file === "index.html" ||
+            file === "index.htm"
+        );
     }
 
 
@@ -1087,7 +1368,7 @@
 
     /* =====================================================
        TRANSLATION OBSERVER
-       Automatically translates newly added UI.
+       SAFE DYNAMIC UI SUPPORT
     ===================================================== */
 
     function startTranslationObserver() {
@@ -1109,40 +1390,82 @@
                     mutations.forEach(
                         function (mutation) {
 
+                            /*
+                             * Only newly added UI needs
+                             * another translation pass.
+                             */
                             if (
                                 mutation.type ===
                                 "childList" &&
                                 mutation.addedNodes.length
                             ) {
-                                shouldTranslate =
-                                    true;
-                            }
 
-                            if (
-                                mutation.type ===
-                                "attributes"
-                            ) {
-                                shouldTranslate =
-                                    true;
+                                /*
+                                 * Ignore our own language
+                                 * overlay changes.
+                                 */
+                                let relevant =
+                                    false;
+
+                                Array.from(
+                                    mutation.addedNodes
+                                ).forEach(
+                                    function (added) {
+
+                                        if (
+                                            added.nodeType !==
+                                            Node.ELEMENT_NODE
+                                        ) {
+                                            return;
+                                        }
+
+                                        if (
+                                            added.id ===
+                                            CONFIG.overlayId
+                                        ) {
+                                            return;
+                                        }
+
+                                        if (
+                                            added.closest &&
+                                            added.closest(
+                                                "#" +
+                                                CONFIG.overlayId
+                                            )
+                                        ) {
+                                            return;
+                                        }
+
+                                        relevant = true;
+                                    }
+                                );
+
+                                if (relevant) {
+                                    shouldTranslate =
+                                        true;
+                                }
                             }
 
                         }
                     );
 
-                    if (shouldTranslate) {
+                    if (
+                        shouldTranslate &&
+                        !isTranslating
+                    ) {
 
                         window.clearTimeout(
-                            startTranslationObserver.timer
+                            translationTimer
                         );
 
-                        startTranslationObserver.timer =
+                        translationTimer =
                             window.setTimeout(
                                 function () {
 
                                     translatePage();
 
                                 },
-                                40
+                                80
                             );
                     }
 
@@ -1153,14 +1476,7 @@
             document.body,
             {
                 childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: [
-                    "data-i18n",
-                    "data-i18n-placeholder",
-                    "data-i18n-title",
-                    "data-i18n-aria"
-                ]
+                subtree: true
             }
         );
     }
@@ -1172,10 +1488,23 @@
 
     function updateLanguageButtons() {
 
+        /*
+         * Use the English language name for the
+         * visible accessibility label.
+         * This prevents "Language: हिन्दी" appearing
+         * unexpectedly at the top.
+         */
+
         const info =
             getLanguageInfo(
                 currentLanguage
             );
+
+        const englishName =
+            info &&
+            info.name
+                ? info.name
+                : "Language";
 
         CONFIG.buttonSelectors.forEach(
             function (selector) {
@@ -1187,13 +1516,13 @@
                         button.setAttribute(
                             "aria-label",
                             "Language: " +
-                            info.nativeName
+                            englishName
                         );
 
                         button.setAttribute(
                             "title",
                             "Language: " +
-                            info.nativeName
+                            englishName
                         );
 
                         button.dataset.language =
@@ -1242,6 +1571,7 @@
                     class="alon-language-close"
                     id="alonLanguageClose"
                     aria-label="Close language selector"
+                    title="Close language selector"
                 >
                     ×
                 </button>
@@ -1443,11 +1773,18 @@
                 gap: 2px;
             }
 
-            .alon-language-native {
-                font-weight: 700;
-            }
+            /*
+             * English name is now the primary visible name.
+             * This keeps "Hindi" visible instead of "हिन्दी"
+             * when the selector is being displayed.
+             */
 
             .alon-language-english {
+                font-weight: 700;
+                color: #eee;
+            }
+
+            .alon-language-native {
                 color: #999;
                 font-size: 12px;
             }
@@ -1545,6 +1882,11 @@
             button.dataset.language =
                 code;
 
+            /*
+             * English name is intentionally shown first.
+             * Native name is secondary.
+             */
+
             button.innerHTML = `
 
                 <span class="alon-language-flag">
@@ -1555,16 +1897,16 @@
 
                 <span class="alon-language-name">
 
-                    <span class="alon-language-native">
+                    <span class="alon-language-english">
                         ${escapeHTML(
-                            language.nativeName ||
                             language.name ||
                             code
                         )}
                     </span>
 
-                    <span class="alon-language-english">
+                    <span class="alon-language-native">
                         ${escapeHTML(
+                            language.nativeName ||
                             language.name ||
                             code
                         )}
@@ -1680,6 +2022,19 @@
         dispatchLanguageEvent(
             code
         );
+
+        /*
+         * Refresh selector so active language
+         * is immediately updated.
+         */
+        const overlay =
+            document.getElementById(
+                CONFIG.overlayId
+            );
+
+        if (overlay) {
+            renderLanguageList();
+        }
 
         return true;
     }
@@ -1893,15 +2248,6 @@
 
     /* =====================================================
        TRANSLATION MARKUP HELPER
-       Existing/new HTML can use:
-
-       data-i18n="Search"
-
-       data-i18n-placeholder="Search..."
-
-       data-i18n-title="Settings"
-
-       data-i18n-aria="Close"
     ===================================================== */
 
     function markElement(
@@ -1933,9 +2279,6 @@
        Only elements explicitly marked as:
        data-alon-back
        are changed.
-
-       This prevents the real top/header Home link
-       from being accidentally changed.
     ===================================================== */
 
     function bindBackButtons() {
@@ -2006,9 +2349,9 @@
         translatePage();
 
         /*
-         * Automatically handle dynamically
-         * created Marketplace / Discovery /
-         * menu / modal content.
+         * Handle dynamically-created UI safely.
+         * The observer no longer watches attribute changes,
+         * preventing loops and interference with other systems.
          */
 
         startTranslationObserver();
@@ -2063,8 +2406,22 @@
        PUBLIC API
     ===================================================== */
 
-    window.WORLD_LANGUAGE_CONFIG =
-        WORLD_LANGUAGE_CONFIG;
+    /*
+     * Only create the fallback global registry if
+     * another world-language engine has not already
+     * created one.
+     *
+     * This avoids overwriting the external registry.
+     */
+
+    if (
+        !window.WORLD_LANGUAGE_CONFIG
+    ) {
+
+        window.WORLD_LANGUAGE_CONFIG =
+            WORLD_LANGUAGE_CONFIG;
+    }
+
 
     window.ALON_LANGUAGE = {
 
