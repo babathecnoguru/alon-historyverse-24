@@ -1,775 +1,580 @@
 /* =========================================================
    ALON HISTORYVERSE 24
-   LANGUAGE ENGINE
-   File: jss/language.js
-   Creator: Baba Thecno Guru
-   Version: 24.2 SAFE LANGUAGE ENGINE
-========================================================= */
+   SAFE LANGUAGE ENGINE v24.3
+   ---------------------------------------------------------
+   Purpose:
+   - English / Hindi language switching
+   - Saved language survives refresh
+   - Prevent unwanted English/Hindi mixing
+   - Home card/page names remain English
+   - Do NOT modify Global Marketplace / Jobs / Country DB
+   ========================================================= */
 
 (function () {
-
     "use strict";
 
-
     /* =====================================================
-       CONFIGURATION
-    ===================================================== */
+       CONFIG
+       ===================================================== */
 
     const CONFIG = {
-
         project: "ALON HISTORYVERSE 24",
-
         creator: "Baba Thecno Guru",
+        version: "24.3",
 
-        version: "24.2",
+        storageKey: "alon_historyverse_language",
 
-        storageKey:
-            "alon_historyverse_language",
+        defaultLanguage: "en",
 
-        defaultLanguage:
-            "en",
-
-        selectorId:
-            "alonLanguageSelector",
-
-        overlayId:
-            "alonLanguageOverlay",
+        selectorId: "alonLanguageSelector",
+        overlayId: "alonLanguageOverlay",
 
         buttonSelectors: [
-
             "#languageBtn",
-
             "[data-language-button]",
-
             "[data-open-language]"
-
         ],
 
-        translationAttribute:
-            "data-i18n",
+        translationAttributes: {
+            text: "data-i18n",
+            placeholder: "data-i18n-placeholder",
+            title: "data-i18n-title",
+            aria: "data-i18n-aria"
+        },
 
-        placeholderAttribute:
-            "data-i18n-placeholder",
-
-        titleAttribute:
-            "data-i18n-title",
-
-        ariaAttribute:
-            "data-i18n-aria",
-
-        originalTextAttribute:
-            "data-alon-original",
+        originalTextAttribute: "data-alon-original",
 
         /*
-         * Home interface follows the selected language.
-         *
-         * IMPORTANT:
-         * Home card/file names are protected separately
-         * and remain English.
+         * IMPORTANT
+         * Home card/page names must remain English.
          */
-        homeAlwaysEnglish: false
-
+        homeAlwaysEnglish: true
     };
 
 
     /* =====================================================
        WORLD LANGUAGE CONFIG
-    ===================================================== */
+       ===================================================== */
 
     const WORLD_LANGUAGE_CONFIG = {
-
         en: {
             code: "en",
             name: "English",
             nativeName: "English",
-            flag: "🇬🇧"
+            direction: "ltr"
         },
 
         hi: {
             code: "hi",
             name: "Hindi",
             nativeName: "हिन्दी",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         bn: {
             code: "bn",
             name: "Bengali",
             nativeName: "বাংলা",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         gu: {
             code: "gu",
             name: "Gujarati",
             nativeName: "ગુજરાતી",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         mr: {
             code: "mr",
             name: "Marathi",
             nativeName: "मराठी",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         ta: {
             code: "ta",
             name: "Tamil",
             nativeName: "தமிழ்",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         te: {
             code: "te",
             name: "Telugu",
             nativeName: "తెలుగు",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         kn: {
             code: "kn",
             name: "Kannada",
             nativeName: "ಕನ್ನಡ",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         ml: {
             code: "ml",
             name: "Malayalam",
             nativeName: "മലയാളം",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         pa: {
             code: "pa",
             name: "Punjabi",
             nativeName: "ਪੰਜਾਬੀ",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         ur: {
             code: "ur",
             name: "Urdu",
             nativeName: "اردو",
-            flag: "🇵🇰"
+            direction: "rtl"
         },
 
         ne: {
             code: "ne",
             name: "Nepali",
             nativeName: "नेपाली",
-            flag: "🇳🇵"
+            direction: "ltr"
         },
 
         sa: {
             code: "sa",
             name: "Sanskrit",
             nativeName: "संस्कृतम्",
-            flag: "🇮🇳"
+            direction: "ltr"
         },
 
         es: {
             code: "es",
             name: "Spanish",
             nativeName: "Español",
-            flag: "🇪🇸"
+            direction: "ltr"
         },
 
         fr: {
             code: "fr",
             name: "French",
             nativeName: "Français",
-            flag: "🇫🇷"
+            direction: "ltr"
         },
 
         de: {
             code: "de",
             name: "German",
             nativeName: "Deutsch",
-            flag: "🇩🇪"
+            direction: "ltr"
         },
 
         it: {
             code: "it",
             name: "Italian",
             nativeName: "Italiano",
-            flag: "🇮🇹"
+            direction: "ltr"
         },
 
         pt: {
             code: "pt",
             name: "Portuguese",
             nativeName: "Português",
-            flag: "🇵🇹"
+            direction: "ltr"
         },
 
         ru: {
             code: "ru",
             name: "Russian",
             nativeName: "Русский",
-            flag: "🇷🇺"
+            direction: "ltr"
         },
 
         uk: {
             code: "uk",
             name: "Ukrainian",
             nativeName: "Українська",
-            flag: "🇺🇦"
+            direction: "ltr"
         },
 
         ar: {
             code: "ar",
             name: "Arabic",
             nativeName: "العربية",
-            flag: "🇸🇦"
+            direction: "rtl"
         },
 
         fa: {
             code: "fa",
             name: "Persian",
             nativeName: "فارسی",
-            flag: "🇮🇷"
+            direction: "rtl"
         },
 
         tr: {
             code: "tr",
             name: "Turkish",
             nativeName: "Türkçe",
-            flag: "🇹🇷"
+            direction: "ltr"
         },
 
         zh: {
             code: "zh",
             name: "Chinese",
             nativeName: "中文",
-            flag: "🇨🇳"
+            direction: "ltr"
         },
 
         ja: {
             code: "ja",
             name: "Japanese",
             nativeName: "日本語",
-            flag: "🇯🇵"
+            direction: "ltr"
         },
 
         ko: {
             code: "ko",
             name: "Korean",
             nativeName: "한국어",
-            flag: "🇰🇷"
+            direction: "ltr"
         },
 
         th: {
             code: "th",
             name: "Thai",
             nativeName: "ไทย",
-            flag: "🇹🇭"
+            direction: "ltr"
         },
 
         vi: {
             code: "vi",
             name: "Vietnamese",
             nativeName: "Tiếng Việt",
-            flag: "🇻🇳"
+            direction: "ltr"
         },
 
         id: {
             code: "id",
             name: "Indonesian",
             nativeName: "Bahasa Indonesia",
-            flag: "🇮🇩"
+            direction: "ltr"
         },
 
         ms: {
             code: "ms",
             name: "Malay",
             nativeName: "Bahasa Melayu",
-            flag: "🇲🇾"
+            direction: "ltr"
         }
-
     };
 
 
     /* =====================================================
-       WORLD LANGUAGE ENGINE COMPATIBILITY
-    ===================================================== */
-
-    function getActiveLanguageConfig() {
-
-        if (
-            window.WORLD_LANGUAGE_CONFIG &&
-            typeof window.WORLD_LANGUAGE_CONFIG ===
-                "object"
-        ) {
-
-            return window.WORLD_LANGUAGE_CONFIG;
-
-        }
-
-        return WORLD_LANGUAGE_CONFIG;
-
-    }
-
-
-    function getAvailableLanguages() {
-
-        return getActiveLanguageConfig();
-
-    }
-
-
-    function syncWorldLanguageConfig() {
-
-        const external =
-            window.WORLD_LANGUAGE_CONFIG;
-
-        if (
-            external &&
-            typeof external === "object"
-        ) {
-
-            Object.keys(external).forEach(
-                function (code) {
-
-                    if (
-                        !WORLD_LANGUAGE_CONFIG[code]
-                    ) {
-
-                        WORLD_LANGUAGE_CONFIG[code] =
-                            external[code];
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       STATE
-    ===================================================== */
-
-    let currentLanguage =
-        CONFIG.defaultLanguage;
-
-    let translationObserver =
-        null;
-
-    let translationTimer =
-        null;
-
-    let isTranslating =
-        false;
-
-
-    /* =====================================================
-       RTL
-    ===================================================== */
-
-    const RTL_LANGUAGES = [
-
-        "ar",
-        "fa",
-        "ur",
-        "he",
-        "ps",
-        "ku"
-
-    ];
-
-
-    function isRTL(code) {
-
-        return RTL_LANGUAGES.includes(
-            String(code || "").toLowerCase()
-        );
-
-    }
-
-
-    /* =====================================================
-       STORAGE
-    ===================================================== */
-
-    function getSavedLanguage() {
-
-        try {
-
-            const saved =
-                localStorage.getItem(
-                    CONFIG.storageKey
-                );
-
-            if (
-                saved &&
-                getAvailableLanguages()[saved]
-            ) {
-
-                return saved;
-
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "Language storage unavailable:",
-                error
-            );
-
-        }
-
-        return CONFIG.defaultLanguage;
-
-    }
-
-
-    function saveLanguage(code) {
-
-        try {
-
-            localStorage.setItem(
-                CONFIG.storageKey,
-                code
-            );
-
-        } catch (error) {
-
-            console.warn(
-                "Unable to save language:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       LANGUAGE GETTER
-    ===================================================== */
-
-    function getLanguage() {
-
-        return currentLanguage;
-
-    }
-
-
-    function getLanguageInfo(code) {
-
-        const languageCode =
-            code || currentLanguage;
-
-        const languages =
-            getAvailableLanguages();
-
-        return (
-            languages[languageCode] ||
-            languages[CONFIG.defaultLanguage] ||
-            WORLD_LANGUAGE_CONFIG.en
-        );
-
-    }
-
-
-    /* =====================================================
-       DIRECTION
-    ===================================================== */
-
-    function updateDirection(code) {
-
-        const direction =
-            isRTL(code)
-                ? "rtl"
-                : "ltr";
-
-        document.documentElement.dir =
-            direction;
-
-        document.documentElement.lang =
-            code;
-
-        document.documentElement.setAttribute(
-            "data-direction",
-            direction
-        );
-
-        document.documentElement.classList.toggle(
-            "alon-rtl",
-            direction === "rtl"
-        );
-
-    }
-
-
-    /* =====================================================
-       LANGUAGE ATTRIBUTE
-    ===================================================== */
-
-    function updateLanguageAttribute(code) {
-
-        document.documentElement.setAttribute(
-            "data-language",
-            code
-        );
-
-        document.documentElement.setAttribute(
-            "lang",
-            code
-        );
-
-        const info =
-            getLanguageInfo(code);
-
-        if (info) {
-
-            document.documentElement.setAttribute(
-                "data-language-name",
-                info.name || ""
-            );
-
-            document.documentElement.setAttribute(
-                "data-language-native",
-                info.nativeName || ""
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       TRANSLATION DICTIONARY
-       English + Hindi core website interface
-    ===================================================== */
+       TRANSLATIONS
+       ===================================================== */
 
     const TRANSLATIONS = {
 
         hi: {
 
-            "Home": "होम",
+            /* ---------------- CORE ---------------- */
 
+            "Home": "होम",
             "Back": "वापस",
 
             "Search": "खोजें",
-
             "Search...": "खोजें...",
+            "Search history, countries, civilizations...":
+                "इतिहास, देशों, सभ्यताओं में खोजें...",
 
             "Login": "लॉगिन",
-
             "Logout": "लॉगआउट",
-
             "Register": "रजिस्टर करें",
 
             "Account": "खाता",
-
             "Profile": "प्रोफ़ाइल",
-
             "Settings": "सेटिंग्स",
 
             "Language": "भाषा",
-
             "Languages": "भाषाएँ",
-
             "World Languages": "विश्व भाषाएँ",
 
             "Choose Language": "भाषा चुनें",
-
             "Select your preferred language":
                 "अपनी पसंदीदा भाषा चुनें",
 
             "Close": "बंद करें",
-
             "Close language selector":
                 "भाषा चयन बंद करें",
 
             "Save": "सहेजें",
-
             "Delete": "हटाएँ",
-
             "Edit": "संपादित करें",
-
             "Cancel": "रद्द करें",
 
             "Submit": "जमा करें",
-
             "Submit Ad": "विज्ञापन जमा करें",
 
             "Continue": "जारी रखें",
-
             "Next": "आगे",
-
             "Previous": "पिछला",
 
             "Open": "खोलें",
-
             "Close Menu": "मेनू बंद करें",
-
             "Menu": "मेनू",
+
+            /* ---------------- MAIN ---------------- */
 
             "Explore": "अन्वेषण",
 
             "Library": "पुस्तकालय",
-
             "History": "इतिहास",
-
             "Countries": "देश",
-
             "Civilizations": "सभ्यताएँ",
-
             "Heritage": "विरासत",
-
             "Timeline": "समयरेखा",
-
             "Articles": "लेख",
 
             "Knowledge": "ज्ञान",
-
             "Community": "समुदाय",
-
             "Information": "जानकारी",
 
             "About": "हमारे बारे में",
-
             "Contact": "संपर्क",
-
             "Privacy": "गोपनीयता",
-
             "Terms": "नियम और शर्तें",
-
             "Copyright": "कॉपीराइट",
-
             "Admin": "एडमिन",
 
-            "Marketplace":
-                "मार्केटप्लेस",
+            /* ---------------- MARKETPLACE ---------------- */
 
-            "Global Marketplace":
-                "ग्लोबल मार्केटप्लेस",
-
-            "Regular Marketplace":
-                "रेगुलर मार्केटप्लेस",
+            "Marketplace": "मार्केटप्लेस",
+            "Global Marketplace": "ग्लोबल मार्केटप्लेस",
+            "Regular Marketplace": "रेगुलर मार्केटप्लेस",
 
             "Jobs": "नौकरियाँ",
-
             "Careers": "करियर",
 
             "Sell": "बेचें",
-
             "Buy": "खरीदें",
-
             "My Ads": "मेरे विज्ञापन",
 
             "Business": "व्यवसाय",
-
             "Showroom": "शोरूम",
-
             "Advertisement": "विज्ञापन",
 
             "Price": "कीमत",
-
             "Currency": "मुद्रा",
 
             "Country": "देश",
-
             "State": "राज्य",
-
             "District": "ज़िला",
-
             "City": "शहर",
-
             "Location": "स्थान",
 
             "Description": "विवरण",
-
             "Category": "श्रेणी",
 
             "Image": "चित्र",
-
             "Video": "वीडियो",
 
             "Item": "वस्तु",
-
             "Property": "संपत्ति",
-
             "Vehicle": "वाहन",
 
             "New": "नया",
-
             "Used": "पुराना",
-
             "Refurbished": "नवीनीकृत",
 
             "House": "मकान",
-
             "Shop": "दुकान",
-
             "Flat": "फ्लैट",
-
             "Bungalow": "बंगला",
-
             "Plot": "प्लॉट",
-
             "Land": "भूमि",
 
             "Car": "कार",
-
             "SUV": "एसयूवी",
-
             "Motorcycle": "मोटरसाइकिल",
-
             "Bike": "बाइक",
-
             "Scooter": "स्कूटर",
-
             "Truck": "ट्रक",
-
             "Bus": "बस",
-
             "Van": "वैन",
 
-            "Open Discovery":
-                "डिस्कवरी खोलें",
+            "Open Discovery": "डिस्कवरी खोलें",
+            "Discovery": "डिस्कवरी",
+            "← Back": "← वापस",
 
-            "Discovery":
-                "डिस्कवरी",
+            /* ---------------- SELECTORS ---------------- */
 
-            "← Back":
-                "← वापस",
+            "Choose Country": "देश चुनें",
+            "Select Country": "देश चुनें",
+            "Select Category": "श्रेणी चुनें",
+            "Select Language": "भाषा चुनें",
 
-            "Choose Country":
-                "देश चुनें",
+            /* ---------------- ACCOUNT ---------------- */
 
-            "Select Country":
-                "देश चुनें",
+            "Email": "ईमेल",
+            "Password": "पासवर्ड",
+            "Username": "यूज़रनेम",
+            "Name": "नाम",
+            "Phone": "फ़ोन",
+            "Mobile": "मोबाइल",
 
-            "Select Category":
-                "श्रेणी चुनें",
+            /* ---------------- HOME ---------------- */
 
-            "Select Language":
-                "भाषा चुनें",
+            "Discover": "डिस्कवर",
+            "Explore historical knowledge.":
+                "ऐतिहासिक ज्ञान का अन्वेषण करें।",
 
-            "Email":
-                "ईमेल",
+            "Categories": "श्रेणियाँ",
+            "Browse knowledge by category.":
+                "श्रेणी के अनुसार ज्ञान देखें।",
 
-            "Password":
-                "पासवर्ड",
+            "Gallery": "गैलरी",
+            "Explore historical media.":
+                "ऐतिहासिक मीडिया देखें।",
 
-            "Username":
-                "यूज़रनेम",
+            "Read historical articles.":
+                "ऐतिहासिक लेख पढ़ें।",
 
-            "Name":
-                "नाम",
+            "Article": "लेख",
+            "Open article content.":
+                "लेख सामग्री खोलें।",
 
-            "Phone":
-                "फ़ोन",
+            "Knowledge Library": "ज्ञान पुस्तकालय",
+            "Enter the knowledge library.":
+                "ज्ञान पुस्तकालय में प्रवेश करें।",
 
-            "Mobile":
-                "मोबाइल",
+            "Departments": "विभाग",
+            "Browse departments.":
+                "विभाग देखें।",
+
+            "Subjects": "विषय",
+            "Explore subjects.":
+                "विषयों का अन्वेषण करें।",
+
+            "Books": "पुस्तकें",
+            "Browse books.":
+                "पुस्तकें देखें।",
+
+            "Read": "पढ़ें",
+            "Read knowledge content.":
+                "ज्ञान सामग्री पढ़ें।",
+
+            "Explore ancient and major civilizations.":
+                "प्राचीन और प्रमुख सभ्यताओं का अन्वेषण करें।",
+
+            "Explore historical heritage.":
+                "ऐतिहासिक विरासत का अन्वेषण करें।",
+
+            "Explore history through time.":
+                "समय के माध्यम से इतिहास का अन्वेषण करें।",
+
+            "World Countries": "विश्व के देश",
+            "Explore countries of the world.":
+                "विश्व के देशों का अन्वेषण करें।",
+
+            "Country details":
+                "देश का विवरण",
+
+            "Explore country details.":
+                "देश का विवरण देखें।",
+
+            "Knowledge Departments": "ज्ञान विभाग",
+
+            "Mathematics": "गणित",
+            "Mathematics and problem solving.":
+                "गणित और समस्या समाधान।",
+
+            "Computer": "कंप्यूटर",
+            "Computer knowledge and technology.":
+                "कंप्यूटर ज्ञान और प्रौद्योगिकी।",
+
+            "Jobs & Careers": "नौकरियाँ और करियर",
+            "Jobs and career information.":
+                "नौकरियों और करियर की जानकारी।",
+
+            "Trees": "पेड़",
+            "Knowledge about trees and nature.":
+                "पेड़ों और प्रकृति के बारे में ज्ञान।",
+
+            "Marketplace and selling system.":
+                "मार्केटप्लेस और बिक्री प्रणाली।",
+
+            "Buy, sell and advertise items, property and vehicles.":
+                "वस्तुओं, संपत्ति और वाहनों को खरीदें, बेचें और विज्ञापन दें।",
+
+            /* ---------------- COMMUNITY ---------------- */
+
+            "Contribute": "योगदान करें",
+
+            "Contribute knowledge to HistoryVerse.":
+                "HistoryVerse में ज्ञान का योगदान करें।",
+
+            "Guidelines": "दिशानिर्देश",
+
+            "Community guidelines.":
+                "समुदाय के दिशानिर्देश।",
+
+            "Contributor Agreement":
+                "योगदानकर्ता समझौता",
+
+            "Contributor information and agreement.":
+                "योगदानकर्ता की जानकारी और समझौता।",
+
+            /* ---------------- INFORMATION ---------------- */
+
+            "About ALON HISTORYVERSE 24.":
+                "ALON HISTORYVERSE 24 के बारे में।",
+
+            "Contact information.":
+                "संपर्क जानकारी।",
+
+            "Copyright information.":
+                "कॉपीराइट जानकारी।",
+
+            "Privacy information.":
+                "गोपनीयता जानकारी।",
+
+            "Terms and conditions.":
+                "नियम और शर्तें।",
+
+            "Login to your account.":
+                "अपने खाते में लॉगिन करें।",
+
+            "Open administration system.":
+                "प्रशासन प्रणाली खोलें।",
+
+            /* ---------------- PLATFORM ---------------- */
+
+            "Platform": "प्लेटफ़ॉर्म",
+
+            "Marketplace and platform services.":
+                "मार्केटप्लेस और प्लेटफ़ॉर्म सेवाएँ।",
+
+            "Contribute knowledge to ALON HISTORYVERSE 24.":
+                "ALON HISTORYVERSE 24 में ज्ञान का योगदान करें।",
+
+            "Read the community guidelines for the platform.":
+                "प्लेटफ़ॉर्म के समुदाय दिशानिर्देश पढ़ें।",
+
+            "Contact ALON HISTORYVERSE 24.":
+                "ALON HISTORYVERSE 24 से संपर्क करें।",
+
+            /* ---------------- SETTINGS ---------------- */
+
+            "ALON HISTORYVERSE 24 Settings":
+                "ALON HISTORYVERSE 24 सेटिंग्स",
+
+            "Website settings and account controls.":
+                "वेबसाइट सेटिंग्स और खाता नियंत्रण।",
+
+            "Reset Website Preferences":
+                "वेबसाइट प्राथमिकताएँ रीसेट करें",
+
+            /* ---------------- STATUS ---------------- */
 
             "Welcome":
                 "स्वागत है",
@@ -777,8 +582,8 @@
             "Welcome to ALON HISTORYVERSE 24":
                 "ALON HISTORYVERSE 24 में आपका स्वागत है",
 
-            "History, civilizations, countries, culture, heritage and knowledge":
-                "इतिहास, सभ्यताएँ, देश, संस्कृति, विरासत और ज्ञान",
+            "History, civilizations, countries, culture, heritage and knowledge.":
+                "इतिहास, सभ्यताओं, देशों, संस्कृति, विरासत और ज्ञान।",
 
             "No results found":
                 "कोई परिणाम नहीं मिला",
@@ -824,657 +629,610 @@
 
             "Success":
                 "सफलता"
-
         }
-
     };
 
 
     /* =====================================================
-       TRANSLATION HELPERS
-    ===================================================== */
+       STATE
+       ===================================================== */
+
+    let currentLanguage = CONFIG.defaultLanguage;
+
+    let observer = null;
+
+    let translateTimer = null;
+
+    let initialized = false;
+
+    /*
+     * Stable source text storage.
+     *
+     * This prevents a Hindi translation from becoming the
+     * "original" text during refresh / mutation races.
+     */
+    const originalTextMap = new WeakMap();
+
+    const originalTitleMap = new WeakMap();
+
+
+    /* =====================================================
+       NORMALIZE
+       ===================================================== */
+
+    function normalizeTranslationKey(value) {
+        return String(value == null ? "" : value)
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+
+    /* =====================================================
+       LANGUAGE VALIDATION
+       ===================================================== */
+
+    function isSupportedLanguage(code) {
+        return !!(
+            code &&
+            Object.prototype.hasOwnProperty.call(
+                WORLD_LANGUAGE_CONFIG,
+                code
+            )
+        );
+    }
+
+
+    /* =====================================================
+       GET SAVED LANGUAGE
+       ===================================================== */
+
+    function getSavedLanguage() {
+        try {
+            const saved = localStorage.getItem(
+                CONFIG.storageKey
+            );
+
+            if (isSupportedLanguage(saved)) {
+                return saved;
+            }
+        } catch (error) {
+            /* Safe fallback */
+        }
+
+        return CONFIG.defaultLanguage;
+    }
+
+
+    /* =====================================================
+       SAVE LANGUAGE
+       ===================================================== */
+
+    function saveLanguage(code) {
+        try {
+            localStorage.setItem(
+                CONFIG.storageKey,
+                code
+            );
+        } catch (error) {
+            /* Safe fallback */
+        }
+    }
+
+
+    /* =====================================================
+       FIND ENGLISH SOURCE FROM TRANSLATION
+       -----------------------------------------------------
+       Important for refresh race:
+       If another script has already changed:
+       English -> Hindi
+       before this engine sees the node, recover English
+       from the dictionary instead of permanently storing Hindi.
+       ===================================================== */
+
+    function findEnglishSourceText(value) {
+        const clean = normalizeTranslationKey(value);
+
+        if (!clean) {
+            return "";
+        }
+
+        if (currentLanguage === "en") {
+            return clean;
+        }
+
+        const dictionary =
+            TRANSLATIONS[currentLanguage] || {};
+
+        const dictionaryKeys =
+            Object.keys(dictionary);
+
+        for (let i = 0; i < dictionaryKeys.length; i++) {
+            const englishKey = dictionaryKeys[i];
+
+            const translatedValue =
+                normalizeTranslationKey(
+                    dictionary[englishKey]
+                );
+
+            if (
+                translatedValue &&
+                translatedValue === clean
+            ) {
+                return englishKey;
+            }
+        }
+
+        /*
+         * Also search every available dictionary.
+         * This helps recover text when another language engine
+         * changed the text before our engine initialized.
+         */
+
+        const languageCodes =
+            Object.keys(TRANSLATIONS);
+
+        for (let i = 0; i < languageCodes.length; i++) {
+            const languageCode =
+                languageCodes[i];
+
+            const dictionary =
+                TRANSLATIONS[languageCode] || {};
+
+            const keys =
+                Object.keys(dictionary);
+
+            for (let j = 0; j < keys.length; j++) {
+                const englishKey = keys[j];
+
+                const translatedValue =
+                    normalizeTranslationKey(
+                        dictionary[englishKey]
+                    );
+
+                if (
+                    translatedValue &&
+                    translatedValue === clean
+                ) {
+                    return englishKey;
+                }
+            }
+        }
+
+        return clean;
+    }
+
+
+    /* =====================================================
+       PRESERVE WHITESPACE
+       ===================================================== */
+
+    function replaceCoreTextPreservingWhitespace(
+        originalRaw,
+        newCoreText
+    ) {
+        const raw =
+            String(originalRaw == null ? "" : originalRaw);
+
+        const leadingMatch =
+            raw.match(/^\s*/);
+
+        const trailingMatch =
+            raw.match(/\s*$/);
+
+        const leading =
+            leadingMatch ? leadingMatch[0] : "";
+
+        const trailing =
+            trailingMatch ? trailingMatch[0] : "";
+
+        return (
+            leading +
+            newCoreText +
+            trailing
+        );
+    }
+
+
+    /* =====================================================
+       ORIGINAL TEXT
+       ===================================================== */
+
+    function rememberOriginalText(textNode) {
+        if (!textNode) {
+            return;
+        }
+
+        if (
+            originalTextMap.has(textNode) ||
+            typeof textNode.__alonOriginalText === "string"
+        ) {
+            return;
+        }
+
+        const raw =
+            textNode.textContent || "";
+
+        const clean =
+            normalizeTranslationKey(raw);
+
+        if (!clean) {
+            return;
+        }
+
+        const recovered =
+            findEnglishSourceText(clean);
+
+        const sourceText =
+            replaceCoreTextPreservingWhitespace(
+                raw,
+                recovered
+            );
+
+        originalTextMap.set(
+            textNode,
+            sourceText
+        );
+
+        /*
+         * Compatibility with older ALON language code.
+         */
+        textNode.__alonOriginalText =
+            sourceText;
+    }
+
+
+    /* =====================================================
+       GET ORIGINAL TEXT
+       ===================================================== */
+
+    function getOriginalTextNodeText(textNode) {
+        if (!textNode) {
+            return "";
+        }
+
+        if (originalTextMap.has(textNode)) {
+            return originalTextMap.get(textNode);
+        }
+
+        if (
+            typeof textNode.__alonOriginalText === "string"
+        ) {
+            const value =
+                textNode.__alonOriginalText;
+
+            originalTextMap.set(
+                textNode,
+                value
+            );
+
+            return value;
+        }
+
+        rememberOriginalText(textNode);
+
+        if (originalTextMap.has(textNode)) {
+            return originalTextMap.get(textNode);
+        }
+
+        return textNode.textContent || "";
+    }
+
+
+    /* =====================================================
+       RESTORE ORIGINAL TEXT
+       ===================================================== */
+
+    function restoreOriginalText(textNode) {
+        if (!textNode) {
+            return;
+        }
+
+        const original =
+            getOriginalTextNodeText(textNode);
+
+        if (
+            typeof original === "string" &&
+            textNode.textContent !== original
+        ) {
+            textNode.textContent =
+                original;
+        }
+    }
+
+
+    /* =====================================================
+       HOME PAGE DETECTION
+       ===================================================== */
+
+    function isHomePage() {
+        try {
+            const pathname =
+                window.location.pathname || "";
+
+            const cleanPath =
+                pathname
+                    .split("?")[0]
+                    .split("#")[0];
+
+            if (
+                cleanPath === "" ||
+                cleanPath === "/" ||
+                cleanPath.endsWith("/index.html") ||
+                cleanPath.endsWith("/index.htm")
+            ) {
+                return true;
+            }
+        } catch (error) {
+            /* Safe fallback */
+        }
+
+        return false;
+    }
+
+
+    /* =====================================================
+       HOME FILE / PAGE NAME PROTECTION
+       -----------------------------------------------------
+       These names MUST remain English on Home:
+       Library
+       History
+       Countries
+       Civilizations
+       Heritage
+       Timeline
+       Articles
+       etc.
+       ===================================================== */
+
+    function isHomeFilePageNameElement(element) {
+        if (
+            !CONFIG.homeAlwaysEnglish ||
+            !isHomePage() ||
+            !element
+        ) {
+            return false;
+        }
+
+        if (
+            typeof element.matches !== "function"
+        ) {
+            return false;
+        }
+
+        /*
+         * Main Home cards use:
+         * .card h3
+         */
+        if (
+            element.matches(
+                ".card h3"
+            )
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /* =====================================================
+       FORCE HOME CARD NAME TO ENGLISH
+       ===================================================== */
+
+    function keepHomeFilePageNameEnglish(element) {
+        if (
+            !isHomeFilePageNameElement(element)
+        ) {
+            return false;
+        }
+
+        const childNodes =
+            Array.from(
+                element.childNodes || []
+            );
+
+        for (
+            let i = 0;
+            i < childNodes.length;
+            i++
+        ) {
+            const node =
+                childNodes[i];
+
+            if (
+                node.nodeType !==
+                Node.TEXT_NODE
+            ) {
+                continue;
+            }
+
+            const raw =
+                node.textContent || "";
+
+            const clean =
+                normalizeTranslationKey(raw);
+
+            if (!clean) {
+                continue;
+            }
+
+            const english =
+                findEnglishSourceText(clean);
+
+            node.textContent =
+                replaceCoreTextPreservingWhitespace(
+                    raw,
+                    english
+                );
+
+            originalTextMap.set(
+                node,
+                replaceCoreTextPreservingWhitespace(
+                    raw,
+                    english
+                )
+            );
+
+            node.__alonOriginalText =
+                originalTextMap.get(node);
+        }
+
+        return true;
+    }
+
+
+    /* =====================================================
+       GET TRANSLATION
+       ===================================================== */
 
     function getTranslation(
         text,
         languageCode
     ) {
-
-        if (
-            !text ||
-            typeof text !== "string"
-        ) {
-
-            return text;
-
-        }
-
-        const code =
-            languageCode || currentLanguage;
-
-        const cleanText =
+        const clean =
             normalizeTranslationKey(text);
 
-        if (!cleanText) {
-
-            return text;
-
+        if (!clean) {
+            return "";
         }
 
-        /*
-         * English always returns the original
-         * English key.
-         */
-
-        if (code === "en") {
-
-            return cleanText;
-
+        if (languageCode === "en") {
+            return clean;
         }
 
         const dictionary =
-            TRANSLATIONS[code];
+            TRANSLATIONS[languageCode];
 
-        if (
-            dictionary &&
-            Object.prototype.hasOwnProperty.call(
-                dictionary,
-                cleanText
-            )
-        ) {
-
-            return dictionary[cleanText];
-
+        if (!dictionary) {
+            /*
+             * Languages without a local dictionary currently
+             * safely remain in their original English source.
+             */
+            return clean;
         }
 
-        return cleanText;
+        if (
+            Object.prototype.hasOwnProperty.call(
+                dictionary,
+                clean
+            )
+        ) {
+            return dictionary[clean];
+        }
 
-    }
-
-
-    function normalizeTranslationKey(text) {
-
-        return String(text || "")
-            .replace(/\s+/g, " ")
-            .trim();
-
+        return clean;
     }
 
 
     /* =====================================================
-       HOME ENGLISH PROTECTION
-    ===================================================== */
+       TRANSLATE TEXT NODE
+       ===================================================== */
 
-    function isProtectedHomeElement(element) {
-
-        if (
-            !element ||
-            element.nodeType !== Node.ELEMENT_NODE
-        ) {
-
-            return false;
-
-        }
-
-        /*
-         * Explicit protection always wins.
-         */
-
-        if (
-            element.hasAttribute(
-                "data-i18n-ignore"
-            )
-        ) {
-
-            return true;
-
-        }
-
-        if (
-            element.closest &&
-            element.closest(
-                "[data-i18n-ignore]"
-            )
-        ) {
-
-            return true;
-
-        }
-
-        /*
-         * Home card/file names must always remain
-         * English.
-         *
-         * This protects the visible page/card names
-         * without requiring every Home card to carry
-         * an additional attribute.
-         */
-
-        if (isHomePage()) {
-
-            if (
-                element.matches &&
-                element.matches(
-                    ".card h3"
-                )
-            ) {
-
-                return true;
-
-            }
-
-            if (
-                element.closest &&
-                element.closest(
-                    ".card h3"
-                )
-            ) {
-
-                return true;
-
-            }
-
-        }
-
-        return false;
-
-    }
-
-
-    function isProtectedHomeTextNode(textNode) {
-
+    function translateTextNode(
+        textNode,
+        languageCode
+    ) {
         if (!textNode) {
+            return;
+        }
 
-            return true;
-
+        if (
+            textNode.nodeType !==
+            Node.TEXT_NODE
+        ) {
+            return;
         }
 
         const parent =
             textNode.parentElement;
 
         if (!parent) {
-
-            return false;
-
+            return;
         }
 
-        return isProtectedHomeElement(
-            parent
+        /*
+         * Never touch protected elements.
+         */
+        if (
+            parent.closest(
+                "script,style,noscript,template,code,pre"
+            )
+        ) {
+            return;
+        }
+
+        if (
+            parent.closest(
+                "[data-i18n-ignore]"
+            )
+        ) {
+            return;
+        }
+
+        /*
+         * Home card/page names remain English.
+         */
+        if (
+            isHomeFilePageNameElement(
+                parent
+            )
+        ) {
+            keepHomeFilePageNameEnglish(
+                parent
+            );
+            return;
+        }
+
+        rememberOriginalText(
+            textNode
         );
 
-    }
-
-
-    /* =====================================================
-       ORIGINAL TEXT MANAGEMENT
-       SAFE REVERSIBLE VERSION
-    ===================================================== */
-
-    function getOriginalTextNodeText(
-        textNode
-    ) {
-
-        if (!textNode) {
-
-            return "";
-
-        }
-
-        if (
-            typeof textNode.__alonOriginalText ===
-            "string"
-        ) {
-
-            return textNode.__alonOriginalText;
-
-        }
-
-        return textNode.textContent || "";
-
-    }
-
-
-    function rememberOriginalText(
-        textNode
-    ) {
-
-        if (!textNode) {
-
-            return;
-
-        }
-
-        if (
-            typeof textNode.__alonOriginalText ===
-            "string"
-        ) {
-
-            return;
-
-        }
-
-        /*
-         * Never record protected Home card names
-         * as translation sources.
-         */
-
-        if (
-            isProtectedHomeTextNode(
+        const original =
+            getOriginalTextNodeText(
                 textNode
-            )
-        ) {
-
-            return;
-
-        }
-
-        textNode.__alonOriginalText =
-            textNode.textContent;
-
-    }
-
-
-    function restoreOriginalText(
-        textNode
-    ) {
-
-        if (!textNode) {
-
-            return;
-
-        }
-
-        if (
-            typeof textNode.__alonOriginalText ===
-            "string"
-        ) {
-
-            textNode.textContent =
-                textNode.__alonOriginalText;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       TRANSLATE ELEMENT
-    ===================================================== */
-
-    function translateElement(
-        element,
-        languageCode
-    ) {
-
-        if (
-            !element ||
-            element.nodeType !== Node.ELEMENT_NODE
-        ) {
-
-            return;
-
-        }
-
-        /*
-         * Explicitly ignored elements must never
-         * be translated.
-         */
-
-        if (
-            isProtectedHomeElement(
-                element
-            )
-        ) {
-
-            return;
-
-        }
-
-        const code =
-            languageCode || currentLanguage;
-
-
-        /* -----------------------------------------------
-           Explicit data-i18n
-        ------------------------------------------------ */
-
-        if (
-            element.hasAttribute(
-                CONFIG.translationAttribute
-            )
-        ) {
-
-            const key =
-                normalizeTranslationKey(
-                    element.getAttribute(
-                        CONFIG.translationAttribute
-                    )
-                );
-
-            const translated =
-                getTranslation(
-                    key,
-                    code
-                );
-
-            if (
-                element.children.length === 0
-            ) {
-
-                element.textContent =
-                    translated;
-
-            } else {
-
-                const textNode =
-                    Array.from(
-                        element.childNodes
-                    ).find(function (node) {
-
-                        return (
-                            node.nodeType ===
-                                Node.TEXT_NODE &&
-                            node.textContent.trim()
-                        );
-
-                    });
-
-                if (textNode) {
-
-                    textNode.__alonOriginalText =
-                        key;
-
-                    textNode.textContent =
-                        translated;
-
-                }
-
-            }
-
-        }
-
-
-        /* -----------------------------------------------
-           Placeholder
-        ------------------------------------------------ */
-
-        if (
-            element.hasAttribute(
-                CONFIG.placeholderAttribute
-            )
-        ) {
-
-            const key =
-                normalizeTranslationKey(
-                    element.getAttribute(
-                        CONFIG.placeholderAttribute
-                    )
-                );
-
-            element.setAttribute(
-                "placeholder",
-                getTranslation(
-                    key,
-                    code
-                )
             );
 
-        }
-
-
-        /* -----------------------------------------------
-           Title
-        ------------------------------------------------ */
-
-        if (
-            element.hasAttribute(
-                CONFIG.titleAttribute
-            )
-        ) {
-
-            const key =
-                normalizeTranslationKey(
-                    element.getAttribute(
-                        CONFIG.titleAttribute
-                    )
-                );
-
-            element.setAttribute(
-                "title",
-                getTranslation(
-                    key,
-                    code
-                )
-            );
-
-        }
-
-
-        /* -----------------------------------------------
-           ARIA
-        ------------------------------------------------ */
-
-        if (
-            element.hasAttribute(
-                CONFIG.ariaAttribute
-            )
-        ) {
-
-            const key =
-                normalizeTranslationKey(
-                    element.getAttribute(
-                        CONFIG.ariaAttribute
-                    )
-                );
-
-            element.setAttribute(
-                "aria-label",
-                getTranslation(
-                    key,
-                    code
-                )
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       TRANSLATE PAGE
-    ===================================================== */
-
-    function translatePage() {
-
-        if (isTranslating) {
-
-            return;
-
-        }
-
-        isTranslating = true;
-
-        try {
-
-            const code =
-                CONFIG.homeAlwaysEnglish &&
-                isHomePage()
-                    ? "en"
-                    : currentLanguage;
-
-
-            /* -------------------------------------------
-               Explicit translation attributes
-            ------------------------------------------- */
-
-            document
-                .querySelectorAll(
-                    "[" +
-                    CONFIG.translationAttribute +
-                    "]," +
-                    "[" +
-                    CONFIG.placeholderAttribute +
-                    "]," +
-                    "[" +
-                    CONFIG.titleAttribute +
-                    "]," +
-                    "[" +
-                    CONFIG.ariaAttribute +
-                    "]"
-                )
-                .forEach(function (element) {
-
-                    translateElement(
-                        element,
-                        code
-                    );
-
-                });
-
-
-            /* -------------------------------------------
-               Common interface text
-            ------------------------------------------- */
-
-            if (document.body) {
-
-                translateCommonText(
-                    document.body,
-                    code
-                );
-
-            }
-
-
-            /* -------------------------------------------
-               Document title
-            ------------------------------------------- */
-
-            translateDocumentTitle(
-                code
-            );
-
-
-            /* -------------------------------------------
-               HTML language metadata
-            ------------------------------------------- */
-
-            updateLanguageAttribute(
-                code
-            );
-
-            updateDirection(
-                code
-            );
-
-            updateLanguageButtons();
-
-
-            document.documentElement.setAttribute(
-                "data-translation-ready",
-                "true"
-            );
-
-
-            dispatchTranslationEvent(
-                code
-            );
-
-        } finally {
-
-            isTranslating = false;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       DOCUMENT TITLE
-    ===================================================== */
-
-    function translateDocumentTitle(
-        languageCode
-    ) {
-
-        if (!document.title) {
-
-            return;
-
-        }
-
-        const code =
-            languageCode || currentLanguage;
-
-        const titleElement =
-            document.querySelector(
-                "title"
-            );
-
-        /*
-         * Keep a permanent source title.
-         */
-
-        if (
-            titleElement &&
-            typeof titleElement.__alonOriginalTitle !==
-                "string"
-        ) {
-
-            titleElement.__alonOriginalTitle =
-                document.title;
-
-        }
-
-        let originalTitle =
-            titleElement &&
-            typeof titleElement.__alonOriginalTitle ===
-                "string"
-                ? titleElement.__alonOriginalTitle
-                : document.title;
-
-        originalTitle =
+        const cleanOriginal =
             normalizeTranslationKey(
-                originalTitle
+                original
             );
 
-        if (!originalTitle) {
-
+        if (!cleanOriginal) {
             return;
-
         }
 
-        if (code === "en") {
-
-            document.title =
-                originalTitle;
-
-            return;
-
-        }
-
-        document.title =
+        const translated =
             getTranslation(
-                originalTitle,
-                code
+                cleanOriginal,
+                languageCode
             );
 
+        const newText =
+            replaceCoreTextPreservingWhitespace(
+                original,
+                translated
+            );
+
+        if (
+            textNode.textContent !==
+            newText
+        ) {
+            textNode.textContent =
+                newText;
+        }
     }
 
 
     /* =====================================================
-       COMMON TEXT TRANSLATION
-       SAFE REVERSIBLE VERSION
-    ===================================================== */
+       TRANSLATE COMMON TEXT
+       ===================================================== */
 
     function translateCommonText(
         root,
         languageCode
     ) {
-
         if (!root) {
-
             return;
-
         }
 
         const walker =
@@ -1482,1800 +1240,1139 @@
                 root,
                 NodeFilter.SHOW_TEXT,
                 {
+                    acceptNode: function (node) {
+                        const parent =
+                            node.parentElement;
 
-                    acceptNode:
-                        function (node) {
-
-                            const parent =
-                                node.parentElement;
-
-                            if (!parent) {
-
-                                return NodeFilter.FILTER_REJECT;
-
-                            }
-
-                            /*
-                             * Never touch protected Home
-                             * card/file names.
-                             */
-
-                            if (
-                                isProtectedHomeTextNode(
-                                    node
-                                )
-                            ) {
-
-                                return NodeFilter.FILTER_REJECT;
-
-                            }
-
-                            const tag =
-                                parent.tagName.toLowerCase();
-
-                            if (
-                                tag === "script" ||
-                                tag === "style" ||
-                                tag === "noscript" ||
-                                tag === "template" ||
-                                tag === "code" ||
-                                tag === "pre"
-                            ) {
-
-                                return NodeFilter.FILTER_REJECT;
-
-                            }
-
-                            if (
-                                parent.hasAttribute(
-                                    "data-i18n-ignore"
-                                )
-                            ) {
-
-                                return NodeFilter.FILTER_REJECT;
-
-                            }
-
-                            if (
-                                parent.closest(
-                                    "[data-i18n-ignore]"
-                                )
-                            ) {
-
-                                return NodeFilter.FILTER_REJECT;
-
-                            }
-
-                            if (
-                                !node.textContent.trim()
-                            ) {
-
-                                return NodeFilter.FILTER_REJECT;
-
-                            }
-
-                            return NodeFilter.FILTER_ACCEPT;
-
+                        if (!parent) {
+                            return NodeFilter.FILTER_REJECT;
                         }
 
+                        if (
+                            parent.closest(
+                                "script,style,noscript,template,code,pre"
+                            )
+                        ) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+
+                        if (
+                            parent.closest(
+                                "[data-i18n-ignore]"
+                            )
+                        ) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
                 }
             );
-
 
         const nodes = [];
 
-        let node;
+        let currentNode;
 
         while (
-            (node = walker.nextNode())
+            (currentNode =
+                walker.nextNode())
         ) {
-
-            nodes.push(node);
-
+            nodes.push(currentNode);
         }
 
+        for (
+            let i = 0;
+            i < nodes.length;
+            i++
+        ) {
+            translateTextNode(
+                nodes[i],
+                languageCode
+            );
+        }
+    }
 
-        nodes.forEach(
-            function (textNode) {
 
-                if (!textNode) {
+    /* =====================================================
+       EXPLICIT ELEMENT TRANSLATION
+       ===================================================== */
 
-                    return;
+    function translateElement(
+        element,
+        languageCode
+    ) {
+        if (!element) {
+            return;
+        }
 
-                }
+        /*
+         * data-i18n text
+         */
+        const textKey =
+            element.getAttribute(
+                CONFIG.translationAttributes.text
+            );
 
-                /*
-                 * Remember only the original DOM text.
-                 */
-
-                rememberOriginalText(
-                    textNode
+        if (textKey) {
+            const translated =
+                getTranslation(
+                    textKey,
+                    languageCode
                 );
 
-                const original =
-                    getOriginalTextNodeText(
-                        textNode
-                    );
+            /*
+             * If the element has child nodes, only replace
+             * direct text nodes to avoid destroying controls.
+             */
+            let hasElementChild = false;
 
+            for (
+                let i = 0;
+                i < element.childNodes.length;
+                i++
+            ) {
                 if (
-                    typeof original !== "string"
+                    element.childNodes[i]
+                        .nodeType ===
+                    Node.ELEMENT_NODE
                 ) {
-
-                    return;
-
+                    hasElementChild = true;
+                    break;
                 }
-
-                const trimmed =
-                    normalizeTranslationKey(
-                        original
-                    );
-
-                if (!trimmed) {
-
-                    return;
-
-                }
-
-                /*
-                 * Protect long user/article content.
-                 */
-
-                if (
-                    trimmed.length > 120
-                ) {
-
-                    return;
-
-                }
-
-                const dictionary =
-                    TRANSLATIONS[languageCode];
-
-                if (
-                    languageCode !== "en" &&
-                    !dictionary
-                ) {
-
-                    return;
-
-                }
-
-                /*
-                 * Only translate known dictionary
-                 * entries.
-                 */
-
-                if (
-                    languageCode !== "en" &&
-                    !Object.prototype.hasOwnProperty.call(
-                        dictionary,
-                        trimmed
-                    )
-                ) {
-
-                    return;
-
-                }
-
-                const translated =
-                    getTranslation(
-                        trimmed,
-                        languageCode
-                    );
-
-                if (
-                    textNode.textContent !==
-                    translated
-                ) {
-
-                    const leading =
-                        original.match(
-                            /^\s*/
-                        );
-
-                    const trailing =
-                        original.match(
-                            /\s*$/
-                        );
-
-                    textNode.textContent =
-                        (
-                            leading
-                                ? leading[0]
-                                : ""
-                        ) +
-                        translated +
-                        (
-                            trailing
-                                ? trailing[0]
-                                : ""
-                        );
-
-                }
-
             }
-        );
 
-    }
-
-
-    /* =====================================================
-       HOME PAGE DETECTION
-    ===================================================== */
-
-    function isHomePage() {
-
-        const path =
-            String(
-                window.location.pathname || ""
-            ).toLowerCase();
-
-        const file =
-            path.split("/").pop();
-
-        return (
-
-            file === "" ||
-
-            file === "index.html" ||
-
-            file === "index.htm"
-
-        );
-
-    }
-
-
-    /* =====================================================
-       TRANSLATION EVENT
-    ===================================================== */
-
-    function dispatchTranslationEvent(
-        code
-    ) {
-
-        try {
-
-            document.dispatchEvent(
-                new CustomEvent(
-                    "alon:translation-ready",
-                    {
-                        detail: {
-
-                            code: code,
-
-                            language:
-                                getLanguageInfo(
-                                    code
-                                )
-
-                        }
-                    }
-                )
-            );
-
-        } catch (error) {
-
-            console.warn(
-                "Translation event error:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       TRANSLATION OBSERVER
-       SAFE DYNAMIC UI SUPPORT
-    ===================================================== */
-
-    function startTranslationObserver() {
-
-        if (
-            translationObserver ||
-            !document.body
-        ) {
-
-            return;
-
-        }
-
-        translationObserver =
-            new MutationObserver(
-                function (mutations) {
-
-                    let shouldTranslate =
-                        false;
-
-
-                    mutations.forEach(
-                        function (mutation) {
-
-                            if (
-                                mutation.type ===
-                                    "childList" &&
-                                mutation.addedNodes.length
-                            ) {
-
-                                let relevant =
-                                    false;
-
-
-                                Array.from(
-                                    mutation.addedNodes
-                                ).forEach(
-                                    function (added) {
-
-                                        if (
-                                            added.nodeType !==
-                                            Node.ELEMENT_NODE
-                                        ) {
-
-                                            return;
-
-                                        }
-
-                                        if (
-                                            added.id ===
-                                            CONFIG.overlayId
-                                        ) {
-
-                                            return;
-
-                                        }
-
-                                        if (
-                                            added.closest &&
-                                            added.closest(
-                                                "#" +
-                                                CONFIG.overlayId
-                                            )
-                                        ) {
-
-                                            return;
-
-                                        }
-
-                                        relevant = true;
-
-                                    }
-                                );
-
-
-                                if (relevant) {
-
-                                    shouldTranslate =
-                                        true;
-
-                                }
-
-                            }
-
-                        }
+            if (!hasElementChild) {
+                element.textContent =
+                    translated;
+            } else {
+                const childNodes =
+                    Array.from(
+                        element.childNodes
                     );
 
+                for (
+                    let i = 0;
+                    i < childNodes.length;
+                    i++
+                ) {
+                    const node =
+                        childNodes[i];
 
                     if (
-                        shouldTranslate &&
-                        !isTranslating
+                        node.nodeType ===
+                        Node.TEXT_NODE
                     ) {
-
-                        window.clearTimeout(
-                            translationTimer
-                        );
-
-                        translationTimer =
-                            window.setTimeout(
-                                function () {
-
-                                    translatePage();
-
-                                },
-                                80
-                            );
-
+                        node.textContent =
+                            translated;
+                        break;
                     }
-
                 }
+            }
+        }
+
+        /*
+         * Placeholder
+         */
+        const placeholderKey =
+            element.getAttribute(
+                CONFIG.translationAttributes.placeholder
             );
 
+        if (placeholderKey) {
+            element.setAttribute(
+                "placeholder",
+                getTranslation(
+                    placeholderKey,
+                    languageCode
+                )
+            );
+        }
 
-        translationObserver.observe(
-            document.body,
-            {
-                childList: true,
-                subtree: true
-            }
-        );
+        /*
+         * Title
+         */
+        const titleKey =
+            element.getAttribute(
+                CONFIG.translationAttributes.title
+            );
 
+        if (titleKey) {
+            element.setAttribute(
+                "title",
+                getTranslation(
+                    titleKey,
+                    languageCode
+                )
+            );
+        }
+
+        /*
+         * ARIA label
+         */
+        const ariaKey =
+            element.getAttribute(
+                CONFIG.translationAttributes.aria
+            );
+
+        if (ariaKey) {
+            element.setAttribute(
+                "aria-label",
+                getTranslation(
+                    ariaKey,
+                    languageCode
+                )
+            );
+        }
     }
 
 
     /* =====================================================
-       LANGUAGE BUTTON
-    ===================================================== */
+       TRANSLATE EXPLICIT ELEMENTS
+       ===================================================== */
+
+    function translateExplicitElements(
+        root,
+        languageCode
+    ) {
+        if (!root) {
+            return;
+        }
+
+        const selector = [
+            "[" +
+                CONFIG.translationAttributes.text +
+            "]",
+
+            "[" +
+                CONFIG.translationAttributes.placeholder +
+            "]",
+
+            "[" +
+                CONFIG.translationAttributes.title +
+            "]",
+
+            "[" +
+                CONFIG.translationAttributes.aria +
+            "]"
+        ].join(",");
+
+        let elements = [];
+
+        if (
+            root.nodeType ===
+            Node.ELEMENT_NODE
+        ) {
+            if (
+                root.matches(selector)
+            ) {
+                elements.push(root);
+            }
+        }
+
+        const descendants =
+            root.querySelectorAll
+                ? root.querySelectorAll(selector)
+                : [];
+
+        for (
+            let i = 0;
+            i < descendants.length;
+            i++
+        ) {
+            elements.push(
+                descendants[i]
+            );
+        }
+
+        for (
+            let i = 0;
+            i < elements.length;
+            i++
+        ) {
+            translateElement(
+                elements[i],
+                languageCode
+            );
+        }
+    }
+
+
+    /* =====================================================
+       DOCUMENT TITLE
+       ===================================================== */
+
+    function translateDocumentTitle(
+        languageCode
+    ) {
+        const titleElement =
+            document.querySelector("title");
+
+        if (!titleElement) {
+            return;
+        }
+
+        if (
+            !originalTitleMap.has(
+                titleElement
+            )
+        ) {
+            originalTitleMap.set(
+                titleElement,
+                titleElement.textContent ||
+                    CONFIG.project
+            );
+        }
+
+        const original =
+            originalTitleMap.get(
+                titleElement
+            );
+
+        const clean =
+            normalizeTranslationKey(
+                original
+            );
+
+        /*
+         * ALON HISTORYVERSE 24 remains the project name.
+         * Translate only if a dictionary entry exists.
+         */
+        const translated =
+            getTranslation(
+                clean,
+                languageCode
+            );
+
+        titleElement.textContent =
+            translated;
+    }
+
+
+    /* =====================================================
+       DOCUMENT LANGUAGE META
+       ===================================================== */
+
+    function updateDocumentLanguage(
+        languageCode
+    ) {
+        const config =
+            WORLD_LANGUAGE_CONFIG[
+                languageCode
+            ] ||
+            WORLD_LANGUAGE_CONFIG.en;
+
+        document.documentElement.lang =
+            config.code;
+
+        document.documentElement.dir =
+            config.direction;
+
+        document.documentElement
+            .setAttribute(
+                "data-alon-language",
+                config.code
+            );
+    }
+
+
+    /* =====================================================
+       LANGUAGE BUTTONS
+       ===================================================== */
+
+    function getLanguageButtons() {
+        const buttons = [];
+
+        for (
+            let i = 0;
+            i < CONFIG.buttonSelectors.length;
+            i++
+        ) {
+            const selector =
+                CONFIG.buttonSelectors[i];
+
+            const found =
+                document.querySelectorAll(
+                    selector
+                );
+
+            for (
+                let j = 0;
+                j < found.length;
+                j++
+            ) {
+                if (
+                    buttons.indexOf(
+                        found[j]
+                    ) === -1
+                ) {
+                    buttons.push(
+                        found[j]
+                    );
+                }
+            }
+        }
+
+        return buttons;
+    }
+
+
+    /* =====================================================
+       UPDATE LANGUAGE BUTTONS
+       -----------------------------------------------------
+       Do NOT insert standalone "हिन्दी" text above search.
+       Only update existing button attributes.
+       ===================================================== */
 
     function updateLanguageButtons() {
+        const buttons =
+            getLanguageButtons();
 
-        const info =
-            getLanguageInfo(
+        const config =
+            WORLD_LANGUAGE_CONFIG[
                 currentLanguage
+            ] ||
+            WORLD_LANGUAGE_CONFIG.en;
+
+        for (
+            let i = 0;
+            i < buttons.length;
+            i++
+        ) {
+            const button =
+                buttons[i];
+
+            /*
+             * Store current language as data only.
+             * No new visible text is inserted.
+             */
+            button.dataset.language =
+                config.code;
+
+            button.setAttribute(
+                "aria-label",
+                config.name
             );
 
-        const englishName =
-            info &&
-            info.name
-                ? info.name
-                : "Language";
-
-
-        CONFIG.buttonSelectors.forEach(
-            function (selector) {
-
-                document
-                    .querySelectorAll(
-                        selector
-                    )
-                    .forEach(
-                        function (button) {
-
-                            button.setAttribute(
-                                "aria-label",
-                                "Language: " +
-                                englishName
-                            );
-
-                            button.setAttribute(
-                                "title",
-                                "Language: " +
-                                englishName
-                            );
-
-                            button.dataset.language =
-                                currentLanguage;
-
-                        }
-                    );
-
-            }
-        );
-
+            button.setAttribute(
+                "title",
+                config.name
+            );
+        }
     }
 
 
     /* =====================================================
-       OVERLAY
-    ===================================================== */
+       CREATE LANGUAGE OVERLAY
+       ===================================================== */
 
     function createOverlay() {
-
         let overlay =
             document.getElementById(
                 CONFIG.overlayId
             );
 
         if (overlay) {
-
             return overlay;
-
         }
 
         overlay =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
         overlay.id =
             CONFIG.overlayId;
 
-        overlay.className =
-            "alon-language-overlay";
+        overlay.setAttribute(
+            "data-i18n-ignore",
+            ""
+        );
+
+        overlay.style.display =
+            "none";
 
         overlay.innerHTML = `
+            <div class="alon-language-panel">
 
-            <div class="alon-language-box">
-
-                <button
-                    id="alonLanguageClose"
-                    class="alon-language-close"
-                    type="button"
-                    aria-label="Close language selector"
-                    title="Close language selector"
-                >
-                    ×
-                </button>
-
-                <div class="alon-language-heading">
-
-                    <div class="alon-language-globe">
-                        🌐
-                    </div>
+                <div class="alon-language-header">
 
                     <div>
-
-                        <h2>
-                            Choose Language
-                        </h2>
-
-                        <p>
+                        <strong>Choose Language</strong>
+                        <div>
                             Select your preferred language
-                        </p>
-
+                        </div>
                     </div>
+
+                    <button
+                        type="button"
+                        data-alon-language-close
+                        aria-label="Close language selector"
+                    >
+                        ×
+                    </button>
 
                 </div>
 
                 <div
-                    id="alonLanguageList"
+                    id="${CONFIG.selectorId}"
                     class="alon-language-list"
                 ></div>
 
             </div>
-
         `;
-
 
         document.body.appendChild(
             overlay
         );
 
-
-        injectSelectorStyles();
-
-
         const closeButton =
             overlay.querySelector(
-                "#alonLanguageClose"
+                "[data-alon-language-close]"
             );
-
 
         if (closeButton) {
-
             closeButton.addEventListener(
                 "click",
-                closeSelector
-            );
-
-        }
-
-
-        overlay.addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target ===
-                    overlay
-                ) {
-
-                    closeSelector();
-
+                function () {
+                    closeLanguageSelector();
                 }
-
-            }
-        );
-
+            );
+        }
 
         return overlay;
-
-    }
-
-
-    /* =====================================================
-       SELECTOR STYLES
-    ===================================================== */
-
-    function injectSelectorStyles() {
-
-        if (
-            document.getElementById(
-                "alonLanguageStyles"
-            )
-        ) {
-
-            return;
-
-        }
-
-        const style =
-            document.createElement(
-                "style"
-            );
-
-        style.id =
-            "alonLanguageStyles";
-
-        style.textContent = `
-
-            .alon-language-overlay {
-
-                position: fixed;
-
-                inset: 0;
-
-                z-index: 99999;
-
-                display: none;
-
-                align-items: center;
-
-                justify-content: center;
-
-                padding: 20px;
-
-                background:
-                    rgba(0,0,0,.78);
-
-                backdrop-filter:
-                    blur(7px);
-
-            }
-
-
-            .alon-language-overlay.active {
-
-                display: flex;
-
-            }
-
-
-            .alon-language-box {
-
-                position: relative;
-
-                width:
-                    min(620px, 100%);
-
-                max-height:
-                    88vh;
-
-                overflow: auto;
-
-                padding: 26px;
-
-                border:
-                    1px solid #d7b35a;
-
-                border-radius: 20px;
-
-                background:
-                    #05080f;
-
-                color:
-                    #f5f0df;
-
-                box-shadow:
-                    0 25px 80px
-                    rgba(0,0,0,.65);
-
-            }
-
-
-            .alon-language-close {
-
-                position: absolute;
-
-                top: 12px;
-
-                right: 14px;
-
-                width: 38px;
-
-                height: 38px;
-
-                border:
-                    1px solid #555;
-
-                border-radius: 50%;
-
-                background:
-                    #111722;
-
-                color:
-                    #f0d27a;
-
-                font-size: 25px;
-
-                cursor: pointer;
-
-            }
-
-
-            .alon-language-heading {
-
-                display: flex;
-
-                align-items: center;
-
-                gap: 15px;
-
-                padding-right: 45px;
-
-                margin-bottom: 22px;
-
-            }
-
-
-            .alon-language-globe {
-
-                font-size: 42px;
-
-            }
-
-
-            .alon-language-heading h2 {
-
-                margin:
-                    0 0 5px;
-
-                color:
-                    #f0d27a;
-
-                font-family:
-                    Georgia, serif;
-
-            }
-
-
-            .alon-language-heading p {
-
-                margin: 0;
-
-                color:
-                    #aaa;
-
-                font-size:
-                    14px;
-
-            }
-
-
-            .alon-language-list {
-
-                display: grid;
-
-                grid-template-columns:
-                    repeat(
-                        2,
-                        minmax(0, 1fr)
-                    );
-
-                gap: 10px;
-
-            }
-
-
-            .alon-language-option {
-
-                display: flex;
-
-                align-items: center;
-
-                gap: 12px;
-
-                width: 100%;
-
-                padding: 13px;
-
-                border:
-                    1px solid #29303d;
-
-                border-radius: 12px;
-
-                background:
-                    #0b111b;
-
-                color:
-                    #eee;
-
-                text-align: left;
-
-                cursor: pointer;
-
-                transition:
-                    .2s ease;
-
-            }
-
-
-            .alon-language-option:hover {
-
-                border-color:
-                    #d7b35a;
-
-                transform:
-                    translateY(-1px);
-
-            }
-
-
-            .alon-language-option.active {
-
-                border-color:
-                    #f0d27a;
-
-                background:
-                    #17150e;
-
-                box-shadow:
-                    0 0 0 1px
-                    #d7b35a inset;
-
-            }
-
-
-            .alon-language-flag {
-
-                width: 30px;
-
-                font-size: 22px;
-
-                text-align: center;
-
-            }
-
-
-            .alon-language-name {
-
-                display: flex;
-
-                flex-direction: column;
-
-                gap: 2px;
-
-            }
-
-
-            .alon-language-english {
-
-                font-weight: 700;
-
-                color: #eee;
-
-            }
-
-
-            .alon-language-native {
-
-                color: #999;
-
-                font-size: 12px;
-
-            }
-
-
-            [dir="rtl"]
-            .alon-language-option {
-
-                text-align: right;
-
-            }
-
-
-            [dir="rtl"]
-            .alon-language-heading {
-
-                padding-right: 0;
-
-                padding-left: 45px;
-
-            }
-
-
-            [dir="rtl"]
-            .alon-language-close {
-
-                right: auto;
-
-                left: 14px;
-
-            }
-
-
-            @media (max-width: 520px) {
-
-                .alon-language-box {
-
-                    padding: 20px;
-
-                    border-radius: 16px;
-
-                }
-
-
-                .alon-language-list {
-
-                    grid-template-columns:
-                        1fr;
-
-                }
-
-
-                .alon-language-heading h2 {
-
-                    font-size: 20px;
-
-                }
-
-            }
-
-        `;
-
-
-        document.head.appendChild(
-            style
-        );
-
     }
 
 
     /* =====================================================
        RENDER LANGUAGE LIST
-    ===================================================== */
+       ===================================================== */
 
     function renderLanguageList() {
-
-        syncWorldLanguageConfig();
-
-
-        const overlay =
-            createOverlay();
-
-
-        const list =
-            overlay.querySelector(
-                "#alonLanguageList"
-            );
-
-
-        if (!list) {
-
-            return;
-
-        }
-
-
-        list.innerHTML = "";
-
-
-        const languages =
-            getAvailableLanguages();
-
-
-        Object.keys(
-            languages
-        ).forEach(
-            function (code) {
-
-                const language =
-                    languages[code];
-
-
-                if (!language) {
-
-                    return;
-
-                }
-
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.type =
-                    "button";
-
-
-                button.className =
-                    "alon-language-option" +
-                    (
-                        code ===
-                        currentLanguage
-                            ? " active"
-                            : ""
-                    );
-
-
-                button.dataset.language =
-                    code;
-
-
-                button.innerHTML = `
-
-                    <span
-                        class="alon-language-flag"
-                    >
-                        ${escapeHTML(
-                            language.flag ||
-                            "🌐"
-                        )}
-                    </span>
-
-                    <span
-                        class="alon-language-name"
-                    >
-
-                        <span
-                            class="alon-language-english"
-                        >
-                            ${escapeHTML(
-                                language.name ||
-                                code
-                            )}
-                        </span>
-
-                        <span
-                            class="alon-language-native"
-                        >
-                            ${escapeHTML(
-                                language.nativeName ||
-                                language.name ||
-                                code
-                            )}
-                        </span>
-
-                    </span>
-
-                `;
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        setLanguage(
-                            code
-                        );
-
-                        closeSelector();
-
-                    }
-                );
-
-
-                list.appendChild(
-                    button
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       OPEN SELECTOR
-    ===================================================== */
-
-    function openSelector() {
-
-        syncWorldLanguageConfig();
-
-
-        const overlay =
-            createOverlay();
-
-
-        renderLanguageList();
-
-
-        overlay.classList.add(
-            "active"
-        );
-
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-
-    /* =====================================================
-       CLOSE SELECTOR
-    ===================================================== */
-
-    function closeSelector() {
-
         const overlay =
             document.getElementById(
                 CONFIG.overlayId
             );
 
-
-        if (overlay) {
-
-            overlay.classList.remove(
-                "active"
-            );
-
+        if (!overlay) {
+            return;
         }
 
+        const list =
+            document.getElementById(
+                CONFIG.selectorId
+            );
 
-        document.body.style.overflow =
-            "";
+        if (!list) {
+            return;
+        }
 
+        list.innerHTML = "";
+
+        const languages =
+            Object.keys(
+                WORLD_LANGUAGE_CONFIG
+            );
+
+        for (
+            let i = 0;
+            i < languages.length;
+            i++
+        ) {
+            const code =
+                languages[i];
+
+            const language =
+                WORLD_LANGUAGE_CONFIG[
+                    code
+                ];
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.type =
+                "button";
+
+            button.className =
+                "alon-language-option";
+
+            button.dataset.language =
+                code;
+
+            if (
+                code === currentLanguage
+            ) {
+                button.classList.add(
+                    "active"
+                );
+            }
+
+            button.innerHTML = `
+                <span>
+                    ${language.name}
+                </span>
+                <small>
+                    ${language.nativeName}
+                </small>
+            `;
+
+            button.addEventListener(
+                "click",
+                function () {
+                    setLanguage(code);
+                    closeLanguageSelector();
+                }
+            );
+
+            list.appendChild(
+                button
+            );
+        }
+    }
+
+
+    /* =====================================================
+       OPEN LANGUAGE SELECTOR
+       ===================================================== */
+
+    function openLanguageSelector() {
+        const overlay =
+            createOverlay();
+
+        if (!overlay) {
+            return;
+        }
+
+        overlay.style.display =
+            "block";
+
+        renderLanguageList();
+    }
+
+
+    /* =====================================================
+       CLOSE LANGUAGE SELECTOR
+       ===================================================== */
+
+    function closeLanguageSelector() {
+        const overlay =
+            document.getElementById(
+                CONFIG.overlayId
+            );
+
+        if (!overlay) {
+            return;
+        }
+
+        overlay.style.display =
+            "none";
+    }
+
+
+    /* =====================================================
+       BIND LANGUAGE BUTTONS
+       ===================================================== */
+
+    function bindLanguageButtons() {
+        const buttons =
+            getLanguageButtons();
+
+        for (
+            let i = 0;
+            i < buttons.length;
+            i++
+        ) {
+            const button =
+                buttons[i];
+
+            if (
+                button.dataset
+                    .alonLanguageBound ===
+                "true"
+            ) {
+                continue;
+            }
+
+            button.dataset
+                .alonLanguageBound =
+                "true";
+
+            button.addEventListener(
+                "click",
+                function (event) {
+                    /*
+                     * Do not block buttons that are explicitly
+                     * controlled by another ALON system.
+                     */
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    openLanguageSelector();
+                }
+            );
+        }
+    }
+
+
+    /* =====================================================
+       BIND WORLD LANGUAGE ENGINE
+       ===================================================== */
+
+    function bindWorldLanguageEngine() {
+        document.addEventListener(
+            "alon:world-language-change",
+            function (event) {
+                const detail =
+                    event.detail || {};
+
+                const code =
+                    detail.language ||
+                    detail.code;
+
+                if (
+                    isSupportedLanguage(code)
+                ) {
+                    setLanguage(
+                        code,
+                        false
+                    );
+                }
+            }
+        );
+    }
+
+
+    /* =====================================================
+       APPLY SAVED LANGUAGE
+       ===================================================== */
+
+    function applySavedLanguage() {
+        const saved =
+            getSavedLanguage();
+
+        currentLanguage =
+            saved;
+
+        updateDocumentLanguage(
+            currentLanguage
+        );
+    }
+
+
+    /* =====================================================
+       TRANSLATE PAGE
+       ===================================================== */
+
+    function translatePage() {
+        if (!document.body) {
+            return;
+        }
+
+        const languageCode =
+            currentLanguage;
+
+        /*
+         * First explicit translations.
+         */
+        translateExplicitElements(
+            document.body,
+            languageCode
+        );
+
+        /*
+         * Then common raw text.
+         */
+        translateCommonText(
+            document.body,
+            languageCode
+        );
+
+        /*
+         * Finally protect Home file/page names.
+         */
+        if (isHomePage()) {
+            const homeCards =
+                document.querySelectorAll(
+                    ".card h3"
+                );
+
+            for (
+                let i = 0;
+                i < homeCards.length;
+                i++
+            ) {
+                keepHomeFilePageNameEnglish(
+                    homeCards[i]
+                );
+            }
+        }
+
+        translateDocumentTitle(
+            languageCode
+        );
+
+        updateDocumentLanguage(
+            languageCode
+        );
+
+        updateLanguageButtons();
+    }
+
+
+    /* =====================================================
+       SCHEDULE TRANSLATION
+       ===================================================== */
+
+    function scheduleTranslate() {
+        if (translateTimer) {
+            clearTimeout(
+                translateTimer
+            );
+        }
+
+        translateTimer =
+            setTimeout(
+                function () {
+                    translateTimer = null;
+
+                    if (!initialized) {
+                        return;
+                    }
+
+                    translatePage();
+                },
+                80
+            );
+    }
+
+
+    /* =====================================================
+       MUTATION OBSERVER
+       ===================================================== */
+
+    function startObserver() {
+        if (observer) {
+            return;
+        }
+
+        if (!document.body) {
+            return;
+        }
+
+        observer =
+            new MutationObserver(
+                function (mutations) {
+                    let hasAddedNodes = false;
+
+                    for (
+                        let i = 0;
+                        i < mutations.length;
+                        i++
+                    ) {
+                        const mutation =
+                            mutations[i];
+
+                        if (
+                            mutation.type ===
+                                "childList" &&
+                            mutation.addedNodes &&
+                            mutation.addedNodes.length
+                        ) {
+                            hasAddedNodes = true;
+                            break;
+                        }
+                    }
+
+                    if (
+                        hasAddedNodes
+                    ) {
+                        scheduleTranslate();
+                    }
+                }
+            );
+
+        observer.observe(
+            document.body,
+            {
+                childList: true,
+                subtree: true
+            }
+        );
     }
 
 
     /* =====================================================
        SET LANGUAGE
-    ===================================================== */
+       ===================================================== */
 
-    function setLanguage(code) {
-
-        syncWorldLanguageConfig();
-
-
-        const languages =
-            getAvailableLanguages();
-
-
+    function setLanguage(
+        code,
+        persist = true
+    ) {
         if (
-            !languages[code]
+            !isSupportedLanguage(code)
         ) {
-
-            console.warn(
-                "Unsupported language:",
-                code
-            );
-
-            return false;
-
+            code =
+                CONFIG.defaultLanguage;
         }
-
 
         currentLanguage =
             code;
 
+        if (persist) {
+            saveLanguage(code);
+        }
+
+        updateDocumentLanguage(
+            currentLanguage
+        );
 
         /*
-         * Save BEFORE translating.
-         * This guarantees refresh persistence.
+         * Translate from stable original English source,
+         * not from whatever text happens to be visible.
          */
-
-        saveLanguage(
-            code
-        );
-
-
-        updateLanguageAttribute(
-            code
-        );
-
-
-        updateDirection(
-            code
-        );
-
+        translatePage();
 
         updateLanguageButtons();
 
+        renderLanguageList();
 
-        translatePage();
-
-
-        dispatchLanguageEvent(
-            code
-        );
-
-
-        const overlay =
-            document.getElementById(
-                CONFIG.overlayId
-            );
-
-
-        if (overlay) {
-
-            renderLanguageList();
-
-        }
-
-
-        return true;
-
-    }
-
-
-    /* =====================================================
-       LANGUAGE EVENT
-    ===================================================== */
-
-    function dispatchLanguageEvent(
-        code
-    ) {
-
+        /*
+         * Notify other ALON systems.
+         */
         try {
-
-            const event =
+            document.dispatchEvent(
                 new CustomEvent(
                     "alon:language-change",
                     {
                         detail: {
-
-                            code: code,
-
                             language:
-                                getLanguageInfo(
-                                    code
-                                )
-
+                                currentLanguage,
+                            code:
+                                currentLanguage
                         }
                     }
-                );
-
-
-            document.dispatchEvent(
-                event
+                )
             );
-
         } catch (error) {
-
-            console.warn(
-                "Language event error:",
-                error
-            );
-
+            /* Safe fallback */
         }
-
     }
 
 
     /* =====================================================
-       CONNECT TO WORLD LANGUAGE ENGINE
-       world-language.js can be loaded after this file.
-    ===================================================== */
+       GET CURRENT LANGUAGE
+       ===================================================== */
 
-    function bindWorldLanguageEngine() {
-
-        document.addEventListener(
-            "alon:world-language-change",
-            function (event) {
-
-                const detail =
-                    event &&
-                    event.detail
-                        ? event.detail
-                        : null;
-
-
-                if (
-                    !detail ||
-                    !detail.code
-                ) {
-
-                    return;
-
-                }
-
-
-                const code =
-                    detail.code;
-
-
-                syncWorldLanguageConfig();
-
-
-                if (
-                    getAvailableLanguages()[code]
-                ) {
-
-                    currentLanguage =
-                        code;
-
-
-                    saveLanguage(
-                        code
-                    );
-
-
-                    updateLanguageAttribute(
-                        code
-                    );
-
-
-                    updateDirection(
-                        code
-                    );
-
-
-                    updateLanguageButtons();
-
-
-                    translatePage();
-
-
-                    dispatchLanguageEvent(
-                        code
-                    );
-
-                }
-
-            }
-        );
-
+    function getLanguage() {
+        return currentLanguage;
     }
 
 
     /* =====================================================
-       ESCAPE HTML
-    ===================================================== */
+       RESET LANGUAGE
+       ===================================================== */
 
-    function escapeHTML(value) {
-
-        return String(value)
-
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-
-            .replace(
-                /</g,
-                "&lt;"
-            )
-
-            .replace(
-                />/g,
-                "&gt;"
-            )
-
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-
-            .replace(
-                /'/g,
-                "&#039;"
-            );
-
+    function resetLanguage() {
+        setLanguage(
+            CONFIG.defaultLanguage,
+            true
+        );
     }
 
 
     /* =====================================================
-       BUTTON EVENTS
-    ===================================================== */
-
-    function bindLanguageButtons() {
-
-        CONFIG.buttonSelectors.forEach(
-            function (selector) {
-
-                document
-                    .querySelectorAll(
-                        selector
-                    )
-                    .forEach(
-                        function (button) {
-
-                            if (
-                                button.dataset
-                                    .languageBound ===
-                                "true"
-                            ) {
-
-                                return;
-
-                            }
-
-
-                            button.dataset
-                                .languageBound =
-                                "true";
-
-
-                            button.addEventListener(
-                                "click",
-                                function (event) {
-
-                                    event.preventDefault();
-
-                                    openSelector();
-
-                                }
-                            );
-
-                        }
-                    );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       KEYBOARD CONTROL
-    ===================================================== */
-
-    function bindKeyboard() {
-
-        if (
-            document.documentElement.dataset
-                .languageKeyboardBound ===
-            "true"
-        ) {
-
-            return;
-
-        }
-
-
-        document.documentElement.dataset
-            .languageKeyboardBound =
-            "true";
-
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key ===
-                    "Escape"
-                ) {
-
-                    closeSelector();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       CROSS-PAGE LANGUAGE SUPPORT
-    ===================================================== */
-
-    function applySavedLanguage() {
-
-        syncWorldLanguageConfig();
-
-
-        const saved =
-            getSavedLanguage();
-
-
-        currentLanguage =
-            saved;
-
-
-        updateLanguageAttribute(
-            currentLanguage
-        );
-
-
-        updateDirection(
-            currentLanguage
-        );
-
-
-        updateLanguageButtons();
-
-    }
-
-
-    /* =====================================================
-       TRANSLATION MARKUP HELPER
-    ===================================================== */
-
-    function markElement(
-        element,
-        key
-    ) {
-
-        if (
-            !element ||
-            !key
-        ) {
-
-            return;
-
-        }
-
-
-        if (
-            isProtectedHomeElement(
-                element
-            )
-        ) {
-
-            return;
-
-        }
-
-
-        element.setAttribute(
-            CONFIG.translationAttribute,
-            key
-        );
-
-
-        translateElement(
-            element,
-            currentLanguage
-        );
-
-    }
-
-
-    /* =====================================================
-       BACK BUTTON ENGINE
-       Only elements explicitly marked as:
-       data-alon-back
-       are changed.
-    ===================================================== */
+       BACK BUTTON SUPPORT
+       ===================================================== */
 
     function bindBackButtons() {
-
-        document
-            .querySelectorAll(
+        const buttons =
+            document.querySelectorAll(
                 "[data-alon-back]"
-            )
-            .forEach(
-                function (button) {
-
-                    if (
-                        button.dataset
-                            .alonBackBound ===
-                        "true"
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    button.dataset
-                        .alonBackBound =
-                        "true";
-
-
-                    button.addEventListener(
-                        "click",
-                        function (event) {
-
-                            event.preventDefault();
-
-
-                            if (
-                                window.history.length >
-                                1
-                            ) {
-
-                                window.history.back();
-
-                            } else {
-
-                                window.location.href =
-                                    "./index.html";
-
-                            }
-
-                        }
-                    );
-
-                }
             );
 
-    }
+        for (
+            let i = 0;
+            i < buttons.length;
+            i++
+        ) {
+            const button =
+                buttons[i];
 
+            if (
+                button.dataset
+                    .alonBackBound ===
+                "true"
+            ) {
+                continue;
+            }
 
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
+            button.dataset
+                .alonBackBound =
+                "true";
 
-    function initialize() {
-
-        syncWorldLanguageConfig();
-
-
-        /*
-         * Load saved language before the first
-         * translation pass.
-         */
-
-        applySavedLanguage();
-
-
-        bindLanguageButtons();
-
-
-        bindKeyboard();
-
-
-        bindWorldLanguageEngine();
-
-
-        bindBackButtons();
-
-
-        /*
-         * Translate the existing page.
-         */
-
-        translatePage();
-
-
-        /*
-         * Handle dynamically-created UI safely.
-         */
-
-        startTranslationObserver();
-
-
-        /*
-         * Wait briefly for world-language.js
-         * when it is loaded after language.js.
-         */
-
-        window.setTimeout(
-            function () {
-
-                syncWorldLanguageConfig();
-
-
-                const saved =
-                    getSavedLanguage();
-
-
-                if (
-                    saved !==
-                    currentLanguage
-                ) {
-
-                    currentLanguage =
-                        saved;
-
-
-                    updateLanguageAttribute(
-                        saved
-                    );
-
-
-                    updateDirection(
-                        saved
-                    );
-
-
-                    updateLanguageButtons();
-
-
-                    translatePage();
-
+            button.addEventListener(
+                "click",
+                function () {
+                    if (
+                        window.history.length >
+                        1
+                    ) {
+                        window.history.back();
+                    }
                 }
-
-            },
-            0
-        );
-
-
-        console.log(
-            "ALON HISTORYVERSE 24 Language Engine ready:",
-            currentLanguage
-        );
-
+            );
+        }
     }
 
 
     /* =====================================================
        PUBLIC API
-    ===================================================== */
-
-    /*
-     * Only create the fallback global registry if
-     * another world-language engine has not already
-     * created one.
-     *
-     * This avoids overwriting the external registry.
-     */
-
-    if (
-        !window.WORLD_LANGUAGE_CONFIG
-    ) {
-
-        window.WORLD_LANGUAGE_CONFIG =
-            WORLD_LANGUAGE_CONFIG;
-
-    }
-
+       ===================================================== */
 
     window.ALON_LANGUAGE = {
 
-        config:
-            CONFIG,
+        config: CONFIG,
 
         languages:
-            getAvailableLanguages(),
+            WORLD_LANGUAGE_CONFIG,
 
-        initialize:
-            initialize,
+        translations:
+            TRANSLATIONS,
 
         getLanguage:
             getLanguage,
 
-        getLanguageInfo:
-            getLanguageInfo,
+        setLanguage:
+            setLanguage,
 
-        getTranslation:
-            getTranslation,
+        resetLanguage:
+            resetLanguage,
+
+        open:
+            openLanguageSelector,
+
+        close:
+            closeLanguageSelector,
 
         translate:
             translatePage,
 
-        translateElement:
-            translateElement,
-
-        setLanguage:
-            setLanguage,
-
-        open:
-            openSelector,
-
-        close:
-            closeSelector,
-
-        render:
-            renderLanguageList,
-
-        isRTL:
-            isRTL,
-
-        mark:
-            markElement,
-
-        bindBack:
-            bindBackButtons
-
+        getTranslation:
+            getTranslation
     };
 
 
     /* =====================================================
        COMPATIBILITY FUNCTIONS
-    ===================================================== */
-
-    window.openLanguageSelector =
-        openSelector;
-
+       ===================================================== */
 
     window.setALONLanguage =
         setLanguage;
 
-
     window.getALONLanguage =
         getLanguage;
 
+    window.openALONLanguageSelector =
+        openLanguageSelector;
 
-    window.translateALONPage =
-        translatePage;
+    window.closeALONLanguageSelector =
+        closeLanguageSelector;
 
 
     /* =====================================================
-       AUTO START
-    ===================================================== */
+       WORLD LANGUAGE GLOBAL CONFIG
+       ===================================================== */
+
+    if (
+        !window.WORLD_LANGUAGE_CONFIG
+    ) {
+        window.WORLD_LANGUAGE_CONFIG =
+            WORLD_LANGUAGE_CONFIG;
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
+
+    function initialize() {
+        if (initialized) {
+            return;
+        }
+
+        initialized = true;
+
+        /*
+         * Load saved language BEFORE translation.
+         */
+        applySavedLanguage();
+
+        /*
+         * Create selector only after body exists.
+         */
+        createOverlay();
+
+        bindLanguageButtons();
+
+        bindWorldLanguageEngine();
+
+        bindBackButtons();
+
+        /*
+         * First stable translation.
+         */
+        translatePage();
+
+        /*
+         * Watch dynamic content.
+         */
+        startObserver();
+
+        /*
+         * One final pass after other scripts finish their
+         * initial DOM work.
+         */
+        setTimeout(
+            function () {
+                const saved =
+                    getSavedLanguage();
+
+                if (
+                    saved !==
+                    currentLanguage
+                ) {
+                    currentLanguage =
+                        saved;
+                }
+
+                updateDocumentLanguage(
+                    currentLanguage
+                );
+
+                translatePage();
+            },
+            0
+        );
+    }
+
+
+    /* =====================================================
+       START
+       ===================================================== */
 
     if (
         document.readyState ===
         "loading"
     ) {
-
         document.addEventListener(
             "DOMContentLoaded",
-            initialize
+            initialize,
+            {
+                once: true
+            }
         );
-
     } else {
-
         initialize();
-
     }
-
 
 })();
