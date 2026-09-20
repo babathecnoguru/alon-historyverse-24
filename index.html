@@ -225,14 +225,6 @@
 
         <button
             class="ah-menu-action"
-            id="menuLanguageBtn"
-            type="button"
-        >
-            🌐 Language
-        </button>
-
-        <button
-            class="ah-menu-action"
             id="settingsBtn"
             type="button"
         >
@@ -246,45 +238,6 @@
         >
             🚪 Logout
         </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     LANGUAGE PANEL
-========================================================== -->
-
-<div
-    id="languagePanel"
-    class="language-panel"
-    hidden
->
-
-    <div class="language-panel-header">
-
-        <strong>
-            Select Language
-        </strong>
-
-        <button
-            id="closeLanguage"
-            type="button"
-            aria-label="Close language"
-        >
-            ×
-        </button>
-
-    </div>
-
-
-    <div
-        id="languageList"
-        class="language-list"
-    >
-
-        <!-- English and Hindi options are inserted by JavaScript -->
 
     </div>
 
@@ -1172,10 +1125,6 @@
         document.getElementById("mobileMenu");
 
 
-    const menuLanguageBtn =
-        document.getElementById("menuLanguageBtn");
-
-
     const settingsBtn =
         document.getElementById("settingsBtn");
 
@@ -1267,163 +1216,6 @@
                 }
 
             }
-        );
-
-    }
-
-
-    /* =======================================================
-       LANGUAGE
-    ======================================================== */
-
-    const languagePanel =
-        document.getElementById("languagePanel");
-
-
-    const languageList =
-        document.getElementById("languageList");
-
-
-    const closeLanguage =
-        document.getElementById("closeLanguage");
-
-
-    function openLanguagePanel() {
-
-        closeMenu();
-
-        if (!languagePanel) {
-            return;
-        }
-
-        languagePanel.removeAttribute(
-            "hidden"
-        );
-
-        buildLanguageList();
-
-    }
-
-
-    function closeLanguagePanel() {
-
-        if (!languagePanel) {
-            return;
-        }
-
-        languagePanel.setAttribute(
-            "hidden",
-            ""
-        );
-
-    }
-
-
-    function buildLanguageList() {
-
-        if (!languageList) {
-            return;
-        }
-
-        languageList.innerHTML = "";
-
-
-        /*
-         * Only English and Hindi are exposed here.
-         * English remains the default website language.
-         */
-
-        const supported = [
-            "en",
-            "hi"
-        ];
-
-
-        const names = {
-
-            en:
-                "English",
-
-            hi:
-                "हिन्दी"
-
-        };
-
-
-        supported.forEach(
-            function (code) {
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.type =
-                    "button";
-
-
-                button.className =
-                    "language-option";
-
-
-                button.textContent =
-                    names[code];
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        if (
-                            window.ALONWorldLanguage &&
-                            typeof window.ALONWorldLanguage.switchTo ===
-                                "function"
-                        ) {
-
-                            const changed =
-                                window.ALONWorldLanguage.switchTo(
-                                    code
-                                );
-
-
-                            if (changed) {
-
-                                closeLanguagePanel();
-
-                            }
-
-                        }
-
-                    }
-                );
-
-
-                languageList.appendChild(
-                    button
-                );
-
-            }
-        );
-
-    }
-
-
-    if (menuLanguageBtn) {
-
-        menuLanguageBtn.addEventListener(
-            "click",
-            openLanguagePanel
-        );
-
-    }
-
-
-    if (closeLanguage) {
-
-        closeLanguage.addEventListener(
-            "click",
-            closeLanguagePanel
         );
 
     }
@@ -1692,8 +1484,6 @@
 
         closeSettings();
 
-        closeLanguagePanel();
-
 
         window.location.href =
             "./login.html";
@@ -1823,8 +1613,6 @@
 
 
             closeMenu();
-
-            closeLanguagePanel();
 
             closeSettings();
 
