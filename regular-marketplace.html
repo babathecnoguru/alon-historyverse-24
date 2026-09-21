@@ -1,2597 +1,2540 @@
-<!-- =========================================================
-     ALON HISTORYVERSE 24
-     REGULAR MARKETPLACE
-     File: html/regular-marketplace.html
-     ========================================================= -->
+<!-- =========================================================  
+     ALON HISTORYVERSE 24  
+     REGULAR MARKETPLACE  
+     File: html/regular-marketplace.html  
+     ========================================================= -->  <!DOCTYPE html>  <html lang="en">  <head>  <meta charset="UTF-8">  
 
-<!DOCTYPE html>
+<meta  
+    name="viewport"  
+    content="width=device-width, initial-scale=1.0"  
+>  
 
-<html lang="en">
+<title>  
+    Regular Marketplace — ALON HISTORYVERSE 24  
+</title>  
 
-<head>
+<meta  
+    name="description"  
+    content="Regular Marketplace for selling items, property, vehicles and business advertisements — ALON HISTORYVERSE 24."  
+>  
 
-    <meta charset="UTF-8">
+<link rel="stylesheet" href="./style.css">  
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
 
-    <title>
-        Regular Marketplace — ALON HISTORYVERSE 24
-    </title>
+<style>  
 
-    <meta
-        name="description"
-        content="Regular Marketplace for selling items, property, vehicles and business advertisements — ALON HISTORYVERSE 24."
-    >
+    /* =========================================================  
+       ALON HISTORYVERSE 24  
+       REGULAR MARKETPLACE  
+       WHITE MARKETPLACE UI  
+       ========================================================= */  
 
-    <link rel="stylesheet" href="../style.css">
+    .rm-page {  
+        width: 100%;  
+        max-width: 1200px;  
+        margin: 0 auto;  
+        padding: 20px;  
+        box-sizing: border-box;  
 
+        background: #ffffff;  
+        color: #111111;  
+    }  
 
-    <style>
+    .rm-page * {  
+        box-sizing: border-box;  
+    }  
 
-        /* =========================================================
-           ALON HISTORYVERSE 24
-           REGULAR MARKETPLACE
-           WHITE MARKETPLACE UI
-           ========================================================= */
 
-        .rm-page {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
+    /* =========================================================  
+       HERO  
+       ========================================================= */  
 
-            background: #ffffff;
-            color: #111111;
-        }
+    .rm-hero {  
+        padding: 28px;  
+        margin-bottom: 20px;  
 
-        .rm-page * {
-            box-sizing: border-box;
-        }
+        border: 1px solid #d7b35a;  
+        border-radius: 18px;  
 
+        background: #ffffff;  
+        color: #111111;  
 
-        /* =========================================================
-           HERO
-           ========================================================= */
+        box-shadow: 0 4px 18px rgba(0,0,0,.08);  
+    }  
 
-        .rm-hero {
-            padding: 28px;
-            margin-bottom: 20px;
+    .rm-hero h1 {  
+        margin: 0 0 10px;  
 
-            border: 1px solid #d7b35a;
-            border-radius: 18px;
+        color: #8b6508;  
+        font-size: 30px;  
+    }  
 
-            background: #ffffff;
-            color: #111111;
+    .rm-hero p {  
+        margin: 8px 0;  
 
-            box-shadow: 0 4px 18px rgba(0,0,0,.08);
-        }
+        line-height: 1.7;  
 
-        .rm-hero h1 {
-            margin: 0 0 10px;
+        color: #333333;  
+    }  
 
-            color: #8b6508;
-            font-size: 30px;
-        }
 
-        .rm-hero p {
-            margin: 8px 0;
+    /* =========================================================  
+       SECTIONS  
+       ========================================================= */  
 
-            line-height: 1.7;
+    .rm-section {  
+        margin: 20px 0;  
+        padding: 22px;  
 
-            color: #333333;
-        }
+        border: 1px solid #dddddd;  
+        border-radius: 18px;  
 
+        background: #ffffff;  
+        color: #111111;  
 
-        /* =========================================================
-           SECTIONS
-           ========================================================= */
+        box-shadow: 0 3px 15px rgba(0,0,0,.06);  
+    }  
 
-        .rm-section {
-            margin: 20px 0;
-            padding: 22px;
+    .rm-section h2 {  
+        margin-top: 0;  
 
-            border: 1px solid #dddddd;
-            border-radius: 18px;
+        color: #8b6508;  
+    }  
 
-            background: #ffffff;
-            color: #111111;
+    .rm-section h3 {  
+        color: #8b6508;  
+    }  
 
-            box-shadow: 0 3px 15px rgba(0,0,0,.06);
-        }
 
-        .rm-section h2 {
-            margin-top: 0;
+    /* =========================================================  
+       FORM GRID  
+       ========================================================= */  
 
-            color: #8b6508;
-        }
+    .rm-form-grid {  
+        display: grid;  
 
-        .rm-section h3 {
-            color: #8b6508;
-        }
+        grid-template-columns:  
+            repeat(2, minmax(0, 1fr));  
 
+        gap: 16px;  
+    }  
 
-        /* =========================================================
-           FORM GRID
-           ========================================================= */
+    .rm-field {  
+        width: 100%;  
+    }  
 
-        .rm-form-grid {
-            display: grid;
+    .rm-field-full {  
+        grid-column: 1 / -1;  
+    }  
 
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+    .rm-field label {  
+        display: block;  
 
-            gap: 16px;
-        }
+        margin-bottom: 7px;  
 
-        .rm-field {
-            width: 100%;
-        }
+        color: #222222;  
 
-        .rm-field-full {
-            grid-column: 1 / -1;
-        }
+        font-weight: 700;  
+    }  
 
-        .rm-field label {
-            display: block;
+    .rm-field input,  
+    .rm-field select,  
+    .rm-field textarea,  
+    #rmLoginForm input {  
+        display: block;  
 
-            margin-bottom: 7px;
+        width: 100%;  
 
-            color: #222222;
+        padding: 12px;  
 
-            font-weight: 700;
-        }
+        border: 1px solid #cfcfcf;  
+        border-radius: 10px;  
 
-        .rm-field input,
-        .rm-field select,
-        .rm-field textarea,
-        #rmLoginForm input {
-            display: block;
+        background: #ffffff;  
+        color: #111111;  
 
-            width: 100%;
+        outline: none;  
 
-            padding: 12px;
+        font-size: 15px;  
+    }  
 
-            border: 1px solid #cfcfcf;
-            border-radius: 10px;
+    .rm-field input:focus,  
+    .rm-field select:focus,  
+    .rm-field textarea:focus,  
+    #rmLoginForm input:focus {  
 
-            background: #ffffff;
-            color: #111111;
+        border-color: #d7b35a;  
 
-            outline: none;
+        box-shadow:  
+            0 0 0 2px rgba(215,179,90,.15);  
+    }  
 
-            font-size: 15px;
-        }
+    .rm-field textarea {  
+        min-height: 140px;  
 
-        .rm-field input:focus,
-        .rm-field select:focus,
-        .rm-field textarea:focus,
-        #rmLoginForm input:focus {
+        resize: vertical;  
+    }  
 
-            border-color: #d7b35a;
 
-            box-shadow:
-                0 0 0 2px rgba(215,179,90,.15);
-        }
+    /* =========================================================  
+       BUTTONS  
+       ========================================================= */  
 
-        .rm-field textarea {
-            min-height: 140px;
+    .rm-actions {  
+        display: flex;  
 
-            resize: vertical;
-        }
+        flex-wrap: wrap;  
 
+        gap: 10px;  
 
-        /* =========================================================
-           BUTTONS
-           ========================================================= */
+        margin-top: 17px;  
+    }  
 
-        .rm-actions {
-            display: flex;
+    .rm-btn {  
+        border: 1px solid #b58d28;  
+        border-radius: 10px;  
 
-            flex-wrap: wrap;
+        padding: 11px 18px;  
 
-            gap: 10px;
+        cursor: pointer;  
 
-            margin-top: 17px;
-        }
+        background: #ffffff;  
+        color: #795600;  
 
-        .rm-btn {
-            border: 1px solid #b58d28;
-            border-radius: 10px;
+        font-weight: 700;  
+    }  
 
-            padding: 11px 18px;
+    .rm-btn:hover {  
+        background: #fff8df;  
+    }  
 
-            cursor: pointer;
+    .rm-btn-primary {  
+        background: #d7b35a;  
+        color: #111111;  
+    }  
 
-            background: #ffffff;
-            color: #795600;
+    .rm-btn-primary:hover {  
+        background: #cba84d;  
+    }  
 
-            font-weight: 700;
-        }
+    .rm-btn-danger {  
+        border-color: #c44b4b;  
 
-        .rm-btn:hover {
-            background: #fff8df;
-        }
+        color: #b00000;  
+    }  
 
-        .rm-btn-primary {
-            background: #d7b35a;
-            color: #111111;
-        }
 
-        .rm-btn-primary:hover {
-            background: #cba84d;
-        }
+    /* =========================================================  
+       STATUS  
+       ========================================================= */  
 
-        .rm-btn-danger {
-            border-color: #c44b4b;
+    .rm-status {  
+        display: none;  
 
-            color: #b00000;
-        }
+        margin-top: 12px;  
 
+        padding: 11px;  
 
-        /* =========================================================
-           STATUS
-           ========================================================= */
+        border: 1px solid #dddddd;  
+        border-radius: 9px;  
 
-        .rm-status {
-            display: none;
+        background: #fafafa;  
+        color: #222222;  
 
-            margin-top: 12px;
+        line-height: 1.5;  
+    }  
 
-            padding: 11px;
+    .rm-status.show {  
+        display: block;  
+    }  
 
-            border: 1px solid #dddddd;
-            border-radius: 9px;
 
-            background: #fafafa;
-            color: #222222;
+    /* =========================================================  
+       LOGIN  
+       ========================================================= */  
 
-            line-height: 1.5;
-        }
+    #rmLoginForm label {  
+        display: block;  
 
-        .rm-status.show {
-            display: block;
-        }
+        margin-top: 14px;  
+        margin-bottom: 6px;  
 
+        color: #222222;  
 
-        /* =========================================================
-           LOGIN
-           ========================================================= */
+        font-weight: 700;  
+    }  
 
-        #rmLoginForm label {
-            display: block;
+    #rmLoginForm input {  
+        margin-bottom: 12px;  
+    }  
 
-            margin-top: 14px;
-            margin-bottom: 6px;
+    #rmLoginForm .rm-agreement {  
+        display: flex;  
 
-            color: #222222;
+        align-items: flex-start;  
 
-            font-weight: 700;
-        }
+        gap: 8px;  
 
-        #rmLoginForm input {
-            margin-bottom: 12px;
-        }
+        margin-top: 16px;  
 
-        #rmLoginForm .rm-agreement {
-            display: flex;
+        color: #333333;  
 
-            align-items: flex-start;
+        line-height: 1.5;  
+    }  
 
-            gap: 8px;
+    #rmLoginForm .rm-agreement input {  
+        width: auto;  
 
-            margin-top: 16px;
+        flex: 0 0 auto;  
 
-            color: #333333;
+        margin-top: 4px;  
+    }  
 
-            line-height: 1.5;
-        }
 
-        #rmLoginForm .rm-agreement input {
-            width: auto;
+    /* =========================================================  
+       PROFILE  
+       ========================================================= */  
 
-            flex: 0 0 auto;
+    .rm-profile {  
+        padding: 15px;  
 
-            margin-top: 4px;
-        }
+        border: 1px solid #dddddd;  
+        border-radius: 12px;  
 
+        background: #fafafa;  
+    }  
 
-        /* =========================================================
-           PROFILE
-           ========================================================= */
+    .rm-profile-email {  
+        color: #8b6508;  
 
-        .rm-profile {
-            padding: 15px;
+        font-weight: 800;  
 
-            border: 1px solid #dddddd;
-            border-radius: 12px;
+        word-break: break-word;  
+    }  
 
-            background: #fafafa;
-        }
 
-        .rm-profile-email {
-            color: #8b6508;
+    /* =========================================================  
+       CATEGORY NOTE  
+       ========================================================= */  
 
-            font-weight: 800;
+    .rm-category-note {  
+        margin-top: 7px;  
 
-            word-break: break-word;
-        }
+        color: #666666;  
 
+        font-size: 13px;  
 
-        /* =========================================================
-           CATEGORY NOTE
-           ========================================================= */
+        line-height: 1.5;  
+    }  
 
-        .rm-category-note {
-            margin-top: 7px;
 
-            color: #666666;
+    /* =========================================================  
+       LISTINGS  
+       ========================================================= */  
 
-            font-size: 13px;
+    .rm-list-grid {  
+        display: grid;  
 
-            line-height: 1.5;
-        }
+        grid-template-columns:  
+            repeat(2, minmax(0, 1fr));  
 
+        gap: 16px;  
 
-        /* =========================================================
-           LISTINGS
-           ========================================================= */
+        margin-top: 18px;  
+    }  
 
-        .rm-list-grid {
-            display: grid;
+    .rm-card {  
+        overflow: hidden;  
 
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+        padding: 15px;  
 
-            gap: 16px;
+        border: 1px solid #dddddd;  
+        border-radius: 15px;  
 
-            margin-top: 18px;
-        }
+        background: #ffffff;  
+        color: #111111;  
 
-        .rm-card {
-            overflow: hidden;
+        box-shadow:  
+            0 3px 12px rgba(0,0,0,.06);  
+    }  
 
-            padding: 15px;
+    .rm-card h3 {  
+        margin-top: 0;  
 
-            border: 1px solid #dddddd;
-            border-radius: 15px;
+        color: #8b6508;  
+    }  
 
-            background: #ffffff;
-            color: #111111;
+    .rm-card-media {  
+        display: block;  
 
-            box-shadow:
-                0 3px 12px rgba(0,0,0,.06);
-        }
+        width: 100%;  
 
-        .rm-card h3 {
-            margin-top: 0;
+        max-height: 280px;  
 
-            color: #8b6508;
-        }
+        margin: 10px 0;  
 
-        .rm-card-media {
-            display: block;
+        object-fit: cover;  
 
-            width: 100%;
+        border-radius: 10px;  
+    }  
 
-            max-height: 280px;
+    .rm-card-video {  
+        display: block;  
 
-            margin: 10px 0;
+        width: 100%;  
 
-            object-fit: cover;
+        max-height: 300px;  
 
-            border-radius: 10px;
-        }
+        margin: 10px 0;  
 
-        .rm-card-video {
-            display: block;
+        border-radius: 10px;  
+    }  
 
-            width: 100%;
+    .rm-card-row {  
+        margin: 6px 0;  
 
-            max-height: 300px;
+        color: #333333;  
 
-            margin: 10px 0;
+        line-height: 1.5;  
 
-            border-radius: 10px;
-        }
+        word-break: break-word;  
+    }  
 
-        .rm-card-row {
-            margin: 6px 0;
+    .rm-empty {  
+        padding: 18px;  
 
-            color: #333333;
+        margin-top: 15px;  
 
-            line-height: 1.5;
+        border: 1px dashed #cccccc;  
+        border-radius: 12px;  
 
-            word-break: break-word;
-        }
+        background: #fafafa;  
 
-        .rm-empty {
-            padding: 18px;
+        color: #666666;  
+    }  
 
-            margin-top: 15px;
 
-            border: 1px dashed #cccccc;
-            border-radius: 12px;
+    /* =========================================================  
+       SHOWROOM  
+       ========================================================= */  
 
-            background: #fafafa;
+    .rm-showroom-card {  
+        overflow: hidden;  
 
-            color: #666666;
-        }
+        padding: 16px;  
 
+        margin-top: 15px;  
 
-        /* =========================================================
-           SHOWROOM
-           ========================================================= */
+        border: 1px solid #dddddd;  
+        border-radius: 15px;  
 
-        .rm-showroom-card {
-            overflow: hidden;
+        background: #ffffff;  
 
-            padding: 16px;
+        box-shadow:  
+            0 3px 12px rgba(0,0,0,.06);  
+    }  
 
-            margin-top: 15px;
+    .rm-showroom-card h3 {  
+        margin-top: 0;  
 
-            border: 1px solid #dddddd;
-            border-radius: 15px;
+        color: #8b6508;  
+    }  
 
-            background: #ffffff;
 
-            box-shadow:
-                0 3px 12px rgba(0,0,0,.06);
-        }
+    /* =========================================================  
+       NOTES  
+       ========================================================= */  
 
-        .rm-showroom-card h3 {
-            margin-top: 0;
+    .rm-note {  
+        color: #666666;  
 
-            color: #8b6508;
-        }
+        font-size: 13px;  
 
+        line-height: 1.6;  
+    }  
 
-        /* =========================================================
-           NOTES
-           ========================================================= */
+    .rm-responsibility {  
+        color: #333333;  
 
-        .rm-note {
-            color: #666666;
+        line-height: 1.7;  
+    }  
 
-            font-size: 13px;
+    .rm-responsibility li {  
+        margin-bottom: 8px;  
+    }  
 
-            line-height: 1.6;
-        }
+    .rm-hidden {  
+        display: none !important;  
+    }  
 
-        .rm-responsibility {
-            color: #333333;
 
-            line-height: 1.7;
-        }
+    /* =========================================================  
+       MARKETPLACE NAVIGATION  
+       ========================================================= */  
 
-        .rm-responsibility li {
-            margin-bottom: 8px;
-        }
+    .rm-marketplace-nav {  
+        display: grid;  
 
-        .rm-hidden {
-            display: none !important;
-        }
+        grid-template-columns:  
+            repeat(4, minmax(0, 1fr));  
 
+        gap: 12px;  
 
-        /* =========================================================
-           MARKETPLACE NAVIGATION
-           ========================================================= */
+        margin-top: 10px;  
+    }  
 
-        .rm-marketplace-nav {
-            display: grid;
+    .rm-nav-btn {  
+        width: 100%;  
 
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
+        min-height: 52px;  
 
-            gap: 12px;
+        padding: 12px;  
 
-            margin-top: 10px;
-        }
+        border: 1px solid #d7b35a;  
+        border-radius: 12px;  
 
-        .rm-nav-btn {
-            width: 100%;
+        background: #fffdf5;  
+        color: #795600;  
 
-            min-height: 52px;
+        cursor: pointer;  
 
-            padding: 12px;
+        font-weight: 800;  
+    }  
 
-            border: 1px solid #d7b35a;
-            border-radius: 12px;
+    .rm-nav-btn:hover {  
+        background: #fff8df;  
+    }  
 
-            background: #fffdf5;
-            color: #795600;
 
-            cursor: pointer;
+    /* =========================================================  
+       DISCOVERY  
+       ========================================================= */  
 
-            font-weight: 800;
-        }
+    .rm-discovery-section {  
+        width: 100%;  
+        max-width: 1200px;  
 
-        .rm-nav-btn:hover {
-            background: #fff8df;
-        }
+        margin: 28px auto 0;  
 
+        padding: 0 20px 30px;  
 
-        /* =========================================================
-           DISCOVERY
-           ========================================================= */
+        box-sizing: border-box;  
 
-        .rm-discovery-section {
-            width: 100%;
-            max-width: 1200px;
+        background: transparent;  
+    }  
 
-            margin: 28px auto 0;
+    .rm-discovery-folder {  
+        display: flex;  
 
-            padding: 0 20px 30px;
+        align-items: center;  
 
-            box-sizing: border-box;
+        gap: 14px;  
 
-            background: transparent;
-        }
+        width: 100%;  
 
-        .rm-discovery-folder {
-            display: flex;
+        padding: 18px;  
 
-            align-items: center;
+        border: 1px solid #d7b35a;  
+        border-radius: 18px;  
 
-            gap: 14px;
+        background:  
+            linear-gradient(  
+                135deg,  
+                #fffdf5 0%,  
+                #ffffff 55%,  
+                #fffaf0 100%  
+            );  
 
-            width: 100%;
+        box-shadow:  
+            0 4px 18px rgba(0,0,0,.08);  
+    }  
 
-            padding: 18px;
+    .rm-discovery-folder-icon {  
+        display: flex;  
 
-            border: 1px solid #d7b35a;
-            border-radius: 18px;
+        align-items: center;  
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #fffdf5 0%,
-                    #ffffff 55%,
-                    #fffaf0 100%
-                );
+        justify-content: center;  
 
-            box-shadow:
-                0 4px 18px rgba(0,0,0,.08);
-        }
+        flex: 0 0 auto;  
 
-        .rm-discovery-folder-icon {
-            display: flex;
+        width: 54px;  
+        height: 54px;  
 
-            align-items: center;
+        border-radius: 14px;  
 
-            justify-content: center;
+        background: #d7b35a;  
 
-            flex: 0 0 auto;
+        font-size: 28px;  
 
-            width: 54px;
-            height: 54px;
+        box-shadow:  
+            0 3px 10px rgba(0,0,0,.08);  
+    }  
 
-            border-radius: 14px;
+    .rm-discovery-folder-content {  
+        flex: 1;  
 
-            background: #d7b35a;
+        min-width: 0;  
+    }  
 
-            font-size: 28px;
+    .rm-discovery-folder-content h2 {  
+        margin: 0 0 5px;  
 
-            box-shadow:
-                0 3px 10px rgba(0,0,0,.08);
-        }
+        color: #8b6508;  
 
-        .rm-discovery-folder-content {
-            flex: 1;
+        font-size: 22px;  
 
-            min-width: 0;
-        }
+        line-height: 1.3;  
+    }  
 
-        .rm-discovery-folder-content h2 {
-            margin: 0 0 5px;
+    .rm-discovery-folder-content p {  
+        margin: 0;  
 
-            color: #8b6508;
+        color: #555555;  
 
-            font-size: 22px;
+        font-size: 14px;  
 
-            line-height: 1.3;
-        }
+        line-height: 1.5;  
+    }  
 
-        .rm-discovery-folder-content p {
-            margin: 0;
+    .rm-discovery-toggle {  
+        flex: 0 0 auto;  
 
-            color: #555555;
+        border: 1px solid #b58d28;  
+        border-radius: 10px;  
 
-            font-size: 14px;
+        padding: 11px 15px;  
 
-            line-height: 1.5;
-        }
+        cursor: pointer;  
 
-        .rm-discovery-toggle {
-            flex: 0 0 auto;
+        background: #d7b35a;  
+        color: #111111;  
 
-            border: 1px solid #b58d28;
-            border-radius: 10px;
+        font-weight: 800;  
+    }  
 
-            padding: 11px 15px;
+    .rm-discovery-toggle:hover {  
+        background: #cba84d;  
+    }  
 
-            cursor: pointer;
+    .rm-discovery-content {  
+        margin-top: 12px;  
 
-            background: #d7b35a;
-            color: #111111;
+        padding: 4px;  
 
-            font-weight: 800;
-        }
+        border-radius: 18px;  
 
-        .rm-discovery-toggle:hover {
-            background: #cba84d;
-        }
+        background: #ffffff;  
+    }  
 
-        .rm-discovery-content {
-            margin-top: 12px;
+    .rm-discovery-content.rm-discovery-closed {  
+        display: none;  
+    }  
 
-            padding: 4px;
+    #rmDiscoveryHub {  
+        width: 100%;  
+    }  
 
-            border-radius: 18px;
 
-            background: #ffffff;
-        }
+    /* =========================================================  
+       ADVANCED DISCOVERY CATEGORIES  
+       ========================================================= */  
 
-        .rm-discovery-content.rm-discovery-closed {
-            display: none;
-        }
+    .rm-discovery-categories {  
+        display: grid;  
 
-        #rmDiscoveryHub {
-            width: 100%;
-        }
+        grid-template-columns:  
+            repeat(3, minmax(0, 1fr));  
 
+        gap: 14px;  
 
-        /* =========================================================
-           ADVANCED DISCOVERY CATEGORIES
-           ========================================================= */
+        margin-top: 18px;  
+    }  
 
-        .rm-discovery-categories {
-            display: grid;
+    .rm-discovery-category {  
+        padding: 18px;  
 
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
+        border: 1px solid #dddddd;  
+        border-radius: 15px;  
 
-            gap: 14px;
+        background: #ffffff;  
 
-            margin-top: 18px;
-        }
+        box-shadow:  
+            0 3px 12px rgba(0,0,0,.06);  
+    }  
 
-        .rm-discovery-category {
-            padding: 18px;
+    .rm-discovery-category h3 {  
+        margin: 0 0 10px;  
 
-            border: 1px solid #dddddd;
-            border-radius: 15px;
+        color: #8b6508;  
 
-            background: #ffffff;
+        font-size: 18px;  
 
-            box-shadow:
-                0 3px 12px rgba(0,0,0,.06);
-        }
+        line-height: 1.4;  
+    }  
 
-        .rm-discovery-category h3 {
-            margin: 0 0 10px;
+    .rm-discovery-category p {  
+        margin: 0;  
 
-            color: #8b6508;
+        color: #555555;  
 
-            font-size: 18px;
+        font-size: 14px;  
 
-            line-height: 1.4;
-        }
+        line-height: 1.7;  
+    }  
 
-        .rm-discovery-category p {
-            margin: 0;
+    .rm-discovery-upcoming {  
+        border-color: #d7b35a;  
 
-            color: #555555;
+        background: #fffdf5;  
+    }  
 
-            font-size: 14px;
+    .rm-discovery-local {  
+        border-color: #cfcfcf;  
+    }  
 
-            line-height: 1.7;
-        }
+    .rm-discovery-guide {  
+        border-color: #d7b35a;  
 
-        .rm-discovery-upcoming {
-            border-color: #d7b35a;
+        background: #fffaf0;  
+    }  
 
-            background: #fffdf5;
-        }
+    .rm-discovery-guide-list {  
+        margin: 10px 0 0;  
 
-        .rm-discovery-local {
-            border-color: #cfcfcf;
-        }
+        padding-left: 20px;  
 
-        .rm-discovery-guide {
-            border-color: #d7b35a;
+        color: #444444;  
 
-            background: #fffaf0;
-        }
+        line-height: 1.7;  
+    }  
 
-        .rm-discovery-guide-list {
-            margin: 10px 0 0;
+    .rm-discovery-guide-list li {  
+        margin-bottom: 5px;  
+    }  
 
-            padding-left: 20px;
 
-            color: #444444;
+    /* =========================================================  
+       MOBILE  
+       ========================================================= */  
 
-            line-height: 1.7;
-        }
+    @media (max-width: 800px) {  
 
-        .rm-discovery-guide-list li {
-            margin-bottom: 5px;
-        }
+        .rm-form-grid {  
+            grid-template-columns: 1fr;  
+        }  
 
+        .rm-list-grid {  
+            grid-template-columns: 1fr;  
+        }  
 
-        /* =========================================================
-           MOBILE
-           ========================================================= */
+        .rm-field-full {  
+            grid-column: auto;  
+        }  
 
-        @media (max-width: 800px) {
+        .rm-marketplace-nav {  
+            grid-template-columns: 1fr 1fr;  
+        }  
 
-            .rm-form-grid {
-                grid-template-columns: 1fr;
-            }
+        .rm-page {  
+            padding: 10px;  
+        }  
 
-            .rm-list-grid {
-                grid-template-columns: 1fr;
-            }
+        .rm-section {  
+            padding: 15px;  
+        }  
 
-            .rm-field-full {
-                grid-column: auto;
-            }
+        .rm-hero {  
+            padding: 18px;  
+        }  
 
-            .rm-marketplace-nav {
-                grid-template-columns: 1fr 1fr;
-            }
+        .rm-hero h1 {  
+            font-size: 24px;  
+        }  
 
-            .rm-page {
-                padding: 10px;
-            }
+        .rm-discovery-section {  
+            padding-left: 10px;  
+            padding-right: 10px;  
+        }  
 
-            .rm-section {
-                padding: 15px;
-            }
+        .rm-discovery-folder {  
+            align-items: flex-start;  
 
-            .rm-hero {
-                padding: 18px;
-            }
+            flex-wrap: wrap;  
 
-            .rm-hero h1 {
-                font-size: 24px;
-            }
+            padding: 15px;  
+        }  
 
-            .rm-discovery-section {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
+        .rm-discovery-folder-content {  
+            flex: 1 1 calc(100% - 70px);  
+        }  
 
-            .rm-discovery-folder {
-                align-items: flex-start;
+        .rm-discovery-folder-content h2 {  
+            font-size: 19px;  
+        }  
 
-                flex-wrap: wrap;
+        .rm-discovery-toggle {  
+            width: 100%;  
 
-                padding: 15px;
-            }
+            margin-top: 4px;  
+        }  
 
-            .rm-discovery-folder-content {
-                flex: 1 1 calc(100% - 70px);
-            }
+        .rm-discovery-categories {  
+            grid-template-columns: 1fr 1fr;  
+        }  
 
-            .rm-discovery-folder-content h2 {
-                font-size: 19px;
-            }
+    }  
 
-            .rm-discovery-toggle {
-                width: 100%;
 
-                margin-top: 4px;
-            }
+    @media (max-width: 480px) {  
 
-            .rm-discovery-categories {
-                grid-template-columns: 1fr 1fr;
-            }
+        .rm-marketplace-nav {  
+            grid-template-columns: 1fr;  
+        }  
 
-        }
+        .rm-actions {  
+            flex-direction: column;  
+        }  
 
+        .rm-actions .rm-btn {  
+            width: 100%;  
+        }  
 
-        @media (max-width: 480px) {
+        .rm-discovery-categories {  
+            grid-template-columns: 1fr;  
+        }  
 
-            .rm-marketplace-nav {
-                grid-template-columns: 1fr;
-            }
+    }  
 
-            .rm-actions {
-                flex-direction: column;
-            }
+</style>
 
-            .rm-actions .rm-btn {
-                width: 100%;
-            }
+</head>  <body>  <div class="rm-page">  <!-- =========================================================  
+     HERO  
+     ========================================================= -->  
 
-            .rm-discovery-categories {
-                grid-template-columns: 1fr;
-            }
+<section class="rm-hero">  
 
-        }
+    <h1>  
+        Regular Marketplace  
+    </h1>  
 
-    </style>
+    <p>  
+        Sell your Items, Property and Vehicles through  
+        <strong>ALON HISTORYVERSE 24</strong>.  
+    </p>  
 
-</head>
+    <p class="rm-note">  
+        Regular Marketplace is separate from the Global Marketplace.  
+    </p>  
 
+</section>  
 
-<body>
 
 
-<div class="rm-page">
+<!-- =========================================================  
+     LOGIN SECTION  
+     ========================================================= -->  
 
+<section  
+    id="rmLoginSection"  
+    class="rm-section"  
+>  
 
-    <!-- =========================================================
-         HERO
-         ========================================================= -->
+    <h2>  
+        Login / Account  
+    </h2>  
 
-    <section class="rm-hero">
 
-        <h1>
-            Regular Marketplace
-        </h1>
+    <form id="rmLoginForm">  
 
-        <p>
-            Sell your Items, Property and Vehicles through
-            <strong>ALON HISTORYVERSE 24</strong>.
-        </p>
+        <label for="rmLoginName">  
+            Name  
+        </label>  
 
-        <p class="rm-note">
-            Regular Marketplace is separate from the Global Marketplace.
-        </p>
+        <input  
+            id="rmLoginName"  
+            type="text"  
+            autocomplete="name"  
+            placeholder="Enter your name"  
+            required  
+        >  
 
-    </section>
 
+        <label for="rmLoginEmail">  
+            Email Address  
+        </label>  
 
+        <input  
+            id="rmLoginEmail"  
+            type="email"  
+            autocomplete="email"  
+            placeholder="Enter email address"  
+            required  
+        >  
 
-    <!-- =========================================================
-         LOGIN SECTION
-         ========================================================= -->
 
-    <section
-        id="rmLoginSection"
-        class="rm-section"
-    >
+        <label class="rm-agreement">  
 
-        <h2>
-            Login / Account
-        </h2>
+            <input  
+                id="rmAgreement"  
+                type="checkbox"  
+                required  
+            >  
 
+            <span>  
+                I agree to the Regular Marketplace Agreement,  
+                seller responsibility rules, listing rules and  
+                applicable terms before login.  
+            </span>  
 
-        <form id="rmLoginForm">
+        </label>  
 
-            <label for="rmLoginName">
-                Name
-            </label>
 
-            <input
-                id="rmLoginName"
-                type="text"
-                autocomplete="name"
-                placeholder="Enter your name"
-                required
-            >
+        <div class="rm-actions">  
 
+            <button  
+                type="submit"  
+                class="rm-btn rm-btn-primary"  
+                id="rmLoginBtn"  
+            >  
+                Login  
+            </button>  
 
-            <label for="rmLoginEmail">
-                Email Address
-            </label>
+        </div>  
 
-            <input
-                id="rmLoginEmail"
-                type="email"
-                autocomplete="email"
-                placeholder="Enter email address"
-                required
-            >
 
+        <div  
+            id="rmLoginStatus"  
+            class="rm-status"  
+        ></div>  
 
-            <label class="rm-agreement">
+    </form>  
 
-                <input
-                    id="rmAgreement"
-                    type="checkbox"
-                    required
-                >
+</section>  
 
-                <span>
-                    I agree to the Regular Marketplace Agreement,
-                    seller responsibility rules, listing rules and
-                    applicable terms before login.
-                </span>
 
-            </label>
 
+<!-- =========================================================  
+     PROFILE SECTION  
+     ========================================================= -->  
 
-            <div class="rm-actions">
+<section  
+    id="rmProfileSection"  
+    class="rm-section rm-hidden"  
+>  
 
-                <button
-                    type="submit"
-                    class="rm-btn rm-btn-primary"
-                    id="rmLoginBtn"
-                >
-                    Login
-                </button>
+    <h2>  
+        👤 My Profile  
+    </h2>  
 
-            </div>
 
+    <div class="rm-profile">  
 
-            <div
-                id="rmLoginStatus"
-                class="rm-status"
-            ></div>
+        <p>  
+            Logged in as:  
+        </p>  
 
-        </form>
+        <p>  
+            <strong id="rmProfileName"></strong>  
+        </p>  
 
-    </section>
+        <p  
+            id="rmProfileEmail"  
+            class="rm-profile-email"  
+        ></p>  
 
 
+        <p class="rm-note">  
+            Your profile information is private and is not  
+            published as a public profile.  
+        </p>  
 
-    <!-- =========================================================
-         PROFILE SECTION
-         ========================================================= -->
 
-    <section
-        id="rmProfileSection"
-        class="rm-section rm-hidden"
-    >
+        <div class="rm-actions">  
 
-        <h2>
-            👤 My Profile
-        </h2>
+            <button  
+                type="button"  
+                class="rm-btn rm-btn-danger"  
+                id="rmLogoutBtn"  
+            >  
+                Logout  
+            </button>  
 
+        </div>  
 
-        <div class="rm-profile">
+    </div>  
 
-            <p>
-                Logged in as:
-            </p>
+</section>  
 
-            <p>
-                <strong id="rmProfileName"></strong>
-            </p>
 
-            <p
-                id="rmProfileEmail"
-                class="rm-profile-email"
-            ></p>
 
+<!-- =========================================================  
+     MARKETPLACE NAVIGATION  
+     ========================================================= -->  
 
-            <p class="rm-note">
-                Your profile information is private and is not
-                published as a public profile.
-            </p>
+<section  
+    id="rmMarketplaceNavigation"  
+    class="rm-section"  
+>  
 
+    <h2>  
+        Marketplace  
+    </h2>  
 
-            <div class="rm-actions">
 
-                <button
-                    type="button"
-                    class="rm-btn rm-btn-danger"
-                    id="rmLogoutBtn"
-                >
-                    Logout
-                </button>
+    <div class="rm-marketplace-nav">  
 
-            </div>
 
-        </div>
+        <button  
+            type="button"  
+            class="rm-nav-btn"  
+            onclick="  
+                document.getElementById('rmSellSection').style.display='block';  
+                document.getElementById('rmMyAdsSection').style.display='none';  
+                document.getElementById('rmShowroomSection').style.display='none';  
+                document.getElementById('rmShowroomsSection').style.display='none';  
+            "  
+        >  
+            🛒 Marketplace  
+        </button>  
 
-    </section>
 
+        <button  
+            type="button"  
+            class="rm-nav-btn"  
+            onclick="  
+                document.getElementById('rmSellSection').style.display='none';  
+                document.getElementById('rmMyAdsSection').style.display='block';  
+                document.getElementById('rmShowroomSection').style.display='none';  
+                document.getElementById('rmShowroomsSection').style.display='none';  
+            "  
+        >  
+            📋 My Listings  
+        </button>  
 
 
-    <!-- =========================================================
-         MARKETPLACE NAVIGATION
-         ========================================================= -->
+        <button  
+            type="button"  
+            class="rm-nav-btn"  
+            onclick="  
+                document.getElementById('rmSellSection').style.display='none';  
+                document.getElementById('rmMyAdsSection').style.display='none';  
+                document.getElementById('rmShowroomSection').style.display='block';  
+                document.getElementById('rmShowroomsSection').style.display='none';  
+            "  
+        >  
+            🏢 Business / Showroom  
+        </button>  
 
-    <section
-        id="rmMarketplaceNavigation"
-        class="rm-section"
-    >
 
-        <h2>
-            Marketplace
-        </h2>
+        <button  
+            type="button"  
+            class="rm-nav-btn"  
+            onclick="  
+                document.getElementById('rmSellSection').style.display='none';  
+                document.getElementById('rmMyAdsSection').style.display='none';  
+                document.getElementById('rmShowroomSection').style.display='none';  
+                document.getElementById('rmShowroomsSection').style.display='block';  
+            "  
+        >  
+            🏢 My Showrooms  
+        </button>  
 
 
-        <div class="rm-marketplace-nav">
+    </div>  
 
+</section>  
 
-            <button
-                type="button"
-                class="rm-nav-btn"
-                onclick="
-                    document.getElementById('rmSellSection').style.display='block';
-                    document.getElementById('rmMyAdsSection').style.display='none';
-                    document.getElementById('rmShowroomSection').style.display='none';
-                    document.getElementById('rmShowroomsSection').style.display='none';
-                "
-            >
-                🛒 Marketplace
-            </button>
 
 
-            <button
-                type="button"
-                class="rm-nav-btn"
-                onclick="
-                    document.getElementById('rmSellSection').style.display='none';
-                    document.getElementById('rmMyAdsSection').style.display='block';
-                    document.getElementById('rmShowroomSection').style.display='none';
-                    document.getElementById('rmShowroomsSection').style.display='none';
-                "
-            >
-                📋 My Listings
-            </button>
+<!-- =========================================================  
+     SELL AD SECTION  
+     ========================================================= -->  
 
+<section  
+    id="rmSellSection"  
+    class="rm-section"  
+>  
 
-            <button
-                type="button"
-                class="rm-nav-btn"
-                onclick="
-                    document.getElementById('rmSellSection').style.display='none';
-                    document.getElementById('rmMyAdsSection').style.display='none';
-                    document.getElementById('rmShowroomSection').style.display='block';
-                    document.getElementById('rmShowroomsSection').style.display='none';
-                "
-            >
-                🏢 Business / Showroom
-            </button>
+    <h2>  
+        Sell My Item / Property / Vehicle  
+    </h2>  
 
 
-            <button
-                type="button"
-                class="rm-nav-btn"
-                onclick="
-                    document.getElementById('rmSellSection').style.display='none';
-                    document.getElementById('rmMyAdsSection').style.display='none';
-                    document.getElementById('rmShowroomSection').style.display='none';
-                    document.getElementById('rmShowroomsSection').style.display='block';
-                "
-            >
-                🏢 My Showrooms
-            </button>
+    <form id="rmListingForm">  
 
 
-        </div>
+        <input  
+            type="hidden"  
+            id="rmListingId"  
+            value=""  
+        >  
 
-    </section>
 
+        <div class="rm-form-grid">  
 
 
-    <!-- =========================================================
-         SELL AD SECTION
-         ========================================================= -->
+            <!-- TYPE -->  
 
-    <section
-        id="rmSellSection"
-        class="rm-section"
-    >
+            <div class="rm-field rm-field-full">  
 
-        <h2>
-            Sell My Item / Property / Vehicle
-        </h2>
+                <label>  
+                    Listing Type  
+                </label>  
 
 
-        <form id="rmListingForm">
+                <label class="rm-check-row">  
 
+                    <input  
+                        type="radio"  
+                        id="rmTypeItem"  
+                        name="rmTypeChoice"  
+                        value="item"  
+                        checked  
+                    >  
 
-            <input
-                type="hidden"
-                id="rmListingId"
-                value=""
-            >
+                    <span>  
+                        📦 Item  
+                    </span>  
 
+                </label>  
 
-            <div class="rm-form-grid">
 
+                <label class="rm-check-row">  
 
-                <!-- TYPE -->
+                    <input  
+                        type="radio"  
+                        id="rmTypeProperty"  
+                        name="rmTypeChoice"  
+                        value="property"  
+                    >  
 
-                <div class="rm-field rm-field-full">
+                    <span>  
+                        🏠 Property  
+                    </span>  
 
-                    <label>
-                        Listing Type
-                    </label>
+                </label>  
 
 
-                    <label class="rm-check-row">
+                <label class="rm-check-row">  
 
-                        <input
-                            type="radio"
-                            id="rmTypeItem"
-                            name="rmTypeChoice"
-                            value="item"
-                            checked
-                        >
+                    <input  
+                        type="radio"  
+                        id="rmTypeVehicle"  
+                        name="rmTypeChoice"  
+                        value="vehicle"  
+                    >  
 
-                        <span>
-                            📦 Item
-                        </span>
+                    <span>  
+                        🚗 Car / Vehicle  
+                    </span>  
 
-                    </label>
+                </label>  
 
+            </div>  
 
-                    <label class="rm-check-row">
 
-                        <input
-                            type="radio"
-                            id="rmTypeProperty"
-                            name="rmTypeChoice"
-                            value="property"
-                        >
 
-                        <span>
-                            🏠 Property
-                        </span>
+            <!-- TYPE SELECT -->  
 
-                    </label>
+            <div class="rm-field">  
 
+                <label for="rmListingType">  
+                    Type  
+                </label>  
 
-                    <label class="rm-check-row">
+                <select id="rmListingType">  
 
-                        <input
-                            type="radio"
-                            id="rmTypeVehicle"
-                            name="rmTypeChoice"
-                            value="vehicle"
-                        >
+                    <option value="item">  
+                        Item  
+                    </option>  
 
-                        <span>
-                            🚗 Car / Vehicle
-                        </span>
+                    <option value="property">  
+                        Property  
+                    </option>  
 
-                    </label>
+                    <option value="vehicle">  
+                        Vehicle  
+                    </option>  
 
-                </div>
+                </select>  
 
+            </div>  
 
 
-                <!-- TYPE SELECT -->
 
-                <div class="rm-field">
+            <!-- CATEGORY -->  
 
-                    <label for="rmListingType">
-                        Type
-                    </label>
+            <div class="rm-field">  
 
-                    <select id="rmListingType">
+                <label for="rmListingCategory">  
+                    Category  
+                </label>  
 
-                        <option value="item">
-                            Item
-                        </option>
+                <select id="rmListingCategory">  
 
-                        <option value="property">
-                            Property
-                        </option>
+                    <option value="">  
+                        Select Category  
+                    </option>  
 
-                        <option value="vehicle">
-                            Vehicle
-                        </option>
+                </select>  
 
-                    </select>
+            </div>  
 
-                </div>
 
 
+            <!-- CONDITION -->  
 
-                <!-- CATEGORY -->
+            <div class="rm-field">  
 
-                <div class="rm-field">
+                <label for="rmListingCondition">  
+                    Condition  
+                </label>  
 
-                    <label for="rmListingCategory">
-                        Category
-                    </label>
+                <select id="rmListingCondition">  
 
-                    <select id="rmListingCategory">
+                    <option value="new">  
+                        New  
+                    </option>  
 
-                        <option value="">
-                            Select Category
-                        </option>
+                    <option value="used">  
+                        Used  
+                    </option>  
 
-                    </select>
+                    <option value="refurbished">  
+                        Refurbished  
+                    </option>  
 
-                </div>
+                </select>  
 
+            </div>  
 
 
-                <!-- CONDITION -->
 
-                <div class="rm-field">
+            <!-- COUNTRY -->  
 
-                    <label for="rmListingCondition">
-                        Condition
-                    </label>
+            <div class="rm-field">  
 
-                    <select id="rmListingCondition">
+                <label for="rmCountry">  
+                    🌍 Country  
+                </label>  
 
-                        <option value="new">
-                            New
-                        </option>
+                <select  
+                    id="rmCountry"  
+                    required  
+                >  
 
-                        <option value="used">
-                            Used
-                        </option>
+                    <option value="">  
+                        Select Country  
+                    </option>  
 
-                        <option value="refurbished">
-                            Refurbished
-                        </option>
+                </select>  
 
-                    </select>
+            </div>  
 
-                </div>
 
 
+            <!-- STATE -->  
 
-                <!-- COUNTRY -->
+            <div class="rm-field">  
 
-                <div class="rm-field">
+                <label for="rmState">  
+                    State / Province  
+                </label>  
 
-                    <label for="rmCountry">
-                        🌍 Country
-                    </label>
+                <input  
+                    id="rmState"  
+                    type="text"  
+                    placeholder="Enter state / province"  
+                >  
 
-                    <select
-                        id="rmCountry"
-                        required
-                    >
+            </div>  
 
-                        <option value="">
-                            Select Country
-                        </option>
 
-                    </select>
 
-                </div>
+            <!-- DISTRICT -->  
 
+            <div class="rm-field">  
 
+                <label for="rmDistrict">  
+                    District / City  
+                </label>  
 
-                <!-- STATE -->
+                <input  
+                    id="rmDistrict"  
+                    type="text"  
+                    placeholder="Enter district / city"  
+                >  
 
-                <div class="rm-field">
+            </div>  
 
-                    <label for="rmState">
-                        State / Province
-                    </label>
 
-                    <input
-                        id="rmState"
-                        type="text"
-                        placeholder="Enter state / province"
-                    >
 
-                </div>
+            <!-- PIN -->  
 
+            <div class="rm-field">  
 
+                <label for="rmPin">  
+                    PIN / ZIP Code  
+                </label>  
 
-                <!-- DISTRICT -->
+                <input  
+                    id="rmPin"  
+                    type="text"  
+                    placeholder="Enter PIN / ZIP"  
+                >  
 
-                <div class="rm-field">
+            </div>  
 
-                    <label for="rmDistrict">
-                        District / City
-                    </label>
 
-                    <input
-                        id="rmDistrict"
-                        type="text"
-                        placeholder="Enter district / city"
-                    >
 
-                </div>
+            <!-- PRICE -->  
 
+            <div class="rm-field">  
 
+                <label for="rmPrice">  
+                    Price  
+                </label>  
 
-                <!-- PIN -->
+                <input  
+                    id="rmPrice"  
+                    type="number"  
+                    min="0"  
+                    step="any"  
+                    placeholder="Enter price"  
+                >  
 
-                <div class="rm-field">
+            </div>  
 
-                    <label for="rmPin">
-                        PIN / ZIP Code
-                    </label>
 
-                    <input
-                        id="rmPin"
-                        type="text"
-                        placeholder="Enter PIN / ZIP"
-                    >
 
-                </div>
+            <!-- CURRENCY -->  
 
+            <div class="rm-field">  
 
+                <label for="rmCurrency">  
+                    Currency  
+                </label>  
 
-                <!-- PRICE -->
+                <select id="rmCurrency">  
 
-                <div class="rm-field">
+                    <option value="USD">  
+                        USD — US Dollar  
+                    </option>  
 
-                    <label for="rmPrice">
-                        Price
-                    </label>
+                    <option value="INR">  
+                        INR — Indian Rupee  
+                    </option>  
 
-                    <input
-                        id="rmPrice"
-                        type="number"
-                        min="0"
-                        step="any"
-                        placeholder="Enter price"
-                    >
+                    <option value="EUR">  
+                        EUR — Euro  
+                    </option>  
 
-                </div>
+                    <option value="GBP">  
+                        GBP — British Pound  
+                    </option>  
 
+                </select>  
 
+            </div>  
 
-                <!-- CURRENCY -->
 
-                <div class="rm-field">
 
-                    <label for="rmCurrency">
-                        Currency
-                    </label>
+            <!-- LOCATION -->  
 
-                    <select id="rmCurrency">
+            <div class="rm-field rm-field-full">  
 
-                        <option value="USD">
-                            USD — US Dollar
-                        </option>
+                <label for="rmLocation">  
+                    📍 Location  
+                </label>  
 
-                        <option value="INR">
-                            INR — Indian Rupee
-                        </option>
+                <input  
+                    id="rmLocation"  
+                    type="text"  
+                    placeholder="Enter local location"  
+                >  
 
-                        <option value="EUR">
-                            EUR — Euro
-                        </option>
+            </div>  
 
-                        <option value="GBP">
-                            GBP — British Pound
-                        </option>
 
-                    </select>
 
-                </div>
+            <!-- REACH -->  
 
+            <div class="rm-field">  
 
+                <label for="rmReach">  
+                    Advertisement Reach  
+                </label>  
 
-                <!-- LOCATION -->
+                <select id="rmReach">  
 
-                <div class="rm-field rm-field-full">
+                    <option value="local">  
+                        📍 Local  
+                    </option>  
 
-                    <label for="rmLocation">
-                        📍 Location
-                    </label>
+                    <option value="country">  
+                        🌍 Country  
+                    </option>  
 
-                    <input
-                        id="rmLocation"
-                        type="text"
-                        placeholder="Enter local location"
-                    >
+                    <option value="global">  
+                        🌎 Global  
+                    </option>  
 
-                </div>
+                    <option value="all-country">  
+                        🌐 All Countries  
+                    </option>  
 
+                </select>  
 
+            </div>  
 
-                <!-- REACH -->
 
-                <div class="rm-field">
 
-                    <label for="rmReach">
-                        Advertisement Reach
-                    </label>
+            <!-- DESCRIPTION -->  
 
-                    <select id="rmReach">
+            <div class="rm-field rm-field-full">  
 
-                        <option value="local">
-                            📍 Local
-                        </option>
+                <label for="rmDescription">  
+                    Description  
+                </label>  
 
-                        <option value="country">
-                            🌍 Country
-                        </option>
+                <textarea  
+                    id="rmDescription"  
+                    placeholder="Describe your item, property or vehicle..."  
+                ></textarea>  
 
-                        <option value="global">
-                            🌎 Global
-                        </option>
+            </div>  
 
-                        <option value="all-country">
-                            🌐 All Countries
-                        </option>
 
-                    </select>
 
-                </div>
+            <!-- IMAGE -->  
 
+            <div class="rm-field">  
 
+                <label for="rmImage">  
+                    🖼️ Image  
+                </label>  
 
-                <!-- DESCRIPTION -->
+                <input  
+                    id="rmImage"  
+                    type="file"  
+                    accept="image/*"  
+                >  
 
-                <div class="rm-field rm-field-full">
+                <div class="rm-note">  
+                    Maximum image size: 8 MB.  
+                </div>  
 
-                    <label for="rmDescription">
-                        Description
-                    </label>
+            </div>  
 
-                    <textarea
-                        id="rmDescription"
-                        placeholder="Describe your item, property or vehicle..."
-                    ></textarea>
 
-                </div>
 
+            <!-- VIDEO -->  
 
+            <div class="rm-field">  
 
-                <!-- IMAGE -->
+                <label for="rmVideo">  
+                    🎥 Video  
+                </label>  
 
-                <div class="rm-field">
+                <input  
+                    id="rmVideo"  
+                    type="file"  
+                    accept="video/*"  
+                >  
 
-                    <label for="rmImage">
-                        🖼️ Image
-                    </label>
+                <div class="rm-note">  
+                    Maximum video size: 40 MB.  
+                </div>  
 
-                    <input
-                        id="rmImage"
-                        type="file"
-                        accept="image/*"
-                    >
+            </div>  
 
-                    <div class="rm-note">
-                        Maximum image size: 8 MB.
-                    </div>
 
-                </div>
+        </div>  
 
 
+        <!-- ACTIONS -->  
 
-                <!-- VIDEO -->
+        <div class="rm-actions">  
 
-                <div class="rm-field">
 
-                    <label for="rmVideo">
-                        🎥 Video
-                    </label>
+            <button  
+                type="submit"  
+                class="rm-btn rm-btn-primary"  
+                id="rmSaveBtn"  
+            >  
+                💾 Save Listing  
+            </button>  
 
-                    <input
-                        id="rmVideo"
-                        type="file"
-                        accept="video/*"
-                    >
 
-                    <div class="rm-note">
-                        Maximum video size: 40 MB.
-                    </div>
+            <button  
+                type="button"  
+                class="rm-btn rm-hidden"  
+                id="rmUpdateBtn"  
+            >  
+                ✏️ Update Listing  
+            </button>  
 
-                </div>
 
+            <button  
+                type="button"  
+                class="rm-btn rm-hidden"  
+                id="rmCancelEditBtn"  
+            >  
+                ← Cancel Edit  
+            </button>  
 
-            </div>
 
+            <button  
+                type="button"  
+                class="rm-btn"  
+                id="rmResetBtn"  
+            >  
+                🔄 Reset  
+            </button>  
 
-            <!-- ACTIONS -->
 
-            <div class="rm-actions">
+        </div>  
 
 
-                <button
-                    type="submit"
-                    class="rm-btn rm-btn-primary"
-                    id="rmSaveBtn"
-                >
-                    💾 Save Listing
-                </button>
+        <div  
+            id="rmListingStatus"  
+            class="rm-status"  
+        ></div>  
 
 
-                <button
-                    type="button"
-                    class="rm-btn rm-hidden"
-                    id="rmUpdateBtn"
-                >
-                    ✏️ Update Listing
-                </button>
+    </form>  
 
+</section>  
 
-                <button
-                    type="button"
-                    class="rm-btn rm-hidden"
-                    id="rmCancelEditBtn"
-                >
-                    ← Cancel Edit
-                </button>
 
 
-                <button
-                    type="button"
-                    class="rm-btn"
-                    id="rmResetBtn"
-                >
-                    🔄 Reset
-                </button>
+<!-- =========================================================  
+     MY LISTINGS  
+     ========================================================= -->  
 
+<section  
+    id="rmMyAdsSection"  
+    class="rm-section"  
+    style="display:none;"  
+>  
 
-            </div>
+    <h2>  
+        📋 My Listings  
+    </h2>  
 
+    <p class="rm-note">  
+        Manage your saved Regular Marketplace listings.  
+    </p>  
 
-            <div
-                id="rmListingStatus"
-                class="rm-status"
-            ></div>
 
+    <div id="rmListings">  
 
-        </form>
+        <div class="rm-empty">  
+            Your listings will appear here after you save an ad.  
+        </div>  
 
-    </section>
+    </div>  
 
+</section>  
 
 
-    <!-- =========================================================
-         MY LISTINGS
-         ========================================================= -->
 
-    <section
-        id="rmMyAdsSection"
-        class="rm-section"
-        style="display:none;"
-    >
+<!-- =========================================================  
+     BUSINESS / SHOWROOM  
+     ========================================================= -->  
 
-        <h2>
-            📋 My Listings
-        </h2>
+<section  
+    id="rmShowroomSection"  
+    class="rm-section"  
+    style="display:none;"  
+>  
 
-        <p class="rm-note">
-            Manage your saved Regular Marketplace listings.
-        </p>
+    <h2>  
+        🏢 Business / Showroom Advertisement  
+    </h2>  
 
+    <p class="rm-note">  
+        Create a business or showroom advertisement for the  
+        Regular Marketplace.  
+    </p>  
 
-        <div id="rmListings">
 
-            <div class="rm-empty">
-                Your listings will appear here after you save an ad.
-            </div>
+    <form id="rmShowroomForm">  
 
-        </div>
 
-    </section>
+        <input  
+            type="hidden"  
+            id="rmShowroomId"  
+            value=""  
+        >  
 
 
+        <div class="rm-form-grid">  
 
-    <!-- =========================================================
-         BUSINESS / SHOWROOM
-         ========================================================= -->
 
-    <section
-        id="rmShowroomSection"
-        class="rm-section"
-        style="display:none;"
-    >
+            <!-- NAME -->  
 
-        <h2>
-            🏢 Business / Showroom Advertisement
-        </h2>
+            <div class="rm-field rm-field-full">  
 
-        <p class="rm-note">
-            Create a business or showroom advertisement for the
-            Regular Marketplace.
-        </p>
+                <label for="rmShowroomName">  
+                    Business / Showroom Name  
+                </label>  
 
+                <input  
+                    id="rmShowroomName"  
+                    type="text"  
+                    placeholder="Enter business or showroom name"  
+                    required  
+                >  
 
-        <form id="rmShowroomForm">
+            </div>  
 
 
-            <input
-                type="hidden"
-                id="rmShowroomId"
-                value=""
-            >
 
+            <!-- COUNTRY -->  
 
-            <div class="rm-form-grid">
+            <div class="rm-field">  
 
+                <label for="rmShowroomCountry">  
+                    🌍 Country  
+                </label>  
 
-                <!-- NAME -->
+                <select  
+                    id="rmShowroomCountry"  
+                    required  
+                >  
 
-                <div class="rm-field rm-field-full">
+                    <option value="">  
+                        Select Country  
+                    </option>  
 
-                    <label for="rmShowroomName">
-                        Business / Showroom Name
-                    </label>
+                </select>  
 
-                    <input
-                        id="rmShowroomName"
-                        type="text"
-                        placeholder="Enter business or showroom name"
-                        required
-                    >
+            </div>  
 
-                </div>
 
 
+            <!-- STATE -->  
 
-                <!-- COUNTRY -->
+            <div class="rm-field">  
 
-                <div class="rm-field">
+                <label for="rmShowroomState">  
+                    State / Province  
+                </label>  
 
-                    <label for="rmShowroomCountry">
-                        🌍 Country
-                    </label>
+                <input  
+                    id="rmShowroomState"  
+                    type="text"  
+                    placeholder="Enter state / province"  
+                >  
 
-                    <select
-                        id="rmShowroomCountry"
-                        required
-                    >
+            </div>  
 
-                        <option value="">
-                            Select Country
-                        </option>
 
-                    </select>
 
-                </div>
+            <!-- DISTRICT -->  
 
+            <div class="rm-field">  
 
+                <label for="rmShowroomDistrict">  
+                    District / City  
+                </label>  
 
-                <!-- STATE -->
+                <input  
+                    id="rmShowroomDistrict"  
+                    type="text"  
+                    placeholder="Enter district / city"  
+                >  
 
-                <div class="rm-field">
+            </div>  
 
-                    <label for="rmShowroomState">
-                        State / Province
-                    </label>
 
-                    <input
-                        id="rmShowroomState"
-                        type="text"
-                        placeholder="Enter state / province"
-                    >
 
-                </div>
+            <!-- TALUKA -->  
 
+            <div class="rm-field">  
 
+                <label for="rmShowroomTaluka">  
+                    Taluka / Area  
+                </label>  
 
-                <!-- DISTRICT -->
+                <input  
+                    id="rmShowroomTaluka"  
+                    type="text"  
+                    placeholder="Enter taluka / area"  
+                >  
 
-                <div class="rm-field">
+            </div>  
 
-                    <label for="rmShowroomDistrict">
-                        District / City
-                    </label>
 
-                    <input
-                        id="rmShowroomDistrict"
-                        type="text"
-                        placeholder="Enter district / city"
-                    >
 
-                </div>
+            <!-- PIN -->  
 
+            <div class="rm-field">  
 
+                <label for="rmShowroomPin">  
+                    PIN / ZIP Code  
+                </label>  
 
-                <!-- TALUKA -->
+                <input  
+                    id="rmShowroomPin"  
+                    type="text"  
+                    placeholder="Enter PIN / ZIP"  
+                >  
 
-                <div class="rm-field">
+            </div>  
 
-                    <label for="rmShowroomTaluka">
-                        Taluka / Area
-                    </label>
 
-                    <input
-                        id="rmShowroomTaluka"
-                        type="text"
-                        placeholder="Enter taluka / area"
-                    >
 
-                </div>
+            <!-- CATEGORY -->  
 
+            <div class="rm-field">  
 
+                <label for="rmShowroomCategory">  
+                    Business Category  
+                </label>  
 
-                <!-- PIN -->
+                <select  
+                    id="rmShowroomCategory"  
+                    required  
+                >  
 
-                <div class="rm-field">
+                    <option value="">  
+                        Select Category  
+                    </option>  
 
-                    <label for="rmShowroomPin">
-                        PIN / ZIP Code
-                    </label>
+                    <option value="retail">  
+                        Retail  
+                    </option>  
 
-                    <input
-                        id="rmShowroomPin"
-                        type="text"
-                        placeholder="Enter PIN / ZIP"
-                    >
+                    <option value="wholesale">  
+                        Wholesale  
+                    </option>  
 
-                </div>
+                    <option value="manufacturer">  
+                        Manufacturer  
+                    </option>  
 
+                    <option value="dealer">  
+                        Dealer  
+                    </option>  
 
+                    <option value="service">  
+                        Service  
+                    </option>  
 
-                <!-- CATEGORY -->
+                    <option value="restaurant">  
+                        Restaurant / Food  
+                    </option>  
 
-                <div class="rm-field">
+                    <option value="hotel">  
+                        Hotel / Hospitality  
+                    </option>  
 
-                    <label for="rmShowroomCategory">
-                        Business Category
-                    </label>
+                    <option value="real-estate">  
+                        Real Estate  
+                    </option>  
 
-                    <select
-                        id="rmShowroomCategory"
-                        required
-                    >
+                    <option value="automobile">  
+                        Automobile  
+                    </option>  
 
-                        <option value="">
-                            Select Category
-                        </option>
+                    <option value="electronics">  
+                        Electronics  
+                    </option>  
 
-                        <option value="retail">
-                            Retail
-                        </option>
+                    <option value="construction">  
+                        Construction  
+                    </option>  
 
-                        <option value="wholesale">
-                            Wholesale
-                        </option>
+                    <option value="education">  
+                        Education  
+                    </option>  
 
-                        <option value="manufacturer">
-                            Manufacturer
-                        </option>
+                    <option value="healthcare">  
+                        Healthcare  
+                    </option>  
 
-                        <option value="dealer">
-                            Dealer
-                        </option>
+                    <option value="agriculture">  
+                        Agriculture  
+                    </option>  
 
-                        <option value="service">
-                            Service
-                        </option>
+                    <option value="technology">  
+                        Technology  
+                    </option>  
 
-                        <option value="restaurant">
-                            Restaurant / Food
-                        </option>
+                    <option value="other">  
+                        Other Business  
+                    </option>  
 
-                        <option value="hotel">
-                            Hotel / Hospitality
-                        </option>
+                </select>  
 
-                        <option value="real-estate">
-                            Real Estate
-                        </option>
+            </div>  
 
-                        <option value="automobile">
-                            Automobile
-                        </option>
 
-                        <option value="electronics">
-                            Electronics
-                        </option>
 
-                        <option value="construction">
-                            Construction
-                        </option>
+            <!-- REACH -->  
 
-                        <option value="education">
-                            Education
-                        </option>
+            <div class="rm-field">  
 
-                        <option value="healthcare">
-                            Healthcare
-                        </option>
+                <label for="rmShowroomReach">  
+                    📢 Advertisement Reach  
+                </label>  
 
-                        <option value="agriculture">
-                            Agriculture
-                        </option>
+                <select  
+                    id="rmShowroomReach"  
+                    required  
+                >  
 
-                        <option value="technology">
-                            Technology
-                        </option>
+                    <option value="local">  
+                        📍 Local  
+                    </option>  
 
-                        <option value="other">
-                            Other Business
-                        </option>
+                    <option value="country">  
+                        🌍 Country  
+                    </option>  
 
-                    </select>
+                    <option value="global">  
+                        🌎 Global  
+                    </option>  
 
-                </div>
+                    <option value="all-country">  
+                        🌐 All Countries  
+                    </option>  
 
+                </select>  
 
+            </div>  
 
-                <!-- REACH -->
 
-                <div class="rm-field">
 
-                    <label for="rmShowroomReach">
-                        📢 Advertisement Reach
-                    </label>
+            <!-- DESCRIPTION -->  
 
-                    <select
-                        id="rmShowroomReach"
-                        required
-                    >
+            <div class="rm-field rm-field-full">  
 
-                        <option value="local">
-                            📍 Local
-                        </option>
+                <label for="rmShowroomDescription">  
+                    Business Description  
+                </label>  
 
-                        <option value="country">
-                            🌍 Country
-                        </option>
+                <textarea  
+                    id="rmShowroomDescription"  
+                    placeholder="Describe your business or showroom..."  
+                ></textarea>  
 
-                        <option value="global">
-                            🌎 Global
-                        </option>
+            </div>  
 
-                        <option value="all-country">
-                            🌐 All Countries
-                        </option>
 
-                    </select>
 
-                </div>
+            <!-- IMAGE -->  
 
+            <div class="rm-field">  
 
+                <label for="rmShowroomImage">  
+                    🖼️ Business Image  
+                </label>  
 
-                <!-- DESCRIPTION -->
+                <input  
+                    id="rmShowroomImage"  
+                    type="file"  
+                    accept="image/*"  
+                >  
 
-                <div class="rm-field rm-field-full">
+                <div class="rm-note">  
+                    Maximum image size: 8 MB.  
+                </div>  
 
-                    <label for="rmShowroomDescription">
-                        Business Description
-                    </label>
+            </div>  
 
-                    <textarea
-                        id="rmShowroomDescription"
-                        placeholder="Describe your business or showroom..."
-                    ></textarea>
 
-                </div>
 
+            <!-- VIDEO -->  
 
+            <div class="rm-field">  
 
-                <!-- IMAGE -->
+                <label for="rmShowroomVideo">  
+                    🎥 Business Video  
+                </label>  
 
-                <div class="rm-field">
+                <input  
+                    id="rmShowroomVideo"  
+                    type="file"  
+                    accept="video/*"  
+                >  
 
-                    <label for="rmShowroomImage">
-                        🖼️ Business Image
-                    </label>
+                <div class="rm-note">  
+                    Maximum video size: 40 MB.  
+                </div>  
 
-                    <input
-                        id="rmShowroomImage"
-                        type="file"
-                        accept="image/*"
-                    >
+            </div>  
 
-                    <div class="rm-note">
-                        Maximum image size: 8 MB.
-                    </div>
 
-                </div>
+        </div>  
 
 
+        <!-- SHOWROOM ACTIONS -->  
 
-                <!-- VIDEO -->
+        <div class="rm-actions">  
 
-                <div class="rm-field">
 
-                    <label for="rmShowroomVideo">
-                        🎥 Business Video
-                    </label>
+            <button  
+                type="submit"  
+                class="rm-btn rm-btn-primary"  
+                id="rmShowroomSaveBtn"  
+            >  
+                💾 Save Showroom  
+            </button>  
 
-                    <input
-                        id="rmShowroomVideo"
-                        type="file"
-                        accept="video/*"
-                    >
 
-                    <div class="rm-note">
-                        Maximum video size: 40 MB.
-                    </div>
+            <button  
+                type="button"  
+                class="rm-btn rm-hidden"  
+                id="rmShowroomUpdateBtn"  
+            >  
+                ✏️ Update Showroom  
+            </button>  
 
-                </div>
 
+            <button  
+                type="button"  
+                class="rm-btn"  
+                id="rmShowroomResetBtn"  
+            >  
+                🔄 Reset  
+            </button>  
 
-            </div>
 
+        </div>  
 
-            <!-- SHOWROOM ACTIONS -->
 
-            <div class="rm-actions">
+        <div  
+            id="rmShowroomStatus"  
+            class="rm-status"  
+        ></div>  
 
 
-                <button
-                    type="submit"
-                    class="rm-btn rm-btn-primary"
-                    id="rmShowroomSaveBtn"
-                >
-                    💾 Save Showroom
-                </button>
+    </form>  
 
+</section>  
 
-                <button
-                    type="button"
-                    class="rm-btn rm-hidden"
-                    id="rmShowroomUpdateBtn"
-                >
-                    ✏️ Update Showroom
-                </button>
 
 
-                <button
-                    type="button"
-                    class="rm-btn"
-                    id="rmShowroomResetBtn"
-                >
-                    🔄 Reset
-                </button>
+<!-- =========================================================  
+     MY SHOWROOMS  
+     ========================================================= -->  
 
+<section  
+    id="rmShowroomsSection"  
+    class="rm-section"  
+    style="display:none;"  
+>  
 
-            </div>
+    <h2>  
+        🏢 My Showrooms  
+    </h2>  
 
+    <p class="rm-note">  
+        Manage your saved business and showroom advertisements.  
+    </p>  
 
-            <div
-                id="rmShowroomStatus"
-                class="rm-status"
-            ></div>
 
+    <div id="rmShowrooms">  
 
-        </form>
+        <div class="rm-empty">  
+            Your business and showroom advertisements  
+            will appear here.  
+        </div>  
 
-    </section>
+    </div>  
 
+</section>  
 
 
-    <!-- =========================================================
-         MY SHOWROOMS
-         ========================================================= -->
 
-    <section
-        id="rmShowroomsSection"
-        class="rm-section"
-        style="display:none;"
-    >
+<!-- =========================================================  
+     SELLER RESPONSIBILITY  
+     ========================================================= -->  
 
-        <h2>
-            🏢 My Showrooms
-        </h2>
+<section class="rm-section">  
 
-        <p class="rm-note">
-            Manage your saved business and showroom advertisements.
-        </p>
+    <h2>  
+        Seller Responsibility  
+    </h2>  
 
 
-        <div id="rmShowrooms">
+    <div class="rm-responsibility">  
 
-            <div class="rm-empty">
-                Your business and showroom advertisements
-                will appear here.
-            </div>
+        <p>  
+            Sellers and advertisers are responsible for the  
+            information they publish.  
+        </p>  
 
-        </div>
 
-    </section>
+        <ul>  
 
+            <li>  
+                Provide accurate item, property, vehicle and  
+                business information.  
+            </li>  
 
+            <li>  
+                Do not publish fraudulent or misleading listings.  
+            </li>  
 
-    <!-- =========================================================
-         SELLER RESPONSIBILITY
-         ========================================================= -->
+            <li>  
+                The seller is responsible for ownership,  
+                condition, price and availability information.  
+            </li>  
 
-    <section class="rm-section">
+            <li>  
+                The seller is responsible for communication  
+                with buyers and customers.  
+            </li>  
 
-        <h2>
-            Seller Responsibility
-        </h2>
+            <li>  
+                Upload only images and videos that you are  
+                legally allowed to publish.  
+            </li>  
 
+            <li>  
+                Users should independently verify important  
+                transaction, payment and ownership information.  
+            </li>  
 
-        <div class="rm-responsibility">
+            <li>  
+                ALON HISTORYVERSE 24 does not itself guarantee  
+                transactions between users.  
+            </li>  
 
-            <p>
-                Sellers and advertisers are responsible for the
-                information they publish.
-            </p>
+        </ul>  
 
+    </div>  
 
-            <ul>
+</section>
 
-                <li>
-                    Provide accurate item, property, vehicle and
-                    business information.
-                </li>
+</div>  <!-- =========================================================  
+     MARKETPLACE DISCOVERY  
+     OUTSIDE REGULAR MARKETPLACE  
+     ========================================================= -->  <section  
+    id="rmDiscoverySection"  
+    class="rm-discovery-section"  
+>  <!-- =====================================================  
+     DISCOVERY FOLDER  
+     ===================================================== -->  
 
-                <li>
-                    Do not publish fraudulent or misleading listings.
-                </li>
+<div  
+    id="rmDiscoveryFolder"  
+    class="rm-discovery-folder"  
+>  
 
-                <li>
-                    The seller is responsible for ownership,
-                    condition, price and availability information.
-                </li>
+    <div class="rm-discovery-folder-icon">  
+        📁  
+    </div>  
 
-                <li>
-                    The seller is responsible for communication
-                    with buyers and customers.
-                </li>
 
-                <li>
-                    Upload only images and videos that you are
-                    legally allowed to publish.
-                </li>
+    <div class="rm-discovery-folder-content">  
 
-                <li>
-                    Users should independently verify important
-                    transaction, payment and ownership information.
-                </li>
+        <h2>  
+            MARKETPLACE DISCOVERY  
+        </h2>  
 
-                <li>
-                    ALON HISTORYVERSE 24 does not itself guarantee
-                    transactions between users.
-                </li>
+        <p>  
+            🎬 Entertainment  
+            • 🌍 Travel  
+            • 🏛️ Culture  
+            • 🎵 Music  
+            • 🎮 Games  
+            • 🏆 Sports  
+            • 💎 Luxury  
+            • 🚀 Upcoming  
+        </p>  
 
-            </ul>
+    </div>  
 
-        </div>
 
-    </section>
+    <button  
+        type="button"  
+        id="rmDiscoveryOpen"  
+        class="rm-discovery-toggle"  
+        aria-expanded="false"  
+        aria-controls="rmDiscoveryContent"  
+    >  
+        📁 Open Discovery  
+    </button>  
+
+</div>  
+
+
+<!-- =====================================================  
+     DISCOVERY CONTENT  
+     ===================================================== -->  
+
+<div  
+    id="rmDiscoveryContent"  
+    class="rm-discovery-content rm-discovery-closed"  
+    style="display:none;"  
+>  
+
+
+    <button  
+        type="button"  
+        id="rmDiscoveryBack"  
+        class="rm-btn"  
+    >  
+        ← Back  
+    </button>  
+
+
+    <!-- =================================================  
+         ADVANCED DISCOVERY CATEGORIES  
+         ================================================= -->  
+
+    <div class="rm-discovery-categories">  
+
+
+        <!-- ENTERTAINMENT -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🎬 Entertainment  
+            </h3>  
+
+            <p>  
+                Movies • TV Serials • Web Series •  
+                Podcasts • Hosting • Shows  
+            </p>  
+
+        </div>  
+
+
+        <!-- MUSIC -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🎵 Music  
+            </h3>  
+
+            <p>  
+                Songs • Albums • Artists • Music Shows •  
+                New Releases  
+            </p>  
+
+        </div>  
+
+
+        <!-- SPORTS -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🏆 Sports  
+            </h3>  
+
+            <p>  
+                Sports • Tournaments • Matches •  
+                Players • Teams • Upcoming Events  
+            </p>  
+
+        </div>  
+
+
+        <!-- GAMES -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🎮 Games  
+            </h3>  
+
+            <p>  
+                Video Games • Mobile Games • PC Games •  
+                Console Games • Upcoming Games  
+            </p>  
+
+        </div>  
+
+
+        <!-- LUXURY -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                💎 Luxury & Lifestyle  
+            </h3>  
+
+            <p>  
+                Luxury Items • Cars • Watches • Jewellery •  
+                Resorts • Premium Lifestyle  
+            </p>  
+
+        </div>  
+
+
+        <!-- UPCOMING -->  
+
+        <div class="rm-discovery-category rm-discovery-upcoming">  
+
+            <h3>  
+                🚀 Coming Soon  
+            </h3>  
+
+            <p>  
+                Upcoming Movies • Serials • Web Series •  
+                Podcasts • Songs • Albums • Games •  
+                Sports Events • Shows  
+            </p>  
+
+        </div>  
+
+
+        <!-- ADVANCED TRAVEL -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🌍 Advanced Travel & Tourist  
+            </h3>  
+
+            <p>  
+                Countries • States / Provinces • Cities •  
+                Villages • Beaches • Mountains • Forests •  
+                Heritage • Museums • Hidden Places  
+            </p>  
+
+        </div>  
+
+
+        <!-- TRAVEL PLANNING -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🧳 Travel Planning  
+            </h3>  
+
+            <p>  
+                Solo Travel • Family Travel • Group Travel •  
+                Budget Travel • Luxury Travel • Adventure •  
+                Road Trips • Weekend Trips  
+            </p>  
+
+        </div>  
+
+
+        <!-- LOCAL GUIDE -->  
+
+        <div class="rm-discovery-category rm-discovery-local">  
+
+            <h3>  
+                🧭 Local Guide  
+            </h3>  
+
+            <p>  
+                Discover local places through people who  
+                know the area, its history, culture, food,  
+                markets, transport and local experiences.  
+            </p>  
+
+        </div>  
+
+
+        <!-- CULTURE TOUR GUIDE -->  
+
+        <div class="rm-discovery-category rm-discovery-guide">  
+
+            <h3>  
+                🏛️ Culture Tour Guide  
+            </h3>  
+
+            <p>  
+                Discover a place through experienced local  
+                knowledge and cultural information.  
+            </p>  
+
+            <ul class="rm-discovery-guide-list">  
+
+                <li>  
+                    Local History  
+                </li>  
+
+                <li>  
+                    Culture & Traditions  
+                </li>  
+
+                <li>  
+                    Local Language  
+                </li>  
+
+                <li>  
+                    Local Food  
+                </li>  
+
+                <li>  
+                    Festivals  
+                </li>  
+
+                <li>  
+                    Heritage & Important Places  
+                </li>  
+
+                <li>  
+                    Local Markets  
+                </li>  
+
+                <li>  
+                    Local Transport  
+                </li>  
+
+                <li>  
+                    Local Stories & Knowledge  
+                </li>  
+
+                <li>  
+                    Practical Local Information  
+                </li>  
+
+            </ul>  
+
+        </div>  
+
+
+        <!-- EXPERIENCED LOCAL GUIDE -->  
+
+        <div class="rm-discovery-category rm-discovery-guide">  
+
+            <h3>  
+                👨‍🏫 Experienced Local Guide  
+            </h3>  
+
+            <p>  
+                Guides can describe their local knowledge,  
+                experience and areas they know well.  
+            </p>  
+
+            <ul class="rm-discovery-guide-list">  
+
+                <li>  
+                    📍 Local Area  
+                </li>  
+
+                <li>  
+                    🕐 Years of Local Knowledge  
+                </li>  
+
+                <li>  
+                    🗣️ Languages  
+                </li>  
+
+                <li>  
+                    🏛️ History & Heritage  
+                </li>  
+
+                <li>  
+                    🍲 Local Food  
+                </li>  
+
+                <li>  
+                    🎭 Culture & Festivals  
+                </li>  
+
+                <li>  
+                    🛍️ Local Markets  
+                </li>  
+
+                <li>  
+                    🚕 Local Transport  
+                </li>  
+
+            </ul>  
+
+        </div>  
+
+
+        <!-- WORLD CULTURE -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🌎 World Culture  
+            </h3>  
+
+            <p>  
+                Countries • Peoples • Languages •  
+                Traditions • Heritage • Festivals •  
+                Food • Cultural Knowledge  
+            </p>  
+
+        </div>  
+
+
+        <!-- BRAND PROMOTION -->  
+
+        <div class="rm-discovery-category">  
+
+            <h3>  
+                🏷️ Promotion  
+            </h3>  
+
+            <p>  
+                Brand Promoter • Movie Promoter •  
+                Music Promoter • Event Promoter •  
+                Travel Promoter • Product Promoter  
+            </p>  
+
+        </div>  
+
+
+    </div>  
+
+
+    <!-- =================================================  
+         EXISTING DISCOVERY ENGINE TARGET  
+         ================================================= -->  
+
+    <div  
+        id="rmDiscoveryHub"  
+    >  
+        <div class="rmd-new-discovery">  
+            <div class="rmd-tabs"></div>  
+        </div>  
+    </div>  
 
 
 </div>
 
-
-
-<!-- =========================================================
-     MARKETPLACE DISCOVERY
-     OUTSIDE REGULAR MARKETPLACE
-     ========================================================= -->
-
-<section
-    id="rmDiscoverySection"
-    class="rm-discovery-section"
->
-
-
-    <!-- =====================================================
-         DISCOVERY FOLDER
-         ===================================================== -->
-
-    <div
-        id="rmDiscoveryFolder"
-        class="rm-discovery-folder"
-    >
-
-        <div class="rm-discovery-folder-icon">
-            📁
-        </div>
-
-
-        <div class="rm-discovery-folder-content">
-
-            <h2>
-                MARKETPLACE DISCOVERY
-            </h2>
-
-            <p>
-                🎬 Entertainment
-                • 🌍 Travel
-                • 🏛️ Culture
-                • 🎵 Music
-                • 🎮 Games
-                • 🏆 Sports
-                • 💎 Luxury
-                • 🚀 Upcoming
-            </p>
-
-        </div>
-
-
-        <button
-            type="button"
-            id="rmDiscoveryOpen"
-            class="rm-discovery-toggle"
-            aria-expanded="false"
-            aria-controls="rmDiscoveryContent"
-        >
-            📁 Open Discovery
-        </button>
-
-    </div>
-
-
-    <!-- =====================================================
-         DISCOVERY CONTENT
-         ===================================================== -->
-
-    <div
-        id="rmDiscoveryContent"
-        class="rm-discovery-content rm-discovery-closed"
-        style="display:none;"
-    >
-
-
-        <button
-            type="button"
-            id="rmDiscoveryBack"
-            class="rm-btn"
-        >
-            ← Back
-        </button>
-
-
-        <!-- =================================================
-             ADVANCED DISCOVERY CATEGORIES
-             ================================================= -->
-
-        <div class="rm-discovery-categories">
-
-
-            <!-- ENTERTAINMENT -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🎬 Entertainment
-                </h3>
-
-                <p>
-                    Movies • TV Serials • Web Series •
-                    Podcasts • Hosting • Shows
-                </p>
-
-            </div>
-
-
-            <!-- MUSIC -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🎵 Music
-                </h3>
-
-                <p>
-                    Songs • Albums • Artists • Music Shows •
-                    New Releases
-                </p>
-
-            </div>
-
-
-            <!-- SPORTS -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🏆 Sports
-                </h3>
-
-                <p>
-                    Sports • Tournaments • Matches •
-                    Players • Teams • Upcoming Events
-                </p>
-
-            </div>
-
-
-            <!-- GAMES -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🎮 Games
-                </h3>
-
-                <p>
-                    Video Games • Mobile Games • PC Games •
-                    Console Games • Upcoming Games
-                </p>
-
-            </div>
-
-
-            <!-- LUXURY -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    💎 Luxury & Lifestyle
-                </h3>
-
-                <p>
-                    Luxury Items • Cars • Watches • Jewellery •
-                    Resorts • Premium Lifestyle
-                </p>
-
-            </div>
-
-
-            <!-- UPCOMING -->
-
-            <div class="rm-discovery-category rm-discovery-upcoming">
-
-                <h3>
-                    🚀 Coming Soon
-                </h3>
-
-                <p>
-                    Upcoming Movies • Serials • Web Series •
-                    Podcasts • Songs • Albums • Games •
-                    Sports Events • Shows
-                </p>
-
-            </div>
-
-
-            <!-- ADVANCED TRAVEL -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🌍 Advanced Travel & Tourist
-                </h3>
-
-                <p>
-                    Countries • States / Provinces • Cities •
-                    Villages • Beaches • Mountains • Forests •
-                    Heritage • Museums • Hidden Places
-                </p>
-
-            </div>
-
-
-            <!-- TRAVEL PLANNING -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🧳 Travel Planning
-                </h3>
-
-                <p>
-                    Solo Travel • Family Travel • Group Travel •
-                    Budget Travel • Luxury Travel • Adventure •
-                    Road Trips • Weekend Trips
-                </p>
-
-            </div>
-
-
-            <!-- LOCAL GUIDE -->
-
-            <div class="rm-discovery-category rm-discovery-local">
-
-                <h3>
-                    🧭 Local Guide
-                </h3>
-
-                <p>
-                    Discover local places through people who
-                    know the area, its history, culture, food,
-                    markets, transport and local experiences.
-                </p>
-
-            </div>
-
-
-            <!-- CULTURE TOUR GUIDE -->
-
-            <div class="rm-discovery-category rm-discovery-guide">
-
-                <h3>
-                    🏛️ Culture Tour Guide
-                </h3>
-
-                <p>
-                    Discover a place through experienced local
-                    knowledge and cultural information.
-                </p>
-
-                <ul class="rm-discovery-guide-list">
-
-                    <li>
-                        Local History
-                    </li>
-
-                    <li>
-                        Culture & Traditions
-                    </li>
-
-                    <li>
-                        Local Language
-                    </li>
-
-                    <li>
-                        Local Food
-                    </li>
-
-                    <li>
-                        Festivals
-                    </li>
-
-                    <li>
-                        Heritage & Important Places
-                    </li>
-
-                    <li>
-                        Local Markets
-                    </li>
-
-                    <li>
-                        Local Transport
-                    </li>
-
-                    <li>
-                        Local Stories & Knowledge
-                    </li>
-
-                    <li>
-                        Practical Local Information
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-            <!-- EXPERIENCED LOCAL GUIDE -->
-
-            <div class="rm-discovery-category rm-discovery-guide">
-
-                <h3>
-                    👨‍🏫 Experienced Local Guide
-                </h3>
-
-                <p>
-                    Guides can describe their local knowledge,
-                    experience and areas they know well.
-                </p>
-
-                <ul class="rm-discovery-guide-list">
-
-                    <li>
-                        📍 Local Area
-                    </li>
-
-                    <li>
-                        🕐 Years of Local Knowledge
-                    </li>
-
-                    <li>
-                        🗣️ Languages
-                    </li>
-
-                    <li>
-                        🏛️ History & Heritage
-                    </li>
-
-                    <li>
-                        🍲 Local Food
-                    </li>
-
-                    <li>
-                        🎭 Culture & Festivals
-                    </li>
-
-                    <li>
-                        🛍️ Local Markets
-                    </li>
-
-                    <li>
-                        🚕 Local Transport
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-            <!-- WORLD CULTURE -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🌎 World Culture
-                </h3>
-
-                <p>
-                    Countries • Peoples • Languages •
-                    Traditions • Heritage • Festivals •
-                    Food • Cultural Knowledge
-                </p>
-
-            </div>
-
-
-            <!-- BRAND PROMOTION -->
-
-            <div class="rm-discovery-category">
-
-                <h3>
-                    🏷️ Promotion
-                </h3>
-
-                <p>
-                    Brand Promoter • Movie Promoter •
-                    Music Promoter • Event Promoter •
-                    Travel Promoter • Product Promoter
-                </p>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             EXISTING DISCOVERY ENGINE TARGET
-             ================================================= -->
-
-        <div
-            id="rmDiscoveryHub"
-        >
-            <div class="rmd-new-discovery">
-                <div class="rmd-tabs"></div>
-            </div>
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     DISCOVERY OPEN / BACK
-     ========================================================= -->
-
-<script>
-
-(function () {
-
-    "use strict";
-
-
-    function initDiscoveryFolder() {
-
-        var openButton =
-            document.getElementById(
-                "rmDiscoveryOpen"
-            );
-
-        var backButton =
-            document.getElementById(
-                "rmDiscoveryBack"
-            );
-
-        var content =
-            document.getElementById(
-                "rmDiscoveryContent"
-            );
-
-
-        if (
-            !openButton ||
-            !backButton ||
-            !content
-        ) {
-            return;
-        }
-
-
-        /* =====================================================
-           OPEN
-           ===================================================== */
-
-        openButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-
-                content.classList.remove(
-                    "rm-discovery-closed"
-                );
-
-
-                content.style.display =
-                    "block";
-
-
-                openButton.style.display =
-                    "none";
-
-
-                openButton.setAttribute(
-                    "aria-expanded",
-                    "true"
-                );
-
-            }
-        );
-
-
-        /* =====================================================
-           BACK
-           ===================================================== */
-
-        backButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-
-                content.classList.add(
-                    "rm-discovery-closed"
-                );
-
-
-                content.style.display =
-                    "none";
-
-
-                openButton.style.display =
-                    "block";
-
-
-                openButton.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            }
-        );
-
-    }
-
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            initDiscoveryFolder
-        );
-
-    } else {
-
-        initDiscoveryFolder();
-
-    }
-
-})();
-
-</script>
-
-
-
-<!-- =========================================================
-     CENTRAL COUNTRY DATABASE
-     ========================================================= -->
-
-<script
-    src="../marketplace-countries.js"
-></script>
-
-
-
-<!-- =========================================================
-     REGULAR MARKETPLACE ENGINE
-     ========================================================= -->
-
-<script
-    src="../regular-marketplace.js"
-></script>
-
-
-
-<!-- =========================================================
-     MARKETPLACE DISCOVERY ENGINE
-     ========================================================= -->
-
-<script
-    src="../regular-marketplace-discovery.js"
-></script>
-
-
-</body>
+</section>  <!-- =========================================================  
+     DISCOVERY OPEN / BACK  
+     ========================================================= -->  <script>  
+  
+(function () {  
+  
+    "use strict";  
+  
+  
+    function initDiscoveryFolder() {  
+  
+        var openButton =  
+            document.getElementById(  
+                "rmDiscoveryOpen"  
+            );  
+  
+        var backButton =  
+            document.getElementById(  
+                "rmDiscoveryBack"  
+            );  
+  
+        var content =  
+            document.getElementById(  
+                "rmDiscoveryContent"  
+            );  
+  
+  
+        if (  
+            !openButton ||  
+            !backButton ||  
+            !content  
+        ) {  
+            return;  
+        }  
+  
+  
+        /* =====================================================  
+           OPEN  
+           ===================================================== */  
+  
+        openButton.addEventListener(  
+            "click",  
+            function (event) {  
+  
+                event.preventDefault();  
+  
+  
+                content.classList.remove(  
+                    "rm-discovery-closed"  
+                );  
+  
+  
+                content.style.display =  
+                    "block";  
+  
+  
+                openButton.style.display =  
+                    "none";  
+  
+  
+                openButton.setAttribute(  
+                    "aria-expanded",  
+                    "true"  
+                );  
+  
+            }  
+        );  
+  
+  
+        /* =====================================================  
+           BACK  
+           ===================================================== */  
+  
+        backButton.addEventListener(  
+            "click",  
+            function (event) {  
+  
+                event.preventDefault();  
+  
+  
+                content.classList.add(  
+                    "rm-discovery-closed"  
+                );  
+  
+  
+                content.style.display =  
+                    "none";  
+  
+  
+                openButton.style.display =  
+                    "block";  
+  
+  
+                openButton.setAttribute(  
+                    "aria-expanded",  
+                    "false"  
+                );  
+  
+            }  
+        );  
+  
+    }  
+  
+  
+    if (  
+        document.readyState ===  
+        "loading"  
+    ) {  
+  
+        document.addEventListener(  
+            "DOMContentLoaded",  
+            initDiscoveryFolder  
+        );  
+  
+    } else {  
+  
+        initDiscoveryFolder();  
+  
+    }  
+  
+})();  
+  
+</script>  <!-- =========================================================  
+     CENTRAL COUNTRY DATABASE  
+     ========================================================= -->  <script  
+    src="./marketplace-countries.js"  
+></script>  <!-- =========================================================  
+     REGULAR MARKETPLACE ENGINE  
+     ========================================================= -->  <script  
+    src="./regular-marketplace.js"  
+></script>  <!-- =========================================================  
+     MARKETPLACE DISCOVERY ENGINE  
+     ========================================================= -->  <script src="./marketplace-countries.js"></script>  <script src="./regular-marketplace.js"></script>  <script src="./regular-marketplace-discovery.js"></script>  </body>  
 </html>
-
