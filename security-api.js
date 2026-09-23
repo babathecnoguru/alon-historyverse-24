@@ -250,7 +250,7 @@ function createSessionCookie(token) {
         `${CONFIG.SESSION_COOKIE}=${encodeURIComponent(token)}`,
         "HttpOnly",
         "Secure",
-        "SameSite=Strict",
+        "SameSite=None",
         "Path=/",
         `Max-Age=${CONFIG.SESSION_TTL_SECONDS}`
     ].join("; ");
@@ -261,7 +261,7 @@ function clearSessionCookie() {
         `${CONFIG.SESSION_COOKIE}=`,
         "HttpOnly",
         "Secure",
-        "SameSite=Strict",
+        "SameSite=None",
         "Path=/",
         "Max-Age=0"
     ].join("; ");
@@ -1779,11 +1779,52 @@ async function handleEmergencyLockdown(
         )
         .run();
 
+    /*
+    --------------------------------------------------------
+     REVOKE ALL OTHER OWNER SESSIONS
+     
+     The current authenticated Owner session is preserved.
+     This allows the same Owner to disable lockdown safely.
+    --------------------------------------------------------
+    */
+
+    const cookies =
+        parseCookies(request);
+
+    const currentToken =
+        cookies[
+            CONFIG.SESSION_COOKIE
+        ];
+
+    if (!currentToken) {
+        return json(
+            {
+                ok: false,
+                error:
+                    "CURRENT_SESSION_NOT_FOUND"
+            },
+            401,
+            corsHeaders(
+                request,
+                env
+            )
+        );
+    }
+
+    const currentHash =
+        await sha256(
+            currentToken
+        );
+
     await env.DB.prepare(`
         UPDATE admin_sessions
         SET revoked = 1
-        WHERE revoked = 0
+        WHERE token_hash != ?
+          AND revoked = 0
     `)
+        .bind(
+            currentHash
+        )
         .run();
 
     await writeAudit(
@@ -1798,7 +1839,12 @@ async function handleEmergencyLockdown(
             success:
                 true,
 
-            request
+            request,
+
+            details: {
+                currentSessionPreserved:
+                    true
+            }
         }
     );
 
@@ -1815,7 +1861,10 @@ async function handleEmergencyLockdown(
 
             details: {
                 actor:
-                    owner.ownerEmail
+                    owner.ownerEmail,
+
+                currentSessionPreserved:
+                    true
             }
         }
     );
@@ -1824,18 +1873,15 @@ async function handleEmergencyLockdown(
         {
             ok: true,
             lockdown:
-                "ACTIVE"
+                "ACTIVE",
+            currentSessionPreserved:
+                true
         },
         200,
-        {
-            ...corsHeaders(
-                request,
-                env
-            ),
-
-            "Set-Cookie":
-                clearSessionCookie()
-        }
+        corsHeaders(
+            request,
+            env
+        )
     );
 }
 
