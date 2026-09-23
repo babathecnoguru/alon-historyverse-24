@@ -7,6 +7,182 @@
   "civilizations": [
 
     {
+      "id": "sanatan-hindu-civilization",
+      "name": "Sanatan Hindu Civilization",
+      "nativeNames": [
+        "Sanatana Dharma",
+        "Vedic Civilization",
+        "Hindu Civilization"
+      ],
+      "symbol": "🛕",
+      "region": "South Asia",
+      "period": "Ancient to Present",
+      "date": "Ancient and continuing",
+
+      "description": "A civilization and cultural tradition of South Asia encompassing diverse philosophical, literary, religious, artistic, architectural and social traditions associated with Sanatana Dharma and the long historical development of the Indian subcontinent.",
+
+      "importantPeople": [
+        "Vedic sages",
+        "Rishis",
+        "Philosophers",
+        "Kings and rulers",
+        "Scholars",
+        "Acharyas"
+      ],
+
+      "majorCities": [
+        "Ayodhya",
+        "Varanasi",
+        "Mathura",
+        "Ujjain",
+        "Pataliputra",
+        "Hastinapura",
+        "Indraprastha",
+        "Dwarka",
+        "Kanchipuram",
+        "Madurai"
+      ],
+
+      "knowledgeTraditions": [
+        "Four Vedas",
+        "Upanishads",
+        "Itihasa",
+        "Puranas",
+        "Dharmashastra",
+        "Darshanas",
+        "Sutras",
+        "Sanskrit literature",
+        "Ayurveda",
+        "Jyotisha",
+        "Yoga",
+        "Indian mathematics",
+        "Indian astronomy"
+      ],
+
+      "fourVedas": [
+        "Rigveda",
+        "Yajurveda",
+        "Samaveda",
+        "Atharvaveda"
+      ],
+
+      "eighteenMahapuranas": [
+        "Brahma Purana",
+        "Padma Purana",
+        "Vishnu Purana",
+        "Shiva Purana",
+        "Bhagavata Purana",
+        "Narada Purana",
+        "Markandeya Purana",
+        "Agni Purana",
+        "Bhavishya Purana",
+        "Brahmavaivarta Purana",
+        "Linga Purana",
+        "Varaha Purana",
+        "Skanda Purana",
+        "Vamana Purana",
+        "Kurma Purana",
+        "Matsya Purana",
+        "Garuda Purana",
+        "Brahmanda Purana"
+      ],
+
+      "templesAndArchitecture": [
+        "Ancient temples",
+        "Temple architecture",
+        "Temple sculpture",
+        "Sacred sites",
+        "Stepwells",
+        "Cave temples",
+        "Ancient monuments",
+        "Palaces",
+        "Forts"
+      ],
+
+      "ancientCitiesAndSites": [
+        "Harappan sites",
+        "Dholavira",
+        "Lothal",
+        "Taxila",
+        "Nalanda",
+        "Varanasi",
+        "Ujjain",
+        "Pataliputra",
+        "Ayodhya",
+        "Mathura"
+      ],
+
+      "kingsEmpiresAndDynasties": [
+        "Maurya Empire",
+        "Gupta Empire",
+        "Chola Dynasty",
+        "Pallava Dynasty",
+        "Chalukya Dynasty",
+        "Rashtrakuta Dynasty",
+        "Satavahana Dynasty",
+        "Kushan Empire",
+        "Vijayanagara Empire",
+        "Maratha Empire",
+        "Rajput kingdoms",
+        "Other historical kingdoms and regional dynasties"
+      ],
+
+      "culture": [
+        "Vedic culture",
+        "Sanskrit tradition",
+        "Indian classical music",
+        "Indian classical dance",
+        "Festivals",
+        "Traditional arts",
+        "Literature",
+        "Architecture",
+        "Philosophy",
+        "Yoga",
+        "Ayurveda",
+        "Traditional education",
+        "Samskaras and social traditions"
+      ],
+
+      "warsAndHistory": [
+        "Ancient Indian warfare",
+        "Mahabharata tradition",
+        "Historical kingdoms and conflicts",
+        "Military traditions",
+        "Fortifications",
+        "Ancient weapons and technology",
+        "Medieval Indian wars",
+        "Regional conflicts",
+        "Empire-building and political history"
+      ],
+
+      "majorSubjects": [
+        "Vedas",
+        "Shastras",
+        "Puranas",
+        "Itihasa",
+        "Ancient temples",
+        "Ancient cities",
+        "Vedic culture",
+        "Kings and kingdoms",
+        "Empires",
+        "Palaces",
+        "Forts",
+        "Indian culture",
+        "Ancient warfare",
+        "Philosophy",
+        "Science and mathematics",
+        "Astronomy",
+        "Medicine",
+        "Yoga",
+        "Literature",
+        "Art and architecture"
+      ],
+
+      "legacy": "The historical traditions, texts, philosophical systems, architecture, arts, sciences and cultural practices associated with the Indian subcontinent form an extensive and diverse field of study spanning many centuries."
+    },
+
+
+    {
       "id": "mesopotamia",
       "name": "Mesopotamian Civilizations",
       "nativeNames": [
