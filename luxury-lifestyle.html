@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Luxury Lifestyle | ALON HISTORYVERSE 24</title>
 
   <meta
     name="description"
-    content="ALON HISTORYVERSE 24 Luxury Lifestyle - Luxury products, aircraft, vehicles, property, hotels, ships, media, tourism and global lifestyle marketplace."
+    content="ALON HISTORYVERSE 24 Luxury Lifestyle - Premium luxury transport, property, hospitality, marine, entertainment, travel, media and digital lifestyle."
   >
 
   <link rel="stylesheet" href="./style.css">
 
   <style>
+
+    /* =========================================================
+       GLOBAL
+    ========================================================== */
+
     * {
       box-sizing: border-box;
     }
@@ -37,54 +48,92 @@
       font-family: inherit;
     }
 
+
+    /* =========================================================
+       MAIN PAGE
+    ========================================================== */
+
     .luxury-page {
       width: 100%;
       min-height: 100vh;
+
       background:
-        radial-gradient(circle at top, rgba(215,179,90,0.08), transparent 35%),
-        #05080f;
+        radial-gradient(
+          circle at top,
+          rgba(215,179,90,0.10),
+          transparent 34%
+        ),
+        linear-gradient(
+          180deg,
+          #05080f 0%,
+          #070b13 45%,
+          #05080f 100%
+        );
     }
 
-    /* =========================
+
+    /* =========================================================
        HEADER
-    ========================== */
+    ========================================================== */
 
     .luxury-header {
       width: 100%;
+
       padding: 14px 20px;
-      border-bottom: 1px solid rgba(215,179,90,0.25);
-      background: rgba(5,8,15,0.97);
+
+      border-bottom:
+        1px solid rgba(215,179,90,0.25);
+
+      background:
+        rgba(5,8,15,0.97);
+
       position: sticky;
       top: 0;
       z-index: 1000;
+
       backdrop-filter: blur(12px);
     }
 
     .luxury-header-inner {
       max-width: 1400px;
       margin: auto;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       gap: 15px;
     }
 
     .luxury-logo {
       color: #f0d27a;
+
       font-size: 20px;
       font-weight: 800;
+
       text-decoration: none;
+
       white-space: nowrap;
     }
 
     .luxury-home-btn {
-      border: 1px solid #d7b35a;
+      border:
+        1px solid #d7b35a;
+
       color: #f0d27a;
+
       background: transparent;
+
       border-radius: 8px;
+
       padding: 9px 15px;
+
       text-decoration: none;
+
       font-weight: 700;
+
+      transition:
+        0.2s ease;
     }
 
     .luxury-home-btn:hover {
@@ -94,106 +143,212 @@
 
     .luxury-nav {
       display: flex;
+
       gap: 8px;
+
       flex-wrap: wrap;
+
       justify-content: flex-end;
     }
 
     .luxury-nav a {
       color: #ddd;
+
       text-decoration: none;
+
       padding: 7px 10px;
+
       border-radius: 6px;
+
+      transition:
+        0.2s ease;
     }
 
     .luxury-nav a:hover {
       color: #f0d27a;
-      background: rgba(215,179,90,0.08);
+
+      background:
+        rgba(215,179,90,0.08);
     }
 
-    /* =========================
+
+    /* =========================================================
        MAIN
-    ========================== */
+    ========================================================== */
 
     .luxury-main {
       width: 100%;
+
       max-width: 1450px;
+
       margin: auto;
+
       padding: 20px;
     }
 
-    /* =========================
+
+    /* =========================================================
        HERO
-    ========================== */
+    ========================================================== */
 
     .luxury-hero {
-      border: 1px solid rgba(215,179,90,0.35);
+
+      border:
+        1px solid rgba(215,179,90,0.35);
+
       border-radius: 18px;
-      padding: 35px 25px;
+
+      padding: 42px 25px;
+
       margin-bottom: 18px;
+
       background:
         linear-gradient(
           135deg,
-          rgba(215,179,90,0.12),
-          rgba(10,15,25,0.95)
+          rgba(215,179,90,0.13),
+          rgba(10,15,25,0.96)
         );
+
       text-align: center;
+
+      box-shadow:
+        0 15px 45px
+        rgba(0,0,0,0.25);
     }
 
     .luxury-hero h1 {
       margin: 0 0 10px;
+
       color: #f0d27a;
-      font-size: clamp(30px, 5vw, 55px);
+
+      font-size:
+        clamp(30px, 5vw, 55px);
+
+      letter-spacing:
+        0.4px;
     }
 
     .luxury-hero p {
       margin: 0 auto;
+
       max-width: 900px;
+
       color: #d8d8d8;
+
       line-height: 1.7;
+
       font-size: 16px;
     }
 
     .luxury-badge {
       display: inline-block;
-      margin-top: 16px;
-      border: 1px solid #d7b35a;
+
+      margin-top: 18px;
+
+      border:
+        1px solid #d7b35a;
+
       color: #f0d27a;
-      padding: 7px 13px;
+
+      padding: 8px 15px;
+
       border-radius: 30px;
+
       font-size: 13px;
+
       font-weight: 700;
+
+      background:
+        rgba(215,179,90,0.04);
     }
 
-    /* =========================
+
+    /* =========================================================
+       CATEGORY GROUP LABEL
+    ========================================================== */
+
+    .luxury-group-label {
+
+      margin:
+        18px 0 10px;
+
+      color: #f0d27a;
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.8px;
+    }
+
+
+    /* =========================================================
        TOP FOLDER BAR
-    ========================== */
+    ========================================================== */
 
     .luxury-folder-section {
+
       width: 100%;
-      margin: 18px 0 12px;
-      border: 1px solid rgba(215,179,90,0.28);
+
+      margin:
+        18px 0 12px;
+
+      border:
+        1px solid rgba(215,179,90,0.28);
+
       border-radius: 14px;
-      background: rgba(10,15,24,0.96);
-      padding: 12px;
+
+      background:
+        rgba(10,15,24,0.96);
+
+      padding: 14px;
+
+      box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.18);
     }
 
     .luxury-folder-title {
+
       color: #f0d27a;
+
       font-size: 15px;
+
       font-weight: 800;
+
       margin-bottom: 10px;
     }
 
+    .luxury-folder-subtitle {
+
+      color: #8f98a6;
+
+      font-size: 12px;
+
+      margin:
+        -4px 0 12px;
+    }
+
     .luxury-folder-bar {
+
       width: 100%;
+
       display: flex;
+
       flex-wrap: nowrap;
+
       gap: 8px;
+
       overflow-x: auto;
+
       overflow-y: hidden;
+
       white-space: nowrap;
+
       padding-bottom: 5px;
+
       scrollbar-width: thin;
     }
 
@@ -202,53 +357,96 @@
     }
 
     .luxury-folder-bar::-webkit-scrollbar-thumb {
+
       background: #d7b35a;
+
       border-radius: 10px;
     }
 
     .luxury-folder-btn {
-      flex: 0 0 auto;
-      border: 1px solid rgba(215,179,90,0.4);
+
+      flex:
+        0 0 auto;
+
+      border:
+        1px solid rgba(215,179,90,0.40);
+
       background: #0b111c;
+
       color: #ddd;
+
       border-radius: 8px;
+
       padding: 9px 13px;
+
       cursor: pointer;
+
       font-size: 13px;
+
       font-weight: 700;
+
       white-space: nowrap;
+
+      transition:
+        0.2s ease;
     }
 
     .luxury-folder-btn:hover,
     .luxury-folder-btn.active {
+
       background: #d7b35a;
+
       color: #05080f;
+
       border-color: #f0d27a;
+
+      transform:
+        translateY(-1px);
     }
 
-    /* =========================
+
+    /* =========================================================
        SEARCH
-    ========================== */
+    ========================================================== */
 
     .luxury-search-box {
+
       width: 100%;
-      margin: 0 0 18px;
+
+      margin:
+        0 0 18px;
+
       display: flex;
+
       gap: 8px;
+
       padding: 12px;
-      border: 1px solid rgba(215,179,90,0.25);
+
+      border:
+        1px solid rgba(215,179,90,0.25);
+
       border-radius: 12px;
+
       background: #090e18;
     }
 
     .luxury-search-box input {
+
       flex: 1;
+
       min-width: 0;
-      border: 1px solid #293242;
+
+      border:
+        1px solid #293242;
+
       background: #05080f;
+
       color: #fff;
+
       border-radius: 8px;
+
       padding: 12px 14px;
+
       outline: none;
     }
 
@@ -257,70 +455,125 @@
     }
 
     .luxury-search-btn {
-      border: 1px solid #d7b35a;
+
+      border:
+        1px solid #d7b35a;
+
       background: #d7b35a;
+
       color: #05080f;
+
       border-radius: 8px;
-      padding: 0 18px;
+
+      padding:
+        0 20px;
+
       cursor: pointer;
+
       font-weight: 800;
+
+      transition:
+        0.2s ease;
     }
 
-    /* =========================
+    .luxury-search-btn:hover {
+      background: #f0d27a;
+    }
+
+
+    /* =========================================================
        PANELS
-    ========================== */
+    ========================================================== */
 
     .luxury-panel {
-      border: 1px solid rgba(215,179,90,0.25);
+
+      border:
+        1px solid rgba(215,179,90,0.25);
+
       border-radius: 15px;
-      background: rgba(9,14,24,0.95);
+
+      background:
+        rgba(9,14,24,0.95);
+
       padding: 20px;
+
       margin-bottom: 18px;
+
+      box-shadow:
+        0 10px 35px
+        rgba(0,0,0,0.16);
     }
 
     .luxury-panel h2 {
-      margin: 0 0 8px;
+
+      margin:
+        0 0 8px;
+
       color: #f0d27a;
+
       font-size: 24px;
     }
 
     .luxury-panel-description {
+
       color: #bfc4cc;
+
       line-height: 1.6;
-      margin: 0 0 18px;
+
+      margin:
+        0 0 18px;
     }
 
-    /* =========================
+
+    /* =========================================================
        INTERNATIONAL MARKET
-    ========================== */
+    ========================================================== */
 
     .luxury-market-grid {
+
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
       gap: 12px;
     }
 
     .luxury-field {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 6px;
     }
 
     .luxury-field label {
+
       color: #d7b35a;
+
       font-size: 13px;
+
       font-weight: 700;
     }
 
     .luxury-field input,
     .luxury-field select,
     .luxury-field textarea {
+
       width: 100%;
-      border: 1px solid #293242;
+
+      border:
+        1px solid #293242;
+
       background: #05080f;
+
       color: #fff;
+
       border-radius: 8px;
+
       padding: 11px;
+
       outline: none;
     }
 
@@ -330,193 +583,335 @@
       border-color: #d7b35a;
     }
 
-    /* =========================
+
+    /* =========================================================
        ACTIONS
-    ========================== */
+    ========================================================== */
 
     .luxury-actions {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 9px;
+
       margin-top: 18px;
     }
 
     .luxury-action-btn {
-      border: 1px solid #555f70;
+
+      border:
+        1px solid #555f70;
+
       background: #0c131f;
+
       color: #eee;
+
       border-radius: 8px;
+
       padding: 10px 15px;
+
       cursor: pointer;
+
       font-weight: 700;
+
+      transition:
+        0.2s ease;
     }
 
     .luxury-action-btn:hover,
     .luxury-action-btn.active {
+
       border-color: #d7b35a;
+
       background: #d7b35a;
+
       color: #05080f;
     }
 
-    /* =========================
+
+    /* =========================================================
        CATEGORY GRID
-    ========================== */
+    ========================================================== */
 
     .luxury-category-grid {
+
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
       gap: 14px;
     }
 
     .luxury-category-card {
-      min-height: 145px;
-      border: 1px solid rgba(215,179,90,0.25);
+
+      min-height: 150px;
+
+      border:
+        1px solid rgba(215,179,90,0.25);
+
       border-radius: 13px;
-      background: linear-gradient(145deg, #0b111c, #080c14);
+
+      background:
+        linear-gradient(
+          145deg,
+          #0b111c,
+          #080c14
+        );
+
       padding: 18px;
+
       cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
     .luxury-category-card:hover {
-      transform: translateY(-3px);
-      border-color: #d7b35a;
+
+      transform:
+        translateY(-3px);
+
+      border-color:
+        #d7b35a;
+
+      box-shadow:
+        0 12px 28px
+        rgba(0,0,0,0.25);
     }
 
     .luxury-category-icon {
+
       font-size: 32px;
+
       margin-bottom: 10px;
     }
 
     .luxury-category-card h3 {
-      margin: 0 0 7px;
+
+      margin:
+        0 0 7px;
+
       color: #f0d27a;
+
       font-size: 17px;
     }
 
     .luxury-category-card p {
+
       margin: 0;
+
       color: #adb4c0;
+
       font-size: 13px;
+
       line-height: 1.5;
     }
 
-    /* =========================
+
+    /* =========================================================
        MEDIA
-    ========================== */
+    ========================================================== */
 
     .luxury-media-grid {
+
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
       gap: 14px;
     }
 
     .luxury-media-card {
-      border: 1px solid rgba(215,179,90,0.25);
+
+      border:
+        1px solid rgba(215,179,90,0.25);
+
       border-radius: 12px;
+
       padding: 20px;
+
       background: #0a101a;
+
       text-align: center;
+
+      transition:
+        0.2s ease;
+    }
+
+    .luxury-media-card:hover {
+
+      border-color:
+        #d7b35a;
+
+      transform:
+        translateY(-2px);
     }
 
     .luxury-media-card .media-icon {
+
       font-size: 34px;
+
       margin-bottom: 8px;
     }
 
     .luxury-media-card h3 {
+
       color: #f0d27a;
-      margin: 0 0 6px;
+
+      margin:
+        0 0 6px;
     }
 
     .luxury-media-card p {
+
       color: #aeb5c0;
+
       font-size: 13px;
+
       line-height: 1.5;
     }
 
-    /* =========================
+
+    /* =========================================================
        LISTING FLOW
-    ========================== */
+    ========================================================== */
 
     .luxury-listing-flow {
+
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
       gap: 10px;
     }
 
     .luxury-step {
-      border: 1px solid #293242;
+
+      border:
+        1px solid #293242;
+
       border-radius: 10px;
+
       background: #080d16;
+
       padding: 15px;
+
       text-align: center;
     }
 
     .luxury-step-number {
+
       display: inline-flex;
+
       width: 34px;
+
       height: 34px;
+
       align-items: center;
+
       justify-content: center;
+
       border-radius: 50%;
+
       background: #d7b35a;
+
       color: #05080f;
+
       font-weight: 900;
+
       margin-bottom: 9px;
     }
 
     .luxury-step h3 {
-      margin: 0 0 5px;
+
+      margin:
+        0 0 5px;
+
       color: #f0d27a;
+
       font-size: 15px;
     }
 
     .luxury-step p {
+
       margin: 0;
+
       color: #9da6b3;
+
       font-size: 12px;
+
       line-height: 1.5;
     }
 
-    /* =========================
+
+    /* =========================================================
        OWNER / COMPANY
-    ========================== */
+    ========================================================== */
 
     .luxury-owner-grid {
+
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
       gap: 14px;
     }
 
     .luxury-owner-card {
-      border: 1px solid rgba(215,179,90,0.25);
+
+      border:
+        1px solid rgba(215,179,90,0.25);
+
       border-radius: 12px;
+
       padding: 18px;
+
       background: #090f19;
     }
 
     .luxury-owner-card h3 {
+
       color: #f0d27a;
+
       margin-top: 0;
     }
 
     .luxury-owner-card p {
+
       color: #adb4bf;
+
       line-height: 1.6;
+
       font-size: 14px;
     }
 
-    /* =========================
+
+    /* =========================================================
        NOTICE
-    ========================== */
+    ========================================================== */
 
     .luxury-notice {
-      border-left: 4px solid #d7b35a;
+
+      border-left:
+        4px solid #d7b35a;
+
       border-radius: 8px;
-      background: rgba(215,179,90,0.07);
+
+      background:
+        rgba(215,179,90,0.07);
+
       padding: 18px;
+
       color: #c5cad2;
+
       line-height: 1.7;
     }
 
@@ -524,80 +919,123 @@
       color: #f0d27a;
     }
 
-    /* =========================
+
+    /* =========================================================
        FUTURE SYSTEM
-    ========================== */
+    ========================================================== */
 
     .luxury-future-list {
+
       margin: 0;
+
       padding-left: 22px;
+
       color: #c2c8d1;
+
       line-height: 1.9;
     }
 
-    /* =========================
+
+    /* =========================================================
        FOOTER
-    ========================== */
+    ========================================================== */
 
     .luxury-footer {
+
       margin-top: 30px;
+
       padding: 25px 20px;
-      border-top: 1px solid rgba(215,179,90,0.2);
+
+      border-top:
+        1px solid rgba(215,179,90,0.2);
+
       text-align: center;
+
       color: #8e97a5;
+
       font-size: 13px;
     }
 
     .luxury-footer a {
+
       color: #d7b35a;
+
       text-decoration: none;
     }
 
-    /* =========================
-       HIDDEN SEARCH RESULT
-    ========================== */
+    .luxury-footer a:hover {
+      color: #f0d27a;
+    }
+
+
+    /* =========================================================
+       SEARCH RESULT
+    ========================================================== */
 
     .luxury-no-results {
+
       display: none;
+
       padding: 20px;
+
       text-align: center;
+
       color: #aaa;
-      border: 1px dashed #3a4352;
+
+      border:
+        1px dashed #3a4352;
+
       border-radius: 10px;
+
       margin-top: 15px;
     }
 
-    /* =========================
+
+    /* =========================================================
        MOBILE
-    ========================== */
+    ========================================================== */
 
     @media (max-width: 1100px) {
+
       .luxury-category-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
       }
 
       .luxury-market-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
       }
 
       .luxury-media-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
       }
 
       .luxury-listing-flow {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
       }
+
     }
 
+
     @media (max-width: 750px) {
+
       .luxury-header-inner {
+
         flex-direction: column;
+
         align-items: stretch;
       }
 
       .luxury-nav {
-        justify-content: flex-start;
+
+        justify-content:
+          flex-start;
+
         overflow-x: auto;
+
         flex-wrap: nowrap;
       }
 
@@ -614,6 +1052,7 @@
       .luxury-media-grid,
       .luxury-owner-grid,
       .luxury-listing-flow {
+
         grid-template-columns: 1fr;
       }
 
@@ -622,23 +1061,32 @@
       }
 
       .luxury-search-btn {
+
         min-height: 44px;
       }
 
       .luxury-hero {
-        padding: 28px 17px;
+
+        padding:
+          28px 17px;
       }
+
     }
+
   </style>
+
 </head>
 
+
 <body>
+
 
   <!-- =========================================================
        HEADER
   ========================================================== -->
 
   <header class="luxury-header">
+
     <div class="luxury-header-inner">
 
       <a
@@ -648,11 +1096,23 @@
         ALON HISTORYVERSE 24
       </a>
 
+
       <nav class="luxury-nav">
-        <a href="./index.html">Home</a>
-        <a href="./marketplace.html">Marketplace</a>
-        <a href="./regular-marketplace.html">Regular Marketplace</a>
+
+        <a href="./index.html">
+          Home
+        </a>
+
+        <a href="./marketplace.html">
+          Marketplace
+        </a>
+
+        <a href="./regular-marketplace.html">
+          Regular Marketplace
+        </a>
+
       </nav>
+
 
       <a
         href="./index.html"
@@ -662,6 +1122,7 @@
       </a>
 
     </div>
+
   </header>
 
 
@@ -673,19 +1134,23 @@
 
     <div class="luxury-main">
 
+
       <!-- =====================================================
            HERO
       ====================================================== -->
 
       <section class="luxury-hero">
 
-        <h1>Luxury Lifestyle</h1>
+        <h1>
+          Luxury Lifestyle
+        </h1>
 
         <p>
-          Discover, promote, buy, sell, rent and book luxury
-          products, properties, aircraft, vehicles, ships,
-          entertainment, tourism and premium lifestyle services
-          through ALON HISTORYVERSE 24.
+          Discover, promote, buy, sell, rent and book premium
+          luxury products, properties, aircraft, vehicles,
+          marine assets, hospitality, entertainment, tourism,
+          media and digital lifestyle services through
+          ALON HISTORYVERSE 24.
         </p>
 
         <span class="luxury-badge">
@@ -696,19 +1161,27 @@
 
 
       <!-- =====================================================
-           ALL FOLDERS / CATEGORIES - SINGLE HORIZONTAL LINE
+           LUXURY FOLDERS
       ====================================================== -->
 
       <section class="luxury-folder-section">
 
         <div class="luxury-folder-title">
-          📂 Luxury Lifestyle Categories
+          📂 Luxury Lifestyle
         </div>
+
+        <div class="luxury-folder-subtitle">
+          Select a dedicated Luxury Lifestyle category.
+        </div>
+
 
         <div
           class="luxury-folder-bar"
           id="luxuryFolderBar"
         >
+
+
+          <!-- ALL -->
 
           <button
             class="luxury-folder-btn active"
@@ -717,6 +1190,9 @@
           >
             🏠 All
           </button>
+
+
+          <!-- LUXURY TRANSPORT -->
 
           <button
             class="luxury-folder-btn"
@@ -747,7 +1223,7 @@
             type="button"
             data-folder="luxury-cars"
           >
-            🏎️ Cars
+            🏎️ Luxury Cars
           </button>
 
           <button
@@ -755,7 +1231,7 @@
             type="button"
             data-folder="luxury-watches"
           >
-            ⌚ Watches
+            ⌚ Luxury Watches
           </button>
 
           <button
@@ -763,7 +1239,7 @@
             type="button"
             data-folder="luxury-bikes"
           >
-            🏍️ Bikes
+            🏍️ Luxury Bikes
           </button>
 
           <button
@@ -771,15 +1247,50 @@
             type="button"
             data-folder="premium-trucks"
           >
-            🚚 Trucks
+            🚚 Premium Trucks
           </button>
+
+
+          <!-- PROPERTY + HOSPITALITY -->
 
           <button
             class="luxury-folder-btn"
             type="button"
             data-folder="luxury-property"
           >
-            🏡 Property
+            🏡 Luxury Property
+          </button>
+
+          <button
+            class="luxury-folder-btn"
+            type="button"
+            data-folder="bungalows"
+          >
+            🏠 Bungalows
+          </button>
+
+          <button
+            class="luxury-folder-btn"
+            type="button"
+            data-folder="flats"
+          >
+            🏢 Luxury Flats
+          </button>
+
+          <button
+            class="luxury-folder-btn"
+            type="button"
+            data-folder="party-plots"
+          >
+            🎊 Party Plots
+          </button>
+
+          <button
+            class="luxury-folder-btn"
+            type="button"
+            data-folder="dance-bars"
+          >
+            🎵 Dance Bars
           </button>
 
           <button
@@ -787,7 +1298,7 @@
             type="button"
             data-folder="hotels"
           >
-            🏨 Hotels
+            🏨 Hotels & Resorts
           </button>
 
           <button
@@ -803,8 +1314,11 @@
             type="button"
             data-folder="events"
           >
-            🎉 Events
+            🎉 Events & Venues
           </button>
+
+
+          <!-- MARINE + MACHINERY -->
 
           <button
             class="luxury-folder-btn"
@@ -825,10 +1339,21 @@
           <button
             class="luxury-folder-btn"
             type="button"
+            data-folder="container-ships"
+          >
+            🚢 Container Ships
+          </button>
+
+          <button
+            class="luxury-folder-btn"
+            type="button"
             data-folder="heavy-machinery"
           >
-            🏗️ Machinery
+            🏗️ Heavy Machinery
           </button>
+
+
+          <!-- ENTERTAINMENT -->
 
           <button
             class="luxury-folder-btn"
@@ -894,12 +1419,23 @@
             🎮 Games
           </button>
 
+
+          <!-- TRAVEL + MEDIA + DIGITAL -->
+
           <button
             class="luxury-folder-btn"
             type="button"
             data-folder="tourist-guide"
           >
             🗺️ Tourist Guide
+          </button>
+
+          <button
+            class="luxury-folder-btn"
+            type="button"
+            data-folder="best-tourist-places"
+          >
+            🌍 Tourist Places
           </button>
 
           <button
@@ -934,13 +1470,14 @@
             🌐 Website
           </button>
 
+
         </div>
 
       </section>
 
 
       <!-- =====================================================
-           SEARCH BAR
+           SEARCH
       ====================================================== -->
 
       <section class="luxury-search-box">
@@ -948,7 +1485,7 @@
         <input
           type="search"
           id="luxuryTopSearch"
-          placeholder="Search Luxury Lifestyle, cars, jets, helicopters, photos, videos, websites..."
+          placeholder="Search Luxury Lifestyle categories..."
           autocomplete="off"
         >
 
@@ -969,33 +1506,44 @@
 
       <section class="luxury-panel">
 
-        <h2>🌍 International Market</h2>
+        <h2>
+          🌍 International Market
+        </h2>
 
         <p class="luxury-panel-description">
           Select country, market and city for local or
           international luxury listings.
         </p>
 
+
         <div class="luxury-market-grid">
 
+
           <div class="luxury-field">
+
             <label for="luxuryCountry">
               Country
             </label>
 
             <select id="luxuryCountry">
+
               <option value="">
                 Select Country
               </option>
+
             </select>
+
           </div>
 
+
           <div class="luxury-field">
+
             <label for="luxuryMarket">
               Market
             </label>
 
             <select id="luxuryMarket">
+
               <option value="international">
                 International Market
               </option>
@@ -1003,10 +1551,14 @@
               <option value="local">
                 Local Market
               </option>
+
             </select>
+
           </div>
 
+
           <div class="luxury-field">
+
             <label for="luxuryCity">
               City
             </label>
@@ -1016,9 +1568,12 @@
               id="luxuryCity"
               placeholder="Enter city"
             >
+
           </div>
 
+
           <div class="luxury-field">
+
             <label for="luxuryCurrency">
               Currency
             </label>
@@ -1028,12 +1583,15 @@
               id="luxuryCurrency"
               placeholder="Currency"
             >
+
           </div>
+
 
         </div>
 
 
         <div class="luxury-actions">
+
 
           <button
             type="button"
@@ -1043,6 +1601,7 @@
             All
           </button>
 
+
           <button
             type="button"
             class="luxury-action-btn"
@@ -1050,6 +1609,7 @@
           >
             Buy
           </button>
+
 
           <button
             type="button"
@@ -1059,6 +1619,7 @@
             Sell
           </button>
 
+
           <button
             type="button"
             class="luxury-action-btn"
@@ -1066,6 +1627,7 @@
           >
             Rent
           </button>
+
 
           <button
             type="button"
@@ -1075,6 +1637,7 @@
             Booking
           </button>
 
+
           <button
             type="button"
             class="luxury-action-btn"
@@ -1082,6 +1645,7 @@
           >
             Promote
           </button>
+
 
         </div>
 
@@ -1097,277 +1661,701 @@
         id="luxuryCategories"
       >
 
-        <h2>✨ Luxury Categories</h2>
+        <h2>
+          ✨ Luxury Lifestyle Categories
+        </h2>
 
         <p class="luxury-panel-description">
-          Explore luxury products, services, properties,
-          transportation, entertainment and lifestyle categories.
+          Luxury Lifestyle categories are kept separate from
+          Regular Marketplace categories.
         </p>
 
+
         <div class="luxury-category-grid">
+
+
+          <!-- =================================================
+               LUXURY TRANSPORT
+          ================================================== -->
 
           <article
             class="luxury-category-card"
             data-category="private-helicopters"
           >
-            <div class="luxury-category-icon">🚁</div>
-            <h3>Private Helicopters</h3>
-            <p>Buy, sell, rent and promote private helicopters.</p>
+
+            <div class="luxury-category-icon">
+              🚁
+            </div>
+
+            <h3>
+              Private Helicopters
+            </h3>
+
+            <p>
+              Buy, sell, rent and promote private helicopters.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="private-jets"
           >
-            <div class="luxury-category-icon">✈️</div>
-            <h3>Private Jets</h3>
-            <p>Business trips, private aviation and aircraft listings.</p>
+
+            <div class="luxury-category-icon">
+              ✈️
+            </div>
+
+            <h3>
+              Private Jets
+            </h3>
+
+            <p>
+              Private aviation and premium aircraft listings.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="aircraft"
           >
-            <div class="luxury-category-icon">🛩️</div>
-            <h3>Aircraft</h3>
-            <p>New and used aircraft owner or company listings.</p>
+
+            <div class="luxury-category-icon">
+              🛩️
+            </div>
+
+            <h3>
+              Aircraft
+            </h3>
+
+            <p>
+              New and used aircraft owner or company listings.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="luxury-cars"
           >
-            <div class="luxury-category-icon">🏎️</div>
-            <h3>Luxury & Sports Cars</h3>
-            <p>Premium, luxury and sports automobiles.</p>
+
+            <div class="luxury-category-icon">
+              🏎️
+            </div>
+
+            <h3>
+              Luxury & Sports Cars
+            </h3>
+
+            <p>
+              Premium, luxury and sports automobiles.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="luxury-watches"
           >
-            <div class="luxury-category-icon">⌚</div>
-            <h3>Luxury Watches</h3>
-            <p>Premium watches and luxury timepieces.</p>
+
+            <div class="luxury-category-icon">
+              ⌚
+            </div>
+
+            <h3>
+              Luxury Watches
+            </h3>
+
+            <p>
+              Premium watches and luxury timepieces.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="luxury-bikes"
           >
-            <div class="luxury-category-icon">🏍️</div>
-            <h3>Luxury Bikes</h3>
-            <p>Premium motorcycles and performance bikes.</p>
+
+            <div class="luxury-category-icon">
+              🏍️
+            </div>
+
+            <h3>
+              Luxury Bikes
+            </h3>
+
+            <p>
+              Premium motorcycles and performance bikes.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="premium-trucks"
           >
-            <div class="luxury-category-icon">🚚</div>
-            <h3>Premium Trucks</h3>
-            <p>Heavy, premium and commercial trucks.</p>
+
+            <div class="luxury-category-icon">
+              🚚
+            </div>
+
+            <h3>
+              Premium Trucks
+            </h3>
+
+            <p>
+              Premium and commercial heavy trucks.
+            </p>
+
           </article>
+
+
+          <!-- =================================================
+               PROPERTY + HOSPITALITY
+          ================================================== -->
 
           <article
             class="luxury-category-card"
             data-category="luxury-property"
           >
-            <div class="luxury-category-icon">🏡</div>
-            <h3>Luxury Property</h3>
-            <p>Luxury homes, properties and premium real estate.</p>
+
+            <div class="luxury-category-icon">
+              🏡
+            </div>
+
+            <h3>
+              Luxury Property
+            </h3>
+
+            <p>
+              Luxury homes, properties and premium real estate.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="bungalows"
           >
-            <div class="luxury-category-icon">🏠</div>
-            <h3>Bungalows</h3>
-            <p>Luxury bungalows and premium residential properties.</p>
+
+            <div class="luxury-category-icon">
+              🏠
+            </div>
+
+            <h3>
+              Bungalows
+            </h3>
+
+            <p>
+              Luxury bungalows and premium residences.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="flats"
           >
-            <div class="luxury-category-icon">🏢</div>
-            <h3>Luxury Flats</h3>
-            <p>Premium flats, apartments and residences.</p>
+
+            <div class="luxury-category-icon">
+              🏢
+            </div>
+
+            <h3>
+              Luxury Flats
+            </h3>
+
+            <p>
+              Premium flats, apartments and residences.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="party-plots"
           >
-            <div class="luxury-category-icon">🎊</div>
-            <h3>Party Plots</h3>
-            <p>Premium party and event properties.</p>
+
+            <div class="luxury-category-icon">
+              🎊
+            </div>
+
+            <h3>
+              Party Plots
+            </h3>
+
+            <p>
+              Premium party and event properties.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="dance-bars"
           >
-            <div class="luxury-category-icon">🎵</div>
-            <h3>Dance Bars</h3>
-            <p>Entertainment venues and nightlife properties.</p>
+
+            <div class="luxury-category-icon">
+              🎵
+            </div>
+
+            <h3>
+              Dance Bars
+            </h3>
+
+            <p>
+              Entertainment venues and nightlife properties.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="hotels"
           >
-            <div class="luxury-category-icon">🏨</div>
-            <h3>Hotels & Resorts</h3>
-            <p>Luxury hotels, resorts and hospitality listings.</p>
+
+            <div class="luxury-category-icon">
+              🏨
+            </div>
+
+            <h3>
+              Hotels & Resorts
+            </h3>
+
+            <p>
+              Luxury hotels, resorts and hospitality listings.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="malls"
           >
-            <div class="luxury-category-icon">🏬</div>
-            <h3>Malls & Commercial Spaces</h3>
-            <p>Premium commercial properties and shopping spaces.</p>
+
+            <div class="luxury-category-icon">
+              🏬
+            </div>
+
+            <h3>
+              Malls & Commercial Spaces
+            </h3>
+
+            <p>
+              Premium commercial properties and shopping spaces.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="events"
           >
-            <div class="luxury-category-icon">🎉</div>
-            <h3>Events & Party Venues</h3>
-            <p>Luxury events, venues and promotional spaces.</p>
+
+            <div class="luxury-category-icon">
+              🎉
+            </div>
+
+            <h3>
+              Events & Party Venues
+            </h3>
+
+            <p>
+              Luxury events, venues and promotional spaces.
+            </p>
+
           </article>
+
+
+          <!-- =================================================
+               MARINE + MACHINERY
+          ================================================== -->
 
           <article
             class="luxury-category-card"
             data-category="yachts"
           >
-            <div class="luxury-category-icon">🛥️</div>
-            <h3>Yachts & Luxury Boats</h3>
-            <p>Yachts, boats and premium marine lifestyle.</p>
+
+            <div class="luxury-category-icon">
+              🛥️
+            </div>
+
+            <h3>
+              Yachts & Luxury Boats
+            </h3>
+
+            <p>
+              Yachts, boats and premium marine lifestyle.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="ships"
           >
-            <div class="luxury-category-icon">🚢</div>
-            <h3>Ships</h3>
-            <p>Large ships and owner/company listings.</p>
+
+            <div class="luxury-category-icon">
+              🚢
+            </div>
+
+            <h3>
+              Ships
+            </h3>
+
+            <p>
+              Large ships and owner or company listings.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="container-ships"
           >
-            <div class="luxury-category-icon">🚢</div>
-            <h3>Container Ships</h3>
-            <p>Container ships, booking and company listings.</p>
+
+            <div class="luxury-category-icon">
+              🚢
+            </div>
+
+            <h3>
+              Container Ships
+            </h3>
+
+            <p>
+              Container ships and company listings.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="heavy-machinery"
           >
-            <div class="luxury-category-icon">🏗️</div>
-            <h3>Heavy Machinery</h3>
-            <p>Large machines, industrial equipment and machinery.</p>
+
+            <div class="luxury-category-icon">
+              🏗️
+            </div>
+
+            <h3>
+              Heavy Machinery
+            </h3>
+
+            <p>
+              Industrial equipment and heavy machinery.
+            </p>
+
           </article>
+
+
+          <!-- =================================================
+               ENTERTAINMENT
+          ================================================== -->
 
           <article
             class="luxury-category-card"
             data-category="movies"
           >
-            <div class="luxury-category-icon">🎬</div>
-            <h3>Movies</h3>
-            <p>Movie releases, promotions and media listings.</p>
+
+            <div class="luxury-category-icon">
+              🎬
+            </div>
+
+            <h3>
+              Movies
+            </h3>
+
+            <p>
+              Movie releases, promotions and media listings.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="serials"
           >
-            <div class="luxury-category-icon">📺</div>
-            <h3>Serials</h3>
-            <p>Serial releases, promotions and entertainment.</p>
+
+            <div class="luxury-category-icon">
+              📺
+            </div>
+
+            <h3>
+              Serials
+            </h3>
+
+            <p>
+              Serial releases, promotions and entertainment.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="web-series"
           >
-            <div class="luxury-category-icon">🌐</div>
-            <h3>Web Series</h3>
-            <p>Web series releases and promotional listings.</p>
+
+            <div class="luxury-category-icon">
+              🌐
+            </div>
+
+            <h3>
+              Web Series
+            </h3>
+
+            <p>
+              Web series releases and promotional listings.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="podcasts"
           >
-            <div class="luxury-category-icon">🎙️</div>
-            <h3>Podcasts & Shows</h3>
-            <p>Podcast, show and media promotion.</p>
+
+            <div class="luxury-category-icon">
+              🎙️
+            </div>
+
+            <h3>
+              Podcasts & Shows
+            </h3>
+
+            <p>
+              Podcast, show and media promotion.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="songs"
           >
-            <div class="luxury-category-icon">🎵</div>
-            <h3>Songs</h3>
-            <p>Music releases, promotion and discovery.</p>
+
+            <div class="luxury-category-icon">
+              🎵
+            </div>
+
+            <h3>
+              Songs
+            </h3>
+
+            <p>
+              Music releases, promotion and discovery.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="albums"
           >
-            <div class="luxury-category-icon">💿</div>
-            <h3>Albums</h3>
-            <p>Albums, releases and music promotion.</p>
+
+            <div class="luxury-category-icon">
+              💿
+            </div>
+
+            <h3>
+              Albums
+            </h3>
+
+            <p>
+              Albums, releases and music promotion.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="sports"
           >
-            <div class="luxury-category-icon">🏆</div>
-            <h3>Sports</h3>
-            <p>Sports products, events and promotions.</p>
+
+            <div class="luxury-category-icon">
+              🏆
+            </div>
+
+            <h3>
+              Sports
+            </h3>
+
+            <p>
+              Sports products, events and promotions.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="games"
           >
-            <div class="luxury-category-icon">🎮</div>
-            <h3>Games</h3>
-            <p>Games, gaming products and promotions.</p>
+
+            <div class="luxury-category-icon">
+              🎮
+            </div>
+
+            <h3>
+              Games
+            </h3>
+
+            <p>
+              Games, gaming products and promotions.
+            </p>
+
           </article>
+
+
+          <!-- =================================================
+               TRAVEL + MEDIA + DIGITAL
+          ================================================== -->
 
           <article
             class="luxury-category-card"
             data-category="tourist-guide"
           >
-            <div class="luxury-category-icon">🗺️</div>
-            <h3>Tourist Guide</h3>
-            <p>Travel guides, destinations and local experiences.</p>
+
+            <div class="luxury-category-icon">
+              🗺️
+            </div>
+
+            <h3>
+              Tourist Guide
+            </h3>
+
+            <p>
+              Travel guides, destinations and local experiences.
+            </p>
+
           </article>
+
 
           <article
             class="luxury-category-card"
             data-category="best-tourist-places"
           >
-            <div class="luxury-category-icon">🌍</div>
-            <h3>Best Tourist Places</h3>
-            <p>Premium and popular tourist destinations.</p>
+
+            <div class="luxury-category-icon">
+              🌍
+            </div>
+
+            <h3>
+              Best Tourist Places
+            </h3>
+
+            <p>
+              Premium and popular tourist destinations.
+            </p>
+
           </article>
 
+
+          <article
+            class="luxury-category-card"
+            data-category="photos"
+          >
+
+            <div class="luxury-category-icon">
+              🖼️
+            </div>
+
+            <h3>
+              Photos
+            </h3>
+
+            <p>
+              Luxury photography and visual galleries.
+            </p>
+
+          </article>
+
+
+          <article
+            class="luxury-category-card"
+            data-category="videos"
+          >
+
+            <div class="luxury-category-icon">
+              🎥
+            </div>
+
+            <h3>
+              Videos
+            </h3>
+
+            <p>
+              Luxury product, property and promotional videos.
+            </p>
+
+          </article>
+
+
+          <article
+            class="luxury-category-card"
+            data-category="3d"
+          >
+
+            <div class="luxury-category-icon">
+              🧊
+            </div>
+
+            <h3>
+              3D
+            </h3>
+
+            <p>
+              3D presentation and visual product experience.
+            </p>
+
+          </article>
+
+
+          <article
+            class="luxury-category-card"
+            data-category="website"
+          >
+
+            <div class="luxury-category-icon">
+              🌐
+            </div>
+
+            <h3>
+              Website
+            </h3>
+
+            <p>
+              Premium websites and digital lifestyle presence.
+            </p>
+
+          </article>
+
+
         </div>
+
 
         <div
           class="luxury-no-results"
@@ -1388,58 +2376,98 @@
         id="luxuryMedia"
       >
 
-        <h2>🎥 Media System</h2>
+        <h2>
+          🎥 Media System
+        </h2>
 
         <p class="luxury-panel-description">
           Luxury listings can support pictures, HD pictures,
           videos, 3D presentation and galleries.
         </p>
 
+
         <div class="luxury-media-grid">
+
 
           <div
             class="luxury-media-card"
             data-media="photos"
           >
-            <div class="media-icon">🖼️</div>
-            <h3>Photos</h3>
+
+            <div class="media-icon">
+              🖼️
+            </div>
+
+            <h3>
+              Photos
+            </h3>
+
             <p>
               Standard pictures and product images.
             </p>
+
           </div>
+
 
           <div
             class="luxury-media-card"
             data-media="hd-photo"
           >
-            <div class="media-icon">📸</div>
-            <h3>HD Pictures</h3>
+
+            <div class="media-icon">
+              📸
+            </div>
+
+            <h3>
+              HD Pictures
+            </h3>
+
             <p>
               High-quality images for luxury listings.
             </p>
+
           </div>
+
 
           <div
             class="luxury-media-card"
             data-media="video"
           >
-            <div class="media-icon">🎥</div>
-            <h3>Video</h3>
+
+            <div class="media-icon">
+              🎥
+            </div>
+
+            <h3>
+              Video
+            </h3>
+
             <p>
               Product, property, aircraft and promotional videos.
             </p>
+
           </div>
+
 
           <div
             class="luxury-media-card"
             data-media="3d"
           >
-            <div class="media-icon">🧊</div>
-            <h3>3D</h3>
+
+            <div class="media-icon">
+              🧊
+            </div>
+
+            <h3>
+              3D
+            </h3>
+
             <p>
               3D presentation and visual product experience.
             </p>
+
           </div>
+
 
         </div>
 
@@ -1452,54 +2480,103 @@
 
       <section class="luxury-panel">
 
-        <h2>📋 Luxury Listing Flow</h2>
+        <h2>
+          📋 Luxury Listing Flow
+        </h2>
 
         <p class="luxury-panel-description">
           Create a listing using the separate Luxury Lifestyle
           listing system.
         </p>
 
+
         <div class="luxury-listing-flow">
 
+
           <div class="luxury-step">
-            <div class="luxury-step-number">1</div>
-            <h3>Category</h3>
+
+            <div class="luxury-step-number">
+              1
+            </div>
+
+            <h3>
+              Category
+            </h3>
+
             <p>
               Select the luxury category.
             </p>
+
           </div>
 
+
           <div class="luxury-step">
-            <div class="luxury-step-number">2</div>
-            <h3>Action</h3>
+
+            <div class="luxury-step-number">
+              2
+            </div>
+
+            <h3>
+              Action
+            </h3>
+
             <p>
               Buy, Sell, Rent, Booking or Promote.
             </p>
+
           </div>
 
+
           <div class="luxury-step">
-            <div class="luxury-step-number">3</div>
-            <h3>Details</h3>
+
+            <div class="luxury-step-number">
+              3
+            </div>
+
+            <h3>
+              Details
+            </h3>
+
             <p>
               Add product, property or service information.
             </p>
+
           </div>
 
+
           <div class="luxury-step">
-            <div class="luxury-step-number">4</div>
-            <h3>Media</h3>
+
+            <div class="luxury-step-number">
+              4
+            </div>
+
+            <h3>
+              Media
+            </h3>
+
             <p>
               Add photos, HD pictures, video or 3D media.
             </p>
+
           </div>
 
+
           <div class="luxury-step">
-            <div class="luxury-step-number">5</div>
-            <h3>Publish</h3>
+
+            <div class="luxury-step-number">
+              5
+            </div>
+
+            <h3>
+              Publish
+            </h3>
+
             <p>
               Save, manage and publish the listing.
             </p>
+
           </div>
+
 
         </div>
 
@@ -1512,7 +2589,9 @@
 
       <section class="luxury-panel">
 
-        <h2>🏢 Owner / Company / Dealer</h2>
+        <h2>
+          🏢 Owner / Company / Dealer
+        </h2>
 
         <p class="luxury-panel-description">
           Luxury listings may represent private owners,
@@ -1520,31 +2599,51 @@
           listing providers.
         </p>
 
+
         <div class="luxury-owner-grid">
 
+
           <div class="luxury-owner-card">
-            <h3>👤 Private Owner</h3>
+
+            <h3>
+              👤 Private Owner
+            </h3>
+
             <p>
               Owners can present eligible luxury assets,
               properties, vehicles and other listings.
             </p>
+
           </div>
 
+
           <div class="luxury-owner-card">
-            <h3>🏢 Company</h3>
+
+            <h3>
+              🏢 Company
+            </h3>
+
             <p>
               Companies can promote eligible products,
               services, properties and media.
             </p>
+
           </div>
 
+
           <div class="luxury-owner-card">
-            <h3>🤝 Dealer / Agency</h3>
+
+            <h3>
+              🤝 Dealer / Agency
+            </h3>
+
             <p>
               Dealers and agencies can present eligible
               inventory and promotional listings.
             </p>
+
           </div>
+
 
         </div>
 
@@ -1557,50 +2656,78 @@
 
       <section class="luxury-panel">
 
-        <h2>🌍 Local & International</h2>
+        <h2>
+          🌍 Local & International
+        </h2>
 
         <p class="luxury-panel-description">
           The Luxury Lifestyle section is designed for both
           local and international markets.
         </p>
 
+
         <div class="luxury-market-grid">
 
+
           <div class="luxury-field">
-            <label>🇮🇳 Local Market</label>
+
+            <label>
+              🇮🇳 Local Market
+            </label>
+
             <input
               type="text"
               value="Local"
               readonly
             >
+
           </div>
 
+
           <div class="luxury-field">
-            <label>🌐 International Market</label>
+
+            <label>
+              🌐 International Market
+            </label>
+
             <input
               type="text"
               value="International"
               readonly
             >
+
           </div>
 
+
           <div class="luxury-field">
-            <label>🏳️ Country</label>
+
+            <label>
+              🏳️ Country
+            </label>
+
             <input
               type="text"
               value="Country + Flag + Calling Code"
               readonly
             >
+
           </div>
 
+
           <div class="luxury-field">
-            <label>💱 Currency</label>
+
+            <label>
+              💱 Currency
+            </label>
+
             <input
               type="text"
               value="Local Currency"
               readonly
             >
+
           </div>
+
 
         </div>
 
@@ -1608,85 +2735,129 @@
 
 
       <!-- =====================================================
-           LEGAL / VERIFICATION NOTICE
+           LEGAL / VERIFICATION
       ====================================================== -->
 
       <section class="luxury-panel">
 
-        <h2>⚖️ Terms & Verification Notice</h2>
+        <h2>
+          ⚖️ Terms & Verification Notice
+        </h2>
+
 
         <div class="luxury-notice">
 
+
           <p>
-            <strong>1. Platform Role:</strong>
+            <strong>
+              1. Platform Role:
+            </strong>
+
             ALON HISTORYVERSE 24 provides a digital platform
             for displaying, discovering and promoting listings.
           </p>
 
+
           <p>
-            <strong>2. Independent Parties:</strong>
+            <strong>
+              2. Independent Parties:
+            </strong>
+
             Buyers, sellers, owners, companies, dealers,
             renters, advertisers and other users are
             independent parties.
           </p>
 
+
           <p>
-            <strong>3. No Automatic Guarantee:</strong>
+            <strong>
+              3. No Automatic Guarantee:
+            </strong>
+
             Listing information, ownership, availability,
             authenticity, condition, price or other details
             are not automatically guaranteed by the platform.
           </p>
 
+
           <p>
-            <strong>4. User Verification:</strong>
+            <strong>
+              4. User Verification:
+            </strong>
+
             Users should independently verify identity,
             ownership, documents, condition, availability,
             pricing and legal status before completing any
             transaction.
           </p>
 
+
           <p>
-            <strong>5. Payments:</strong>
+            <strong>
+              5. Payments:
+            </strong>
+
             The platform does not automatically guarantee
             payment, delivery, transfer, registration or
             completion of a transaction.
           </p>
 
+
           <p>
-            <strong>6. Legal Compliance:</strong>
+            <strong>
+              6. Legal Compliance:
+            </strong>
+
             Users are responsible for complying with all
             applicable local, national and international laws,
             licenses, permits and regulations.
           </p>
 
+
           <p>
-            <strong>7. Regulated Assets:</strong>
+            <strong>
+              7. Regulated Assets:
+            </strong>
+
             Aircraft, ships, vehicles, property and other
             regulated assets may require additional documents,
             permissions or government approvals.
           </p>
 
+
           <p>
-            <strong>8. Media:</strong>
+            <strong>
+              8. Media:
+            </strong>
+
             Users are responsible for the photographs, videos,
             3D material, logos, trademarks and other media
             uploaded by them.
           </p>
 
+
           <p>
-            <strong>9. Third Parties:</strong>
+            <strong>
+              9. Third Parties:
+            </strong>
+
             Third-party services, owners, companies, dealers
             and advertisers remain responsible for their own
             products, services, representations and transactions.
           </p>
 
+
           <p>
-            <strong>10. Liability:</strong>
+            <strong>
+              10. Liability:
+            </strong>
+
             To the extent permitted by applicable law, the
             platform does not assume responsibility for losses,
             disputes, fraud, inaccurate information or
             transactions between independent parties.
           </p>
+
 
         </div>
 
@@ -1699,7 +2870,10 @@
 
       <section class="luxury-panel">
 
-        <h2>🚀 Future Luxury System</h2>
+        <h2>
+          🚀 Future Luxury System
+        </h2>
+
 
         <ul class="luxury-future-list">
 
@@ -1739,6 +2913,7 @@
 
       </section>
 
+
     </div>
 
 
@@ -1751,6 +2926,7 @@
       <div>
         © 2026 ALON HISTORYVERSE 24
       </div>
+
 
       <div style="margin-top:8px;">
 
@@ -1773,6 +2949,7 @@
       </div>
 
     </footer>
+
 
   </main>
 
@@ -1801,22 +2978,25 @@
       "DOMContentLoaded",
       function () {
 
-        /*
-         * -------------------------------------------------------
-         * COUNTRY SELECT
-         * Existing marketplace-countries.js is read only.
-         * -------------------------------------------------------
-         */
+
+        /* =====================================================
+           COUNTRY SELECT
+        ====================================================== */
 
         const countrySelect =
-          document.getElementById("luxuryCountry");
+          document.getElementById(
+            "luxuryCountry"
+          );
+
 
         if (countrySelect) {
 
           let countries = null;
 
+
           if (
-            typeof ALON_FILL_COUNTRY_SELECT === "function"
+            typeof ALON_FILL_COUNTRY_SELECT ===
+            "function"
           ) {
 
             try {
@@ -1841,56 +3021,90 @@
 
           }
 
+
           if (
             countrySelect.options.length <= 1
           ) {
 
+
             if (
-              Array.isArray(window.MARKETPLACE_COUNTRIES)
+              Array.isArray(
+                window.MARKETPLACE_COUNTRIES
+              )
             ) {
+
               countries =
                 window.MARKETPLACE_COUNTRIES;
+
             }
+
 
             if (
               !countries &&
-              Array.isArray(window.ALON_MARKETPLACE_COUNTRIES)
+              Array.isArray(
+                window.ALON_MARKETPLACE_COUNTRIES
+              )
             ) {
+
               countries =
                 window.ALON_MARKETPLACE_COUNTRIES;
+
             }
+
 
             if (
               !countries &&
-              Array.isArray(window.ALON_WORLD_COUNTRIES)
+              Array.isArray(
+                window.ALON_WORLD_COUNTRIES
+              )
             ) {
+
               countries =
                 window.ALON_WORLD_COUNTRIES;
+
             }
+
 
             if (
               !countries &&
-              Array.isArray(window.WORLD_COUNTRIES)
+              Array.isArray(
+                window.WORLD_COUNTRIES
+              )
             ) {
+
               countries =
                 window.WORLD_COUNTRIES;
+
             }
+
 
             if (
               !countries &&
-              Array.isArray(window.GLOBAL_COUNTRIES)
+              Array.isArray(
+                window.GLOBAL_COUNTRIES
+              )
             ) {
+
               countries =
                 window.GLOBAL_COUNTRIES;
+
             }
 
-            if (Array.isArray(countries)) {
+
+            if (
+              Array.isArray(countries)
+            ) {
+
 
               countries.forEach(
                 function (country) {
 
+
                   const option =
-                    document.createElement("option");
+                    document.createElement(
+                      "option"
+                    );
+
 
                   const name =
                     country.name ||
@@ -1898,11 +3112,13 @@
                     country.label ||
                     "";
 
+
                   const iso =
                     country.iso ||
                     country.iso2 ||
                     country.code ||
                     "";
+
 
                   const callingCode =
                     country.callingCode ||
@@ -1910,13 +3126,16 @@
                     country.dialCode ||
                     "";
 
+
                   const flag =
                     country.flag ||
                     country.emoji ||
                     "";
 
+
                   option.value =
                     iso || name;
+
 
                   option.textContent =
                     [
@@ -1928,7 +3147,11 @@
                     .filter(Boolean)
                     .join(" ");
 
-                  countrySelect.appendChild(option);
+
+                  countrySelect.appendChild(
+                    option
+                  );
+
 
                 }
               );
@@ -1940,91 +3163,115 @@
         }
 
 
-        /*
-         * -------------------------------------------------------
-         * ACTION BUTTONS
-         * -------------------------------------------------------
-         */
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
 
         const actionButtons =
           document.querySelectorAll(
             ".luxury-action-btn"
           );
 
+
         actionButtons.forEach(
           function (button) {
+
 
             button.addEventListener(
               "click",
               function () {
 
+
                 actionButtons.forEach(
                   function (item) {
-                    item.classList.remove("active");
+
+                    item.classList.remove(
+                      "active"
+                    );
+
                   }
                 );
 
-                button.classList.add("active");
+
+                button.classList.add(
+                  "active"
+                );
+
 
               }
             );
+
 
           }
         );
 
 
-        /*
-         * -------------------------------------------------------
-         * FOLDER BAR
-         * -------------------------------------------------------
-         */
+        /* =====================================================
+           FOLDER + CATEGORY SYSTEM
+        ====================================================== */
 
         const folderButtons =
           document.querySelectorAll(
             ".luxury-folder-btn"
           );
 
+
         const categoryCards =
           document.querySelectorAll(
             ".luxury-category-card"
           );
+
 
         const noResults =
           document.getElementById(
             "luxuryNoResults"
           );
 
+
         function showCategoryFolder(
           folder
         ) {
 
+
           let visibleCount = 0;
+
 
           categoryCards.forEach(
             function (card) {
+
 
               const category =
                 card.getAttribute(
                   "data-category"
                 );
 
+
               if (
                 folder === "all" ||
                 category === folder
               ) {
 
-                card.style.display = "";
+
+                card.style.display =
+                  "";
+
 
                 visibleCount++;
 
+
               } else {
 
-                card.style.display = "none";
+
+                card.style.display =
+                  "none";
+
 
               }
 
+
             }
           );
+
 
           if (noResults) {
 
@@ -2035,64 +3282,81 @@
 
           }
 
+
         }
 
 
         folderButtons.forEach(
           function (button) {
 
+
             button.addEventListener(
               "click",
               function () {
 
+
                 folderButtons.forEach(
                   function (item) {
-                    item.classList.remove("active");
+
+                    item.classList.remove(
+                      "active"
+                    );
+
                   }
                 );
 
-                button.classList.add("active");
+
+                button.classList.add(
+                  "active"
+                );
+
 
                 const folder =
                   button.getAttribute(
                     "data-folder"
                   );
 
+
                 showCategoryFolder(
                   folder || "all"
                 );
+
 
                 const categories =
                   document.getElementById(
                     "luxuryCategories"
                   );
 
+
                 if (categories) {
+
 
                   categories.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                   });
 
+
                 }
+
 
               }
             );
+
 
           }
         );
 
 
-        /*
-         * -------------------------------------------------------
-         * SEARCH
-         * -------------------------------------------------------
-         */
+        /* =====================================================
+           SEARCH
+        ====================================================== */
 
         const searchInput =
           document.getElementById(
             "luxuryTopSearch"
           );
+
 
         const searchButton =
           document.getElementById(
@@ -2102,56 +3366,82 @@
 
         function performLuxurySearch() {
 
+
           if (!searchInput) {
             return;
           }
+
 
           const query =
             searchInput.value
               .trim()
               .toLowerCase();
 
+
           let visibleCount = 0;
+
 
           categoryCards.forEach(
             function (card) {
 
+
               const text =
                 card.textContent
                   .toLowerCase();
+
 
               if (
                 query === "" ||
                 text.includes(query)
               ) {
 
-                card.style.display = "";
+
+                card.style.display =
+                  "";
+
 
                 visibleCount++;
 
+
               } else {
 
-                card.style.display = "none";
+
+                card.style.display =
+                  "none";
+
 
               }
 
+
             }
           );
 
+
           folderButtons.forEach(
             function (button) {
-              button.classList.remove("active");
+
+              button.classList.remove(
+                "active"
+              );
+
             }
           );
+
 
           const allButton =
             document.querySelector(
               '.luxury-folder-btn[data-folder="all"]'
             );
 
+
           if (allButton) {
-            allButton.classList.add("active");
+
+            allButton.classList.add(
+              "active"
+            );
+
           }
+
 
           if (noResults) {
 
@@ -2162,149 +3452,185 @@
 
           }
 
+
         }
 
 
         if (searchButton) {
+
 
           searchButton.addEventListener(
             "click",
             performLuxurySearch
           );
 
+
         }
 
 
         if (searchInput) {
 
+
           searchInput.addEventListener(
             "keydown",
             function (event) {
+
 
               if (
                 event.key === "Enter"
               ) {
 
+
                 event.preventDefault();
+
 
                 performLuxurySearch();
 
+
               }
+
 
             }
           );
 
+
         }
 
 
-        /*
-         * -------------------------------------------------------
-         * CATEGORY CARD CLICK
-         * -------------------------------------------------------
-         */
+        /* =====================================================
+           CATEGORY CARD CLICK
+        ====================================================== */
 
         categoryCards.forEach(
           function (card) {
 
+
             card.addEventListener(
               "click",
               function () {
+
 
                 const category =
                   card.getAttribute(
                     "data-category"
                   );
 
+
                 folderButtons.forEach(
                   function (button) {
+
 
                     const folder =
                       button.getAttribute(
                         "data-folder"
                       );
 
+
                     button.classList.toggle(
                       "active",
                       folder === category
                     );
 
+
                   }
                 );
+
 
                 categoryCards.forEach(
                   function (item) {
-                    item.style.display = "";
+
+                    item.style.display =
+                      "";
+
                   }
                 );
 
+
                 if (searchInput) {
-                  searchInput.value = "";
+
+                  searchInput.value =
+                    "";
+
                 }
+
 
               }
             );
+
 
           }
         );
 
 
-        /*
-         * -------------------------------------------------------
-         * MARKET / CURRENCY
-         * -------------------------------------------------------
-         */
+        /* =====================================================
+           MARKET / CURRENCY
+        ====================================================== */
 
         const marketSelect =
           document.getElementById(
             "luxuryMarket"
           );
 
+
         const currencyInput =
           document.getElementById(
             "luxuryCurrency"
           );
+
 
         if (
           marketSelect &&
           currencyInput
         ) {
 
+
           marketSelect.addEventListener(
             "change",
             function () {
 
+
               if (
-                marketSelect.value === "local"
+                marketSelect.value ===
+                "local"
               ) {
+
 
                 currencyInput.placeholder =
                   "Local currency";
 
+
               } else {
+
 
                 currencyInput.placeholder =
                   "International currency";
 
+
               }
+
 
             }
           );
 
+
         }
 
 
-        /*
-         * -------------------------------------------------------
-         * DEFAULT STATE
-         * -------------------------------------------------------
-         */
+        /* =====================================================
+           DEFAULT STATE
+        ====================================================== */
 
-        showCategoryFolder("all");
+        showCategoryFolder(
+          "all"
+        );
+
 
       }
     );
 
   </script>
 
+
 </body>
+
 </html>
