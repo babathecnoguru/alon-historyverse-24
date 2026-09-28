@@ -24,7 +24,7 @@
         /* =====================================================
            ALON HISTORYVERSE 24
            PRIVACY POLICY PAGE
-           VISIBILITY FIX
+           ENGLISH / HINDI
         ====================================================== */
 
         .privacy-page {
@@ -32,8 +32,6 @@
             min-height: 100vh;
             padding: 20px 14px 60px;
             box-sizing: border-box;
-
-            /* Force readable text on dark theme */
             color: #eeeeee;
         }
 
@@ -105,6 +103,85 @@
             color: #cccccc;
 
             opacity: 1;
+        }
+
+        /* =====================================================
+           LANGUAGE SWITCHER
+        ====================================================== */
+
+        .language-switcher {
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 15px;
+        }
+
+        .language-switcher button {
+            border: 1px solid rgba(215, 179, 90, .45);
+
+            background: rgba(215, 179, 90, .08);
+
+            color: #f0d27a;
+
+            padding: 8px 16px;
+
+            border-radius: 20px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+        .language-switcher button:hover {
+            background: rgba(215, 179, 90, .18);
+
+            color: #ffffff;
+        }
+
+        .language-switcher button.active {
+            background: #d7b35a;
+
+            color: #05080f;
+
+            border-color: #d7b35a;
+        }
+
+        /* =====================================================
+           LANGUAGE VISIBILITY
+        ====================================================== */
+
+        [data-lang] {
+            display: none;
+        }
+
+        body.lang-en [data-lang="en"] {
+            display: block;
+        }
+
+        body.lang-hi [data-lang="hi"] {
+            display: block;
+        }
+
+        /* Keep inline language elements inline */
+        span[data-lang] {
+            display: none;
+        }
+
+        body.lang-en span[data-lang="en"] {
+            display: inline;
+        }
+
+        body.lang-hi span[data-lang="hi"] {
+            display: inline;
         }
 
         /* =====================================================
@@ -338,6 +415,12 @@
                 color: #eeeeee;
             }
 
+            .language-switcher button {
+                padding: 7px 13px;
+
+                font-size: 13px;
+            }
+
         }
 
     </style>
@@ -345,7 +428,7 @@
 </head>
 
 
-<body>
+<body class="lang-en">
 
 <main class="privacy-page">
 
@@ -360,7 +443,13 @@
             href="../index.html"
             class="back-link"
         >
-            ← Back to ALON HISTORYVERSE 24
+            <span data-lang="en">
+                ← Back to ALON HISTORYVERSE 24
+            </span>
+
+            <span data-lang="hi">
+                ← ALON HISTORYVERSE 24 पर वापस जाएँ
+            </span>
         </a>
 
 
@@ -371,57 +460,153 @@
         <header class="privacy-header">
 
             <h1>
-                🔐 Privacy Policy
+
+                <span data-lang="en">
+                    🔐 Privacy Policy
+                </span>
+
+                <span data-lang="hi">
+                    🔐 गोपनीयता नीति
+                </span>
+
             </h1>
 
             <p>
-                ALON HISTORYVERSE 24
-                <br>
-                Privacy & Data Protection
+
+                <span data-lang="en">
+                    ALON HISTORYVERSE 24
+                    <br>
+                    Privacy & Data Protection
+                </span>
+
+                <span data-lang="hi">
+                    ALON HISTORYVERSE 24
+                    <br>
+                    गोपनीयता और डेटा सुरक्षा
+                </span>
+
             </p>
 
             <p class="policy-date">
-                Effective Date: September 2026
+
+                <span data-lang="en">
+                    Effective Date: September 2026
+                </span>
+
+                <span data-lang="hi">
+                    प्रभावी तिथि: सितंबर 2026
+                </span>
+
             </p>
+
+
+            <!-- LANGUAGE BUTTONS -->
+
+            <div
+                class="language-switcher"
+                aria-label="Language Selection"
+            >
+
+                <button
+                    type="button"
+                    id="englishBtn"
+                    onclick="setLanguage('en')"
+                >
+                    English
+                </button>
+
+                <button
+                    type="button"
+                    id="hindiBtn"
+                    onclick="setLanguage('hi')"
+                >
+                    हिन्दी
+                </button>
+
+            </div>
 
         </header>
 
 
         <!-- =================================================
-             INTRODUCTION
+             1. INTRODUCTION
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                1. Introduction
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Welcome to
-                <strong>ALON HISTORYVERSE 24</strong>,
-                created and managed by
-                <strong>Baba Thecno Guru</strong>.
-            </p>
+                <h2>
+                    1. Introduction
+                </h2>
 
-            <p>
-                This Privacy Policy explains what information
-                may be collected when you use this website,
-                why that information may be used, and the
-                choices available to you.
-            </p>
+                <p>
+                    Welcome to
+                    <strong>ALON HISTORYVERSE 24</strong>,
+                    created and managed by
+                    <strong>Baba Thecno Guru</strong>.
+                </p>
 
-            <div class="privacy-highlight">
+                <p>
+                    This Privacy Policy explains what information
+                    may be collected when you use this website,
+                    why that information may be used, and the
+                    choices available to you.
+                </p>
 
-                <strong>
-                    हमारी प्राथमिकता / Our Principle:
-                </strong>
+                <div class="privacy-highlight">
 
-                <br>
+                    <strong>
+                        Our Principle:
+                    </strong>
 
-                We aim to collect only information that is
-                reasonably necessary for providing website
-                features and improving the user experience.
+                    <br>
+
+                    We aim to collect only information that is
+                    reasonably necessary for providing website
+                    features, security, legal compliance and
+                    improving the user experience.
+
+                </div>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    1. परिचय
+                </h2>
+
+                <p>
+                    <strong>ALON HISTORYVERSE 24</strong>
+                    में आपका स्वागत है। यह वेबसाइट
+                    <strong>Baba Thecno Guru</strong>
+                    द्वारा बनाई और प्रबंधित की जाती है।
+                </p>
+
+                <p>
+                    यह गोपनीयता नीति बताती है कि वेबसाइट का
+                    उपयोग करते समय कौन-सी जानकारी एकत्र या
+                    संसाधित की जा सकती है, उसका उपयोग क्यों
+                    किया जा सकता है और उपयोगकर्ता के पास
+                    कौन-कौन से विकल्प उपलब्ध हैं।
+                </p>
+
+                <div class="privacy-highlight">
+
+                    <strong>
+                        हमारा सिद्धांत:
+                    </strong>
+
+                    <br>
+
+                    हमारा उद्देश्य वेबसाइट की सुविधाओं,
+                    सुरक्षा, कानूनी आवश्यकताओं और उपयोगकर्ता
+                    अनुभव के लिए आवश्यक जानकारी तक ही डेटा
+                    संग्रह और उपयोग को सीमित रखना है।
+
+                </div>
 
             </div>
 
@@ -429,88 +614,215 @@
 
 
         <!-- =================================================
-             INFORMATION
+             2. INFORMATION
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                2. Information That May Be Used
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Depending on the features you use, the website
-                may process the following information:
-            </p>
+                <h2>
+                    2. Information That May Be Collected or Processed
+                </h2>
 
-            <div class="privacy-table-wrap">
+                <p>
+                    Depending on the features you use, the website
+                    may collect or process the following categories
+                    of information:
+                </p>
 
-                <table class="privacy-table">
+                <div class="privacy-table-wrap">
 
-                    <thead>
+                    <table class="privacy-table">
 
-                        <tr>
-                            <th>Information</th>
-                            <th>Possible Purpose</th>
-                        </tr>
+                        <thead>
 
-                    </thead>
+                            <tr>
+                                <th>Information</th>
+                                <th>Possible Purpose</th>
+                            </tr>
 
-                    <tbody>
+                        </thead>
 
-                        <tr>
-                            <td>Email address</td>
-                            <td>
-                                Login, account identification
-                                and account-related features.
-                            </td>
-                        </tr>
+                        <tbody>
 
-                        <tr>
-                            <td>Mobile number</td>
-                            <td>
-                                User identification and
-                                account-related features.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>Email address</td>
+                                <td>
+                                    Login, account identification,
+                                    account-related communication
+                                    and requested website features.
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>Country / Calling Code</td>
-                            <td>
-                                International user identification
-                                and country-specific features.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>Mobile number</td>
+                                <td>
+                                    User identification and
+                                    account-related features,
+                                    where required.
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>User ID</td>
-                            <td>
-                                Identifying a user's activity
-                                without displaying sensitive
-                                account credentials.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>Country / Calling Code</td>
+                                <td>
+                                    International user identification
+                                    and country-specific features.
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>Location</td>
-                            <td>
-                                Features that specifically require
-                                live location, only after browser
-                                permission is granted.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>User ID</td>
+                                <td>
+                                    Identifying a user's activity
+                                    without publicly displaying
+                                    sensitive account credentials.
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>Books / Articles / Comments</td>
-                            <td>
-                                Providing library, reading,
-                                article and community features.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td>
+                                    Features that specifically require
+                                    location, subject to browser
+                                    permission.
+                                </td>
+                            </tr>
 
-                    </tbody>
+                            <tr>
+                                <td>Books / Articles / Comments</td>
+                                <td>
+                                    Providing library, reading,
+                                    article and community features.
+                                </td>
+                            </tr>
 
-                </table>
+                            <tr>
+                                <td>Marketplace / Jobs / Listings</td>
+                                <td>
+                                    Providing requested listing,
+                                    marketplace or career-related
+                                    functionality.
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Technical Information</td>
+                                <td>
+                                    Website operation, security,
+                                    troubleshooting and improvement.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    2. एकत्र या संसाधित की जा सकने वाली जानकारी
+                </h2>
+
+                <p>
+                    आपके द्वारा उपयोग की जाने वाली सुविधाओं के
+                    आधार पर वेबसाइट निम्नलिखित प्रकार की
+                    जानकारी को एकत्र या संसाधित कर सकती है:
+                </p>
+
+                <div class="privacy-table-wrap">
+
+                    <table class="privacy-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>जानकारी</th>
+                                <th>संभावित उद्देश्य</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>ईमेल पता</td>
+                                <td>
+                                    लॉगिन, अकाउंट की पहचान,
+                                    अकाउंट से संबंधित संचार
+                                    और मांगी गई वेबसाइट सुविधाएँ।
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>मोबाइल नंबर</td>
+                                <td>
+                                    उपयोगकर्ता की पहचान और
+                                    आवश्यक अकाउंट सुविधाएँ।
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>देश / कॉलिंग कोड</td>
+                                <td>
+                                    अंतरराष्ट्रीय उपयोगकर्ता की
+                                    पहचान और देश-विशिष्ट सुविधाएँ।
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>User ID</td>
+                                <td>
+                                    संवेदनशील अकाउंट जानकारी
+                                    सार्वजनिक किए बिना उपयोगकर्ता
+                                    की गतिविधि की पहचान करना।
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>स्थान</td>
+                                <td>
+                                    ऐसी सुविधाएँ जिनमें स्थान की
+                                    आवश्यकता हो, ब्राउज़र की अनुमति
+                                    के अधीन।
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Books / Articles / Comments</td>
+                                <td>
+                                    लाइब्रेरी, पढ़ने, आर्टिकल और
+                                    कम्युनिटी सुविधाएँ उपलब्ध कराना।
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Marketplace / Jobs / Listings</td>
+                                <td>
+                                    मांगी गई मार्केटप्लेस, लिस्टिंग
+                                    या करियर सुविधाएँ उपलब्ध कराना।
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>तकनीकी जानकारी</td>
+                                <td>
+                                    वेबसाइट संचालन, सुरक्षा,
+                                    समस्या समाधान और सुधार।
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
 
@@ -518,474 +830,1888 @@
 
 
         <!-- =================================================
-             PASSWORD
+             3. PASSWORD
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                3. Password Information
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Passwords are sensitive account credentials.
-                The frontend login system is designed not to
-                display or expose a user's password to other
-                website visitors.
-            </p>
+                <h2>
+                    3. Password and Account Credentials
+                </h2>
 
-            <div class="privacy-highlight">
+                <p>
+                    Passwords and authentication credentials are
+                    sensitive information.
+                </p>
 
-                <strong>
-                    Important:
-                </strong>
+                <p>
+                    The frontend website should not publicly
+                    display or intentionally expose a user's
+                    password to other visitors.
+                </p>
 
-                The current GitHub Pages implementation is a
-                client-side website system. It is not a
-                replacement for a secure server-side
-                authentication service.
+                <div class="privacy-highlight">
+
+                    <strong>
+                        Important:
+                    </strong>
+
+                    <br>
+
+                    The current GitHub Pages implementation is
+                    primarily a client-side website system. A
+                    client-side system alone should not be treated
+                    as a replacement for secure server-side
+                    authentication.
+                </div>
+
+                <p>
+                    A secure server-side authentication system may
+                    be used for future account-management
+                    requirements.
+                </p>
 
             </div>
 
-            <p>
-                A future server-side authentication system may
-                be introduced if secure multi-user account
-                management is required.
-            </p>
+
+            <div data-lang="hi">
+
+                <h2>
+                    3. पासवर्ड और अकाउंट जानकारी
+                </h2>
+
+                <p>
+                    पासवर्ड और प्रमाणीकरण से संबंधित जानकारी
+                    संवेदनशील जानकारी होती है।
+                </p>
+
+                <p>
+                    वेबसाइट के frontend पर उपयोगकर्ता का पासवर्ड
+                    सार्वजनिक रूप से प्रदर्शित या जानबूझकर अन्य
+                    आगंतुकों के सामने उजागर नहीं किया जाना चाहिए।
+                </p>
+
+                <div class="privacy-highlight">
+
+                    <strong>
+                        महत्वपूर्ण:
+                    </strong>
+
+                    <br>
+
+                    वर्तमान GitHub Pages implementation मुख्य रूप
+                    से client-side website system है। केवल
+                    client-side system को सुरक्षित server-side
+                    authentication का विकल्प नहीं माना जाना चाहिए।
+
+                </div>
+
+                <p>
+                    भविष्य में सुरक्षित अकाउंट प्रबंधन के लिए
+                    server-side authentication system का उपयोग
+                    किया जा सकता है।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             LOCATION
+             4. LOCATION
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                4. Live Location
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Some features may request access to your device's
-                location.
-            </p>
+                <h2>
+                    4. Live Location
+                </h2>
 
-            <ul>
+                <p>
+                    Some features may request access to your
+                    device's location.
+                </p>
 
-                <li>
-                    Location access is controlled by your browser.
-                </li>
+                <ul>
 
-                <li>
-                    The browser normally asks for permission before
-                    providing location information.
-                </li>
+                    <li>
+                        Location access is controlled by your browser.
+                    </li>
 
-                <li>
-                    You can deny location permission.
-                </li>
+                    <li>
+                        The browser normally asks for permission
+                        before providing location information.
+                    </li>
 
-                <li>
-                    Location-dependent features may not work when
-                    permission is denied.
-                </li>
+                    <li>
+                        You can deny location permission.
+                    </li>
 
-                <li>
-                    The website should not request location when
-                    the feature does not require it.
-                </li>
+                    <li>
+                        Location-dependent features may not work
+                        when permission is denied.
+                    </li>
 
-            </ul>
+                    <li>
+                        The website should not request location
+                        when the feature does not require it.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    4. लाइव स्थान
+                </h2>
+
+                <p>
+                    कुछ सुविधाएँ आपके डिवाइस के स्थान तक पहुँचने
+                    की अनुमति मांग सकती हैं।
+                </p>
+
+                <ul>
+
+                    <li>
+                        स्थान की अनुमति आपके ब्राउज़र द्वारा
+                        नियंत्रित की जाती है।
+                    </li>
+
+                    <li>
+                        स्थान की जानकारी देने से पहले ब्राउज़र
+                        सामान्यतः अनुमति मांगता है।
+                    </li>
+
+                    <li>
+                        आप स्थान की अनुमति अस्वीकार कर सकते हैं।
+                    </li>
+
+                    <li>
+                        अनुमति अस्वीकार करने पर स्थान-आधारित
+                        सुविधाएँ काम नहीं कर सकती हैं।
+                    </li>
+
+                    <li>
+                        जिस सुविधा को स्थान की आवश्यकता नहीं है,
+                        उसके लिए वेबसाइट को स्थान की मांग नहीं
+                        करनी चाहिए।
+                    </li>
+
+                </ul>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             LOCAL STORAGE
+             5. BROWSER STORAGE
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                5. Browser Storage
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                ALON HISTORYVERSE 24 may use browser storage such
-                as <strong>localStorage</strong> and
-                <strong>sessionStorage</strong> for website
-                functionality.
-            </p>
+                <h2>
+                    5. Browser Storage
+                </h2>
 
-            <p>
-                Examples may include:
-            </p>
+                <p>
+                    ALON HISTORYVERSE 24 may use browser storage
+                    such as <strong>localStorage</strong> and
+                    <strong>sessionStorage</strong> for website
+                    functionality.
+                </p>
 
-            <ul>
+                <p>
+                    Depending on the implemented feature, examples
+                    may include:
+                </p>
 
-                <li>Login session information</li>
+                <ul>
 
-                <li>Anonymous User ID</li>
+                    <li>Login or session-related information</li>
 
-                <li>Reading history</li>
+                    <li>Anonymous or generated User ID</li>
 
-                <li>Book preferences</li>
+                    <li>Reading history</li>
 
-                <li>Like / Dislike information</li>
+                    <li>Book preferences</li>
 
-                <li>Comments and reactions</li>
+                    <li>Language preferences</li>
 
-                <li>Saved website settings</li>
+                    <li>Like / Dislike information</li>
 
-            </ul>
+                    <li>Comments and reactions</li>
 
-            <p>
-                Clearing your browser's website data may remove
-                information stored locally on your device.
-            </p>
+                    <li>Saved website settings</li>
+
+                    <li>Marketplace or discovery preferences</li>
+
+                </ul>
+
+                <p>
+                    Clearing your browser's website data may remove
+                    information stored locally on your device.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    5. ब्राउज़र स्टोरेज
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 वेबसाइट की कार्यक्षमता
+                    के लिए <strong>localStorage</strong> और
+                    <strong>sessionStorage</strong> जैसे ब्राउज़र
+                    स्टोरेज का उपयोग कर सकता है।
+                </p>
+
+                <p>
+                    लागू की गई सुविधा के आधार पर इसमें शामिल हो
+                    सकते हैं:
+                </p>
+
+                <ul>
+
+                    <li>लॉगिन या सेशन से संबंधित जानकारी</li>
+
+                    <li>Anonymous या generated User ID</li>
+
+                    <li>पढ़ने का इतिहास</li>
+
+                    <li>बुक प्राथमिकताएँ</li>
+
+                    <li>भाषा प्राथमिकताएँ</li>
+
+                    <li>Like / Dislike जानकारी</li>
+
+                    <li>Comments और reactions</li>
+
+                    <li>वेबसाइट की सेव की गई सेटिंग्स</li>
+
+                    <li>Marketplace या Discovery प्राथमिकताएँ</li>
+
+                </ul>
+
+                <p>
+                    ब्राउज़र का website data साफ करने पर आपके
+                    डिवाइस में स्थानीय रूप से सेव जानकारी हट सकती है।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             BOOKS AND ARTICLES
+             6. BOOKS ARTICLES USER CONTRIBUTIONS
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                6. Books, Articles and User Contributions
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Future and existing website features may allow
-                users to interact with books, articles and other
-                educational content.
-            </p>
+                <h2>
+                    6. Books, Articles and User Contributions
+                </h2>
 
-            <ul>
+                <p>
+                    Existing and future website features may allow
+                    users to interact with books, articles and other
+                    educational or knowledge-based content.
+                </p>
 
-                <li>
-                    Users may be able to read books.
-                </li>
+                <ul>
 
-                <li>
-                    Users may like or dislike content.
-                </li>
+                    <li>
+                        Users may be able to read books.
+                    </li>
 
-                <li>
-                    Users may submit comments or reactions.
-                </li>
+                    <li>
+                        Users may like or dislike content.
+                    </li>
 
-                <li>
-                    A generated User ID may be associated with
-                    reading or contribution activity.
-                </li>
+                    <li>
+                        Users may submit comments or reactions.
+                    </li>
 
-                <li>
-                    Uploaded content may be subject to the
-                    website's contribution and copyright rules.
-                </li>
+                    <li>
+                        A generated User ID may be associated with
+                        reading or contribution activity.
+                    </li>
 
-            </ul>
+                    <li>
+                        Users may be able to submit educational,
+                        historical, cultural or knowledge-based
+                        material.
+                    </li>
+
+                    <li>
+                        Uploaded content may be subject to the
+                        website's User & Content Policy and
+                        Copyright Policy.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    6. पुस्तकें, आर्टिकल और उपयोगकर्ता योगदान
+                </h2>
+
+                <p>
+                    वेबसाइट की वर्तमान और भविष्य की सुविधाएँ
+                    उपयोगकर्ताओं को पुस्तकों, आर्टिकल और अन्य
+                    शैक्षणिक या ज्ञान आधारित सामग्री के साथ
+                    जुड़ने की सुविधा दे सकती हैं।
+                </p>
+
+                <ul>
+
+                    <li>
+                        उपयोगकर्ता पुस्तकें पढ़ सकते हैं।
+                    </li>
+
+                    <li>
+                        उपयोगकर्ता सामग्री को Like या Dislike
+                        कर सकते हैं।
+                    </li>
+
+                    <li>
+                        उपयोगकर्ता Comments या Reactions भेज सकते हैं।
+                    </li>
+
+                    <li>
+                        पढ़ने या योगदान की गतिविधि किसी generated
+                        User ID से जुड़ सकती है।
+                    </li>
+
+                    <li>
+                        उपयोगकर्ता शैक्षणिक, ऐतिहासिक, सांस्कृतिक
+                        या ज्ञान आधारित सामग्री प्रस्तुत कर सकते हैं।
+                    </li>
+
+                    <li>
+                        अपलोड की गई सामग्री User & Content Policy
+                        और Copyright Policy के अधीन हो सकती है।
+                    </li>
+
+                </ul>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             DATA SHARING
+             7. MARKETPLACE JOBS LUXURY
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                7. Sharing of Information
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                ALON HISTORYVERSE 24 does not intend to publicly
-                display sensitive login credentials such as
-                passwords.
-            </p>
+                <h2>
+                    7. Marketplace, Jobs and Luxury Lifestyle Data
+                </h2>
 
-            <p>
-                Information may be processed or shared when
-                reasonably necessary for:
-            </p>
+                <p>
+                    ALON HISTORYVERSE 24 may provide features
+                    related to marketplace listings, jobs and
+                    careers, luxury lifestyle listings, discovery,
+                    travel or other user-submitted information.
+                </p>
 
-            <ul>
+                <p>
+                    Depending on the feature, submitted information
+                    may include listing details, descriptions,
+                    media, country information, contact-related
+                    information or other information voluntarily
+                    provided by the user.
+                </p>
 
-                <li>
-                    Operating a requested website feature.
-                </li>
+                <p>
+                    Users should not submit passwords, financial
+                    account credentials, identity documents or
+                    unnecessary sensitive personal information in
+                    public listing fields.
+                </p>
 
-                <li>
-                    Preventing misuse or abuse.
-                </li>
+            </div>
 
-                <li>
-                    Maintaining website security.
-                </li>
 
-                <li>
-                    Complying with applicable legal requirements.
-                </li>
+            <div data-lang="hi">
 
-                <li>
-                    Using a future third-party service that the
-                    user has explicitly chosen to use.
-                </li>
+                <h2>
+                    7. Marketplace, Jobs और Luxury Lifestyle डेटा
+                </h2>
 
-            </ul>
+                <p>
+                    ALON HISTORYVERSE 24 में Marketplace listings,
+                    Jobs और Careers, Luxury Lifestyle listings,
+                    Discovery, Travel या अन्य user-submitted
+                    information से संबंधित सुविधाएँ हो सकती हैं।
+                </p>
+
+                <p>
+                    सुविधा के आधार पर उपयोगकर्ता द्वारा दी गई
+                    जानकारी में listing details, description,
+                    media, country information, contact-related
+                    information या स्वेच्छा से दी गई अन्य जानकारी
+                    शामिल हो सकती है।
+                </p>
+
+                <p>
+                    उपयोगकर्ताओं को public listing fields में
+                    password, financial account credentials,
+                    identity documents या अनावश्यक संवेदनशील
+                    व्यक्तिगत जानकारी नहीं देनी चाहिए।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             THIRD PARTY SERVICES
+             8. HOW INFORMATION IS USED
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                8. Third-Party Services
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                The website may eventually use third-party
-                services for features such as hosting,
-                authentication, analytics, maps, storage,
-                content delivery or other functionality.
-            </p>
+                <h2>
+                    8. How Information May Be Used
+                </h2>
 
-            <p>
-                When such services are introduced, their own
-                privacy policies and terms may also apply.
-            </p>
+                <p>
+                    Information may be used, where applicable, for:
+                </p>
+
+                <ul>
+
+                    <li>
+                        Providing requested website features.
+                    </li>
+
+                    <li>
+                        Account and user identification.
+                    </li>
+
+                    <li>
+                        Saving user-selected preferences.
+                    </li>
+
+                    <li>
+                        Operating books, articles and educational
+                        features.
+                    </li>
+
+                    <li>
+                        Operating marketplace, jobs or discovery
+                        features.
+                    </li>
+
+                    <li>
+                        Improving website functionality.
+                    </li>
+
+                    <li>
+                        Detecting misuse, abuse or security problems.
+                    </li>
+
+                    <li>
+                        Maintaining records required for legitimate
+                        operational or legal purposes.
+                    </li>
+
+                    <li>
+                        Responding to user questions, complaints
+                        or requests.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    8. जानकारी का संभावित उपयोग
+                </h2>
+
+                <p>
+                    जहाँ लागू हो, जानकारी का उपयोग निम्नलिखित
+                    उद्देश्यों के लिए किया जा सकता है:
+                </p>
+
+                <ul>
+
+                    <li>
+                        मांगी गई वेबसाइट सुविधाएँ उपलब्ध कराना।
+                    </li>
+
+                    <li>
+                        अकाउंट और उपयोगकर्ता की पहचान करना।
+                    </li>
+
+                    <li>
+                        उपयोगकर्ता द्वारा चुनी गई प्राथमिकताएँ
+                        सेव करना।
+                    </li>
+
+                    <li>
+                        Books, Articles और educational features
+                        चलाना।
+                    </li>
+
+                    <li>
+                        Marketplace, Jobs या Discovery सुविधाएँ
+                        चलाना।
+                    </li>
+
+                    <li>
+                        वेबसाइट की कार्यक्षमता सुधारना।
+                    </li>
+
+                    <li>
+                        दुरुपयोग, misuse या security problems
+                        का पता लगाना।
+                    </li>
+
+                    <li>
+                        आवश्यक operational या legal purposes
+                        के लिए रिकॉर्ड रखना।
+                    </li>
+
+                    <li>
+                        उपयोगकर्ता के प्रश्न, शिकायत या अनुरोध
+                        का उत्तर देना।
+                    </li>
+
+                </ul>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             CHILDREN
+             9. SHARING
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                9. Children and Young Users
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                ALON HISTORYVERSE 24 is intended primarily as an
-                educational and historical knowledge platform.
-            </p>
+                <h2>
+                    9. Sharing of Information
+                </h2>
 
-            <p>
-                Users should not submit unnecessary personal
-                information, especially information belonging to
-                children or another person.
-            </p>
+                <p>
+                    ALON HISTORYVERSE 24 does not intend to publicly
+                    display sensitive login credentials such as
+                    passwords.
+                </p>
+
+                <p>
+                    Information may be processed or shared when
+                    reasonably necessary for:
+                </p>
+
+                <ul>
+
+                    <li>
+                        Operating a requested website feature.
+                    </li>
+
+                    <li>
+                        Maintaining website security.
+                    </li>
+
+                    <li>
+                        Preventing misuse, fraud or abuse.
+                    </li>
+
+                    <li>
+                        Responding to lawful requests.
+                    </li>
+
+                    <li>
+                        Complying with applicable legal requirements.
+                    </li>
+
+                    <li>
+                        Using a future third-party service that the
+                        user has explicitly chosen or that is required
+                        for a requested feature.
+                    </li>
+
+                </ul>
+
+                <p>
+                    Information should not be sold or disclosed for
+                    unrelated purposes merely because a user visits
+                    the website.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    9. जानकारी साझा करना
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 का उद्देश्य password जैसी
+                    संवेदनशील login credentials को सार्वजनिक रूप
+                    से प्रदर्शित करना नहीं है।
+                </p>
+
+                <p>
+                    जानकारी को निम्नलिखित परिस्थितियों में आवश्यक
+                    सीमा तक process या share किया जा सकता है:
+                </p>
+
+                <ul>
+
+                    <li>
+                        मांगी गई वेबसाइट सुविधा चलाने के लिए।
+                    </li>
+
+                    <li>
+                        वेबसाइट की सुरक्षा बनाए रखने के लिए।
+                    </li>
+
+                    <li>
+                        misuse, fraud या abuse को रोकने के लिए।
+                    </li>
+
+                    <li>
+                        वैध कानूनी अनुरोधों का जवाब देने के लिए।
+                    </li>
+
+                    <li>
+                        लागू कानूनी आवश्यकताओं का पालन करने के लिए।
+                    </li>
+
+                    <li>
+                        भविष्य की किसी third-party service का
+                        उपयोग करने के लिए, जिसे उपयोगकर्ता ने
+                        चुना हो या मांगी गई सुविधा के लिए आवश्यक हो।
+                    </li>
+
+                </ul>
+
+                <p>
+                    केवल वेबसाइट पर आने के कारण उपयोगकर्ता की
+                    जानकारी को असंबंधित उद्देश्यों के लिए बेचना
+                    या साझा करना उद्देश्य नहीं है।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             SECURITY
+             10. THIRD PARTY SERVICES
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                10. Security
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Reasonable measures should be used to protect
-                website information and user data.
-            </p>
+                <h2>
+                    10. Third-Party Services
+                </h2>
 
-            <p>
-                However, no internet-based system can guarantee
-                absolute security. Users should avoid sharing
-                passwords, financial information, identity
-                documents or other highly sensitive information
-                through ordinary comments or public content
-                fields.
-            </p>
+                <p>
+                    The website may eventually use third-party
+                    services for features such as hosting,
+                    authentication, analytics, maps, storage,
+                    content delivery, payments or other
+                    functionality.
+                </p>
+
+                <p>
+                    When such services are introduced, their own
+                    privacy policies, terms and data practices may
+                    also apply.
+                </p>
+
+                <p>
+                    Users should review the relevant third-party
+                    policies where appropriate.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    10. Third-Party Services
+                </h2>
+
+                <p>
+                    भविष्य में वेबसाइट hosting, authentication,
+                    analytics, maps, storage, content delivery,
+                    payments या अन्य सुविधाओं के लिए third-party
+                    services का उपयोग कर सकती है।
+                </p>
+
+                <p>
+                    ऐसी services शुरू होने पर उनकी अपनी privacy
+                    policies, terms और data practices भी लागू हो
+                    सकती हैं।
+                </p>
+
+                <p>
+                    जहाँ आवश्यक हो, उपयोगकर्ताओं को संबंधित
+                    third-party policies भी देखनी चाहिए।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             USER CONTROL
+             11. COOKIES
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                11. Your Choices
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Depending on the available website features,
-                users may be able to:
-            </p>
+                <h2>
+                    11. Cookies and Similar Technologies
+                </h2>
 
-            <ul>
+                <p>
+                    Depending on the website infrastructure,
+                    ALON HISTORYVERSE 24 or its service providers
+                    may use cookies or similar technologies for
+                    functionality, preferences, security,
+                    analytics or other legitimate purposes.
+                </p>
 
-                <li>
-                    Log out of their account.
-                </li>
+                <p>
+                    Browser settings may allow users to control
+                    certain cookies. Disabling certain technologies
+                    may affect some website features.
+                </p>
 
-                <li>
-                    Remove locally stored browser data.
-                </li>
+            </div>
 
-                <li>
-                    Deny browser location permission.
-                </li>
 
-                <li>
-                    Remove or manage their own submitted content
-                    where the website provides that functionality.
-                </li>
+            <div data-lang="hi">
 
-                <li>
-                    Contact the website owner regarding privacy
-                    concerns.
-                </li>
+                <h2>
+                    11. Cookies और Similar Technologies
+                </h2>
 
-            </ul>
+                <p>
+                    वेबसाइट infrastructure के आधार पर
+                    ALON HISTORYVERSE 24 या उसके service providers
+                    functionality, preferences, security,
+                    analytics या अन्य वैध उद्देश्यों के लिए
+                    cookies या similar technologies का उपयोग
+                    कर सकते हैं।
+                </p>
+
+                <p>
+                    ब्राउज़र settings के माध्यम से कुछ cookies
+                    को नियंत्रित किया जा सकता है। कुछ technologies
+                    को disable करने से वेबसाइट की कुछ सुविधाएँ
+                    प्रभावित हो सकती हैं।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             DATA RETENTION
+             12. CHILDREN
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                12. Data Retention
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                Data may be retained only for as long as it is
-                reasonably necessary for the relevant website
-                feature, security, legal or operational purpose.
-            </p>
+                <h2>
+                    12. Children and Young Users
+                </h2>
 
-            <p>
-                Locally stored data can generally be removed by
-                clearing the website's stored browser data.
-            </p>
+                <p>
+                    ALON HISTORYVERSE 24 is intended primarily as
+                    an educational, historical and knowledge
+                    platform.
+                </p>
+
+                <p>
+                    Users should not submit unnecessary personal
+                    information, especially information belonging
+                    to children or another person.
+                </p>
+
+                <p>
+                    Where a feature has age-related legal
+                    requirements, applicable requirements should
+                    be followed.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    12. बच्चे और युवा उपयोगकर्ता
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 मुख्य रूप से एक
+                    educational, historical और knowledge platform
+                    के रूप में बनाया जा रहा है।
+                </p>
+
+                <p>
+                    उपयोगकर्ताओं को अनावश्यक व्यक्तिगत जानकारी,
+                    विशेषकर बच्चों या किसी अन्य व्यक्ति की
+                    व्यक्तिगत जानकारी, submit नहीं करनी चाहिए।
+                </p>
+
+                <p>
+                    जहाँ किसी सुविधा पर उम्र से संबंधित कानूनी
+                    आवश्यकताएँ लागू हों, वहाँ लागू आवश्यकताओं
+                    का पालन किया जाना चाहिए।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             COPYRIGHT
+             13. SECURITY
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                13. Copyright and Content
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                ALON HISTORYVERSE 24 is intended to provide
-                historical, cultural, educational and knowledge
-                resources.
-            </p>
+                <h2>
+                    13. Security
+                </h2>
 
-            <p>
-                Users should not upload or submit copyrighted
-                material unless they have the necessary rights,
-                permission or a lawful basis to do so.
-            </p>
+                <p>
+                    Reasonable technical and organizational measures
+                    should be used to protect website information
+                    and user data.
+                </p>
+
+                <p>
+                    Security may include access controls, secure
+                    authentication systems, monitoring, audit
+                    records and other measures appropriate to the
+                    feature.
+                </p>
+
+                <div class="privacy-highlight">
+
+                    <strong>
+                        Important:
+                    </strong>
+
+                    <br>
+
+                    No internet-based system can guarantee absolute
+                    security. Users should avoid sharing passwords,
+                    financial information, identity documents or
+                    other highly sensitive information through
+                    ordinary comments or public content fields.
+
+                </div>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    13. सुरक्षा
+                </h2>
+
+                <p>
+                    वेबसाइट की जानकारी और user data की सुरक्षा के
+                    लिए उचित technical और organizational measures
+                    का उपयोग किया जाना चाहिए।
+                </p>
+
+                <p>
+                    सुरक्षा में access controls, secure
+                    authentication systems, monitoring, audit
+                    records और सुविधा के अनुसार अन्य उपाय शामिल
+                    हो सकते हैं।
+                </p>
+
+                <div class="privacy-highlight">
+
+                    <strong>
+                        महत्वपूर्ण:
+                    </strong>
+
+                    <br>
+
+                    इंटरनेट आधारित कोई भी system पूर्ण सुरक्षा
+                    की गारंटी नहीं दे सकता। उपयोगकर्ताओं को
+                    comments या public content fields में
+                    passwords, financial information, identity
+                    documents या अन्य अत्यधिक संवेदनशील जानकारी
+                    साझा करने से बचना चाहिए।
+
+                </div>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             POLICY CHANGES
+             14. USER CONTROL
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                14. Changes to This Privacy Policy
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                This Privacy Policy may be updated when website
-                features, technology, data practices or legal
-                requirements change.
-            </p>
+                <h2>
+                    14. Your Choices and Rights
+                </h2>
 
-            <p>
-                The latest version published on this page should
-                be considered the current version.
-            </p>
+                <p>
+                    Depending on the available website features
+                    and applicable law, users may be able to:
+                </p>
+
+                <ul>
+
+                    <li>
+                        Log out of their account.
+                    </li>
+
+                    <li>
+                        Remove locally stored browser data.
+                    </li>
+
+                    <li>
+                        Deny browser location permission.
+                    </li>
+
+                    <li>
+                        Manage certain account or profile information.
+                    </li>
+
+                    <li>
+                        Remove or manage their own submitted content
+                        where the website provides that functionality.
+                    </li>
+
+                    <li>
+                        Request correction of inaccurate information
+                        where applicable.
+                    </li>
+
+                    <li>
+                        Request information or assistance regarding
+                        personal data where applicable.
+                    </li>
+
+                    <li>
+                        Contact the website owner regarding privacy
+                        concerns.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    14. आपके विकल्प और अधिकार
+                </h2>
+
+                <p>
+                    उपलब्ध वेबसाइट सुविधाओं और लागू कानून के
+                    आधार पर उपयोगकर्ता निम्नलिखित कर सकते हैं:
+                </p>
+
+                <ul>
+
+                    <li>
+                        अपने अकाउंट से Logout करना।
+                    </li>
+
+                    <li>
+                        ब्राउज़र में locally stored data हटाना।
+                    </li>
+
+                    <li>
+                        Browser location permission अस्वीकार करना।
+                    </li>
+
+                    <li>
+                        उपलब्ध होने पर अकाउंट या profile information
+                        manage करना।
+                    </li>
+
+                    <li>
+                        जहाँ सुविधा उपलब्ध हो, अपनी submitted
+                        content को हटाना या manage करना।
+                    </li>
+
+                    <li>
+                        जहाँ लागू हो, गलत जानकारी में correction
+                        का अनुरोध करना।
+                    </li>
+
+                    <li>
+                        जहाँ लागू हो, personal data के संबंध में
+                        information या assistance मांगना।
+                    </li>
+
+                    <li>
+                        Privacy concern के लिए website owner से
+                        संपर्क करना।
+                    </li>
+
+                </ul>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             CONTACT
+             15. DATA RETENTION
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                15. Privacy Questions
-            </h2>
+            <div data-lang="en">
 
-            <p>
-                If you have a privacy-related question, concern,
-                correction request or data-related issue, please
-                use the contact facility provided by
-                <strong>ALON HISTORYVERSE 24</strong>.
-            </p>
+                <h2>
+                    15. Data Retention
+                </h2>
 
-            <p>
-                Project:
-                <strong>ALON HISTORYVERSE 24</strong>
-                <br>
+                <p>
+                    Data may be retained only for as long as it is
+                    reasonably necessary for the relevant website
+                    feature, security, legitimate operational
+                    purpose or legal requirement.
+                </p>
 
-                Creator:
-                <strong>Baba Thecno Guru</strong>
-            </p>
+                <p>
+                    Different categories of information may have
+                    different retention periods.
+                </p>
+
+                <p>
+                    Locally stored data can generally be removed by
+                    clearing the website's stored browser data.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    15. डेटा रखने की अवधि
+                </h2>
+
+                <p>
+                    डेटा को संबंधित वेबसाइट सुविधा, सुरक्षा,
+                    वैध operational purpose या कानूनी आवश्यकता
+                    के लिए जितनी अवधि उचित रूप से आवश्यक हो,
+                    उतनी अवधि तक रखा जा सकता है।
+                </p>
+
+                <p>
+                    अलग-अलग प्रकार की जानकारी की retention period
+                    अलग हो सकती है।
+                </p>
+
+                <p>
+                    Locally stored data को सामान्यतः ब्राउज़र का
+                    website data साफ करके हटाया जा सकता है।
+                </p>
+
+            </div>
 
         </section>
 
 
         <!-- =================================================
-             FINAL NOTICE
+             16. INTERNATIONAL USERS
         ================================================== -->
 
         <section class="privacy-card">
 
-            <h2>
-                🌍 Our Privacy Promise
-            </h2>
+            <div data-lang="en">
 
-            <div class="privacy-highlight">
+                <h2>
+                    16. International Users
+                </h2>
 
-                ALON HISTORYVERSE 24 is being developed as a
-                knowledge platform where history, civilizations,
-                countries, culture, heritage and education can be
-                explored in one place.
+                <p>
+                    ALON HISTORYVERSE 24 may be accessible to users
+                    from different countries.
+                </p>
 
-                <br><br>
+                <p>
+                    Because the platform may include international
+                    marketplace, travel, jobs, cultural and
+                    educational features, information may be
+                    processed in different technical environments
+                    or through service providers located in
+                    different jurisdictions.
+                </p>
 
-                We aim to keep privacy, transparency and
-                responsible use of information at the center of
-                the platform.
+                <p>
+                    Users are responsible for complying with laws
+                    applicable to their own use of the website.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    16. अंतरराष्ट्रीय उपयोगकर्ता
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 को अलग-अलग देशों के
+                    उपयोगकर्ताओं द्वारा access किया जा सकता है।
+                </p>
+
+                <p>
+                    क्योंकि platform में international marketplace,
+                    travel, jobs, cultural और educational features
+                    हो सकती हैं, जानकारी अलग-अलग technical
+                    environments या विभिन्न jurisdictions में
+                    स्थित service providers के माध्यम से process
+                    हो सकती है।
+                </p>
+
+                <p>
+                    उपयोगकर्ता अपनी वेबसाइट गतिविधियों पर लागू
+                    अपने देश के कानूनों का पालन करने के लिए
+                    स्वयं जिम्मेदार हैं।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             17. COPYRIGHT
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    17. Copyright and User Content
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 is intended to provide
+                    historical, cultural, educational and knowledge
+                    resources.
+                </p>
+
+                <p>
+                    Users should not upload or submit copyrighted
+                    material unless they have the necessary rights,
+                    permission, license or another lawful basis to
+                    do so.
+                </p>
+
+                <p>
+                    Copyright complaints and content-removal
+                    requests may be handled according to the
+                    website's Copyright, Content Removal &
+                    Complaint Policy.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    17. Copyright और User Content
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 का उद्देश्य ऐतिहासिक,
+                    सांस्कृतिक, शैक्षणिक और ज्ञान संबंधी resources
+                    उपलब्ध कराना है।
+                </p>
+
+                <p>
+                    उपयोगकर्ताओं को ऐसी copyrighted material upload
+                    या submit नहीं करनी चाहिए जिसके लिए उनके पास
+                    आवश्यक अधिकार, permission, license या कोई अन्य
+                    lawful basis न हो।
+                </p>
+
+                <p>
+                    Copyright complaints और content-removal requests
+                    वेबसाइट की Copyright, Content Removal &
+                    Complaint Policy के अनुसार handle किए जा सकते हैं।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             18. BOOKS
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    18. Books, Education and Knowledge Sharing
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 may provide facilities
+                    intended to help users read, discover, create
+                    or share knowledge.
+                </p>
+
+                <p>
+                    Users may contribute educational or knowledge
+                    content where the relevant feature allows it.
+                </p>
+
+                <p>
+                    The right to submit content does not transfer
+                    ownership of another person's copyrighted work
+                    to the submitting user.
+                </p>
+
+                <p>
+                    Content may be reviewed, restricted or removed
+                    when required by applicable policies, copyright
+                    complaints, legal requirements or security
+                    considerations.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    18. पुस्तकें, शिक्षा और ज्ञान साझा करना
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 ऐसी सुविधाएँ उपलब्ध करा
+                    सकता है जिनका उद्देश्य उपयोगकर्ताओं को
+                    पढ़ने, जानकारी खोजने, ज्ञान बनाने और साझा
+                    करने में सहायता करना है।
+                </p>
+
+                <p>
+                    जहाँ संबंधित सुविधा उपलब्ध हो, उपयोगकर्ता
+                    educational या knowledge content contribute
+                    कर सकते हैं।
+                </p>
+
+                <p>
+                    किसी content को submit करने का अधिकार किसी
+                    अन्य व्यक्ति के copyrighted work का ownership
+                    उपयोगकर्ता को नहीं देता।
+                </p>
+
+                <p>
+                    लागू policies, copyright complaints, legal
+                    requirements या security considerations के
+                    कारण content को review, restrict या remove
+                    किया जा सकता है।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             19. COMPLAINTS
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    19. Privacy Complaints and Requests
+                </h2>
+
+                <p>
+                    If you believe that your personal information
+                    has been handled incorrectly, you may contact
+                    ALON HISTORYVERSE 24 through the available
+                    contact facility.
+                </p>
+
+                <p>
+                    Depending on the nature of the request, you may
+                    be asked to provide enough information to verify
+                    the request and identify the relevant account
+                    or content.
+                </p>
+
+                <p>
+                    Requests may be subject to applicable legal
+                    requirements and reasonable security checks.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    19. Privacy शिकायतें और अनुरोध
+                </h2>
+
+                <p>
+                    यदि आपको लगता है कि आपकी personal information
+                    को गलत तरीके से handle किया गया है, तो आप
+                    उपलब्ध contact facility के माध्यम से
+                    ALON HISTORYVERSE 24 से संपर्क कर सकते हैं।
+                </p>
+
+                <p>
+                    अनुरोध के प्रकार के आधार पर, request को verify
+                    करने और संबंधित account या content की पहचान
+                    करने के लिए आपसे आवश्यक जानकारी मांगी जा सकती है।
+                </p>
+
+                <p>
+                    Requests लागू कानूनी आवश्यकताओं और उचित
+                    security checks के अधीन हो सकती हैं।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             20. EXTERNAL LINKS
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    20. External Websites and Links
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 may contain links to
+                    external websites, platforms or services.
+                </p>
+
+                <p>
+                    External websites have their own privacy
+                    policies, security practices and terms.
+                </p>
+
+                <p>
+                    ALON HISTORYVERSE 24 is not responsible for
+                    the privacy practices of an external website
+                    merely because a link to that website is
+                    provided.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    20. बाहरी वेबसाइट और Links
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 में external websites,
+                    platforms या services के links हो सकते हैं।
+                </p>
+
+                <p>
+                    बाहरी websites की अपनी privacy policies,
+                    security practices और terms होती हैं।
+                </p>
+
+                <p>
+                    केवल link उपलब्ध होने के कारण ALON HISTORYVERSE 24
+                    किसी external website की privacy practices के
+                    लिए जिम्मेदार नहीं है।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             21. FUTURE PAID SERVICES
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    21. Future Paid Services and Subscriptions
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 may introduce paid
+                    services, subscriptions, promotional services,
+                    marketplace services or other commercial
+                    features in the future.
+                </p>
+
+                <p>
+                    If paid services are introduced, additional
+                    information may be required to process payments,
+                    subscriptions, invoices, taxes, refunds or
+                    related transactions.
+                </p>
+
+                <p>
+                    Additional terms, payment conditions and
+                    privacy information may be provided when such
+                    services become available.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    21. भविष्य की Paid Services और Subscriptions
+                </h2>
+
+                <p>
+                    भविष्य में ALON HISTORYVERSE 24 paid services,
+                    subscriptions, promotional services,
+                    marketplace services या अन्य commercial
+                    features शुरू कर सकता है।
+                </p>
+
+                <p>
+                    Paid services शुरू होने पर payments,
+                    subscriptions, invoices, taxes, refunds या
+                    संबंधित transactions के लिए अतिरिक्त जानकारी
+                    की आवश्यकता हो सकती है।
+                </p>
+
+                <p>
+                    ऐसी services उपलब्ध होने पर अतिरिक्त terms,
+                    payment conditions और privacy information
+                    प्रदान की जा सकती है।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             22. DATA DELETION
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    22. Account and Data Deletion
+                </h2>
+
+                <p>
+                    Where account-management functionality is
+                    provided, users may be able to request account
+                    or personal-data deletion, subject to technical,
+                    security and legal requirements.
+                </p>
+
+                <p>
+                    Some information may need to be retained where
+                    required for security, fraud prevention, legal
+                    compliance, dispute resolution or legitimate
+                    operational records.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    22. अकाउंट और डेटा हटाना
+                </h2>
+
+                <p>
+                    जहाँ account-management सुविधा उपलब्ध हो,
+                    उपयोगकर्ता technical, security और legal
+                    requirements के अधीन account या personal-data
+                    deletion का अनुरोध कर सकते हैं।
+                </p>
+
+                <p>
+                    Security, fraud prevention, legal compliance,
+                    dispute resolution या legitimate operational
+                    records के लिए कुछ जानकारी को आवश्यक अवधि तक
+                    रखा जा सकता है।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             23. DATA ACCURACY
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    23. Accuracy of User Information
+                </h2>
+
+                <p>
+                    Users should provide information that is
+                    accurate and appropriate for the feature being
+                    used.
+                </p>
+
+                <p>
+                    Users should update or correct information when
+                    the relevant website functionality allows them
+                    to do so.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    23. उपयोगकर्ता जानकारी की शुद्धता
+                </h2>
+
+                <p>
+                    उपयोगकर्ताओं को उपयोग की जा रही सुविधा के
+                    लिए सही और उचित जानकारी प्रदान करनी चाहिए।
+                </p>
+
+                <p>
+                    जहाँ वेबसाइट सुविधा उपलब्ध हो, उपयोगकर्ताओं
+                    को जानकारी गलत होने पर उसे update या correct
+                    करना चाहिए।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             24. POLICY CHANGES
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    24. Changes to This Privacy Policy
+                </h2>
+
+                <p>
+                    This Privacy Policy may be updated when website
+                    features, technology, data practices, business
+                    activities or legal requirements change.
+                </p>
+
+                <p>
+                    The latest version published on this page
+                    should be considered the current version.
+                </p>
+
+                <p>
+                    The effective date shown at the beginning of
+                    this page may be updated when material changes
+                    are made.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    24. इस Privacy Policy में बदलाव
+                </h2>
+
+                <p>
+                    वेबसाइट की सुविधाओं, technology, data practices,
+                    business activities या legal requirements में
+                    बदलाव होने पर यह Privacy Policy update की जा
+                    सकती है।
+                </p>
+
+                <p>
+                    इस page पर प्रकाशित latest version को current
+                    version माना जाना चाहिए।
+                </p>
+
+                <p>
+                    महत्वपूर्ण बदलाव होने पर page की शुरुआत में
+                    दी गई effective date को update किया जा सकता है।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             25. LEGAL REQUIREMENTS
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    25. Legal Requirements
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 may process, preserve or
+                    disclose information when reasonably necessary
+                    to comply with applicable law, lawful orders,
+                    regulatory requirements, security obligations
+                    or protection of legal rights.
+                </p>
+
+                <p>
+                    Nothing in this Privacy Policy is intended to
+                    remove or restrict rights that users may have
+                    under applicable law.
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    25. कानूनी आवश्यकताएँ
+                </h2>
+
+                <p>
+                    ALON HISTORYVERSE 24 लागू कानून, वैध आदेश,
+                    regulatory requirements, security obligations
+                    या legal rights की सुरक्षा के लिए आवश्यक होने
+                    पर जानकारी को process, preserve या disclose
+                    कर सकता है।
+                </p>
+
+                <p>
+                    इस Privacy Policy का उद्देश्य लागू कानून के
+                    तहत उपयोगकर्ताओं को प्राप्त अधिकारों को
+                    समाप्त या सीमित करना नहीं है।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             26. CONTACT
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    26. Privacy Questions and Contact
+                </h2>
+
+                <p>
+                    If you have a privacy-related question,
+                    concern, correction request or data-related
+                    issue, please use the contact facility provided
+                    by <strong>ALON HISTORYVERSE 24</strong>.
+                </p>
+
+                <p>
+                    Project:
+                    <strong>ALON HISTORYVERSE 24</strong>
+                    <br>
+
+                    Creator:
+                    <strong>Baba Thecno Guru</strong>
+                </p>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    26. Privacy Questions और संपर्क
+                </h2>
+
+                <p>
+                    यदि आपके पास privacy से संबंधित कोई प्रश्न,
+                    चिंता, correction request या data-related
+                    समस्या है, तो
+                    <strong>ALON HISTORYVERSE 24</strong>
+                    द्वारा उपलब्ध contact facility का उपयोग करें।
+                </p>
+
+                <p>
+                    Project:
+                    <strong>ALON HISTORYVERSE 24</strong>
+                    <br>
+
+                    Creator:
+                    <strong>Baba Thecno Guru</strong>
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             27. FINAL PRIVACY PROMISE
+        ================================================== -->
+
+        <section class="privacy-card">
+
+            <div data-lang="en">
+
+                <h2>
+                    🌍 Our Privacy Promise
+                </h2>
+
+                <div class="privacy-highlight">
+
+                    ALON HISTORYVERSE 24 is being developed as a
+                    knowledge platform where history, civilizations,
+                    countries, culture, heritage, education,
+                    technology, books and world knowledge can be
+                    explored in one place.
+
+                    <br><br>
+
+                    We aim to keep privacy, transparency,
+                    responsible data handling and responsible use
+                    of information at the center of the platform.
+
+                    <br><br>
+
+                    Users should always avoid sharing unnecessary
+                    sensitive personal information through public
+                    website features.
+
+                </div>
+
+            </div>
+
+
+            <div data-lang="hi">
+
+                <h2>
+                    🌍 हमारी गोपनीयता प्रतिबद्धता
+                </h2>
+
+                <div class="privacy-highlight">
+
+                    ALON HISTORYVERSE 24 को एक ऐसे knowledge
+                    platform के रूप में विकसित किया जा रहा है जहाँ
+                    history, civilizations, countries, culture,
+                    heritage, education, technology, books और
+                    world knowledge को एक स्थान पर explore किया
+                    जा सके।
+
+                    <br><br>
+
+                    हमारा उद्देश्य privacy, transparency,
+                    responsible data handling और information के
+                    responsible use को platform के केंद्र में रखना है।
+
+                    <br><br>
+
+                    उपयोगकर्ताओं को public website features में
+                    अनावश्यक sensitive personal information
+                    साझा करने से हमेशा बचना चाहिए।
+
+                </div>
 
             </div>
 
@@ -998,15 +2724,137 @@
 
         <footer class="privacy-footer">
 
-            © 2026 ALON HISTORYVERSE 24
-            <br>
-            Created by Baba Thecno Guru
+            <span data-lang="en">
+                © 2026 ALON HISTORYVERSE 24
+                <br>
+                Created by Baba Thecno Guru
+            </span>
+
+            <span data-lang="hi">
+                © 2026 ALON HISTORYVERSE 24
+                <br>
+                Baba Thecno Guru द्वारा निर्मित
+            </span>
 
         </footer>
 
     </div>
 
 </main>
+
+
+<!-- =====================================================
+     LANGUAGE SYSTEM
+====================================================== -->
+
+<script>
+
+    const LANGUAGE_KEY = "alon_historyverse_language";
+
+
+    function setLanguage(language) {
+
+        if (language !== "en" && language !== "hi") {
+            language = "en";
+        }
+
+        document.documentElement.lang = language;
+
+        document.body.classList.remove(
+            "lang-en",
+            "lang-hi"
+        );
+
+        document.body.classList.add(
+            "lang-" + language
+        );
+
+        const englishBtn =
+            document.getElementById("englishBtn");
+
+        const hindiBtn =
+            document.getElementById("hindiBtn");
+
+
+        if (englishBtn) {
+
+            englishBtn.classList.toggle(
+                "active",
+                language === "en"
+            );
+
+        }
+
+
+        if (hindiBtn) {
+
+            hindiBtn.classList.toggle(
+                "active",
+                language === "hi"
+            );
+
+        }
+
+
+        try {
+
+            localStorage.setItem(
+                LANGUAGE_KEY,
+                language
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "Language preference could not be saved.",
+                error
+            );
+
+        }
+
+    }
+
+
+    function loadLanguage() {
+
+        let savedLanguage = "en";
+
+        try {
+
+            savedLanguage =
+                localStorage.getItem(
+                    LANGUAGE_KEY
+                ) || "en";
+
+        } catch (error) {
+
+            savedLanguage = "en";
+
+        }
+
+
+        if (
+            savedLanguage !== "en" &&
+            savedLanguage !== "hi"
+        ) {
+
+            savedLanguage = "en";
+
+        }
+
+
+        setLanguage(savedLanguage);
+
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadLanguage
+    );
+
+</script>
+
 
 </body>
 </html>

@@ -17,12 +17,11 @@
 
     <meta
         name="description"
-        content="Copyright Policy for ALON HISTORYVERSE 24 — Baba Thecno Guru"
+        content="Copyright, Content Removal and Complaint Policy for ALON HISTORYVERSE 24 — Baba Thecno Guru"
     >
 
     <title>Copyright • ALON HISTORYVERSE 24</title>
 
-    <!-- EXISTING GLOBAL STYLE PATH -->
     <link rel="stylesheet" href="../css/style.css">
 
     <style>
@@ -30,6 +29,7 @@
         /* =====================================================
            ALON HISTORYVERSE 24
            COPYRIGHT PAGE
+           ENGLISH / HINDI
         ====================================================== */
 
         * {
@@ -75,6 +75,74 @@
             color: #c9c9c9;
         }
 
+        /* =====================================================
+           LANGUAGE SWITCHER
+        ====================================================== */
+
+        .language-switcher {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .language-switcher button {
+            border: 1px solid rgba(215, 179, 90, 0.45);
+            background: rgba(215, 179, 90, 0.08);
+            color: #f0d27a;
+            padding: 8px 17px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .language-switcher button:hover {
+            background: rgba(215, 179, 90, 0.18);
+            color: #ffffff;
+        }
+
+        .language-switcher button.active {
+            background: #d7b35a;
+            color: #05080f;
+            border-color: #d7b35a;
+        }
+
+        /* =====================================================
+           LANGUAGE VISIBILITY
+        ====================================================== */
+
+        [data-lang] {
+            display: none;
+        }
+
+        body.lang-en [data-lang="en"] {
+            display: block;
+        }
+
+        body.lang-hi [data-lang="hi"] {
+            display: block;
+        }
+
+        span[data-lang] {
+            display: none;
+        }
+
+        body.lang-en span[data-lang="en"] {
+            display: inline;
+        }
+
+        body.lang-hi span[data-lang="hi"] {
+            display: inline;
+        }
+
+        /* =====================================================
+           COPYRIGHT BOX
+        ====================================================== */
+
         .copyright-box {
             margin-top: 28px;
             padding: 25px;
@@ -115,6 +183,10 @@
             margin-right: 6px;
         }
 
+        /* =====================================================
+           IMPORTANT BOX
+        ====================================================== */
+
         .important {
             margin: 20px 0;
             padding: 18px;
@@ -126,6 +198,10 @@
         .important strong {
             color: #f0d27a;
         }
+
+        /* =====================================================
+           RIGHTS GRID
+        ====================================================== */
 
         .rights-grid {
             display: grid;
@@ -145,6 +221,10 @@
             margin-top: 0;
         }
 
+        /* =====================================================
+           NOTICE
+        ====================================================== */
+
         .notice {
             padding: 18px;
             margin-top: 18px;
@@ -158,6 +238,10 @@
             font-weight: bold;
         }
 
+        /* =====================================================
+           CONTACT
+        ====================================================== */
+
         .contact-box {
             padding: 20px;
             border: 1px solid rgba(215, 179, 90, 0.28);
@@ -168,6 +252,10 @@
         .contact-box strong {
             color: #f0d27a;
         }
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
 
         .link-row {
             display: flex;
@@ -193,6 +281,10 @@
             color: #05080f;
         }
 
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
         .footer-note {
             margin-top: 35px;
             padding-top: 20px;
@@ -201,6 +293,10 @@
             color: #999999;
             font-size: 14px;
         }
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
 
         @media (max-width: 700px) {
 
@@ -235,6 +331,11 @@
                 text-align: center;
             }
 
+            .language-switcher button {
+                padding: 7px 14px;
+                font-size: 13px;
+            }
+
         }
 
     </style>
@@ -242,7 +343,7 @@
 </head>
 
 
-<body>
+<body class="lang-en">
 
 <main class="copyright-page">
 
@@ -253,56 +354,166 @@
 
     <header class="copyright-header">
 
-        <h1>Copyright Policy</h1>
+        <h1>
 
-        <h2>ALON HISTORYVERSE 24</h2>
+            <span data-lang="en">
+                Copyright Policy
+            </span>
+
+            <span data-lang="hi">
+                कॉपीराइट नीति
+            </span>
+
+        </h1>
+
+
+        <h2>
+            ALON HISTORYVERSE 24
+        </h2>
+
 
         <p>
-            Information about copyright, original content,
-            contributor material, images, videos, references
-            and intellectual property on the platform.
+
+            <span data-lang="en">
+                Copyright, content removal and complaint policy
+                covering original content, contributor material,
+                images, videos, references and intellectual property
+                on the platform.
+            </span>
+
+            <span data-lang="hi">
+                यह नीति प्लेटफॉर्म पर original content,
+                contributor material, images, videos, references
+                और intellectual property से संबंधित copyright,
+                content removal और complaints को समझाती है।
+            </span>
+
         </p>
 
+
         <p>
-            <strong>Creator / Owner:</strong>
-            Baba Thecno Guru
+
+            <span data-lang="en">
+                <strong>Creator / Owner:</strong>
+                Baba Thecno Guru
+            </span>
+
+            <span data-lang="hi">
+                <strong>Creator / Owner:</strong>
+                Baba Thecno Guru
+            </span>
+
         </p>
+
+
+        <!-- =================================================
+             LANGUAGE BUTTONS
+        ================================================== -->
+
+        <div
+            class="language-switcher"
+            aria-label="Language Selection"
+        >
+
+            <button
+                type="button"
+                id="englishBtn"
+                onclick="setLanguage('en')"
+            >
+                English
+            </button>
+
+            <button
+                type="button"
+                id="hindiBtn"
+                onclick="setLanguage('hi')"
+            >
+                हिन्दी
+            </button>
+
+        </div>
 
     </header>
 
 
     <!-- =====================================================
-         INTRODUCTION
+         1. COPYRIGHT AND PLATFORM
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">1.</span>
-            Copyright and ALON HISTORYVERSE 24
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            ALON HISTORYVERSE 24 is a knowledge platform covering
-            history, civilizations, countries, culture, heritage,
-            timelines, education and related subjects.
-        </p>
+            <h3>
+                <span class="section-number">1.</span>
+                Copyright and ALON HISTORYVERSE 24
+            </h3>
 
-        <p>
-            Copyright may apply to original text, graphics, designs,
-            photographs, videos, software, page layouts and other
-            creative material depending on the applicable law and
-            ownership of that material.
-        </p>
+            <p>
+                ALON HISTORYVERSE 24 is a knowledge platform
+                covering history, civilizations, countries,
+                culture, heritage, timelines, education,
+                technology and related subjects.
+            </p>
 
-        <div class="important">
+            <p>
+                Copyright may apply to original text, graphics,
+                designs, photographs, videos, software, page
+                layouts and other creative material depending on
+                applicable law and ownership of that material.
+            </p>
 
-            <strong>Important:</strong>
+            <div class="important">
 
-            Historical facts, dates, names, events and general ideas
-            are not automatically owned simply because they appear
-            on a website. However, the particular creative expression
-            used to describe or present those facts may be protected.
+                <strong>Important:</strong>
+
+                <br>
+
+                Historical facts, dates, names, events and general
+                ideas are not automatically owned simply because
+                they appear on a website. However, the particular
+                creative expression used to describe or present
+                those facts may be protected.
+
+            </div>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">1.</span>
+                Copyright और ALON HISTORYVERSE 24
+            </h3>
+
+            <p>
+                ALON HISTORYVERSE 24 एक knowledge platform है,
+                जिसमें history, civilizations, countries, culture,
+                heritage, timelines, education, technology और
+                संबंधित विषय शामिल हैं।
+            </p>
+
+            <p>
+                लागू कानून और संबंधित सामग्री के ownership के
+                आधार पर original text, graphics, designs,
+                photographs, videos, software, page layouts और
+                अन्य creative material पर copyright लागू हो सकता है।
+            </p>
+
+            <div class="important">
+
+                <strong>महत्वपूर्ण:</strong>
+
+                <br>
+
+                केवल किसी वेबसाइट पर दिखाई देने के कारण historical
+                facts, dates, names, events और general ideas अपने
+                आप किसी व्यक्ति की संपत्ति नहीं बन जाते। लेकिन उन
+                facts को प्रस्तुत करने के लिए उपयोग की गई विशेष
+                creative expression protected हो सकती है।
+
+            </div>
 
         </div>
 
@@ -310,144 +521,67 @@
 
 
     <!-- =====================================================
-         ORIGINAL PLATFORM CONTENT
+         2. ORIGINAL PLATFORM MATERIAL
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">2.</span>
-            Original Platform Material
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            Original material created specifically for ALON HISTORYVERSE
-            24 may be protected by applicable copyright and other
-            intellectual property laws.
-        </p>
-
-        <p>
-            This may include original written explanations,
-            original graphics, interface designs, page structures,
-            logos, illustrations, educational presentations and
-            other creative works where applicable.
-        </p>
-
-        <p>
-            Unless permission or another legal basis applies, users
-            should not reproduce substantial original material for
-            commercial or public redistribution.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         HISTORICAL FACTS
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">3.</span>
-            Historical Facts and Knowledge
-        </h3>
-
-        <p>
-            ALON HISTORYVERSE 24 may present information about
-            historical events, people, countries, civilizations,
-            cultures, locations and heritage.
-        </p>
-
-        <p>
-            Facts and historical information may be researched from
-            books, archives, museums, academic works, public records
-            and other sources.
-        </p>
-
-        <p>
-            The presentation, wording, organization and original
-            educational explanation of information may be different
-            from the underlying historical facts themselves.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         THIRD PARTY MATERIAL
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">4.</span>
-            Third-Party Material
-        </h3>
-
-        <p>
-            Some material referenced or displayed by the platform
-            may belong to third parties.
-        </p>
-
-        <ul>
-
-            <li>
-                Third-party names, trademarks and logos remain the
-                property of their respective owners.
-            </li>
-
-            <li>
-                External resources may have their own copyright
-                and licensing conditions.
-            </li>
-
-            <li>
-                A reference or link does not automatically mean that
-                ALON HISTORYVERSE 24 owns that material.
-            </li>
-
-            <li>
-                Users should check the original source for applicable
-                permissions and license conditions.
-            </li>
-
-        </ul>
-
-    </section>
-
-
-    <!-- =====================================================
-         CONTRIBUTOR CONTENT
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">5.</span>
-            Contributor-Submitted Content
-        </h3>
-
-        <p>
-            Contributors may submit articles, historical information,
-            biographies, country information, timelines, images,
-            references and other educational material.
-        </p>
-
-        <p>
-            Contributors are responsible for ensuring that they have
-            the necessary rights or permissions to submit the material.
-        </p>
-
-        <div class="notice">
-
-            <div class="notice-title">
-                Contributor responsibility
-            </div>
+            <h3>
+                <span class="section-number">2.</span>
+                Original Platform Material
+            </h3>
 
             <p>
-                A contributor must not knowingly submit plagiarized,
-                pirated or copyright-infringing material.
+                Original material created specifically for
+                ALON HISTORYVERSE 24 may be protected by applicable
+                copyright and other intellectual property laws.
+            </p>
+
+            <p>
+                This may include original written explanations,
+                original graphics, interface designs, page
+                structures, logos, illustrations, educational
+                presentations and other creative works where
+                applicable.
+            </p>
+
+            <p>
+                Unless permission or another legal basis applies,
+                users should not reproduce substantial original
+                material for commercial or public redistribution.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">2.</span>
+                Original Platform Material
+            </h3>
+
+            <p>
+                ALON HISTORYVERSE 24 के लिए विशेष रूप से बनाई गई
+                original material पर लागू copyright और अन्य
+                intellectual property laws के तहत protection
+                हो सकती है।
+            </p>
+
+            <p>
+                इसमें original written explanations, graphics,
+                interface designs, page structures, logos,
+                illustrations, educational presentations और
+                अन्य creative works शामिल हो सकते हैं।
+            </p>
+
+            <p>
+                जहाँ permission या कोई अन्य legal basis लागू
+                नहीं होता, वहाँ users को substantial original
+                material को commercial या public redistribution
+                के लिए reproduce नहीं करना चाहिए।
             </p>
 
         </div>
@@ -456,149 +590,231 @@
 
 
     <!-- =====================================================
-         IMAGES
+         3. HISTORICAL FACTS
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">6.</span>
-            Images and Photographs
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            Images can have separate copyright ownership from the
-            historical subject shown in the image.
-        </p>
+            <h3>
+                <span class="section-number">3.</span>
+                Historical Facts and Knowledge
+            </h3>
 
-        <p>
-            For example, the fact that a historical monument is
-            centuries old does not automatically mean that every
-            modern photograph of that monument is free to copy.
-        </p>
+            <p>
+                ALON HISTORYVERSE 24 may present information about
+                historical events, people, countries, civilizations,
+                cultures, locations and heritage.
+            </p>
 
-        <h4>Before submitting an image, contributors should consider:</h4>
+            <p>
+                Facts and historical information may be researched
+                from books, archives, museums, academic works,
+                public records and other sources.
+            </p>
 
-        <ul>
+            <p>
+                The presentation, wording, organization and
+                original educational explanation of information
+                may be different from the underlying historical
+                facts themselves.
+            </p>
 
-            <li>
-                Who created the image?
-            </li>
+        </div>
 
-            <li>
-                Is the image original?
-            </li>
 
-            <li>
-                Is it licensed for the intended use?
-            </li>
+        <div data-lang="hi">
 
-            <li>
-                Is attribution required?
-            </li>
+            <h3>
+                <span class="section-number">3.</span>
+                Historical Facts और Knowledge
+            </h3>
 
-            <li>
-                Are there restrictions on commercial or public use?
-            </li>
+            <p>
+                ALON HISTORYVERSE 24 historical events, people,
+                countries, civilizations, cultures, locations और
+                heritage से संबंधित information प्रस्तुत कर सकता है।
+            </p>
 
-        </ul>
+            <p>
+                Facts और historical information books, archives,
+                museums, academic works, public records और अन्य
+                sources से research की जा सकती है।
+            </p>
+
+            <p>
+                जानकारी की presentation, wording, organization और
+                original educational explanation स्वयं underlying
+                historical facts से अलग creative material हो सकती है।
+            </p>
+
+        </div>
 
     </section>
 
 
     <!-- =====================================================
-         VIDEOS
+         4. THIRD PARTY MATERIAL
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">7.</span>
-            Videos and Media
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            Videos, documentaries, audio recordings and other media
-            may be protected by copyright.
-        </p>
+            <h3>
+                <span class="section-number">4.</span>
+                Third-Party Material
+            </h3>
 
-        <p>
-            Contributors should preferably provide legitimate sources
-            or links rather than uploading or redistributing protected
-            media without permission.
-        </p>
+            <p>
+                Some material referenced or displayed by the
+                platform may belong to third parties.
+            </p>
 
-        <p>
-            Embedding or linking to external content may also be
-            subject to the rules and terms of the original platform.
-        </p>
+            <ul>
+
+                <li>
+                    Third-party names, trademarks and logos remain
+                    the property of their respective owners.
+                </li>
+
+                <li>
+                    External resources may have their own copyright
+                    and licensing conditions.
+                </li>
+
+                <li>
+                    A reference or link does not automatically mean
+                    that ALON HISTORYVERSE 24 owns that material.
+                </li>
+
+                <li>
+                    Users should check the original source for
+                    applicable permissions and license conditions.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">4.</span>
+                Third-Party Material
+            </h3>
+
+            <p>
+                Platform पर दिखाई या reference की गई कुछ material
+                third parties की property हो सकती है।
+            </p>
+
+            <ul>
+
+                <li>
+                    Third-party names, trademarks और logos अपने
+                    respective owners की property रहते हैं।
+                </li>
+
+                <li>
+                    External resources की अपनी copyright और
+                    licensing conditions हो सकती हैं।
+                </li>
+
+                <li>
+                    किसी reference या link का होना अपने आप यह
+                    नहीं बताता कि ALON HISTORYVERSE 24 उस material
+                    का owner है।
+                </li>
+
+                <li>
+                    Users को applicable permission और license
+                    conditions के लिए original source देखना चाहिए।
+                </li>
+
+            </ul>
+
+        </div>
 
     </section>
 
 
     <!-- =====================================================
-         PERMITTED USE
+         5. CONTRIBUTOR CONTENT
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">8.</span>
-            Responsible Use
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            Users may access ALON HISTORYVERSE 24 for personal,
-            educational and informational purposes, subject to
-            applicable law and the conditions attached to individual
-            materials.
-        </p>
+            <h3>
+                <span class="section-number">5.</span>
+                Contributor-Submitted Content
+            </h3>
 
-        <div class="rights-grid">
+            <p>
+                Contributors may submit articles, historical
+                information, biographies, country information,
+                timelines, images, references, books and other
+                educational material where the relevant website
+                feature permits it.
+            </p>
 
-            <div class="rights-card">
+            <p>
+                Contributors are responsible for ensuring that
+                they have the necessary rights, permission, license
+                or other lawful basis to submit the material.
+            </p>
 
-                <h4>Learn</h4>
+            <div class="notice">
+
+                <div class="notice-title">
+                    Contributor Responsibility
+                </div>
 
                 <p>
-                    Use the platform to study history, culture,
-                    civilizations and related subjects.
+                    A contributor must not knowingly submit
+                    plagiarized, pirated or copyright-infringing
+                    material.
                 </p>
 
             </div>
 
+        </div>
 
-            <div class="rights-card">
 
-                <h4>Reference</h4>
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">5.</span>
+                Contributor द्वारा Submitted Content
+            </h3>
+
+            <p>
+                जहाँ संबंधित website feature अनुमति देता है,
+                contributors articles, historical information,
+                biographies, country information, timelines,
+                images, references, books और अन्य educational
+                material submit कर सकते हैं।
+            </p>
+
+            <p>
+                Contributor यह सुनिश्चित करने के लिए जिम्मेदार है
+                कि उसके पास material submit करने के लिए आवश्यक
+                rights, permission, license या अन्य lawful basis हो।
+            </p>
+
+            <div class="notice">
+
+                <div class="notice-title">
+                    Contributor की जिम्मेदारी
+                </div>
 
                 <p>
-                    Use information as a starting point for further
-                    research and verification.
-                </p>
-
-            </div>
-
-
-            <div class="rights-card">
-
-                <h4>Share Responsibly</h4>
-
-                <p>
-                    Share links to pages rather than copying entire
-                    protected works.
-                </p>
-
-            </div>
-
-
-            <div class="rights-card">
-
-                <h4>Respect Ownership</h4>
-
-                <p>
-                    Respect the rights of creators, contributors and
-                    third-party copyright owners.
+                    Contributor को जानबूझकर plagiarized, pirated
+                    या copyright-infringing material submit नहीं करनी चाहिए।
                 </p>
 
             </div>
@@ -609,129 +825,107 @@
 
 
     <!-- =====================================================
-         PROHIBITED USE
+         6. IMAGES
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">9.</span>
-            Prohibited Copyright Uses
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            Unless authorized or legally permitted, users should not:
-        </p>
+            <h3>
+                <span class="section-number">6.</span>
+                Images and Photographs
+            </h3>
 
-        <ul>
+            <p>
+                Images can have separate copyright ownership from
+                the historical subject shown in the image.
+            </p>
 
-            <li>
-                Copy substantial original articles and republish them
-                as their own.
-            </li>
+            <p>
+                For example, the fact that a historical monument
+                is centuries old does not automatically mean that
+                every modern photograph of that monument is free
+                to copy.
+            </p>
 
-            <li>
-                Remove copyright or attribution notices.
-            </li>
+            <h4>
+                Before submitting an image, contributors should consider:
+            </h4>
 
-            <li>
-                Sell or redistribute protected platform material.
-            </li>
+            <ul>
 
-            <li>
-                Upload copyrighted third-party material without the
-                necessary permission.
-            </li>
+                <li>
+                    Who created the image?
+                </li>
 
-            <li>
-                Claim another contributor's work as their own.
-            </li>
+                <li>
+                    Is the image original?
+                </li>
 
-            <li>
-                Circumvent technical restrictions intended to protect
-                platform content.
-            </li>
+                <li>
+                    Is it licensed for the intended use?
+                </li>
 
-        </ul>
+                <li>
+                    Is attribution required?
+                </li>
 
-    </section>
+                <li>
+                    Are there restrictions on commercial or public use?
+                </li>
 
+            </ul>
 
-    <!-- =====================================================
-         ATTRIBUTION
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">10.</span>
-            Attribution
-        </h3>
-
-        <p>
-            Where a source, creator or license requires attribution,
-            the applicable attribution should be retained or provided.
-        </p>
-
-        <p>
-            Contributors are encouraged to include clear source and
-            reference information when submitting educational or
-            historical material.
-        </p>
-
-    </section>
+        </div>
 
 
-    <!-- =====================================================
-         COPYRIGHT COMPLAINT
-    ====================================================== -->
+        <div data-lang="hi">
 
-    <section class="copyright-box">
+            <h3>
+                <span class="section-number">6.</span>
+                Images और Photographs
+            </h3>
 
-        <h3>
-            <span class="section-number">11.</span>
-            Copyright Concern or Complaint
-        </h3>
+            <p>
+                किसी image का copyright ownership उस image में
+                दिखाई गई historical subject से अलग हो सकता है।
+            </p>
 
-        <p>
-            If you believe material displayed on ALON HISTORYVERSE 24
-            infringes your copyright or other applicable intellectual
-            property rights, you should provide enough information
-            to allow the issue to be reviewed.
-        </p>
+            <p>
+                उदाहरण के लिए, किसी historical monument का
+                सदियों पुराना होना अपने आप यह नहीं बताता कि
+                उस monument की हर modern photograph को freely
+                copy किया जा सकता है।
+            </p>
 
-        <h4>Useful information may include:</h4>
+            <h4>
+                Image submit करने से पहले contributor को देखना चाहिए:
+            </h4>
 
-        <ol>
+            <ul>
 
-            <li>
-                Your name and contact information.
-            </li>
+                <li>
+                    Image किसने बनाई?
+                </li>
 
-            <li>
-                Identification of the copyrighted work.
-            </li>
+                <li>
+                    क्या image original है?
+                </li>
 
-            <li>
-                The page or material you are concerned about.
-            </li>
+                <li>
+                    क्या intended use के लिए license है?
+                </li>
 
-            <li>
-                An explanation of the claimed copyright issue.
-            </li>
+                <li>
+                    क्या attribution आवश्यक है?
+                </li>
 
-            <li>
-                Information supporting your ownership or authorization.
-            </li>
+                <li>
+                    क्या commercial या public use पर कोई restriction है?
+                </li>
 
-        </ol>
-
-        <div class="important">
-
-            <strong>Please note:</strong>
-
-            Do not send passwords, payment information or unnecessary
-            sensitive personal information through a copyright report.
+            </ul>
 
         </div>
 
@@ -739,166 +933,61 @@
 
 
     <!-- =====================================================
-         REVIEW PROCESS
+         7. VIDEOS AND MEDIA
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">12.</span>
-            Review and Corrective Action
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            Copyright concerns may be reviewed by the project owner
-            or appropriate administrators.
-        </p>
-
-        <p>
-            Depending on the circumstances, material may be corrected,
-            credited, replaced, restricted, unpublished or removed.
-        </p>
-
-        <p>
-            Review of a complaint does not by itself constitute an
-            admission that infringement has occurred.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         GOOD FAITH
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">13.</span>
-            Good-Faith Reporting
-        </h3>
-
-        <p>
-            Copyright concerns should be submitted honestly and with
-            sufficient information for meaningful review.
-        </p>
-
-        <p>
-            False or intentionally misleading copyright claims should
-            not be submitted.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         TRADEMARKS
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">14.</span>
-            Trademarks and Brand Names
-        </h3>
-
-        <p>
-            Names, logos, symbols and trademarks belonging to other
-            organizations remain the property of their respective
-            owners.
-        </p>
-
-        <p>
-            Mentioning a third-party organization for historical,
-            educational or informational purposes does not necessarily
-            indicate ownership or endorsement.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         EDUCATIONAL DISCLAIMER
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">15.</span>
-            Educational and Informational Purpose
-        </h3>
-
-        <p>
-            ALON HISTORYVERSE 24 is intended as a historical,
-            educational and informational knowledge platform.
-        </p>
-
-        <p>
-            Users should verify important information with reliable
-            primary or authoritative sources, particularly when using
-            information for academic, legal, professional or other
-            high-stakes purposes.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         POLICY UPDATES
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">16.</span>
-            Policy Updates
-        </h3>
-
-        <p>
-            This Copyright Policy may be updated as the ALON HISTORYVERSE
-            24 platform develops, new content systems are introduced,
-            or legal and operational requirements change.
-        </p>
-
-        <p>
-            The latest version published on the platform should be
-            considered the current version of this policy.
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         CONTACT
-    ====================================================== -->
-
-    <section class="copyright-box">
-
-        <h3>
-            <span class="section-number">17.</span>
-            Copyright Contact
-        </h3>
-
-        <div class="contact-box">
+            <h3>
+                <span class="section-number">7.</span>
+                Videos, Audio and Other Media
+            </h3>
 
             <p>
-                <strong>Project:</strong>
-                ALON HISTORYVERSE 24
+                Videos, documentaries, audio recordings, music,
+                films, serials, web series and other media may
+                be protected by copyright.
             </p>
 
             <p>
-                <strong>Creator / Owner:</strong>
-                Baba Thecno Guru
+                Contributors should preferably provide legitimate
+                sources or links rather than uploading or
+                redistributing protected media without permission.
             </p>
 
             <p>
-                For copyright concerns, use the project's contact
-                or contribution channels when they are available.
+                Embedding or linking to external content may also
+                be subject to the rules and terms of the original
+                platform.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">7.</span>
+                Videos, Audio और अन्य Media
+            </h3>
+
+            <p>
+                Videos, documentaries, audio recordings, music,
+                films, serials, web series और अन्य media पर
+                copyright protection हो सकती है।
             </p>
 
             <p>
-                Please include enough information to identify the
-                material and explain the concern clearly.
+                Contributors को permission के बिना protected media
+                upload या redistribute करने के बजाय जहाँ संभव हो
+                legitimate sources या links उपलब्ध कराने चाहिए।
+            </p>
+
+            <p>
+                External content को embed या link करना भी original
+                platform के rules और terms के अधीन हो सकता है।
             </p>
 
         </div>
@@ -907,36 +996,1465 @@
 
 
     <!-- =====================================================
-         FINAL NOTICE
+         8. BOOKS AND PUBLICATIONS
     ====================================================== -->
 
     <section class="copyright-box">
 
-        <h3>
-            <span class="section-number">18.</span>
-            Final Notice
-        </h3>
+        <div data-lang="en">
 
-        <p>
-            Copyright ownership can vary depending on the particular
-            material, its creator, its source, its license and the
-            applicable law.
-        </p>
-
-        <p>
-            Nothing on this page should be interpreted as transferring
-            ownership of third-party material to ALON HISTORYVERSE 24.
-        </p>
-
-        <div class="important">
-
-            <strong>
-                ALON HISTORYVERSE 24 • Baba Thecno Guru
-            </strong>
+            <h3>
+                <span class="section-number">8.</span>
+                Books and Publications
+            </h3>
 
             <p>
-                Respect history. Respect knowledge. Respect creators.
+                Books, articles, journals, manuscripts and other
+                publications may be protected by copyright.
             </p>
+
+            <p>
+                A user should not upload, reproduce or distribute
+                an entire copyrighted book or other protected
+                publication unless the user has the necessary
+                rights, permission, license or lawful basis.
+            </p>
+
+            <p>
+                Educational, historical or public-domain material
+                may have different legal conditions depending on
+                the specific work and applicable law.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">8.</span>
+                Books और Publications
+            </h3>
+
+            <p>
+                Books, articles, journals, manuscripts और अन्य
+                publications पर copyright protection हो सकती है।
+            </p>
+
+            <p>
+                User को पूरी copyrighted book या अन्य protected
+                publication upload, reproduce या distribute नहीं
+                करनी चाहिए, जब तक उसके पास आवश्यक rights,
+                permission, license या lawful basis न हो।
+            </p>
+
+            <p>
+                Educational, historical या public-domain material
+                की legal conditions संबंधित work और लागू कानून
+                के आधार पर अलग हो सकती हैं।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         9. PERMITTED RESPONSIBLE USE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">9.</span>
+                Responsible and Permitted Use
+            </h3>
+
+            <p>
+                Users may access ALON HISTORYVERSE 24 for personal,
+                educational and informational purposes, subject to
+                applicable law and the conditions attached to
+                individual materials.
+            </p>
+
+            <div class="rights-grid">
+
+                <div class="rights-card">
+
+                    <h4>
+                        Learn
+                    </h4>
+
+                    <p>
+                        Use the platform to study history, culture,
+                        civilizations and related subjects.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-card">
+
+                    <h4>
+                        Reference
+                    </h4>
+
+                    <p>
+                        Use information as a starting point for
+                        further research and verification.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-card">
+
+                    <h4>
+                        Share Responsibly
+                    </h4>
+
+                    <p>
+                        Share links to pages rather than copying
+                        entire protected works.
+                    </p>
+
+                </div>
+
+
+                <div class="rights-card">
+
+                    <h4>
+                        Respect Ownership
+                    </h4>
+
+                    <p>
+                        Respect the rights of creators,
+                        contributors and third-party copyright owners.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">9.</span>
+                Responsible और Permitted Use
+            </h3>
+
+            <p>
+                Users ALON HISTORYVERSE 24 को personal, educational
+                और informational purposes के लिए उपयोग कर सकते हैं,
+                जो लागू कानून और individual materials की conditions
+                के अधीन होगा।
+            </p>
+
+            <div class="rights-grid">
+
+                <div class="rights-card">
+
+                    <h4>
+                        Learn
+                    </h4>
+
+                    <p>
+                        History, culture, civilizations और संबंधित
+                        subjects को पढ़ने के लिए platform का उपयोग करें।
+                    </p>
+
+                </div>
+
+
+                <div class="rights-card">
+
+                    <h4>
+                        Reference
+                    </h4>
+
+                    <p>
+                        Information को आगे research और verification
+                        के starting point के रूप में उपयोग करें।
+                    </p>
+
+                </div>
+
+
+                <div class="rights-card">
+
+                    <h4>
+                        जिम्मेदारी से Share करें
+                    </h4>
+
+                    <p>
+                        पूरी protected work copy करने के बजाय
+                        page का link share करें।
+                    </p>
+
+                </div>
+
+
+                <div class="rights-card">
+
+                    <h4>
+                        Ownership का सम्मान
+                    </h4>
+
+                    <p>
+                        Creators, contributors और third-party
+                        copyright owners के rights का सम्मान करें।
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         10. PROHIBITED USE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">10.</span>
+                Prohibited Copyright Uses
+            </h3>
+
+            <p>
+                Unless authorized or legally permitted, users
+                should not:
+            </p>
+
+            <ul>
+
+                <li>
+                    Copy substantial original articles and
+                    republish them as their own.
+                </li>
+
+                <li>
+                    Remove copyright or attribution notices.
+                </li>
+
+                <li>
+                    Sell or redistribute protected platform material.
+                </li>
+
+                <li>
+                    Upload copyrighted third-party material without
+                    the necessary permission.
+                </li>
+
+                <li>
+                    Claim another contributor's work as their own.
+                </li>
+
+                <li>
+                    Circumvent technical restrictions intended to
+                    protect platform content.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">10.</span>
+                Prohibited Copyright Uses
+            </h3>
+
+            <p>
+                जब तक authorization या lawful permission न हो,
+                users को निम्नलिखित नहीं करना चाहिए:
+            </p>
+
+            <ul>
+
+                <li>
+                    किसी substantial original article को copy करके
+                    अपने नाम से republish करना।
+                </li>
+
+                <li>
+                    Copyright या attribution notices हटाना।
+                </li>
+
+                <li>
+                    Protected platform material को बेचना या
+                    redistribute करना।
+                </li>
+
+                <li>
+                    बिना आवश्यक permission के copyrighted
+                    third-party material upload करना।
+                </li>
+
+                <li>
+                    किसी दूसरे contributor के work को अपना बताना।
+                </li>
+
+                <li>
+                    Platform content की सुरक्षा के लिए लगाए गए
+                    technical restrictions को bypass करना।
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         11. ATTRIBUTION AND LICENSES
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">11.</span>
+                Attribution, Public Domain and Licenses
+            </h3>
+
+            <p>
+                Where a source, creator or license requires
+                attribution, the applicable attribution should
+                be retained or provided.
+            </p>
+
+            <p>
+                Contributors are encouraged to include clear
+                source and reference information when submitting
+                educational or historical material.
+            </p>
+
+            <p>
+                Public-domain, Creative Commons or other licensed
+                material should be used according to the specific
+                terms of the applicable license.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">11.</span>
+                Attribution, Public Domain और Licenses
+            </h3>
+
+            <p>
+                जहाँ source, creator या license attribution
+                मांगता है, वहाँ applicable attribution को बनाए
+                रखना या प्रदान करना चाहिए।
+            </p>
+
+            <p>
+                Educational या historical material submit करते
+                समय contributors को clear source और reference
+                information देने के लिए प्रोत्साहित किया जाता है।
+            </p>
+
+            <p>
+                Public-domain, Creative Commons या अन्य licensed
+                material का उपयोग संबंधित license की specific
+                conditions के अनुसार किया जाना चाहिए।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         12. COPYRIGHT COMPLAINT
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">12.</span>
+                Copyright Concern or Complaint
+            </h3>
+
+            <p>
+                If you believe material displayed on
+                ALON HISTORYVERSE 24 infringes your copyright or
+                other applicable intellectual property rights,
+                you should provide enough information to allow
+                the issue to be reviewed.
+            </p>
+
+            <h4>
+                Useful information may include:
+            </h4>
+
+            <ol>
+
+                <li>
+                    Your name and contact information.
+                </li>
+
+                <li>
+                    Identification of the copyrighted work.
+                </li>
+
+                <li>
+                    The page, listing or material you are concerned
+                    about.
+                </li>
+
+                <li>
+                    An explanation of the claimed copyright issue.
+                </li>
+
+                <li>
+                    Information supporting your ownership,
+                    authorization or applicable rights.
+                </li>
+
+                <li>
+                    A statement identifying what action you are
+                    requesting, where appropriate.
+                </li>
+
+            </ol>
+
+            <div class="important">
+
+                <strong>
+                    Please note:
+                </strong>
+
+                <br>
+
+                Do not send passwords, payment information or
+                unnecessary sensitive personal information through
+                a copyright report.
+
+            </div>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">12.</span>
+                Copyright Concern या Complaint
+            </h3>
+
+            <p>
+                यदि आपको लगता है कि ALON HISTORYVERSE 24 पर
+                दिखाई गई material आपके copyright या अन्य लागू
+                intellectual property rights का उल्लंघन करती है,
+                तो issue की review के लिए पर्याप्त information
+                प्रदान करें।
+            </p>
+
+            <h4>
+                Useful information में शामिल हो सकती है:
+            </h4>
+
+            <ol>
+
+                <li>
+                    आपका नाम और contact information।
+                </li>
+
+                <li>
+                    Copyrighted work की पहचान।
+                </li>
+
+                <li>
+                    संबंधित page, listing या material की पहचान।
+                </li>
+
+                <li>
+                    Claimed copyright issue का explanation।
+                </li>
+
+                <li>
+                    Ownership, authorization या applicable rights
+                    को support करने वाली information।
+                </li>
+
+                <li>
+                    जहाँ उचित हो, आप कौन-सी action चाहते हैं,
+                    उसका स्पष्ट विवरण।
+                </li>
+
+            </ol>
+
+            <div class="important">
+
+                <strong>
+                    ध्यान दें:
+                </strong>
+
+                <br>
+
+                Copyright report में password, payment information
+                या अनावश्यक sensitive personal information न भेजें।
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         13. REVIEW PROCESS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">13.</span>
+                Complaint Review and Corrective Action
+            </h3>
+
+            <p>
+                Copyright concerns may be reviewed by the project
+                owner or appropriate administrators.
+            </p>
+
+            <p>
+                Depending on the circumstances, material may be
+                corrected, credited, replaced, restricted,
+                unpublished or removed.
+            </p>
+
+            <p>
+                Additional information may be requested when
+                necessary to understand the complaint.
+            </p>
+
+            <p>
+                Review of a complaint does not by itself constitute
+                an admission that infringement has occurred.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">13.</span>
+                Complaint Review और Corrective Action
+            </h3>
+
+            <p>
+                Copyright concerns को project owner या appropriate
+                administrators द्वारा review किया जा सकता है।
+            </p>
+
+            <p>
+                परिस्थितियों के आधार पर material को correct,
+                credit, replace, restrict, unpublish या remove
+                किया जा सकता है।
+            </p>
+
+            <p>
+                Complaint को समझने के लिए आवश्यकता होने पर
+                additional information मांगी जा सकती है।
+            </p>
+
+            <p>
+                किसी complaint की review अपने आप infringement
+                होने की स्वीकारोक्ति नहीं है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         14. TEMPORARY RESTRICTION
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">14.</span>
+                Temporary Restriction
+            </h3>
+
+            <p>
+                Where appropriate, access to disputed content may
+                be temporarily restricted while a copyright,
+                ownership or permission issue is reviewed.
+            </p>
+
+            <p>
+                The exact action may depend on the nature of the
+                complaint, available information and applicable
+                legal requirements.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">14.</span>
+                Temporary Restriction
+            </h3>
+
+            <p>
+                जहाँ उचित हो, copyright, ownership या permission
+                issue की review के दौरान disputed content की
+                access को temporary रूप से restrict किया जा सकता है।
+            </p>
+
+            <p>
+                Exact action complaint की nature, उपलब्ध information
+                और लागू legal requirements पर निर्भर कर सकती है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         15. COUNTER NOTICE / RESPONSE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">15.</span>
+                Response or Counter-Notice
+            </h3>
+
+            <p>
+                If content is restricted or removed because of a
+                copyright complaint, the affected contributor may
+                provide a response or additional information where
+                the platform provides such a process.
+            </p>
+
+            <p>
+                Any response should explain the contributor's
+                rights, permission, license or other lawful basis
+                for using the material.
+            </p>
+
+            <p>
+                A response may be reviewed before a final action is
+                taken where appropriate.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">15.</span>
+                Response या Counter-Notice
+            </h3>
+
+            <p>
+                यदि copyright complaint के कारण content restrict
+                या remove किया जाता है, तो affected contributor
+                जहाँ platform ऐसी process उपलब्ध कराता है,
+                response या additional information दे सकता है।
+            </p>
+
+            <p>
+                Response में contributor को material के उपयोग के
+                अपने rights, permission, license या अन्य lawful
+                basis को explain करना चाहिए।
+            </p>
+
+            <p>
+                जहाँ उचित हो, final action से पहले response की
+                review की जा सकती है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         16. FALSE COMPLAINTS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">16.</span>
+                Good-Faith Reporting and False Complaints
+            </h3>
+
+            <p>
+                Copyright concerns should be submitted honestly
+                and with sufficient information for meaningful
+                review.
+            </p>
+
+            <p>
+                False, intentionally misleading or abusive
+                copyright claims should not be submitted.
+            </p>
+
+            <p>
+                The platform may take appropriate action regarding
+                repeated or demonstrably abusive complaint activity,
+                subject to applicable law.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">16.</span>
+                Good-Faith Reporting और False Complaints
+            </h3>
+
+            <p>
+                Copyright concerns ईमानदारी से और meaningful
+                review के लिए पर्याप्त information के साथ submit
+                की जानी चाहिए।
+            </p>
+
+            <p>
+                False, जानबूझकर misleading या abusive copyright
+                claims submit नहीं की जानी चाहिए।
+            </p>
+
+            <p>
+                Applicable law के अधीन, repeated या demonstrably
+                abusive complaint activity के संबंध में appropriate
+                action लिया जा सकता है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         17. TRADEMARKS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">17.</span>
+                Trademarks and Brand Names
+            </h3>
+
+            <p>
+                Names, logos, symbols and trademarks belonging to
+                other organizations remain the property of their
+                respective owners.
+            </p>
+
+            <p>
+                Mentioning a third-party organization for
+                historical, educational or informational purposes
+                does not necessarily indicate ownership,
+                partnership or endorsement.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">17.</span>
+                Trademarks और Brand Names
+            </h3>
+
+            <p>
+                अन्य organizations के names, logos, symbols और
+                trademarks उनके respective owners की property
+                रहते हैं।
+            </p>
+
+            <p>
+                किसी third-party organization का historical,
+                educational या informational purpose से उल्लेख
+                करना अपने आप ownership, partnership या endorsement
+                नहीं दर्शाता।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         18. PRIVACY / PERSONAL INFORMATION
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">18.</span>
+                Privacy and Personal Information Complaints
+            </h3>
+
+            <p>
+                Copyright complaints should contain only the
+                information reasonably necessary to identify and
+                review the copyright issue.
+            </p>
+
+            <p>
+                Complaints should not unnecessarily include another
+                person's private information, passwords, financial
+                information, identity documents or other sensitive
+                personal information.
+            </p>
+
+            <p>
+                Privacy-related complaints may also be handled
+                according to the website's Privacy Policy.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">18.</span>
+                Privacy और Personal Information Complaints
+            </h3>
+
+            <p>
+                Copyright complaint में केवल उतनी information
+                शामिल करनी चाहिए जितनी copyright issue की पहचान
+                और review के लिए reasonably necessary हो।
+            </p>
+
+            <p>
+                Complaint में किसी अन्य व्यक्ति की private
+                information, passwords, financial information,
+                identity documents या अन्य sensitive personal
+                information अनावश्यक रूप से शामिल नहीं करनी चाहिए।
+            </p>
+
+            <p>
+                Privacy से संबंधित complaints को website की
+                Privacy Policy के अनुसार भी handle किया जा सकता है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         19. MARKETPLACE CONTENT
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">19.</span>
+                Marketplace and Listing Content
+            </h3>
+
+            <p>
+                Marketplace, Luxury Lifestyle, Jobs, Discovery or
+                other listing features may contain user-submitted
+                photographs, descriptions, logos, videos or other
+                media.
+            </p>
+
+            <p>
+                A seller, contributor or listing owner is responsible
+                for ensuring that submitted material does not
+                unlawfully infringe another person's copyright,
+                trademark or other intellectual property rights.
+            </p>
+
+            <p>
+                Reported infringing material may be reviewed under
+                this policy and the applicable marketplace or user
+                content rules.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">19.</span>
+                Marketplace और Listing Content
+            </h3>
+
+            <p>
+                Marketplace, Luxury Lifestyle, Jobs, Discovery या
+                अन्य listing features में user-submitted photographs,
+                descriptions, logos, videos या अन्य media हो सकते हैं।
+            </p>
+
+            <p>
+                Seller, contributor या listing owner यह सुनिश्चित
+                करने के लिए जिम्मेदार है कि submitted material किसी
+                अन्य व्यक्ति के copyright, trademark या अन्य
+                intellectual property rights का unlawful infringement
+                न करे।
+            </p>
+
+            <p>
+                Report की गई infringing material को इस policy और
+                applicable marketplace या user-content rules के
+                तहत review किया जा सकता है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         20. EDUCATIONAL PURPOSE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">20.</span>
+                Educational and Informational Purpose
+            </h3>
+
+            <p>
+                ALON HISTORYVERSE 24 is intended as a historical,
+                educational and informational knowledge platform.
+            </p>
+
+            <p>
+                Users should verify important information with
+                reliable primary or authoritative sources,
+                particularly when using information for academic,
+                legal, professional or other high-stakes purposes.
+            </p>
+
+            <p>
+                Educational or historical purpose alone does not
+                automatically make every use of copyrighted material
+                lawful. The applicable legal rules depend on the
+                specific circumstances and jurisdiction.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">20.</span>
+                Educational और Informational Purpose
+            </h3>
+
+            <p>
+                ALON HISTORYVERSE 24 एक historical, educational और
+                informational knowledge platform के रूप में बनाया
+                जा रहा है।
+            </p>
+
+            <p>
+                महत्वपूर्ण information का उपयोग academic, legal,
+                professional या अन्य high-stakes purpose के लिए
+                करने से पहले users को reliable primary या
+                authoritative sources से verification करना चाहिए।
+            </p>
+
+            <p>
+                केवल educational या historical purpose होने से
+                copyrighted material का हर उपयोग automatically
+                lawful नहीं हो जाता। लागू legal rules specific
+                circumstances और jurisdiction पर निर्भर करते हैं।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         21. EXTERNAL LINKS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">21.</span>
+                External Sources and Links
+            </h3>
+
+            <p>
+                ALON HISTORYVERSE 24 may link to external websites,
+                archives, museums, educational resources, media
+                platforms or other sources.
+            </p>
+
+            <p>
+                External websites may have their own copyright,
+                licensing, privacy and content rules.
+            </p>
+
+            <p>
+                Users should review the terms and licensing
+                conditions of the original source before copying,
+                downloading, redistributing or otherwise using
+                external material.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">21.</span>
+                External Sources और Links
+            </h3>
+
+            <p>
+                ALON HISTORYVERSE 24 external websites, archives,
+                museums, educational resources, media platforms
+                या अन्य sources के links दे सकता है।
+            </p>
+
+            <p>
+                External websites की अपनी copyright, licensing,
+                privacy और content rules हो सकती हैं।
+            </p>
+
+            <p>
+                External material को copy, download, redistribute
+                या अन्य तरीके से उपयोग करने से पहले users को
+                original source की terms और licensing conditions
+                देखनी चाहिए।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         22. LEGAL REQUESTS
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">22.</span>
+                Legal Requests
+            </h3>
+
+            <p>
+                Copyright or content-related actions may also be
+                taken where required by applicable law, a valid
+                legal order, regulatory requirement or other lawful
+                process.
+            </p>
+
+            <p>
+                Nothing in this policy is intended to prevent
+                compliance with applicable legal obligations.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">22.</span>
+                Legal Requests
+            </h3>
+
+            <p>
+                Applicable law, valid legal order, regulatory
+                requirement या अन्य lawful process के तहत
+                copyright या content-related action लिया जा सकता है।
+            </p>
+
+            <p>
+                इस policy का उद्देश्य applicable legal obligations
+                के पालन को रोकना नहीं है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         23. EMERGENCY SAFETY
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">23.</span>
+                Emergency and Safety Matters
+            </h3>
+
+            <p>
+                Where content creates an urgent safety, security
+                or legal concern, the platform may take temporary
+                action while the matter is reviewed.
+            </p>
+
+            <p>
+                Such action may be taken independently of the final
+                determination of a copyright dispute where necessary
+                to protect users, the platform or other persons.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">23.</span>
+                Emergency और Safety Matters
+            </h3>
+
+            <p>
+                जहाँ content से urgent safety, security या legal
+                concern उत्पन्न होता है, वहाँ matter की review
+                के दौरान platform temporary action ले सकता है।
+            </p>
+
+            <p>
+                Users, platform या अन्य persons की सुरक्षा के लिए
+                आवश्यकता होने पर ऐसा action copyright dispute के
+                final determination से अलग भी लिया जा सकता है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         24. NO AUTOMATIC GUARANTEE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">24.</span>
+                No Automatic Guarantee
+            </h3>
+
+            <p>
+                The existence of this policy does not guarantee
+                that every copyright complaint will result in
+                removal or that every reported work is infringing.
+            </p>
+
+            <p>
+                Each complaint may depend on the specific material,
+                ownership, license, permissions, facts, applicable
+                law and available information.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">24.</span>
+                Automatic Guarantee नहीं
+            </h3>
+
+            <p>
+                इस policy का होना यह guarantee नहीं देता कि हर
+                copyright complaint पर material remove होगा या
+                हर reported work infringing होगा।
+            </p>
+
+            <p>
+                प्रत्येक complaint संबंधित material, ownership,
+                license, permissions, facts, applicable law और
+                available information पर निर्भर कर सकती है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         25. POLICY UPDATES
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">25.</span>
+                Policy Updates
+            </h3>
+
+            <p>
+                This Copyright, Content Removal & Complaint Policy
+                may be updated as ALON HISTORYVERSE 24 develops,
+                new content systems are introduced, or legal and
+                operational requirements change.
+            </p>
+
+            <p>
+                The latest version published on the platform should
+                be considered the current version of this policy.
+            </p>
+
+            <p>
+                Material changes may be reflected through an updated
+                effective date or other appropriate notice.
+            </p>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">25.</span>
+                Policy Updates
+            </h3>
+
+            <p>
+                ALON HISTORYVERSE 24 के development, नए content
+                systems या legal और operational requirements में
+                बदलाव के अनुसार यह Copyright, Content Removal &
+                Complaint Policy update की जा सकती है।
+            </p>
+
+            <p>
+                Platform पर प्रकाशित latest version को इस policy
+                का current version माना जाना चाहिए।
+            </p>
+
+            <p>
+                Material changes होने पर updated effective date
+                या अन्य appropriate notice दिया जा सकता है।
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         26. CONTACT
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">26.</span>
+                Copyright Contact
+            </h3>
+
+            <div class="contact-box">
+
+                <p>
+                    <strong>Project:</strong>
+                    ALON HISTORYVERSE 24
+                </p>
+
+                <p>
+                    <strong>Creator / Owner:</strong>
+                    Baba Thecno Guru
+                </p>
+
+                <p>
+                    For copyright concerns, use the project's
+                    contact or contribution channels when they
+                    are available.
+                </p>
+
+                <p>
+                    Please include enough information to identify
+                    the material and explain the concern clearly.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">26.</span>
+                Copyright Contact
+            </h3>
+
+            <div class="contact-box">
+
+                <p>
+                    <strong>Project:</strong>
+                    ALON HISTORYVERSE 24
+                </p>
+
+                <p>
+                    <strong>Creator / Owner:</strong>
+                    Baba Thecno Guru
+                </p>
+
+                <p>
+                    Copyright concern के लिए उपलब्ध होने पर
+                    project के contact या contribution channels
+                    का उपयोग करें।
+                </p>
+
+                <p>
+                    Material की पहचान करने और concern को स्पष्ट
+                    रूप से समझाने के लिए पर्याप्त information दें।
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         27. FINAL NOTICE
+    ====================================================== -->
+
+    <section class="copyright-box">
+
+        <div data-lang="en">
+
+            <h3>
+                <span class="section-number">27.</span>
+                Final Notice
+            </h3>
+
+            <p>
+                Copyright ownership can vary depending on the
+                particular material, its creator, its source,
+                its license and the applicable law.
+            </p>
+
+            <p>
+                Nothing on this page should be interpreted as
+                transferring ownership of third-party material
+                to ALON HISTORYVERSE 24.
+            </p>
+
+            <div class="important">
+
+                <strong>
+                    ALON HISTORYVERSE 24 • Baba Thecno Guru
+                </strong>
+
+                <p>
+                    Respect history. Respect knowledge.
+                    Respect creators.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div data-lang="hi">
+
+            <h3>
+                <span class="section-number">27.</span>
+                अंतिम सूचना
+            </h3>
+
+            <p>
+                Copyright ownership संबंधित material, उसके creator,
+                source, license और applicable law के आधार पर अलग
+                हो सकता है।
+            </p>
+
+            <p>
+                इस page की कोई भी बात third-party material का
+                ownership ALON HISTORYVERSE 24 को transfer करने
+                के रूप में नहीं समझी जानी चाहिए।
+            </p>
+
+            <div class="important">
+
+                <strong>
+                    ALON HISTORYVERSE 24 • Baba Thecno Guru
+                </strong>
+
+                <p>
+                    इतिहास का सम्मान करें। ज्ञान का सम्मान करें।
+                    Creators का सम्मान करें।
+                </p>
+
+            </div>
 
         </div>
 
@@ -953,28 +2471,40 @@
             href="../index.html"
             class="page-link"
         >
-            ← Home
+            <span data-lang="en">← Home</span>
+            <span data-lang="hi">← Home</span>
         </a>
+
 
         <a
             href="./contribute.html"
             class="page-link"
         >
-            Contribute
+            <span data-lang="en">Contribute</span>
+            <span data-lang="hi">योगदान करें</span>
         </a>
+
 
         <a
             href="./contributor-agreement.html"
             class="page-link"
         >
-            Contributor Agreement
+            <span data-lang="en">
+                Contributor Agreement
+            </span>
+
+            <span data-lang="hi">
+                Contributor Agreement
+            </span>
         </a>
+
 
         <a
             href="./contact.html"
             class="page-link"
         >
-            Contact
+            <span data-lang="en">Contact</span>
+            <span data-lang="hi">संपर्क</span>
         </a>
 
     </div>
@@ -986,13 +2516,160 @@
 
     <div class="footer-note">
 
-        ALON HISTORYVERSE 24 • Baba Thecno Guru<br>
+        <span data-lang="en">
 
-        History • Civilizations • Countries • Culture • Heritage • Knowledge
+            ALON HISTORYVERSE 24 • Baba Thecno Guru
+            <br>
+            History • Civilizations • Countries • Culture • Heritage • Knowledge
+
+        </span>
+
+
+        <span data-lang="hi">
+
+            ALON HISTORYVERSE 24 • Baba Thecno Guru
+            <br>
+            इतिहास • सभ्यताएँ • देश • संस्कृति • विरासत • ज्ञान
+
+        </span>
 
     </div>
 
+
 </main>
+
+
+<!-- =====================================================
+     LANGUAGE SYSTEM
+====================================================== -->
+
+<script>
+
+    const LANGUAGE_KEY =
+        "alon_historyverse_language";
+
+
+    function setLanguage(language) {
+
+        if (
+            language !== "en" &&
+            language !== "hi"
+        ) {
+
+            language = "en";
+
+        }
+
+
+        document.documentElement.lang =
+            language;
+
+
+        document.body.classList.remove(
+            "lang-en",
+            "lang-hi"
+        );
+
+
+        document.body.classList.add(
+            "lang-" + language
+        );
+
+
+        const englishBtn =
+            document.getElementById(
+                "englishBtn"
+            );
+
+
+        const hindiBtn =
+            document.getElementById(
+                "hindiBtn"
+            );
+
+
+        if (englishBtn) {
+
+            englishBtn.classList.toggle(
+                "active",
+                language === "en"
+            );
+
+        }
+
+
+        if (hindiBtn) {
+
+            hindiBtn.classList.toggle(
+                "active",
+                language === "hi"
+            );
+
+        }
+
+
+        try {
+
+            localStorage.setItem(
+                LANGUAGE_KEY,
+                language
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "Language preference could not be saved.",
+                error
+            );
+
+        }
+
+    }
+
+
+    function loadLanguage() {
+
+        let savedLanguage = "en";
+
+
+        try {
+
+            savedLanguage =
+                localStorage.getItem(
+                    LANGUAGE_KEY
+                ) || "en";
+
+        } catch (error) {
+
+            savedLanguage = "en";
+
+        }
+
+
+        if (
+            savedLanguage !== "en" &&
+            savedLanguage !== "hi"
+        ) {
+
+            savedLanguage = "en";
+
+        }
+
+
+        setLanguage(
+            savedLanguage
+        );
+
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadLanguage
+    );
+
+</script>
+
 
 </body>
 
