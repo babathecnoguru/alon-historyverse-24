@@ -415,6 +415,88 @@
         }
 
         /* =====================================================
+           HINDUISM CATEGORY FEATURES
+           EXISTING ARTICLE SYSTEM CONNECTION
+        ===================================================== */
+
+        .civilization-category-section {
+            display: none;
+            margin-top: 24px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(215,179,90,0.22);
+        }
+
+        .civilization-category-section.active {
+            display: block;
+        }
+
+        .civilization-category-title {
+            margin: 0 0 7px;
+            color: #f0d27a;
+            font-size: 24px;
+        }
+
+        .civilization-category-note {
+            margin: 0 0 16px;
+            color: #999999;
+            line-height: 1.7;
+            font-size: 13px;
+        }
+
+        .civilization-category-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 11px;
+        }
+
+        .civilization-category-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            min-height: 68px;
+            padding: 13px 14px;
+            border: 1px solid rgba(215,179,90,0.28);
+            border-radius: 13px;
+            background: #0a101a;
+            color: #eeeeee;
+            cursor: pointer;
+            text-align: left;
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .civilization-category-box:hover {
+            transform: translateY(-2px);
+            border-color: #d7b35a;
+            background: rgba(215,179,90,0.08);
+        }
+
+        .civilization-category-icon {
+            flex: 0 0 auto;
+            font-size: 28px;
+        }
+
+        .civilization-category-text {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .civilization-category-text strong {
+            color: #f0d27a;
+            font-size: 15px;
+        }
+
+        .civilization-category-text span {
+            color: #888888;
+            font-size: 11px;
+        }
+
+        /* =====================================================
            DETAIL MODAL
         ===================================================== */
 
@@ -647,6 +729,10 @@
 
             .detail-header h2 {
                 font-size: 27px;
+            }
+
+            .civilization-category-grid {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -958,6 +1044,207 @@
             class="detail-grid"
             id="detailFacts"
         ></div>
+
+
+        <!-- =================================================
+             HINDUISM CATEGORY FEATURES
+             ONLY SHOWN FOR HINDUISM
+        ================================================== -->
+
+        <section
+            class="civilization-category-section"
+            id="hinduismCategorySection"
+        >
+
+            <h3 class="civilization-category-title">
+                🕉️ Hinduism Features & Articles
+            </h3>
+
+            <p class="civilization-category-note">
+                Explore the existing Hinduism article categories
+                and their related knowledge.
+            </p>
+
+
+            <div class="civilization-category-grid">
+
+                <button
+                    type="button"
+                    class="civilization-category-box"
+                    data-category="Raja Maharaja"
+                >
+
+                    <span class="civilization-category-icon">
+                        👑
+                    </span>
+
+                    <span class="civilization-category-text">
+
+                        <strong>
+                            राजा / महाराजा
+                        </strong>
+
+                        <span>
+                            Kings, Maharajas and rulers
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="civilization-category-box"
+                    data-category="Yuddha"
+                >
+
+                    <span class="civilization-category-icon">
+                        ⚔️
+                    </span>
+
+                    <span class="civilization-category-text">
+
+                        <strong>
+                            युद्ध
+                        </strong>
+
+                        <span>
+                            Wars, battles and military history
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="civilization-category-box"
+                    data-category="Shastra Granth"
+                >
+
+                    <span class="civilization-category-icon">
+                        📜
+                    </span>
+
+                    <span class="civilization-category-text">
+
+                        <strong>
+                            शास्त्र / ग्रंथ
+                        </strong>
+
+                        <span>
+                            Scriptures and knowledge texts
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="civilization-category-box"
+                    data-category="Purana"
+                >
+
+                    <span class="civilization-category-icon">
+                        🕉️
+                    </span>
+
+                    <span class="civilization-category-text">
+
+                        <strong>
+                            पुराण
+                        </strong>
+
+                        <span>
+                            Puranic literature and traditions
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="civilization-category-box"
+                    data-category="Bhagavad Gita"
+                >
+
+                    <span class="civilization-category-icon">
+                        📖
+                    </span>
+
+                    <span class="civilization-category-text">
+
+                        <strong>
+                            भगवद्गीता
+                        </strong>
+
+                        <span>
+                            Bhagavad Gita knowledge and articles
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="civilization-category-box"
+                    data-category="Vedas"
+                >
+
+                    <span class="civilization-category-icon">
+                        📜
+                    </span>
+
+                    <span class="civilization-category-text">
+
+                        <strong>
+                            वेद
+                        </strong>
+
+                        <span>
+                            Vedic texts and traditions
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="civilization-category-box"
+                    data-category="All"
+                >
+
+                    <span class="civilization-category-icon">
+                        📚
+                    </span>
+
+                    <span class="civilization-category-text">
+
+                        <strong>
+                            सारे फीचर
+                        </strong>
+
+                        <span>
+                            All Hinduism features and articles
+                        </span>
+
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
 
 
         <section class="detail-section">
@@ -1495,6 +1782,11 @@
             "closeModal"
         );
 
+    const hinduismCategorySection =
+        document.getElementById(
+            "hinduismCategorySection"
+        );
+
 
     /* =====================================================
        ESCAPE HTML
@@ -1878,6 +2170,27 @@
         `;
 
 
+        /* =================================================
+           HINDUISM ONLY CATEGORY DISPLAY
+        ================================================= */
+
+        if (
+            civilization.id === "hinduism"
+        ) {
+
+            hinduismCategorySection
+                .classList
+                .add("active");
+
+        } else {
+
+            hinduismCategorySection
+                .classList
+                .remove("active");
+
+        }
+
+
         modal.classList.add(
             "active"
         );
@@ -1890,6 +2203,43 @@
 
 
     /* =====================================================
+       HINDUISM CATEGORY BUTTONS
+       CONNECT TO EXISTING ARTICLE SYSTEM
+    ===================================================== */
+
+    document
+        .querySelectorAll(
+            ".civilization-category-box"
+        )
+        .forEach(
+            function(button) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        const category =
+                            button.dataset.category;
+
+                        const articleURL =
+                            "./articles.html" +
+                            "?civilization=hinduism" +
+                            "&category=" +
+                            encodeURIComponent(
+                                category
+                            );
+
+                        window.location.href =
+                            articleURL;
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================================
        CLOSE MODAL
     ===================================================== */
 
@@ -1898,6 +2248,10 @@
         modal.classList.remove(
             "active"
         );
+
+        hinduismCategorySection
+            .classList
+            .remove("active");
 
         document.body.style.overflow =
             "";
