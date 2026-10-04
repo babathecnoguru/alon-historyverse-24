@@ -208,6 +208,28 @@
         }
 
         /* =====================================================
+           CIVILIZATION / ARTICLE SECTION
+        ====================================================== */
+
+        .scope-note {
+            margin-top: 7px;
+            font-size: 11px;
+            line-height: 1.5;
+            opacity: 0.65;
+        }
+
+        .scope-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(215,179,90,0.3);
+            color: #f0d27a;
+            background: rgba(215,179,90,0.04);
+            font-size: 11px;
+        }
+
+        /* =====================================================
            MEDIA UPLOAD
         ====================================================== */
 
@@ -691,6 +713,52 @@
                     </div>
 
 
+                    <!-- =====================================
+                         CIVILIZATION
+                    ====================================== -->
+
+                    <div class="field">
+
+                        <label for="articleCivilization">
+                            Civilization / Tradition *
+                        </label>
+
+                        <select
+                            id="articleCivilization"
+                        >
+                        </select>
+
+                        <div class="scope-note">
+                            Select the main civilization, tradition or
+                            historical area where this article belongs.
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         ARTICLE SECTION
+                    ====================================== -->
+
+                    <div class="field">
+
+                        <label for="articleSection">
+                            Article Section *
+                        </label>
+
+                        <select
+                            id="articleSection"
+                        >
+                        </select>
+
+                        <div class="scope-note">
+                            The article will be saved inside the selected
+                            civilization and section.
+                        </div>
+
+                    </div>
+
+
                     <div class="field editor-full">
 
                         <label for="articleDescription">
@@ -888,6 +956,12 @@
                 >
 
                 <div
+                    id="activeScopeBadge"
+                    class="scope-badge"
+                    style="display:none;"
+                ></div>
+
+                <div
                     class="saved-articles"
                     id="savedArticles"
                 ></div>
@@ -950,7 +1024,7 @@
 
         <!-- =================================================
              SYSTEM NOTICE
-        ================================================== -->
+        ====================================================== -->
 
         <section class="article-section">
 
@@ -1049,6 +1123,297 @@
 
 
     /* =====================================================
+       CIVILIZATION DATABASE
+       KEEPING EXISTING CIVILIZATIONS
+    ====================================================== */
+
+    const ARTICLE_CIVILIZATIONS = [
+
+        {
+            id: "hinduism",
+            name: "Hinduism",
+            symbol: "🛕"
+        },
+
+        {
+            id: "buddhism",
+            name: "Buddhism",
+            symbol: "☸️"
+        },
+
+        {
+            id: "sikhism",
+            name: "Sikhism",
+            symbol: "☬"
+        },
+
+        {
+            id: "mesopotamian",
+            name: "Mesopotamian Civilization",
+            symbol: "🏺"
+        },
+
+        {
+            id: "ancient-egypt",
+            name: "Ancient Egyptian Civilization",
+            symbol: "𓂀"
+        },
+
+        {
+            id: "indus-valley",
+            name: "Indus Valley Civilization",
+            symbol: "🏛️"
+        },
+
+        {
+            id: "ancient-chinese",
+            name: "Ancient Chinese Civilization",
+            symbol: "🐉"
+        },
+
+        {
+            id: "ancient-greek",
+            name: "Ancient Greek Civilization",
+            symbol: "🏛️"
+        },
+
+        {
+            id: "roman",
+            name: "Roman Civilization",
+            symbol: "🏛️"
+        },
+
+        {
+            id: "persian",
+            name: "Persian Civilization",
+            symbol: "🦁"
+        },
+
+        {
+            id: "maya",
+            name: "Maya Civilization",
+            symbol: "🌎"
+        },
+
+        {
+            id: "inca",
+            name: "Inca Civilization",
+            symbol: "☀️"
+        },
+
+        {
+            id: "aztec",
+            name: "Aztec Civilization",
+            symbol: "🗿"
+        },
+
+        {
+            id: "byzantine",
+            name: "Byzantine Civilization",
+            symbol: "🏰"
+        },
+
+        {
+            id: "khmer",
+            name: "Khmer Civilization",
+            symbol: "🛕"
+        },
+
+        {
+            id: "nubian",
+            name: "Nubian Civilization",
+            symbol: "🏺"
+        },
+
+        {
+            id: "olmec",
+            name: "Olmec Civilization",
+            symbol: "🗿"
+        },
+
+        {
+            id: "classical-japanese",
+            name: "Classical Japanese Civilization",
+            symbol: "⛩️"
+        }
+
+    ];
+
+
+    /* =====================================================
+       ARTICLE SECTION DATABASE
+    ====================================================== */
+
+    const ARTICLE_CIVILIZATION_SECTIONS = [
+
+        /* =================================================
+           HINDUISM
+        ================================================== */
+
+        {
+            id: "sanatani-hindu",
+            civilizationId: "hinduism",
+            name: "Sanatani Hindu",
+            symbol: "🛕",
+            type: "parent"
+        },
+
+        {
+            id: "puranas",
+            civilizationId: "hinduism",
+            parentId: "sanatani-hindu",
+            name: "Puranas",
+            symbol: "📜",
+            type: "religious-text"
+        },
+
+        {
+            id: "shastras",
+            civilizationId: "hinduism",
+            parentId: "sanatani-hindu",
+            name: "Shastras",
+            symbol: "📖",
+            type: "religious-text"
+        },
+
+        {
+            id: "granth",
+            civilizationId: "hinduism",
+            parentId: "sanatani-hindu",
+            name: "Granth",
+            symbol: "📚",
+            type: "religious-text"
+        },
+
+        {
+            id: "bhagavad-gita",
+            civilizationId: "hinduism",
+            parentId: "sanatani-hindu",
+            name: "Bhagavad Gita",
+            symbol: "📖",
+            type: "religious-text"
+        },
+
+        {
+            id: "mahabharata",
+            civilizationId: "hinduism",
+            parentId: "sanatani-hindu",
+            name: "Mahabharata",
+            symbol: "📜",
+            type: "religious-text"
+        },
+
+        {
+            id: "four-vedas",
+            civilizationId: "hinduism",
+            parentId: "sanatani-hindu",
+            name: "Four Vedas",
+            symbol: "🕉️",
+            type: "religious-text"
+        },
+
+        {
+            id: "rigveda",
+            civilizationId: "hinduism",
+            parentId: "four-vedas",
+            name: "Rigveda",
+            symbol: "📜",
+            type: "veda"
+        },
+
+        {
+            id: "samaveda",
+            civilizationId: "hinduism",
+            parentId: "four-vedas",
+            name: "Samaveda",
+            symbol: "📜",
+            type: "veda"
+        },
+
+        {
+            id: "yajurveda",
+            civilizationId: "hinduism",
+            parentId: "four-vedas",
+            name: "Yajurveda",
+            symbol: "📜",
+            type: "veda"
+        },
+
+        {
+            id: "atharvaveda",
+            civilizationId: "hinduism",
+            parentId: "four-vedas",
+            name: "Atharvaveda",
+            symbol: "📜",
+            type: "veda"
+        },
+
+        {
+            id: "kings-and-maharajas",
+            civilizationId: "hinduism",
+            name: "Kings & Maharajas",
+            symbol: "👑",
+            type: "history"
+        },
+
+        {
+            id: "wars-and-battles",
+            civilizationId: "hinduism",
+            name: "Wars & Battles",
+            symbol: "⚔️",
+            type: "history"
+        },
+
+        {
+            id: "muslim-rule",
+            civilizationId: "hinduism",
+            name: "Muslim Rule",
+            symbol: "🏰",
+            type: "history"
+        },
+
+        {
+            id: "taj-mahal-and-architecture",
+            civilizationId: "hinduism",
+            name: "Taj Mahal & Architecture",
+            symbol: "🕌",
+            type: "history"
+        },
+
+        {
+            id: "british-rule",
+            civilizationId: "hinduism",
+            name: "British Rule",
+            symbol: "🏛️",
+            type: "history"
+        }
+
+    ];
+
+
+    /* =====================================================
+       URL SCOPE
+    ====================================================== */
+
+    const ARTICLE_URL_PARAMS =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    let activeCivilizationId =
+        ARTICLE_URL_PARAMS.get(
+            "civilization"
+        ) || "";
+
+
+    let activeSectionId =
+        ARTICLE_URL_PARAMS.get(
+            "section"
+        ) || "";
+
+
+    /* =====================================================
        STORAGE HELPERS
     ====================================================== */
 
@@ -1103,6 +1468,296 @@
             .replace(/'/g, "&#039;");
 
     }
+
+
+    /* =====================================================
+       CIVILIZATION HELPERS
+    ====================================================== */
+
+    function getCivilizationById(
+        civilizationId
+    ) {
+
+        return ARTICLE_CIVILIZATIONS.find(
+            civilization =>
+                civilization.id ===
+                civilizationId
+        ) || null;
+
+    }
+
+
+    function getSectionById(
+        sectionId
+    ) {
+
+        return ARTICLE_CIVILIZATION_SECTIONS.find(
+            section =>
+                section.id ===
+                sectionId
+        ) || null;
+
+    }
+
+
+    function getSectionsForCivilization(
+        civilizationId
+    ) {
+
+        const sections =
+            ARTICLE_CIVILIZATION_SECTIONS.filter(
+                section =>
+                    section.civilizationId ===
+                    civilizationId
+            );
+
+
+        if (!sections.length) {
+
+            return [
+                {
+                    id:
+                        "general",
+
+                    civilizationId,
+
+                    name:
+                        "General",
+
+                    symbol:
+                        "📚",
+
+                    type:
+                        "general"
+                }
+            ];
+
+        }
+
+
+        return sections;
+
+    }
+
+
+    function getCivilizationName(
+        civilizationId
+    ) {
+
+        const civilization =
+            getCivilizationById(
+                civilizationId
+            );
+
+
+        return civilization
+            ? civilization.name
+            : "Other Civilization";
+
+    }
+
+
+    function getSectionName(
+        sectionId
+    ) {
+
+        const section =
+            getSectionById(
+                sectionId
+            );
+
+
+        return section
+            ? section.name
+            : "General";
+
+    }
+
+
+    /* =====================================================
+       POPULATE CIVILIZATION SELECT
+    ====================================================== */
+
+    function renderCivilizationSelect() {
+
+        const select =
+            document.getElementById(
+                "articleCivilization"
+            );
+
+
+        if (!select) {
+
+            return;
+
+        }
+
+
+        select.innerHTML = "";
+
+
+        ARTICLE_CIVILIZATIONS.forEach(
+            function (civilization) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    civilization.id;
+
+
+                option.textContent =
+                    civilization.symbol +
+                    " " +
+                    civilization.name;
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        if (
+            activeCivilizationId &&
+            getCivilizationById(
+                activeCivilizationId
+            )
+        ) {
+
+            select.value =
+                activeCivilizationId;
+
+        } else {
+
+            select.value =
+                "hinduism";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       POPULATE ARTICLE SECTION SELECT
+    ====================================================== */
+
+    function renderSectionSelect(
+        civilizationId,
+        preferredSectionId = ""
+    ) {
+
+        const select =
+            document.getElementById(
+                "articleSection"
+            );
+
+
+        if (!select) {
+
+            return;
+
+        }
+
+
+        select.innerHTML = "";
+
+
+        const sections =
+            getSectionsForCivilization(
+                civilizationId
+            );
+
+
+        sections.forEach(
+            function (section) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    section.id;
+
+
+                let prefix = "";
+
+
+                if (
+                    section.parentId ===
+                    "four-vedas"
+                ) {
+
+                    prefix =
+                        "↳ ";
+
+                }
+
+
+                option.textContent =
+                    prefix +
+                    section.symbol +
+                    " " +
+                    section.name;
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        if (
+            preferredSectionId &&
+            sections.some(
+                section =>
+                    section.id ===
+                    preferredSectionId
+            )
+        ) {
+
+            select.value =
+                preferredSectionId;
+
+        } else {
+
+            select.value =
+                sections[0]
+                    ? sections[0].id
+                    : "general";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CIVILIZATION CHANGE
+    ====================================================== */
+
+    document
+        .getElementById(
+            "articleCivilization"
+        )
+        .addEventListener(
+            "change",
+            function () {
+
+                renderSectionSelect(
+                    this.value
+                );
+
+            }
+        );
 
 
     /* =====================================================
@@ -1508,6 +2163,22 @@
                         .value;
 
 
+                const civilizationId =
+                    document
+                        .getElementById(
+                            "articleCivilization"
+                        )
+                        .value;
+
+
+                const sectionId =
+                    document
+                        .getElementById(
+                            "articleSection"
+                        )
+                        .value;
+
+
                 const description =
                     document
                         .getElementById(
@@ -1557,6 +2228,40 @@
                 }
 
 
+                if (!civilizationId) {
+
+                    alert(
+                        "Please select a civilization."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!sectionId) {
+
+                    alert(
+                        "Please select an article section."
+                    );
+
+                    return;
+
+                }
+
+
+                const civilization =
+                    getCivilizationById(
+                        civilizationId
+                    );
+
+
+                const section =
+                    getSectionById(
+                        sectionId
+                    );
+
+
                 const articles =
                     getData(
                         ARTICLE_KEY
@@ -1587,6 +2292,37 @@
 
                             category,
 
+                            civilizationId,
+
+                            civilization:
+                                civilization
+                                    ? civilization.name
+                                    : "Other Civilization",
+
+                            civilizationSectionId:
+                                sectionId,
+
+                            civilizationSection:
+                                section
+                                    ? section.name
+                                    : "General",
+
+                            civilizationSectionParentId:
+                                section
+                                    ? (
+                                        section.parentId ||
+                                        ""
+                                    )
+                                    : "",
+
+                            civilizationSectionType:
+                                section
+                                    ? (
+                                        section.type ||
+                                        "general"
+                                    )
+                                    : "general",
+
                             description,
 
                             content,
@@ -1609,6 +2345,37 @@
                         title,
 
                         category,
+
+                        civilizationId,
+
+                        civilization:
+                            civilization
+                                ? civilization.name
+                                : "Other Civilization",
+
+                        civilizationSectionId:
+                            sectionId,
+
+                        civilizationSection:
+                            section
+                                ? section.name
+                                : "General",
+
+                        civilizationSectionParentId:
+                            section
+                                ? (
+                                    section.parentId ||
+                                    ""
+                                )
+                                : "",
+
+                        civilizationSectionType:
+                            section
+                                ? (
+                                    section.type ||
+                                    "general"
+                                )
+                                : "general",
 
                         description,
 
@@ -1698,6 +2465,34 @@
                 }
 
 
+                const civilizationId =
+                    document
+                        .getElementById(
+                            "articleCivilization"
+                        )
+                        .value;
+
+
+                const sectionId =
+                    document
+                        .getElementById(
+                            "articleSection"
+                        )
+                        .value;
+
+
+                const civilization =
+                    getCivilizationById(
+                        civilizationId
+                    );
+
+
+                const section =
+                    getSectionById(
+                        sectionId
+                    );
+
+
                 const drafts =
                     getData(
                         DRAFT_KEY
@@ -1715,6 +2510,21 @@
                         document.getElementById(
                             "articleCategory"
                         ).value,
+
+                    civilizationId,
+
+                    civilization:
+                        civilization
+                            ? civilization.name
+                            : "Other Civilization",
+
+                    civilizationSectionId:
+                        sectionId,
+
+                    civilizationSection:
+                        section
+                            ? section.name
+                            : "General",
 
                     description:
                         document.getElementById(
@@ -1785,6 +2595,17 @@
 
 
         document.getElementById(
+            "articleCivilization"
+        ).value =
+            "hinduism";
+
+
+        renderSectionSelect(
+            "hinduism"
+        );
+
+
+        document.getElementById(
             "imageInput"
         ).value = "";
 
@@ -1842,6 +2663,123 @@
 
 
     /* =====================================================
+       ARTICLE SCOPE CHECK
+    ====================================================== */
+
+    function articleMatchesScope(
+        article
+    ) {
+
+        if (
+            activeCivilizationId &&
+            article.civilizationId !==
+                activeCivilizationId
+        ) {
+
+            return false;
+
+        }
+
+
+        if (
+            activeSectionId &&
+            article.civilizationSectionId !==
+                activeSectionId
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       SCOPE BADGE
+    ====================================================== */
+
+    function renderActiveScope() {
+
+        const badge =
+            document.getElementById(
+                "activeScopeBadge"
+            );
+
+
+        if (!badge) {
+
+            return;
+
+        }
+
+
+        if (
+            !activeCivilizationId &&
+            !activeSectionId
+        ) {
+
+            badge.style.display =
+                "none";
+
+            badge.textContent =
+                "";
+
+            return;
+
+        }
+
+
+        const civilization =
+            getCivilizationById(
+                activeCivilizationId
+            );
+
+
+        const section =
+            getSectionById(
+                activeSectionId
+            );
+
+
+        let text =
+            "📚 Scope: ";
+
+
+        if (civilization) {
+
+            text +=
+                civilization.symbol +
+                " " +
+                civilization.name;
+
+        }
+
+
+        if (section) {
+
+            text +=
+                " → " +
+                section.symbol +
+                " " +
+                section.name;
+
+        }
+
+
+        badge.textContent =
+            text;
+
+
+        badge.style.display =
+            "inline-block";
+
+    }
+
+
+    /* =====================================================
        RENDER ARTICLE LIST
     ====================================================== */
 
@@ -1871,11 +2809,32 @@
             articles.filter(
                 function (article) {
 
+                    if (
+                        !articleMatchesScope(
+                            article
+                        )
+                    ) {
+
+                        return false;
+
+                    }
+
+
                     const text =
                         (
                             article.title +
                             " " +
                             article.category +
+                            " " +
+                            (
+                                article.civilization ||
+                                ""
+                            ) +
+                            " " +
+                            (
+                                article.civilizationSection ||
+                                ""
+                            ) +
                             " " +
                             article.description +
                             " " +
@@ -1899,7 +2858,7 @@
             container.innerHTML =
                 `
                 <div class="empty-articles">
-                    No saved articles found.
+                    No saved articles found in this civilization / section.
                 </div>
                 `;
 
@@ -1923,8 +2882,10 @@
 
                 const shortContent =
                     article.description ||
-                    article.content
-                        .slice(0, 220);
+                    (
+                        article.content ||
+                        ""
+                    ).slice(0, 220);
 
 
                 item.innerHTML = `
@@ -1940,6 +2901,20 @@
                         <span class="article-tag">
                             ${escapeHTML(
                                 article.category
+                            )}
+                        </span>
+
+                        <span class="article-tag">
+                            ${escapeHTML(
+                                article.civilization ||
+                                "Other Civilization"
+                            )}
+                        </span>
+
+                        <span class="article-tag">
+                            ${escapeHTML(
+                                article.civilizationSection ||
+                                "General"
                             )}
                         </span>
 
@@ -2114,6 +3089,16 @@
         document.getElementById(
             "readerMeta"
         ).textContent =
+            (
+                article.civilization ||
+                "Other Civilization"
+            ) +
+            " • " +
+            (
+                article.civilizationSection ||
+                "General"
+            ) +
+            " • " +
             article.category +
             " • " +
             article.createdAt;
@@ -2211,6 +3196,28 @@
         ).value =
             article.category ||
             "History";
+
+
+        const civilizationId =
+            article.civilizationId &&
+            getCivilizationById(
+                article.civilizationId
+            )
+                ? article.civilizationId
+                : "hinduism";
+
+
+        document.getElementById(
+            "articleCivilization"
+        ).value =
+            civilizationId;
+
+
+        renderSectionSelect(
+            civilizationId,
+            article.civilizationSectionId ||
+            ""
+        );
 
 
         document.getElementById(
@@ -2364,7 +3371,20 @@
        INITIALIZE
     ====================================================== */
 
+    renderCivilizationSelect();
+
+
+    renderSectionSelect(
+        document.getElementById(
+            "articleCivilization"
+        ).value,
+        activeSectionId
+    );
+
+
     updateLoginState();
+
+    renderActiveScope();
 
     renderArticles();
 
