@@ -57,11 +57,27 @@ const ALON_ARTICLE_CONFIG = {
 const ALON_ARTICLE_CIVILIZATIONS = [
 
     {
-        id: "sanatan-hindu-civilization",
-        name: "Sanatan Hindu Civilization",
+        id: "hinduism",
+        name: "Hinduism",
         symbol: "🛕",
         region: "South Asia",
         period: "Ancient to Present"
+    },
+
+    {
+        id: "buddhism",
+        name: "Buddhism",
+        symbol: "☸️",
+        region: "South Asia",
+        period: "Ancient to Present"
+    },
+
+    {
+        id: "sikhism",
+        name: "Sikhism",
+        symbol: "☬",
+        region: "South Asia",
+        period: "Medieval to Present"
     },
 
     {
@@ -182,6 +198,153 @@ const ALON_ARTICLE_CIVILIZATIONS = [
         symbol: "⛩️",
         region: "Asia",
         period: "Classical"
+    }
+
+];
+
+
+/* =========================================================
+   CIVILIZATION SECTIONS
+   ========================================================= */
+
+const ALON_ARTICLE_CIVILIZATION_SECTIONS = [
+
+    {
+        id: "sanatani-hindu",
+        civilizationId: "hinduism",
+        name: "Sanatani Hindu",
+        symbol: "🛕",
+        type: "parent"
+    },
+
+    {
+        id: "puranas",
+        civilizationId: "hinduism",
+        parentId: "sanatani-hindu",
+        name: "Puranas",
+        symbol: "📜",
+        type: "religious-text"
+    },
+
+    {
+        id: "shastras",
+        civilizationId: "hinduism",
+        parentId: "sanatani-hindu",
+        name: "Shastras",
+        symbol: "📖",
+        type: "religious-text"
+    },
+
+    {
+        id: "granth",
+        civilizationId: "hinduism",
+        parentId: "sanatani-hindu",
+        name: "Granth",
+        symbol: "📚",
+        type: "religious-text"
+    },
+
+    {
+        id: "bhagavad-gita",
+        civilizationId: "hinduism",
+        parentId: "sanatani-hindu",
+        name: "Bhagavad Gita",
+        symbol: "📖",
+        type: "religious-text"
+    },
+
+    {
+        id: "mahabharata",
+        civilizationId: "hinduism",
+        parentId: "sanatani-hindu",
+        name: "Mahabharata",
+        symbol: "📜",
+        type: "religious-text"
+    },
+
+    {
+        id: "four-vedas",
+        civilizationId: "hinduism",
+        parentId: "sanatani-hindu",
+        name: "Four Vedas",
+        symbol: "🕉️",
+        type: "religious-text"
+    },
+
+    {
+        id: "rigveda",
+        civilizationId: "hinduism",
+        parentId: "four-vedas",
+        name: "Rigveda",
+        symbol: "📜",
+        type: "veda"
+    },
+
+    {
+        id: "samaveda",
+        civilizationId: "hinduism",
+        parentId: "four-vedas",
+        name: "Samaveda",
+        symbol: "📜",
+        type: "veda"
+    },
+
+    {
+        id: "yajurveda",
+        civilizationId: "hinduism",
+        parentId: "four-vedas",
+        name: "Yajurveda",
+        symbol: "📜",
+        type: "veda"
+    },
+
+    {
+        id: "atharvaveda",
+        civilizationId: "hinduism",
+        parentId: "four-vedas",
+        name: "Atharvaveda",
+        symbol: "📜",
+        type: "veda"
+    },
+
+    {
+        id: "kings-and-maharajas",
+        civilizationId: "hinduism",
+        name: "Kings & Maharajas",
+        symbol: "👑",
+        type: "history"
+    },
+
+    {
+        id: "wars-and-battles",
+        civilizationId: "hinduism",
+        name: "Wars & Battles",
+        symbol: "⚔️",
+        type: "history"
+    },
+
+    {
+        id: "muslim-rule",
+        civilizationId: "hinduism",
+        name: "Muslim Rule",
+        symbol: "🏰",
+        type: "history"
+    },
+
+    {
+        id: "taj-mahal-and-architecture",
+        civilizationId: "hinduism",
+        name: "Taj Mahal & Architecture",
+        symbol: "🕌",
+        type: "history"
+    },
+
+    {
+        id: "british-rule",
+        civilizationId: "hinduism",
+        name: "British Rule",
+        symbol: "🏛️",
+        type: "history"
     }
 
 ];
@@ -513,6 +676,56 @@ function getCivilizationById(
 
 
 /* =========================================================
+   CIVILIZATION SECTION HELPERS
+   ========================================================= */
+
+function getArticleCivilizationSections(
+    civilizationId = ""
+) {
+
+    if (!civilizationId) {
+
+        return [
+            ...ALON_ARTICLE_CIVILIZATION_SECTIONS
+        ];
+
+    }
+
+    return ALON_ARTICLE_CIVILIZATION_SECTIONS.filter(
+        function (section) {
+
+            return String(
+                section.civilizationId
+            ) === String(
+                civilizationId
+            );
+
+        }
+    );
+
+}
+
+
+function getCivilizationSectionById(
+    sectionId
+) {
+
+    return ALON_ARTICLE_CIVILIZATION_SECTIONS.find(
+        function (section) {
+
+            return String(
+                section.id
+            ) === String(
+                sectionId
+            );
+
+        }
+    ) || null;
+
+}
+
+
+/* =========================================================
    CATEGORY HELPERS
    ========================================================= */
 
@@ -539,6 +752,24 @@ function buildArticleData(
             data.civilization ||
             ""
         );
+
+    const civilizationSection =
+        getCivilizationSectionById(
+            data.civilizationSectionId ||
+            data.civilizationSection ||
+            ""
+        );
+
+    const validSection =
+        civilizationSection &&
+        civilization &&
+        String(
+            civilizationSection.civilizationId
+        ) === String(
+            civilization.id
+        )
+            ? civilizationSection
+            : null;
 
     const now =
         articleNow();
@@ -584,6 +815,32 @@ function buildArticleData(
         civilizationPeriod:
             civilization
                 ? civilization.period
+                : "",
+
+        civilizationSectionId:
+            validSection
+                ? validSection.id
+                : "",
+
+        civilizationSection:
+            validSection
+                ? validSection.name
+                : "",
+
+        civilizationSectionParentId:
+            validSection
+                ? (
+                    validSection.parentId ||
+                    ""
+                )
+                : "",
+
+        civilizationSectionType:
+            validSection
+                ? (
+                    validSection.type ||
+                    ""
+                )
                 : "",
 
         description:
@@ -1229,6 +1486,47 @@ function getArticlesByCivilization(
 
 
 /* =========================================================
+   ARTICLES BY CIVILIZATION SECTION
+   ========================================================= */
+
+function getArticlesByCivilizationSection(
+    civilizationId,
+    sectionId
+) {
+
+    if (!civilizationId || !sectionId) {
+
+        return [];
+
+    }
+
+    return getArticles().filter(
+        function (article) {
+
+            return (
+                String(
+                    article.civilizationId ||
+                    ""
+                ) === String(
+                    civilizationId
+                )
+            ) &&
+            (
+                String(
+                    article.civilizationSectionId ||
+                    ""
+                ) === String(
+                    sectionId
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
    ARTICLES BY CATEGORY
    ========================================================= */
 
@@ -1295,6 +1593,8 @@ function searchManagedArticles(
 
                 article.civilization,
 
+                article.civilizationSection,
+
                 article.description,
 
                 article.content,
@@ -1338,6 +1638,19 @@ function getCivilizationArticleCount(
 
     return getArticlesByCivilization(
         civilizationId
+    ).length;
+
+}
+
+
+function getCivilizationSectionArticleCount(
+    civilizationId,
+    sectionId
+) {
+
+    return getArticlesByCivilizationSection(
+        civilizationId,
+        sectionId
     ).length;
 
 }
@@ -1387,6 +1700,126 @@ function renderCivilizationSelect(
             select.appendChild(
                 option
             );
+
+        }
+    );
+
+    if (current) {
+
+        select.value =
+            current;
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER CIVILIZATION SECTION SELECT
+   ========================================================= */
+
+function renderCivilizationSectionSelect(
+    select,
+    civilizationId = ""
+) {
+
+    if (!select) {
+
+        return;
+
+    }
+
+    const current =
+        select.value;
+
+    select.innerHTML = `
+
+        <option value="">
+            Select Civilization Section
+        </option>
+
+    `;
+
+    const sections =
+        getArticleCivilizationSections(
+            civilizationId
+        );
+
+    if (!sections.length) {
+
+        select.disabled =
+            true;
+
+        return;
+
+    }
+
+    select.disabled =
+        false;
+
+    const parentSections =
+        sections.filter(
+            function (section) {
+
+                return !section.parentId;
+
+            }
+        );
+
+    parentSections.forEach(
+        function (parent) {
+
+            const parentOption =
+                document.createElement(
+                    "option"
+                );
+
+            parentOption.value =
+                parent.id;
+
+            parentOption.textContent =
+                parent.symbol +
+                " " +
+                parent.name;
+
+            select.appendChild(
+                parentOption
+            );
+
+            sections
+                .filter(
+                    function (section) {
+
+                        return (
+                            section.parentId ===
+                            parent.id
+                        );
+
+                    }
+                )
+                .forEach(
+                    function (child) {
+
+                        const childOption =
+                            document.createElement(
+                                "option"
+                            );
+
+                        childOption.value =
+                            child.id;
+
+                        childOption.textContent =
+                            "   └ " +
+                            child.symbol +
+                            " " +
+                            child.name;
+
+                        select.appendChild(
+                            childOption
+                        );
+
+                    }
+                );
 
         }
     );
@@ -1497,6 +1930,15 @@ function getArticleFormData(
             ) ||
             "",
 
+        civilizationSectionId:
+            formData.get(
+                "civilizationSectionId"
+            ) ||
+            formData.get(
+                "civilizationSection"
+            ) ||
+            "",
+
         description:
             formData.get(
                 "description"
@@ -1583,6 +2025,23 @@ function setupArticleCreateForm(
 
             form.reset();
 
+            const sectionSelect =
+                form.elements.namedItem(
+                    "civilizationSectionId"
+                ) ||
+                form.elements.namedItem(
+                    "civilizationSection"
+                );
+
+            if (sectionSelect) {
+
+                renderCivilizationSectionSelect(
+                    sectionSelect,
+                    ""
+                );
+
+            }
+
             window.dispatchEvent(
                 new CustomEvent(
                     "alonArticleCreated",
@@ -1647,6 +2106,14 @@ function setupArticleEditForm(
             "civilization"
         );
 
+    const civilizationSection =
+        form.elements.namedItem(
+            "civilizationSectionId"
+        ) ||
+        form.elements.namedItem(
+            "civilizationSection"
+        );
+
     const description =
         form.elements.namedItem(
             "description"
@@ -1704,6 +2171,18 @@ function setupArticleEditForm(
 
     }
 
+    if (civilizationSection) {
+
+        renderCivilizationSectionSelect(
+            civilizationSection,
+            article.civilizationId || ""
+        );
+
+        civilizationSection.value =
+            article.civilizationSectionId || "";
+
+    }
+
     if (description) {
 
         description.value =
@@ -1753,6 +2232,27 @@ function setupArticleEditForm(
             Array.isArray(article.tags)
                 ? article.tags.join(", ")
                 : "";
+
+    }
+
+
+    if (civilization) {
+
+        civilization.addEventListener(
+            "change",
+            function () {
+
+                if (civilizationSection) {
+
+                    renderCivilizationSectionSelect(
+                        civilizationSection,
+                        civilization.value
+                    );
+
+                }
+
+            }
+        );
 
     }
 
@@ -1889,6 +2389,30 @@ function getCivilizationArticlesURL(
 
 
 /* =========================================================
+   CIVILIZATION SECTION ARTICLE LINK
+   ========================================================= */
+
+function getCivilizationSectionArticlesURL(
+    civilizationId,
+    sectionId
+) {
+
+    return (
+        ALON_ARTICLE_CONFIG.paths.articles +
+        "?civilization=" +
+        encodeURIComponent(
+            civilizationId
+        ) +
+        "&section=" +
+        encodeURIComponent(
+            sectionId
+        )
+    );
+
+}
+
+
+/* =========================================================
    ARTICLE DATA EXPORT
    ========================================================= */
 
@@ -1933,6 +2457,15 @@ window.ALON_ARTICLE = {
     civilizations:
         getArticleCivilizations,
 
+    civilizationSections:
+        getArticleCivilizationSections,
+
+    getCivilization:
+        getCivilizationById,
+
+    getCivilizationSection:
+        getCivilizationSectionById,
+
     categories:
         getArticleCategoriesList,
 
@@ -1969,6 +2502,9 @@ window.ALON_ARTICLE = {
     byCivilization:
         getArticlesByCivilization,
 
+    byCivilizationSection:
+        getArticlesByCivilizationSection,
+
     byCategory:
         getArticlesByCategory,
 
@@ -1981,14 +2517,14 @@ window.ALON_ARTICLE = {
     civilizationCount:
         getCivilizationArticleCount,
 
-    getCivilization:
-        getCivilizationById,
-
-    civilizationURL:
-        getCivilizationArticlesURL,
+    civilizationSectionCount:
+        getCivilizationSectionArticleCount,
 
     renderCivilizationSelect:
         renderCivilizationSelect,
+
+    renderCivilizationSectionSelect:
+        renderCivilizationSectionSelect,
 
     renderCategorySelect:
         renderCategorySelect,
@@ -2004,6 +2540,12 @@ window.ALON_ARTICLE = {
 
     setupDeleteButton:
         setupArticleDeleteButton,
+
+    civilizationURL:
+        getCivilizationArticlesURL,
+
+    civilizationSectionURL:
+        getCivilizationSectionArticlesURL,
 
     export:
         exportArticlesData
@@ -2032,6 +2574,42 @@ function initializeArticleManagement() {
 
         renderCivilizationSelect(
             civilizationSelect
+        );
+
+    }
+
+
+    const civilizationSectionSelect =
+        document.querySelector(
+            '[name="civilizationSectionId"]'
+        ) ||
+        document.querySelector(
+            '[name="civilizationSection"]'
+        ) ||
+        document.getElementById(
+            "articleCivilizationSection"
+        );
+
+    if (
+        civilizationSectionSelect &&
+        civilizationSelect
+    ) {
+
+        renderCivilizationSectionSelect(
+            civilizationSectionSelect,
+            civilizationSelect.value
+        );
+
+        civilizationSelect.addEventListener(
+            "change",
+            function () {
+
+                renderCivilizationSectionSelect(
+                    civilizationSectionSelect,
+                    civilizationSelect.value
+                );
+
+            }
         );
 
     }
