@@ -106,6 +106,91 @@
             display: none !important;
         }
 
+
+        /* =====================================================
+           LIVE FEATURES BAR
+           ===================================================== */
+
+        .ah-live-features {
+            width: 100%;
+            margin: 0 auto 22px;
+            padding: 0;
+        }
+
+        .ah-live-features-title {
+            margin: 0 0 10px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .ah-live-features-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 4px 2px 12px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        .ah-live-features-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .ah-live-feature {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 999px;
+            background: rgba(255,255,255,.035);
+            color: inherit;
+            text-decoration: none;
+            white-space: nowrap;
+            font: inherit;
+            font-size: .92rem;
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                transform .2s ease;
+        }
+
+        .ah-live-feature:hover,
+        .ah-live-feature:focus-visible {
+            background: rgba(215,179,90,.12);
+            border-color: rgba(215,179,90,.75);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .ah-live-feature-primary {
+            border-color: rgba(240,210,122,.65);
+        }
+
+        .ah-live-feature-market {
+            border-color: rgba(90,180,220,.55);
+        }
+
+        .ah-live-feature-luxury {
+            border-color: rgba(190,140,240,.55);
+        }
+
+        .ah-live-feature-jobs {
+            border-color: rgba(100,190,130,.55);
+        }
+
+        .ah-live-feature-media {
+            border-color: rgba(220,110,110,.55);
+        }
+
+        .ah-live-feature-travel {
+            border-color: rgba(100,170,220,.55);
+        }
+
     </style>
 
 </head>
@@ -315,6 +400,297 @@
             heritage and knowledge.
         </p>
 
+
+        <!-- =================================================
+             LIVE FEATURES
+             ABOVE SEARCH BAR
+        ================================================== -->
+
+        <div
+            class="ah-live-features"
+            aria-label="ALON HISTORYVERSE 24 Live Features"
+        >
+
+            <h2 class="ah-live-features-title">
+                🌐 Explore All Features
+            </h2>
+
+
+            <div class="ah-live-features-scroll">
+
+
+                <!-- HISTORY / KNOWLEDGE -->
+
+                <a
+                    class="ah-live-feature ah-live-feature-primary"
+                    href="./civilizations.html"
+                >
+                    🏛️ History
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./civilizations.html"
+                >
+                    🏺 Civilizations
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./gallery.html"
+                >
+                    📷 Photos
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./gallery.html"
+                >
+                    🎥 Videos
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./articles.html"
+                >
+                    📚 Articles
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./library.html"
+                >
+                    📖 Library
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./countries.html"
+                >
+                    🌍 Countries
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./heritage.html"
+                >
+                    🎭 Culture & Heritage
+                </a>
+
+
+                <!-- JOBS -->
+
+                <a
+                    class="ah-live-feature ah-live-feature-jobs"
+                    href="./jobs.html#local-jobs"
+                >
+                    💼 Local Jobs
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-jobs"
+                    href="./jobs.html#international-jobs"
+                >
+                    🌐 International Jobs
+                </a>
+
+
+                <!-- MARKETPLACE -->
+
+                <a
+                    class="ah-live-feature ah-live-feature-market"
+                    href="./marketplace.html"
+                    data-marketplace-link="true"
+                >
+                    🌍 Global Marketplace
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-market"
+                    href="./regular-marketplace.html"
+                >
+                    🛒 Regular Marketplace
+                </a>
+
+
+                <!-- LUXURY -->
+
+                <a
+                    class="ah-live-feature ah-live-feature-luxury"
+                    href="./luxury-lifestyle.html"
+                >
+                    ✨ Luxury Lifestyle
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-luxury"
+                    href="./luxury-lifestyle.html#luxury-rentals"
+                >
+                    🔑 Luxury Rentals
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-luxury"
+                    href="./luxury-lifestyle.html"
+                >
+                    ✈️ Luxury Aircraft
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-luxury"
+                    href="./luxury-lifestyle.html"
+                >
+                    🚁 Helicopters
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-luxury"
+                    href="./luxury-lifestyle.html"
+                >
+                    🚢 Ships & Yachts
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-luxury"
+                    href="./luxury-lifestyle.html"
+                >
+                    💎 Luxury Items
+                </a>
+
+
+                <!-- MEDIA / ENTERTAINMENT -->
+
+                <a
+                    class="ah-live-feature ah-live-feature-media"
+                    href="./movies.html"
+                >
+                    🎬 Movies
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-media"
+                    href="./serials.html"
+                >
+                    📺 Serials
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-media"
+                    href="./podcasts.html"
+                >
+                    🎙️ Podcasts
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-media"
+                    href="./hosting.html"
+                >
+                    🎤 Hosting
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-media"
+                    href="./web-series.html"
+                >
+                    🎞️ Web Series
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-media"
+                    href="./songs.html"
+                >
+                    🎵 Songs
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-media"
+                    href="./albums.html"
+                >
+                    💿 Albums
+                </a>
+
+
+                <!-- SPORTS / GAMES -->
+
+                <a
+                    class="ah-live-feature"
+                    href="./sports.html"
+                >
+                    🏆 Sports
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./games.html"
+                >
+                    🎮 Games
+                </a>
+
+
+                <!-- TRAVEL -->
+
+                <a
+                    class="ah-live-feature ah-live-feature-travel"
+                    href="./tourist-guide.html"
+                >
+                    ✈️ Tourist Guide
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-travel"
+                    href="./tourist-places.html"
+                >
+                    📍 Tourist Places
+                </a>
+
+
+                <!-- COMMUNITY -->
+
+                <a
+                    class="ah-live-feature"
+                    href="./contribute.html"
+                >
+                    🤝 Contribute
+                </a>
+
+
+                <a
+                    class="ah-live-feature"
+                    href="./discover.html"
+                >
+                    🔎 Explore
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SEARCH
+        ================================================== -->
 
         <form
             id="searchForm"
@@ -1001,6 +1377,7 @@
                 <p>
                     Contribute knowledge to ALON HISTORYVERSE 24.
                 </p>
+
             </a>
 
 
@@ -1015,6 +1392,7 @@
                 <p>
                     Read the community guidelines for the platform.
                 </p>
+
             </a>
 
 
@@ -1029,6 +1407,7 @@
                 <p>
                     Contact ALON HISTORYVERSE 24.
                 </p>
+
             </a>
 
         </div>
