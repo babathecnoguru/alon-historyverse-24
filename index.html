@@ -421,6 +421,19 @@
 
     <div class="mobile-menu-section">
 
+        <!-- =================================================
+             BACK
+        ================================================== -->
+
+        <button
+            class="ah-menu-action"
+            id="backBtn"
+            type="button"
+        >
+            ← Back
+        </button>
+
+
         <strong>
             ALON HISTORYVERSE 24
         </strong>
@@ -1006,6 +1019,19 @@
 
 
         <div class="ah-menu-divider"></div>
+
+
+        <!-- =================================================
+             LANGUAGE
+        ================================================== -->
+
+        <button
+            class="ah-menu-action"
+            id="languageBtn"
+            type="button"
+        >
+            🌐 Language
+        </button>
 
 
         <!-- =================================================
@@ -2341,6 +2367,14 @@
         document.getElementById("mobileMenu");
 
 
+    const backBtn =
+        document.getElementById("backBtn");
+
+
+    const languageBtn =
+        document.getElementById("languageBtn");
+
+
     const settingsBtn =
         document.getElementById("settingsBtn");
 
@@ -2430,6 +2464,95 @@
                     openMenu();
 
                 }
+
+            }
+        );
+
+    }
+
+
+    /* =======================================================
+       BACK
+    ======================================================== */
+
+    if (backBtn) {
+
+        backBtn.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    window.history.length > 1
+                ) {
+
+                    window.history.back();
+
+                } else {
+
+                    window.location.href =
+                        "./index.html";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =======================================================
+       LANGUAGE
+    ======================================================== */
+
+    if (languageBtn) {
+
+        languageBtn.addEventListener(
+            "click",
+            function () {
+
+                const languageSystem =
+                    window.ALON_LANGUAGE ||
+                    window.ALON_WORLD_LANGUAGE ||
+                    window.WorldLanguage ||
+                    window.LanguageSystem;
+
+
+                if (
+                    languageSystem &&
+                    typeof languageSystem.open ===
+                        "function"
+                ) {
+
+                    languageSystem.open();
+
+                    return;
+
+                }
+
+
+                const languageButton =
+                    document.querySelector(
+                        "[data-language], #languageButton, #languageSelector, .language-button"
+                    );
+
+
+                if (
+                    languageButton &&
+                    languageButton !== languageBtn
+                ) {
+
+                    languageButton.click();
+
+                    return;
+
+                }
+
+
+                window.dispatchEvent(
+                    new CustomEvent(
+                        "alon:open-language"
+                    )
+                );
 
             }
         );
