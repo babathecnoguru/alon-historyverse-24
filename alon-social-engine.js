@@ -1,49 +1,110 @@
 /* ============================================================
    ALON HISTORYVERSE 24
-   ALON SOCIAL ENGINE
-   Version 1.1.0
+   ALON SOCIAL ENGINE.js
+   Version 2.0.0
    Creator: Baba Thecno Guru
 
-   SOCIAL SYSTEM
+   CENTRAL PUBLIC SOCIAL / ENGAGEMENT ENGINE
    ------------------------------------------------------------
-   Like • Dislike • Comments • Reports
-   Views • Country Reach • Notifications • Analytics
+   Like
+   Dislike
+   Save / Favorite
+   Comments
+   Reports
+   Views
+   Country Reach
+   Aggregate Analytics
+   Notifications
+   Listing Status
+   Sold / Filled / Booked / Rented / Closed
+   Owner Controls
    Context-Restricted Messaging
+   Feature Analytics
+   Public Engagement Helpers
+
+   SUPPORTED PUBLIC SYSTEMS
+   ------------------------------------------------------------
+   Articles
+   Books
+   Countries
+   Civilizations
+   Heritage
+   Timeline
+   Library
+   Global Marketplace
+   Regular Marketplace
+   Marketplace Discovery
+   Local Jobs
+   International Jobs
+   Global Business
+   Local Business
+   Luxury Items
+   Luxury Lifestyle
+   Movies
+   Serials
+   Podcasts
+   Hosting
+   Web Series
+   Songs
+   Albums
+   Sports
+   Games
+   Tourist Guide
+   Tourist Places
+   Plants / Trees / Knowledge
 
    PRIVACY / MESSAGING RULE
    ------------------------------------------------------------
    Messaging is NEVER general user-to-user messaging.
 
-   A message is permitted only when:
-   1. A valid subject/listing/job/business context exists.
-   2. The current user is an authorized participant in that
-      exact context.
-   3. The backend confirms the relationship.
-   4. The recipient belongs to the same authorized context.
+   Allowed contexts:
+   Seller <-> Buyer
+   Business <-> Customer
+   Employer <-> Applicant
 
-   Public messaging data contains only:
+   A message requires:
+   1. Valid context/listing/job/business/product ID.
+   2. Valid relationship.
+   3. Backend authorization in production.
+   4. Recipient belongs to that exact context.
+
+   Public message data:
    - Name
    - Profile photo
    - Selected subject/context
    - Message
    - Timestamp
 
-   Internal IDs are never exposed through the public messaging UI.
+   Internal IDs are never rendered by the public messaging UI.
+
+   SECURITY
+   ------------------------------------------------------------
+   Security/Admin systems are NOT part of this engine.
+
+   localStorage is NOT a secure authorization mechanism.
+
+   Production authorization, real users, real country reach,
+   private messaging and global analytics MUST be handled by
+   the backend/database.
+
+   This engine never fabricates users, views, countries,
+   sales or messages.
 
    IMPORTANT
    ------------------------------------------------------------
-   This engine does NOT replace or modify:
+   This engine does NOT replace:
    - Regular Marketplace
    - Jobs
+   - Global Marketplace
+   - Luxury Lifestyle
+   - Marketplace Discovery
    - Security
    - Admin
-   - Existing navigation
+   - Existing page navigation
    - Existing page design
+   - Existing listing storage
 
-   Client-side localStorage is NOT treated as a secure
-   authorization mechanism.
-
-   Production messaging MUST be authorized by the backend.
+   It acts as a central public engagement layer.
    ============================================================ */
 
 (function (window, document) {
@@ -63,7 +124,7 @@
         ALON.social =
         ALON.social || {};
 
-    SOCIAL.version = "1.1.0";
+    SOCIAL.version = "2.0.0";
     SOCIAL.engine = "ALON SOCIAL ENGINE";
 
 
@@ -81,6 +142,9 @@
 
         dislikes:
             PREFIX + "dislikes",
+
+        saves:
+            PREFIX + "saves",
 
         comments:
             PREFIX + "comments",
@@ -101,7 +165,16 @@
             PREFIX + "analytics",
 
         features:
-            PREFIX + "features"
+            PREFIX + "features",
+
+        statuses:
+            PREFIX + "statuses",
+
+        ownership:
+            PREFIX + "ownership",
+
+        follows:
+            PREFIX + "follows"
     };
 
 
@@ -163,14 +236,15 @@
     function id(prefix) {
 
         return (
-            prefix +
-            "_" +
-            Date.now() +
-            "_" +
-            Math.random()
-                .toString(36)
-                .substring(2, 10)
-        );
+            clean(prefix) ||
+            "social"
+        ) +
+        "_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .substring(2, 10);
     }
 
 
@@ -186,11 +260,40 @@
     }
 
 
+    function normalizeEmail(email) {
+
+        return clean(email).toLowerCase();
+    }
+
+
+    function safeNumber(value) {
+
+        var number =
+            Number(value);
+
+        return Number.isFinite(number)
+            ? number
+            : 0;
+    }
+
+
+    function clone(value) {
+
+        try {
+
+            return JSON.parse(
+                JSON.stringify(value)
+            );
+
+        } catch (error) {
+
+            return value;
+        }
+    }
+
+
     /* ============================================================
        COUNTRY FLAGS
-       ------------------------------------------------------------
-       Only used for presentation of recorded country reach.
-       Counts are never fabricated.
        ============================================================ */
 
     var COUNTRY_FLAGS = {
@@ -213,7 +316,7 @@
         Nepal: "🇳🇵",
         Bangladesh: "🇧🇩",
         Pakistan: "🇵🇰",
-        Sri Lanka: "🇱🇰",
+        "Sri Lanka": "🇱🇰",
         Unknown: "🌍"
     };
 
@@ -232,11 +335,16 @@
 
     /* ============================================================
        CURRENT USER
+       ------------------------------------------------------------
+       This is only a client-side identity hint.
+
+       It MUST NOT be treated as secure authorization.
        ============================================================ */
 
     function currentUser() {
 
         var user = null;
+
 
         try {
 
@@ -251,20 +359,51 @@
 
         if (!user) {
 
-            try {
+            var possibleKeys = [
 
-                var saved =
-                    window.localStorage.getItem(
-                        "alon_historyverse_current_user"
-                    );
+                "alon_historyverse_current_user",
+                "alon_user",
+                "alonUser",
+                "alon_account",
+                "alon_historyverse_user",
+                "alon_historyverse_account",
+                "regular_marketplace_account",
+                "currentUser",
+                "user"
+            ];
 
-                if (saved) {
 
-                    user =
-                        JSON.parse(saved);
-                }
+            for (
+                var i = 0;
+                i < possibleKeys.length;
+                i++
+            ) {
 
-            } catch (error) {}
+                try {
+
+                    var saved =
+                        window.localStorage.getItem(
+                            possibleKeys[i]
+                        );
+
+
+                    if (saved) {
+
+                        var parsed =
+                            JSON.parse(saved);
+
+
+                        if (parsed) {
+
+                            user =
+                                parsed;
+
+                            break;
+                        }
+                    }
+
+                } catch (error) {}
+            }
         }
 
 
@@ -277,6 +416,8 @@
                 name: "Guest",
 
                 photo: "",
+
+                email: "",
 
                 country: "Unknown"
             };
@@ -295,7 +436,8 @@
             name:
                 clean(
                     user.name ||
-                    user.displayName
+                    user.displayName ||
+                    user.ownerName
                 ) || "Guest",
 
             photo:
@@ -305,9 +447,16 @@
                     user.avatar
                 ),
 
+            email:
+                normalizeEmail(
+                    user.email ||
+                    user.ownerEmail
+                ),
+
             country:
                 normalizeCountry(
-                    user.country
+                    user.country ||
+                    user.countryName
                 )
         };
     }
@@ -322,19 +471,32 @@
         options =
             options || {};
 
+
         return {
 
             targetId:
                 clean(
                     options.targetId ||
-                    options.id
+                    options.id ||
+                    options.listingId ||
+                    options.articleId ||
+                    options.jobId ||
+                    options.businessId ||
+                    options.productId
                 ),
 
             targetType:
                 clean(
                     options.targetType ||
-                    options.type
+                    options.type ||
+                    options.contextType
                 ) || "content",
+
+            feature:
+                clean(
+                    options.feature ||
+                    options.featureName
+                ),
 
             listingId:
                 clean(
@@ -359,6 +521,21 @@
             productId:
                 clean(
                     options.productId
+                ),
+
+            subjectId:
+                clean(
+                    options.subjectId
+                ),
+
+            title:
+                clean(
+                    options.title ||
+                    options.subjectTitle ||
+                    options.listingTitle ||
+                    options.productTitle ||
+                    options.jobTitle ||
+                    options.businessName
                 )
         };
     }
@@ -372,6 +549,11 @@
 
         articles: {
             title: "Articles",
+            type: "content"
+        },
+
+        books: {
+            title: "Books",
             type: "content"
         },
 
@@ -397,6 +579,16 @@
 
         library: {
             title: "Library",
+            type: "knowledge"
+        },
+
+        plants: {
+            title: "World Trees & Plants",
+            type: "knowledge"
+        },
+
+        trees: {
+            title: "Trees & Plants",
             type: "knowledge"
         },
 
@@ -513,6 +705,16 @@
         touristPlaces: {
             title: "Tourist Places",
             type: "travel"
+        },
+
+        cultureTourGuide: {
+            title: "Culture Tour Guide",
+            type: "travel"
+        },
+
+        worldCulture: {
+            title: "World Culture",
+            type: "culture"
         }
     };
 
@@ -539,7 +741,10 @@
         var normalized =
             key
                 .toLowerCase()
-                .replace(/[\s_-]/g, "");
+                .replace(
+                    /[\s_-]/g,
+                    ""
+                );
 
 
         var keys =
@@ -557,7 +762,10 @@
             var current =
                 keys[i]
                     .toLowerCase()
-                    .replace(/[\s_-]/g, "");
+                    .replace(
+                        /[\s_-]/g,
+                        ""
+                    );
 
 
             if (
@@ -573,6 +781,63 @@
 
 
         return null;
+    }
+
+
+    /* ============================================================
+       GENERIC USER ACTION STORAGE
+       ============================================================ */
+
+    function userHasAction(data, targetId, userId) {
+
+        if (
+            !data[targetId] ||
+            !Array.isArray(
+                data[targetId].users
+            )
+        ) {
+            return false;
+        }
+
+
+        return (
+            data[targetId]
+                .users
+                .indexOf(userId) !== -1
+        );
+    }
+
+
+    function ensureActionItem(
+        data,
+        targetId
+    ) {
+
+        if (!data[targetId]) {
+
+            data[targetId] = {
+
+                count: 0,
+
+                users: []
+            };
+        }
+
+
+        if (
+            !Array.isArray(
+                data[targetId].users
+            )
+        ) {
+
+            data[targetId].users = [];
+        }
+
+
+        data[targetId].count =
+            safeNumber(
+                data[targetId].count
+            );
     }
 
 
@@ -594,6 +859,7 @@
         var item =
             target(options);
 
+
         if (!item.targetId) {
 
             return {
@@ -613,21 +879,22 @@
             currentUser();
 
 
-        if (!data[item.targetId]) {
+        ensureActionItem(
+            data,
+            item.targetId
+        );
 
-            data[item.targetId] = {
 
-                count: 0,
-
-                users: []
-            };
-        }
-
+        /*
+         * One account cannot create duplicate likes.
+         */
 
         if (
-            data[item.targetId]
-                .users
-                .indexOf(user.id) === -1
+            !userHasAction(
+                data,
+                item.targetId,
+                user.id
+            )
         ) {
 
             data[item.targetId]
@@ -647,7 +914,8 @@
 
         recordAnalytics(
             "like",
-            item
+            item,
+            user.country
         );
 
 
@@ -751,6 +1019,7 @@
         var item =
             target(options);
 
+
         if (!item.targetId) {
 
             return {
@@ -770,21 +1039,18 @@
             currentUser();
 
 
-        if (!data[item.targetId]) {
-
-            data[item.targetId] = {
-
-                count: 0,
-
-                users: []
-            };
-        }
+        ensureActionItem(
+            data,
+            item.targetId
+        );
 
 
         if (
-            data[item.targetId]
-                .users
-                .indexOf(user.id) === -1
+            !userHasAction(
+                data,
+                item.targetId,
+                user.id
+            )
         ) {
 
             data[item.targetId]
@@ -804,7 +1070,8 @@
 
         recordAnalytics(
             "dislike",
-            item
+            item,
+            user.country
         );
 
 
@@ -891,6 +1158,179 @@
 
 
     /* ============================================================
+       SAVE / FAVORITE
+       ============================================================ */
+
+    function getSaves() {
+
+        return read(
+            STORAGE.saves,
+            {}
+        );
+    }
+
+
+    function save(options) {
+
+        var item =
+            target(options);
+
+
+        if (!item.targetId) {
+
+            return {
+
+                success: false,
+
+                error:
+                    "Target ID required."
+            };
+        }
+
+
+        var data =
+            getSaves();
+
+        var user =
+            currentUser();
+
+
+        ensureActionItem(
+            data,
+            item.targetId
+        );
+
+
+        if (
+            !userHasAction(
+                data,
+                item.targetId,
+                user.id
+            )
+        ) {
+
+            data[item.targetId]
+                .users
+                .push(user.id);
+
+            data[item.targetId]
+                .count++;
+        }
+
+
+        write(
+            STORAGE.saves,
+            data
+        );
+
+
+        recordAnalytics(
+            "save",
+            item,
+            user.country
+        );
+
+
+        return {
+
+            success: true,
+
+            saved: true,
+
+            count:
+                data[item.targetId]
+                    .count
+        };
+    }
+
+
+    function unsave(options) {
+
+        var item =
+            target(options);
+
+        var data =
+            getSaves();
+
+        var user =
+            currentUser();
+
+
+        if (!data[item.targetId]) {
+
+            return {
+
+                success: true,
+
+                saved: false,
+
+                count: 0
+            };
+        }
+
+
+        var index =
+            data[item.targetId]
+                .users
+                .indexOf(user.id);
+
+
+        if (index !== -1) {
+
+            data[item.targetId]
+                .users
+                .splice(
+                    index,
+                    1
+                );
+
+            data[item.targetId]
+                .count =
+                Math.max(
+                    0,
+                    data[item.targetId]
+                        .count - 1
+                );
+        }
+
+
+        write(
+            STORAGE.saves,
+            data
+        );
+
+
+        return {
+
+            success: true,
+
+            saved: false,
+
+            count:
+                data[item.targetId]
+                    .count
+        };
+    }
+
+
+    function isSaved(targetId) {
+
+        var data =
+            getSaves();
+
+        var user =
+            currentUser();
+
+
+        return userHasAction(
+            data,
+            targetId,
+            user.id
+        );
+    }
+
+
+    /* ============================================================
        COMMENTS
        ============================================================ */
 
@@ -907,6 +1347,7 @@
 
         options =
             options || {};
+
 
         var item =
             target(options);
@@ -992,7 +1433,8 @@
 
         recordAnalytics(
             "comment",
-            item
+            item,
+            user.country
         );
 
 
@@ -1001,7 +1443,46 @@
             success: true,
 
             comment:
-                comment
+                publicComment(
+                    comment
+                )
+        };
+    }
+
+
+    function publicComment(comment) {
+
+        if (!comment) {
+            return null;
+        }
+
+
+        return {
+
+            id:
+                clean(
+                    comment.id
+                ),
+
+            name:
+                clean(
+                    comment.name
+                ) || "User",
+
+            photo:
+                clean(
+                    comment.photo
+                ),
+
+            text:
+                clean(
+                    comment.text
+                ),
+
+            createdAt:
+                clean(
+                    comment.createdAt
+                )
         };
     }
 
@@ -1018,6 +1499,9 @@
         return (
             data[item.targetId] ||
             []
+        )
+        .map(
+            publicComment
         );
     }
 
@@ -1026,6 +1510,7 @@
 
         options =
             options || {};
+
 
         var item =
             target(options);
@@ -1037,9 +1522,6 @@
 
         var data =
             getComments();
-
-        var user =
-            currentUser();
 
 
         if (
@@ -1074,11 +1556,8 @@
 
 
         /*
-         * The public comment does not expose
-         * the owner's internal ID.
-
-         * For secure production deletion, the
-         * backend must authorize ownership.
+         * Production deletion must be authorized
+         * by backend ownership/moderation logic.
          */
 
         if (
@@ -1089,6 +1568,7 @@
 
             return Promise.resolve(
                 backend.authorizeCommentDelete({
+
                     commentId:
                         commentId,
 
@@ -1116,10 +1596,12 @@
                             1
                         );
 
+
                     write(
                         STORAGE.comments,
                         data
                     );
+
 
                     return {
                         success: true
@@ -1130,7 +1612,9 @@
 
 
         return {
+
             success: false,
+
             error:
                 "Secure comment authorization is required."
         };
@@ -1154,6 +1638,7 @@
 
         options =
             options || {};
+
 
         var item =
             target(options);
@@ -1179,11 +1664,6 @@
         var reports =
             getReports();
 
-
-        /*
-         * Reporter identity is kept only internally.
-         * It is never returned as public content.
-         */
 
         var reportItem = {
 
@@ -1225,7 +1705,8 @@
 
         recordAnalytics(
             "report",
-            item
+            item,
+            currentUser().country
         );
 
 
@@ -1274,6 +1755,7 @@
 
         var item =
             target(options);
+
 
         if (!item.targetId) {
 
@@ -1362,8 +1844,10 @@
                     .total,
 
             countries:
-                data[item.targetId]
-                    .countries
+                clone(
+                    data[item.targetId]
+                        .countries
+                )
         };
     }
 
@@ -1421,9 +1905,11 @@
                         ),
 
                     count:
-                        countries[
-                            country
-                        ]
+                        safeNumber(
+                            countries[
+                                country
+                            ]
+                        )
                 };
             }
         )
@@ -1503,7 +1989,13 @@
 
                 actions: {},
 
-                countries: {}
+                countries: {},
+
+                firstSeen:
+                    timestamp(),
+
+                lastSeen:
+                    timestamp()
             };
         }
 
@@ -1520,6 +2012,11 @@
 
         data[targetId]
             .actions[action]++;
+
+
+        data[targetId]
+            .lastSeen =
+            timestamp();
 
 
         if (country) {
@@ -1567,6 +2064,9 @@
         var dislikes =
             getDislikes();
 
+        var saves =
+            getSaves();
+
         var commentData =
             getComments();
 
@@ -1585,6 +2085,15 @@
 
         var dislikeItem =
             dislikes[targetId] || {
+
+                count: 0,
+
+                users: []
+            };
+
+
+        var saveItem =
+            saves[targetId] || {
 
                 count: 0,
 
@@ -1611,10 +2120,19 @@
                 targetId,
 
             likes:
-                likeItem.count,
+                safeNumber(
+                    likeItem.count
+                ),
 
             dislikes:
-                dislikeItem.count,
+                safeNumber(
+                    dislikeItem.count
+                ),
+
+            saves:
+                safeNumber(
+                    saveItem.count
+                ),
 
             comments:
                 (
@@ -1624,10 +2142,14 @@
                 ).length,
 
             views:
-                viewItem.total,
+                safeNumber(
+                    viewItem.total
+                ),
 
             countries:
-                viewItem.countries,
+                clone(
+                    viewItem.countries
+                ),
 
             countryReach:
                 countryReach(
@@ -1635,16 +2157,25 @@
                 ),
 
             liked:
-                likeItem.users
-                    .indexOf(
-                        user.id
-                    ) !== -1,
+                userHasAction(
+                    likes,
+                    targetId,
+                    user.id
+                ),
 
             disliked:
-                dislikeItem.users
-                    .indexOf(
-                        user.id
-                    ) !== -1
+                userHasAction(
+                    dislikes,
+                    targetId,
+                    user.id
+                ),
+
+            saved:
+                userHasAction(
+                    saves,
+                    targetId,
+                    user.id
+                )
         };
     }
 
@@ -1677,12 +2208,6 @@
             id:
                 id("notification"),
 
-            /*
-             * Internal recipient identity is not
-             * exposed by the public notification
-             * rendering layer.
-             */
-
             recipientId:
                 clean(
                     options.recipientId
@@ -1708,12 +2233,39 @@
                     options.targetId
                 ),
 
+            status:
+                clean(
+                    options.status
+                ),
+
+            contextType:
+                clean(
+                    options.contextType
+                ),
+
             read:
                 false,
 
             createdAt:
                 timestamp()
         };
+
+
+        /*
+         * Without a recipient there is no private
+         * notification delivery.
+         */
+
+        if (!notification.recipientId) {
+
+            return {
+
+                success: false,
+
+                error:
+                    "Recipient is required."
+            };
+        }
 
 
         notifications.unshift(
@@ -1786,6 +2338,12 @@
                         targetId:
                             item.targetId,
 
+                        status:
+                            item.status,
+
+                        contextType:
+                            item.contextType,
+
                         read:
                             item.read,
 
@@ -1797,6 +2355,20 @@
     }
 
 
+    function unreadNotificationCount(userId) {
+
+        return userNotifications(
+            userId
+        )
+        .filter(
+            function (item) {
+
+                return item.read !== true;
+            }
+        ).length;
+    }
+
+
     function readNotification(
         notificationId
     ) {
@@ -1804,7 +2376,11 @@
         var notifications =
             getNotifications();
 
-        var changed = false;
+        var user =
+            currentUser();
+
+        var changed =
+            false;
 
 
         notifications.forEach(
@@ -1812,7 +2388,9 @@
 
                 if (
                     item.id ===
-                    notificationId
+                    notificationId &&
+                    item.recipientId ===
+                    user.id
                 ) {
 
                     item.read =
@@ -1835,8 +2413,387 @@
     }
 
 
+    function deleteNotification(
+        notificationId
+    ) {
+
+        var notifications =
+            getNotifications();
+
+        var user =
+            currentUser();
+
+        var before =
+            notifications.length;
+
+
+        notifications =
+            notifications.filter(
+                function (item) {
+
+                    return !(
+                        item.id ===
+                        notificationId &&
+                        item.recipientId ===
+                        user.id
+                    );
+                }
+            );
+
+
+        write(
+            STORAGE.notifications,
+            notifications
+        );
+
+
+        return (
+            notifications.length !==
+            before
+        );
+    }
+
+
     /* ============================================================
-       MESSAGING RELATIONSHIPS
+       LISTING / ITEM STATUS SYSTEM
+       ============================================================ */
+
+    var STATUS_VALUES = [
+
+        "draft",
+        "active",
+        "pending",
+        "available",
+        "sold",
+        "filled",
+        "closed",
+        "rented",
+        "booked",
+        "cancelled",
+        "expired",
+        "paused"
+    ];
+
+
+    function validStatus(status) {
+
+        return (
+            STATUS_VALUES.indexOf(
+                clean(status).toLowerCase()
+            ) !== -1
+        );
+    }
+
+
+    function getStatuses() {
+
+        return read(
+            STORAGE.statuses,
+            {}
+        );
+    }
+
+
+    function getStatus(targetId) {
+
+        var data =
+            getStatuses();
+
+
+        return (
+            data[targetId] || {
+
+                status: "active",
+
+                updatedAt:
+                    null
+            }
+        );
+    }
+
+
+    function setStatus(options) {
+
+        options =
+            options || {};
+
+
+        var item =
+            target(options);
+
+        var status =
+            clean(
+                options.status
+            ).toLowerCase();
+
+
+        if (!item.targetId) {
+
+            return {
+
+                success: false,
+
+                error:
+                    "Target ID required."
+            };
+        }
+
+
+        if (!validStatus(status)) {
+
+            return {
+
+                success: false,
+
+                error:
+                    "Invalid listing status."
+            };
+        }
+
+
+        var data =
+            getStatuses();
+
+        var oldStatus =
+            data[item.targetId]
+                ? data[item.targetId].status
+                : "active";
+
+
+        /*
+         * Owner/backend authorization.
+         */
+
+        if (
+            backend &&
+            typeof backend.authorizeStatusChange ===
+            "function"
+        ) {
+
+            return Promise.resolve(
+                backend.authorizeStatusChange({
+
+                    target:
+                        item,
+
+                    oldStatus:
+                        oldStatus,
+
+                    newStatus:
+                        status
+                })
+            )
+            .then(
+                function (authorized) {
+
+                    if (
+                        !authorized ||
+                        authorized.success !== true
+                    ) {
+
+                        return {
+
+                            success: false,
+
+                            error:
+                                authorized &&
+                                authorized.error
+                                    ? authorized.error
+                                    : "Status change denied."
+                        };
+                    }
+
+
+                    return saveStatusChange(
+                        data,
+                        item,
+                        oldStatus,
+                        status
+                    );
+                }
+            );
+        }
+
+
+        /*
+         * Local mode is useful for existing frontend
+         * systems, but is not secure authorization.
+         */
+
+        var result =
+            saveStatusChange(
+                data,
+                item,
+                oldStatus,
+                status
+            );
+
+
+        return result;
+    }
+
+
+    function saveStatusChange(
+        data,
+        item,
+        oldStatus,
+        status
+    ) {
+
+        data[item.targetId] = {
+
+            status:
+                status,
+
+            previousStatus:
+                oldStatus,
+
+            updatedAt:
+                timestamp()
+        };
+
+
+        write(
+            STORAGE.statuses,
+            data
+        );
+
+
+        recordAnalytics(
+            "status_" + status,
+            item,
+            currentUser().country
+        );
+
+
+        /*
+         * Context notification can be sent by the
+         * backend when a real recipient exists.
+         */
+
+        if (
+            backend &&
+            typeof backend.notifyStatusChange ===
+            "function"
+        ) {
+
+            try {
+
+                backend.notifyStatusChange({
+
+                    target:
+                        item,
+
+                    oldStatus:
+                        oldStatus,
+
+                    newStatus:
+                        status
+                });
+
+            } catch (error) {}
+        }
+
+
+        return {
+
+            success: true,
+
+            status:
+                status,
+
+            previousStatus:
+                oldStatus
+        };
+    }
+
+
+    function markSold(options) {
+
+        options =
+            options || {};
+
+        options.status =
+            "sold";
+
+        return setStatus(
+            options
+        );
+    }
+
+
+    function markFilled(options) {
+
+        options =
+            options || {};
+
+        options.status =
+            "filled";
+
+        return setStatus(
+            options
+        );
+    }
+
+
+    function markBooked(options) {
+
+        options =
+            options || {};
+
+        options.status =
+            "booked";
+
+        return setStatus(
+            options
+        );
+    }
+
+
+    function markRented(options) {
+
+        options =
+            options || {};
+
+        options.status =
+            "rented";
+
+        return setStatus(
+            options
+        );
+    }
+
+
+    function markClosed(options) {
+
+        options =
+            options || {};
+
+        options.status =
+            "closed";
+
+        return setStatus(
+            options
+        );
+    }
+
+
+    function reopenListing(options) {
+
+        options =
+            options || {};
+
+        options.status =
+            "active";
+
+        return setStatus(
+            options
+        );
+    }
+
+
+    /* ============================================================
+       MESSAGE RELATIONSHIPS
        ============================================================ */
 
     var MESSAGE_RELATIONSHIPS = [
@@ -1892,6 +2849,11 @@
                     options.targetType ||
                     options.type
                 ).toLowerCase(),
+
+            feature:
+                clean(
+                    options.feature
+                ),
 
             listingId:
                 clean(
@@ -2004,7 +2966,10 @@
 
                 success: false,
 
-                localOnly: true
+                localOnly: true,
+
+                error:
+                    "Backend method is not configured."
             });
         }
 
@@ -2032,12 +2997,6 @@
 
     /* ============================================================
        MESSAGE AUTHORIZATION
-       ------------------------------------------------------------
-       IMPORTANT:
-       The browser cannot prove that two users have a real
-       seller/buyer or business/customer relationship.
-
-       Therefore production messaging requires the backend.
        ============================================================ */
 
     function authorizeMessage(
@@ -2102,42 +3061,29 @@
         }
 
 
-        var user =
-            currentUser();
-
-
-        /*
-         * Only the current session is sent to the
-         * backend. The public UI never receives the
-         * internal IDs of the other participant.
-         */
-
-        var request = {
-
-            relationship:
-                relationship,
-
-            context:
-                getMessageContext(
-                    options
-                ),
-
-            subjectTitle:
-                getMessageContext(
-                    options
-                ).subjectTitle,
-
-            currentUserSession:
-                !!user.id
-        };
+        var context =
+            getMessageContext(
+                options
+            );
 
 
         try {
 
             return Promise.resolve(
-                backend.authorizeMessage(
-                    request
-                )
+                backend.authorizeMessage({
+
+                    relationship:
+                        relationship,
+
+                    context:
+                        context,
+
+                    subjectTitle:
+                        context.subjectTitle,
+
+                    currentUserSession:
+                        true
+                })
             );
 
         } catch (error) {
@@ -2186,7 +3132,8 @@
 
             subject:
                 clean(
-                    message.subject
+                    message.subject ||
+                    message.subjectTitle
                 ),
 
             message:
@@ -2236,7 +3183,11 @@
             );
 
 
-        if (!hasMessageContext(options)) {
+        if (
+            !hasMessageContext(
+                options
+            )
+        ) {
 
             return Promise.resolve({
 
@@ -2273,12 +3224,21 @@
                 }
 
 
-                /*
-                 * The backend decides the actual recipient.
-                 *
-                 * The client does NOT accept an arbitrary
-                 * recipient ID from the user.
-                 */
+                if (
+                    !backend ||
+                    typeof backend.sendContextMessage !==
+                    "function"
+                ) {
+
+                    return {
+
+                        success: false,
+
+                        error:
+                            "Secure message delivery is not configured."
+                    };
+                }
+
 
                 var sendPayload = {
 
@@ -2295,64 +3255,57 @@
                 };
 
 
-                if (
-                    typeof backend.sendContextMessage !==
-                    "function"
-                ) {
+                try {
+
+                    return Promise.resolve(
+                        backend.sendContextMessage(
+                            sendPayload
+                        )
+                    )
+                    .then(
+                        function (result) {
+
+                            if (
+                                !result ||
+                                result.success !==
+                                true
+                            ) {
+
+                                return {
+
+                                    success: false,
+
+                                    error:
+                                        result &&
+                                        result.error
+                                            ? result.error
+                                            : "Message was not delivered."
+                                };
+                            }
+
+
+                            return {
+
+                                success: true,
+
+                                message:
+                                    publicMessage(
+                                        result.message
+                                    )
+                            };
+                        }
+                    );
+
+                } catch (error) {
 
                     return {
 
                         success: false,
 
                         error:
-                            "Secure message delivery is not configured."
+                            error.message
                     };
                 }
-
-
-                return Promise.resolve(
-                    backend.sendContextMessage(
-                        sendPayload
-                    )
-                )
-                .then(
-                    function (result) {
-
-                        if (
-                            !result ||
-                            result.success !==
-                            true
-                        ) {
-
-                            return {
-
-                                success: false,
-
-                                error:
-                                    result &&
-                                    result.error
-                                        ? result.error
-                                        : "Message was not delivered."
-                            };
-                        }
-
-
-                        /*
-                         * Only public-safe message data
-                         * is returned to the page.
-                         */
-
-                        return {
-
-                            success: true,
-
-                            message:
-                                publicMessage(
-                                    result.message
-                                )
-                        };
-                    }
-                );
             }
         );
     }
@@ -2360,9 +3313,6 @@
 
     /* ============================================================
        CONVERSATION
-       ------------------------------------------------------------
-       Conversation is context-based.
-       A raw conversation ID is NOT accepted as authorization.
        ============================================================ */
 
     function conversation(options) {
@@ -2403,9 +3353,11 @@
         }
 
 
-        return Promise.resolve(
-            backend.getContextConversation(
-                {
+        try {
+
+            return Promise.resolve(
+                backend.getContextConversation({
+
                     context:
                         getMessageContext(
                             options
@@ -2415,45 +3367,55 @@
                         clean(
                             options.relationship
                         ).toLowerCase()
-                }
+                })
             )
-        )
-        .then(
-            function (result) {
+            .then(
+                function (result) {
 
-                if (
-                    !result ||
-                    result.success !== true
-                ) {
+                    if (
+                        !result ||
+                        result.success !== true
+                    ) {
+
+                        return {
+
+                            success: false,
+
+                            error:
+                                result &&
+                                result.error
+                                    ? result.error
+                                    : "Conversation access denied."
+                        };
+                    }
+
 
                     return {
 
-                        success: false,
+                        success: true,
 
-                        error:
-                            result &&
-                            result.error
-                                ? result.error
-                                : "Conversation access denied."
+                        messages:
+                            (
+                                result.messages ||
+                                []
+                            )
+                            .map(
+                                publicMessage
+                            )
                     };
                 }
+            );
 
+        } catch (error) {
 
-                return {
+            return Promise.resolve({
 
-                    success: true,
+                success: false,
 
-                    messages:
-                        (
-                            result.messages ||
-                            []
-                        )
-                        .map(
-                            publicMessage
-                        )
-                };
-            }
-        );
+                error:
+                    error.message
+            });
+        }
     }
 
 
@@ -2473,7 +3435,10 @@
 
             return {
 
-                success: false
+                success: false,
+
+                error:
+                    "Unknown feature."
             };
         }
 
@@ -2502,13 +3467,21 @@
                     meta.type,
 
                 opens:
-                    0
+                    0,
+
+                lastOpened:
+                    null
             };
         }
 
 
         data[key]
             .opens++;
+
+
+        data[key]
+            .lastOpened =
+            timestamp();
 
 
         write(
@@ -2522,7 +3495,9 @@
             success: true,
 
             feature:
-                data[key]
+                clone(
+                    data[key]
+                )
         };
     }
 
@@ -2590,6 +3565,429 @@
 
 
     /* ============================================================
+       AUTO VIEW TRACKING
+       ------------------------------------------------------------
+       Any element with:
+       data-social-target="ID"
+
+       may automatically record one view when it
+       enters the page.
+
+       Pages can also call recordView() directly.
+       ============================================================ */
+
+    function bindViewTracking(root) {
+
+        root =
+            root ||
+            document;
+
+
+        var elements =
+            root.querySelectorAll(
+                "[data-social-target]"
+            );
+
+
+        for (
+            var i = 0;
+            i < elements.length;
+            i++
+        ) {
+
+            if (
+                elements[i]
+                    .dataset
+                    .alonViewBound ===
+                "true"
+            ) {
+
+                continue;
+            }
+
+
+            elements[i]
+                .dataset
+                .alonViewBound =
+                "true";
+
+
+            (
+                function (element) {
+
+                    var targetId =
+                        clean(
+                            element.getAttribute(
+                                "data-social-target"
+                            )
+                        );
+
+
+                    var targetType =
+                        clean(
+                            element.getAttribute(
+                                "data-social-type"
+                            )
+                        ) ||
+                        "content";
+
+
+                    if (!targetId) {
+                        return;
+                    }
+
+
+                    if (
+                        "IntersectionObserver" in
+                        window
+                    ) {
+
+                        var observer =
+                            new IntersectionObserver(
+                                function (
+                                    entries,
+                                    observerInstance
+                                ) {
+
+                                    entries.forEach(
+                                        function (entry) {
+
+                                            if (
+                                                entry.isIntersecting
+                                            ) {
+
+                                                recordView({
+
+                                                    targetId:
+                                                        targetId,
+
+                                                    targetType:
+                                                        targetType
+                                                });
+
+
+                                                observerInstance
+                                                    .unobserve(
+                                                        element
+                                                    );
+                                            }
+                                        }
+                                    );
+                                },
+                                {
+                                    threshold:
+                                        0.25
+                                }
+                            );
+
+
+                        observer.observe(
+                            element
+                        );
+
+                    } else {
+
+                        recordView({
+
+                            targetId:
+                                targetId,
+
+                            targetType:
+                                targetType
+                        });
+                    }
+
+                }
+            )(
+                elements[i]
+            );
+        }
+
+
+        return elements.length;
+    }
+
+
+    /* ============================================================
+       OWNER / LISTING CONTEXT
+       ============================================================ */
+
+    function setOwnership(options) {
+
+        options =
+            options || {};
+
+
+        var item =
+            target(options);
+
+
+        if (!item.targetId) {
+
+            return {
+
+                success: false,
+
+                error:
+                    "Target ID required."
+            };
+        }
+
+
+        var user =
+            currentUser();
+
+
+        var data =
+            read(
+                STORAGE.ownership,
+                {}
+            );
+
+
+        data[item.targetId] = {
+
+            ownerId:
+                clean(
+                    options.ownerId
+                ) || user.id,
+
+            ownerName:
+                clean(
+                    options.ownerName
+                ) || user.name,
+
+            ownerEmail:
+                normalizeEmail(
+                    options.ownerEmail
+                ) || user.email,
+
+            updatedAt:
+                timestamp()
+        };
+
+
+        write(
+            STORAGE.ownership,
+            data
+        );
+
+
+        return {
+
+            success: true
+        };
+    }
+
+
+    function getOwnership(targetId) {
+
+        var data =
+            read(
+                STORAGE.ownership,
+                {}
+            );
+
+
+        return (
+            data[targetId] ||
+            null
+        );
+    }
+
+
+    function isOwner(options) {
+
+        options =
+            options || {};
+
+
+        var item =
+            target(options);
+
+        var owner =
+            getOwnership(
+                item.targetId
+            );
+
+        var user =
+            currentUser();
+
+
+        if (!owner) {
+
+            return false;
+        }
+
+
+        return (
+            (
+                owner.ownerId &&
+                owner.ownerId ===
+                user.id
+            ) ||
+            (
+                owner.ownerEmail &&
+                owner.ownerEmail ===
+                user.email
+            )
+        );
+    }
+
+
+    /* ============================================================
+       GENERIC OWNER DELETE AUTHORIZATION
+       ============================================================ */
+
+    function authorizeOwnerAction(
+        options
+    ) {
+
+        options =
+            options || {};
+
+
+        var item =
+            target(options);
+
+
+        if (!item.targetId) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "Target ID required."
+            });
+        }
+
+
+        if (
+            backend &&
+            typeof backend.authorizeOwnerAction ===
+            "function"
+        ) {
+
+            try {
+
+                return Promise.resolve(
+                    backend.authorizeOwnerAction({
+
+                        action:
+                            clean(
+                                options.action
+                            ),
+
+                        target:
+                            item
+                    })
+                );
+
+            } catch (error) {
+
+                return Promise.resolve({
+
+                    success: false,
+
+                    error:
+                        error.message
+                });
+            }
+        }
+
+
+        /*
+         * Frontend fallback.
+         * This is NOT secure authorization.
+         */
+
+        return Promise.resolve({
+
+            success:
+                isOwner(
+                    item
+                ),
+
+            localOnly:
+                true,
+
+            error:
+                "Backend owner authorization is not configured."
+        });
+    }
+
+
+    /* ============================================================
+       FEATURE / TARGET SUMMARY
+       ============================================================ */
+
+    function fullSummary(options) {
+
+        var item =
+            target(options);
+
+
+        if (!item.targetId) {
+
+            return {
+
+                success: false,
+
+                error:
+                    "Target ID required."
+            };
+        }
+
+
+        var social =
+            stats(
+                item.targetId
+            );
+
+
+        var status =
+            getStatus(
+                item.targetId
+            );
+
+
+        var ownership =
+            getOwnership(
+                item.targetId
+            );
+
+
+        return {
+
+            success: true,
+
+            target:
+                item,
+
+            social:
+                social,
+
+            status:
+                status,
+
+            ownership:
+                ownership,
+
+            owner:
+                isOwner(
+                    item
+                ),
+
+            countryReach:
+                countryReach(
+                    item.targetId
+                )
+        };
+    }
+
+
+    /* ============================================================
        PUBLIC API
        ============================================================ */
 
@@ -2598,6 +3996,9 @@
 
     SOCIAL.getFeature =
         getFeature;
+
+    SOCIAL.target =
+        target;
 
     SOCIAL.like =
         like;
@@ -2610,6 +4011,15 @@
 
     SOCIAL.undislike =
         undislike;
+
+    SOCIAL.save =
+        save;
+
+    SOCIAL.unsave =
+        unsave;
+
+    SOCIAL.isSaved =
+        isSaved;
 
     SOCIAL.addComment =
         addComment;
@@ -2638,14 +4048,47 @@
     SOCIAL.stats =
         stats;
 
+    SOCIAL.fullSummary =
+        fullSummary;
+
     SOCIAL.notify =
         notify;
 
     SOCIAL.notifications =
         userNotifications;
 
+    SOCIAL.unreadNotificationCount =
+        unreadNotificationCount;
+
     SOCIAL.readNotification =
         readNotification;
+
+    SOCIAL.deleteNotification =
+        deleteNotification;
+
+    SOCIAL.getStatus =
+        getStatus;
+
+    SOCIAL.setStatus =
+        setStatus;
+
+    SOCIAL.markSold =
+        markSold;
+
+    SOCIAL.markFilled =
+        markFilled;
+
+    SOCIAL.markBooked =
+        markBooked;
+
+    SOCIAL.markRented =
+        markRented;
+
+    SOCIAL.markClosed =
+        markClosed;
+
+    SOCIAL.reopenListing =
+        reopenListing;
 
     SOCIAL.canMessage =
         canMessage;
@@ -2664,6 +4107,21 @@
 
     SOCIAL.bindFeatureLinks =
         bindFeatureLinks;
+
+    SOCIAL.bindViewTracking =
+        bindViewTracking;
+
+    SOCIAL.setOwnership =
+        setOwnership;
+
+    SOCIAL.getOwnership =
+        getOwnership;
+
+    SOCIAL.isOwner =
+        isOwner;
+
+    SOCIAL.authorizeOwnerAction =
+        authorizeOwnerAction;
 
     SOCIAL.setBackend =
         setBackend;
@@ -2684,7 +4142,7 @@
 
 
     /* ============================================================
-       INITIALIZATION
+       READY EVENT
        ============================================================ */
 
     function initialize() {
@@ -2698,10 +4156,19 @@
         } catch (error) {
 
             /*
-             * Social engine errors must never
-             * stop the main website.
+             * Social errors must never stop
+             * the main website.
              */
         }
+
+
+        try {
+
+            bindViewTracking(
+                document
+            );
+
+        } catch (error) {}
 
 
         try {
@@ -2716,7 +4183,12 @@
                                 SOCIAL.version,
 
                             engine:
-                                SOCIAL.engine
+                                SOCIAL.engine,
+
+                            features:
+                                Object.keys(
+                                    FEATURE_META
+                                )
                         }
                     }
                 )
@@ -2726,6 +4198,97 @@
     }
 
 
+    /* ============================================================
+       DYNAMIC CONTENT SUPPORT
+       ------------------------------------------------------------
+       Existing Marketplace / Jobs / Discovery pages create
+       content dynamically. A lightweight observer allows the
+       central engine to recognize newly inserted data-feature
+       and data-social-target elements without replacing the
+       existing page code.
+       ============================================================ */
+
+    function observeDynamicContent() {
+
+        if (
+            !window.MutationObserver
+        ) {
+            return;
+        }
+
+
+        var observer =
+            new MutationObserver(
+                function (mutations) {
+
+                    var shouldBind =
+                        false;
+
+
+                    for (
+                        var i = 0;
+                        i < mutations.length;
+                        i++
+                    ) {
+
+                        if (
+                            mutations[i]
+                                .addedNodes
+                                .length
+                        ) {
+
+                            shouldBind =
+                                true;
+
+                            break;
+                        }
+                    }
+
+
+                    if (!shouldBind) {
+                        return;
+                    }
+
+
+                    try {
+
+                        bindFeatureLinks(
+                            document
+                        );
+
+                    } catch (error) {}
+
+
+                    try {
+
+                        bindViewTracking(
+                            document
+                        );
+
+                    } catch (error) {}
+
+                }
+            );
+
+
+        try {
+
+            observer.observe(
+                document.documentElement,
+                {
+                    childList: true,
+                    subtree: true
+                }
+            );
+
+        } catch (error) {}
+    }
+
+
+    /* ============================================================
+       INITIALIZATION
+       ============================================================ */
+
     if (
         document.readyState ===
         "loading"
@@ -2733,7 +4296,13 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            initialize,
+            function () {
+
+                initialize();
+
+                observeDynamicContent();
+
+            },
             {
                 once: true
             }
@@ -2742,6 +4311,8 @@
     } else {
 
         initialize();
+
+        observeDynamicContent();
     }
 
 

@@ -108,6 +108,117 @@
 
 
         /* =====================================================
+           SOCIAL / FEATURE MENU
+           ===================================================== */
+
+        .ah-social-menu {
+            width: 100%;
+            margin-top: 14px;
+        }
+
+        .ah-social-menu-title {
+            margin: 0 0 10px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .ah-social-menu-subtitle {
+            margin: 0 0 12px;
+            opacity: .72;
+            font-size: .84rem;
+            line-height: 1.45;
+        }
+
+        .ah-social-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+            width: 100%;
+        }
+
+        .ah-social-menu-box {
+            min-width: 0;
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid rgba(215,179,90,.30);
+            border-radius: 12px;
+            background: linear-gradient(
+                145deg,
+                rgba(255,255,255,.045),
+                rgba(255,255,255,.015)
+            );
+            color: inherit;
+            padding: 10px 8px;
+            font-size: .84rem;
+            line-height: 1.25;
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                transform .2s ease;
+        }
+
+        .ah-social-menu-box:hover,
+        .ah-social-menu-box:focus-visible {
+            background: rgba(215,179,90,.12);
+            border-color: rgba(240,210,122,.70);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .ah-social-menu-box-primary {
+            border-color: rgba(240,210,122,.65);
+        }
+
+        .ah-social-menu-box-market {
+            border-color: rgba(90,180,220,.55);
+        }
+
+        .ah-social-menu-box-jobs {
+            border-color: rgba(100,190,130,.55);
+        }
+
+        .ah-social-menu-box-luxury {
+            border-color: rgba(190,140,240,.55);
+        }
+
+        .ah-social-menu-box-media {
+            border-color: rgba(220,110,110,.55);
+        }
+
+        .ah-social-menu-box-travel {
+            border-color: rgba(100,170,220,.55);
+        }
+
+        .ah-social-menu-box-community {
+            border-color: rgba(90,190,180,.55);
+        }
+
+        .ah-social-menu-box-control {
+            border-color: rgba(215,179,90,.50);
+        }
+
+        .ah-social-menu-full {
+            grid-column: 1 / -1;
+        }
+
+        .ah-social-menu-section {
+            margin-top: 16px;
+        }
+
+        .ah-social-menu-section-title {
+            margin: 0 0 8px;
+            font-size: .82rem;
+            opacity: .72;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+
+        /* =====================================================
            LIVE FEATURES BAR
            ===================================================== */
 
@@ -315,6 +426,591 @@
         </strong>
 
         <div class="ah-menu-divider"></div>
+
+
+        <!-- =================================================
+             CENTRAL SOCIAL / FEATURE MENU
+        ================================================== -->
+
+        <div
+            class="ah-social-menu"
+            aria-label="ALON HISTORYVERSE 24 Social and Feature Menu"
+        >
+
+            <h3 class="ah-social-menu-title">
+                🌐 Social &amp; Features
+            </h3>
+
+            <p class="ah-social-menu-subtitle">
+                Open the public feature systems, activity,
+                notifications and engagement controls.
+            </p>
+
+
+            <!-- =============================================
+                 SOCIAL CONTROLS
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Social Controls
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-primary"
+                        href="./index.html#ah-status"
+                        data-feature="social-dashboard"
+                    >
+                        📊 Social Dashboard
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-control"
+                        href="./index.html#ah-status"
+                        data-feature="notifications"
+                    >
+                        🔔 Notifications
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-control"
+                        href="./index.html#ah-status"
+                        data-feature="messages"
+                    >
+                        💬 Private Messages
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-control"
+                        href="./index.html#ah-status"
+                        data-feature="activity"
+                    >
+                        ❤️ Activity
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 HISTORY / KNOWLEDGE
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    History &amp; Knowledge
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-primary"
+                        href="./civilizations.html"
+                        data-feature="history"
+                    >
+                        🏛️ History
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./civilizations.html"
+                        data-feature="civilizations"
+                    >
+                        🏺 Civilizations
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./countries.html"
+                        data-feature="countries"
+                    >
+                        🌍 Countries
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./heritage.html"
+                        data-feature="culture-heritage"
+                    >
+                        🎭 Culture &amp; Heritage
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./timeline.html"
+                        data-feature="timeline"
+                    >
+                        🕰️ Timeline
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./articles.html"
+                        data-feature="articles"
+                    >
+                        📚 Articles
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./library.html"
+                        data-feature="library"
+                    >
+                        📖 Library
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./book.html"
+                        data-feature="books"
+                    >
+                        📕 Books
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./trees.html"
+                        data-feature="trees"
+                    >
+                        🌳 Trees
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 BUSINESS
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Business
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-market"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="business"
+                    >
+                        🏢 Business
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-market"
+                        href="./marketplace.html"
+                        data-feature="global-business"
+                    >
+                        🌐 Global Business
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-market"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="local-business"
+                    >
+                        🏪 Local Business
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-market"
+                        href="./regular-marketplace.html"
+                        data-feature="showroom"
+                    >
+                        🏬 Showroom
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 JOBS
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Jobs &amp; Careers
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-jobs"
+                        href="./jobs.html#local-jobs"
+                        data-feature="local-jobs"
+                    >
+                        💼 Local Jobs
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-jobs"
+                        href="./jobs.html#international-jobs"
+                        data-feature="international-jobs"
+                    >
+                        🌐 International Jobs
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-jobs ah-social-menu-full"
+                        href="./jobs.html"
+                        data-feature="jobs"
+                    >
+                        👥 Jobs &amp; Careers
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 MARKETPLACE
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Marketplace
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-market"
+                        href="./marketplace.html"
+                        data-feature="global-marketplace"
+                    >
+                        🌍 Global Marketplace
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-market"
+                        href="./regular-marketplace.html"
+                        data-feature="regular-marketplace"
+                    >
+                        🛒 Regular Marketplace
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-market ah-social-menu-full"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="marketplace-discovery"
+                    >
+                        🔎 Marketplace Discovery
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 LUXURY
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Luxury Lifestyle
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-luxury"
+                        href="./luxury-lifestyle.html"
+                        data-feature="luxury-lifestyle"
+                    >
+                        ✨ Luxury Lifestyle
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-luxury"
+                        href="./luxury-lifestyle.html#luxury-rentals"
+                        data-feature="luxury-rentals"
+                    >
+                        🔑 Luxury Rentals
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-luxury"
+                        href="./luxury-lifestyle.html"
+                        data-feature="luxury-aircraft"
+                    >
+                        ✈️ Luxury Aircraft
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-luxury"
+                        href="./luxury-lifestyle.html"
+                        data-feature="helicopters"
+                    >
+                        🚁 Helicopters
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-luxury"
+                        href="./luxury-lifestyle.html"
+                        data-feature="ships-yachts"
+                    >
+                        🚢 Ships &amp; Yachts
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-luxury"
+                        href="./luxury-lifestyle.html"
+                        data-feature="luxury-items"
+                    >
+                        💎 Luxury Items
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 MEDIA / ENTERTAINMENT
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Media &amp; Entertainment
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./gallery.html"
+                        data-feature="photos"
+                    >
+                        📷 Photos
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./gallery.html"
+                        data-feature="videos"
+                    >
+                        🎥 Videos
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="movies"
+                    >
+                        🎬 Movies
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="serials"
+                    >
+                        📺 Serials
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="podcasts"
+                    >
+                        🎙️ Podcasts
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="hosting"
+                    >
+                        🎤 Hosting
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="web-series"
+                    >
+                        🎞️ Web Series
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="songs"
+                    >
+                        🎵 Songs
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-media"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="albums"
+                    >
+                        💿 Albums
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 SPORTS / GAMES
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Sports &amp; Games
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="sports"
+                    >
+                        🏆 Sports
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="games"
+                    >
+                        🎮 Games
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 TRAVEL
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Travel
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-travel"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="tourist-guide"
+                    >
+                        ✈️ Tourist Guide
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-travel"
+                        href="./regular-marketplace.html#rmDiscoveryHub"
+                        data-feature="tourist-places"
+                    >
+                        📍 Tourist Places
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 COMMUNITY
+            ============================================== -->
+
+            <div class="ah-social-menu-section">
+
+                <h4 class="ah-social-menu-section-title">
+                    Community
+                </h4>
+
+                <div class="ah-social-menu-grid">
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-community"
+                        href="./contribute.html"
+                        data-feature="contribute"
+                    >
+                        🤝 Contribute
+                    </a>
+
+
+                    <a
+                        class="ah-social-menu-box ah-social-menu-box-community"
+                        href="./discover.html"
+                        data-feature="explore"
+                    >
+                        🔎 Explore
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ah-menu-divider"></div>
+
+
+        <!-- =================================================
+             EXISTING SETTINGS / LOGOUT
+        ================================================== -->
 
         <button
             class="ah-menu-action"
