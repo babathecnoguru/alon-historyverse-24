@@ -1,20 +1,38 @@
 /* ============================================================
    ALON HISTORYVERSE 24
    ALON SOCIAL ENGINE
-   Version 1.0.0
+   Version 1.1.0
    Creator: Baba Thecno Guru
 
    SOCIAL SYSTEM
    ------------------------------------------------------------
    Like • Dislike • Comments • Reports
    Views • Country Reach • Notifications • Analytics
-   Seller ↔ Buyer Messaging
+   Context-Restricted Messaging
+
+   PRIVACY / MESSAGING RULE
+   ------------------------------------------------------------
+   Messaging is NEVER general user-to-user messaging.
+
+   A message is permitted only when:
+   1. A valid subject/listing/job/business context exists.
+   2. The current user is an authorized participant in that
+      exact context.
+   3. The backend confirms the relationship.
+   4. The recipient belongs to the same authorized context.
+
+   Public messaging data contains only:
+   - Name
+   - Profile photo
+   - Selected subject/context
+   - Message
+   - Timestamp
+
+   Internal IDs are never exposed through the public messaging UI.
 
    IMPORTANT
    ------------------------------------------------------------
-   This engine is designed as a standalone layer.
-
-   It does NOT replace or modify:
+   This engine does NOT replace or modify:
    - Regular Marketplace
    - Jobs
    - Security
@@ -22,14 +40,16 @@
    - Existing navigation
    - Existing page design
 
-   Messaging is NOT general user-to-user messaging.
-   It is allowed only when a valid business/listing/
-   transaction relationship exists.
+   Client-side localStorage is NOT treated as a secure
+   authorization mechanism.
+
+   Production messaging MUST be authorized by the backend.
    ============================================================ */
 
 (function (window, document) {
 
     "use strict";
+
 
     /* ============================================================
        ROOT
@@ -43,7 +63,7 @@
         ALON.social =
         ALON.social || {};
 
-    SOCIAL.version = "1.0.0";
+    SOCIAL.version = "1.1.0";
     SOCIAL.engine = "ALON SOCIAL ENGINE";
 
 
@@ -167,6 +187,50 @@
 
 
     /* ============================================================
+       COUNTRY FLAGS
+       ------------------------------------------------------------
+       Only used for presentation of recorded country reach.
+       Counts are never fabricated.
+       ============================================================ */
+
+    var COUNTRY_FLAGS = {
+
+        India: "🇮🇳",
+        "United States": "🇺🇸",
+        "United Kingdom": "🇬🇧",
+        Canada: "🇨🇦",
+        Australia: "🇦🇺",
+        Germany: "🇩🇪",
+        France: "🇫🇷",
+        Italy: "🇮🇹",
+        Spain: "🇪🇸",
+        Japan: "🇯🇵",
+        China: "🇨🇳",
+        Brazil: "🇧🇷",
+        Russia: "🇷🇺",
+        UAE: "🇦🇪",
+        Singapore: "🇸🇬",
+        Nepal: "🇳🇵",
+        Bangladesh: "🇧🇩",
+        Pakistan: "🇵🇰",
+        Sri Lanka: "🇱🇰",
+        Unknown: "🌍"
+    };
+
+
+    function countryFlag(country) {
+
+        country =
+            normalizeCountry(country);
+
+        return (
+            COUNTRY_FLAGS[country] ||
+            "🌍"
+        );
+    }
+
+
+    /* ============================================================
        CURRENT USER
        ============================================================ */
 
@@ -176,9 +240,7 @@
 
         try {
 
-            if (
-                ALON.currentUser
-            ) {
+            if (ALON.currentUser) {
 
                 user =
                     ALON.currentUser;
@@ -197,7 +259,9 @@
                     );
 
                 if (saved) {
-                    user = JSON.parse(saved);
+
+                    user =
+                        JSON.parse(saved);
                 }
 
             } catch (error) {}
@@ -336,8 +400,23 @@
             type: "knowledge"
         },
 
+        shell: {
+            title: "Shankh",
+            type: "knowledge"
+        },
+
+        shankh: {
+            title: "Shankh",
+            type: "knowledge"
+        },
+
         marketplace: {
             title: "Marketplace",
+            type: "marketplace"
+        },
+
+        globalMarketplace: {
+            title: "Global Marketplace",
             type: "marketplace"
         },
 
@@ -451,9 +530,7 @@
         var key =
             clean(name);
 
-        if (
-            FEATURE_META[key]
-        ) {
+        if (FEATURE_META[key]) {
 
             return FEATURE_META[key];
         }
@@ -520,8 +597,11 @@
         if (!item.targetId) {
 
             return {
+
                 success: false,
-                error: "Target ID required."
+
+                error:
+                    "Target ID required."
             };
         }
 
@@ -579,8 +659,7 @@
                 data[item.targetId]
                     .count,
 
-            liked:
-                true
+            liked: true
         };
     }
 
@@ -597,9 +676,7 @@
             currentUser();
 
 
-        if (
-            !data[item.targetId]
-        ) {
+        if (!data[item.targetId]) {
 
             return {
 
@@ -739,8 +816,7 @@
                 data[item.targetId]
                     .count,
 
-            disliked:
-                true
+            disliked: true
         };
     }
 
@@ -757,9 +833,7 @@
             currentUser();
 
 
-        if (
-            !data[item.targetId]
-        ) {
+        if (!data[item.targetId]) {
 
             return {
 
@@ -829,9 +903,7 @@
     }
 
 
-    function addComment(
-        options
-    ) {
+    function addComment(options) {
 
         options =
             options || {};
@@ -877,18 +949,11 @@
             currentUser();
 
 
-        if (
-            !data[item.targetId]
-        ) {
+        if (!data[item.targetId]) {
 
             data[item.targetId] = [];
         }
 
-
-        /*
-         * Public comments deliberately expose
-         * only name and photo.
-         */
 
         var comment = {
 
@@ -957,9 +1022,7 @@
     }
 
 
-    function deleteComment(
-        options
-    ) {
+    function deleteComment(options) {
 
         options =
             options || {};
@@ -994,12 +1057,6 @@
                 .findIndex(
                     function (comment) {
 
-                        /*
-                         * User ownership is checked
-                         * without exposing user ID
-                         * in the public comment object.
-                         */
-
                         return (
                             comment.id ===
                             commentId
@@ -1016,22 +1073,66 @@
         }
 
 
-        data[item.targetId]
-            .splice(
-                index,
-                1
+        /*
+         * The public comment does not expose
+         * the owner's internal ID.
+
+         * For secure production deletion, the
+         * backend must authorize ownership.
+         */
+
+        if (
+            backend &&
+            typeof backend.authorizeCommentDelete ===
+            "function"
+        ) {
+
+            return Promise.resolve(
+                backend.authorizeCommentDelete({
+                    commentId:
+                        commentId,
+
+                    targetId:
+                        item.targetId
+                })
+            )
+            .then(
+                function (result) {
+
+                    if (
+                        !result ||
+                        result.success !== true
+                    ) {
+
+                        return {
+                            success: false
+                        };
+                    }
+
+
+                    data[item.targetId]
+                        .splice(
+                            index,
+                            1
+                        );
+
+                    write(
+                        STORAGE.comments,
+                        data
+                    );
+
+                    return {
+                        success: true
+                    };
+                }
             );
-
-
-        write(
-            STORAGE.comments,
-            data
-        );
+        }
 
 
         return {
-
-            success: true
+            success: false,
+            error:
+                "Secure comment authorization is required."
         };
     }
 
@@ -1075,12 +1176,14 @@
         }
 
 
-        var user =
-            currentUser();
-
         var reports =
             getReports();
 
+
+        /*
+         * Reporter identity is kept only internally.
+         * It is never returned as public content.
+         */
 
         var reportItem = {
 
@@ -1100,9 +1203,6 @@
                 clean(
                     options.details
                 ),
-
-            reporter:
-                user.id,
 
             status:
                 "pending",
@@ -1133,8 +1233,26 @@
 
             success: true,
 
-            report:
-                reportItem
+            report: {
+
+                id:
+                    reportItem.id,
+
+                targetId:
+                    reportItem.targetId,
+
+                targetType:
+                    reportItem.targetType,
+
+                reason:
+                    reportItem.reason,
+
+                status:
+                    reportItem.status,
+
+                createdAt:
+                    reportItem.createdAt
+            }
         };
     }
 
@@ -1152,9 +1270,7 @@
     }
 
 
-    function recordView(
-        options
-    ) {
+    function recordView(options) {
 
         var item =
             target(options);
@@ -1252,9 +1368,7 @@
     }
 
 
-    function getViewStats(
-        targetId
-    ) {
+    function getViewStats(targetId) {
 
         var data =
             getViews();
@@ -1267,7 +1381,8 @@
 
                 countries: {},
 
-                lastViewed: null
+                lastViewed:
+                    null
             }
         );
     }
@@ -1277,9 +1392,7 @@
        COUNTRY REACH
        ============================================================ */
 
-    function countryReach(
-        targetId
-    ) {
+    function countryReach(targetId) {
 
         var stats =
             getViewStats(
@@ -1302,6 +1415,11 @@
                     country:
                         country,
 
+                    flag:
+                        countryFlag(
+                            country
+                        ),
+
                     count:
                         countries[
                             country
@@ -1315,6 +1433,27 @@
                 return (
                     b.count -
                     a.count
+                );
+            }
+        );
+    }
+
+
+    function countryReachDisplay(targetId) {
+
+        return countryReach(
+            targetId
+        )
+        .map(
+            function (item) {
+
+                return (
+                    item.flag +
+                    " " +
+                    item.country +
+                    " — " +
+                    item.count +
+                    " viewers"
                 );
             }
         );
@@ -1420,9 +1559,7 @@
        SOCIAL SUMMARY
        ============================================================ */
 
-    function stats(
-        targetId
-    ) {
+    function stats(targetId) {
 
         var likes =
             getLikes();
@@ -1492,6 +1629,11 @@
             countries:
                 viewItem.countries,
 
+            countryReach:
+                countryReach(
+                    targetId
+                ),
+
             liked:
                 likeItem.users
                     .indexOf(
@@ -1520,9 +1662,7 @@
     }
 
 
-    function notify(
-        options
-    ) {
+    function notify(options) {
 
         options =
             options || {};
@@ -1536,6 +1676,12 @@
 
             id:
                 id("notification"),
+
+            /*
+             * Internal recipient identity is not
+             * exposed by the public notification
+             * rendering layer.
+             */
 
             recipientId:
                 clean(
@@ -1594,13 +1740,14 @@
         );
 
 
-        return notification;
+        return {
+
+            success: true
+        };
     }
 
 
-    function userNotifications(
-        userId
-    ) {
+    function userNotifications(userId) {
 
         userId =
             clean(
@@ -1617,6 +1764,34 @@
                         item.recipientId ===
                         userId
                     );
+                }
+            )
+            .map(
+                function (item) {
+
+                    return {
+
+                        id:
+                            item.id,
+
+                        type:
+                            item.type,
+
+                        title:
+                            item.title,
+
+                        message:
+                            item.message,
+
+                        targetId:
+                            item.targetId,
+
+                        read:
+                            item.read,
+
+                        createdAt:
+                            item.createdAt
+                    };
                 }
             );
     }
@@ -1661,7 +1836,7 @@
 
 
     /* ============================================================
-       MESSAGING RELATIONSHIP RULES
+       MESSAGING RELATIONSHIPS
        ============================================================ */
 
     var MESSAGE_RELATIONSHIPS = [
@@ -1699,274 +1874,23 @@
     }
 
 
-    function canMessage(
-        options
-    ) {
-
-        options =
-            options || {};
-
-
-        var relationship =
-            clean(
-                options.relationship
-            ).toLowerCase();
-
-
-        if (
-            !validRelationship(
-                relationship
-            )
-        ) {
-
-            return false;
-        }
-
-
-        /*
-         * There must be an actual context.
-         */
-
-        var context =
-            clean(
-                options.listingId ||
-                options.transactionId ||
-                options.jobId ||
-                options.businessId ||
-                options.productId
-            );
-
-
-        if (!context) {
-
-            return false;
-        }
-
-
-        var user =
-            currentUser();
-
-
-        var sellerId =
-            clean(
-                options.sellerId
-            );
-
-        var buyerId =
-            clean(
-                options.buyerId
-            );
-
-        var employerId =
-            clean(
-                options.employerId
-            );
-
-        var applicantId =
-            clean(
-                options.applicantId
-            );
-
-
-        var validUser =
-            (
-                user.id === sellerId ||
-                user.id === buyerId ||
-                user.id === employerId ||
-                user.id === applicantId
-            );
-
-
-        if (!validUser) {
-
-            return false;
-        }
-
-
-        return true;
-    }
-
-
     /* ============================================================
-       MESSAGES
+       MESSAGE CONTEXT
        ============================================================ */
 
-    function getMessages() {
-
-        return read(
-            STORAGE.messages,
-            []
-        );
-    }
-
-
-    function sendMessage(
-        options
-    ) {
+    function getMessageContext(options) {
 
         options =
             options || {};
 
 
-        if (
-            !canMessage(
-                options
-            )
-        ) {
+        return {
 
-            return {
-
-                success: false,
-
-                error:
-                    "Messaging is available only inside a valid transaction, listing, job, business or seller-buyer relationship."
-            };
-        }
-
-
-        var user =
-            currentUser();
-
-
-        var text =
-            clean(
-                options.message
-            );
-
-
-        if (!text) {
-
-            return {
-
-                success: false,
-
-                error:
-                    "Message cannot be empty."
-            };
-        }
-
-
-        var sellerId =
-            clean(
-                options.sellerId
-            );
-
-        var buyerId =
-            clean(
-                options.buyerId
-            );
-
-        var employerId =
-            clean(
-                options.employerId
-            );
-
-        var applicantId =
-            clean(
-                options.applicantId
-            );
-
-
-        var recipientId = "";
-
-
-        if (
-            user.id === sellerId
-        ) {
-
-            recipientId =
-                buyerId;
-        }
-
-        else if (
-            user.id === buyerId
-        ) {
-
-            recipientId =
-                sellerId;
-        }
-
-        else if (
-            user.id === employerId
-        ) {
-
-            recipientId =
-                applicantId;
-        }
-
-        else if (
-            user.id === applicantId
-        ) {
-
-            recipientId =
-                employerId;
-        }
-
-
-        if (!recipientId) {
-
-            return {
-
-                success: false,
-
-                error:
-                    "Valid recipient not found."
-            };
-        }
-
-
-        var messages =
-            getMessages();
-
-
-        var conversationId =
-            clean(
-                options.conversationId
-            );
-
-
-        if (!conversationId) {
-
-            conversationId =
-                [
-                    clean(
-                        options.listingId
-                    ),
-
-                    clean(
-                        options.jobId
-                    ),
-
-                    clean(
-                        options.businessId
-                    ),
-
-                    clean(
-                        options.productId
-                    ),
-
-                    sellerId ||
-                        employerId,
-
-                    buyerId ||
-                        applicantId
-                ]
-                .filter(Boolean)
-                .join("_");
-        }
-
-
-        var message = {
-
-            id:
-                id("message"),
-
-            conversationId:
-                conversationId,
-
-            relationship:
+            type:
                 clean(
-                    options.relationship
+                    options.contextType ||
+                    options.targetType ||
+                    options.type
                 ).toLowerCase(),
 
             listingId:
@@ -1994,126 +1918,542 @@
                     options.productId
                 ),
 
-            sellerId:
-                sellerId,
+            subjectId:
+                clean(
+                    options.subjectId
+                ),
 
-            buyerId:
-                buyerId,
-
-            employerId:
-                employerId,
-
-            applicantId:
-                applicantId,
-
-            senderId:
-                user.id,
-
-            recipientId:
-                recipientId,
-
-            message:
-                text,
-
-            read:
-                false,
-
-            createdAt:
-                timestamp()
-        };
-
-
-        messages.push(
-            message
-        );
-
-
-        write(
-            STORAGE.messages,
-            messages
-        );
-
-
-        notify({
-
-            recipientId:
-                recipientId,
-
-            type:
-                "message",
-
-            title:
-                "New Message",
-
-            message:
-                "You have a new message related to your transaction or listing.",
-
-            targetId:
-                message.listingId ||
-                message.jobId ||
-                message.businessId ||
-                message.productId
-        });
-
-
-        recordAnalytics(
-            "message",
-            {
-                targetId:
-                    message.listingId ||
-                    message.jobId ||
-                    message.businessId ||
-                    message.productId,
-
-                targetType:
-                    message.relationship
-            }
-        );
-
-
-        return {
-
-            success: true,
-
-            message:
-                message
+            subjectTitle:
+                clean(
+                    options.subjectTitle ||
+                    options.contextTitle ||
+                    options.listingTitle ||
+                    options.productTitle ||
+                    options.jobTitle ||
+                    options.businessName
+                )
         };
     }
 
 
-    function conversation(
-        conversationId
+    function hasMessageContext(options) {
+
+        var context =
+            getMessageContext(
+                options
+            );
+
+
+        return !!(
+            context.listingId ||
+            context.transactionId ||
+            context.jobId ||
+            context.businessId ||
+            context.productId ||
+            context.subjectId
+        );
+    }
+
+
+    /* ============================================================
+       BACKEND ADAPTER
+       ============================================================ */
+
+    var backend =
+        null;
+
+
+    function setBackend(adapter) {
+
+        if (
+            !adapter ||
+            typeof adapter !==
+            "object"
+        ) {
+
+            backend =
+                null;
+
+            return false;
+        }
+
+
+        backend =
+            adapter;
+
+
+        return true;
+    }
+
+
+    function getBackend() {
+
+        return backend;
+    }
+
+
+    function sync(method, payload) {
+
+        if (
+            !backend ||
+            typeof backend[method] !==
+            "function"
+        ) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                localOnly: true
+            });
+        }
+
+
+        try {
+
+            return Promise.resolve(
+                backend[method](
+                    payload
+                )
+            );
+
+        } catch (error) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    error.message
+            });
+        }
+    }
+
+
+    /* ============================================================
+       MESSAGE AUTHORIZATION
+       ------------------------------------------------------------
+       IMPORTANT:
+       The browser cannot prove that two users have a real
+       seller/buyer or business/customer relationship.
+
+       Therefore production messaging requires the backend.
+       ============================================================ */
+
+    function authorizeMessage(
+        options
     ) {
 
-        conversationId =
+        options =
+            options || {};
+
+
+        var relationship =
             clean(
-                conversationId
-            );
+                options.relationship
+            ).toLowerCase();
+
+
+        if (
+            !validRelationship(
+                relationship
+            )
+        ) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "Invalid messaging relationship."
+            });
+        }
+
+
+        if (
+            !hasMessageContext(
+                options
+            )
+        ) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "A valid selected subject or transaction context is required."
+            });
+        }
+
+
+        if (
+            !backend ||
+            typeof backend.authorizeMessage !==
+            "function"
+        ) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "Secure backend authorization is required for messaging."
+            });
+        }
 
 
         var user =
             currentUser();
 
 
-        return getMessages()
-            .filter(
-                function (message) {
+        /*
+         * Only the current session is sent to the
+         * backend. The public UI never receives the
+         * internal IDs of the other participant.
+         */
 
-                    return (
+        var request = {
 
-                        message.conversationId ===
-                        conversationId
+            relationship:
+                relationship,
 
-                    ) && (
+            context:
+                getMessageContext(
+                    options
+                ),
 
-                        message.senderId ===
-                        user.id ||
+            subjectTitle:
+                getMessageContext(
+                    options
+                ).subjectTitle,
 
-                        message.recipientId ===
-                        user.id
-                    );
-                }
+            currentUserSession:
+                !!user.id
+        };
+
+
+        try {
+
+            return Promise.resolve(
+                backend.authorizeMessage(
+                    request
+                )
             );
+
+        } catch (error) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    error.message
+            });
+        }
+    }
+
+
+    function canMessage(options) {
+
+        return authorizeMessage(
+            options
+        );
+    }
+
+
+    /* ============================================================
+       PUBLIC MESSAGE SANITIZER
+       ============================================================ */
+
+    function publicMessage(message) {
+
+        if (!message) {
+            return null;
+        }
+
+
+        return {
+
+            name:
+                clean(
+                    message.name
+                ) || "User",
+
+            photo:
+                clean(
+                    message.photo
+                ),
+
+            subject:
+                clean(
+                    message.subject
+                ),
+
+            message:
+                clean(
+                    message.message
+                ),
+
+            createdAt:
+                clean(
+                    message.createdAt
+                )
+        };
+    }
+
+
+    /* ============================================================
+       SEND MESSAGE
+       ============================================================ */
+
+    function sendMessage(options) {
+
+        options =
+            options || {};
+
+
+        var text =
+            clean(
+                options.message
+            );
+
+
+        if (!text) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "Message cannot be empty."
+            });
+        }
+
+
+        var context =
+            getMessageContext(
+                options
+            );
+
+
+        if (!hasMessageContext(options)) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "Messaging requires a selected subject, listing, job or business context."
+            });
+        }
+
+
+        return authorizeMessage(
+            options
+        )
+        .then(
+            function (authorization) {
+
+                if (
+                    !authorization ||
+                    authorization.success !==
+                    true
+                ) {
+
+                    return {
+
+                        success: false,
+
+                        error:
+                            authorization &&
+                            authorization.error
+                                ? authorization.error
+                                : "Messaging authorization failed."
+                    };
+                }
+
+
+                /*
+                 * The backend decides the actual recipient.
+                 *
+                 * The client does NOT accept an arbitrary
+                 * recipient ID from the user.
+                 */
+
+                var sendPayload = {
+
+                    relationship:
+                        clean(
+                            options.relationship
+                        ).toLowerCase(),
+
+                    context:
+                        context,
+
+                    message:
+                        text
+                };
+
+
+                if (
+                    typeof backend.sendContextMessage !==
+                    "function"
+                ) {
+
+                    return {
+
+                        success: false,
+
+                        error:
+                            "Secure message delivery is not configured."
+                    };
+                }
+
+
+                return Promise.resolve(
+                    backend.sendContextMessage(
+                        sendPayload
+                    )
+                )
+                .then(
+                    function (result) {
+
+                        if (
+                            !result ||
+                            result.success !==
+                            true
+                        ) {
+
+                            return {
+
+                                success: false,
+
+                                error:
+                                    result &&
+                                    result.error
+                                        ? result.error
+                                        : "Message was not delivered."
+                            };
+                        }
+
+
+                        /*
+                         * Only public-safe message data
+                         * is returned to the page.
+                         */
+
+                        return {
+
+                            success: true,
+
+                            message:
+                                publicMessage(
+                                    result.message
+                                )
+                        };
+                    }
+                );
+            }
+        );
+    }
+
+
+    /* ============================================================
+       CONVERSATION
+       ------------------------------------------------------------
+       Conversation is context-based.
+       A raw conversation ID is NOT accepted as authorization.
+       ============================================================ */
+
+    function conversation(options) {
+
+        options =
+            options || {};
+
+
+        if (
+            !hasMessageContext(
+                options
+            )
+        ) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "Conversation context is required."
+            });
+        }
+
+
+        if (
+            !backend ||
+            typeof backend.getContextConversation !==
+            "function"
+        ) {
+
+            return Promise.resolve({
+
+                success: false,
+
+                error:
+                    "Secure backend conversation access is required."
+            });
+        }
+
+
+        return Promise.resolve(
+            backend.getContextConversation(
+                {
+                    context:
+                        getMessageContext(
+                            options
+                        ),
+
+                    relationship:
+                        clean(
+                            options.relationship
+                        ).toLowerCase()
+                }
+            )
+        )
+        .then(
+            function (result) {
+
+                if (
+                    !result ||
+                    result.success !== true
+                ) {
+
+                    return {
+
+                        success: false,
+
+                        error:
+                            result &&
+                            result.error
+                                ? result.error
+                                : "Conversation access denied."
+                    };
+                }
+
+
+                return {
+
+                    success: true,
+
+                    messages:
+                        (
+                            result.messages ||
+                            []
+                        )
+                        .map(
+                            publicMessage
+                        )
+                };
+            }
+        );
     }
 
 
@@ -2121,9 +2461,7 @@
        FEATURE OPEN ANALYTICS
        ============================================================ */
 
-    function featureOpen(
-        feature
-    ) {
+    function featureOpen(feature) {
 
         var meta =
             getFeature(
@@ -2193,9 +2531,7 @@
        FEATURE LINK TRACKING
        ============================================================ */
 
-    function bindFeatureLinks(
-        root
-    ) {
+    function bindFeatureLinks(root) {
 
         root =
             root ||
@@ -2254,86 +2590,6 @@
 
 
     /* ============================================================
-       BACKEND ADAPTER
-       ============================================================ */
-
-    var backend =
-        null;
-
-
-    function setBackend(
-        adapter
-    ) {
-
-        if (
-            !adapter ||
-            typeof adapter !==
-            "object"
-        ) {
-
-            backend =
-                null;
-
-            return false;
-        }
-
-
-        backend =
-            adapter;
-
-
-        return true;
-    }
-
-
-    function getBackend() {
-
-        return backend;
-    }
-
-
-    function sync(
-        method,
-        payload
-    ) {
-
-        if (
-            !backend ||
-            typeof backend[method] !==
-            "function"
-        ) {
-
-            return Promise.resolve({
-
-                success: false,
-
-                localOnly: true
-            });
-        }
-
-
-        try {
-
-            return Promise.resolve(
-                backend[method](
-                    payload
-                )
-            );
-
-        } catch (error) {
-
-            return Promise.resolve({
-
-                success: false,
-
-                error:
-                    error.message
-            });
-        }
-    }
-
-
-    /* ============================================================
        PUBLIC API
        ============================================================ */
 
@@ -2376,6 +2632,9 @@
     SOCIAL.countryReach =
         countryReach;
 
+    SOCIAL.countryReachDisplay =
+        countryReachDisplay;
+
     SOCIAL.stats =
         stats;
 
@@ -2396,6 +2655,9 @@
 
     SOCIAL.conversation =
         conversation;
+
+    SOCIAL.publicMessage =
+        publicMessage;
 
     SOCIAL.featureOpen =
         featureOpen;
