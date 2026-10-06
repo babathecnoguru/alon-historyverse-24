@@ -501,9 +501,11 @@
                 </a>
 
 
+                <!-- BUSINESS -->
+
                 <a
                     class="ah-live-feature ah-live-feature-knowledge"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="business"
                     data-feature-search="Business"
                 >
@@ -639,7 +641,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="movies"
                     data-feature-search="Movies"
                 >
@@ -649,7 +651,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="serials"
                     data-feature-search="Serials"
                 >
@@ -659,7 +661,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="podcasts"
                     data-feature-search="Podcasts"
                 >
@@ -669,7 +671,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="hosting"
                     data-feature-search="Hosting"
                 >
@@ -679,7 +681,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="web-series"
                     data-feature-search="Web Series"
                 >
@@ -689,7 +691,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="songs"
                     data-feature-search="Songs"
                 >
@@ -699,7 +701,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="albums"
                     data-feature-search="Albums"
                 >
@@ -711,7 +713,7 @@
 
                 <a
                     class="ah-live-feature"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="sports"
                     data-feature-search="Sports"
                 >
@@ -721,7 +723,7 @@
 
                 <a
                     class="ah-live-feature"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="games"
                     data-feature-search="Games"
                 >
@@ -733,7 +735,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-travel"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="tourist-guide"
                     data-feature-search="Tourist Guide"
                 >
@@ -743,7 +745,7 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-travel"
-                    href="./discover.html"
+                    href="./regular-marketplace.html#rmDiscoveryHub"
                     data-feature="tourist-places"
                     data-feature-search="Tourist Places"
                 >
@@ -1619,116 +1621,6 @@
      script itself. It is intentionally NOT executed
      on the Home page.
 ========================================================== -->
-
-
-<!-- =========================================================
-     LIVE FEATURE ROUTER
-
-     IMPORTANT:
-     Only discovery-based features are redirected
-     through discover.html.
-
-     Existing working destination pages are left
-     untouched.
-========================================================== -->
-
-<script>
-
-(function () {
-
-    "use strict";
-
-
-    const featureLinks =
-        document.querySelectorAll(
-            ".ah-live-feature[data-feature]"
-        );
-
-
-    if (!featureLinks.length) {
-        return;
-    }
-
-
-    const discoveryFeatures = [
-
-        "business",
-        "movies",
-        "serials",
-        "podcasts",
-        "hosting",
-        "web-series",
-        "songs",
-        "albums",
-        "sports",
-        "games",
-        "tourist-guide",
-        "tourist-places"
-
-    ];
-
-
-    featureLinks.forEach(
-        function (link) {
-
-            link.addEventListener(
-                "click",
-                function (event) {
-
-                    const feature =
-                        link.dataset.feature || "";
-
-
-                    if (
-                        !discoveryFeatures.includes(
-                            feature
-                        )
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    const search =
-                        link.dataset.featureSearch ||
-                        link.textContent.trim();
-
-
-                    if (!search) {
-
-                        return;
-
-                    }
-
-
-                    event.preventDefault();
-
-
-                    const target =
-                        "./discover.html?feature=" +
-                        encodeURIComponent(
-                            feature
-                        ) +
-                        "&search=" +
-                        encodeURIComponent(
-                            search
-                        );
-
-
-                    window.location.href =
-                        target;
-
-                }
-            );
-
-        }
-    );
-
-
-})();
-
-</script>
 
 
 <!-- =========================================================
