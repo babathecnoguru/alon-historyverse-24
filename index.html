@@ -1,3 +1,4 @@
+
 <!-- index.html -->
 
 <!DOCTYPE html>
@@ -189,6 +190,14 @@
 
         .ah-live-feature-travel {
             border-color: rgba(100,170,220,.55);
+        }
+
+        .ah-live-feature-knowledge {
+            border-color: rgba(170,150,220,.55);
+        }
+
+        .ah-live-feature-community {
+            border-color: rgba(90,190,180,.55);
         }
 
     </style>
@@ -424,6 +433,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-primary"
                     href="./civilizations.html"
+                    data-feature="history"
                 >
                     🏛️ History
                 </a>
@@ -432,6 +442,7 @@
                 <a
                     class="ah-live-feature"
                     href="./civilizations.html"
+                    data-feature="civilizations"
                 >
                     🏺 Civilizations
                 </a>
@@ -440,6 +451,7 @@
                 <a
                     class="ah-live-feature"
                     href="./gallery.html"
+                    data-feature="photos"
                 >
                     📷 Photos
                 </a>
@@ -448,6 +460,7 @@
                 <a
                     class="ah-live-feature"
                     href="./gallery.html"
+                    data-feature="videos"
                 >
                     🎥 Videos
                 </a>
@@ -456,6 +469,7 @@
                 <a
                     class="ah-live-feature"
                     href="./articles.html"
+                    data-feature="articles"
                 >
                     📚 Articles
                 </a>
@@ -464,14 +478,54 @@
                 <a
                     class="ah-live-feature"
                     href="./library.html"
+                    data-feature="library"
                 >
                     📖 Library
                 </a>
 
 
                 <a
+                    class="ah-live-feature ah-live-feature-knowledge"
+                    href="./book.html"
+                    data-feature="books"
+                >
+                    📕 Books
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-knowledge"
+                    href="./trees.html"
+                    data-feature="trees"
+                >
+                    🌳 Trees
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-knowledge"
+                    href="./discover.html"
+                    data-feature="shell"
+                    data-feature-search="Shell"
+                >
+                    🐚 Shell
+                </a>
+
+
+                <a
+                    class="ah-live-feature ah-live-feature-knowledge"
+                    href="./discover.html"
+                    data-feature="business"
+                    data-feature-search="Business"
+                >
+                    🏢 Business
+                </a>
+
+
+                <a
                     class="ah-live-feature"
                     href="./countries.html"
+                    data-feature="countries"
                 >
                     🌍 Countries
                 </a>
@@ -480,6 +534,7 @@
                 <a
                     class="ah-live-feature"
                     href="./heritage.html"
+                    data-feature="culture-heritage"
                 >
                     🎭 Culture & Heritage
                 </a>
@@ -490,6 +545,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-jobs"
                     href="./jobs.html#local-jobs"
+                    data-feature="local-jobs"
                 >
                     💼 Local Jobs
                 </a>
@@ -498,6 +554,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-jobs"
                     href="./jobs.html#international-jobs"
+                    data-feature="international-jobs"
                 >
                     🌐 International Jobs
                 </a>
@@ -508,6 +565,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-market"
                     href="./marketplace.html"
+                    data-feature="global-marketplace"
                     data-marketplace-link="true"
                 >
                     🌍 Global Marketplace
@@ -517,6 +575,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-market"
                     href="./regular-marketplace.html"
+                    data-feature="regular-marketplace"
                 >
                     🛒 Regular Marketplace
                 </a>
@@ -527,6 +586,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-luxury"
                     href="./luxury-lifestyle.html"
+                    data-feature="luxury-lifestyle"
                 >
                     ✨ Luxury Lifestyle
                 </a>
@@ -535,6 +595,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-luxury"
                     href="./luxury-lifestyle.html#luxury-rentals"
+                    data-feature="luxury-rentals"
                 >
                     🔑 Luxury Rentals
                 </a>
@@ -543,6 +604,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-luxury"
                     href="./luxury-lifestyle.html"
+                    data-feature="luxury-aircraft"
                 >
                     ✈️ Luxury Aircraft
                 </a>
@@ -551,6 +613,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-luxury"
                     href="./luxury-lifestyle.html"
+                    data-feature="helicopters"
                 >
                     🚁 Helicopters
                 </a>
@@ -559,6 +622,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-luxury"
                     href="./luxury-lifestyle.html"
+                    data-feature="ships-yachts"
                 >
                     🚢 Ships & Yachts
                 </a>
@@ -567,6 +631,7 @@
                 <a
                     class="ah-live-feature ah-live-feature-luxury"
                     href="./luxury-lifestyle.html"
+                    data-feature="luxury-items"
                 >
                     💎 Luxury Items
                 </a>
@@ -576,7 +641,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./movies.html"
+                    href="./discover.html"
+                    data-feature="movies"
+                    data-feature-search="Movies"
                 >
                     🎬 Movies
                 </a>
@@ -584,7 +651,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./serials.html"
+                    href="./discover.html"
+                    data-feature="serials"
+                    data-feature-search="Serials"
                 >
                     📺 Serials
                 </a>
@@ -592,7 +661,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./podcasts.html"
+                    href="./discover.html"
+                    data-feature="podcasts"
+                    data-feature-search="Podcasts"
                 >
                     🎙️ Podcasts
                 </a>
@@ -600,7 +671,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./hosting.html"
+                    href="./discover.html"
+                    data-feature="hosting"
+                    data-feature-search="Hosting"
                 >
                     🎤 Hosting
                 </a>
@@ -608,7 +681,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./web-series.html"
+                    href="./discover.html"
+                    data-feature="web-series"
+                    data-feature-search="Web Series"
                 >
                     🎞️ Web Series
                 </a>
@@ -616,7 +691,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./songs.html"
+                    href="./discover.html"
+                    data-feature="songs"
+                    data-feature-search="Songs"
                 >
                     🎵 Songs
                 </a>
@@ -624,7 +701,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-media"
-                    href="./albums.html"
+                    href="./discover.html"
+                    data-feature="albums"
+                    data-feature-search="Albums"
                 >
                     💿 Albums
                 </a>
@@ -634,7 +713,9 @@
 
                 <a
                     class="ah-live-feature"
-                    href="./sports.html"
+                    href="./discover.html"
+                    data-feature="sports"
+                    data-feature-search="Sports"
                 >
                     🏆 Sports
                 </a>
@@ -642,7 +723,9 @@
 
                 <a
                     class="ah-live-feature"
-                    href="./games.html"
+                    href="./discover.html"
+                    data-feature="games"
+                    data-feature-search="Games"
                 >
                     🎮 Games
                 </a>
@@ -652,7 +735,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-travel"
-                    href="./tourist-guide.html"
+                    href="./discover.html"
+                    data-feature="tourist-guide"
+                    data-feature-search="Tourist Guide"
                 >
                     ✈️ Tourist Guide
                 </a>
@@ -660,7 +745,9 @@
 
                 <a
                     class="ah-live-feature ah-live-feature-travel"
-                    href="./tourist-places.html"
+                    href="./discover.html"
+                    data-feature="tourist-places"
+                    data-feature-search="Tourist Places"
                 >
                     📍 Tourist Places
                 </a>
@@ -669,16 +756,18 @@
                 <!-- COMMUNITY -->
 
                 <a
-                    class="ah-live-feature"
+                    class="ah-live-feature ah-live-feature-community"
                     href="./contribute.html"
+                    data-feature="contribute"
                 >
                     🤝 Contribute
                 </a>
 
 
                 <a
-                    class="ah-live-feature"
+                    class="ah-live-feature ah-live-feature-community"
                     href="./discover.html"
+                    data-feature="explore"
                 >
                     🔎 Explore
                 </a>
@@ -1511,6 +1600,17 @@
 
 
 <!-- =========================================================
+     ALON SOCIAL ENGINE
+     
+     IMPORTANT:
+     Standalone social interaction layer.
+     Existing systems are not modified.
+========================================================== -->
+
+<script src="./alon-social-engine.js"></script>
+
+
+<!-- =========================================================
      REGULAR MARKETPLACE JS
 
      IMPORTANT:
@@ -1521,6 +1621,114 @@
      script itself. It is intentionally NOT executed
      on the Home page.
 ========================================================== -->
+
+
+<!-- =========================================================
+     LIVE FEATURE ROUTER
+     
+     IMPORTANT:
+     Only known missing feature routes are redirected.
+     Existing working pages are left untouched.
+========================================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    const featureLinks =
+        document.querySelectorAll(
+            ".ah-live-feature[data-feature]"
+        );
+
+
+    if (!featureLinks.length) {
+        return;
+    }
+
+
+    const discoveryFeatures = [
+
+        "shell",
+        "business",
+        "movies",
+        "serials",
+        "podcasts",
+        "hosting",
+        "web-series",
+        "songs",
+        "albums",
+        "sports",
+        "games",
+        "tourist-guide",
+        "tourist-places"
+
+    ];
+
+
+    featureLinks.forEach(
+        function (link) {
+
+            link.addEventListener(
+                "click",
+                function (event) {
+
+                    const feature =
+                        link.dataset.feature || "";
+
+
+                    if (
+                        !discoveryFeatures.includes(
+                            feature
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const search =
+                        link.dataset.featureSearch ||
+                        link.textContent.trim();
+
+
+                    if (!search) {
+
+                        return;
+
+                    }
+
+
+                    event.preventDefault();
+
+
+                    const target =
+                        "./discover.html?feature=" +
+                        encodeURIComponent(
+                            feature
+                        ) +
+                        "&search=" +
+                        encodeURIComponent(
+                            search
+                        );
+
+
+                    window.location.href =
+                        target;
+
+                }
+            );
+
+        }
+    );
+
+
+})();
+
+</script>
 
 
 <!-- =========================================================
