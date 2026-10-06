@@ -2471,33 +2471,82 @@
     }
 
 
-    /* =======================================================
-       BACK
-    ======================================================== */
+..../* =======================================================
+   BACK
+   REAL BROWSER BACK + SAFE FALLBACK
+======================================================== */
 
-    if (backBtn) {
+if (backBtn) {
 
-        backBtn.addEventListener(
-            "click",
-            function () {
+    backBtn.addEventListener(
+        "click",
+        function (event) {
 
-                if (
-                    window.history.length > 1
-                ) {
+            event.preventDefault();
+            event.stopPropagation();
 
-                    window.history.back();
+            /*
+             * पहले menu बंद करें ताकि click तुरंत visible हो।
+             */
+            closeMenu();
 
-                } else {
 
-                    window.location.href =
-                        "./index.html";
+            /*
+             * अगर इसी website का previous page है,
+             * तो browser history में वापस जाएँ।
+             */
+            const currentUrl =
+                window.location.href;
 
-                }
+            const referrer =
+                document.referrer;
+
+
+            if (
+                referrer &&
+                referrer !== currentUrl &&
+                referrer.indexOf(
+                    window.location.origin
+                ) === 0
+            ) {
+
+                window.history.back();
+
+                return;
 
             }
-        );
 
-    }
+
+            /*
+             * Browser history उपलब्ध हो तो
+             * सामान्य Back करें।
+             */
+            if (
+                window.history.length > 1
+            ) {
+
+                window.history.back();
+
+                return;
+
+            }
+
+
+            /*
+             * कोई previous page नहीं है।
+             * Home पर सुरक्षित fallback।
+             */
+            window.location.replace(
+                "./index.html"
+            );
+
+        },
+        {
+            passive: false
+        }
+    );
+
+}
 
 
     /* =======================================================
