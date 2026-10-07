@@ -312,6 +312,210 @@
 
 
         /* =====================================================
+           HOME CATEGORY VISUAL BOXES
+           ===================================================== */
+
+        .ah-home-category-section {
+            width: 100%;
+            margin: 0 auto 28px;
+        }
+
+        .ah-home-category-title {
+            margin: 0 0 7px;
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+
+        .ah-home-category-subtitle {
+            margin: 0 0 16px;
+            opacity: .72;
+            line-height: 1.5;
+        }
+
+        .ah-home-category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            width: 100%;
+        }
+
+        .ah-home-category-card {
+            position: relative;
+            min-width: 0;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            text-decoration: none;
+            color: #ffffff;
+            border: 1px solid rgba(215,179,90,.35);
+            border-radius: 18px;
+            background: #05080f;
+            box-shadow: 0 12px 35px rgba(0,0,0,.28);
+            isolation: isolate;
+            transition:
+                transform .22s ease,
+                border-color .22s ease,
+                box-shadow .22s ease;
+        }
+
+        .ah-home-category-card:hover,
+        .ah-home-category-card:focus-visible {
+            transform: translateY(-4px);
+            border-color: rgba(240,210,122,.78);
+            box-shadow: 0 18px 45px rgba(0,0,0,.40);
+            outline: none;
+        }
+
+        .ah-home-category-visual {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .ah-home-category-visual::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(
+                    circle at 50% 30%,
+                    rgba(255,255,255,.22),
+                    transparent 38%
+                ),
+                linear-gradient(
+                    145deg,
+                    rgba(215,179,90,.28),
+                    rgba(5,8,15,.92)
+                );
+            z-index: 1;
+        }
+
+        .ah-home-category-visual-business {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(30,100,140,.90),
+                    rgba(5,8,15,.98)
+                );
+        }
+
+        .ah-home-category-visual-jobs {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(35,120,75,.90),
+                    rgba(5,8,15,.98)
+                );
+        }
+
+        .ah-home-category-visual-luxury {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(115,70,150,.92),
+                    rgba(5,8,15,.98)
+                );
+        }
+
+        .ah-home-category-icon {
+            position: relative;
+            z-index: 2;
+            font-size: clamp(5rem, 11vw, 8rem);
+            line-height: 1;
+            filter:
+                drop-shadow(0 12px 18px rgba(0,0,0,.55));
+            transform: translateY(-18px);
+        }
+
+        .ah-home-category-overlay {
+            position: absolute;
+            inset: 35% 0 0;
+            z-index: 0;
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(5,8,15,0),
+                    rgba(5,8,15,.98) 78%
+                );
+        }
+
+        .ah-home-category-content {
+            position: relative;
+            z-index: 3;
+            padding: 22px;
+        }
+
+        .ah-home-category-content h3 {
+            margin: 0 0 8px;
+            font-size: 1.35rem;
+            line-height: 1.2;
+        }
+
+        .ah-home-category-content p {
+            margin: 0 0 12px;
+            opacity: .88;
+            line-height: 1.5;
+            font-size: .92rem;
+        }
+
+        .ah-home-category-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 8px 14px;
+            border: 1px solid rgba(240,210,122,.55);
+            border-radius: 999px;
+            background: rgba(5,8,15,.48);
+            font-size: .86rem;
+            font-weight: 700;
+        }
+
+        .ah-home-category-business {
+            border-color: rgba(90,180,220,.65);
+        }
+
+        .ah-home-category-jobs {
+            border-color: rgba(100,190,130,.65);
+        }
+
+        .ah-home-category-luxury {
+            border-color: rgba(190,140,240,.65);
+        }
+
+        @media (max-width: 820px) {
+
+            .ah-home-category-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .ah-home-category-card {
+                min-height: 330px;
+            }
+
+        }
+
+        @media (min-width: 821px) and (max-width: 1050px) {
+
+            .ah-home-category-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .ah-home-category-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+        }
+
+
+        /* =====================================================
            FULL SCREEN MOBILE MENU OVERLAY
            SOLID WHITE BACKGROUND
         ===================================================== */
@@ -1664,6 +1868,165 @@
 
 
     <!-- =====================================================
+         BUSINESS / JOBS / LUXURY VISUAL CATEGORIES
+    ====================================================== -->
+
+    <section
+        class="ah-home-category-section"
+        aria-label="ALON HISTORYVERSE 24 Business Jobs and Luxury"
+    >
+
+        <h2 class="ah-home-category-title">
+            🌐 Explore Our Services
+        </h2>
+
+        <p class="ah-home-category-subtitle">
+            Discover business showrooms, local and international jobs,
+            and premium luxury lifestyle opportunities.
+        </p>
+
+
+        <div class="ah-home-category-grid">
+
+
+            <!-- =================================================
+                 BUSINESS / SHOWROOM
+            ================================================== -->
+
+            <a
+                class="ah-home-category-card ah-home-category-business"
+                href="./regular-marketplace.html"
+            >
+
+                <div
+                    class="ah-home-category-visual ah-home-category-visual-business"
+                    aria-hidden="true"
+                >
+
+                    <span class="ah-home-category-icon">
+                        🏢
+                    </span>
+
+                    <div class="ah-home-category-overlay"></div>
+
+                </div>
+
+
+                <div class="ah-home-category-content">
+
+                    <h3>
+                        🏢 Business &amp; Showroom
+                    </h3>
+
+                    <p>
+                        Discover local and international businesses,
+                        showrooms, products, vehicles, property and
+                        marketplace opportunities.
+                    </p>
+
+                    <span class="ah-home-category-link">
+                        Explore Business →
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- =================================================
+                 LOCAL / INTERNATIONAL JOBS
+            ================================================== -->
+
+            <a
+                class="ah-home-category-card ah-home-category-jobs"
+                href="./jobs.html"
+            >
+
+                <div
+                    class="ah-home-category-visual ah-home-category-visual-jobs"
+                    aria-hidden="true"
+                >
+
+                    <span class="ah-home-category-icon">
+                        💼
+                    </span>
+
+                    <div class="ah-home-category-overlay"></div>
+
+                </div>
+
+
+                <div class="ah-home-category-content">
+
+                    <h3>
+                        💼 Local &amp; International Jobs
+                    </h3>
+
+                    <p>
+                        Find local and international employment
+                        opportunities, career listings and professional
+                        connections.
+                    </p>
+
+                    <span class="ah-home-category-link">
+                        Explore Jobs →
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- =================================================
+                 LUXURY LIFESTYLE
+            ================================================== -->
+
+            <a
+                class="ah-home-category-card ah-home-category-luxury"
+                href="./luxury-lifestyle.html"
+            >
+
+                <div
+                    class="ah-home-category-visual ah-home-category-visual-luxury"
+                    aria-hidden="true"
+                >
+
+                    <span class="ah-home-category-icon">
+                        ✨
+                    </span>
+
+                    <div class="ah-home-category-overlay"></div>
+
+                </div>
+
+
+                <div class="ah-home-category-content">
+
+                    <h3>
+                        ✨ Luxury Lifestyle
+                    </h3>
+
+                    <p>
+                        Explore luxury aircraft, helicopters, cars,
+                        watches, property, hotels, yachts and premium
+                        lifestyle categories.
+                    </p>
+
+                    <span class="ah-home-category-link">
+                        Explore Luxury →
+                    </span>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
          EXPLORE
     ====================================================== -->
 
@@ -2629,6 +2992,7 @@
 
     /* =======================================================
        BACK
+       ALWAYS RETURN TO HOME PAGE
     ======================================================== */
 
     if (backBtn) {
@@ -2642,21 +3006,8 @@
 
                 closeMenu();
 
-
-                if (
-                    window.history.length > 1
-                ) {
-
-                    window.history.go(-1);
-
-                    return;
-
-                }
-
-
-                window.location.replace(
-                    "./index.html"
-                );
+                window.location.href =
+                    "./index.html";
 
             },
             true
@@ -3093,6 +3444,7 @@
                 }
 
             }
+
         );
 
     }
