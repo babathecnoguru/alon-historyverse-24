@@ -37,7 +37,7 @@
     <style>
 
         /* =====================================================
-           HOME PAGE WHITE BACKGROUND
+           HOME PAGE WHITE / DARK / WHITE DESIGN
            ===================================================== */
 
         html,
@@ -53,6 +53,63 @@
 
         .page {
             background: #ffffff !important;
+            color: #05080f;
+        }
+
+        .page > .hero {
+            background: #05080f !important;
+            color: #ffffff !important;
+            border-radius: 0;
+            padding: 32px 20px 30px;
+            margin-bottom: 34px;
+        }
+
+        .page > .hero h1,
+        .page > .hero h2,
+        .page > .hero p {
+            color: #ffffff;
+        }
+
+        .page > .section {
+            background: #ffffff !important;
+            color: #05080f !important;
+            margin: 0 auto 34px;
+            padding: 28px 20px;
+            border-radius: 18px;
+            box-sizing: border-box;
+        }
+
+        .page > .section h2,
+        .page > .section h3,
+        .page > .section p {
+            color: #05080f;
+        }
+
+        .page > .section + .section {
+            margin-top: 10px;
+        }
+
+        .page > .section .cards {
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            .page > .hero {
+                padding: 28px 15px 26px;
+                margin-bottom: 26px;
+            }
+
+            .page > .section {
+                margin-bottom: 26px;
+                padding: 24px 15px;
+                border-radius: 15px;
+            }
+
+            .page > .section .cards {
+                gap: 16px;
+            }
+
         }
 
 
@@ -290,6 +347,7 @@
             margin: 0 0 10px;
             font-size: 1rem;
             font-weight: 700;
+            color: #ffffff !important;
         }
 
         .ah-live-features-scroll {
@@ -314,7 +372,7 @@
             justify-content: center;
             min-height: 42px;
             padding: 10px 15px;
-            border: 1px solid rgba(5,8,15,.22);
+            border: 1px solid rgba(255,255,255,.22);
             border-radius: 999px;
             background: #ffffff;
             color: #05080f;
