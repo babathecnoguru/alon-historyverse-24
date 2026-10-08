@@ -3,7 +3,7 @@
  ALON HISTORYVERSE 24
  LUXURY LIFESTYLE / BRAND PROMOTER
  File: luxury-lifestyle.js
- Version: 2.0.0
+ Version: 2.1.0
  Owner: Baba Thecno Guru
 
  IMPORTANT
@@ -14,6 +14,10 @@
  4. No payment is processed by this frontend.
  5. Real high-value transactions require secure backend,
     verification and applicable legal compliance.
+ 6. Every Luxury item has its own unique Item ID/folder.
+ 7. Item media, details, saves and conversations are kept
+    separated by Item ID.
+ 8. Current frontend identity/chat uses localStorage.
 ============================================================
 */
 
@@ -24,7 +28,7 @@
        CONSTANTS
     ====================================================== */
 
-    const VERSION = "2.0.0";
+    const VERSION = "2.1.0";
 
     const SYSTEM_NAME = "ALON HISTORYVERSE 24";
 
@@ -41,6 +45,18 @@
 
     const MEDIA_KEY =
         "alon_historyverse_luxury_lifestyle_media";
+
+    const PROFILE_KEY =
+        "alon_historyverse_luxury_lifestyle_profile";
+
+    const SAVED_KEY =
+        "alon_historyverse_luxury_lifestyle_saved_items";
+
+    const MESSAGES_KEY =
+        "alon_historyverse_luxury_lifestyle_messages";
+
+    const CHAT_USER_KEY =
+        "alon_historyverse_luxury_lifestyle_chat_user";
 
     /* ======================================================
        ACTIONS
@@ -425,6 +441,143 @@
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
+    }
+
+    /* ======================================================
+       LOCAL PROFILE / USER ID
+    ====================================================== */
+
+    function getChatUser() {
+
+        let user =
+            readJSON(
+                CHAT_USER_KEY,
+                null
+            );
+
+        if (
+            !user ||
+            !user.id
+        ) {
+
+            user = {
+
+                id:
+                    id("luxury_user"),
+
+                name:
+                    "Luxury User",
+
+                createdAt:
+                    now()
+            };
+
+            writeJSON(
+                CHAT_USER_KEY,
+                user
+            );
+        }
+
+        return user;
+    }
+
+    function setChatUser(
+        userData
+    ) {
+
+        const current =
+            getChatUser();
+
+        const next =
+            Object.assign(
+                {},
+                current,
+                userData || {}
+            );
+
+        if (!next.id) {
+            next.id =
+                id("luxury_user");
+        }
+
+        if (!next.name) {
+            next.name =
+                "Luxury User";
+        }
+
+        writeJSON(
+            CHAT_USER_KEY,
+            next
+        );
+
+        writeJSON(
+            PROFILE_KEY,
+            next
+        );
+
+        return next;
+    }
+
+    function getProfile() {
+
+        return readJSON(
+            PROFILE_KEY,
+            getChatUser()
+        );
+    }
+
+    function getCurrentUserId() {
+
+        const user =
+            getChatUser();
+
+        return text(user.id);
+    }
+
+    function getListingSellerId(
+        listing
+    ) {
+
+        if (!listing) {
+            return "";
+        }
+
+        return text(
+            listing.ownerId ||
+            listing.sellerId ||
+            listing.ownerProfileId ||
+            (
+                listing.ownerName
+                    ? "owner_" +
+                      listing.ownerName
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, "_")
+                : ""
+            ) ||
+            (
+                listing.companyName
+                    ? "company_" +
+                      listing.companyName
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, "_")
+                : ""
+            ) ||
+            "seller_" + listing.id
+        );
+    }
+
+    function isListingOwner(
+        listing
+    ) {
+
+        if (!listing) {
+            return false;
+        }
+
+        return (
+            getListingSellerId(listing) ===
+            getCurrentUserId()
+        );
     }
 
     /* ======================================================
@@ -997,10 +1150,23 @@
         const settings =
             getSettings();
 
+        const owner =
+            getChatUser();
+
+        const listingId =
+            id("luxury");
+
         const listing = {
 
             id:
-                id("luxury"),
+                listingId,
+
+            itemId:
+                listingId,
+
+            itemFolderId:
+                "luxury_item_folder_" +
+                listingId,
 
             system:
                 SYSTEM_NAME,
@@ -1080,17 +1246,87 @@
                     settings.callingCode
                 ),
 
+            state:
+                text(data.state),
+
+            region:
+                text(data.region),
+
             city:
                 text(
                     data.city ||
                     settings.city
                 ),
 
+            serviceLocation:
+                text(data.serviceLocation),
+
+            availabilityCountry:
+                text(data.availabilityCountry),
+
+            availabilityCountryCode:
+                text(data.availabilityCountryCode),
+
+            availabilityState:
+                text(data.availabilityState),
+
+            availabilityRegion:
+                text(data.availabilityRegion),
+
+            availabilityCity:
+                text(data.availabilityCity),
+
+            availabilityLocation:
+                text(data.availabilityLocation),
+
+            customerRequiredCountry:
+                text(data.customerRequiredCountry),
+
+            customerRequiredCountryCode:
+                text(data.customerRequiredCountryCode),
+
+            customerRequiredState:
+                text(data.customerRequiredState),
+
+            customerRequiredRegion:
+                text(data.customerRequiredRegion),
+
+            customerRequiredCity:
+                text(data.customerRequiredCity),
+
+            customerRequiredLocation:
+                text(data.customerRequiredLocation),
+
+            canProvideOutsideArea:
+                text(data.canProvideOutsideArea),
+
+            ownerId:
+                text(
+                    data.ownerId ||
+                    owner.id
+                ),
+
+            sellerId:
+                text(
+                    data.sellerId ||
+                    data.ownerId ||
+                    owner.id
+                ),
+
+            ownerProfileId:
+                text(
+                    data.ownerProfileId ||
+                    owner.id
+                ),
+
             ownerType:
                 text(data.ownerType),
 
             ownerName:
-                text(data.ownerName),
+                text(
+                    data.ownerName ||
+                    owner.name
+                ),
 
             companyName:
                 text(data.companyName),
@@ -1108,6 +1344,9 @@
                 Array.isArray(data.media)
                     ? data.media
                     : [],
+
+            savedBy:
+                [],
 
             status:
                 STATUS.DRAFT,
@@ -1169,19 +1408,55 @@
             );
         }
 
-        listings[index] =
+        const current =
+            listings[index];
+
+        const merged =
             Object.assign(
                 {},
-                listings[index],
+                current,
                 updates || {},
                 {
                     updatedAt: now()
                 }
             );
 
+        listings[index] =
+            merged;
+
         saveListings(listings);
 
         return listings[index];
+    }
+
+    /* ======================================================
+       OWNER CHECK
+    ====================================================== */
+
+    function requireListingOwner(
+        listingId
+    ) {
+
+        const listing =
+            getListing(listingId);
+
+        if (!listing) {
+
+            throw new Error(
+                "Listing not found."
+            );
+        }
+
+        if (
+            !isListingOwner(listing)
+        ) {
+
+            throw new Error(
+                "Only the item owner can perform this action."
+            );
+        }
+
+        return listing;
     }
 
     /* ======================================================
@@ -1192,13 +1467,18 @@
         listingId
     ) {
 
+        const listing =
+            requireListingOwner(
+                listingId
+            );
+
         const listings =
             getListings();
 
         const next =
             listings.filter(
-                function (listing) {
-                    return listing.id !== listingId;
+                function (item) {
+                    return item.id !== listingId;
                 }
             );
 
@@ -1210,6 +1490,32 @@
         }
 
         saveListings(next);
+
+        const saved =
+            getSavedItems();
+
+        saveSavedItems(
+            saved.filter(
+                function (itemId) {
+                    return itemId !== listingId;
+                }
+            )
+        );
+
+        const media =
+            getMedia();
+
+        saveMedia(
+            media.filter(
+                function (item) {
+                    return item.listingId !== listingId;
+                }
+            )
+        );
+
+        deleteItemConversations(
+            listing
+        );
 
         return true;
     }
@@ -1236,6 +1542,10 @@
     function publishListing(
         listingId
     ) {
+
+        requireListingOwner(
+            listingId
+        );
 
         if (!termsAccepted()) {
 
@@ -1269,6 +1579,10 @@
         listingId,
         status
     ) {
+
+        requireListingOwner(
+            listingId
+        );
 
         const allowed =
             Object.values(STATUS);
@@ -1306,7 +1620,60 @@
 
         return writeJSON(
             MEDIA_KEY,
-            media
+            Array.isArray(media)
+                ? media
+                : []
+        );
+    }
+
+    function getListingMedia(
+        listingId
+    ) {
+
+        const listing =
+            getListing(listingId);
+
+        if (!listing) {
+            return [];
+        }
+
+        const ownMedia =
+            Array.isArray(listing.media)
+                ? listing.media
+                : [];
+
+        const stored =
+            getMedia().filter(
+                function (item) {
+                    return (
+                        item.listingId ===
+                        listingId
+                    );
+                }
+            );
+
+        const combined =
+            ownMedia.concat(
+                stored
+            );
+
+        const seen = {};
+
+        return combined.filter(
+            function (item) {
+
+                if (!item || !item.id) {
+                    return false;
+                }
+
+                if (seen[item.id]) {
+                    return false;
+                }
+
+                seen[item.id] = true;
+
+                return true;
+            }
         );
     }
 
@@ -1324,6 +1691,10 @@
                 "Listing not found."
             );
         }
+
+        requireListingOwner(
+            listingId
+        );
 
         if (!mediaData) {
 
@@ -1355,6 +1726,11 @@
                 id("media"),
 
             listingId:
+                listingId,
+
+            itemFolderId:
+                listing.itemFolderId ||
+                "luxury_item_folder_" +
                 listingId,
 
             type:
@@ -1403,6 +1779,10 @@
         mediaId
     ) {
 
+        requireListingOwner(
+            listingId
+        );
+
         const listing =
             getListing(listingId);
 
@@ -1438,6 +1818,108 @@
                     return item.id !== mediaId;
                 }
             )
+        );
+
+        return true;
+    }
+
+    /* ======================================================
+       SAVE ITEM
+    ====================================================== */
+
+    function getSavedItems() {
+
+        const data =
+            readJSON(
+                SAVED_KEY,
+                []
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+    }
+
+    function saveSavedItems(
+        itemIds
+    ) {
+
+        return writeJSON(
+            SAVED_KEY,
+            Array.isArray(itemIds)
+                ? itemIds
+                : []
+        );
+    }
+
+    function isItemSaved(
+        listingId
+    ) {
+
+        return getSavedItems()
+            .includes(listingId);
+    }
+
+    function saveItem(
+        listingId
+    ) {
+
+        const listing =
+            getListing(listingId);
+
+        if (!listing) {
+            return false;
+        }
+
+        const saved =
+            getSavedItems();
+
+        if (!saved.includes(listingId)) {
+
+            saved.push(
+                listingId
+            );
+
+            saveSavedItems(
+                saved
+            );
+        }
+
+        return true;
+    }
+
+    function unsaveItem(
+        listingId
+    ) {
+
+        saveSavedItems(
+            getSavedItems().filter(
+                function (itemId) {
+                    return itemId !== listingId;
+                }
+            )
+        );
+
+        return true;
+    }
+
+    function toggleSaveItem(
+        listingId
+    ) {
+
+        if (
+            isItemSaved(listingId)
+        ) {
+
+            unsaveItem(
+                listingId
+            );
+
+            return false;
+        }
+
+        saveItem(
+            listingId
         );
 
         return true;
@@ -1497,7 +1979,7 @@
 
                 if (
                     filters.city &&
-                    listing.city.toLowerCase() !==
+                    text(listing.city).toLowerCase() !==
                     text(filters.city).toLowerCase()
                 ) {
                     return false;
@@ -1519,9 +2001,27 @@
                     return false;
                 }
 
+                if (
+                    filters.ownerOnly === true &&
+                    !isListingOwner(listing)
+                ) {
+                    return false;
+                }
+
+                if (
+                    filters.savedOnly === true &&
+                    !isItemSaved(listing.id)
+                ) {
+                    return false;
+                }
+
                 if (query) {
 
                     const searchable = [
+
+                        listing.id,
+
+                        listing.itemId,
 
                         listing.title,
 
@@ -1535,7 +2035,29 @@
 
                         listing.country,
 
+                        listing.state,
+
+                        listing.region,
+
                         listing.city,
+
+                        listing.serviceLocation,
+
+                        listing.availabilityCountry,
+
+                        listing.availabilityState,
+
+                        listing.availabilityCity,
+
+                        listing.availabilityLocation,
+
+                        listing.customerRequiredCountry,
+
+                        listing.customerRequiredState,
+
+                        listing.customerRequiredCity,
+
+                        listing.customerRequiredLocation,
 
                         listing.ownerName,
 
@@ -2267,11 +2789,164 @@
                                 ]
                             ),
 
+                        countryFlag:
+                            valueFrom(
+                                form,
+                                [
+                                    "countryFlag"
+                                ]
+                            ),
+
+                        callingCode:
+                            valueFrom(
+                                form,
+                                [
+                                    "callingCode"
+                                ]
+                            ),
+
+                        state:
+                            valueFrom(
+                                form,
+                                [
+                                    "state"
+                                ]
+                            ),
+
+                        region:
+                            valueFrom(
+                                form,
+                                [
+                                    "region"
+                                ]
+                            ),
+
                         city:
                             valueFrom(
                                 form,
                                 [
                                     "city"
+                                ]
+                            ),
+
+                        serviceLocation:
+                            valueFrom(
+                                form,
+                                [
+                                    "serviceLocation",
+                                    "location"
+                                ]
+                            ),
+
+                        availabilityCountry:
+                            valueFrom(
+                                form,
+                                [
+                                    "availabilityCountry"
+                                ]
+                            ),
+
+                        availabilityCountryCode:
+                            valueFrom(
+                                form,
+                                [
+                                    "availabilityCountryCode"
+                                ]
+                            ),
+
+                        availabilityState:
+                            valueFrom(
+                                form,
+                                [
+                                    "availabilityState"
+                                ]
+                            ),
+
+                        availabilityRegion:
+                            valueFrom(
+                                form,
+                                [
+                                    "availabilityRegion"
+                                ]
+                            ),
+
+                        availabilityCity:
+                            valueFrom(
+                                form,
+                                [
+                                    "availabilityCity"
+                                ]
+                            ),
+
+                        availabilityLocation:
+                            valueFrom(
+                                form,
+                                [
+                                    "availabilityLocation"
+                                ]
+                            ),
+
+                        customerRequiredCountry:
+                            valueFrom(
+                                form,
+                                [
+                                    "customerRequiredCountry"
+                                ]
+                            ),
+
+                        customerRequiredCountryCode:
+                            valueFrom(
+                                form,
+                                [
+                                    "customerRequiredCountryCode"
+                                ]
+                            ),
+
+                        customerRequiredState:
+                            valueFrom(
+                                form,
+                                [
+                                    "customerRequiredState"
+                                ]
+                            ),
+
+                        customerRequiredRegion:
+                            valueFrom(
+                                form,
+                                [
+                                    "customerRequiredRegion"
+                                ]
+                            ),
+
+                        customerRequiredCity:
+                            valueFrom(
+                                form,
+                                [
+                                    "customerRequiredCity"
+                                ]
+                            ),
+
+                        customerRequiredLocation:
+                            valueFrom(
+                                form,
+                                [
+                                    "customerRequiredLocation"
+                                ]
+                            ),
+
+                        canProvideOutsideArea:
+                            valueFrom(
+                                form,
+                                [
+                                    "canProvideOutsideArea"
+                                ]
+                            ),
+
+                        ownerId:
+                            valueFrom(
+                                form,
+                                [
+                                    "ownerId"
                                 ]
                             ),
 
@@ -2330,7 +3005,7 @@
                     form.reset();
 
                     notify(
-                        "Listing saved as Draft."
+                        "Item created in its own Luxury Folder."
                     );
 
                     renderListings();
@@ -2376,6 +3051,64 @@
         ).forEach(
             handleListingForm
         );
+    }
+
+    /* ======================================================
+       ITEM FOLDER HELPERS
+    ====================================================== */
+
+    function getItemFolderName(
+        listing
+    ) {
+
+        if (!listing) {
+            return "Luxury Item";
+        }
+
+        return (
+            listing.categoryIcon ||
+            "✨"
+        ) +
+        " " +
+        (
+            listing.title ||
+            "Luxury Item"
+        );
+    }
+
+    function getItemFolderData(
+        listing
+    ) {
+
+        return {
+
+            folderId:
+                listing.itemFolderId ||
+                "luxury_item_folder_" +
+                listing.id,
+
+            itemId:
+                listing.itemId ||
+                listing.id,
+
+            title:
+                listing.title || "Luxury Item",
+
+            category:
+                listing.categoryName || "",
+
+            sellerId:
+                getListingSellerId(listing),
+
+            media:
+                getListingMedia(listing.id),
+
+            saved:
+                isItemSaved(listing.id),
+
+            owner:
+                isListingOwner(listing)
+        };
     }
 
     /* ======================================================
@@ -2449,9 +3182,9 @@
     ) {
 
         const media =
-            Array.isArray(listing.media)
-                ? listing.media
-                : [];
+            getListingMedia(
+                listing.id
+            );
 
         const firstMedia =
             media.find(
@@ -2471,12 +3204,18 @@
                         src="${escapeHTML(firstMedia.url)}"
                         alt="${escapeHTML(listing.title)}"
                         loading="lazy"
+                        style="
+                            width:100%;
+                            height:220px;
+                            object-fit:cover;
+                            display:block;
+                        "
                     >
                 `
                 : `
                     <div
                         style="
-                            min-height:180px;
+                            min-height:220px;
                             display:flex;
                             align-items:center;
                             justify-content:center;
@@ -2494,28 +3233,92 @@
             [
                 listing.countryFlag,
                 listing.country,
+                listing.state || listing.region,
                 listing.city
             ]
                 .filter(Boolean)
                 .join(" ");
 
+        const availability =
+            [
+                listing.availabilityCountry,
+                listing.availabilityState ||
+                listing.availabilityRegion,
+                listing.availabilityCity,
+                listing.availabilityLocation
+            ]
+                .filter(Boolean)
+                .join(" / ");
+
+        const requiredArea =
+            [
+                listing.customerRequiredCountry,
+                listing.customerRequiredState ||
+                listing.customerRequiredRegion,
+                listing.customerRequiredCity,
+                listing.customerRequiredLocation
+            ]
+                .filter(Boolean)
+                .join(" / ");
+
+        const owner =
+            isListingOwner(listing);
+
+        const saved =
+            isItemSaved(listing.id);
+
+        const folderId =
+            listing.itemFolderId ||
+            "luxury_item_folder_" +
+            listing.id;
+
         return `
             <article
-                class="luxury-listing-card"
+                class="luxury-listing-card luxury-item-folder"
                 data-listing-id="${escapeHTML(listing.id)}"
+                data-item-id="${escapeHTML(
+                    listing.itemId || listing.id
+                )}"
+                data-item-folder="${escapeHTML(folderId)}"
                 style="
                     border:1px solid rgba(215,179,90,.35);
-                    border-radius:14px;
+                    border-radius:16px;
                     overflow:hidden;
                     background:#080d16;
-                    margin-bottom:18px;
+                    margin-bottom:22px;
+                    box-shadow:0 12px 40px rgba(0,0,0,.25);
                 "
             >
 
                 <div
+                    style="
+                        padding:9px 14px;
+                        background:rgba(215,179,90,.08);
+                        border-bottom:1px solid rgba(215,179,90,.22);
+                        font-size:12px;
+                        display:flex;
+                        justify-content:space-between;
+                        gap:10px;
+                        flex-wrap:wrap;
+                    "
+                >
+                    <span>
+                        📁 Luxury Item Folder
+                    </span>
+
+                    <span>
+                        ID:
+                        ${escapeHTML(
+                            listing.itemId ||
+                            listing.id
+                        )}
+                    </span>
+                </div>
+
+                <div
                     class="luxury-listing-media"
                     style="
-                        min-height:180px;
+                        min-height:220px;
                         background:#05080f;
                         overflow:hidden;
                     "
@@ -2607,6 +3410,42 @@
                             : ""
                     }
 
+                    ${
+                        availability
+                            ? `
+                                <div
+                                    style="
+                                        margin-top:8px;
+                                        font-size:13px;
+                                    "
+                                >
+                                    🟢 Available:
+                                    ${escapeHTML(
+                                        availability
+                                    )}
+                                </div>
+                            `
+                            : ""
+                    }
+
+                    ${
+                        requiredArea
+                            ? `
+                                <div
+                                    style="
+                                        margin-top:8px;
+                                        font-size:13px;
+                                    "
+                                >
+                                    🎯 Customer Need:
+                                    ${escapeHTML(
+                                        requiredArea
+                                    )}
+                                </div>
+                            `
+                            : ""
+                    }
+
                     <div
                         style="
                             margin-top:10px;
@@ -2632,15 +3471,43 @@
 
                         <button
                             type="button"
+                            data-luxury-open-folder
+                            data-id="${escapeHTML(listing.id)}"
+                        >
+                            📁 Open Item Folder
+                        </button>
+
+                        <button
+                            type="button"
                             data-luxury-view
                             data-id="${escapeHTML(listing.id)}"
                         >
                             View
                         </button>
 
+                        <button
+                            type="button"
+                            data-luxury-message-seller
+                            data-id="${escapeHTML(listing.id)}"
+                        >
+                            💬 Message Seller
+                        </button>
+
+                        <button
+                            type="button"
+                            data-luxury-save
+                            data-id="${escapeHTML(listing.id)}"
+                        >
+                            ${
+                                saved
+                                    ? "★ Saved"
+                                    : "☆ Save"
+                            }
+                        </button>
+
                         ${
-                            listing.status ===
-                            STATUS.DRAFT
+                            owner &&
+                            listing.status === STATUS.DRAFT
                                 ? `
                                     <button
                                         type="button"
@@ -2653,13 +3520,27 @@
                                 : ""
                         }
 
-                        <button
-                            type="button"
-                            data-luxury-delete
-                            data-id="${escapeHTML(listing.id)}"
-                        >
-                            Delete
-                        </button>
+                        ${
+                            owner
+                                ? `
+                                    <button
+                                        type="button"
+                                        data-luxury-edit
+                                        data-id="${escapeHTML(listing.id)}"
+                                    >
+                                        ✏️ Edit
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        data-luxury-delete
+                                        data-id="${escapeHTML(listing.id)}"
+                                    >
+                                        Delete
+                                    </button>
+                                `
+                                : ""
+                        }
 
                     </div>
 
@@ -2676,6 +3557,33 @@
     function bindListingButtons(
         container
     ) {
+
+        $$(
+            "[data-luxury-open-folder]",
+            container
+        ).forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const listing =
+                            getListing(
+                                button.dataset.id
+                            );
+
+                        if (!listing) {
+                            return;
+                        }
+
+                        showItemFolder(
+                            listing
+                        );
+                    }
+                );
+            }
+        );
 
         $$(
             "[data-luxury-view]",
@@ -2697,6 +3605,103 @@
                         }
 
                         showListingDetails(
+                            listing
+                        );
+                    }
+                );
+            }
+        );
+
+        $$(
+            "[data-luxury-message-seller]",
+            container
+        ).forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const listing =
+                            getListing(
+                                button.dataset.id
+                            );
+
+                        if (!listing) {
+                            return;
+                        }
+
+                        showLuxuryChat(
+                            listing
+                        );
+                    }
+                );
+            }
+        );
+
+        $$(
+            "[data-luxury-save]",
+            container
+        ).forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const saved =
+                            toggleSaveItem(
+                                button.dataset.id
+                            );
+
+                        button.textContent =
+                            saved
+                                ? "★ Saved"
+                                : "☆ Save";
+
+                        notify(
+                            saved
+                                ? "Item saved."
+                                : "Item removed from Saved Items."
+                        );
+                    }
+                );
+            }
+        );
+
+        $$(
+            "[data-luxury-edit]",
+            container
+        ).forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const listing =
+                            getListing(
+                                button.dataset.id
+                            );
+
+                        if (!listing) {
+                            return;
+                        }
+
+                        if (
+                            !isListingOwner(
+                                listing
+                            )
+                        ) {
+
+                            alert(
+                                "Only the item owner can edit this item."
+                            );
+
+                            return;
+                        }
+
+                        showEditListing(
                             listing
                         );
                     }
@@ -2747,28 +3752,1329 @@
                     "click",
                     function () {
 
+                        const listing =
+                            getListing(
+                                button.dataset.id
+                            );
+
+                        if (!listing) {
+                            return;
+                        }
+
+                        if (
+                            !isListingOwner(
+                                listing
+                            )
+                        ) {
+
+                            alert(
+                                "Only the item owner can delete this item."
+                            );
+
+                            return;
+                        }
+
                         const confirmed =
                             window.confirm(
-                                "Delete this listing?"
+                                "Delete this Luxury Item Folder and its item data?"
                             );
 
                         if (!confirmed) {
                             return;
                         }
 
-                        deleteListing(
-                            button.dataset.id
-                        );
+                        try {
 
-                        notify(
-                            "Listing deleted."
-                        );
+                            deleteListing(
+                                button.dataset.id
+                            );
 
-                        renderListings();
+                            notify(
+                                "Luxury Item Folder deleted."
+                            );
+
+                            renderListings();
+
+                        } catch (error) {
+
+                            alert(
+                                error.message
+                            );
+                        }
                     }
                 );
             }
         );
+    }
+
+    /* ======================================================
+       ITEM FOLDER
+    ====================================================== */
+
+    function showItemFolder(
+        listing
+    ) {
+
+        let modal =
+            $("#luxuryItemFolderModal");
+
+        if (!modal) {
+
+            modal =
+                document.createElement(
+                    "div"
+                );
+
+            modal.id =
+                "luxuryItemFolderModal";
+
+            document.body.appendChild(
+                modal
+            );
+        }
+
+        const media =
+            getListingMedia(
+                listing.id
+            );
+
+        const owner =
+            isListingOwner(
+                listing
+            );
+
+        const saved =
+            isItemSaved(
+                listing.id
+            );
+
+        const sellerId =
+            getListingSellerId(
+                listing
+            );
+
+        const availability =
+            [
+                listing.availabilityCountry,
+                listing.availabilityState ||
+                listing.availabilityRegion,
+                listing.availabilityCity,
+                listing.availabilityLocation
+            ]
+                .filter(Boolean)
+                .join(" / ");
+
+        const requiredArea =
+            [
+                listing.customerRequiredCountry,
+                listing.customerRequiredState ||
+                listing.customerRequiredRegion,
+                listing.customerRequiredCity,
+                listing.customerRequiredLocation
+            ]
+                .filter(Boolean)
+                .join(" / ");
+
+        modal.innerHTML = `
+            <div
+                style="
+                    position:fixed;
+                    inset:0;
+                    z-index:100001;
+                    background:rgba(0,0,0,.88);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    padding:12px;
+                    box-sizing:border-box;
+                "
+            >
+
+                <div
+                    style="
+                        width:min(980px,100%);
+                        max-height:94vh;
+                        overflow:auto;
+                        background:#05080f;
+                        border:1px solid #d7b35a;
+                        border-radius:18px;
+                        color:#fff;
+                        box-sizing:border-box;
+                    "
+                >
+
+                    <div
+                        style="
+                            position:sticky;
+                            top:0;
+                            z-index:2;
+                            padding:15px 18px;
+                            background:#05080f;
+                            border-bottom:1px solid rgba(215,179,90,.3);
+                            display:flex;
+                            justify-content:space-between;
+                            gap:12px;
+                            align-items:center;
+                        "
+                    >
+
+                        <div>
+                            <div
+                                style="
+                                    color:#d7b35a;
+                                    font-size:12px;
+                                "
+                            >
+                                📁 INDIVIDUAL LUXURY ITEM FOLDER
+                            </div>
+
+                            <h2
+                                style="
+                                    color:#f0d27a;
+                                    margin:5px 0 0;
+                                "
+                            >
+                                ${escapeHTML(
+                                    listing.categoryIcon || "✨"
+                                )}
+                                ${escapeHTML(
+                                    listing.title ||
+                                    "Luxury Item"
+                                )}
+                            </h2>
+                        </div>
+
+                        <button
+                            type="button"
+                            data-close-luxury-folder
+                            style="
+                                width:40px;
+                                height:40px;
+                                border-radius:50%;
+                                background:transparent;
+                                color:#f0d27a;
+                                border:1px solid #d7b35a;
+                                font-size:24px;
+                                flex:none;
+                            "
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                    <div
+                        style="
+                            padding:18px;
+                        "
+                    >
+
+                        <div
+                            style="
+                                padding:13px;
+                                border:1px solid rgba(215,179,90,.25);
+                                border-radius:10px;
+                                margin-bottom:15px;
+                                background:rgba(215,179,90,.04);
+                            "
+                        >
+
+                            <div>
+                                <strong>Item ID:</strong>
+                                ${escapeHTML(
+                                    listing.itemId ||
+                                    listing.id
+                                )}
+                            </div>
+
+                            <div
+                                style="
+                                    margin-top:5px;
+                                    font-size:12px;
+                                    opacity:.7;
+                                    word-break:break-all;
+                                "
+                            >
+                                Folder:
+                                ${escapeHTML(
+                                    listing.itemFolderId ||
+                                    "luxury_item_folder_" +
+                                    listing.id
+                                )}
+                            </div>
+
+                            <div
+                                style="
+                                    margin-top:5px;
+                                    font-size:12px;
+                                    opacity:.7;
+                                "
+                            >
+                                Seller ID:
+                                ${escapeHTML(
+                                    sellerId
+                                )}
+                            </div>
+
+                        </div>
+
+                        <div
+                            style="
+                                display:flex;
+                                flex-wrap:wrap;
+                                gap:8px;
+                                margin-bottom:18px;
+                            "
+                        >
+
+                            <button
+                                type="button"
+                                data-folder-save
+                                data-id="${escapeHTML(listing.id)}"
+                            >
+                                ${
+                                    saved
+                                        ? "★ Saved"
+                                        : "☆ Save Item"
+                                }
+                            </button>
+
+                            <button
+                                type="button"
+                                data-folder-chat
+                                data-id="${escapeHTML(listing.id)}"
+                            >
+                                💬 Private Chat
+                            </button>
+
+                            ${
+                                owner
+                                    ? `
+                                        <button
+                                            type="button"
+                                            data-folder-edit
+                                            data-id="${escapeHTML(listing.id)}"
+                                        >
+                                            ✏️ Edit Item
+                                        </button>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                        <section
+                            style="
+                                border:1px solid rgba(215,179,90,.25);
+                                border-radius:12px;
+                                padding:15px;
+                                margin-bottom:14px;
+                            "
+                        >
+
+                            <h3
+                                style="
+                                    color:#f0d27a;
+                                    margin-top:0;
+                                "
+                            >
+                                📋 Item Details
+                            </h3>
+
+                            <p>
+                                <strong>Category:</strong>
+                                ${escapeHTML(
+                                    listing.categoryName
+                                )}
+                            </p>
+
+                            <p>
+                                <strong>Action:</strong>
+                                ${escapeHTML(
+                                    listing.actionName
+                                )}
+                            </p>
+
+                            ${
+                                listing.brand
+                                    ? `
+                                        <p>
+                                            <strong>Brand:</strong>
+                                            ${escapeHTML(
+                                                listing.brand
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.model
+                                    ? `
+                                        <p>
+                                            <strong>Model:</strong>
+                                            ${escapeHTML(
+                                                listing.model
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.condition
+                                    ? `
+                                        <p>
+                                            <strong>Condition:</strong>
+                                            ${escapeHTML(
+                                                listing.condition
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.price
+                                    ? `
+                                        <p>
+                                            <strong>Price:</strong>
+                                            ${escapeHTML(
+                                                listing.currency
+                                            )}
+                                            ${escapeHTML(
+                                                listing.price
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            <p>
+                                <strong>Status:</strong>
+                                ${escapeHTML(
+                                    listing.status
+                                )}
+                            </p>
+
+                            <p>
+                                ${escapeHTML(
+                                    listing.description
+                                )}
+                            </p>
+
+                        </section>
+
+                        <section
+                            style="
+                                border:1px solid rgba(215,179,90,.25);
+                                border-radius:12px;
+                                padding:15px;
+                                margin-bottom:14px;
+                            "
+                        >
+
+                            <h3
+                                style="
+                                    color:#f0d27a;
+                                    margin-top:0;
+                                "
+                            >
+                                📍 Service / Availability
+                            </h3>
+
+                            ${
+                                availability
+                                    ? `
+                                        <p>
+                                            🟢
+                                            ${escapeHTML(
+                                                availability
+                                            )}
+                                        </p>
+                                    `
+                                    : `
+                                        <p>
+                                            Availability location not specified.
+                                        </p>
+                                    `
+                            }
+
+                            ${
+                                listing.serviceLocation
+                                    ? `
+                                        <p>
+                                            📌 Service Location:
+                                            ${escapeHTML(
+                                                listing.serviceLocation
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.canProvideOutsideArea
+                                    ? `
+                                        <p>
+                                            🌐 Can provide outside area:
+                                            ${escapeHTML(
+                                                listing.canProvideOutsideArea
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                        </section>
+
+                        <section
+                            style="
+                                border:1px solid rgba(215,179,90,.25);
+                                border-radius:12px;
+                                padding:15px;
+                                margin-bottom:14px;
+                            "
+                        >
+
+                            <h3
+                                style="
+                                    color:#f0d27a;
+                                    margin-top:0;
+                                "
+                            >
+                                🎯 Customer Required Area
+                            </h3>
+
+                            ${
+                                requiredArea
+                                    ? `
+                                        <p>
+                                            ${escapeHTML(
+                                                requiredArea
+                                            )}
+                                        </p>
+                                    `
+                                    : `
+                                        <p>
+                                            Customer required area not specified.
+                                        </p>
+                                    `
+                            }
+
+                        </section>
+
+                        <section
+                            style="
+                                border:1px solid rgba(215,179,90,.25);
+                                border-radius:12px;
+                                padding:15px;
+                                margin-bottom:14px;
+                            "
+                        >
+
+                            <h3
+                                style="
+                                    color:#f0d27a;
+                                    margin-top:0;
+                                "
+                            >
+                                👤 Owner / Seller
+                            </h3>
+
+                            ${
+                                listing.ownerName
+                                    ? `
+                                        <p>
+                                            <strong>Owner:</strong>
+                                            ${escapeHTML(
+                                                listing.ownerName
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.companyName
+                                    ? `
+                                        <p>
+                                            <strong>Company:</strong>
+                                            ${escapeHTML(
+                                                listing.companyName
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.ownerType
+                                    ? `
+                                        <p>
+                                            <strong>Type:</strong>
+                                            ${escapeHTML(
+                                                listing.ownerType
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.contactEmail
+                                    ? `
+                                        <p>
+                                            <strong>Email:</strong>
+                                            ${escapeHTML(
+                                                listing.contactEmail
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                            ${
+                                listing.contactPhone
+                                    ? `
+                                        <p>
+                                            <strong>Phone:</strong>
+                                            ${escapeHTML(
+                                                listing.contactPhone
+                                            )}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                        </section>
+
+                        <section
+                            style="
+                                border:1px solid rgba(215,179,90,.25);
+                                border-radius:12px;
+                                padding:15px;
+                            "
+                        >
+
+                            <h3
+                                style="
+                                    color:#f0d27a;
+                                    margin-top:0;
+                                "
+                            >
+                                🖼️ This Item's Media
+                            </h3>
+
+                            ${
+                                media.length
+                                    ? `
+                                        <div
+                                            style="
+                                                display:grid;
+                                                grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+                                                gap:10px;
+                                            "
+                                        >
+                                            ${media.map(
+                                                function (item) {
+
+                                                    if (
+                                                        (
+                                                            item.type === "photo" ||
+                                                            item.type === "hd-photo"
+                                                        ) &&
+                                                        item.url
+                                                    ) {
+
+                                                        return `
+                                                            <div
+                                                                style="
+                                                                    border:1px solid rgba(215,179,90,.2);
+                                                                    border-radius:10px;
+                                                                    overflow:hidden;
+                                                                "
+                                                            >
+                                                                <img
+                                                                    src="${escapeHTML(item.url)}"
+                                                                    alt="${escapeHTML(item.title || "")}"
+                                                                    style="
+                                                                        width:100%;
+                                                                        height:150px;
+                                                                        object-fit:cover;
+                                                                        display:block;
+                                                                    "
+                                                                >
+
+                                                                <div
+                                                                    style="
+                                                                        padding:7px;
+                                                                        font-size:11px;
+                                                                    "
+                                                                >
+                                                                    ${escapeHTML(
+                                                                        item.type
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        `;
+                                                    }
+
+                                                    if (
+                                                        item.type === "video" &&
+                                                        item.url
+                                                    ) {
+
+                                                        return `
+                                                            <div>
+                                                                <video
+                                                                    controls
+                                                                    style="
+                                                                        width:100%;
+                                                                        border-radius:10px;
+                                                                    "
+                                                                >
+                                                                    <source
+                                                                        src="${escapeHTML(item.url)}"
+                                                                    >
+                                                                </video>
+                                                            </div>
+                                                        `;
+                                                    }
+
+                                                    return `
+                                                        <div
+                                                            style="
+                                                                padding:15px;
+                                                                border:1px solid rgba(215,179,90,.2);
+                                                                border-radius:10px;
+                                                            "
+                                                        >
+                                                            ${escapeHTML(
+                                                                item.type
+                                                            )}
+                                                        </div>
+                                                    `;
+                                                }
+                                            ).join("")}
+                                        </div>
+                                    `
+                                    : `
+                                        <p>
+                                            इस item के folder में अभी media नहीं है।
+                                        </p>
+                                    `
+                            }
+
+                        </section>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        modal.style.display =
+            "block";
+
+        const close =
+            $(
+                "[data-close-luxury-folder]",
+                modal
+            );
+
+        if (close) {
+
+            close.addEventListener(
+                "click",
+                function () {
+
+                    modal.style.display =
+                        "none";
+                }
+            );
+        }
+
+        const saveButton =
+            $(
+                "[data-folder-save]",
+                modal
+            );
+
+        if (saveButton) {
+
+            saveButton.addEventListener(
+                "click",
+                function () {
+
+                    const isSaved =
+                        toggleSaveItem(
+                            listing.id
+                        );
+
+                    saveButton.textContent =
+                        isSaved
+                            ? "★ Saved"
+                            : "☆ Save Item";
+
+                    notify(
+                        isSaved
+                            ? "Item saved."
+                            : "Item removed from Saved Items."
+                    );
+                }
+            );
+        }
+
+        const chatButton =
+            $(
+                "[data-folder-chat]",
+                modal
+            );
+
+        if (chatButton) {
+
+            chatButton.addEventListener(
+                "click",
+                function () {
+
+                    showLuxuryChat(
+                        listing
+                    );
+                }
+            );
+        }
+
+        const editButton =
+            $(
+                "[data-folder-edit]",
+                modal
+            );
+
+        if (editButton) {
+
+            editButton.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        isListingOwner(
+                            listing
+                        )
+                    ) {
+
+                        showEditListing(
+                            listing
+                        );
+                    }
+                }
+            );
+        }
+    }
+
+    /* ======================================================
+       EDIT LISTING
+    ====================================================== */
+
+    function showEditListing(
+        listing
+    ) {
+
+        if (
+            !isListingOwner(
+                listing
+            )
+        ) {
+
+            alert(
+                "Only the item owner can edit this item."
+            );
+
+            return;
+        }
+
+        let modal =
+            $("#luxuryEditListingModal");
+
+        if (!modal) {
+
+            modal =
+                document.createElement(
+                    "div"
+                );
+
+            modal.id =
+                "luxuryEditListingModal";
+
+            document.body.appendChild(
+                modal
+            );
+        }
+
+        modal.innerHTML = `
+            <div
+                style="
+                    position:fixed;
+                    inset:0;
+                    z-index:100002;
+                    background:rgba(0,0,0,.88);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    padding:15px;
+                    box-sizing:border-box;
+                "
+            >
+
+                <div
+                    style="
+                        width:min(760px,100%);
+                        max-height:92vh;
+                        overflow:auto;
+                        background:#05080f;
+                        border:1px solid #d7b35a;
+                        border-radius:16px;
+                        padding:20px;
+                        color:#fff;
+                        box-sizing:border-box;
+                    "
+                >
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                            gap:10px;
+                        "
+                    >
+
+                        <h2
+                            style="
+                                color:#f0d27a;
+                                margin-top:0;
+                            "
+                        >
+                            ✏️ Edit Luxury Item
+                        </h2>
+
+                        <button
+                            type="button"
+                            data-close-luxury-edit
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                    <p
+                        style="
+                            font-size:12px;
+                            opacity:.7;
+                            word-break:break-all;
+                        "
+                    >
+                        Item ID:
+                        ${escapeHTML(
+                            listing.itemId ||
+                            listing.id
+                        )}
+                    </p>
+
+                    <form
+                        id="luxuryEditForm"
+                    >
+
+                        <label>
+                            Title
+                            <input
+                                name="title"
+                                value="${escapeHTML(
+                                    listing.title
+                                )}"
+                                required
+                            >
+                        </label>
+
+                        <label>
+                            Description
+                            <textarea
+                                name="description"
+                                rows="5"
+                            >${escapeHTML(
+                                listing.description
+                            )}</textarea>
+                        </label>
+
+                        <label>
+                            Brand
+                            <input
+                                name="brand"
+                                value="${escapeHTML(
+                                    listing.brand
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Model
+                            <input
+                                name="model"
+                                value="${escapeHTML(
+                                    listing.model
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Price
+                            <input
+                                name="price"
+                                value="${escapeHTML(
+                                    listing.price
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Currency
+                            <input
+                                name="currency"
+                                value="${escapeHTML(
+                                    listing.currency
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Service / Asset Location
+                            <input
+                                name="serviceLocation"
+                                value="${escapeHTML(
+                                    listing.serviceLocation
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Availability Country
+                            <input
+                                name="availabilityCountry"
+                                value="${escapeHTML(
+                                    listing.availabilityCountry
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Availability State / Region
+                            <input
+                                name="availabilityState"
+                                value="${escapeHTML(
+                                    listing.availabilityState ||
+                                    listing.availabilityRegion
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Availability City
+                            <input
+                                name="availabilityCity"
+                                value="${escapeHTML(
+                                    listing.availabilityCity
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Customer Required Country
+                            <input
+                                name="customerRequiredCountry"
+                                value="${escapeHTML(
+                                    listing.customerRequiredCountry
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Customer Required State / Region
+                            <input
+                                name="customerRequiredState"
+                                value="${escapeHTML(
+                                    listing.customerRequiredState ||
+                                    listing.customerRequiredRegion
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Customer Required City
+                            <input
+                                name="customerRequiredCity"
+                                value="${escapeHTML(
+                                    listing.customerRequiredCity
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Customer Required Location
+                            <input
+                                name="customerRequiredLocation"
+                                value="${escapeHTML(
+                                    listing.customerRequiredLocation
+                                )}"
+                            >
+                        </label>
+
+                        <label>
+                            Can Provide Outside Area?
+                            <input
+                                name="canProvideOutsideArea"
+                                value="${escapeHTML(
+                                    listing.canProvideOutsideArea
+                                )}"
+                            >
+                        </label>
+
+                        <div
+                            style="
+                                display:flex;
+                                gap:10px;
+                                flex-wrap:wrap;
+                                margin-top:15px;
+                            "
+                        >
+
+                            <button
+                                type="submit"
+                            >
+                                💾 Save Changes
+                            </button>
+
+                            <button
+                                type="button"
+                                data-close-luxury-edit
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        `;
+
+        const style =
+            document.createElement("style");
+
+        style.dataset.luxuryEditStyle =
+            "true";
+
+        style.textContent = `
+            #luxuryEditListingModal label {
+                display:block;
+                margin:12px 0;
+                color:#e8e8e8;
+            }
+
+            #luxuryEditListingModal input,
+            #luxuryEditListingModal textarea {
+                width:100%;
+                box-sizing:border-box;
+                margin-top:6px;
+                padding:10px;
+                border:1px solid rgba(215,179,90,.35);
+                border-radius:8px;
+                background:#101722;
+                color:#fff;
+            }
+
+            #luxuryEditListingModal button {
+                padding:10px 15px;
+                border:1px solid #d7b35a;
+                border-radius:8px;
+                background:#101722;
+                color:#fff;
+                cursor:pointer;
+            }
+
+            #luxuryEditListingModal form button[type="submit"] {
+                background:#d7b35a;
+                color:#05080f;
+                font-weight:700;
+            }
+        `;
+
+        if (
+            !document.querySelector(
+                "style[data-luxury-edit-style]"
+            )
+        ) {
+
+            document.head.appendChild(
+                style
+            );
+        }
+
+        modal.style.display =
+            "block";
+
+        $$(
+            "[data-close-luxury-edit]",
+            modal
+        ).forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        modal.style.display =
+                            "none";
+                    }
+                );
+            }
+        );
+
+        const form =
+            $("#luxuryEditForm", modal);
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    try {
+
+                        requireListingOwner(
+                            listing.id
+                        );
+
+                        const updates = {
+
+                            title:
+                                valueFrom(
+                                    form,
+                                    ["title"]
+                                ),
+
+                            description:
+                                valueFrom(
+                                    form,
+                                    ["description"]
+                                ),
+
+                            brand:
+                                valueFrom(
+                                    form,
+                                    ["brand"]
+                                ),
+
+                            model:
+                                valueFrom(
+                                    form,
+                                    ["model"]
+                                ),
+
+                            price:
+                                valueFrom(
+                                    form,
+                                    ["price"]
+                                ),
+
+                            currency:
+                                valueFrom(
+                                    form,
+                                    ["currency"]
+                                ),
+
+                            serviceLocation:
+                                valueFrom(
+                                    form,
+                                    ["serviceLocation"]
+                                ),
+
+                            availabilityCountry:
+                                valueFrom(
+                                    form,
+                                    ["availabilityCountry"]
+                                ),
+
+                            availabilityState:
+                                valueFrom(
+                                    form,
+                                    ["availabilityState"]
+                                ),
+
+                            availabilityCity:
+                                valueFrom(
+                                    form,
+                                    ["availabilityCity"]
+                                ),
+
+                            customerRequiredCountry:
+                                valueFrom(
+                                    form,
+                                    ["customerRequiredCountry"]
+                                ),
+
+                            customerRequiredState:
+                                valueFrom(
+                                    form,
+                                    ["customerRequiredState"]
+                                ),
+
+                            customerRequiredCity:
+                                valueFrom(
+                                    form,
+                                    ["customerRequiredCity"]
+                                ),
+
+                            customerRequiredLocation:
+                                valueFrom(
+                                    form,
+                                    ["customerRequiredLocation"]
+                                ),
+
+                            canProvideOutsideArea:
+                                valueFrom(
+                                    form,
+                                    ["canProvideOutsideArea"]
+                                )
+                        };
+
+                        updateListing(
+                            listing.id,
+                            updates
+                        );
+
+                        modal.style.display =
+                            "none";
+
+                        notify(
+                            "Luxury Item updated."
+                        );
+
+                        renderListings();
+
+                    } catch (error) {
+
+                        alert(
+                            error.message
+                        );
+                    }
+                }
+            );
+        }
     }
 
     /* ======================================================
@@ -2798,9 +5104,31 @@
         }
 
         const media =
-            Array.isArray(listing.media)
-                ? listing.media
-                : [];
+            getListingMedia(
+                listing.id
+            );
+
+        const availability =
+            [
+                listing.availabilityCountry,
+                listing.availabilityState ||
+                listing.availabilityRegion,
+                listing.availabilityCity,
+                listing.availabilityLocation
+            ]
+                .filter(Boolean)
+                .join(" / ");
+
+        const requiredArea =
+            [
+                listing.customerRequiredCountry,
+                listing.customerRequiredState ||
+                listing.customerRequiredRegion,
+                listing.customerRequiredCity,
+                listing.customerRequiredLocation
+            ]
+                .filter(Boolean)
+                .join(" / ");
 
         modal.innerHTML = `
             <div
@@ -2870,6 +5198,14 @@
                         </button>
 
                     </div>
+
+                    <p>
+                        <strong>Item ID:</strong>
+                        ${escapeHTML(
+                            listing.itemId ||
+                            listing.id
+                        )}
+                    </p>
 
                     <p>
                         <strong>Category:</strong>
@@ -2950,10 +5286,38 @@
                                         [
                                             listing.countryFlag,
                                             listing.country,
+                                            listing.state ||
+                                            listing.region,
                                             listing.city
                                         ]
                                             .filter(Boolean)
                                             .join(" ")
+                                    )}
+                                </p>
+                            `
+                            : ""
+                    }
+
+                    ${
+                        availability
+                            ? `
+                                <p>
+                                    <strong>Available In:</strong>
+                                    ${escapeHTML(
+                                        availability
+                                    )}
+                                </p>
+                            `
+                            : ""
+                    }
+
+                    ${
+                        requiredArea
+                            ? `
+                                <p>
+                                    <strong>Customer Needs In:</strong>
+                                    ${escapeHTML(
+                                        requiredArea
                                     )}
                                 </p>
                             `
@@ -2966,13 +5330,38 @@
                         )}
                     </p>
 
+                    <div
+                        style="
+                            display:flex;
+                            flex-wrap:wrap;
+                            gap:8px;
+                            margin:15px 0;
+                        "
+                    >
+
+                        <button
+                            type="button"
+                            data-details-folder
+                        >
+                            📁 Open Item Folder
+                        </button>
+
+                        <button
+                            type="button"
+                            data-details-chat
+                        >
+                            💬 Message Seller
+                        </button>
+
+                    </div>
+
                     ${
                         media.length
                             ? `
                                 <hr>
 
                                 <h3>
-                                    Media
+                                    Media — This Item Only
                                 </h3>
 
                                 <div>
@@ -3082,6 +5471,47 @@
 
                     modal.style.display =
                         "none";
+                }
+            );
+        }
+
+        const folder =
+            $(
+                "[data-details-folder]",
+                modal
+            );
+
+        if (folder) {
+
+            folder.addEventListener(
+                "click",
+                function () {
+
+                    modal.style.display =
+                        "none";
+
+                    showItemFolder(
+                        listing
+                    );
+                }
+            );
+        }
+
+        const chat =
+            $(
+                "[data-details-chat]",
+                modal
+            );
+
+        if (chat) {
+
+            chat.addEventListener(
+                "click",
+                function () {
+
+                    showLuxuryChat(
+                        listing
+                    );
                 }
             );
         }
@@ -3436,11 +5866,1907 @@
                             MEDIA_KEY
                         );
 
+                        localStorage.removeItem(
+                            SAVED_KEY
+                        );
+
+                        localStorage.removeItem(
+                            MESSAGES_KEY
+                        );
+
                         notify(
                             "Luxury Lifestyle local data cleared."
                         );
 
                         renderListings();
+                    }
+                );
+            }
+        );
+    }
+
+    /* ======================================================
+       PRIVATE MESSAGE SYSTEM
+    ====================================================== */
+
+    function getMessages() {
+
+        const data =
+            readJSON(
+                MESSAGES_KEY,
+                []
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+    }
+
+    function saveMessages(
+        messages
+    ) {
+
+        return writeJSON(
+            MESSAGES_KEY,
+            Array.isArray(messages)
+                ? messages
+                : []
+        );
+    }
+
+    function getConversationId(
+        listingId,
+        sellerId,
+        buyerId
+    ) {
+
+        return [
+            "luxury_chat",
+            listingId,
+            sellerId,
+            buyerId
+        ]
+            .map(
+                function (value) {
+                    return encodeURIComponent(
+                        text(value)
+                    );
+                }
+            )
+            .join("_");
+    }
+
+    function getConversation(
+        conversationId
+    ) {
+
+        return getMessages().find(
+            function (conversation) {
+                return (
+                    conversation.id ===
+                    conversationId
+                );
+            }
+        ) || null;
+    }
+
+    function getConversationForListing(
+        listing,
+        buyerId
+    ) {
+
+        if (!listing) {
+            return null;
+        }
+
+        const sellerId =
+            getListingSellerId(
+                listing
+            );
+
+        const buyer =
+            text(
+                buyerId ||
+                getCurrentUserId()
+            );
+
+        const conversationId =
+            getConversationId(
+                listing.id,
+                sellerId,
+                buyer
+            );
+
+        return getConversation(
+            conversationId
+        );
+    }
+
+    function createConversation(
+        listing,
+        buyerId
+    ) {
+
+        if (!listing) {
+
+            throw new Error(
+                "Listing is required."
+            );
+        }
+
+        const sellerId =
+            getListingSellerId(
+                listing
+            );
+
+        const buyer =
+            text(
+                buyerId ||
+                getCurrentUserId()
+            );
+
+        if (!sellerId) {
+
+            throw new Error(
+                "Seller identity is missing."
+            );
+        }
+
+        if (!buyer) {
+
+            throw new Error(
+                "Buyer identity is missing."
+            );
+        }
+
+        if (
+            sellerId ===
+            buyer
+        ) {
+
+            throw new Error(
+                "You cannot message yourself."
+            );
+        }
+
+        const conversationId =
+            getConversationId(
+                listing.id,
+                sellerId,
+                buyer
+            );
+
+        const existing =
+            getConversation(
+                conversationId
+            );
+
+        if (existing) {
+            return existing;
+        }
+
+        const currentUser =
+            getChatUser();
+
+        const conversation = {
+
+            id:
+                conversationId,
+
+            listingId:
+                listing.id,
+
+            itemId:
+                listing.itemId ||
+                listing.id,
+
+            itemFolderId:
+                listing.itemFolderId ||
+                "luxury_item_folder_" +
+                listing.id,
+
+            itemTitle:
+                listing.title ||
+                "Luxury Item",
+
+            sellerId:
+                sellerId,
+
+            sellerName:
+                listing.ownerName ||
+                listing.companyName ||
+                "Seller",
+
+            buyerId:
+                buyer,
+
+            buyerName:
+                currentUser.name ||
+                "Buyer",
+
+            messages:
+                [],
+
+            unreadForSeller:
+                0,
+
+            unreadForBuyer:
+                0,
+
+            createdAt:
+                now(),
+
+            updatedAt:
+                now()
+        };
+
+        const all =
+            getMessages();
+
+        all.unshift(
+            conversation
+        );
+
+        saveMessages(
+            all
+        );
+
+        return conversation;
+    }
+
+    function sendLuxuryMessage(
+        listingId,
+        message
+    ) {
+
+        const listing =
+            getListing(
+                listingId
+            );
+
+        if (!listing) {
+
+            throw new Error(
+                "Item not found."
+            );
+        }
+
+        const currentUser =
+            getChatUser();
+
+        const sellerId =
+            getListingSellerId(
+                listing
+            );
+
+        const senderId =
+            text(
+                currentUser.id
+            );
+
+        if (
+            !senderId
+        ) {
+
+            throw new Error(
+                "User identity is missing."
+            );
+        }
+
+        if (
+            senderId ===
+            sellerId
+        ) {
+
+            throw new Error(
+                "Seller cannot send a buyer message from this buyer chat."
+            );
+        }
+
+        const conversation =
+            createConversation(
+                listing,
+                senderId
+            );
+
+        const messages =
+            getMessages();
+
+        const index =
+            messages.findIndex(
+                function (item) {
+                    return (
+                        item.id ===
+                        conversation.id
+                    );
+                }
+            );
+
+        if (index === -1) {
+
+            throw new Error(
+                "Conversation not found."
+            );
+        }
+
+        const body =
+            text(message);
+
+        if (!body) {
+
+            throw new Error(
+                "Message cannot be empty."
+            );
+        }
+
+        const messageObject = {
+
+            id:
+                id("luxury_msg"),
+
+            senderId:
+                senderId,
+
+            senderName:
+                currentUser.name ||
+                "Luxury User",
+
+            recipientId:
+                sellerId,
+
+            text:
+                body,
+
+            createdAt:
+                now(),
+
+            read:
+                false
+        };
+
+        if (
+            !Array.isArray(
+                messages[index].messages
+            )
+        ) {
+
+            messages[index].messages =
+                [];
+        }
+
+        messages[index].messages.push(
+            messageObject
+        );
+
+        messages[index].unreadForSeller =
+            Number(
+                messages[index].unreadForSeller ||
+                0
+            ) + 1;
+
+        messages[index].updatedAt =
+            now();
+
+        saveMessages(
+            messages
+        );
+
+        return messageObject;
+    }
+
+    function sendSellerLuxuryMessage(
+        conversationId,
+        message
+    ) {
+
+        const conversation =
+            getConversation(
+                conversationId
+            );
+
+        if (!conversation) {
+
+            throw new Error(
+                "Conversation not found."
+            );
+        }
+
+        const currentUser =
+            getChatUser();
+
+        if (
+            currentUser.id !==
+            conversation.sellerId
+        ) {
+
+            throw new Error(
+                "Only the seller can use seller-side messaging."
+            );
+        }
+
+        const body =
+            text(message);
+
+        if (!body) {
+
+            throw new Error(
+                "Message cannot be empty."
+            );
+        }
+
+        const all =
+            getMessages();
+
+        const index =
+            all.findIndex(
+                function (item) {
+                    return (
+                        item.id ===
+                        conversationId
+                    );
+                }
+            );
+
+        if (index === -1) {
+
+            throw new Error(
+                "Conversation not found."
+            );
+        }
+
+        const messageObject = {
+
+            id:
+                id("luxury_msg"),
+
+            senderId:
+                currentUser.id,
+
+            senderName:
+                currentUser.name ||
+                "Seller",
+
+            recipientId:
+                conversation.buyerId,
+
+            text:
+                body,
+
+            createdAt:
+                now(),
+
+            read:
+                false
+        };
+
+        if (
+            !Array.isArray(
+                all[index].messages
+            )
+        ) {
+
+            all[index].messages =
+                [];
+        }
+
+        all[index].messages.push(
+            messageObject
+        );
+
+        all[index].unreadForBuyer =
+            Number(
+                all[index].unreadForBuyer ||
+                0
+            ) + 1;
+
+        all[index].updatedAt =
+            now();
+
+        saveMessages(
+            all
+        );
+
+        return messageObject;
+    }
+
+    function markConversationRead(
+        conversationId
+    ) {
+
+        const all =
+            getMessages();
+
+        const index =
+            all.findIndex(
+                function (item) {
+                    return (
+                        item.id ===
+                        conversationId
+                    );
+                }
+            );
+
+        if (index === -1) {
+            return false;
+        }
+
+        const currentUser =
+            getChatUser();
+
+        if (
+            currentUser.id ===
+            all[index].buyerId
+        ) {
+
+            all[index].unreadForBuyer =
+                0;
+        }
+
+        if (
+            currentUser.id ===
+            all[index].sellerId
+        ) {
+
+            all[index].unreadForSeller =
+                0;
+        }
+
+        all[index].messages =
+            (
+                Array.isArray(
+                    all[index].messages
+                )
+                    ? all[index].messages
+                    : []
+            ).map(
+                function (message) {
+
+                    if (
+                        message.recipientId ===
+                        currentUser.id
+                    ) {
+
+                        return Object.assign(
+                            {},
+                            message,
+                            {
+                                read: true
+                            }
+                        );
+                    }
+
+                    return message;
+                }
+            );
+
+        saveMessages(
+            all
+        );
+
+        return true;
+    }
+
+    function getMyConversations() {
+
+        const currentUserId =
+            getCurrentUserId();
+
+        return getMessages()
+            .filter(
+                function (conversation) {
+
+                    return (
+                        conversation.sellerId ===
+                        currentUserId ||
+                        conversation.buyerId ===
+                        currentUserId
+                    );
+                }
+            )
+            .sort(
+                function (a, b) {
+
+                    return (
+                        new Date(
+                            b.updatedAt
+                        ).getTime() -
+                        new Date(
+                            a.updatedAt
+                        ).getTime()
+                    );
+                }
+            );
+    }
+
+    function getItemConversations(
+        listingId
+    ) {
+
+        return getMessages()
+            .filter(
+                function (conversation) {
+
+                    return (
+                        conversation.listingId ===
+                        listingId
+                    );
+                }
+            );
+    }
+
+    function deleteConversation(
+        conversationId
+    ) {
+
+        const currentUser =
+            getChatUser();
+
+        const all =
+            getMessages();
+
+        const conversation =
+            all.find(
+                function (item) {
+                    return (
+                        item.id ===
+                        conversationId
+                    );
+                }
+            );
+
+        if (!conversation) {
+            return false;
+        }
+
+        if (
+            currentUser.id !==
+                conversation.sellerId &&
+            currentUser.id !==
+                conversation.buyerId
+        ) {
+
+            return false;
+        }
+
+        saveMessages(
+            all.filter(
+                function (item) {
+                    return (
+                        item.id !==
+                        conversationId
+                    );
+                }
+            )
+        );
+
+        return true;
+    }
+
+    function deleteItemConversations(
+        listing
+    ) {
+
+        if (!listing) {
+            return;
+        }
+
+        saveMessages(
+            getMessages().filter(
+                function (conversation) {
+                    return (
+                        conversation.listingId !==
+                        listing.id
+                    );
+                }
+            )
+        );
+    }
+
+    /* ======================================================
+       CHAT MODAL
+    ====================================================== */
+
+    function showLuxuryChat(
+        listing
+    ) {
+
+        const currentUser =
+            getChatUser();
+
+        const sellerId =
+            getListingSellerId(
+                listing
+            );
+
+        if (
+            sellerId ===
+            currentUser.id
+        ) {
+
+            showSellerItemConversations(
+                listing
+            );
+
+            return;
+        }
+
+        let modal =
+            $("#luxuryChatModal");
+
+        if (!modal) {
+
+            modal =
+                document.createElement(
+                    "div"
+                );
+
+            modal.id =
+                "luxuryChatModal";
+
+            document.body.appendChild(
+                modal
+            );
+        }
+
+        let conversation =
+            getConversationForListing(
+                listing,
+                currentUser.id
+            );
+
+        if (!conversation) {
+
+            try {
+
+                conversation =
+                    createConversation(
+                        listing,
+                        currentUser.id
+                    );
+
+            } catch (error) {
+
+                alert(
+                    error.message
+                );
+
+                return;
+            }
+        }
+
+        markConversationRead(
+            conversation.id
+        );
+
+        renderLuxuryChat(
+            modal,
+            listing,
+            conversation
+        );
+    }
+
+    function renderLuxuryChat(
+        modal,
+        listing,
+        conversation
+    ) {
+
+        const currentUser =
+            getChatUser();
+
+        const messages =
+            Array.isArray(
+                conversation.messages
+            )
+                ? conversation.messages
+                : [];
+
+        modal.innerHTML = `
+            <div
+                style="
+                    position:fixed;
+                    inset:0;
+                    z-index:100003;
+                    background:rgba(0,0,0,.9);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    padding:12px;
+                    box-sizing:border-box;
+                "
+            >
+
+                <div
+                    style="
+                        width:min(720px,100%);
+                        height:min(780px,94vh);
+                        background:#05080f;
+                        border:1px solid #d7b35a;
+                        border-radius:16px;
+                        overflow:hidden;
+                        display:flex;
+                        flex-direction:column;
+                        color:#fff;
+                    "
+                >
+
+                    <div
+                        style="
+                            padding:14px 16px;
+                            border-bottom:1px solid rgba(215,179,90,.3);
+                            display:flex;
+                            justify-content:space-between;
+                            gap:12px;
+                            align-items:center;
+                        "
+                    >
+
+                        <div>
+                            <div
+                                style="
+                                    color:#d7b35a;
+                                    font-size:12px;
+                                "
+                            >
+                                💬 PRIVATE ITEM CHAT
+                            </div>
+
+                            <strong
+                                style="
+                                    color:#f0d27a;
+                                "
+                            >
+                                ${escapeHTML(
+                                    listing.title ||
+                                    "Luxury Item"
+                                )}
+                            </strong>
+
+                            <div
+                                style="
+                                    font-size:11px;
+                                    opacity:.65;
+                                    margin-top:4px;
+                                "
+                            >
+                                Item:
+                                ${escapeHTML(
+                                    listing.itemId ||
+                                    listing.id
+                                )}
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            data-close-luxury-chat
+                            style="
+                                width:38px;
+                                height:38px;
+                                border-radius:50%;
+                                background:transparent;
+                                border:1px solid #d7b35a;
+                                color:#f0d27a;
+                                font-size:22px;
+                            "
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="luxuryChatMessages"
+                        style="
+                            flex:1;
+                            overflow:auto;
+                            padding:15px;
+                            display:flex;
+                            flex-direction:column;
+                            gap:9px;
+                        "
+                    >
+
+                        ${
+                            messages.length
+                                ? messages.map(
+                                    function (message) {
+
+                                        const mine =
+                                            message.senderId ===
+                                            currentUser.id;
+
+                                        return `
+                                            <div
+                                                style="
+                                                    align-self:${mine ? "flex-end" : "flex-start"};
+                                                    max-width:82%;
+                                                "
+                                            >
+
+                                                <div
+                                                    style="
+                                                        font-size:10px;
+                                                        opacity:.6;
+                                                        margin-bottom:3px;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        message.senderName ||
+                                                        "User"
+                                                    )}
+                                                </div>
+
+                                                <div
+                                                    style="
+                                                        padding:10px 12px;
+                                                        border-radius:12px;
+                                                        border:1px solid rgba(215,179,90,.25);
+                                                        background:${mine ? "rgba(215,179,90,.16)" : "#101722"};
+                                                        line-height:1.45;
+                                                        word-break:break-word;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        message.text
+                                                    )}
+                                                </div>
+
+                                                <div
+                                                    style="
+                                                        font-size:9px;
+                                                        opacity:.5;
+                                                        margin-top:3px;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        new Date(
+                                                            message.createdAt
+                                                        ).toLocaleString()
+                                                    )}
+                                                </div>
+
+                                            </div>
+                                        `;
+                                    }
+                                ).join("")
+                                : `
+                                    <div
+                                        style="
+                                            text-align:center;
+                                            margin:auto;
+                                            opacity:.65;
+                                        "
+                                    >
+                                        <div style="font-size:42px;">
+                                            💬
+                                        </div>
+                                        <p>
+                                            Start a private conversation
+                                            about this item.
+                                        </p>
+                                    </div>
+                                `
+                        }
+
+                    </div>
+
+                    <form
+                        id="luxuryChatForm"
+                        style="
+                            padding:12px;
+                            border-top:1px solid rgba(215,179,90,.3);
+                            display:flex;
+                            gap:8px;
+                        "
+                    >
+
+                        <input
+                            type="text"
+                            name="message"
+                            autocomplete="off"
+                            placeholder="Write a message about this item..."
+                            style="
+                                flex:1;
+                                min-width:0;
+                                padding:11px;
+                                border-radius:9px;
+                                border:1px solid rgba(215,179,90,.4);
+                                background:#101722;
+                                color:#fff;
+                            "
+                        >
+
+                        <button
+                            type="submit"
+                            style="
+                                padding:11px 16px;
+                                border-radius:9px;
+                                border:1px solid #d7b35a;
+                                background:#d7b35a;
+                                color:#05080f;
+                                font-weight:700;
+                            "
+                        >
+                            Send
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        `;
+
+        modal.style.display =
+            "block";
+
+        const close =
+            $(
+                "[data-close-luxury-chat]",
+                modal
+            );
+
+        if (close) {
+
+            close.addEventListener(
+                "click",
+                function () {
+
+                    modal.style.display =
+                        "none";
+                }
+            );
+        }
+
+        const form =
+            $("#luxuryChatForm", modal);
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    const input =
+                        form.elements.message;
+
+                    try {
+
+                        sendLuxuryMessage(
+                            listing.id,
+                            input.value
+                        );
+
+                        const updated =
+                            getConversation(
+                                conversation.id
+                            );
+
+                        renderLuxuryChat(
+                            modal,
+                            listing,
+                            updated
+                        );
+
+                    } catch (error) {
+
+                        alert(
+                            error.message
+                        );
+                    }
+                }
+            );
+        }
+
+        const messagesBox =
+            $("#luxuryChatMessages", modal);
+
+        if (messagesBox) {
+
+            messagesBox.scrollTop =
+                messagesBox.scrollHeight;
+        }
+    }
+
+    /* ======================================================
+       SELLER CONVERSATIONS
+    ====================================================== */
+
+    function showSellerItemConversations(
+        listing
+    ) {
+
+        const currentUser =
+            getChatUser();
+
+        if (
+            getListingSellerId(listing) !==
+            currentUser.id
+        ) {
+
+            showLuxuryChat(
+                listing
+            );
+
+            return;
+        }
+
+        let modal =
+            $("#luxurySellerChatsModal");
+
+        if (!modal) {
+
+            modal =
+                document.createElement(
+                    "div"
+                );
+
+            modal.id =
+                "luxurySellerChatsModal";
+
+            document.body.appendChild(
+                modal
+            );
+        }
+
+        const conversations =
+            getItemConversations(
+                listing.id
+            );
+
+        modal.innerHTML = `
+            <div
+                style="
+                    position:fixed;
+                    inset:0;
+                    z-index:100004;
+                    background:rgba(0,0,0,.9);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    padding:12px;
+                    box-sizing:border-box;
+                "
+            >
+
+                <div
+                    style="
+                        width:min(800px,100%);
+                        max-height:92vh;
+                        overflow:auto;
+                        background:#05080f;
+                        border:1px solid #d7b35a;
+                        border-radius:16px;
+                        padding:18px;
+                        color:#fff;
+                    "
+                >
+
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            gap:10px;
+                            align-items:center;
+                        "
+                    >
+
+                        <div>
+                            <div
+                                style="
+                                    color:#d7b35a;
+                                    font-size:12px;
+                                "
+                            >
+                                📂 ITEM MESSAGE FOLDER
+                            </div>
+
+                            <h2
+                                style="
+                                    color:#f0d27a;
+                                    margin:5px 0;
+                                "
+                            >
+                                ${escapeHTML(
+                                    listing.title
+                                )}
+                            </h2>
+
+                            <div
+                                style="
+                                    font-size:11px;
+                                    opacity:.65;
+                                "
+                            >
+                                Item ID:
+                                ${escapeHTML(
+                                    listing.itemId ||
+                                    listing.id
+                                )}
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            data-close-seller-chats
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                    <hr>
+
+                    ${
+                        conversations.length
+                            ? conversations.map(
+                                function (conversation) {
+
+                                    const unread =
+                                        Number(
+                                            conversation.unreadForSeller ||
+                                            0
+                                        );
+
+                                    const last =
+                                        Array.isArray(
+                                            conversation.messages
+                                        ) &&
+                                        conversation.messages.length
+                                            ? conversation.messages[
+                                                conversation.messages.length - 1
+                                              ]
+                                            : null;
+
+                                    return `
+                                        <button
+                                            type="button"
+                                            data-open-seller-chat
+                                            data-conversation-id="${escapeHTML(
+                                                conversation.id
+                                            )}"
+                                            data-listing-id="${escapeHTML(
+                                                listing.id
+                                            )}"
+                                            style="
+                                                display:block;
+                                                width:100%;
+                                                text-align:left;
+                                                margin:9px 0;
+                                                padding:13px;
+                                                border:1px solid rgba(215,179,90,.3);
+                                                border-radius:10px;
+                                                background:#101722;
+                                                color:#fff;
+                                            "
+                                        >
+
+                                            <div
+                                                style="
+                                                    color:#f0d27a;
+                                                    font-weight:700;
+                                                "
+                                            >
+                                                👤
+                                                ${escapeHTML(
+                                                    conversation.buyerName ||
+                                                    "Buyer"
+                                                )}
+
+                                                ${
+                                                    unread
+                                                        ? `
+                                                            <span
+                                                                style="
+                                                                    margin-left:8px;
+                                                                    color:#05080f;
+                                                                    background:#d7b35a;
+                                                                    padding:2px 7px;
+                                                                    border-radius:20px;
+                                                                    font-size:10px;
+                                                                "
+                                                            >
+                                                                ${unread} new
+                                                            </span>
+                                                        `
+                                                        : ""
+                                                }
+                                            </div>
+
+                                            <div
+                                                style="
+                                                    margin-top:5px;
+                                                    font-size:12px;
+                                                    opacity:.7;
+                                                "
+                                            >
+                                                ${
+                                                    last
+                                                        ? escapeHTML(
+                                                            last.text
+                                                        )
+                                                        : "No messages yet."
+                                                }
+                                            </div>
+
+                                        </button>
+                                    `;
+                                }
+                            ).join("")
+                            : `
+                                <div
+                                    style="
+                                        text-align:center;
+                                        padding:35px 10px;
+                                        opacity:.65;
+                                    "
+                                >
+                                    <div style="font-size:42px;">
+                                        💬
+                                    </div>
+
+                                    <p>
+                                        No buyer conversations for this item yet.
+                                    </p>
+                                </div>
+                            `
+                    }
+
+                </div>
+
+            </div>
+        `;
+
+        modal.style.display =
+            "block";
+
+        const close =
+            $(
+                "[data-close-seller-chats]",
+                modal
+            );
+
+        if (close) {
+
+            close.addEventListener(
+                "click",
+                function () {
+
+                    modal.style.display =
+                        "none";
+                }
+            );
+        }
+
+        $$(
+            "[data-open-seller-chat]",
+            modal
+        ).forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const conversation =
+                            getConversation(
+                                button.dataset.conversationId
+                            );
+
+                        if (!conversation) {
+                            return;
+                        }
+
+                        const item =
+                            getListing(
+                                button.dataset.listingId
+                            );
+
+                        if (!item) {
+                            return;
+                        }
+
+                        markConversationRead(
+                            conversation.id
+                        );
+
+                        showSellerChat(
+                            item,
+                            conversation
+                        );
+                    }
+                );
+            }
+        );
+    }
+
+    /* ======================================================
+       SELLER CHAT
+    ====================================================== */
+
+    function showSellerChat(
+        listing,
+        conversation
+    ) {
+
+        let modal =
+            $("#luxurySellerChatModal");
+
+        if (!modal) {
+
+            modal =
+                document.createElement(
+                    "div"
+                );
+
+            modal.id =
+                "luxurySellerChatModal";
+
+            document.body.appendChild(
+                modal
+            );
+        }
+
+        const messages =
+            Array.isArray(
+                conversation.messages
+            )
+                ? conversation.messages
+                : [];
+
+        const currentUser =
+            getChatUser();
+
+        modal.innerHTML = `
+            <div
+                style="
+                    position:fixed;
+                    inset:0;
+                    z-index:100005;
+                    background:rgba(0,0,0,.92);
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    padding:12px;
+                    box-sizing:border-box;
+                "
+            >
+
+                <div
+                    style="
+                        width:min(720px,100%);
+                        height:min(780px,94vh);
+                        background:#05080f;
+                        border:1px solid #d7b35a;
+                        border-radius:16px;
+                        overflow:hidden;
+                        display:flex;
+                        flex-direction:column;
+                        color:#fff;
+                    "
+                >
+
+                    <div
+                        style="
+                            padding:14px;
+                            border-bottom:1px solid rgba(215,179,90,.3);
+                            display:flex;
+                            justify-content:space-between;
+                            gap:10px;
+                        "
+                    >
+
+                        <div>
+                            <div
+                                style="
+                                    color:#d7b35a;
+                                    font-size:12px;
+                                "
+                            >
+                                👤 SELLER CHAT
+                            </div>
+
+                            <strong
+                                style="
+                                    color:#f0d27a;
+                                "
+                            >
+                                ${escapeHTML(
+                                    conversation.buyerName ||
+                                    "Buyer"
+                                )}
+                            </strong>
+
+                            <div
+                                style="
+                                    font-size:11px;
+                                    opacity:.65;
+                                    margin-top:4px;
+                                "
+                            >
+                                Item:
+                                ${escapeHTML(
+                                    listing.itemId ||
+                                    listing.id
+                                )}
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            data-close-seller-chat
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="luxurySellerChatMessages"
+                        style="
+                            flex:1;
+                            overflow:auto;
+                            padding:15px;
+                            display:flex;
+                            flex-direction:column;
+                            gap:9px;
+                        "
+                    >
+
+                        ${
+                            messages.length
+                                ? messages.map(
+                                    function (message) {
+
+                                        const mine =
+                                            message.senderId ===
+                                            currentUser.id;
+
+                                        return `
+                                            <div
+                                                style="
+                                                    align-self:${mine ? "flex-end" : "flex-start"};
+                                                    max-width:82%;
+                                                "
+                                            >
+
+                                                <div
+                                                    style="
+                                                        font-size:10px;
+                                                        opacity:.6;
+                                                        margin-bottom:3px;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        message.senderName ||
+                                                        "User"
+                                                    )}
+                                                </div>
+
+                                                <div
+                                                    style="
+                                                        padding:10px 12px;
+                                                        border-radius:12px;
+                                                        border:1px solid rgba(215,179,90,.25);
+                                                        background:${mine ? "rgba(215,179,90,.16)" : "#101722"};
+                                                        word-break:break-word;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        message.text
+                                                    )}
+                                                </div>
+
+                                                <div
+                                                    style="
+                                                        font-size:9px;
+                                                        opacity:.5;
+                                                        margin-top:3px;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        new Date(
+                                                            message.createdAt
+                                                        ).toLocaleString()
+                                                    )}
+                                                </div>
+
+                                            </div>
+                                        `;
+                                    }
+                                ).join("")
+                                : `
+                                    <div
+                                        style="
+                                            margin:auto;
+                                            opacity:.65;
+                                            text-align:center;
+                                        "
+                                    >
+                                        No messages yet.
+                                    </div>
+                                `
+                        }
+
+                    </div>
+
+                    <form
+                        id="luxurySellerChatForm"
+                        style="
+                            padding:12px;
+                            border-top:1px solid rgba(215,179,90,.3);
+                            display:flex;
+                            gap:8px;
+                        "
+                    >
+
+                        <input
+                            type="text"
+                            name="message"
+                            autocomplete="off"
+                            placeholder="Reply to buyer..."
+                            style="
+                                flex:1;
+                                min-width:0;
+                                padding:11px;
+                                border-radius:9px;
+                                border:1px solid rgba(215,179,90,.4);
+                                background:#101722;
+                                color:#fff;
+                            "
+                        >
+
+                        <button
+                            type="submit"
+                            style="
+                                padding:11px 16px;
+                                border-radius:9px;
+                                border:1px solid #d7b35a;
+                                background:#d7b35a;
+                                color:#05080f;
+                                font-weight:700;
+                            "
+                        >
+                            Send
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        `;
+
+        modal.style.display =
+            "block";
+
+        const close =
+            $(
+                "[data-close-seller-chat]",
+                modal
+            );
+
+        if (close) {
+
+            close.addEventListener(
+                "click",
+                function () {
+
+                    modal.style.display =
+                        "none";
+                }
+            );
+        }
+
+        const form =
+            $("#luxurySellerChatForm", modal);
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    const input =
+                        form.elements.message;
+
+                    try {
+
+                        sendSellerLuxuryMessage(
+                            conversation.id,
+                            input.value
+                        );
+
+                        const updated =
+                            getConversation(
+                                conversation.id
+                            );
+
+                        showSellerChat(
+                            listing,
+                            updated
+                        );
+
+                    } catch (error) {
+
+                        alert(
+                            error.message
+                        );
+                    }
+                }
+            );
+        }
+
+        const box =
+            $("#luxurySellerChatMessages", modal);
+
+        if (box) {
+            box.scrollTop =
+                box.scrollHeight;
+        }
+    }
+
+    /* ======================================================
+       MESSAGE BUTTONS
+    ====================================================== */
+
+    function initializeLuxuryMessageButtons() {
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(
+                        "[data-luxury-message-seller]"
+                    );
+
+                if (!button) {
+                    return;
+                }
+
+                const listing =
+                    getListing(
+                        button.dataset.id
+                    );
+
+                if (!listing) {
+                    return;
+                }
+
+                showLuxuryChat(
+                    listing
+                );
+            }
+        );
+    }
+
+    /* ======================================================
+       MY ITEMS / FOLDERS
+    ====================================================== */
+
+    function getMyListings() {
+
+        return getListings().filter(
+            function (listing) {
+                return isListingOwner(
+                    listing
+                );
+            }
+        );
+    }
+
+    function getSavedListings() {
+
+        const saved =
+            getSavedItems();
+
+        return getListings().filter(
+            function (listing) {
+                return saved.includes(
+                    listing.id
+                );
+            }
+        );
+    }
+
+    function renderMyItemFolders(
+        container
+    ) {
+
+        if (!container) {
+            return;
+        }
+
+        const items =
+            getMyListings();
+
+        if (!items.length) {
+
+            container.innerHTML = `
+                <div
+                    style="
+                        padding:20px;
+                        text-align:center;
+                    "
+                >
+                    📁 No items in your profile yet.
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML =
+            items.map(
+                function (listing) {
+
+                    return `
+                        <button
+                            type="button"
+                            data-my-item-folder
+                            data-id="${escapeHTML(listing.id)}"
+                            style="
+                                width:100%;
+                                text-align:left;
+                                padding:13px;
+                                margin-bottom:8px;
+                                border:1px solid rgba(215,179,90,.3);
+                                border-radius:10px;
+                                background:#101722;
+                                color:#fff;
+                            "
+                        >
+                            📁
+                            ${escapeHTML(
+                                listing.title ||
+                                "Luxury Item"
+                            )}
+
+                            <span
+                                style="
+                                    display:block;
+                                    font-size:11px;
+                                    opacity:.6;
+                                    margin-top:4px;
+                                "
+                            >
+                                ${escapeHTML(
+                                    listing.itemId ||
+                                    listing.id
+                                )}
+                            </span>
+                        </button>
+                    `;
+                }
+            )
+            .join("");
+
+        $$(
+            "[data-my-item-folder]",
+            container
+        ).forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const listing =
+                            getListing(
+                                button.dataset.id
+                            );
+
+                        if (listing) {
+                            showItemFolder(
+                                listing
+                            );
+                        }
                     }
                 );
             }
@@ -3492,6 +7818,43 @@
                         );
                     }
                 }
+
+                const folder =
+                    event.target.closest(
+                        "[data-luxury-open-item-folder]"
+                    );
+
+                if (folder) {
+
+                    const listing =
+                        getListing(
+                            folder.dataset.id
+                        );
+
+                    if (listing) {
+
+                        showItemFolder(
+                            listing
+                        );
+                    }
+                }
+
+                const myFolders =
+                    event.target.closest(
+                        "[data-luxury-my-folders]"
+                    );
+
+                if (myFolders) {
+
+                    const container =
+                        $(
+                            "[data-luxury-my-items-container]"
+                        );
+
+                    renderMyItemFolders(
+                        container
+                    );
+                }
             }
         );
     }
@@ -3510,6 +7873,8 @@
             VERSION +
             " loaded."
         );
+
+        getChatUser();
 
         initializeCountrySelects();
 
@@ -3533,9 +7898,23 @@
 
         initializeGlobalEvents();
 
+        initializeLuxuryMessageButtons();
+
         renderCategoryCards();
 
         renderListings();
+
+        const myItemsContainer =
+            $(
+                "[data-luxury-my-items-container]"
+            );
+
+        if (myItemsContainer) {
+
+            renderMyItemFolders(
+                myItemsContainer
+            );
+        }
 
         /*
          * Terms are not forced open automatically.
@@ -3556,6 +7935,16 @@
         console.log(
             "[Luxury Lifestyle] Terms accepted:",
             termsAccepted()
+        );
+
+        console.log(
+            "[Luxury Lifestyle] Current User:",
+            getCurrentUserId()
+        );
+
+        console.log(
+            "[Luxury Lifestyle] Conversations:",
+            getMessages().length
         );
     }
 
@@ -3655,6 +8044,9 @@
         getMedia:
             getMedia,
 
+        getListingMedia:
+            getListingMedia,
+
         filterListings:
             filterListings,
 
@@ -3668,7 +8060,143 @@
             renderListings,
 
         renderCategoryCards:
-            renderCategoryCards
+            renderCategoryCards,
+
+        getProfile:
+            getProfile,
+
+        getChatUser:
+            getChatUser,
+
+        setChatUser:
+            setChatUser,
+
+        getCurrentUserId:
+            getCurrentUserId,
+
+        getMyListings:
+            getMyListings,
+
+        getSavedItems:
+            getSavedItems,
+
+        getSavedListings:
+            getSavedListings,
+
+        saveItem:
+            saveItem,
+
+        unsaveItem:
+            unsaveItem,
+
+        toggleSaveItem:
+            toggleSaveItem,
+
+        isItemSaved:
+            isItemSaved,
+
+        getItemFolderData:
+            getItemFolderData,
+
+        showItemFolder:
+            showItemFolder,
+
+        showListingDetails:
+            showListingDetails,
+
+        showEditListing:
+            showEditListing,
+
+        getMessages:
+            getMessages,
+
+        getConversationId:
+            getConversationId,
+
+        getConversation:
+            getConversation,
+
+        getConversationForListing:
+            getConversationForListing,
+
+        createConversation:
+            createConversation,
+
+        sendLuxuryMessage:
+            sendLuxuryMessage,
+
+        sendSellerLuxuryMessage:
+            sendSellerLuxuryMessage,
+
+        markConversationRead:
+            markConversationRead,
+
+        getMyConversations:
+            getMyConversations,
+
+        getItemConversations:
+            getItemConversations,
+
+        deleteConversation:
+            deleteConversation,
+
+        showLuxuryChat:
+            showLuxuryChat,
+
+        showSellerItemConversations:
+            showSellerItemConversations
+    };
+
+    /* ======================================================
+       SEPARATE MESSAGE API
+    ====================================================== */
+
+    window.ALON_LUXURY_LIFESTYLE_MESSAGES = {
+
+        version:
+            VERSION,
+
+        getCurrentUser:
+            getChatUser,
+
+        setCurrentUser:
+            setChatUser,
+
+        getMessages:
+            getMessages,
+
+        getConversationId:
+            getConversationId,
+
+        getConversation:
+            getConversation,
+
+        getConversationForListing:
+            getConversationForListing,
+
+        createConversation:
+            createConversation,
+
+        sendMessage:
+            sendLuxuryMessage,
+
+        sendSellerMessage:
+            sendSellerLuxuryMessage,
+
+        markRead:
+            markConversationRead,
+
+        getMyConversations:
+            getMyConversations,
+
+        getItemConversations:
+            getItemConversations,
+
+        deleteConversation:
+            deleteConversation,
+
+        showChat:
+            showLuxuryChat
     };
 
     /* ======================================================
