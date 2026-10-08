@@ -1,6 +1,6 @@
 /*
  * ALON HISTORYVERSE 24
- * AI + HELP + AD DISPLAY ENGINE
+ * AI + HELP + IMAGE + VIDEO + AD DISPLAY ENGINE
  * File: /ai.js
  *
  * Owner: Baba Thecno Guru
@@ -10,30 +10,29 @@
  * 1. Central public AI/help controller.
  * 2. Voice/microphone hooks.
  * 3. Text-help hooks.
- * 4. Language-system hooks.
- * 5. Menu.js integration.
- * 6. Future verification/reporting hooks.
- * 7. Central rotating advertisement display box.
- * 8. Future paid/top-up advertising hooks.
+ * 4. Spoken AI response hooks.
+ * 5. AI Image Generator UI/controller.
+ * 6. AI Video Generator UI/controller.
+ * 7. Login-gate hooks for generation.
+ * 8. Generation safety screening.
+ * 9. Menu.js integration.
+ * 10. Central rotating advertisement display box.
  *
  * IMPORTANT
  * ------------------------------------------------------------
  * This file does NOT replace Security/Admin systems.
  * This file does NOT create a general user-to-user messaging system.
  * This file does NOT claim to be a human or conscious system.
- * This is the public ALON HISTORYVERSE 24 software assistant layer.
+ * Actual image/video generation requires a secure backend/API.
+ * API secrets must NEVER be placed in this public JavaScript file.
  */
 
 (function () {
     "use strict";
 
-    /* =========================================================
-       ALON AI NAMESPACE
-       ========================================================= */
-
     var ALON_AI = {
 
-        version: "1.0.0",
+        version: "1.1.0",
 
         initialized: false,
 
@@ -49,16 +48,34 @@
             adTitle: null,
             adText: null,
             adAction: null,
-            adBadge: null
+            adBadge: null,
+
+            imagePanel: null,
+            imagePrompt: null,
+            imageGenerate: null,
+            imageClose: null,
+            imageStatus: null,
+
+            videoPanel: null,
+            videoPrompt: null,
+            videoGenerate: null,
+            videoClose: null,
+            videoStatus: null,
+
+            loginPanel: null,
+            loginClose: null,
+            loginMessage: null
         },
 
         state: {
             aiOpen: false,
             listening: false,
+            speaking: false,
             adIndex: 0,
             adTimer: null,
             adInterval: null,
-            lastAdId: null
+            lastAdId: null,
+            generatorOpen: null
         },
 
         /* =====================================================
@@ -73,9 +90,11 @@
 
             this.cacheElements();
             this.createAIInterface();
+            this.createGeneratorInterface();
             this.createAdDisplayBox();
 
             this.bindAIEvents();
+            this.bindGeneratorEvents();
             this.bindMenuEvents();
             this.bindKeyboardEvents();
 
@@ -88,7 +107,6 @@
             });
 
             this.setStatus("ALON HISTORYVERSE 24");
-
         },
 
         /* =====================================================
@@ -129,6 +147,45 @@
 
             this.elements.adBadge =
                 document.getElementById("alonAdBadge");
+
+            this.elements.imagePanel =
+                document.getElementById("alonAIImagePanel");
+
+            this.elements.imagePrompt =
+                document.getElementById("alonAIImagePrompt");
+
+            this.elements.imageGenerate =
+                document.getElementById("alonAIImageGenerate");
+
+            this.elements.imageClose =
+                document.getElementById("alonAIImageClose");
+
+            this.elements.imageStatus =
+                document.getElementById("alonAIImageStatus");
+
+            this.elements.videoPanel =
+                document.getElementById("alonAIVideoPanel");
+
+            this.elements.videoPrompt =
+                document.getElementById("alonAIVideoPrompt");
+
+            this.elements.videoGenerate =
+                document.getElementById("alonAIVideoGenerate");
+
+            this.elements.videoClose =
+                document.getElementById("alonAIVideoClose");
+
+            this.elements.videoStatus =
+                document.getElementById("alonAIVideoStatus");
+
+            this.elements.loginPanel =
+                document.getElementById("alonAIGenerationLogin");
+
+            this.elements.loginClose =
+                document.getElementById("alonAILoginClose");
+
+            this.elements.loginMessage =
+                document.getElementById("alonAILoginMessage");
         },
 
         /* =====================================================
@@ -139,12 +196,6 @@
 
             var existingInterface =
                 document.getElementById("alonAIInterface");
-
-            /*
-             * If the interface already exists in the page,
-             * cache all of its internal controls instead of
-             * returning with empty AI element references.
-             */
 
             if (existingInterface) {
 
@@ -169,11 +220,16 @@
                 return;
             }
 
-            var wrapper = document.createElement("section");
+            var wrapper =
+                document.createElement("section");
 
-            wrapper.id = "alonAIInterface";
+            wrapper.id =
+                "alonAIInterface";
 
-            wrapper.setAttribute("aria-label", "ALON HISTORYVERSE 24 AI Assistant");
+            wrapper.setAttribute(
+                "aria-label",
+                "ALON HISTORYVERSE 24 AI Assistant"
+            );
 
             wrapper.innerHTML =
                 '<div id="alonAIBox" hidden>' +
@@ -208,6 +264,10 @@
                             '🎤' +
                         '</button>' +
 
+                        '<button type="button" id="alonAISpeak" aria-label="Read answer aloud">' +
+                            '🔊' +
+                        '</button>' +
+
                     '</div>' +
 
                 '</div>';
@@ -234,12 +294,117 @@
         },
 
         /* =====================================================
+           GENERATOR INTERFACE
+           ===================================================== */
+
+        createGeneratorInterface: function () {
+
+            if (document.getElementById("alonAIGeneratorInterface")) {
+                return;
+            }
+
+            var wrapper =
+                document.createElement("section");
+
+            wrapper.id =
+                "alonAIGeneratorInterface";
+
+            wrapper.setAttribute(
+                "aria-label",
+                "ALON AI Image and Video Generator"
+            );
+
+            wrapper.innerHTML =
+
+                '<div id="alonAIImagePanel" hidden>' +
+
+                    '<div class="alon-generator-header">' +
+                        '<strong>🎨 AI Image Generator</strong>' +
+                        '<button type="button" id="alonAIImageClose">×</button>' +
+                    '</div>' +
+
+                    '<p class="alon-generator-note">' +
+                        'Describe the image you want to create.' +
+                    '</p>' +
+
+                    '<textarea ' +
+                        'id="alonAIImagePrompt" ' +
+                        'placeholder="Example: A golden ancient city at sunset..." ' +
+                        'rows="4">' +
+                    '</textarea>' +
+
+                    '<button type="button" id="alonAIImageGenerate">' +
+                        'Generate Image' +
+                    '</button>' +
+
+                    '<div id="alonAIImageStatus" class="alon-generator-status">' +
+                        'Login is required for generation.' +
+                    '</div>' +
+
+                '</div>' +
+
+                '<div id="alonAIVideoPanel" hidden>' +
+
+                    '<div class="alon-generator-header">' +
+                        '<strong>🎬 AI Video Generator</strong>' +
+                        '<button type="button" id="alonAIVideoClose">×</button>' +
+                    '</div>' +
+
+                    '<p class="alon-generator-note">' +
+                        'Describe the video you want to create.' +
+                    '</p>' +
+
+                    '<textarea ' +
+                        'id="alonAIVideoPrompt" ' +
+                        'placeholder="Example: A cinematic ancient city with people walking through a marketplace..." ' +
+                        'rows="4">' +
+                    '</textarea>' +
+
+                    '<button type="button" id="alonAIVideoGenerate">' +
+                        'Generate Video' +
+                    '</button>' +
+
+                    '<div id="alonAIVideoStatus" class="alon-generator-status">' +
+                        'Login is required for generation.' +
+                    '</div>' +
+
+                '</div>' +
+
+                '<div id="alonAIGenerationLogin" hidden>' +
+
+                    '<div class="alon-generator-login-box">' +
+
+                        '<button type="button" id="alonAILoginClose">' +
+                            '×' +
+                        '</button>' +
+
+                        '<h3>Login Required</h3>' +
+
+                        '<p id="alonAILoginMessage">' +
+                            'Please log in to use AI Image and Video Generation.' +
+                        '</p>' +
+
+                        '<button type="button" id="alonAILoginButton">' +
+                            'Login' +
+                        '</button>' +
+
+                    '</div>' +
+
+                '</div>';
+
+            document.body.appendChild(wrapper);
+
+            this.cacheElements();
+        },
+
+        /* =====================================================
            AD DISPLAY BOX
            ===================================================== */
 
         createAdDisplayBox: function () {
 
             if (document.getElementById("alonAdDisplay")) {
+
                 this.elements.adBox =
                     document.getElementById("alonAdBox");
 
@@ -258,9 +423,11 @@
                 return;
             }
 
-            var adWrapper = document.createElement("aside");
+            var adWrapper =
+                document.createElement("aside");
 
-            adWrapper.id = "alonAdDisplay";
+            adWrapper.id =
+                "alonAdDisplay";
 
             adWrapper.setAttribute(
                 "aria-label",
@@ -293,10 +460,7 @@
                             'Explore history, knowledge and the world.' +
                         '</p>' +
 
-                        '<button ' +
-                            'type="button" ' +
-                            'id="alonAdAction" ' +
-                            'class="alon-ad-action">' +
+                        '<button type="button" id="alonAdAction" class="alon-ad-action">' +
                             'Explore' +
                         '</button>' +
 
@@ -474,20 +638,25 @@
 
         showAdvertisement: function () {
 
-            var ads = this.getAdvertisements();
+            var ads =
+                this.getAdvertisements();
 
             if (!ads || !ads.length) {
                 return;
             }
 
-            var ad = ads[this.state.adIndex];
+            var ad =
+                ads[this.state.adIndex];
 
             if (!ad) {
+
                 this.state.adIndex = 0;
+
                 ad = ads[0];
             }
 
-            this.state.lastAdId = ad.id;
+            this.state.lastAdId =
+                ad.id;
 
             if (this.elements.adBadge) {
                 this.elements.adBadge.textContent =
@@ -509,20 +678,25 @@
                 this.elements.adAction.textContent =
                     ad.action || "Open";
 
-                this.elements.adAction.onclick = function () {
+                this.elements.adAction.onclick =
+                    function () {
 
-                    if (!ad.url) {
-                        return;
-                    }
+                        if (!ad.url) {
+                            return;
+                        }
 
-                    window.location.href = ad.url;
-                };
+                        window.location.href =
+                            ad.url;
+                    };
             }
 
-            this.dispatch("alon:ad-displayed", {
-                id: ad.id,
-                title: ad.title
-            });
+            this.dispatch(
+                "alon:ad-displayed",
+                {
+                    id: ad.id,
+                    title: ad.title
+                }
+            );
 
             this.state.adIndex++;
 
@@ -548,22 +722,20 @@
 
             var self = this;
 
-            /*
-             * Random interval:
-             * 10, 11 or 12 seconds.
-             */
-
             var seconds =
                 10 + Math.floor(Math.random() * 3);
 
             this.state.adTimer =
-                window.setTimeout(function () {
+                window.setTimeout(
+                    function () {
 
-                    self.showAdvertisement();
+                        self.showAdvertisement();
 
-                    self.scheduleNextAdvertisement();
+                        self.scheduleNextAdvertisement();
 
-                }, seconds * 1000);
+                    },
+                    seconds * 1000
+                );
         },
 
         stopAdvertisementRotation: function () {
@@ -585,30 +757,6 @@
 
                 this.state.adInterval = null;
             }
-        },
-
-        /* =====================================================
-           FUTURE TOP-UP / PAID AD HOOK
-           ===================================================== */
-
-        addAdvertisement: function (advertisement) {
-
-            /*
-             * Future use:
-             * Paid/top-up ads can be inserted here.
-             *
-             * Nothing is charged or connected right now.
-             */
-
-            if (!advertisement) {
-                return false;
-            }
-
-            this.dispatch("alon:ad-add-request", {
-                advertisement: advertisement
-            });
-
-            return true;
         },
 
         /* =====================================================
@@ -664,6 +812,91 @@
                     }
                 );
             }
+
+            var speakButton =
+                document.getElementById("alonAISpeak");
+
+            if (speakButton) {
+
+                speakButton.addEventListener(
+                    "click",
+                    function () {
+                        self.speakCurrentResponse();
+                    }
+                );
+            }
+        },
+
+        /* =====================================================
+           GENERATOR EVENTS
+           ===================================================== */
+
+        bindGeneratorEvents: function () {
+
+            var self = this;
+
+            if (this.elements.imageGenerate) {
+
+                this.elements.imageGenerate.addEventListener(
+                    "click",
+                    function () {
+                        self.generateImage();
+                    }
+                );
+            }
+
+            if (this.elements.videoGenerate) {
+
+                this.elements.videoGenerate.addEventListener(
+                    "click",
+                    function () {
+                        self.generateVideo();
+                    }
+                );
+            }
+
+            if (this.elements.imageClose) {
+
+                this.elements.imageClose.addEventListener(
+                    "click",
+                    function () {
+                        self.closeGenerator("image");
+                    }
+                );
+            }
+
+            if (this.elements.videoClose) {
+
+                this.elements.videoClose.addEventListener(
+                    "click",
+                    function () {
+                        self.closeGenerator("video");
+                    }
+                );
+            }
+
+            if (this.elements.loginClose) {
+
+                this.elements.loginClose.addEventListener(
+                    "click",
+                    function () {
+                        self.closeLoginGate();
+                    }
+                );
+            }
+
+            var loginButton =
+                document.getElementById("alonAILoginButton");
+
+            if (loginButton) {
+
+                loginButton.addEventListener(
+                    "click",
+                    function () {
+                        self.requestLogin();
+                    }
+                );
+            }
         },
 
         /* =====================================================
@@ -708,6 +941,20 @@
                     );
                 }
             );
+
+            document.addEventListener(
+                "alon:ai-open-image-generator",
+                function () {
+                    self.openGenerator("image");
+                }
+            );
+
+            document.addEventListener(
+                "alon:ai-open-video-generator",
+                function () {
+                    self.openGenerator("video");
+                }
+            );
         },
 
         /* =====================================================
@@ -716,32 +963,28 @@
 
         openAI: function () {
 
-            /*
-             * Safe recovery:
-             * If AI interface elements were not cached during
-             * initial loading, create/cache them now instead
-             * of silently failing.
-             */
-
             if (!this.elements.aiBox) {
-
                 this.createAIInterface();
-
             }
 
             if (!this.elements.aiBox) {
                 return;
             }
 
-            this.elements.aiBox.hidden = false;
+            this.elements.aiBox.hidden =
+                false;
 
-            this.state.aiOpen = true;
+            this.state.aiOpen =
+                true;
 
             if (this.elements.aiInput) {
                 this.elements.aiInput.focus();
             }
 
-            this.dispatch("alon:ai-opened", {});
+            this.dispatch(
+                "alon:ai-opened",
+                {}
+            );
         },
 
         closeAI: function () {
@@ -750,11 +993,18 @@
                 return;
             }
 
-            this.elements.aiBox.hidden = true;
+            this.elements.aiBox.hidden =
+                true;
 
-            this.state.aiOpen = false;
+            this.state.aiOpen =
+                false;
 
-            this.dispatch("alon:ai-closed", {});
+            this.stopSpeaking();
+
+            this.dispatch(
+                "alon:ai-closed",
+                {}
+            );
         },
 
         /* =====================================================
@@ -774,7 +1024,8 @@
                 return;
             }
 
-            this.elements.aiInput.value = "";
+            this.elements.aiInput.value =
+                "";
 
             this.answer(input);
         },
@@ -785,7 +1036,8 @@
 
         answer: function (input) {
 
-            var text = String(input || "").toLowerCase();
+            var text =
+                String(input || "").toLowerCase();
 
             var response =
                 "I can help you explore ALON HISTORYVERSE 24.";
@@ -844,10 +1096,13 @@
 
             this.showAIResponse(response);
 
-            this.dispatch("alon:ai-question", {
-                question: input,
-                response: response
-            });
+            this.dispatch(
+                "alon:ai-question",
+                {
+                    question: input,
+                    response: response
+                }
+            );
         },
 
         /* =====================================================
@@ -863,7 +1118,150 @@
                 return;
             }
 
-            responseBox.textContent = text;
+            responseBox.textContent =
+                text;
+        },
+
+        /* =====================================================
+           SPEECH OUTPUT
+           ===================================================== */
+
+        speakCurrentResponse: function () {
+
+            var responseBox =
+                document.getElementById("alonAIResponse");
+
+            if (!responseBox) {
+                return;
+            }
+
+            var text =
+                responseBox.textContent.trim();
+
+            if (!text) {
+                return;
+            }
+
+            this.speakText(text);
+        },
+
+        speakText: function (text) {
+
+            if (
+                !("speechSynthesis" in window)
+            ) {
+
+                this.showAIResponse(
+                    "Voice output is not available in this browser."
+                );
+
+                return;
+            }
+
+            this.stopSpeaking();
+
+            var self = this;
+
+            var utterance =
+                new SpeechSynthesisUtterance(text);
+
+            var voices =
+                window.speechSynthesis.getVoices();
+
+            var femaleVoice =
+                null;
+
+            for (
+                var i = 0;
+                i < voices.length;
+                i++
+            ) {
+
+                var name =
+                    String(
+                        voices[i].name || ""
+                    ).toLowerCase();
+
+                var lang =
+                    String(
+                        voices[i].lang || ""
+                    ).toLowerCase();
+
+                if (
+                    name.indexOf("female") !== -1 ||
+                    name.indexOf("zira") !== -1 ||
+                    name.indexOf("samantha") !== -1 ||
+                    name.indexOf("google uk english female") !== -1
+                ) {
+
+                    femaleVoice =
+                        voices[i];
+
+                    break;
+                }
+
+                if (
+                    !femaleVoice &&
+                    (
+                        lang.indexOf("en-in") !== -1 ||
+                        lang.indexOf("hi-in") !== -1
+                    )
+                ) {
+
+                    femaleVoice =
+                        voices[i];
+                }
+            }
+
+            if (femaleVoice) {
+                utterance.voice =
+                    femaleVoice;
+            }
+
+            utterance.lang =
+                document.documentElement.lang ||
+                "en-IN";
+
+            utterance.rate =
+                1;
+
+            utterance.pitch =
+                1.05;
+
+            utterance.onstart =
+                function () {
+                    self.state.speaking =
+                        true;
+                };
+
+            utterance.onend =
+                function () {
+                    self.state.speaking =
+                        false;
+                };
+
+            utterance.onerror =
+                function () {
+                    self.state.speaking =
+                        false;
+                };
+
+            window.speechSynthesis.speak(
+                utterance
+            );
+        },
+
+        stopSpeaking: function () {
+
+            if (
+                "speechSynthesis" in window
+            ) {
+
+                window.speechSynthesis.cancel();
+
+                this.state.speaking =
+                    false;
+            }
         },
 
         /* =====================================================
@@ -894,14 +1292,18 @@
             var recognition =
                 new SpeechRecognition();
 
-            recognition.continuous = false;
-            recognition.interimResults = false;
+            recognition.continuous =
+                false;
+
+            recognition.interimResults =
+                false;
 
             recognition.lang =
                 document.documentElement.lang ||
                 "en-IN";
 
-            this.state.listening = true;
+            this.state.listening =
+                true;
 
             this.showAIResponse(
                 "Listening..."
@@ -913,20 +1315,25 @@
                     var transcript =
                         event.results[0][0].transcript;
 
-                    self.state.listening = false;
+                    self.state.listening =
+                        false;
 
                     if (self.elements.aiInput) {
+
                         self.elements.aiInput.value =
                             transcript;
                     }
 
-                    self.answer(transcript);
+                    self.answer(
+                        transcript
+                    );
                 };
 
             recognition.onerror =
                 function () {
 
-                    self.state.listening = false;
+                    self.state.listening =
+                        false;
 
                     self.showAIResponse(
                         "Voice input could not be completed. Please try again or type your question."
@@ -936,10 +1343,662 @@
             recognition.onend =
                 function () {
 
-                    self.state.listening = false;
+                    self.state.listening =
+                        false;
                 };
 
             recognition.start();
+        },
+
+        /* =====================================================
+           GENERATION LOGIN CHECK
+           ===================================================== */
+
+        isGenerationLoggedIn: function () {
+
+            /*
+             * Preferred integration:
+             * A secure authentication system can expose:
+             *
+             * window.ALON_AUTH.isLoggedIn()
+             *
+             * This file never stores passwords.
+             */
+
+            if (
+                window.ALON_AUTH &&
+                typeof window.ALON_AUTH.isLoggedIn ===
+                    "function"
+            ) {
+
+                try {
+
+                    return !!window.ALON_AUTH.isLoggedIn();
+
+                } catch (error) {
+
+                    return false;
+                }
+            }
+
+            return false;
+        },
+
+        requestLogin: function () {
+
+            this.dispatch(
+                "alon:ai-login-required",
+                {
+                    source: "ai-generator"
+                }
+            );
+
+            /*
+             * If the site's existing login system provides
+             * a login function, use it.
+             */
+
+            if (
+                window.ALON_AUTH &&
+                typeof window.ALON_AUTH.openLogin ===
+                    "function"
+            ) {
+
+                window.ALON_AUTH.openLogin();
+
+                return;
+            }
+
+            /*
+             * Fallback navigation.
+             * Replace only if the site's real login route
+             * is different.
+             */
+
+            window.location.href =
+                "./login.html";
+        },
+
+        openLoginGate: function () {
+
+            if (!this.elements.loginPanel) {
+                return;
+            }
+
+            this.elements.loginPanel.hidden =
+                false;
+        },
+
+        closeLoginGate: function () {
+
+            if (!this.elements.loginPanel) {
+                return;
+            }
+
+            this.elements.loginPanel.hidden =
+                true;
+        },
+
+        /* =====================================================
+           GENERATOR OPEN / CLOSE
+           ===================================================== */
+
+        openGenerator: function (type) {
+
+            if (
+                type !== "image" &&
+                type !== "video"
+            ) {
+                return;
+            }
+
+            if (!this.isGenerationLoggedIn()) {
+
+                this.state.generatorOpen =
+                    type;
+
+                this.openLoginGate();
+
+                return;
+            }
+
+            this.closeLoginGate();
+
+            if (this.elements.imagePanel) {
+                this.elements.imagePanel.hidden =
+                    type !== "image";
+            }
+
+            if (this.elements.videoPanel) {
+                this.elements.videoPanel.hidden =
+                    type !== "video";
+            }
+
+            this.state.generatorOpen =
+                type;
+
+            if (type === "image" &&
+                this.elements.imagePrompt) {
+
+                this.elements.imagePrompt.focus();
+            }
+
+            if (type === "video" &&
+                this.elements.videoPrompt) {
+
+                this.elements.videoPrompt.focus();
+            }
+        },
+
+        closeGenerator: function (type) {
+
+            if (type === "image" &&
+                this.elements.imagePanel) {
+
+                this.elements.imagePanel.hidden =
+                    true;
+            }
+
+            if (type === "video" &&
+                this.elements.videoPanel) {
+
+                this.elements.videoPanel.hidden =
+                    true;
+            }
+
+            this.state.generatorOpen =
+                null;
+        },
+
+        /* =====================================================
+           GENERATION SAFETY
+           ===================================================== */
+
+        checkGenerationSafety: function (prompt) {
+
+            var text =
+                String(prompt || "")
+                    .toLowerCase()
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+            if (!text) {
+
+                return {
+                    allowed: false,
+                    reason: "Please enter a prompt."
+                };
+            }
+
+            /*
+             * ALON HISTORYVERSE 24 public generators
+             * do not generate sexual, nude or explicit
+             * content of any kind.
+             */
+
+            var sexualTerms = [
+                "nude",
+                "naked",
+                "porn",
+                "pornographic",
+                "pornography",
+                "sexual",
+                "sexually",
+                "sexualized",
+                "sex scene",
+                "sex video",
+                "sex photo",
+                "explicit sexual",
+                "sexually explicit",
+                "nsfw",
+                "topless",
+                "bottomless",
+                "fully naked",
+                "without clothes",
+                "without clothing",
+                "remove clothes",
+                "remove clothing",
+                "undress",
+                "undressing",
+                "intimate nude",
+                "nude photo",
+                "nude video",
+                "नग्न",
+                "नंगी",
+                "नंगा",
+                "अश्लील",
+                "सेक्स",
+                "सेक्स वीडियो",
+                "सेक्स फोटो"
+            ];
+
+            /*
+             * Generic real-person/public-figure indicators.
+             *
+             * No specific celebrity, politician or person's
+             * name is hard-coded here.
+             */
+
+            var realPersonTerms = [
+                "celebrity",
+                "celebrities",
+                "politician",
+                "politicians",
+                "prime minister",
+                "president",
+                "actor",
+                "actress",
+                "singer",
+                "model",
+                "influencer",
+                "public figure",
+                "public figures",
+                "famous person",
+                "famous people",
+                "real person",
+                "real people",
+                "real celebrity",
+                "real politician",
+                "real actor",
+                "real actress",
+                "real singer",
+                "real model",
+                "my celebrity",
+                "a celebrity",
+                "an actor",
+                "an actress",
+                "a singer",
+                "a politician",
+                "a public figure"
+            ];
+
+            /*
+             * Deepfake, impersonation and manipulated-real-person
+             * indicators.
+             */
+
+            var deepfakeTerms = [
+                "deepfake",
+                "deep fake",
+                "face swap",
+                "face-swap",
+                "face replacement",
+                "face replace",
+                "impersonate",
+                "impersonation",
+                "fake identity",
+                "fake person",
+                "fake nude",
+                "fake naked",
+                "fake intimate",
+                "intimate fake",
+                "leaked video",
+                "leaked photo",
+                "leaked image",
+                "undress",
+                "undressing",
+                "remove clothes",
+                "remove clothing",
+                "make them naked",
+                "make her naked",
+                "make him naked",
+                "sexual deepfake"
+            ];
+
+            var hasSexual =
+                this.containsAny(
+                    text,
+                    sexualTerms
+                );
+
+            var hasRealPerson =
+                this.containsAny(
+                    text,
+                    realPersonTerms
+                );
+
+            var hasDeepfake =
+                this.containsAny(
+                    text,
+                    deepfakeTerms
+                );
+
+            /*
+             * Sexual, nude or explicit requests are blocked
+             * regardless of whether a real person is mentioned.
+             */
+
+            if (hasSexual) {
+
+                return {
+                    allowed: false,
+                    reason:
+                        "This request cannot be generated because ALON AI does not generate sexual, nude or explicit content."
+                };
+            }
+
+            /*
+             * Deepfake/impersonation requests are blocked.
+             */
+
+            if (hasDeepfake) {
+
+                return {
+                    allowed: false,
+                    reason:
+                        "This request cannot be generated because ALON AI does not create deepfakes, impersonation or manipulated intimate content involving real people."
+                };
+            }
+
+            /*
+             * Public generator is intentionally conservative:
+             * requests specifically asking for real celebrities,
+             * politicians, public figures or other real people
+             * are not accepted.
+             *
+             * This does not block fictional characters or
+             * ordinary fictional scenes.
+             */
+
+            if (hasRealPerson) {
+
+                return {
+                    allowed: false,
+                    reason:
+                        "This request cannot be generated because the public ALON AI generator does not create images or videos of real people, celebrities, politicians or public figures."
+                };
+            }
+
+            /*
+             * Basic illegal/harmful request screening.
+             */
+
+            var unsafeTerms = [
+                "child sexual",
+                "minor sexual",
+                "sexual minor",
+                "sexual abuse of a child",
+                "child pornography",
+                "csam",
+                "explosive",
+                "build a bomb",
+                "make a bomb",
+                "bomb making",
+                "terrorist recruitment",
+                "terrorist propaganda",
+                "hacked account",
+                "hack an account",
+                "stolen password",
+                "steal password",
+                "malware",
+                "ransomware",
+                "violent torture",
+                "graphic gore"
+            ];
+
+            if (
+                this.containsAny(
+                    text,
+                    unsafeTerms
+                )
+            ) {
+
+                return {
+                    allowed: false,
+                    reason:
+                        "This request cannot be generated because it falls outside ALON AI safety rules."
+                };
+            }
+
+            return {
+                allowed: true,
+                reason: ""
+            };
+        },
+
+        containsAny: function (text, list) {
+
+            for (
+                var i = 0;
+                i < list.length;
+                i++
+            ) {
+
+                if (
+                    text.indexOf(
+                        list[i]
+                    ) !== -1
+                ) {
+
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        /* =====================================================
+           IMAGE GENERATION REQUEST
+           ===================================================== */
+
+        generateImage: function () {
+
+            if (!this.isGenerationLoggedIn()) {
+
+                this.openLoginGate();
+
+                return;
+            }
+
+            if (!this.elements.imagePrompt) {
+                return;
+            }
+
+            var prompt =
+                this.elements.imagePrompt.value.trim();
+
+            var safety =
+                this.checkGenerationSafety(
+                    prompt
+                );
+
+            if (!safety.allowed) {
+
+                this.setGeneratorStatus(
+                    "image",
+                    safety.reason
+                );
+
+                return;
+            }
+
+            this.setGeneratorStatus(
+                "image",
+                "Preparing secure image-generation request..."
+            );
+
+            /*
+             * No secret API key is stored here.
+             * The public site sends a safe request to
+             * the future server endpoint.
+             */
+
+            this.sendGenerationRequest(
+                "image",
+                prompt
+            );
+        },
+
+        /* =====================================================
+           VIDEO GENERATION REQUEST
+           ===================================================== */
+
+        generateVideo: function () {
+
+            if (!this.isGenerationLoggedIn()) {
+
+                this.openLoginGate();
+
+                return;
+            }
+
+            if (!this.elements.videoPrompt) {
+                return;
+            }
+
+            var prompt =
+                this.elements.videoPrompt.value.trim();
+
+            var safety =
+                this.checkGenerationSafety(
+                    prompt
+                );
+
+            if (!safety.allowed) {
+
+                this.setGeneratorStatus(
+                    "video",
+                    safety.reason
+                );
+
+                return;
+            }
+
+            this.setGeneratorStatus(
+                "video",
+                "Preparing secure video-generation request..."
+            );
+
+            this.sendGenerationRequest(
+                "video",
+                prompt
+            );
+        },
+
+        /* =====================================================
+           GENERATION BACKEND HOOK
+           ===================================================== */
+
+        sendGenerationRequest: async function (
+            type,
+            prompt
+        ) {
+
+            /*
+             * IMPORTANT:
+             * The actual backend endpoint must authenticate
+             * the user again and perform server-side safety
+             * checks before calling an image/video provider.
+             *
+             * The browser must never receive a provider API key.
+             */
+
+            var endpoint =
+                type === "image"
+                    ? "./api/ai-image"
+                    : "./api/ai-video";
+
+            try {
+
+                var response =
+                    await fetch(
+                        endpoint,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+                            credentials:
+                                "include",
+                            body:
+                                JSON.stringify({
+                                    prompt: prompt,
+                                    type: type
+                                })
+                        }
+                    );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Generation service unavailable."
+                    );
+                }
+
+                var data =
+                    await response.json();
+
+                if (
+                    !data ||
+                    data.success !== true
+                ) {
+
+                    throw new Error(
+                        data &&
+                        data.message
+                            ? data.message
+                            : "Generation was not completed."
+                    );
+                }
+
+                this.dispatch(
+                    "alon:ai-generation-complete",
+                    {
+                        type: type,
+                        result: data
+                    }
+                );
+
+                this.setGeneratorStatus(
+                    type,
+                    "Generation completed."
+                );
+
+            } catch (error) {
+
+                /*
+                 * Until the real backend is connected,
+                 * do not pretend that generation succeeded.
+                 */
+
+                this.setGeneratorStatus(
+                    type,
+                    "Generation service is not connected yet. The secure generator interface is ready for the backend."
+                );
+
+                this.dispatch(
+                    "alon:ai-generation-error",
+                    {
+                        type: type,
+                        error:
+                            error &&
+                            error.message
+                                ? error.message
+                                : "Unknown error"
+                    }
+                );
+            }
+        },
+
+        /* =====================================================
+           GENERATOR STATUS
+           ===================================================== */
+
+        setGeneratorStatus: function (
+            type,
+            message
+        ) {
+
+            var element =
+                type === "image"
+                    ? this.elements.imageStatus
+                    : this.elements.videoStatus;
+
+            if (element) {
+                element.textContent =
+                    message;
+            }
         },
 
         /* =====================================================
@@ -952,9 +2011,12 @@
                 return;
             }
 
-            this.dispatch("alon:ai-feature-seen", {
-                feature: detail
-            });
+            this.dispatch(
+                "alon:ai-feature-seen",
+                {
+                    feature: detail
+                }
+            );
         },
 
         /* =====================================================
@@ -974,8 +2036,17 @@
                         if (self.state.aiOpen) {
                             self.closeAI();
                         }
-                    }
 
+                        self.closeGenerator(
+                            "image"
+                        );
+
+                        self.closeGenerator(
+                            "video"
+                        );
+
+                        self.closeLoginGate();
+                    }
                 }
             );
         },
@@ -987,8 +2058,10 @@
         setStatus: function (text) {
 
             if (this.elements.aiStatus) {
+
                 this.elements.aiStatus.textContent =
-                    text || "ALON HISTORYVERSE 24";
+                    text ||
+                    "ALON HISTORYVERSE 24";
             }
         },
 
@@ -996,7 +2069,10 @@
            CUSTOM EVENT DISPATCHER
            ===================================================== */
 
-        dispatch: function (name, detail) {
+        dispatch: function (
+            name,
+            detail
+        ) {
 
             try {
 
@@ -1004,19 +2080,18 @@
                     new CustomEvent(
                         name,
                         {
-                            detail: detail || {}
+                            detail:
+                                detail || {}
                         }
                     )
                 );
 
             } catch (error) {
 
-                /*
-                 * Older-browser protection.
-                 */
-
                 var event =
-                    document.createEvent("CustomEvent");
+                    document.createEvent(
+                        "CustomEvent"
+                    );
 
                 event.initCustomEvent(
                     name,
@@ -1025,7 +2100,9 @@
                     detail || {}
                 );
 
-                document.dispatchEvent(event);
+                document.dispatchEvent(
+                    event
+                );
             }
         },
 
@@ -1036,11 +2113,26 @@
         getStatus: function () {
 
             return {
-                version: this.version,
-                initialized: this.initialized,
-                aiOpen: this.state.aiOpen,
-                listening: this.state.listening,
-                currentAd: this.state.lastAdId
+                version:
+                    this.version,
+
+                initialized:
+                    this.initialized,
+
+                aiOpen:
+                    this.state.aiOpen,
+
+                listening:
+                    this.state.listening,
+
+                speaking:
+                    this.state.speaking,
+
+                generatorOpen:
+                    this.state.generatorOpen,
+
+                currentAd:
+                    this.state.lastAdId
             };
         }
     };
@@ -1049,7 +2141,8 @@
        PUBLIC GLOBAL
        ========================================================= */
 
-    window.ALON_AI = ALON_AI;
+    window.ALON_AI =
+        ALON_AI;
 
     /* =========================================================
        PAGE VISIBILITY
@@ -1065,11 +2158,18 @@
 
             if (document.hidden) {
 
-                window.ALON_AI.stopAdvertisementRotation();
+                window.ALON_AI
+                    .stopAdvertisementRotation();
 
-            } else if (window.ALON_AI.initialized) {
+                window.ALON_AI
+                    .stopSpeaking();
 
-                window.ALON_AI.startAdvertisementRotation();
+            } else if (
+                window.ALON_AI.initialized
+            ) {
+
+                window.ALON_AI
+                    .startAdvertisementRotation();
             }
         }
     );
@@ -1078,7 +2178,10 @@
        INITIALIZE
        ========================================================= */
 
-    if (document.readyState === "loading") {
+    if (
+        document.readyState ===
+        "loading"
+    ) {
 
         document.addEventListener(
             "DOMContentLoaded",

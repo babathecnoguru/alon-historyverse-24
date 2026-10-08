@@ -151,6 +151,16 @@
             font-weight: 700;
         }
 
+        .alon-feature-card button {
+            border: 0;
+            border-radius: 7px;
+            padding: 10px 13px;
+            background: #05080f;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
         #settingsPanel {
             display: none;
             position: fixed;
@@ -298,13 +308,113 @@
         }
 
         #alonAISend,
-        #alonAIVoice {
+        #alonAIVoice,
+        #alonAISpeak {
             border: 0;
             border-radius: 7px;
             padding: 9px 11px;
             cursor: pointer;
             background: #05080f;
             color: #ffffff;
+        }
+
+        #alonAIGeneratorInterface {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% - 30px);
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            z-index: 10000;
+        }
+
+        #alonAIImagePanel,
+        #alonAIVideoPanel,
+        #alonAIGenerationLogin {
+            background: #ffffff;
+            color: #111111;
+            border: 1px solid #d7b35a;
+            border-radius: 15px;
+            padding: 18px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.30);
+        }
+
+        .alon-generator-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .alon-generator-header button,
+        #alonAILoginClose {
+            border: 0;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .alon-generator-note {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        #alonAIImagePrompt,
+        #alonAIVideoPrompt {
+            width: 100%;
+            resize: vertical;
+            padding: 11px;
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+
+        #alonAIImageGenerate,
+        #alonAIVideoGenerate,
+        #alonAILoginButton {
+            width: 100%;
+            border: 0;
+            border-radius: 8px;
+            padding: 11px;
+            background: #05080f;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .alon-generator-status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f4f4f4;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        #alonAIGenerationLogin {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% - 30px);
+            max-width: 420px;
+        }
+
+        .alon-generator-login-box {
+            position: relative;
+        }
+
+        #alonAILoginClose {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        #alonAILoginButton {
+            margin-top: 8px;
         }
 
         #ah-status {
@@ -329,6 +439,14 @@
 
             #alonAIInterface {
                 bottom: 105px;
+            }
+
+            .alon-ai-controls {
+                flex-wrap: wrap;
+            }
+
+            #alonAIInput {
+                flex-basis: 100%;
             }
         }
     </style>
@@ -465,6 +583,26 @@
             Luxury Lifestyle
         </a>
 
+        <!-- =================================================
+             AI GENERATORS
+             ================================================= -->
+
+        <button
+            type="button"
+            id="aiImageGeneratorBtn"
+            onclick="window.ALON_AI && window.ALON_AI.openGenerator('image')"
+        >
+            🎨 AI Image Generator
+        </button>
+
+        <button
+            type="button"
+            id="aiVideoGeneratorBtn"
+            onclick="window.ALON_AI && window.ALON_AI.openGenerator('video')"
+        >
+            🎬 AI Video Generator
+        </button>
+
         <a
             href="./discover.html"
             data-feature="discover"
@@ -528,7 +666,7 @@
 
             <button
                 type="button"
-            id="settingsLogoutBtn"
+                id="settingsLogoutBtn"
             >
                 Logout
             </button>
@@ -554,11 +692,10 @@
 
         <p>
             The Menu system is loaded from
-            <strong>/menu.js</strong>
+            <strong>./menu.js</strong>
             and the AI system is loaded from
-            <strong>/ai.js</strong>.
+            <strong>./ai.js</strong>.
         </p>
-
 
         <section class="alon-feature-grid">
 
@@ -569,9 +706,9 @@
                 </h3>
 
                 <p>
-                    The central AI layer can later be expanded
-                    with voice, language, verification,
-                    website help and knowledge assistance.
+                    The central AI layer can help with
+                    website guidance, text help and voice
+                    interaction.
                 </p>
 
                 <button
@@ -579,6 +716,48 @@
                     onclick="window.ALON_AI && window.ALON_AI.openAI()"
                 >
                     Open AI
+                </button>
+
+            </article>
+
+
+            <article class="alon-feature-card">
+
+                <h3>
+                    🎨 AI Image Generator
+                </h3>
+
+                <p>
+                    Create an image from a text description.
+                    Login is required.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="window.ALON_AI && window.ALON_AI.openGenerator('image')"
+                >
+                    Open Image Generator
+                </button>
+
+            </article>
+
+
+            <article class="alon-feature-card">
+
+                <h3>
+                    🎬 AI Video Generator
+                </h3>
+
+                <p>
+                    Create a video from a text description.
+                    Login is required.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="window.ALON_AI && window.ALON_AI.openGenerator('video')"
+                >
+                    Open Video Generator
                 </button>
 
             </article>
