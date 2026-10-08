@@ -300,9 +300,17 @@
 
         createGeneratorInterface: function () {
 
-            if (document.getElementById("alonAIGeneratorInterface")) {
+            var existingInterface =
+                document.getElementById(
+                    "alonAIGeneratorInterface"
+                );
+
+            if (existingInterface) {
 
                 this.cacheElements();
+
+                existingInterface.hidden = true;
+                existingInterface.style.display = "none";
 
                 return;
             }
@@ -318,9 +326,12 @@
                 "ALON AI Image and Video Generator"
             );
 
+            wrapper.hidden = true;
+            wrapper.style.display = "none";
+
             wrapper.innerHTML =
 
-                '<div id="alonAIImagePanel" hidden>' +
+                '<div id="alonAIImagePanel" hidden style="display:none;">' +
 
                     '<div class="alon-generator-header">' +
                         '<strong>🎨 AI Image Generator</strong>' +
@@ -347,7 +358,7 @@
 
                 '</div>' +
 
-                '<div id="alonAIVideoPanel" hidden>' +
+                '<div id="alonAIVideoPanel" hidden style="display:none;">' +
 
                     '<div class="alon-generator-header">' +
                         '<strong>🎬 AI Video Generator</strong>' +
@@ -374,7 +385,7 @@
 
                 '</div>' +
 
-                '<div id="alonAIGenerationLogin" hidden>' +
+                '<div id="alonAIGenerationLogin" hidden style="display:none;">' +
 
                     '<div class="alon-generator-login-box">' +
 
@@ -420,96 +431,110 @@
                 );
 
             /*
-             * Capture-phase listeners make the generator
-             * buttons independent of other menu click handlers.
+             * Direct handlers make the generator buttons
+             * independent of other menu click handlers.
              */
 
             if (imageButton) {
 
-                imageButton.addEventListener(
-                    "click",
+                imageButton.onclick =
                     function (event) {
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                        if (event) {
+                            event.preventDefault();
+                        }
 
                         self.openGenerator(
                             "image"
                         );
-                    },
-                    true
-                );
+
+                        return false;
+                    };
             }
 
             if (videoButton) {
 
-                videoButton.addEventListener(
-                    "click",
+                videoButton.onclick =
                     function (event) {
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                        if (event) {
+                            event.preventDefault();
+                        }
 
                         self.openGenerator(
                             "video"
                         );
-                    },
-                    true
-                );
+
+                        return false;
+                    };
             }
 
             /*
              * Main-page generator buttons.
              */
 
-            var imageMainButton =
-                document.querySelector(
+            var imageButtons =
+                document.querySelectorAll(
                     '[onclick*="openGenerator(\'image\')"]'
                 );
 
-            var videoMainButton =
-                document.querySelector(
-                    '[onclick*="openGenerator(\'video\')"]'
-                );
-
-            if (
-                imageMainButton &&
-                imageMainButton !== imageButton
+            for (
+                var i = 0;
+                i < imageButtons.length;
+                i++
             ) {
 
-                imageMainButton.addEventListener(
-                    "click",
+                if (
+                    imageButtons[i] === imageButton
+                ) {
+                    continue;
+                }
+
+                imageButtons[i].onclick =
                     function (event) {
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                        if (event) {
+                            event.preventDefault();
+                        }
 
                         self.openGenerator(
                             "image"
                         );
-                    },
-                    true
-                );
+
+                        return false;
+                    };
             }
 
-            if (
-                videoMainButton &&
-                videoMainButton !== videoButton
+            var videoButtons =
+                document.querySelectorAll(
+                    '[onclick*="openGenerator(\'video\')"]'
+                );
+
+            for (
+                var j = 0;
+                j < videoButtons.length;
+                j++
             ) {
 
-                videoMainButton.addEventListener(
-                    "click",
+                if (
+                    videoButtons[j] === videoButton
+                ) {
+                    continue;
+                }
+
+                videoButtons[j].onclick =
                     function (event) {
 
-                        event.preventDefault();
-                        event.stopPropagation();
+                        if (event) {
+                            event.preventDefault();
+                        }
 
                         self.openGenerator(
                             "video"
                         );
-                    },
-                    true
-                );
+
+                        return false;
+                    };
             }
         },
 
@@ -1546,6 +1571,12 @@
 
                 generatorInterface.style.display =
                     "block";
+
+                generatorInterface.style.visibility =
+                    "visible";
+
+                generatorInterface.style.opacity =
+                    "1";
             }
 
             this.elements.loginPanel.hidden =
@@ -1553,6 +1584,12 @@
 
             this.elements.loginPanel.style.display =
                 "block";
+
+            this.elements.loginPanel.style.visibility =
+                "visible";
+
+            this.elements.loginPanel.style.opacity =
+                "1";
         },
 
         closeLoginGate: function () {
@@ -1566,6 +1603,12 @@
 
             this.elements.loginPanel.style.display =
                 "none";
+
+            this.elements.loginPanel.style.visibility =
+                "hidden";
+
+            this.elements.loginPanel.style.opacity =
+                "0";
         },
 
         /* =====================================================
@@ -1586,82 +1629,144 @@
              * function is called before normal initialization.
              */
 
-            if (
-                !document.getElementById(
-                    "alonAIGeneratorInterface"
-                )
-            ) {
-
-                this.createGeneratorInterface();
-            }
-
-            this.cacheElements();
-
             var generatorInterface =
                 document.getElementById(
                     "alonAIGeneratorInterface"
                 );
 
-            if (generatorInterface) {
+            if (!generatorInterface) {
 
-                generatorInterface.hidden =
-                    false;
+                this.createGeneratorInterface();
 
-                generatorInterface.style.display =
-                    "block";
+                this.cacheElements();
+
+                generatorInterface =
+                    document.getElementById(
+                        "alonAIGeneratorInterface"
+                    );
             }
+
+            if (!generatorInterface) {
+                return;
+            }
+
+            /*
+             * Always make the generator wrapper visible
+             * before opening either panel.
+             */
+
+            generatorInterface.hidden =
+                false;
+
+            generatorInterface.style.display =
+                "block";
+
+            generatorInterface.style.visibility =
+                "visible";
+
+            generatorInterface.style.opacity =
+                "1";
+
+            generatorInterface.style.zIndex =
+                "10000";
+
+            /*
+             * Hide both generator panels first.
+             */
+
+            if (this.elements.imagePanel) {
+
+                this.elements.imagePanel.hidden =
+                    true;
+
+                this.elements.imagePanel.style.display =
+                    "none";
+
+                this.elements.imagePanel.style.visibility =
+                    "hidden";
+            }
+
+            if (this.elements.videoPanel) {
+
+                this.elements.videoPanel.hidden =
+                    true;
+
+                this.elements.videoPanel.style.display =
+                    "none";
+
+                this.elements.videoPanel.style.visibility =
+                    "hidden";
+            }
+
+            /*
+             * If the user is not logged in, show the
+             * Login Required panel. This is the expected
+             * behavior before actual generation access.
+             */
 
             if (!this.isGenerationLoggedIn()) {
 
                 this.state.generatorOpen =
                     type;
 
-                this.closeGenerator(
-                    type === "image"
-                        ? "video"
-                        : "image"
-                );
-
                 this.openLoginGate();
 
                 return;
             }
 
+            /*
+             * Logged-in state:
+             * close login gate and show only the selected
+             * generator panel.
+             */
+
             this.closeLoginGate();
 
-            if (this.elements.imagePanel) {
+            if (
+                type === "image" &&
+                this.elements.imagePanel
+            ) {
 
                 this.elements.imagePanel.hidden =
-                    type !== "image";
+                    false;
 
                 this.elements.imagePanel.style.display =
-                    type === "image"
-                        ? "block"
-                        : "none";
+                    "block";
+
+                this.elements.imagePanel.style.visibility =
+                    "visible";
             }
 
-            if (this.elements.videoPanel) {
+            if (
+                type === "video" &&
+                this.elements.videoPanel
+            ) {
 
                 this.elements.videoPanel.hidden =
-                    type !== "video";
+                    false;
 
                 this.elements.videoPanel.style.display =
-                    type === "video"
-                        ? "block"
-                        : "none";
+                    "block";
+
+                this.elements.videoPanel.style.visibility =
+                    "visible";
             }
 
             this.state.generatorOpen =
                 type;
 
-            if (type === "image" &&
-                this.elements.imagePrompt) {
+            if (
+                type === "image" &&
+                this.elements.imagePrompt
+            ) {
 
                 this.elements.imagePrompt.focus();
             }
 
-            if (type === "video" &&
-                this.elements.videoPrompt) {
+            if (
+                type === "video" &&
+                this.elements.videoPrompt
+            ) {
 
                 this.elements.videoPrompt.focus();
             }
@@ -1669,24 +1774,34 @@
 
         closeGenerator: function (type) {
 
-            if (type === "image" &&
-                this.elements.imagePanel) {
+            if (
+                type === "image" &&
+                this.elements.imagePanel
+            ) {
 
                 this.elements.imagePanel.hidden =
                     true;
 
                 this.elements.imagePanel.style.display =
                     "none";
+
+                this.elements.imagePanel.style.visibility =
+                    "hidden";
             }
 
-            if (type === "video" &&
-                this.elements.videoPanel) {
+            if (
+                type === "video" &&
+                this.elements.videoPanel
+            ) {
 
                 this.elements.videoPanel.hidden =
                     true;
 
                 this.elements.videoPanel.style.display =
                     "none";
+
+                this.elements.videoPanel.style.visibility =
+                    "hidden";
             }
 
             if (
