@@ -1090,6 +1090,9 @@
             this.elements.aiBox.hidden =
                 false;
 
+            this.elements.aiBox.style.display =
+                "block";
+
             this.state.aiOpen =
                 true;
 
@@ -1111,6 +1114,9 @@
 
             this.elements.aiBox.hidden =
                 true;
+
+            this.elements.aiBox.style.display =
+                "none";
 
             this.state.aiOpen =
                 false;
@@ -1528,8 +1534,25 @@
                 return;
             }
 
+            var generatorInterface =
+                document.getElementById(
+                    "alonAIGeneratorInterface"
+                );
+
+            if (generatorInterface) {
+
+                generatorInterface.hidden =
+                    false;
+
+                generatorInterface.style.display =
+                    "block";
+            }
+
             this.elements.loginPanel.hidden =
                 false;
+
+            this.elements.loginPanel.style.display =
+                "block";
         },
 
         closeLoginGate: function () {
@@ -1540,6 +1563,9 @@
 
             this.elements.loginPanel.hidden =
                 true;
+
+            this.elements.loginPanel.style.display =
+                "none";
         },
 
         /* =====================================================
@@ -1571,6 +1597,20 @@
 
             this.cacheElements();
 
+            var generatorInterface =
+                document.getElementById(
+                    "alonAIGeneratorInterface"
+                );
+
+            if (generatorInterface) {
+
+                generatorInterface.hidden =
+                    false;
+
+                generatorInterface.style.display =
+                    "block";
+            }
+
             if (!this.isGenerationLoggedIn()) {
 
                 this.state.generatorOpen =
@@ -1590,13 +1630,25 @@
             this.closeLoginGate();
 
             if (this.elements.imagePanel) {
+
                 this.elements.imagePanel.hidden =
                     type !== "image";
+
+                this.elements.imagePanel.style.display =
+                    type === "image"
+                        ? "block"
+                        : "none";
             }
 
             if (this.elements.videoPanel) {
+
                 this.elements.videoPanel.hidden =
                     type !== "video";
+
+                this.elements.videoPanel.style.display =
+                    type === "video"
+                        ? "block"
+                        : "none";
             }
 
             this.state.generatorOpen =
@@ -1622,6 +1674,9 @@
 
                 this.elements.imagePanel.hidden =
                     true;
+
+                this.elements.imagePanel.style.display =
+                    "none";
             }
 
             if (type === "video" &&
@@ -1629,6 +1684,9 @@
 
                 this.elements.videoPanel.hidden =
                     true;
+
+                this.elements.videoPanel.style.display =
+                    "none";
             }
 
             if (
