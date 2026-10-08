@@ -95,6 +95,7 @@
 
             this.bindAIEvents();
             this.bindGeneratorEvents();
+            this.bindGeneratorButtons();
             this.bindMenuEvents();
             this.bindKeyboardEvents();
 
@@ -300,6 +301,9 @@
         createGeneratorInterface: function () {
 
             if (document.getElementById("alonAIGeneratorInterface")) {
+
+                this.cacheElements();
+
                 return;
             }
 
@@ -395,6 +399,118 @@
             document.body.appendChild(wrapper);
 
             this.cacheElements();
+        },
+
+        /* =====================================================
+           GENERATOR MENU BUTTONS
+           ===================================================== */
+
+        bindGeneratorButtons: function () {
+
+            var self = this;
+
+            var imageButton =
+                document.getElementById(
+                    "aiImageGeneratorBtn"
+                );
+
+            var videoButton =
+                document.getElementById(
+                    "aiVideoGeneratorBtn"
+                );
+
+            /*
+             * Capture-phase listeners make the generator
+             * buttons independent of other menu click handlers.
+             */
+
+            if (imageButton) {
+
+                imageButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        self.openGenerator(
+                            "image"
+                        );
+                    },
+                    true
+                );
+            }
+
+            if (videoButton) {
+
+                videoButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        self.openGenerator(
+                            "video"
+                        );
+                    },
+                    true
+                );
+            }
+
+            /*
+             * Main-page generator buttons.
+             */
+
+            var imageMainButton =
+                document.querySelector(
+                    '[onclick*="openGenerator(\'image\')"]'
+                );
+
+            var videoMainButton =
+                document.querySelector(
+                    '[onclick*="openGenerator(\'video\')"]'
+                );
+
+            if (
+                imageMainButton &&
+                imageMainButton !== imageButton
+            ) {
+
+                imageMainButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        self.openGenerator(
+                            "image"
+                        );
+                    },
+                    true
+                );
+            }
+
+            if (
+                videoMainButton &&
+                videoMainButton !== videoButton
+            ) {
+
+                videoMainButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        self.openGenerator(
+                            "video"
+                        );
+                    },
+                    true
+                );
+            }
         },
 
         /* =====================================================
@@ -1356,15 +1472,6 @@
 
         isGenerationLoggedIn: function () {
 
-            /*
-             * Preferred integration:
-             * A secure authentication system can expose:
-             *
-             * window.ALON_AUTH.isLoggedIn()
-             *
-             * This file never stores passwords.
-             */
-
             if (
                 window.ALON_AUTH &&
                 typeof window.ALON_AUTH.isLoggedIn ===
@@ -1393,11 +1500,6 @@
                 }
             );
 
-            /*
-             * If the site's existing login system provides
-             * a login function, use it.
-             */
-
             if (
                 window.ALON_AUTH &&
                 typeof window.ALON_AUTH.openLogin ===
@@ -1409,17 +1511,18 @@
                 return;
             }
 
-            /*
-             * Fallback navigation.
-             * Replace only if the site's real login route
-             * is different.
-             */
-
             window.location.href =
                 "./login.html";
         },
 
         openLoginGate: function () {
+
+            if (!this.elements.loginPanel) {
+
+                this.createGeneratorInterface();
+
+                this.cacheElements();
+            }
 
             if (!this.elements.loginPanel) {
                 return;
@@ -1452,10 +1555,32 @@
                 return;
             }
 
+            /*
+             * Make sure generator DOM exists even if this
+             * function is called before normal initialization.
+             */
+
+            if (
+                !document.getElementById(
+                    "alonAIGeneratorInterface"
+                )
+            ) {
+
+                this.createGeneratorInterface();
+            }
+
+            this.cacheElements();
+
             if (!this.isGenerationLoggedIn()) {
 
                 this.state.generatorOpen =
                     type;
+
+                this.closeGenerator(
+                    type === "image"
+                        ? "video"
+                        : "image"
+                );
 
                 this.openLoginGate();
 
@@ -1506,8 +1631,20 @@
                     true;
             }
 
-            this.state.generatorOpen =
-                null;
+            if (
+                type === "image" ||
+                type === "video"
+            ) {
+
+                if (
+                    this.state.generatorOpen ===
+                    type
+                ) {
+
+                    this.state.generatorOpen =
+                        null;
+                }
+            }
         },
 
         /* =====================================================
@@ -1529,12 +1666,6 @@
                     reason: "Please enter a prompt."
                 };
             }
-
-            /*
-             * ALON HISTORYVERSE 24 public generators
-             * do not generate sexual, nude or explicit
-             * content of any kind.
-             */
 
             var sexualTerms = [
                 "nude",
@@ -1572,13 +1703,6 @@
                 "सेक्स फोटो"
             ];
 
-            /*
-             * Generic real-person/public-figure indicators.
-             *
-             * No specific celebrity, politician or person's
-             * name is hard-coded here.
-             */
-
             var realPersonTerms = [
                 "celebrity",
                 "celebrities",
@@ -1611,11 +1735,6 @@
                 "a politician",
                 "a public figure"
             ];
-
-            /*
-             * Deepfake, impersonation and manipulated-real-person
-             * indicators.
-             */
 
             var deepfakeTerms = [
                 "deepfake",
@@ -1663,11 +1782,6 @@
                     deepfakeTerms
                 );
 
-            /*
-             * Sexual, nude or explicit requests are blocked
-             * regardless of whether a real person is mentioned.
-             */
-
             if (hasSexual) {
 
                 return {
@@ -1676,10 +1790,6 @@
                         "This request cannot be generated because ALON AI does not generate sexual, nude or explicit content."
                 };
             }
-
-            /*
-             * Deepfake/impersonation requests are blocked.
-             */
 
             if (hasDeepfake) {
 
@@ -1690,16 +1800,6 @@
                 };
             }
 
-            /*
-             * Public generator is intentionally conservative:
-             * requests specifically asking for real celebrities,
-             * politicians, public figures or other real people
-             * are not accepted.
-             *
-             * This does not block fictional characters or
-             * ordinary fictional scenes.
-             */
-
             if (hasRealPerson) {
 
                 return {
@@ -1708,10 +1808,6 @@
                         "This request cannot be generated because the public ALON AI generator does not create images or videos of real people, celebrities, politicians or public figures."
                 };
             }
-
-            /*
-             * Basic illegal/harmful request screening.
-             */
 
             var unsafeTerms = [
                 "child sexual",
@@ -1817,12 +1913,6 @@
                 "Preparing secure image-generation request..."
             );
 
-            /*
-             * No secret API key is stored here.
-             * The public site sends a safe request to
-             * the future server endpoint.
-             */
-
             this.sendGenerationRequest(
                 "image",
                 prompt
@@ -1883,15 +1973,6 @@
             type,
             prompt
         ) {
-
-            /*
-             * IMPORTANT:
-             * The actual backend endpoint must authenticate
-             * the user again and perform server-side safety
-             * checks before calling an image/video provider.
-             *
-             * The browser must never receive a provider API key.
-             */
 
             var endpoint =
                 type === "image"
@@ -1956,11 +2037,6 @@
                 );
 
             } catch (error) {
-
-                /*
-                 * Until the real backend is connected,
-                 * do not pretend that generation succeeded.
-                 */
 
                 this.setGeneratorStatus(
                     type,
