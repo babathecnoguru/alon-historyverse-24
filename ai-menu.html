@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ALON HISTORYVERSE 24 • AI & Menu</title>
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 AI and Menu system"
+    >
+
+    <meta
+        name="author"
+        content="Baba Thecno Guru"
+    >
+
+    <meta
+        name="theme-color"
+        content="#ffffff"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            color: #111111;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        .alon-test-header {
+            width: 100%;
+            padding: 16px 20px;
+            background: #05080f;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .alon-brand {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .alon-owner {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+
+        #menuBtn {
+            border: 0;
+            background: #d7b35a;
+            color: #05080f;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        #mobileMenu {
+            display: block;
+            width: 100%;
+            max-width: 420px;
+            margin: 15px auto;
+            padding: 16px;
+            background: #05080f;
+            color: #ffffff;
+            border-radius: 12px;
+        }
+
+        #mobileMenu[hidden] {
+            display: none;
+        }
+
+        #mobileMenu a,
+        #mobileMenu button {
+            display: block;
+            width: 100%;
+            margin: 7px 0;
+            padding: 10px 12px;
+            border-radius: 7px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #ffffff;
+            text-decoration: none;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        #backBtn {
+            background: #d7b35a !important;
+            color: #05080f !important;
+        }
+
+        .alon-main {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 25px 18px 100px;
+        }
+
+        .alon-main h1 {
+            margin-top: 0;
+        }
+
+        .alon-main p {
+            line-height: 1.6;
+        }
+
+        .alon-feature-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .alon-feature-card {
+            padding: 18px;
+            border: 1px solid #dddddd;
+            border-radius: 12px;
+            background: #ffffff;
+        }
+
+        .alon-feature-card h3 {
+            margin-top: 0;
+        }
+
+        .alon-feature-card a {
+            color: #8a6718;
+            font-weight: 700;
+        }
+
+        #settingsPanel {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            background: rgba(0,0,0,0.55);
+            padding: 25px;
+        }
+
+        #settingsPanel[hidden] {
+            display: none;
+        }
+
+        .alon-settings-box {
+            width: 100%;
+            max-width: 420px;
+            margin: 60px auto;
+            background: #ffffff;
+            color: #111111;
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        #alonAdDisplay {
+            position: fixed;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            width: calc(100% - 30px);
+            max-width: 520px;
+            z-index: 7000;
+        }
+
+        .alon-ad-box {
+            background: #05080f;
+            color: #ffffff;
+            border: 1px solid #d7b35a;
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        .alon-ad-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .alon-ad-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 5px;
+            background: #d7b35a;
+            color: #05080f;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .alon-ad-label {
+            font-size: 10px;
+            opacity: 0.65;
+        }
+
+        .alon-ad-content h3 {
+            margin: 5px 0 8px;
+            font-size: 19px;
+        }
+
+        .alon-ad-content p {
+            margin: 0 0 13px;
+            line-height: 1.45;
+            font-size: 14px;
+        }
+
+        .alon-ad-action {
+            border: 0;
+            border-radius: 7px;
+            padding: 9px 13px;
+            background: #d7b35a;
+            color: #05080f;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        #alonAIInterface {
+            position: fixed;
+            right: 18px;
+            bottom: 120px;
+            width: calc(100% - 36px);
+            max-width: 420px;
+            z-index: 8000;
+        }
+
+        #alonAIBox {
+            background: #ffffff;
+            border: 1px solid #d7b35a;
+            border-radius: 14px;
+            padding: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.22);
+        }
+
+        .alon-ai-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .alon-ai-header button {
+            border: 0;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .alon-ai-status {
+            font-size: 11px;
+            opacity: 0.65;
+            margin-bottom: 10px;
+        }
+
+        .alon-ai-response {
+            min-height: 60px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f4f4f4;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .alon-ai-controls {
+            display: flex;
+            gap: 7px;
+        }
+
+        #alonAIInput {
+            flex: 1;
+            min-width: 0;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 7px;
+        }
+
+        #alonAISend,
+        #alonAIVoice {
+            border: 0;
+            border-radius: 7px;
+            padding: 9px 11px;
+            cursor: pointer;
+            background: #05080f;
+            color: #ffffff;
+        }
+
+        #ah-status {
+            margin-top: 25px;
+            font-size: 13px;
+            opacity: 0.65;
+        }
+
+        @media (max-width: 600px) {
+
+            .alon-test-header {
+                align-items: flex-start;
+            }
+
+            .alon-brand {
+                font-size: 16px;
+            }
+
+            #alonAdDisplay {
+                bottom: 10px;
+            }
+
+            #alonAIInterface {
+                bottom: 105px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="alon-test-header">
+
+        <div>
+            <div class="alon-brand">
+                ALON HISTORYVERSE 24
+            </div>
+
+            <div class="alon-owner">
+                Baba Thecno Guru
+            </div>
+        </div>
+
+        <button
+            type="button"
+            id="menuBtn"
+            aria-expanded="false"
+            aria-controls="mobileMenu"
+        >
+            ☰
+        </button>
+
+    </header>
+
+
+    <!-- =====================================================
+         MOBILE / MAIN MENU
+         ===================================================== -->
+
+    <nav
+        id="mobileMenu"
+        hidden
+        aria-label="ALON HISTORYVERSE 24 Menu"
+    >
+
+        <button
+            type="button"
+            id="backBtn"
+        >
+            ← Back
+        </button>
+
+        <a
+            href="./index.html"
+            data-feature="home"
+        >
+            Home
+        </a>
+
+        <a
+            href="./civilizations.html"
+            data-feature="history"
+        >
+            History & Civilizations
+        </a>
+
+        <a
+            href="./countries.html"
+            data-feature="countries"
+        >
+            Countries
+        </a>
+
+        <a
+            href="./heritage.html"
+            data-feature="heritage"
+        >
+            Heritage
+        </a>
+
+        <a
+            href="./timeline.html"
+            data-feature="timeline"
+        >
+            Timeline
+        </a>
+
+        <a
+            href="./articles.html"
+            data-feature="articles"
+        >
+            Articles
+        </a>
+
+        <a
+            href="./library.html"
+            data-feature="library"
+        >
+            Library
+        </a>
+
+        <a
+            href="./marketplace.html"
+            data-feature="global-business"
+        >
+            Global Business / Marketplace
+        </a>
+
+        <a
+            href="./regular-marketplace.html#rmDiscoveryHub"
+            data-feature="local-business"
+        >
+            Local Business
+        </a>
+
+        <a
+            href="./jobs.html"
+            data-feature="jobs"
+        >
+            Jobs
+        </a>
+
+        <a
+            href="./regular-marketplace.html"
+            data-feature="regular-marketplace"
+        >
+            Regular Marketplace
+        </a>
+
+        <a
+            href="./luxury-lifestyle.html"
+            data-feature="luxury"
+        >
+            Luxury Lifestyle
+        </a>
+
+        <a
+            href="./discover.html"
+            data-feature="discover"
+        >
+            Discover
+        </a>
+
+        <button
+            type="button"
+            id="languageBtn"
+        >
+            Language
+        </button>
+
+        <button
+            type="button"
+            id="settingsBtn"
+        >
+            Settings
+        </button>
+
+        <button
+            type="button"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+
+    <!-- =====================================================
+         SETTINGS PANEL
+         ===================================================== -->
+
+    <div
+        id="settingsPanel"
+        hidden
+        aria-hidden="true"
+    >
+
+        <div class="alon-settings-box">
+
+            <h2>
+                Settings
+            </h2>
+
+            <button
+                type="button"
+                id="settingsCloseBtn"
+            >
+                Close
+            </button>
+
+            <button
+                type="button"
+                id="settingsResetBtn"
+            >
+                Reset Preferences
+            </button>
+
+            <button
+                type="button"
+            id="settingsLogoutBtn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="alon-main">
+
+        <h1>
+            ALON HISTORYVERSE 24
+        </h1>
+
+        <p>
+            AI and Menu integration test page.
+        </p>
+
+        <p>
+            The Menu system is loaded from
+            <strong>/menu.js</strong>
+            and the AI system is loaded from
+            <strong>/ai.js</strong>.
+        </p>
+
+
+        <section class="alon-feature-grid">
+
+            <article class="alon-feature-card">
+
+                <h3>
+                    AI Assistant
+                </h3>
+
+                <p>
+                    The central AI layer can later be expanded
+                    with voice, language, verification,
+                    website help and knowledge assistance.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="window.ALON_AI && window.ALON_AI.openAI()"
+                >
+                    Open AI
+                </button>
+
+            </article>
+
+
+            <article class="alon-feature-card">
+
+                <h3>
+                    History
+                </h3>
+
+                <p>
+                    Explore civilizations and historical knowledge.
+                </p>
+
+                <a href="./civilizations.html">
+                    Open History
+                </a>
+
+            </article>
+
+
+            <article class="alon-feature-card">
+
+                <h3>
+                    Countries
+                </h3>
+
+                <p>
+                    Explore countries and world information.
+                </p>
+
+                <a href="./countries.html">
+                    Open Countries
+                </a>
+
+            </article>
+
+
+            <article class="alon-feature-card">
+
+                <h3>
+                    Marketplace
+                </h3>
+
+                <p>
+                    Explore marketplace and discovery systems.
+                </p>
+
+                <a href="./marketplace.html">
+                    Open Marketplace
+                </a>
+
+            </article>
+
+        </section>
+
+
+        <div id="ah-status">
+            ALON HISTORYVERSE 24
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         MENU ENGINE
+         ===================================================== -->
+
+    <script src="./menu.js"></script>
+
+
+    <!-- =====================================================
+         AI ENGINE
+         ===================================================== -->
+
+    <script src="./ai.js"></script>
+
+</body>
+</html>
