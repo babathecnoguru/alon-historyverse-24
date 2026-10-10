@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090c">
+    <meta name="description" content="Explore tourist places around the world, historic landmarks, natural wonders, cultural destinations, maps and visitor information.">
+    <meta name="author" content="Baba Thecno Guru">
+    <title>World Tourist Places | ALON HISTORYVERSE 24</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #08090c;
+            --panel: #11141b;
+            --panel-light: #171b24;
+            --gold: #d7b35a;
+            --gold-light: #f0d27a;
+            --text: #f5f5f6;
+            --muted: #b6bac5;
+            --line: #303542;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(
+                    ellipse at top,
+                    #171923 0,
+                    #08090c 55%
+                );
+            color: var(--text);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                "Segoe UI", Roboto, Arial, sans-serif;
+            line-height: 1.55;
+        }
+
+        a {
+            color: var(--gold-light);
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .wtp-container {
+            width: min(1180px, calc(100% - 28px));
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+
+        .wtp-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 9, 12, 0.94);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(12px);
+        }
+
+        .wtp-header-inner {
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .wtp-brand {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 850;
+            letter-spacing: 0.04em;
+            font-size: 1rem;
+        }
+
+        .wtp-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            color: var(--text);
+            text-decoration: none;
+            white-space: nowrap;
+            background: var(--panel);
+        }
+
+        .wtp-back:hover {
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        /* HERO */
+
+        .wtp-hero {
+            padding: 44px 0 28px;
+        }
+
+        .wtp-eyebrow {
+            color: var(--gold-light);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .wtp-hero h1 {
+            margin: 10px 0 14px;
+            max-width: 900px;
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            line-height: 1.08;
+        }
+
+        .wtp-hero p {
+            max-width: 780px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .wtp-highlight {
+            color: var(--gold-light);
+        }
+
+        /* SEARCH */
+
+        .wtp-search-panel {
+            margin: 8px 0 18px;
+            padding: 18px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+        }
+
+        .wtp-search-panel h2 {
+            margin: 0 0 12px;
+            font-size: 1.15rem;
+        }
+
+        .wtp-search-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto auto;
+            gap: 10px;
+        }
+
+        .wtp-search-row input {
+            width: 100%;
+            min-width: 0;
+            padding: 12px 14px;
+            color: var(--text);
+            background: #090b10;
+            border: 1px solid #3a4050;
+            border-radius: 11px;
+            outline: none;
+        }
+
+        .wtp-search-row input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(215, 179, 90, 0.13);
+        }
+
+        .wtp-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 11px 15px;
+            border: 1px solid #7c6734;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #e3c46c, #b58c36);
+            color: #17130a;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .wtp-button:hover {
+            filter: brightness(1.08);
+        }
+
+        .wtp-button-secondary {
+            background: var(--panel-light);
+            color: var(--text);
+            border-color: var(--line);
+        }
+
+        /* CATEGORY FILTERS */
+
+        .wtp-filter-heading {
+            margin: 18px 0 9px;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .wtp-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .wtp-filters button {
+            padding: 8px 13px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--panel-light);
+            color: var(--text);
+        }
+
+        .wtp-filters button:hover,
+        .wtp-filters button[aria-pressed="true"] {
+            border-color: var(--gold);
+            color: var(--gold-light);
+            background: #222016;
+        }
+
+        .wtp-filters button[aria-pressed="true"] {
+            box-shadow: 0 0 0 1px rgba(215, 179, 90, 0.15);
+        }
+
+        /* HELPER MESSAGE */
+
+        .wtp-helper {
+            margin: 18px 0 28px;
+            padding: 15px 17px;
+            border-left: 3px solid var(--gold);
+            border-radius: 0 13px 13px 0;
+            background: #12151d;
+            color: var(--muted);
+        }
+
+        .wtp-helper strong {
+            color: var(--gold-light);
+        }
+
+        /* SECTION HEADER */
+
+        .wtp-section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 30px 0 16px;
+        }
+
+        .wtp-section-heading h2 {
+            margin: 0;
+            font-size: clamp(1.3rem, 3vw, 1.65rem);
+        }
+
+        #resultCount {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* DESTINATION CARDS */
+
+        .wtp-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+            padding-bottom: 30px;
+        }
+
+        .wtp-place-card {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow: hidden;
+            background: linear-gradient(180deg, #141821, #0e1016);
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .wtp-place-card:hover {
+            transform: translateY(-3px);
+            border-color: #78673c;
+        }
+
+        .wtp-place-photo {
+            position: relative;
+            height: 205px;
+            overflow: hidden;
+            background: #1a1d25;
+        }
+
+        .wtp-place-photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .wtp-place-card:hover .wtp-place-photo img {
+            transform: scale(1.035);
+        }
+
+        .wtp-category-label {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            padding: 5px 10px;
+            border: 1px solid rgba(215, 179, 90, 0.4);
+            border-radius: 999px;
+            background: rgba(5, 7, 10, 0.9);
+            color: var(--gold-light);
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+
+        .wtp-place-body {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 15px;
+        }
+
+        .wtp-place-body h3 {
+            margin: 0 0 4px;
+            font-size: 1.16rem;
+            line-height: 1.35;
+        }
+
+        .wtp-place-location {
+            margin-bottom: 10px;
+            color: var(--gold-light);
+            font-size: 0.86rem;
+        }
+
+        .wtp-place-description {
+            flex: 1;
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .wtp-place-coordinates {
+            margin-bottom: 13px;
+            color: #a7adba;
+            font-size: 0.8rem;
+        }
+
+        .wtp-place-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .wtp-place-actions .wtp-button {
+            flex: 1 1 120px;
+            padding: 9px 10px;
+            font-size: 0.82rem;
+        }
+
+        .wtp-weather {
+            margin-top: 12px;
+            padding: 11px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #0a0d13;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        /* EMPTY STATE */
+
+        .wtp-empty {
+            display: none;
+            margin: 0 0 32px;
+            padding: 30px 18px;
+            border: 1px dashed #52586a;
+            border-radius: 16px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .wtp-empty h3 {
+            margin: 0 0 8px;
+            color: var(--text);
+        }
+
+        /* IMPORTANT INFORMATION */
+
+        .wtp-info-panel {
+            margin: 6px 0 30px;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 15px;
+            background: var(--panel);
+        }
+
+        .wtp-info-panel h2 {
+            margin: 0 0 8px;
+            color: var(--gold-light);
+            font-size: 1.1rem;
+        }
+
+        .wtp-info-panel p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* FOOTER */
+
+        .wtp-footer {
+            border-top: 1px solid var(--line);
+            padding: 23px 0 35px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .wtp-footer p {
+            margin: 4px 0;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+            .wtp-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .wtp-container {
+                width: calc(100% - 20px);
+            }
+
+            .wtp-header-inner {
+                min-height: 60px;
+            }
+
+            .wtp-brand {
+                font-size: 0.82rem;
+            }
+
+            .wtp-back {
+                padding: 7px 10px;
+                font-size: 0.82rem;
+            }
+
+            .wtp-hero {
+                padding-top: 31px;
+            }
+
+            .wtp-search-panel {
+                padding: 13px;
+            }
+
+            .wtp-search-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .wtp-search-row input {
+                grid-column: 1 / -1;
+            }
+
+            .wtp-search-row .wtp-button {
+                padding: 10px 8px;
+                font-size: 0.88rem;
+            }
+
+            .wtp-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .wtp-place-photo {
+                height: 220px;
+            }
+
+            .wtp-section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .wtp-place-actions .wtp-button {
+                flex-basis: 105px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="wtp-header">
+        <div class="wtp-container wtp-header-inner">
+            <a class="wtp-brand" href="./index.html">
+                ALON HISTORYVERSE 24
+            </a>
+
+            <a class="wtp-back" href="./index.html" aria-label="Back to homepage">
+                ← Back to Home
+            </a>
+        </div>
+    </header>
+
+    <main class="wtp-container">
+
+        <!-- HERO SECTION -->
+        <section class="wtp-hero">
+            <div class="wtp-eyebrow">
+                Explore the World · Discover Knowledge
+            </div>
+
+            <h1>
+                World <span class="wtp-highlight">Tourist Places</span>
+            </h1>
+
+            <p>
+                Discover historic landmarks, natural wonders, cultural
+                destinations and remarkable places around the world.
+                Search by destination, country or interest, open map
+                locations, and visit official sources to plan responsibly.
+            </p>
+        </section>
+
+        <!-- SEARCH AND FILTERS -->
+        <section class="wtp-search-panel" aria-label="Tourist place search">
+            <h2>Find Your Destination</h2>
+
+            <div class="wtp-search-row">
+                <input
+                    id="placeSearch"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="Search place, country, city or interest..."
+                    aria-label="Search tourist places"
+                >
+
+                <button
+                    id="searchBtn"
+                    class="wtp-button"
+                    type="button"
+                >
+                    🔎 Search
+                </button>
+
+                <button
+                    id="clearBtn"
+                    class="wtp-button wtp-button-secondary"
+                    type="button"
+                >
+                    Clear
+                </button>
+            </div>
+
+            <div class="wtp-filter-heading">
+                Explore by category
+            </div>
+
+            <div
+                id="categoryFilters"
+                class="wtp-filters"
+                aria-label="Filter destinations by category"
+            >
+                <button
+                    class="wtp-filter-button"
+                    type="button"
+                    data-category="All"
+                    aria-pressed="true"
+                >
+                    🌍 All Places
+                </button>
+
+                <button
+                    class="wtp-filter-button"
+                    type="button"
+                    data-category="Historic"
+                    aria-pressed="false"
+                >
+                    🏛️ Historic
+                </button>
+
+                <button
+                    class="wtp-filter-button"
+                    type="button"
+                    data-category="Nature"
+                    aria-pressed="false"
+                >
+                    🏞️ Nature
+                </button>
+
+                <button
+                    class="wtp-filter-button"
+                    type="button"
+                    data-category="Landmark"
+                    aria-pressed="false"
+                >
+                    🗼 Landmarks
+                </button>
+
+                <button
+                    class="wtp-filter-button"
+                    type="button"
+                    data-category="Culture"
+                    aria-pressed="false"
+                >
+                    🎭 Culture
+                </button>
+            </div>
+        </section>
+
+        <!-- DISCOVERY HELPER -->
+        <section
+            id="discoveryAssist"
+            class="wtp-helper"
+            role="status"
+            aria-live="polite"
+        >
+            <strong>Travel Discovery Helper:</strong>
+            Try searches such as “ancient history”, “mountains”,
+            “India”, “architecture” or “waterfalls”. Search results
+            are based on destination descriptions and keywords.
+        </section>
+
+        <!-- DESTINATION LIST -->
+        <section aria-labelledby="destinationsHeading">
+            <div class="wtp-section-heading">
+                <h2 id="destinationsHeading">Explore Destinations</h2>
+
+                <span id="resultCount" aria-live="polite">
+                    Loading places...
+                </span>
+            </div>
+
+            <div
+                id="placesGrid"
+                class="wtp-grid"
+                aria-live="polite"
+            ></div>
+
+            <div id="emptyState" class="wtp-empty">
+                <h3>No destinations found</h3>
+
+                <p>
+                    Try another place, country, city or category.
+                </p>
+            </div>
+        </section>
+
+        <!-- TRAVEL INFORMATION -->
+        <section class="wtp-info-panel">
+            <h2>Travel Information and Safety</h2>
+
+            <p>
+                Opening hours, ticket prices, permits, access restrictions,
+                weather and local safety conditions can change. Confirm
+                current details with official visitor sources before
+                travelling. Map links open OpenStreetMap. Current weather
+                can be requested from Open-Meteo when the service is
+                available. Always respect local laws, cultural traditions
+                and environmental protection rules.
+            </p>
+        </section>
+    </main>
+
+    <footer class="wtp-footer">
+        <div class="wtp-container">
+            <p><strong>ALON HISTORYVERSE 24</strong></p>
+
+            <p>
+                World Tourist Places — public destination discovery
+                and educational information.
+            </p>
+
+            <p>
+                Destination details are provided as a starting point
+                for research and should be independently verified.
+            </p>
+
+            <p>Created by Baba Thecno Guru.</p>
+        </div>
+    </footer>
+
+    <!-- Keep this root-relative JS path exactly as named. -->
+    <script src="./world-tourist-places.js" defer></script>
+</body>
+</html>
