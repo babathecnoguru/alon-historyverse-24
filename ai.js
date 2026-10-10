@@ -1,30 +1,20 @@
+
 /*
  * ALON HISTORYVERSE 24
  * AI + HELP + IMAGE + VIDEO + AD DISPLAY ENGINE
  * File: /ai.js
  *
  * Owner: Baba Thecno Guru
- *
- * PURPOSE
- * ------------------------------------------------------------
- * 1. Central public AI/help controller.
- * 2. Voice/microphone hooks.
- * 3. Text-help hooks.
- * 4. Spoken AI response hooks.
- * 5. AI Image Generator UI/controller.
- * 6. AI Video Generator UI/controller.
- * 7. Login-gate hooks for generation.
- * 8. Generation safety screening.
- * 9. Menu.js integration.
- * 10. Central rotating advertisement display box.
+ * Version: 1.2.0
  *
  * IMPORTANT
  * ------------------------------------------------------------
- * This file does NOT replace Security/Admin systems.
- * This file does NOT create a general user-to-user messaging system.
- * This file does NOT claim to be a human or conscious system.
- * Actual image/video generation requires a secure backend/API.
- * API secrets must NEVER be placed in this public JavaScript file.
+ * 1. Preserves AI Help, Voice, Ads and Menu.js integration.
+ * 2. Image/Video Generator opens in a fixed full-screen overlay.
+ * 3. Login Required is visible when authentication is missing.
+ * 4. Close and Escape correctly close the entire overlay.
+ * 5. Actual generation requires a secure backend/API.
+ * 6. Never place API secrets in this public JavaScript file.
  */
 
 (function () {
@@ -32,8 +22,7 @@
 
     var ALON_AI = {
 
-        version: "1.1.0",
-
+        version: "1.2.0",
         initialized: false,
 
         elements: {
@@ -49,6 +38,8 @@
             adText: null,
             adAction: null,
             adBadge: null,
+
+            generatorInterface: null,
 
             imagePanel: null,
             imagePrompt: null,
@@ -149,6 +140,11 @@
             this.elements.adBadge =
                 document.getElementById("alonAdBadge");
 
+            this.elements.generatorInterface =
+                document.getElementById(
+                    "alonAIGeneratorInterface"
+                );
+
             this.elements.imagePanel =
                 document.getElementById("alonAIImagePanel");
 
@@ -200,23 +196,7 @@
 
             if (existingInterface) {
 
-                this.elements.aiBox =
-                    document.getElementById("alonAIBox");
-
-                this.elements.aiInput =
-                    document.getElementById("alonAIInput");
-
-                this.elements.aiSend =
-                    document.getElementById("alonAISend");
-
-                this.elements.aiVoice =
-                    document.getElementById("alonAIVoice");
-
-                this.elements.aiClose =
-                    document.getElementById("alonAIClose");
-
-                this.elements.aiStatus =
-                    document.getElementById("alonAIStatus");
+                this.cacheElements();
 
                 return;
             }
@@ -224,8 +204,7 @@
             var wrapper =
                 document.createElement("section");
 
-            wrapper.id =
-                "alonAIInterface";
+            wrapper.id = "alonAIInterface";
 
             wrapper.setAttribute(
                 "aria-label",
@@ -250,16 +229,10 @@
 
                     '<div class="alon-ai-controls">' +
 
-                        '<input ' +
-                            'type="text" ' +
-                            'id="alonAIInput" ' +
-                            'placeholder="Ask ALON..." ' +
-                            'autocomplete="off" ' +
-                        '/>' +
+                        '<input type="text" id="alonAIInput" ' +
+                            'placeholder="Ask ALON..." autocomplete="off" />' +
 
-                        '<button type="button" id="alonAISend">' +
-                            'Send' +
-                        '</button>' +
+                        '<button type="button" id="alonAISend">Send</button>' +
 
                         '<button type="button" id="alonAIVoice" aria-label="Use microphone">' +
                             '🎤' +
@@ -275,23 +248,7 @@
 
             document.body.appendChild(wrapper);
 
-            this.elements.aiBox =
-                document.getElementById("alonAIBox");
-
-            this.elements.aiInput =
-                document.getElementById("alonAIInput");
-
-            this.elements.aiSend =
-                document.getElementById("alonAISend");
-
-            this.elements.aiVoice =
-                document.getElementById("alonAIVoice");
-
-            this.elements.aiClose =
-                document.getElementById("alonAIClose");
-
-            this.elements.aiStatus =
-                document.getElementById("alonAIStatus");
+            this.cacheElements();
         },
 
         /* =====================================================
@@ -318,8 +275,7 @@
             var wrapper =
                 document.createElement("section");
 
-            wrapper.id =
-                "alonAIGeneratorInterface";
+            wrapper.id = "alonAIGeneratorInterface";
 
             wrapper.setAttribute(
                 "aria-label",
@@ -335,18 +291,15 @@
 
                     '<div class="alon-generator-header">' +
                         '<strong>🎨 AI Image Generator</strong>' +
-                        '<button type="button" id="alonAIImageClose">×</button>' +
+                        '<button type="button" id="alonAIImageClose" aria-label="Close image generator">×</button>' +
                     '</div>' +
 
                     '<p class="alon-generator-note">' +
                         'Describe the image you want to create.' +
                     '</p>' +
 
-                    '<textarea ' +
-                        'id="alonAIImagePrompt" ' +
-                        'placeholder="Example: A golden ancient city at sunset..." ' +
-                        'rows="4">' +
-                    '</textarea>' +
+                    '<textarea id="alonAIImagePrompt" ' +
+                        'placeholder="Example: A golden ancient city at sunset..." rows="4"></textarea>' +
 
                     '<button type="button" id="alonAIImageGenerate">' +
                         'Generate Image' +
@@ -362,18 +315,15 @@
 
                     '<div class="alon-generator-header">' +
                         '<strong>🎬 AI Video Generator</strong>' +
-                        '<button type="button" id="alonAIVideoClose">×</button>' +
+                        '<button type="button" id="alonAIVideoClose" aria-label="Close video generator">×</button>' +
                     '</div>' +
 
                     '<p class="alon-generator-note">' +
                         'Describe the video you want to create.' +
                     '</p>' +
 
-                    '<textarea ' +
-                        'id="alonAIVideoPrompt" ' +
-                        'placeholder="Example: A cinematic ancient city with people walking through a marketplace..." ' +
-                        'rows="4">' +
-                    '</textarea>' +
+                    '<textarea id="alonAIVideoPrompt" ' +
+                        'placeholder="Example: A cinematic ancient city at sunset..." rows="4"></textarea>' +
 
                     '<button type="button" id="alonAIVideoGenerate">' +
                         'Generate Video' +
@@ -389,9 +339,7 @@
 
                     '<div class="alon-generator-login-box">' +
 
-                        '<button type="button" id="alonAILoginClose">' +
-                            '×' +
-                        '</button>' +
+                        '<button type="button" id="alonAILoginClose" aria-label="Close login prompt">×</button>' +
 
                         '<h3>Login Required</h3>' +
 
@@ -413,6 +361,140 @@
         },
 
         /* =====================================================
+           GENERATOR OVERLAY STYLING
+           ===================================================== */
+
+        styleGeneratorOverlay: function () {
+
+            var wrapper =
+                this.elements.generatorInterface ||
+                document.getElementById(
+                    "alonAIGeneratorInterface"
+                );
+
+            if (!wrapper) {
+                return;
+            }
+
+            wrapper.hidden = false;
+
+            wrapper.style.cssText =
+                "position:fixed!important;" +
+                "inset:0!important;" +
+                "width:100%!important;" +
+                "height:100%!important;" +
+                "max-width:none!important;" +
+                "max-height:none!important;" +
+                "box-sizing:border-box!important;" +
+                "overflow-y:auto!important;" +
+                "overscroll-behavior:contain!important;" +
+                "padding:20px 14px!important;" +
+                "background:rgba(0,0,0,0.88)!important;" +
+                "z-index:2147483647!important;" +
+                "visibility:visible!important;" +
+                "opacity:1!important;" +
+                "display:block!important;";
+
+            this.elements.generatorInterface = wrapper;
+        },
+
+        styleGeneratorPanel: function (panel) {
+
+            if (!panel) {
+                return;
+            }
+
+            panel.hidden = false;
+
+            panel.style.cssText =
+                "display:block!important;" +
+                "visibility:visible!important;" +
+                "opacity:1!important;" +
+                "position:relative!important;" +
+                "width:100%!important;" +
+                "max-width:560px!important;" +
+                "box-sizing:border-box!important;" +
+                "margin:5vh auto 24px!important;" +
+                "padding:22px!important;" +
+                "background:#101521!important;" +
+                "color:#ffffff!important;" +
+                "border:1px solid #d7b35a!important;" +
+                "border-radius:16px!important;" +
+                "box-shadow:0 12px 50px rgba(0,0,0,.6)!important;";
+        },
+
+        styleGeneratorControls: function (panel) {
+
+            if (!panel) {
+                return;
+            }
+
+            var textareas =
+                panel.querySelectorAll("textarea");
+
+            for (var i = 0; i < textareas.length; i++) {
+
+                textareas[i].style.cssText =
+                    "display:block!important;" +
+                    "width:100%!important;" +
+                    "max-width:100%!important;" +
+                    "min-height:110px!important;" +
+                    "box-sizing:border-box!important;" +
+                    "margin:14px 0!important;" +
+                    "padding:12px!important;" +
+                    "background:#ffffff!important;" +
+                    "color:#111111!important;" +
+                    "border:1px solid #999999!important;" +
+                    "border-radius:8px!important;" +
+                    "font-size:16px!important;";
+            }
+
+            var buttons =
+                panel.querySelectorAll("button");
+
+            for (var j = 0; j < buttons.length; j++) {
+
+                buttons[j].style.cssText +=
+                    ";max-width:100%;" +
+                    "box-sizing:border-box;" +
+                    "cursor:pointer;";
+            }
+
+            var header =
+                panel.querySelector(".alon-generator-header");
+
+            if (header) {
+                header.style.cssText =
+                    "display:flex;" +
+                    "align-items:center;" +
+                    "justify-content:space-between;" +
+                    "gap:12px;" +
+                    "color:#f0d27a;" +
+                    "font-size:18px;";
+            }
+
+            var notes =
+                panel.querySelectorAll(".alon-generator-note");
+
+            for (var k = 0; k < notes.length; k++) {
+                notes[k].style.cssText =
+                    "color:#eeeeee;" +
+                    "line-height:1.6;";
+            }
+
+            var status =
+                panel.querySelector(".alon-generator-status");
+
+            if (status) {
+                status.style.cssText =
+                    "margin-top:16px;" +
+                    "color:#f0d27a;" +
+                    "line-height:1.6;" +
+                    "overflow-wrap:anywhere;";
+            }
+        },
+
+        /* =====================================================
            GENERATOR MENU BUTTONS
            ===================================================== */
 
@@ -421,88 +503,60 @@
             var self = this;
 
             var imageButton =
-                document.getElementById(
-                    "aiImageGeneratorBtn"
-                );
+                document.getElementById("aiImageGeneratorBtn");
 
             var videoButton =
-                document.getElementById(
-                    "aiVideoGeneratorBtn"
-                );
-
-            /*
-             * Direct handlers make the generator buttons
-             * independent of other menu click handlers.
-             */
+                document.getElementById("aiVideoGeneratorBtn");
 
             if (imageButton) {
 
-                imageButton.onclick =
-                    function (event) {
+                imageButton.onclick = function (event) {
 
-                        if (event) {
-                            event.preventDefault();
-                        }
+                    if (event) {
+                        event.preventDefault();
+                    }
 
-                        self.openGenerator(
-                            "image"
-                        );
+                    self.openGenerator("image");
 
-                        return false;
-                    };
+                    return false;
+                };
             }
 
             if (videoButton) {
 
-                videoButton.onclick =
-                    function (event) {
+                videoButton.onclick = function (event) {
 
-                        if (event) {
-                            event.preventDefault();
-                        }
+                    if (event) {
+                        event.preventDefault();
+                    }
 
-                        self.openGenerator(
-                            "video"
-                        );
+                    self.openGenerator("video");
 
-                        return false;
-                    };
+                    return false;
+                };
             }
-
-            /*
-             * Main-page generator buttons.
-             */
 
             var imageButtons =
                 document.querySelectorAll(
                     '[onclick*="openGenerator(\'image\')"]'
                 );
 
-            for (
-                var i = 0;
-                i < imageButtons.length;
-                i++
-            ) {
+            for (var i = 0; i < imageButtons.length; i++) {
 
-                if (
-                    imageButtons[i] === imageButton
-                ) {
+                if (imageButtons[i] === imageButton) {
                     continue;
                 }
 
-                imageButtons[i].onclick =
-                    function (event) {
+                imageButtons[i].onclick = function (event) {
 
-                        if (event) {
-                            event.preventDefault();
-                        }
+                    if (event) {
+                        event.preventDefault();
+                    }
 
-                        self.openGenerator(
-                            "image"
-                        );
+                    self.openGenerator("image");
 
-                        return false;
-                    };
+                    return false;
+                };
             }
 
             var videoButtons =
@@ -510,31 +564,22 @@
                     '[onclick*="openGenerator(\'video\')"]'
                 );
 
-            for (
-                var j = 0;
-                j < videoButtons.length;
-                j++
-            ) {
+            for (var j = 0; j < videoButtons.length; j++) {
 
-                if (
-                    videoButtons[j] === videoButton
-                ) {
+                if (videoButtons[j] === videoButton) {
                     continue;
                 }
 
-                videoButtons[j].onclick =
-                    function (event) {
+                videoButtons[j].onclick = function (event) {
 
-                        if (event) {
-                            event.preventDefault();
-                        }
+                    if (event) {
+                        event.preventDefault();
+                    }
 
-                        self.openGenerator(
-                            "video"
-                        );
+                    self.openGenerator("video");
 
-                        return false;
-                    };
+                    return false;
+                };
             }
         },
 
@@ -567,8 +612,7 @@
             var adWrapper =
                 document.createElement("aside");
 
-            adWrapper.id =
-                "alonAdDisplay";
+            adWrapper.id = "alonAdDisplay";
 
             adWrapper.setAttribute(
                 "aria-label",
@@ -580,31 +624,14 @@
                 '<div id="alonAdBox" class="alon-ad-box">' +
 
                     '<div class="alon-ad-top">' +
-
-                        '<span id="alonAdBadge" class="alon-ad-badge">' +
-                            'ALON' +
-                        '</span>' +
-
-                        '<span class="alon-ad-label">' +
-                            'ADVERTISEMENT' +
-                        '</span>' +
-
+                        '<span id="alonAdBadge" class="alon-ad-badge">ALON</span>' +
+                        '<span class="alon-ad-label">ADVERTISEMENT</span>' +
                     '</div>' +
 
                     '<div class="alon-ad-content">' +
-
-                        '<h3 id="alonAdTitle">' +
-                            'ALON HISTORYVERSE 24' +
-                        '</h3>' +
-
-                        '<p id="alonAdText">' +
-                            'Explore history, knowledge and the world.' +
-                        '</p>' +
-
-                        '<button type="button" id="alonAdAction" class="alon-ad-action">' +
-                            'Explore' +
-                        '</button>' +
-
+                        '<h3 id="alonAdTitle">ALON HISTORYVERSE 24</h3>' +
+                        '<p id="alonAdText">Explore history, knowledge and the world.</p>' +
+                        '<button type="button" id="alonAdAction" class="alon-ad-action">Explore</button>' +
                     '</div>' +
 
                 '</div>';
@@ -634,7 +661,6 @@
         getAdvertisements: function () {
 
             return [
-
                 {
                     id: "history",
                     badge: "HISTORY",
@@ -643,7 +669,6 @@
                     action: "Explore History",
                     url: "./civilizations.html"
                 },
-
                 {
                     id: "countries",
                     badge: "WORLD",
@@ -652,7 +677,6 @@
                     action: "Explore Countries",
                     url: "./countries.html"
                 },
-
                 {
                     id: "heritage",
                     badge: "HERITAGE",
@@ -661,7 +685,6 @@
                     action: "Explore Heritage",
                     url: "./heritage.html"
                 },
-
                 {
                     id: "articles",
                     badge: "ARTICLES",
@@ -670,7 +693,6 @@
                     action: "Read Articles",
                     url: "./articles.html"
                 },
-
                 {
                     id: "library",
                     badge: "LIBRARY",
@@ -679,7 +701,6 @@
                     action: "Open Library",
                     url: "./library.html"
                 },
-
                 {
                     id: "global-business",
                     badge: "BUSINESS",
@@ -688,7 +709,6 @@
                     action: "Open Business",
                     url: "./marketplace.html"
                 },
-
                 {
                     id: "local-business",
                     badge: "LOCAL",
@@ -697,7 +717,6 @@
                     action: "Explore Local",
                     url: "./regular-marketplace.html#rmDiscoveryHub"
                 },
-
                 {
                     id: "jobs",
                     badge: "JOBS",
@@ -706,7 +725,6 @@
                     action: "Open Jobs",
                     url: "./jobs.html"
                 },
-
                 {
                     id: "marketplace",
                     badge: "MARKETPLACE",
@@ -715,7 +733,6 @@
                     action: "Open Marketplace",
                     url: "./marketplace.html"
                 },
-
                 {
                     id: "regular-marketplace",
                     badge: "MARKETPLACE",
@@ -724,7 +741,6 @@
                     action: "Open Marketplace",
                     url: "./regular-marketplace.html"
                 },
-
                 {
                     id: "discovery",
                     badge: "DISCOVERY",
@@ -733,7 +749,6 @@
                     action: "Discover",
                     url: "./regular-marketplace.html#rmDiscoveryHub"
                 },
-
                 {
                     id: "luxury",
                     badge: "LUXURY",
@@ -742,7 +757,6 @@
                     action: "Open Luxury",
                     url: "./luxury-lifestyle.html"
                 },
-
                 {
                     id: "gallery",
                     badge: "GALLERY",
@@ -751,7 +765,6 @@
                     action: "Open Gallery",
                     url: "./gallery.html"
                 },
-
                 {
                     id: "contribute",
                     badge: "CONTRIBUTE",
@@ -760,7 +773,6 @@
                     action: "Contribute",
                     url: "./contribute.html"
                 },
-
                 {
                     id: "discover",
                     badge: "DISCOVER",
@@ -769,7 +781,6 @@
                     action: "Discover",
                     url: "./discover.html"
                 }
-
             ];
         },
 
@@ -779,39 +790,31 @@
 
         showAdvertisement: function () {
 
-            var ads =
-                this.getAdvertisements();
+            var ads = this.getAdvertisements();
 
             if (!ads || !ads.length) {
                 return;
             }
 
-            var ad =
-                ads[this.state.adIndex];
+            var ad = ads[this.state.adIndex];
 
             if (!ad) {
-
                 this.state.adIndex = 0;
-
                 ad = ads[0];
             }
 
-            this.state.lastAdId =
-                ad.id;
+            this.state.lastAdId = ad.id;
 
             if (this.elements.adBadge) {
-                this.elements.adBadge.textContent =
-                    ad.badge || "ALON";
+                this.elements.adBadge.textContent = ad.badge || "ALON";
             }
 
             if (this.elements.adTitle) {
-                this.elements.adTitle.textContent =
-                    ad.title || "";
+                this.elements.adTitle.textContent = ad.title || "";
             }
 
             if (this.elements.adText) {
-                this.elements.adText.textContent =
-                    ad.text || "";
+                this.elements.adText.textContent = ad.text || "";
             }
 
             if (this.elements.adAction) {
@@ -819,25 +822,20 @@
                 this.elements.adAction.textContent =
                     ad.action || "Open";
 
-                this.elements.adAction.onclick =
-                    function () {
+                this.elements.adAction.onclick = function () {
 
-                        if (!ad.url) {
-                            return;
-                        }
+                    if (!ad.url) {
+                        return;
+                    }
 
-                        window.location.href =
-                            ad.url;
-                    };
+                    window.location.href = ad.url;
+                };
             }
 
-            this.dispatch(
-                "alon:ad-displayed",
-                {
-                    id: ad.id,
-                    title: ad.title
-                }
-            );
+            this.dispatch("alon:ad-displayed", {
+                id: ad.id,
+                title: ad.title
+            });
 
             this.state.adIndex++;
 
@@ -853,49 +851,33 @@
         startAdvertisementRotation: function () {
 
             this.stopAdvertisementRotation();
-
             this.showAdvertisement();
-
             this.scheduleNextAdvertisement();
         },
 
         scheduleNextAdvertisement: function () {
 
             var self = this;
+            var seconds = 10 + Math.floor(Math.random() * 3);
 
-            var seconds =
-                10 + Math.floor(Math.random() * 3);
-
-            this.state.adTimer =
-                window.setTimeout(
-                    function () {
-
-                        self.showAdvertisement();
-
-                        self.scheduleNextAdvertisement();
-
-                    },
-                    seconds * 1000
-                );
+            this.state.adTimer = window.setTimeout(
+                function () {
+                    self.showAdvertisement();
+                    self.scheduleNextAdvertisement();
+                },
+                seconds * 1000
+            );
         },
 
         stopAdvertisementRotation: function () {
 
             if (this.state.adTimer) {
-
-                window.clearTimeout(
-                    this.state.adTimer
-                );
-
+                window.clearTimeout(this.state.adTimer);
                 this.state.adTimer = null;
             }
 
             if (this.state.adInterval) {
-
-                window.clearInterval(
-                    this.state.adInterval
-                );
-
+                window.clearInterval(this.state.adInterval);
                 this.state.adInterval = null;
             }
         },
@@ -909,7 +891,6 @@
             var self = this;
 
             if (this.elements.aiSend) {
-
                 this.elements.aiSend.addEventListener(
                     "click",
                     function () {
@@ -919,15 +900,11 @@
             }
 
             if (this.elements.aiInput) {
-
                 this.elements.aiInput.addEventListener(
                     "keydown",
                     function (event) {
-
                         if (event.key === "Enter") {
-
                             event.preventDefault();
-
                             self.processInput();
                         }
                     }
@@ -935,7 +912,6 @@
             }
 
             if (this.elements.aiClose) {
-
                 this.elements.aiClose.addEventListener(
                     "click",
                     function () {
@@ -945,7 +921,6 @@
             }
 
             if (this.elements.aiVoice) {
-
                 this.elements.aiVoice.addEventListener(
                     "click",
                     function () {
@@ -958,7 +933,6 @@
                 document.getElementById("alonAISpeak");
 
             if (speakButton) {
-
                 speakButton.addEventListener(
                     "click",
                     function () {
@@ -977,7 +951,6 @@
             var self = this;
 
             if (this.elements.imageGenerate) {
-
                 this.elements.imageGenerate.addEventListener(
                     "click",
                     function () {
@@ -987,7 +960,6 @@
             }
 
             if (this.elements.videoGenerate) {
-
                 this.elements.videoGenerate.addEventListener(
                     "click",
                     function () {
@@ -997,7 +969,6 @@
             }
 
             if (this.elements.imageClose) {
-
                 this.elements.imageClose.addEventListener(
                     "click",
                     function () {
@@ -1007,7 +978,6 @@
             }
 
             if (this.elements.videoClose) {
-
                 this.elements.videoClose.addEventListener(
                     "click",
                     function () {
@@ -1017,11 +987,10 @@
             }
 
             if (this.elements.loginClose) {
-
                 this.elements.loginClose.addEventListener(
                     "click",
                     function () {
-                        self.closeLoginGate();
+                        self.closeGenerator();
                     }
                 );
             }
@@ -1030,7 +999,6 @@
                 document.getElementById("alonAILoginButton");
 
             if (loginButton) {
-
                 loginButton.addEventListener(
                     "click",
                     function () {
@@ -1065,21 +1033,14 @@
             document.addEventListener(
                 "alon:open-language",
                 function () {
-
-                    self.dispatch(
-                        "alon:ai-language-request",
-                        {}
-                    );
+                    self.dispatch("alon:ai-language-request", {});
                 }
             );
 
             document.addEventListener(
                 "alon:feature-open",
                 function (event) {
-
-                    self.handleFeature(
-                        event.detail || {}
-                    );
+                    self.handleFeature(event.detail || {});
                 }
             );
 
@@ -1112,23 +1073,15 @@
                 return;
             }
 
-            this.elements.aiBox.hidden =
-                false;
-
-            this.elements.aiBox.style.display =
-                "block";
-
-            this.state.aiOpen =
-                true;
+            this.elements.aiBox.hidden = false;
+            this.elements.aiBox.style.display = "block";
+            this.state.aiOpen = true;
 
             if (this.elements.aiInput) {
                 this.elements.aiInput.focus();
             }
 
-            this.dispatch(
-                "alon:ai-opened",
-                {}
-            );
+            this.dispatch("alon:ai-opened", {});
         },
 
         closeAI: function () {
@@ -1137,21 +1090,13 @@
                 return;
             }
 
-            this.elements.aiBox.hidden =
-                true;
-
-            this.elements.aiBox.style.display =
-                "none";
-
-            this.state.aiOpen =
-                false;
+            this.elements.aiBox.hidden = true;
+            this.elements.aiBox.style.display = "none";
+            this.state.aiOpen = false;
 
             this.stopSpeaking();
 
-            this.dispatch(
-                "alon:ai-closed",
-                {}
-            );
+            this.dispatch("alon:ai-closed", {});
         },
 
         /* =====================================================
@@ -1164,16 +1109,13 @@
                 return;
             }
 
-            var input =
-                this.elements.aiInput.value.trim();
+            var input = this.elements.aiInput.value.trim();
 
             if (!input) {
                 return;
             }
 
-            this.elements.aiInput.value =
-                "";
-
+            this.elements.aiInput.value = "";
             this.answer(input);
         },
 
@@ -1183,8 +1125,7 @@
 
         answer: function (input) {
 
-            var text =
-                String(input || "").toLowerCase();
+            var text = String(input || "").toLowerCase();
 
             var response =
                 "I can help you explore ALON HISTORYVERSE 24.";
@@ -1193,7 +1134,6 @@
                 text.indexOf("history") !== -1 ||
                 text.indexOf("इतिहास") !== -1
             ) {
-
                 response =
                     "You can explore history and civilizations from the History section.";
 
@@ -1202,7 +1142,6 @@
                 text.indexOf("countries") !== -1 ||
                 text.indexOf("देश") !== -1
             ) {
-
                 response =
                     "You can explore countries, cultures and world information from the Countries section.";
 
@@ -1211,7 +1150,6 @@
                 text.indexOf("jobs") !== -1 ||
                 text.indexOf("नौकरी") !== -1
             ) {
-
                 response =
                     "Open Jobs to explore local and international opportunities.";
 
@@ -1219,7 +1157,6 @@
                 text.indexOf("business") !== -1 ||
                 text.indexOf("व्यवसाय") !== -1
             ) {
-
                 response =
                     "ALON HISTORYVERSE 24 provides business discovery and marketplace features.";
 
@@ -1227,7 +1164,6 @@
                 text.indexOf("marketplace") !== -1 ||
                 text.indexOf("बाजार") !== -1
             ) {
-
                 response =
                     "You can explore Global Marketplace, Regular Marketplace and Marketplace Discovery.";
 
@@ -1236,20 +1172,16 @@
                 text.indexOf("मदद") !== -1 ||
                 text.indexOf("सहायता") !== -1
             ) {
-
                 response =
                     "Tell me what you want to do and I will guide you through the available ALON HISTORYVERSE 24 features.";
             }
 
             this.showAIResponse(response);
 
-            this.dispatch(
-                "alon:ai-question",
-                {
-                    question: input,
-                    response: response
-                }
-            );
+            this.dispatch("alon:ai-question", {
+                question: input,
+                response: response
+            });
         },
 
         /* =====================================================
@@ -1265,8 +1197,7 @@
                 return;
             }
 
-            responseBox.textContent =
-                text;
+            responseBox.textContent = text;
         },
 
         /* =====================================================
@@ -1282,8 +1213,7 @@
                 return;
             }
 
-            var text =
-                responseBox.textContent.trim();
+            var text = responseBox.textContent.trim();
 
             if (!text) {
                 return;
@@ -1294,45 +1224,27 @@
 
         speakText: function (text) {
 
-            if (
-                !("speechSynthesis" in window)
-            ) {
-
+            if (!("speechSynthesis" in window)) {
                 this.showAIResponse(
                     "Voice output is not available in this browser."
                 );
-
                 return;
             }
 
             this.stopSpeaking();
 
             var self = this;
+            var utterance = new SpeechSynthesisUtterance(text);
+            var voices = window.speechSynthesis.getVoices();
+            var femaleVoice = null;
 
-            var utterance =
-                new SpeechSynthesisUtterance(text);
-
-            var voices =
-                window.speechSynthesis.getVoices();
-
-            var femaleVoice =
-                null;
-
-            for (
-                var i = 0;
-                i < voices.length;
-                i++
-            ) {
+            for (var i = 0; i < voices.length; i++) {
 
                 var name =
-                    String(
-                        voices[i].name || ""
-                    ).toLowerCase();
+                    String(voices[i].name || "").toLowerCase();
 
                 var lang =
-                    String(
-                        voices[i].lang || ""
-                    ).toLowerCase();
+                    String(voices[i].lang || "").toLowerCase();
 
                 if (
                     name.indexOf("female") !== -1 ||
@@ -1340,10 +1252,7 @@
                     name.indexOf("samantha") !== -1 ||
                     name.indexOf("google uk english female") !== -1
                 ) {
-
-                    femaleVoice =
-                        voices[i];
-
+                    femaleVoice = voices[i];
                     break;
                 }
 
@@ -1354,60 +1263,40 @@
                         lang.indexOf("hi-in") !== -1
                     )
                 ) {
-
-                    femaleVoice =
-                        voices[i];
+                    femaleVoice = voices[i];
                 }
             }
 
             if (femaleVoice) {
-                utterance.voice =
-                    femaleVoice;
+                utterance.voice = femaleVoice;
             }
 
             utterance.lang =
-                document.documentElement.lang ||
-                "en-IN";
+                document.documentElement.lang || "en-IN";
 
-            utterance.rate =
-                1;
+            utterance.rate = 1;
+            utterance.pitch = 1.05;
 
-            utterance.pitch =
-                1.05;
+            utterance.onstart = function () {
+                self.state.speaking = true;
+            };
 
-            utterance.onstart =
-                function () {
-                    self.state.speaking =
-                        true;
-                };
+            utterance.onend = function () {
+                self.state.speaking = false;
+            };
 
-            utterance.onend =
-                function () {
-                    self.state.speaking =
-                        false;
-                };
+            utterance.onerror = function () {
+                self.state.speaking = false;
+            };
 
-            utterance.onerror =
-                function () {
-                    self.state.speaking =
-                        false;
-                };
-
-            window.speechSynthesis.speak(
-                utterance
-            );
+            window.speechSynthesis.speak(utterance);
         },
 
         stopSpeaking: function () {
 
-            if (
-                "speechSynthesis" in window
-            ) {
-
+            if ("speechSynthesis" in window) {
                 window.speechSynthesis.cancel();
-
-                this.state.speaking =
-                    false;
+                this.state.speaking = false;
             }
         },
 
@@ -1424,11 +1313,9 @@
                 window.webkitSpeechRecognition;
 
             if (!SpeechRecognition) {
-
                 this.showAIResponse(
                     "Voice input is not available in this browser. You can type your question instead."
                 );
-
                 return;
             }
 
@@ -1436,63 +1323,43 @@
                 return;
             }
 
-            var recognition =
-                new SpeechRecognition();
+            var recognition = new SpeechRecognition();
 
-            recognition.continuous =
-                false;
-
-            recognition.interimResults =
-                false;
+            recognition.continuous = false;
+            recognition.interimResults = false;
 
             recognition.lang =
-                document.documentElement.lang ||
-                "en-IN";
+                document.documentElement.lang || "en-IN";
 
-            this.state.listening =
-                true;
+            this.state.listening = true;
+            this.showAIResponse("Listening...");
 
-            this.showAIResponse(
-                "Listening..."
-            );
+            recognition.onresult = function (event) {
 
-            recognition.onresult =
-                function (event) {
+                var transcript =
+                    event.results[0][0].transcript;
 
-                    var transcript =
-                        event.results[0][0].transcript;
+                self.state.listening = false;
 
-                    self.state.listening =
-                        false;
+                if (self.elements.aiInput) {
+                    self.elements.aiInput.value = transcript;
+                }
 
-                    if (self.elements.aiInput) {
+                self.answer(transcript);
+            };
 
-                        self.elements.aiInput.value =
-                            transcript;
-                    }
+            recognition.onerror = function () {
 
-                    self.answer(
-                        transcript
-                    );
-                };
+                self.state.listening = false;
 
-            recognition.onerror =
-                function () {
+                self.showAIResponse(
+                    "Voice input could not be completed. Please try again or type your question."
+                );
+            };
 
-                    self.state.listening =
-                        false;
-
-                    self.showAIResponse(
-                        "Voice input could not be completed. Please try again or type your question."
-                    );
-                };
-
-            recognition.onend =
-                function () {
-
-                    self.state.listening =
-                        false;
-                };
+            recognition.onend = function () {
+                self.state.listening = false;
+            };
 
             recognition.start();
         },
@@ -1505,16 +1372,11 @@
 
             if (
                 window.ALON_AUTH &&
-                typeof window.ALON_AUTH.isLoggedIn ===
-                    "function"
+                typeof window.ALON_AUTH.isLoggedIn === "function"
             ) {
-
                 try {
-
                     return !!window.ALON_AUTH.isLoggedIn();
-
                 } catch (error) {
-
                     return false;
                 }
             }
@@ -1524,34 +1386,29 @@
 
         requestLogin: function () {
 
-            this.dispatch(
-                "alon:ai-login-required",
-                {
-                    source: "ai-generator"
-                }
-            );
+            this.dispatch("alon:ai-login-required", {
+                source: "ai-generator"
+            });
 
             if (
                 window.ALON_AUTH &&
-                typeof window.ALON_AUTH.openLogin ===
-                    "function"
+                typeof window.ALON_AUTH.openLogin === "function"
             ) {
-
                 window.ALON_AUTH.openLogin();
-
                 return;
             }
 
-            window.location.href =
-                "./login.html";
+            window.location.href = "./login.html";
         },
+
+        /* =====================================================
+           LOGIN GATE — FIXED VISIBLE OVERLAY
+           ===================================================== */
 
         openLoginGate: function () {
 
             if (!this.elements.loginPanel) {
-
                 this.createGeneratorInterface();
-
                 this.cacheElements();
             }
 
@@ -1559,37 +1416,99 @@
                 return;
             }
 
-            var generatorInterface =
-                document.getElementById(
-                    "alonAIGeneratorInterface"
-                );
+            this.styleGeneratorOverlay();
 
-            if (generatorInterface) {
+            var login = this.elements.loginPanel;
 
-                generatorInterface.hidden =
-                    false;
+            login.hidden = false;
 
-                generatorInterface.style.display =
-                    "block";
+            login.style.cssText =
+                "display:block!important;" +
+                "visibility:visible!important;" +
+                "opacity:1!important;" +
+                "position:relative!important;" +
+                "width:100%!important;" +
+                "max-width:460px!important;" +
+                "box-sizing:border-box!important;" +
+                "margin:8vh auto 24px!important;" +
+                "padding:24px!important;" +
+                "background:#101521!important;" +
+                "color:#ffffff!important;" +
+                "border:1px solid #d7b35a!important;" +
+                "border-radius:16px!important;" +
+                "box-shadow:0 12px 50px rgba(0,0,0,.6)!important;";
 
-                generatorInterface.style.visibility =
-                    "visible";
+            var loginBox =
+                login.querySelector(".alon-generator-login-box");
 
-                generatorInterface.style.opacity =
-                    "1";
+            if (loginBox) {
+                loginBox.style.cssText =
+                    "display:block!important;" +
+                    "position:relative!important;" +
+                    "width:100%!important;" +
+                    "box-sizing:border-box!important;" +
+                    "color:#ffffff!important;";
             }
 
-            this.elements.loginPanel.hidden =
-                false;
+            var closeButton =
+                document.getElementById("alonAILoginClose");
 
-            this.elements.loginPanel.style.display =
-                "block";
+            if (closeButton) {
+                closeButton.style.cssText =
+                    "float:right;" +
+                    "padding:6px 12px;" +
+                    "background:#252b36;" +
+                    "color:#ffffff;" +
+                    "border:1px solid #666;" +
+                    "border-radius:6px;" +
+                    "font-size:20px;" +
+                    "cursor:pointer;";
+            }
 
-            this.elements.loginPanel.style.visibility =
-                "visible";
+            var message = this.elements.loginMessage;
 
-            this.elements.loginPanel.style.opacity =
-                "1";
+            if (message) {
+                message.style.cssText =
+                    "display:block!important;" +
+                    "color:#ffffff!important;" +
+                    "line-height:1.6!important;";
+            }
+
+            var heading = login.querySelector("h3");
+
+            if (heading) {
+                heading.style.cssText =
+                    "color:#f0d27a;" +
+                    "font-size:23px;" +
+                    "margin:20px 0 12px;";
+            }
+
+            var loginButton =
+                document.getElementById("alonAILoginButton");
+
+            if (loginButton) {
+                loginButton.style.cssText =
+                    "display:block!important;" +
+                    "width:100%!important;" +
+                    "min-height:46px!important;" +
+                    "margin-top:18px!important;" +
+                    "padding:12px!important;" +
+                    "background:#d7b35a!important;" +
+                    "color:#08090c!important;" +
+                    "border:0!important;" +
+                    "border-radius:8px!important;" +
+                    "font-weight:bold!important;" +
+                    "cursor:pointer!important;";
+            }
+
+            if (message) {
+                message.textContent =
+                    "Please log in to use AI " +
+                    (this.state.generatorOpen === "video"
+                        ? "Video"
+                        : "Image") +
+                    " Generation.";
+            }
         },
 
         closeLoginGate: function () {
@@ -1598,36 +1517,21 @@
                 return;
             }
 
-            this.elements.loginPanel.hidden =
-                true;
-
-            this.elements.loginPanel.style.display =
-                "none";
-
-            this.elements.loginPanel.style.visibility =
-                "hidden";
-
-            this.elements.loginPanel.style.opacity =
-                "0";
+            this.elements.loginPanel.hidden = true;
+            this.elements.loginPanel.style.display = "none";
+            this.elements.loginPanel.style.visibility = "hidden";
+            this.elements.loginPanel.style.opacity = "0";
         },
 
         /* =====================================================
-           GENERATOR OPEN / CLOSE
+           GENERATOR OPEN / CLOSE — FIXED
            ===================================================== */
 
         openGenerator: function (type) {
 
-            if (
-                type !== "image" &&
-                type !== "video"
-            ) {
+            if (type !== "image" && type !== "video") {
                 return;
             }
-
-            /*
-             * Make sure generator DOM exists even if this
-             * function is called before normal initialization.
-             */
 
             var generatorInterface =
                 document.getElementById(
@@ -1635,9 +1539,7 @@
                 );
 
             if (!generatorInterface) {
-
                 this.createGeneratorInterface();
-
                 this.cacheElements();
 
                 generatorInterface =
@@ -1650,174 +1552,140 @@
                 return;
             }
 
-            /*
-             * Always make the generator wrapper visible
-             * before opening either panel.
-             */
+            this.state.generatorOpen = type;
 
-            generatorInterface.hidden =
-                false;
+            this.cacheElements();
+            this.styleGeneratorOverlay();
 
-            generatorInterface.style.display =
-                "block";
-
-            generatorInterface.style.visibility =
-                "visible";
-
-            generatorInterface.style.opacity =
-                "1";
-
-            generatorInterface.style.zIndex =
-                "10000";
-
-            /*
-             * Hide both generator panels first.
-             */
-
+            /* Hide both panels and login gate first. */
             if (this.elements.imagePanel) {
-
-                this.elements.imagePanel.hidden =
-                    true;
-
-                this.elements.imagePanel.style.display =
-                    "none";
-
-                this.elements.imagePanel.style.visibility =
-                    "hidden";
+                this.elements.imagePanel.hidden = true;
+                this.elements.imagePanel.style.display = "none";
+                this.elements.imagePanel.style.visibility = "hidden";
             }
 
             if (this.elements.videoPanel) {
-
-                this.elements.videoPanel.hidden =
-                    true;
-
-                this.elements.videoPanel.style.display =
-                    "none";
-
-                this.elements.videoPanel.style.visibility =
-                    "hidden";
+                this.elements.videoPanel.hidden = true;
+                this.elements.videoPanel.style.display = "none";
+                this.elements.videoPanel.style.visibility = "hidden";
             }
-
-            /*
-             * If the user is not logged in, show the
-             * Login Required panel. This is the expected
-             * behavior before actual generation access.
-             */
-
-            if (!this.isGenerationLoggedIn()) {
-
-                this.state.generatorOpen =
-                    type;
-
-                this.openLoginGate();
-
-                return;
-            }
-
-            /*
-             * Logged-in state:
-             * close login gate and show only the selected
-             * generator panel.
-             */
 
             this.closeLoginGate();
 
-            if (
-                type === "image" &&
-                this.elements.imagePanel
-            ) {
-
-                this.elements.imagePanel.hidden =
-                    false;
-
-                this.elements.imagePanel.style.display =
-                    "block";
-
-                this.elements.imagePanel.style.visibility =
-                    "visible";
+            /*
+             * Show Login Required when authentication
+             * is not available or user is not logged in.
+             */
+            if (!this.isGenerationLoggedIn()) {
+                this.openLoginGate();
+                return;
             }
 
-            if (
-                type === "video" &&
-                this.elements.videoPanel
-            ) {
+            var panel =
+                type === "image"
+                    ? this.elements.imagePanel
+                    : this.elements.videoPanel;
 
-                this.elements.videoPanel.hidden =
-                    false;
-
-                this.elements.videoPanel.style.display =
-                    "block";
-
-                this.elements.videoPanel.style.visibility =
-                    "visible";
+            if (!panel) {
+                return;
             }
 
-            this.state.generatorOpen =
-                type;
+            this.styleGeneratorPanel(panel);
+            this.styleGeneratorControls(panel);
 
-            if (
-                type === "image" &&
-                this.elements.imagePrompt
-            ) {
+            var prompt =
+                type === "image"
+                    ? this.elements.imagePrompt
+                    : this.elements.videoPrompt;
 
-                this.elements.imagePrompt.focus();
+            if (prompt) {
+                try {
+                    prompt.focus();
+                } catch (error) {
+                    /* Focus is optional on some mobile browsers. */
+                }
             }
 
-            if (
-                type === "video" &&
-                this.elements.videoPrompt
-            ) {
-
-                this.elements.videoPrompt.focus();
-            }
+            this.dispatch("alon:ai-generator-opened", {
+                type: type
+            });
         },
 
         closeGenerator: function (type) {
 
-            if (
-                type === "image" &&
-                this.elements.imagePanel
-            ) {
+            /*
+             * No type means close the entire generator overlay.
+             * This is used by the login close button.
+             */
+            if (!type) {
 
-                this.elements.imagePanel.hidden =
-                    true;
-
-                this.elements.imagePanel.style.display =
-                    "none";
-
-                this.elements.imagePanel.style.visibility =
-                    "hidden";
-            }
-
-            if (
-                type === "video" &&
-                this.elements.videoPanel
-            ) {
-
-                this.elements.videoPanel.hidden =
-                    true;
-
-                this.elements.videoPanel.style.display =
-                    "none";
-
-                this.elements.videoPanel.style.visibility =
-                    "hidden";
-            }
-
-            if (
-                type === "image" ||
-                type === "video"
-            ) {
-
-                if (
-                    this.state.generatorOpen ===
-                    type
-                ) {
-
-                    this.state.generatorOpen =
-                        null;
+                if (this.elements.imagePanel) {
+                    this.elements.imagePanel.hidden = true;
+                    this.elements.imagePanel.style.display = "none";
                 }
+
+                if (this.elements.videoPanel) {
+                    this.elements.videoPanel.hidden = true;
+                    this.elements.videoPanel.style.display = "none";
+                }
+
+                this.closeLoginGate();
+
+                var wrapper =
+                    this.elements.generatorInterface ||
+                    document.getElementById(
+                        "alonAIGeneratorInterface"
+                    );
+
+                if (wrapper) {
+                    wrapper.hidden = true;
+                    wrapper.style.display = "none";
+                    wrapper.style.visibility = "hidden";
+                    wrapper.style.opacity = "0";
+                }
+
+                this.state.generatorOpen = null;
+
+                this.dispatch("alon:ai-generator-closed", {});
+
+                return;
             }
+
+            if (type === "image" && this.elements.imagePanel) {
+                this.elements.imagePanel.hidden = true;
+                this.elements.imagePanel.style.display = "none";
+                this.elements.imagePanel.style.visibility = "hidden";
+            }
+
+            if (type === "video" && this.elements.videoPanel) {
+                this.elements.videoPanel.hidden = true;
+                this.elements.videoPanel.style.display = "none";
+                this.elements.videoPanel.style.visibility = "hidden";
+            }
+
+            /*
+             * Close the whole overlay so the dark backdrop
+             * does not remain over the webpage.
+             */
+            var wrapper =
+                this.elements.generatorInterface ||
+                document.getElementById(
+                    "alonAIGeneratorInterface"
+                );
+
+            if (wrapper) {
+                wrapper.hidden = true;
+                wrapper.style.display = "none";
+                wrapper.style.visibility = "hidden";
+                wrapper.style.opacity = "0";
+            }
+
+            this.closeLoginGate();
+            this.state.generatorOpen = null;
+
+            this.dispatch("alon:ai-generator-closed", {
+                type: type
+            });
         },
 
         /* =====================================================
@@ -1826,14 +1694,12 @@
 
         checkGenerationSafety: function (prompt) {
 
-            var text =
-                String(prompt || "")
-                    .toLowerCase()
-                    .replace(/\s+/g, " ")
-                    .trim();
+            var text = String(prompt || "")
+                .toLowerCase()
+                .replace(/\s+/g, " ")
+                .trim();
 
             if (!text) {
-
                 return {
                     allowed: false,
                     reason: "Please enter a prompt."
@@ -1841,122 +1707,55 @@
             }
 
             var sexualTerms = [
-                "nude",
-                "naked",
-                "porn",
-                "pornographic",
-                "pornography",
-                "sexual",
-                "sexually",
-                "sexualized",
-                "sex scene",
-                "sex video",
-                "sex photo",
-                "explicit sexual",
-                "sexually explicit",
-                "nsfw",
-                "topless",
-                "bottomless",
-                "fully naked",
-                "without clothes",
-                "without clothing",
-                "remove clothes",
-                "remove clothing",
-                "undress",
-                "undressing",
-                "intimate nude",
-                "nude photo",
-                "nude video",
-                "नग्न",
-                "नंगी",
-                "नंगा",
-                "अश्लील",
-                "सेक्स",
-                "सेक्स वीडियो",
-                "सेक्स फोटो"
+                "nude", "naked", "porn", "pornographic",
+                "pornography", "sexual", "sexually",
+                "sexualized", "sex scene", "sex video",
+                "sex photo", "explicit sexual",
+                "sexually explicit", "nsfw", "topless",
+                "bottomless", "fully naked",
+                "without clothes", "without clothing",
+                "remove clothes", "remove clothing",
+                "undress", "undressing", "intimate nude",
+                "nude photo", "nude video", "नग्न", "नंगी",
+                "नंगा", "अश्लील", "सेक्स",
+                "सेक्स वीडियो", "सेक्स फोटो"
             ];
 
             var realPersonTerms = [
-                "celebrity",
-                "celebrities",
-                "politician",
-                "politicians",
-                "prime minister",
-                "president",
-                "actor",
-                "actress",
-                "singer",
-                "model",
-                "influencer",
-                "public figure",
-                "public figures",
-                "famous person",
-                "famous people",
-                "real person",
-                "real people",
-                "real celebrity",
-                "real politician",
-                "real actor",
-                "real actress",
-                "real singer",
-                "real model",
-                "my celebrity",
-                "a celebrity",
-                "an actor",
-                "an actress",
-                "a singer",
-                "a politician",
-                "a public figure"
+                "celebrity", "celebrities", "politician",
+                "politicians", "prime minister", "president",
+                "actor", "actress", "singer", "model",
+                "influencer", "public figure", "public figures",
+                "famous person", "famous people",
+                "real person", "real people", "real celebrity",
+                "real politician", "real actor", "real actress",
+                "real singer", "real model", "my celebrity",
+                "a celebrity", "an actor", "an actress",
+                "a singer", "a politician", "a public figure"
             ];
 
             var deepfakeTerms = [
-                "deepfake",
-                "deep fake",
-                "face swap",
-                "face-swap",
-                "face replacement",
-                "face replace",
-                "impersonate",
-                "impersonation",
-                "fake identity",
-                "fake person",
-                "fake nude",
-                "fake naked",
-                "fake intimate",
-                "intimate fake",
-                "leaked video",
-                "leaked photo",
-                "leaked image",
-                "undress",
-                "undressing",
-                "remove clothes",
-                "remove clothing",
-                "make them naked",
-                "make her naked",
-                "make him naked",
-                "sexual deepfake"
+                "deepfake", "deep fake", "face swap",
+                "face-swap", "face replacement", "face replace",
+                "impersonate", "impersonation", "fake identity",
+                "fake person", "fake nude", "fake naked",
+                "fake intimate", "intimate fake", "leaked video",
+                "leaked photo", "leaked image", "undress",
+                "undressing", "remove clothes", "remove clothing",
+                "make them naked", "make her naked",
+                "make him naked", "sexual deepfake"
             ];
 
             var hasSexual =
-                this.containsAny(
-                    text,
-                    sexualTerms
-                );
+                this.containsAny(text, sexualTerms);
 
             var hasRealPerson =
-                this.containsAny(
-                    text,
-                    realPersonTerms
-                );
+                this.containsAny(text, realPersonTerms);
 
             var hasDeepfake =
-                this.containsAny(
-                    text,
-                    deepfakeTerms
-                );
+                this.containsAny(text, deepfakeTerms);
 
             if (hasSexual) {
-
                 return {
                     allowed: false,
                     reason:
@@ -1965,7 +1764,6 @@
             }
 
             if (hasDeepfake) {
-
                 return {
                     allowed: false,
                     reason:
@@ -1974,7 +1772,6 @@
             }
 
             if (hasRealPerson) {
-
                 return {
                     allowed: false,
                     reason:
@@ -1983,35 +1780,18 @@
             }
 
             var unsafeTerms = [
-                "child sexual",
-                "minor sexual",
-                "sexual minor",
-                "sexual abuse of a child",
-                "child pornography",
-                "csam",
-                "explosive",
-                "build a bomb",
-                "make a bomb",
-                "bomb making",
-                "terrorist recruitment",
-                "terrorist propaganda",
-                "hacked account",
-                "hack an account",
-                "stolen password",
-                "steal password",
-                "malware",
-                "ransomware",
-                "violent torture",
-                "graphic gore"
+                "child sexual", "minor sexual", "sexual minor",
+                "sexual abuse of a child", "child pornography",
+                "csam", "explosive", "build a bomb",
+                "make a bomb", "bomb making",
+                "terrorist recruitment", "terrorist propaganda",
+                "hacked account", "hack an account",
+                "stolen password", "steal password",
+                "malware", "ransomware",
+                "violent torture", "graphic gore"
             ];
 
-            if (
-                this.containsAny(
-                    text,
-                    unsafeTerms
-                )
-            ) {
-
+            if (this.containsAny(text, unsafeTerms)) {
                 return {
                     allowed: false,
                     reason:
@@ -2027,18 +1807,8 @@
 
         containsAny: function (text, list) {
 
-            for (
-                var i = 0;
-                i < list.length;
-                i++
-            ) {
-
-                if (
-                    text.indexOf(
-                        list[i]
-                    ) !== -1
-                ) {
-
+            for (var i = 0; i < list.length; i++) {
+                if (text.indexOf(list[i]) !== -1) {
                     return true;
                 }
             }
@@ -2053,9 +1823,8 @@
         generateImage: function () {
 
             if (!this.isGenerationLoggedIn()) {
-
+                this.state.generatorOpen = "image";
                 this.openLoginGate();
-
                 return;
             }
 
@@ -2067,17 +1836,10 @@
                 this.elements.imagePrompt.value.trim();
 
             var safety =
-                this.checkGenerationSafety(
-                    prompt
-                );
+                this.checkGenerationSafety(prompt);
 
             if (!safety.allowed) {
-
-                this.setGeneratorStatus(
-                    "image",
-                    safety.reason
-                );
-
+                this.setGeneratorStatus("image", safety.reason);
                 return;
             }
 
@@ -2086,10 +1848,7 @@
                 "Preparing secure image-generation request..."
             );
 
-            this.sendGenerationRequest(
-                "image",
-                prompt
-            );
+            this.sendGenerationRequest("image", prompt);
         },
 
         /* =====================================================
@@ -2099,9 +1858,8 @@
         generateVideo: function () {
 
             if (!this.isGenerationLoggedIn()) {
-
+                this.state.generatorOpen = "video";
                 this.openLoginGate();
-
                 return;
             }
 
@@ -2113,17 +1871,10 @@
                 this.elements.videoPrompt.value.trim();
 
             var safety =
-                this.checkGenerationSafety(
-                    prompt
-                );
+                this.checkGenerationSafety(prompt);
 
             if (!safety.allowed) {
-
-                this.setGeneratorStatus(
-                    "video",
-                    safety.reason
-                );
-
+                this.setGeneratorStatus("video", safety.reason);
                 return;
             }
 
@@ -2132,20 +1883,14 @@
                 "Preparing secure video-generation request..."
             );
 
-            this.sendGenerationRequest(
-                "video",
-                prompt
-            );
+            this.sendGenerationRequest("video", prompt);
         },
 
         /* =====================================================
            GENERATION BACKEND HOOK
            ===================================================== */
 
-        sendGenerationRequest: async function (
-            type,
-            prompt
-        ) {
+        sendGenerationRequest: async function (type, prompt) {
 
             var endpoint =
                 type === "image"
@@ -2154,60 +1899,38 @@
 
             try {
 
-                var response =
-                    await fetch(
-                        endpoint,
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-                            credentials:
-                                "include",
-                            body:
-                                JSON.stringify({
-                                    prompt: prompt,
-                                    type: type
-                                })
-                        }
-                    );
+                var response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        type: type
+                    })
+                });
 
                 if (!response.ok) {
-
-                    throw new Error(
-                        "Generation service unavailable."
-                    );
+                    throw new Error("Generation service unavailable.");
                 }
 
-                var data =
-                    await response.json();
+                var data = await response.json();
 
-                if (
-                    !data ||
-                    data.success !== true
-                ) {
-
+                if (!data || data.success !== true) {
                     throw new Error(
-                        data &&
-                        data.message
+                        data && data.message
                             ? data.message
                             : "Generation was not completed."
                     );
                 }
 
-                this.dispatch(
-                    "alon:ai-generation-complete",
-                    {
-                        type: type,
-                        result: data
-                    }
-                );
+                this.dispatch("alon:ai-generation-complete", {
+                    type: type,
+                    result: data
+                });
 
-                this.setGeneratorStatus(
-                    type,
-                    "Generation completed."
-                );
+                this.setGeneratorStatus(type, "Generation completed.");
 
             } catch (error) {
 
@@ -2216,17 +1939,12 @@
                     "Generation service is not connected yet. The secure generator interface is ready for the backend."
                 );
 
-                this.dispatch(
-                    "alon:ai-generation-error",
-                    {
-                        type: type,
-                        error:
-                            error &&
-                            error.message
-                                ? error.message
-                                : "Unknown error"
-                    }
-                );
+                this.dispatch("alon:ai-generation-error", {
+                    type: type,
+                    error: error && error.message
+                        ? error.message
+                        : "Unknown error"
+                });
             }
         },
 
@@ -2234,10 +1952,7 @@
            GENERATOR STATUS
            ===================================================== */
 
-        setGeneratorStatus: function (
-            type,
-            message
-        ) {
+        setGeneratorStatus: function (type, message) {
 
             var element =
                 type === "image"
@@ -2245,8 +1960,7 @@
                     : this.elements.videoStatus;
 
             if (element) {
-                element.textContent =
-                    message;
+                element.textContent = message;
             }
         },
 
@@ -2260,12 +1974,9 @@
                 return;
             }
 
-            this.dispatch(
-                "alon:ai-feature-seen",
-                {
-                    feature: detail
-                }
-            );
+            this.dispatch("alon:ai-feature-seen", {
+                feature: detail
+            });
         },
 
         /* =====================================================
@@ -2276,28 +1987,19 @@
 
             var self = this;
 
-            document.addEventListener(
-                "keydown",
-                function (event) {
+            document.addEventListener("keydown", function (event) {
 
-                    if (event.key === "Escape") {
+                if (event.key === "Escape") {
 
-                        if (self.state.aiOpen) {
-                            self.closeAI();
-                        }
+                    if (self.state.aiOpen) {
+                        self.closeAI();
+                    }
 
-                        self.closeGenerator(
-                            "image"
-                        );
-
-                        self.closeGenerator(
-                            "video"
-                        );
-
-                        self.closeLoginGate();
+                    if (self.state.generatorOpen) {
+                        self.closeGenerator();
                     }
                 }
-            );
+            });
         },
 
         /* =====================================================
@@ -2307,10 +2009,8 @@
         setStatus: function (text) {
 
             if (this.elements.aiStatus) {
-
                 this.elements.aiStatus.textContent =
-                    text ||
-                    "ALON HISTORYVERSE 24";
+                    text || "ALON HISTORYVERSE 24";
             }
         },
 
@@ -2318,29 +2018,20 @@
            CUSTOM EVENT DISPATCHER
            ===================================================== */
 
-        dispatch: function (
-            name,
-            detail
-        ) {
+        dispatch: function (name, detail) {
 
             try {
 
                 document.dispatchEvent(
-                    new CustomEvent(
-                        name,
-                        {
-                            detail:
-                                detail || {}
-                        }
-                    )
+                    new CustomEvent(name, {
+                        detail: detail || {}
+                    })
                 );
 
             } catch (error) {
 
                 var event =
-                    document.createEvent(
-                        "CustomEvent"
-                    );
+                    document.createEvent("CustomEvent");
 
                 event.initCustomEvent(
                     name,
@@ -2349,9 +2040,7 @@
                     detail || {}
                 );
 
-                document.dispatchEvent(
-                    event
-                );
+                document.dispatchEvent(event);
             }
         },
 
@@ -2362,26 +2051,13 @@
         getStatus: function () {
 
             return {
-                version:
-                    this.version,
-
-                initialized:
-                    this.initialized,
-
-                aiOpen:
-                    this.state.aiOpen,
-
-                listening:
-                    this.state.listening,
-
-                speaking:
-                    this.state.speaking,
-
-                generatorOpen:
-                    this.state.generatorOpen,
-
-                currentAd:
-                    this.state.lastAdId
+                version: this.version,
+                initialized: this.initialized,
+                aiOpen: this.state.aiOpen,
+                listening: this.state.listening,
+                speaking: this.state.speaking,
+                generatorOpen: this.state.generatorOpen,
+                currentAd: this.state.lastAdId
             };
         }
     };
@@ -2390,47 +2066,34 @@
        PUBLIC GLOBAL
        ========================================================= */
 
-    window.ALON_AI =
-        ALON_AI;
+    window.ALON_AI = ALON_AI;
 
     /* =========================================================
        PAGE VISIBILITY
        ========================================================= */
 
-    document.addEventListener(
-        "visibilitychange",
-        function () {
+    document.addEventListener("visibilitychange", function () {
 
-            if (!window.ALON_AI) {
-                return;
-            }
-
-            if (document.hidden) {
-
-                window.ALON_AI
-                    .stopAdvertisementRotation();
-
-                window.ALON_AI
-                    .stopSpeaking();
-
-            } else if (
-                window.ALON_AI.initialized
-            ) {
-
-                window.ALON_AI
-                    .startAdvertisementRotation();
-            }
+        if (!window.ALON_AI) {
+            return;
         }
-    );
+
+        if (document.hidden) {
+
+            window.ALON_AI.stopAdvertisementRotation();
+            window.ALON_AI.stopSpeaking();
+
+        } else if (window.ALON_AI.initialized) {
+
+            window.ALON_AI.startAdvertisementRotation();
+        }
+    });
 
     /* =========================================================
        INITIALIZE
        ========================================================= */
 
-    if (
-        document.readyState ===
-        "loading"
-    ) {
+    if (document.readyState === "loading") {
 
         document.addEventListener(
             "DOMContentLoaded",

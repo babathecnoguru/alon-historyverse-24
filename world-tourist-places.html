@@ -2,27 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#08090c">
-    <meta name="description" content="Explore tourist places around the world, historic landmarks, natural wonders, cultural destinations, maps and visitor information.">
-    <meta name="author" content="Baba Thecno Guru">
-    <title>World Tourist Places | ALON HISTORYVERSE 24</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="description"
+        content="ALON HISTORYVERSE 24 World Tourist Places — explore public tourist destinations and official source information from around the world."
+    >
+
+    <meta
+        name="theme-color"
+        content="#05080f"
+    >
+
+    <title>World Tourist Places • ALON HISTORYVERSE 24</title>
 
     <style>
-        :root {
-            color-scheme: dark;
-            --bg: #08090c;
-            --panel: #11141b;
-            --panel-light: #171b24;
-            --gold: #d7b35a;
-            --gold-light: #f0d27a;
-            --text: #f5f5f6;
-            --muted: #b6bac5;
-            --line: #303542;
-        }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         html {
@@ -30,682 +33,1726 @@
         }
 
         body {
-            margin: 0;
-            background:
-                radial-gradient(
-                    ellipse at top,
-                    #171923 0,
-                    #08090c 55%
-                );
-            color: var(--text);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont,
-                "Segoe UI", Roboto, Arial, sans-serif;
-            line-height: 1.55;
+            min-height: 100vh;
+            background: #05080f;
+            color: #f4f4f4;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            overflow-x: hidden;
         }
 
         a {
-            color: var(--gold-light);
+            color: inherit;
+            text-decoration: none;
         }
 
         button,
-        input,
-        select {
+        input {
             font: inherit;
         }
 
-        button {
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            width: 100%;
+
+            background:
+                rgba(5, 8, 15, 0.96);
+
+            border-bottom:
+                1px solid rgba(215, 179, 90, 0.28);
+
+            backdrop-filter:
+                blur(12px);
+
+            -webkit-backdrop-filter:
+                blur(12px);
+        }
+
+        .topbar-inner {
+            width: min(1400px, 94%);
+            margin: auto;
+
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-width: 0;
+        }
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+
+            object-fit: contain;
+
+            border-radius: 12px;
+        }
+
+        .brand-text {
+            min-width: 0;
+        }
+
+        .brand-title {
+            color: #f0d27a;
+
+            font-size: 18px;
+            font-weight: 800;
+
+            letter-spacing: 0.5px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .brand-subtitle {
+            margin-top: 3px;
+
+            color: #a9b0bd;
+
+            font-size: 11px;
+            letter-spacing: 0.8px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 42px;
+            padding: 0 15px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.45);
+
+            border-radius: 12px;
+
+            color: #f0d27a;
+
+            background:
+                rgba(215, 179, 90, 0.07);
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+        }
+
+        .back-btn:hover {
+            background:
+                rgba(215, 179, 90, 0.16);
+
+            transform:
+                translateY(-1px);
+        }
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+            width: min(1400px, 94%);
+            margin: auto;
+
+            padding:
+                38px 0 24px;
+        }
+
+        .hero-title {
+            color: #f0d27a;
+
+            font-size:
+                clamp(28px, 5vw, 56px);
+
+            line-height: 1.08;
+
+            font-weight: 900;
+
+            letter-spacing: -1px;
+        }
+
+        .hero-title span {
+            color: #ffffff;
+        }
+
+        .hero-description {
+            max-width: 850px;
+
+            margin-top: 14px;
+
+            color: #b7becb;
+
+            font-size:
+                clamp(14px, 2vw, 18px);
+
+            line-height: 1.7;
+        }
+
+        .hero-note {
+            margin-top: 16px;
+
+            display: inline-flex;
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 9px 13px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.25);
+
+            border-radius: 999px;
+
+            color: #d9dce2;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            font-size: 12px;
+        }
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        .search-panel {
+            width: min(1400px, 94%);
+            margin: 0 auto 25px;
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1 1 300px;
+
+            min-height: 50px;
+
+            padding:
+                0 16px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.3);
+
+            border-radius: 14px;
+
+            outline: none;
+
+            color: #ffffff;
+
+            background:
+                #0b111c;
+        }
+
+        .search-box::placeholder {
+            color: #7f8998;
+        }
+
+        .search-box:focus {
+            border-color:
+                rgba(240, 210, 122, 0.75);
+
+            box-shadow:
+                0 0 0 3px rgba(215, 179, 90, 0.08);
+        }
+
+        .search-btn,
+        .clear-btn {
+            min-height: 50px;
+
+            padding:
+                0 20px;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+        }
+
+        .search-btn {
+            border:
+                1px solid #d7b35a;
+
+            color: #05080f;
+
+            background:
+                #d7b35a;
+
+            font-weight: 800;
+        }
+
+        .search-btn:hover {
+            background:
+                #f0d27a;
+
+            transform:
+                translateY(-1px);
+        }
+
+        .clear-btn {
+            border:
+                1px solid rgba(255, 255, 255, 0.16);
+
+            color: #d9dce2;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+        }
+
+        .clear-btn:hover {
+            background:
+                rgba(255, 255, 255, 0.08);
+        }
+
+        /* =========================================
+           AI SEARCH
+        ========================================= */
+
+        .ai-panel {
+            width: min(1400px, 94%);
+            margin: 0 auto 28px;
+
+            padding: 17px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.22);
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(215, 179, 90, 0.08),
+                    rgba(255, 255, 255, 0.025)
+                );
+        }
+
+        .ai-panel-title {
+            color: #f0d27a;
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .ai-panel-text {
+            margin-top: 6px;
+
+            color: #929baa;
+
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .ai-input-row {
+            display: flex;
+
+            gap: 9px;
+
+            margin-top: 12px;
+
+            flex-wrap: wrap;
+        }
+
+        .ai-input {
+            flex: 1 1 260px;
+
+            min-height: 45px;
+
+            padding:
+                0 13px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.12);
+
+            border-radius: 12px;
+
+            outline: none;
+
+            color: #fff;
+
+            background:
+                #080d16;
+        }
+
+        .ai-btn {
+            min-height: 45px;
+
+            padding:
+                0 17px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.45);
+
+            border-radius: 12px;
+
+            color: #f0d27a;
+
+            background:
+                rgba(215, 179, 90, 0.08);
+
+            cursor: pointer;
+
+            font-weight: 700;
+        }
+
+        .ai-btn:hover {
+            background:
+                rgba(215, 179, 90, 0.15);
+        }
+
+        .ai-result {
+            display: none;
+
+            margin-top: 12px;
+
+            padding: 12px;
+
+            border-radius: 11px;
+
+            color: #c9ced7;
+
+            background:
+                rgba(0, 0, 0, 0.22);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           TOURIST PLACES
+        ========================================= */
+
+        #touristPlaces {
+            width: min(1400px, 94%);
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 20px;
+        }
+
+        .tourist-card {
+            min-height: 280px;
+
+            padding: 20px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.2);
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0a101b,
+                    #070b13
+                );
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.32);
+
+            transition:
+                0.2s ease;
+        }
+
+        .tourist-card:hover {
+            transform:
+                translateY(-3px);
+
+            border-color:
+                rgba(215, 179, 90, 0.38);
+        }
+
+        .tourist-icon {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.3);
+
+            border-radius: 16px;
+
+            color: #f0d27a;
+
+            background:
+                rgba(215, 179, 90, 0.08);
+
+            font-size: 27px;
+        }
+
+        .tourist-location {
+            margin-top: 18px;
+
+            color: #f0d27a;
+
+            font-size:
+                clamp(22px, 4vw, 32px);
+
+            font-weight: 900;
+        }
+
+        .tourist-country {
+            margin-top: 5px;
+
+            color: #aeb5c1;
+
+            font-size: 14px;
+        }
+
+        .tourist-description {
+            margin-top: 12px;
+
+            color: #9ca5b3;
+
+            line-height: 1.7;
+
+            font-size: 13px;
+        }
+
+        .tourist-category {
+            margin-top: 14px;
+
+            color: #7f8998;
+
+            font-size: 11px;
+        }
+
+        .official-source {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 42px;
+
+            margin-top: 17px;
+
+            padding:
+                0 15px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.45);
+
+            border-radius: 11px;
+
+            color: #f0d27a;
+
+            background:
+                rgba(215, 179, 90, 0.07);
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .official-source:hover {
+            background:
+                rgba(215, 179, 90, 0.15);
+        }
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+            display: none;
+
+            width: min(1400px, 94%);
+            margin: 0 auto;
+
+            padding: 45px 20px;
+
+            text-align: center;
+
+            border:
+                1px solid rgba(255,255,255,0.1);
+
+            border-radius: 20px;
+
+            color: #a9b0bd;
+
+            background:
+                rgba(255,255,255,0.025);
+        }
+
+        .empty-state h2 {
+            color: #f0d27a;
+
+            margin-bottom: 8px;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+            width: min(1400px, 94%);
+            margin: 35px auto 0;
+
+            padding:
+                35px 0 45px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.08);
+
+            color: #737d8d;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            line-height: 1.8;
+        }
+
+        footer strong {
+            color: #a9b0bd;
+        }
+
+        /* =========================================
+           FLOATING THREE-DOT BUTTON
+        ========================================= */
+
+        .side-dots {
+            position: fixed;
+
+            right: 15px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            z-index: 1500;
+
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.55);
+
+            border-radius: 50%;
+
+            color: #f0d27a;
+
+            background:
+                rgba(5, 8, 15, 0.94);
+
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.45);
+
+            cursor: pointer;
+
+            font-size: 25px;
+
+            transition:
+                0.2s ease;
+        }
+
+        .side-dots:hover {
+            transform:
+                translateY(-50%) scale(1.06);
+
+            background:
+                rgba(215, 179, 90, 0.12);
+        }
+
+        /* =========================================
+           SIDE MENU
+        ========================================= */
+
+        .side-panel {
+            position: fixed;
+
+            right: 15px;
+            top: 50%;
+
+            transform:
+                translateY(-50%)
+                translateX(120%);
+
+            z-index: 1499;
+
+            width: min(320px, calc(100vw - 30px));
+
+            padding: 18px;
+
+            border:
+                1px solid rgba(215, 179, 90, 0.3);
+
+            border-radius: 20px;
+
+            background:
+                rgba(7, 11, 19, 0.98);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.55);
+
+            transition:
+                0.25s ease;
+        }
+
+        .side-panel.open {
+            transform:
+                translateY(-50%)
+                translateX(0);
+        }
+
+        .side-panel h3 {
+            color: #f0d27a;
+
+            margin-bottom: 10px;
+        }
+
+        .side-panel p {
+            color: #929baa;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            margin-bottom: 14px;
+        }
+
+        .side-panel button {
+            width: 100%;
+
+            min-height: 43px;
+
+            margin-top: 8px;
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            border-radius: 11px;
+
+            color: #d9dce2;
+
+            background:
+                rgba(255,255,255,0.04);
+
             cursor: pointer;
         }
 
-        img {
-            max-width: 100%;
+        .side-panel button:hover {
+            background:
+                rgba(215,179,90,0.1);
+
+            color: #f0d27a;
         }
 
-        .wtp-container {
-            width: min(1180px, calc(100% - 28px));
-            margin: 0 auto;
-        }
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
 
-        /* HEADER */
+        @media (max-width: 700px) {
 
-        .wtp-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(8, 9, 12, 0.94);
-            border-bottom: 1px solid var(--line);
-            backdrop-filter: blur(12px);
-        }
-
-        .wtp-header-inner {
-            min-height: 68px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-        }
-
-        .wtp-brand {
-            color: var(--gold-light);
-            text-decoration: none;
-            font-weight: 850;
-            letter-spacing: 0.04em;
-            font-size: 1rem;
-        }
-
-        .wtp-back {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 14px;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            color: var(--text);
-            text-decoration: none;
-            white-space: nowrap;
-            background: var(--panel);
-        }
-
-        .wtp-back:hover {
-            border-color: var(--gold);
-            color: var(--gold-light);
-        }
-
-        /* HERO */
-
-        .wtp-hero {
-            padding: 44px 0 28px;
-        }
-
-        .wtp-eyebrow {
-            color: var(--gold-light);
-            font-size: 0.78rem;
-            font-weight: 800;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-        }
-
-        .wtp-hero h1 {
-            margin: 10px 0 14px;
-            max-width: 900px;
-            font-size: clamp(2rem, 5vw, 3.6rem);
-            line-height: 1.08;
-        }
-
-        .wtp-hero p {
-            max-width: 780px;
-            margin: 0;
-            color: var(--muted);
-            font-size: 1rem;
-        }
-
-        .wtp-highlight {
-            color: var(--gold-light);
-        }
-
-        /* SEARCH */
-
-        .wtp-search-panel {
-            margin: 8px 0 18px;
-            padding: 18px;
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 18px;
-        }
-
-        .wtp-search-panel h2 {
-            margin: 0 0 12px;
-            font-size: 1.15rem;
-        }
-
-        .wtp-search-row {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto auto;
-            gap: 10px;
-        }
-
-        .wtp-search-row input {
-            width: 100%;
-            min-width: 0;
-            padding: 12px 14px;
-            color: var(--text);
-            background: #090b10;
-            border: 1px solid #3a4050;
-            border-radius: 11px;
-            outline: none;
-        }
-
-        .wtp-search-row input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 2px rgba(215, 179, 90, 0.13);
-        }
-
-        .wtp-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            padding: 11px 15px;
-            border: 1px solid #7c6734;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #e3c46c, #b58c36);
-            color: #17130a;
-            font-weight: 800;
-            text-decoration: none;
-        }
-
-        .wtp-button:hover {
-            filter: brightness(1.08);
-        }
-
-        .wtp-button-secondary {
-            background: var(--panel-light);
-            color: var(--text);
-            border-color: var(--line);
-        }
-
-        /* CATEGORY FILTERS */
-
-        .wtp-filter-heading {
-            margin: 18px 0 9px;
-            color: var(--muted);
-            font-size: 0.88rem;
-        }
-
-        .wtp-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 9px;
-        }
-
-        .wtp-filters button {
-            padding: 8px 13px;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            background: var(--panel-light);
-            color: var(--text);
-        }
-
-        .wtp-filters button:hover,
-        .wtp-filters button[aria-pressed="true"] {
-            border-color: var(--gold);
-            color: var(--gold-light);
-            background: #222016;
-        }
-
-        .wtp-filters button[aria-pressed="true"] {
-            box-shadow: 0 0 0 1px rgba(215, 179, 90, 0.15);
-        }
-
-        /* HELPER MESSAGE */
-
-        .wtp-helper {
-            margin: 18px 0 28px;
-            padding: 15px 17px;
-            border-left: 3px solid var(--gold);
-            border-radius: 0 13px 13px 0;
-            background: #12151d;
-            color: var(--muted);
-        }
-
-        .wtp-helper strong {
-            color: var(--gold-light);
-        }
-
-        /* SECTION HEADER */
-
-        .wtp-section-heading {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 12px;
-            margin: 30px 0 16px;
-        }
-
-        .wtp-section-heading h2 {
-            margin: 0;
-            font-size: clamp(1.3rem, 3vw, 1.65rem);
-        }
-
-        #resultCount {
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        /* DESTINATION CARDS */
-
-        .wtp-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 17px;
-            padding-bottom: 30px;
-        }
-
-        .wtp-place-card {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            overflow: hidden;
-            background: linear-gradient(180deg, #141821, #0e1016);
-            border: 1px solid var(--line);
-            border-radius: 17px;
-            transition:
-                transform 0.2s ease,
-                border-color 0.2s ease;
-        }
-
-        .wtp-place-card:hover {
-            transform: translateY(-3px);
-            border-color: #78673c;
-        }
-
-        .wtp-place-photo {
-            position: relative;
-            height: 205px;
-            overflow: hidden;
-            background: #1a1d25;
-        }
-
-        .wtp-place-photo img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .wtp-place-card:hover .wtp-place-photo img {
-            transform: scale(1.035);
-        }
-
-        .wtp-category-label {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            padding: 5px 10px;
-            border: 1px solid rgba(215, 179, 90, 0.4);
-            border-radius: 999px;
-            background: rgba(5, 7, 10, 0.9);
-            color: var(--gold-light);
-            font-size: 0.76rem;
-            font-weight: 800;
-        }
-
-        .wtp-place-body {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            padding: 15px;
-        }
-
-        .wtp-place-body h3 {
-            margin: 0 0 4px;
-            font-size: 1.16rem;
-            line-height: 1.35;
-        }
-
-        .wtp-place-location {
-            margin-bottom: 10px;
-            color: var(--gold-light);
-            font-size: 0.86rem;
-        }
-
-        .wtp-place-description {
-            flex: 1;
-            margin: 0 0 14px;
-            color: var(--muted);
-            font-size: 0.92rem;
-        }
-
-        .wtp-place-coordinates {
-            margin-bottom: 13px;
-            color: #a7adba;
-            font-size: 0.8rem;
-        }
-
-        .wtp-place-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .wtp-place-actions .wtp-button {
-            flex: 1 1 120px;
-            padding: 9px 10px;
-            font-size: 0.82rem;
-        }
-
-        .wtp-weather {
-            margin-top: 12px;
-            padding: 11px;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            background: #0a0d13;
-            color: var(--muted);
-            font-size: 0.85rem;
-        }
-
-        /* EMPTY STATE */
-
-        .wtp-empty {
-            display: none;
-            margin: 0 0 32px;
-            padding: 30px 18px;
-            border: 1px dashed #52586a;
-            border-radius: 16px;
-            color: var(--muted);
-            text-align: center;
-        }
-
-        .wtp-empty h3 {
-            margin: 0 0 8px;
-            color: var(--text);
-        }
-
-        /* IMPORTANT INFORMATION */
-
-        .wtp-info-panel {
-            margin: 6px 0 30px;
-            padding: 18px;
-            border: 1px solid var(--line);
-            border-radius: 15px;
-            background: var(--panel);
-        }
-
-        .wtp-info-panel h2 {
-            margin: 0 0 8px;
-            color: var(--gold-light);
-            font-size: 1.1rem;
-        }
-
-        .wtp-info-panel p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        /* FOOTER */
-
-        .wtp-footer {
-            border-top: 1px solid var(--line);
-            padding: 23px 0 35px;
-            color: var(--muted);
-            font-size: 0.85rem;
-        }
-
-        .wtp-footer p {
-            margin: 4px 0;
-        }
-
-        /* RESPONSIVE */
-
-        @media (max-width: 900px) {
-            .wtp-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (max-width: 600px) {
-            .wtp-container {
-                width: calc(100% - 20px);
+            .topbar-inner {
+                min-height: 64px;
             }
 
-            .wtp-header-inner {
-                min-height: 60px;
+            .brand-logo {
+                width: 40px;
+                height: 40px;
             }
 
-            .wtp-brand {
-                font-size: 0.82rem;
+            .brand-title {
+                font-size: 14px;
             }
 
-            .wtp-back {
-                padding: 7px 10px;
-                font-size: 0.82rem;
+            .brand-subtitle {
+                font-size: 9px;
             }
 
-            .wtp-hero {
-                padding-top: 31px;
+            .back-btn {
+                min-height: 38px;
+
+                padding:
+                    0 11px;
+
+                font-size: 12px;
             }
 
-            .wtp-search-panel {
-                padding: 13px;
+            .hero {
+                padding-top: 27px;
             }
 
-            .wtp-search-row {
-                grid-template-columns: 1fr 1fr;
+            #touristPlaces {
+                grid-template-columns:
+                    1fr;
             }
 
-            .wtp-search-row input {
-                grid-column: 1 / -1;
+            .tourist-card {
+                padding: 17px;
+
+                border-radius: 17px;
             }
 
-            .wtp-search-row .wtp-button {
-                padding: 10px 8px;
-                font-size: 0.88rem;
+            .side-dots {
+                right: 10px;
+
+                width: 44px;
+                height: 44px;
             }
 
-            .wtp-grid {
-                grid-template-columns: 1fr;
-                gap: 14px;
+            .side-panel {
+                right: 10px;
             }
 
-            .wtp-place-photo {
-                height: 220px;
-            }
-
-            .wtp-section-heading {
-                align-items: start;
-                flex-direction: column;
-            }
-
-            .wtp-place-actions .wtp-button {
-                flex-basis: 105px;
-            }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                transition: none !important;
-            }
-        }
     </style>
 </head>
 
 <body>
-    <header class="wtp-header">
-        <div class="wtp-container wtp-header-inner">
-            <a class="wtp-brand" href="./index.html">
-                ALON HISTORYVERSE 24
+
+    <!-- =========================================
+         HEADER
+    ========================================= -->
+
+    <header class="topbar">
+
+        <div class="topbar-inner">
+
+            <a
+                class="brand"
+                href="./index.html"
+                aria-label="ALON HISTORYVERSE 24 Home"
+            >
+
+                <img
+                    class="brand-logo"
+                    src="./historyverse-logo.svg"
+                    alt="ALON HISTORYVERSE 24"
+                >
+
+                <div class="brand-text">
+
+                    <div class="brand-title">
+                        ALON HISTORYVERSE 24
+                    </div>
+
+                    <div class="brand-subtitle">
+                        WORLD TOURIST PLACES
+                    </div>
+
+                </div>
+
             </a>
 
-            <a class="wtp-back" href="./index.html" aria-label="Back to homepage">
-                ← Back to Home
+            <a
+                class="back-btn"
+                href="./index.html"
+            >
+                ← Back
             </a>
+
         </div>
+
     </header>
 
-    <main class="wtp-container">
 
-        <!-- HERO SECTION -->
-        <section class="wtp-hero">
-            <div class="wtp-eyebrow">
-                Explore the World · Discover Knowledge
-            </div>
+    <!-- =========================================
+         HERO
+    ========================================= -->
 
-            <h1>
-                World <span class="wtp-highlight">Tourist Places</span>
+    <main>
+
+        <section class="hero">
+
+            <h1 class="hero-title">
+                World <span>Tourist Places</span>
             </h1>
 
-            <p>
-                Discover historic landmarks, natural wonders, cultural
-                destinations and remarkable places around the world.
-                Search by destination, country or interest, open map
-                locations, and visit official sources to plan responsibly.
+            <p class="hero-description">
+                Explore famous tourist destinations, landmarks,
+                monuments, beaches, city squares, heritage sites,
+                scenic places, and other public sightseeing locations
+                from around the world.
             </p>
+
+            <div class="hero-note">
+                🌍 Public tourist places and official sources only
+            </div>
+
         </section>
 
-        <!-- SEARCH AND FILTERS -->
-        <section class="wtp-search-panel" aria-label="Tourist place search">
-            <h2>Find Your Destination</h2>
 
-            <div class="wtp-search-row">
-                <input
-                    id="placeSearch"
-                    type="search"
-                    autocomplete="off"
-                    placeholder="Search place, country, city or interest..."
-                    aria-label="Search tourist places"
-                >
+        <!-- =====================================
+             SEARCH
+        ===================================== -->
 
-                <button
-                    id="searchBtn"
-                    class="wtp-button"
-                    type="button"
-                >
-                    🔎 Search
-                </button>
+        <section class="search-panel">
 
-                <button
-                    id="clearBtn"
-                    class="wtp-button wtp-button-secondary"
-                    type="button"
-                >
-                    Clear
-                </button>
-            </div>
-
-            <div class="wtp-filter-heading">
-                Explore by category
-            </div>
-
-            <div
-                id="categoryFilters"
-                class="wtp-filters"
-                aria-label="Filter destinations by category"
+            <input
+                id="placeSearch"
+                class="search-box"
+                type="search"
+                autocomplete="off"
+                placeholder="Search city, country or tourist place..."
+                aria-label="Search tourist places"
             >
-                <button
-                    class="wtp-filter-button"
-                    type="button"
-                    data-category="All"
-                    aria-pressed="true"
-                >
-                    🌍 All Places
-                </button>
 
-                <button
-                    class="wtp-filter-button"
-                    type="button"
-                    data-category="Historic"
-                    aria-pressed="false"
-                >
-                    🏛️ Historic
-                </button>
+            <button
+                id="searchBtn"
+                class="search-btn"
+                type="button"
+            >
+                🔎 Search
+            </button>
 
-                <button
-                    class="wtp-filter-button"
-                    type="button"
-                    data-category="Nature"
-                    aria-pressed="false"
-                >
-                    🏞️ Nature
-                </button>
+            <button
+                id="clearBtn"
+                class="clear-btn"
+                type="button"
+            >
+                Clear
+            </button>
 
-                <button
-                    class="wtp-filter-button"
-                    type="button"
-                    data-category="Landmark"
-                    aria-pressed="false"
-                >
-                    🗼 Landmarks
-                </button>
+        </section>
 
-                <button
-                    class="wtp-filter-button"
-                    type="button"
-                    data-category="Culture"
-                    aria-pressed="false"
-                >
-                    🎭 Culture
-                </button>
+
+        <!-- =====================================
+             AI SEARCH
+        ===================================== -->
+
+        <section class="ai-panel">
+
+            <div class="ai-panel-title">
+                🤖 AI Tourist Place Discovery
             </div>
-        </section>
 
-        <!-- DISCOVERY HELPER -->
-        <section
-            id="discoveryAssist"
-            class="wtp-helper"
-            role="status"
-            aria-live="polite"
-        >
-            <strong>Travel Discovery Helper:</strong>
-            Try searches such as “ancient history”, “mountains”,
-            “India”, “architecture” or “waterfalls”. Search results
-            are based on destination descriptions and keywords.
-        </section>
+            <div class="ai-panel-text">
+                Search naturally for a city, country, landmark or
+                tourist destination. AI searches only the approved
+                ALON HISTORYVERSE 24 tourist-place directory.
+            </div>
 
-        <!-- DESTINATION LIST -->
-        <section aria-labelledby="destinationsHeading">
-            <div class="wtp-section-heading">
-                <h2 id="destinationsHeading">Explore Destinations</h2>
+            <div class="ai-input-row">
 
-                <span id="resultCount" aria-live="polite">
-                    Loading places...
-                </span>
+                <input
+                    id="aiSearch"
+                    class="ai-input"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Try: show me tourist places in New York"
+                >
+
+                <button
+                    id="aiBtn"
+                    class="ai-btn"
+                    type="button"
+                >
+                    🤖 AI Search
+                </button>
+
             </div>
 
             <div
-                id="placesGrid"
-                class="wtp-grid"
-                aria-live="polite"
+                id="aiResult"
+                class="ai-result"
             ></div>
 
-            <div id="emptyState" class="wtp-empty">
-                <h3>No destinations found</h3>
-
-                <p>
-                    Try another place, country, city or category.
-                </p>
-            </div>
         </section>
 
-        <!-- TRAVEL INFORMATION -->
-        <section class="wtp-info-panel">
-            <h2>Travel Information and Safety</h2>
+
+        <!-- =====================================
+             TOURIST PLACES
+        ===================================== -->
+
+        <section id="touristPlaces"></section>
+
+        <div
+            id="emptyState"
+            class="empty-state"
+        >
+            <h2>🌎 No matching tourist place found</h2>
 
             <p>
-                Opening hours, ticket prices, permits, access restrictions,
-                weather and local safety conditions can change. Confirm
-                current details with official visitor sources before
-                travelling. Map links open OpenStreetMap. Current weather
-                can be requested from Open-Meteo when the service is
-                available. Always respect local laws, cultural traditions
-                and environmental protection rules.
+                Try another city, country or destination. New public
+                tourist places can be added to the directory after
+                their information and official source have been verified.
             </p>
-        </section>
+        </div>
+
     </main>
 
-    <footer class="wtp-footer">
-        <div class="wtp-container">
-            <p><strong>ALON HISTORYVERSE 24</strong></p>
 
-            <p>
-                World Tourist Places — public destination discovery
-                and educational information.
-            </p>
+    <!-- =========================================
+         FLOATING THREE-DOT BUTTON
+    ========================================= -->
 
-            <p>
-                Destination details are provided as a starting point
-                for research and should be independently verified.
-            </p>
+    <button
+        id="sideDots"
+        class="side-dots"
+        type="button"
+        aria-label="World Tourist Places menu"
+        aria-expanded="false"
+    >
+        ⋮
+    </button>
 
-            <p>Created by Baba Thecno Guru.</p>
-        </div>
+
+    <!-- =========================================
+         SIDE PANEL
+    ========================================= -->
+
+    <aside
+        id="sidePanel"
+        class="side-panel"
+        aria-hidden="true"
+    >
+
+        <h3>
+            🌍 World Tourist Places
+        </h3>
+
+        <p>
+            Explore public tourist destinations and sightseeing
+            locations. Private, restricted, security, military and
+            unauthorized camera systems are not included.
+        </p>
+
+        <button
+            id="scrollTopBtn"
+            type="button"
+        >
+            ↑ Top
+        </button>
+
+        <button
+            id="focusSearchBtn"
+            type="button"
+        >
+            🔎 Search Tourist Places
+        </button>
+
+        <button
+            id="closePanelBtn"
+            type="button"
+        >
+            Close
+        </button>
+
+    </aside>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <strong>
+            ALON HISTORYVERSE 24
+        </strong>
+
+        <br>
+
+        World Tourist Places • Explore the world from anywhere
+
+        <br>
+
+        Tourist-place information and external sources remain the
+        property of their respective owners and organizations.
+
     </footer>
 
-    <!-- Keep this root-relative JS path exactly as named. -->
-    <script src="./world-tourist-places.js" defer></script>
+
+    <script>
+
+        /* =====================================================
+           ALON HISTORYVERSE 24
+           WORLD TOURIST PLACES
+           Version 1.0
+        ===================================================== */
+
+
+        /* =====================================================
+           TOURIST PLACE DIRECTORY
+
+           IMPORTANT:
+           Only add public tourist places and verified
+           official/original information sources.
+
+           DO NOT add:
+           - private locations
+           - residential locations
+           - border/security locations
+           - military locations
+           - restricted locations
+           - hacked or leaked material
+           - unauthorized live camera feeds
+           - third-party camera embeds
+           - copied/rebroadcast live streams
+
+           This directory does NOT embed live cameras.
+        ===================================================== */
+
+        const TOURIST_PLACES = [
+
+            /*
+                Approved tourist places can be added here
+                after the place information and official
+                source have been verified.
+
+                Example structure:
+
+                {
+                    id: "example-place",
+
+                    city: "City",
+
+                    country: "Country",
+
+                    place: "Tourist Place",
+
+                    category: "Landmark",
+
+                    description:
+                        "Public tourist destination description.",
+
+                    source:
+                        "OFFICIAL SOURCE URL",
+
+                    sourceName:
+                        "Official Source",
+
+                    tags: [
+                        "city",
+                        "country",
+                        "landmark"
+                    ]
+                }
+            */
+
+        ];
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const touristPlaces =
+            document.getElementById("touristPlaces");
+
+        const emptyState =
+            document.getElementById("emptyState");
+
+        const placeSearch =
+            document.getElementById("placeSearch");
+
+        const searchBtn =
+            document.getElementById("searchBtn");
+
+        const clearBtn =
+            document.getElementById("clearBtn");
+
+        const aiSearch =
+            document.getElementById("aiSearch");
+
+        const aiBtn =
+            document.getElementById("aiBtn");
+
+        const aiResult =
+            document.getElementById("aiResult");
+
+        const sideDots =
+            document.getElementById("sideDots");
+
+        const sidePanel =
+            document.getElementById("sidePanel");
+
+        const scrollTopBtn =
+            document.getElementById("scrollTopBtn");
+
+        const focusSearchBtn =
+            document.getElementById("focusSearchBtn");
+
+        const closePanelBtn =
+            document.getElementById("closePanelBtn");
+
+
+        /* =====================================================
+           SECURITY-SAFE TEXT HELPER
+        ===================================================== */
+
+        function escapeHTML(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =====================================================
+           RENDER TOURIST PLACE
+        ===================================================== */
+
+        function renderTouristPlace(place) {
+
+            const safeCity =
+                escapeHTML(place.city);
+
+            const safeCountry =
+                escapeHTML(place.country);
+
+            const safePlace =
+                escapeHTML(place.place);
+
+            const safeCategory =
+                escapeHTML(place.category);
+
+            const safeDescription =
+                escapeHTML(place.description);
+
+            const safeSourceName =
+                escapeHTML(place.sourceName);
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "tourist-card";
+
+            card.dataset.city =
+                place.city.toLowerCase();
+
+            card.dataset.country =
+                place.country.toLowerCase();
+
+            card.innerHTML = `
+
+                <div class="tourist-icon">
+                    🌍
+                </div>
+
+                <div class="tourist-location">
+                    📍 ${safePlace}
+                </div>
+
+                <div class="tourist-country">
+                    ${safeCity} • ${safeCountry}
+                </div>
+
+                <div class="tourist-description">
+                    ${safeDescription}
+                </div>
+
+                <div class="tourist-category">
+                    Category: ${safeCategory}
+                </div>
+
+                <a
+                    class="official-source"
+                    href="${place.source}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Open ${safeSourceName}
+                </a>
+
+            `;
+
+            touristPlaces.appendChild(card);
+
+        }
+
+
+        /* =====================================================
+           RENDER DIRECTORY
+        ===================================================== */
+
+        function renderTouristPlaces(list) {
+
+            touristPlaces.innerHTML = "";
+
+            if (!list.length) {
+
+                emptyState.style.display =
+                    "block";
+
+                return;
+
+            }
+
+            emptyState.style.display =
+                "none";
+
+            list.forEach(
+                renderTouristPlace
+            );
+
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        function normalizeSearch(value) {
+
+            return String(value)
+                .toLowerCase()
+                .trim();
+
+        }
+
+
+        function searchTouristPlaces(query) {
+
+            const search =
+                normalizeSearch(query);
+
+            if (!search) {
+
+                renderTouristPlaces(
+                    TOURIST_PLACES
+                );
+
+                return;
+
+            }
+
+            const results =
+                TOURIST_PLACES.filter(place => {
+
+                    const searchable = [
+
+                        place.city,
+
+                        place.country,
+
+                        place.place,
+
+                        place.category,
+
+                        place.sourceName,
+
+                        ...(place.tags || [])
+
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+                    return searchable.includes(
+                        search
+                    );
+
+                });
+
+            renderTouristPlaces(
+                results
+            );
+
+        }
+
+
+        searchBtn.addEventListener(
+            "click",
+            function () {
+
+                searchTouristPlaces(
+                    placeSearch.value
+                );
+
+            }
+        );
+
+
+        placeSearch.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    searchTouristPlaces(
+                        placeSearch.value
+                    );
+
+                }
+
+            }
+        );
+
+
+        clearBtn.addEventListener(
+            "click",
+            function () {
+
+                placeSearch.value =
+                    "";
+
+                renderTouristPlaces(
+                    TOURIST_PLACES
+                );
+
+                placeSearch.focus();
+
+            }
+        );
+
+
+        /* =====================================================
+           SIMPLE AI DISCOVERY LAYER
+        ===================================================== */
+
+        function aiDiscover(query) {
+
+            const normalized =
+                normalizeSearch(query);
+
+            if (!normalized) {
+
+                return {
+
+                    text:
+                        "Type a city, country or tourist place name and AI Search will look through the approved tourist-place directory.",
+
+                    results:
+                        []
+
+                };
+
+            }
+
+            const words =
+                normalized
+                    .replace(
+                        /show me|tourist places|tourist place|places|please|find|in|of/gi,
+                        " "
+                    )
+                    .replace(
+                        /\s+/g,
+                        " "
+                    )
+                    .trim();
+
+            const results =
+                TOURIST_PLACES.filter(place => {
+
+                    const searchable = [
+
+                        place.city,
+
+                        place.country,
+
+                        place.place,
+
+                        place.category,
+
+                        ...(place.tags || [])
+
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+                    if (!words) {
+
+                        return searchable.includes(
+                            normalized
+                        );
+
+                    }
+
+                    const searchWords =
+                        words
+                            .split(" ")
+                            .filter(Boolean);
+
+                    return searchWords.some(
+                        word =>
+                            searchable.includes(
+                                word
+                            )
+                    );
+
+                });
+
+            if (results.length) {
+
+                return {
+
+                    text:
+                        `AI found ${results.length} approved tourist place result${results.length > 1 ? "s" : ""} for "${words || normalized}".`,
+
+                    results:
+                        results
+
+                };
+
+            }
+
+            return {
+
+                text:
+                    `No approved tourist place is currently registered for "${words || normalized}". This does not mean the destination does not exist; it means the ALON directory has not yet added a verified public tourist-place entry.`,
+
+                results:
+                    []
+
+            };
+
+        }
+
+
+        aiBtn.addEventListener(
+            "click",
+            function () {
+
+                const result =
+                    aiDiscover(
+                        aiSearch.value
+                    );
+
+                aiResult.style.display =
+                    "block";
+
+                aiResult.textContent =
+                    result.text;
+
+                renderTouristPlaces(
+                    result.results
+                );
+
+            }
+        );
+
+
+        aiSearch.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    aiBtn.click();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           SIDE THREE-DOT MENU
+        ===================================================== */
+
+        sideDots.addEventListener(
+            "click",
+            function () {
+
+                const isOpen =
+                    sidePanel.classList.toggle(
+                        "open"
+                    );
+
+                sideDots.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+                sidePanel.setAttribute(
+                    "aria-hidden",
+                    String(!isOpen)
+                );
+
+            }
+        );
+
+
+        closePanelBtn.addEventListener(
+            "click",
+            function () {
+
+                sidePanel.classList.remove(
+                    "open"
+                );
+
+                sideDots.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                sidePanel.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+            }
+        );
+
+
+        scrollTopBtn.addEventListener(
+            "click",
+            function () {
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+            }
+        );
+
+
+        focusSearchBtn.addEventListener(
+            "click",
+            function () {
+
+                sidePanel.classList.remove(
+                    "open"
+                );
+
+                sideDots.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                placeSearch.focus();
+
+                placeSearch.scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "center"
+
+                });
+
+            }
+        );
+
+
+        /* =====================================================
+           CLOSE SIDE PANEL WHEN CLICKING OUTSIDE
+        ===================================================== */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                const clickedInsidePanel =
+                    sidePanel.contains(
+                        event.target
+                    );
+
+                const clickedDots =
+                    sideDots.contains(
+                        event.target
+                    );
+
+                if (
+                    !clickedInsidePanel &&
+                    !clickedDots
+                ) {
+
+                    sidePanel.classList.remove(
+                        "open"
+                    );
+
+                    sideDots.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    sidePanel.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           ESCAPE KEY
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    sidePanel.classList.remove(
+                        "open"
+                    );
+
+                    sideDots.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    sidePanel.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        renderTouristPlaces(
+            TOURIST_PLACES
+        );
+
+    </script>
+
 </body>
 </html>
