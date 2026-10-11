@@ -68,8 +68,7 @@
 
 .admin-stats {
     display: grid;
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 15px;
     margin-bottom: 24px;
 }
@@ -99,8 +98,7 @@
 
 .admin-grid {
     display: grid;
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
     margin-bottom: 26px;
 }
@@ -261,8 +259,7 @@
 
 .media-preview {
     display: grid;
-    grid-template-columns:
-        repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 15px;
     margin-top: 15px;
 }
@@ -330,8 +327,7 @@
 
 .saved-media-grid {
     display: grid;
-    grid-template-columns:
-        repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 18px;
 }
 
@@ -387,12 +383,50 @@
 }
 
 /* =========================================================
-   LOG
+   ADMIN ACTIVITY LOG — COLLAPSIBLE
 ========================================================= */
+
+.admin-log-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    text-align: left;
+    color: #f0d27a;
+    background: #101722;
+    border: 1px solid rgba(215,179,90,.4);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.admin-log-toggle:hover {
+    background: #d7b35a;
+    color: #05080f;
+}
+
+.admin-log-toggle:focus-visible {
+    outline: 2px solid #f0d27a;
+    outline-offset: 3px;
+}
+
+.admin-log-toggle .admin-log-icon {
+    flex-shrink: 0;
+    font-size: 1.2rem;
+}
+
+.admin-log[hidden] {
+    display: none !important;
+}
 
 .admin-log {
     max-height: 250px;
     overflow: auto;
+    margin-top: 14px;
     padding: 15px;
     border-radius: 12px;
     background: #05080f;
@@ -404,6 +438,12 @@
 .admin-log-entry {
     padding: 6px 0;
     border-bottom: 1px solid rgba(255,255,255,.07);
+    overflow-wrap: anywhere;
+}
+
+.admin-log-empty {
+    color: #bdbdbd;
+    opacity: .8;
 }
 
 /* =========================================================
@@ -442,8 +482,7 @@
 @media (max-width: 800px) {
 
     .admin-stats {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .admin-grid {
@@ -493,16 +532,13 @@
 
 </head>
 
-
 <body
     class="historyverse-app admin-page"
     data-version="V100"
     data-page="admin"
 >
 
-
 <main class="admin-container">
-
 
 <!-- =========================================================
      HERO
@@ -510,9 +546,7 @@
 
 <section class="admin-hero">
 
-    <h1>
-        🛡️ Admin Control Center
-    </h1>
+    <h1>🛡️ Admin Control Center</h1>
 
     <p>
         ALON HISTORYVERSE 24
@@ -520,7 +554,6 @@
     </p>
 
 </section>
-
 
 <!-- =========================================================
      DASHBOARD STATS
@@ -553,21 +586,17 @@
 
 </section>
 
-
 <!-- =========================================================
      ADMIN CONTROL CARDS
 ========================================================= -->
 
 <section class="admin-grid">
 
-
     <article class="admin-card">
 
         <h2>📜 Article Management</h2>
 
-        <p>
-            Create, edit, publish and delete articles.
-        </p>
+        <p>Create, edit, publish and delete articles.</p>
 
         <ul>
             <li>Create article</li>
@@ -578,7 +607,6 @@
         </ul>
 
     </article>
-
 
     <article class="admin-card">
 
@@ -599,7 +627,6 @@
 
     </article>
 
-
     <article class="admin-card">
 
         <h2>🎥 Video Management</h2>
@@ -618,7 +645,6 @@
         </button>
 
     </article>
-
 
     <article class="admin-card">
 
@@ -639,7 +665,6 @@
 
     </article>
 
-
     <article class="admin-card">
 
         <h2>🗑️ Trash / Restore</h2>
@@ -659,14 +684,11 @@
 
     </article>
 
-
     <article class="admin-card">
 
         <h2>💾 Data Backup</h2>
 
-        <p>
-            Export or import the article database.
-        </p>
+        <p>Export or import the article database.</p>
 
         <div class="form-actions">
 
@@ -697,9 +719,7 @@
 
     </article>
 
-
 </section>
-
 
 <!-- =========================================================
      ARTICLE DATABASE
@@ -707,9 +727,7 @@
 
 <section class="admin-card">
 
-    <h2>
-        📚 Article Database
-    </h2>
+    <h2>📚 Article Database</h2>
 
     <div style="margin-bottom:15px;">
 
@@ -730,29 +748,20 @@
 
     </div>
 
-
     <div class="admin-table-wrap">
 
         <table class="admin-table">
 
             <thead>
-
                 <tr>
-
                     <th>Title</th>
-
                     <th>Category</th>
-
                     <th>Status</th>
-
                     <th>Action</th>
-
                 </tr>
-
             </thead>
 
-            <tbody id="articleTableBody">
-            </tbody>
+            <tbody id="articleTableBody"></tbody>
 
         </table>
 
@@ -760,22 +769,18 @@
 
 </section>
 
-
 <!-- =========================================================
      MEDIA MANAGER
 ========================================================= -->
 
 <section class="admin-card media-manager">
 
-    <h2>
-        🗂️ Media Manager
-    </h2>
+    <h2>🗂️ Media Manager</h2>
 
     <p>
         Images and videos selected here can be saved
         into the browser's IndexedDB Media Library.
     </p>
-
 
     <div class="admin-warning">
 
@@ -792,9 +797,6 @@
 
     </div>
 
-
-    <!-- HIDDEN FILE INPUT -->
-
     <input
         type="file"
         id="mediaInput"
@@ -802,9 +804,6 @@
         multiple
         hidden
     >
-
-
-    <!-- SELECT BUTTONS -->
 
     <div class="media-select-actions">
 
@@ -834,17 +833,12 @@
 
     </div>
 
-
-    <!-- SELECTED MEDIA -->
-
     <div
         class="media-selected-box"
         id="selectedMediaBox"
     >
 
-        <h3>
-            Selected Media
-        </h3>
+        <h3>Selected Media</h3>
 
         <p id="selectedMediaStatus">
             No media selected.
@@ -853,9 +847,7 @@
         <div
             id="mediaPreview"
             class="media-preview"
-        >
-        </div>
-
+        ></div>
 
         <div class="form-actions">
 
@@ -872,16 +864,11 @@
 
     </div>
 
-
-    <!-- SAVED MEDIA -->
-
     <div class="saved-media-section">
 
         <div class="saved-media-header">
 
-            <h3>
-                📦 Saved Media Library
-            </h3>
+            <h3>📦 Saved Media Library</h3>
 
             <button
                 type="button"
@@ -893,17 +880,14 @@
 
         </div>
 
-
         <div
             id="savedMediaGrid"
             class="saved-media-grid"
-        >
-        </div>
+        ></div>
 
     </div>
 
 </section>
-
 
 <!-- =========================================================
      ARTICLE EDITOR
@@ -911,10 +895,7 @@
 
 <section class="admin-card">
 
-    <h2>
-        ✍️ Article Editor
-    </h2>
-
+    <h2>✍️ Article Editor</h2>
 
     <form
         id="articleForm"
@@ -926,9 +907,7 @@
             id="articleId"
         >
 
-
         <label>
-
             Article Title
 
             <input
@@ -936,12 +915,9 @@
                 id="articleTitle"
                 required
             >
-
         </label>
 
-
         <label>
-
             Category
 
             <input
@@ -949,44 +925,31 @@
                 id="articleCategory"
                 placeholder="History"
             >
-
         </label>
 
-
         <label>
-
             Description
 
-            <textarea
-                id="articleDescription"
-            ></textarea>
-
+            <textarea id="articleDescription"></textarea>
         </label>
 
-
         <label>
-
             Article Content
 
             <textarea
                 id="articleContent"
                 style="min-height:260px;"
             ></textarea>
-
         </label>
 
-
         <label>
-
             Sources
 
             <textarea
                 id="articleSources"
                 placeholder="One source per line"
             ></textarea>
-
         </label>
-
 
         <div class="form-actions">
 
@@ -998,7 +961,6 @@
                 💾 Save Article
             </button>
 
-
             <button
                 type="button"
                 id="saveDraftBtn"
@@ -1006,7 +968,6 @@
             >
                 📝 Save Draft
             </button>
-
 
             <button
                 type="button"
@@ -1022,25 +983,43 @@
 
 </section>
 
-
 <!-- =========================================================
-     ADMIN LOG
+     ADMIN ACTIVITY LOG — FIXED
 ========================================================= -->
 
 <section class="admin-card">
 
-    <h2>
-        📋 Admin Activity Log
+    <h2 style="margin-bottom:15px;">
+
+        <button
+            type="button"
+            id="adminLogToggle"
+            class="admin-log-toggle"
+            aria-expanded="false"
+            aria-controls="adminLog"
+        >
+            <span>📋 Admin Activity Log</span>
+            <span
+                class="admin-log-icon"
+                aria-hidden="true"
+            >＋</span>
+        </button>
+
     </h2>
 
     <div
         id="adminLog"
         class="admin-log"
+        hidden
+        aria-live="polite"
+        aria-relevant="additions"
     >
+        <div class="admin-log-empty">
+            Activity log is ready. Admin actions will appear here.
+        </div>
     </div>
 
 </section>
-
 
 <!-- =========================================================
      DANGER ZONE
@@ -1048,9 +1027,7 @@
 
 <section class="admin-card">
 
-    <h2>
-        ⚠️ Danger Zone
-    </h2>
+    <h2>⚠️ Danger Zone</h2>
 
     <p>
         These actions permanently remove local article data.
@@ -1066,7 +1043,6 @@
 
 </section>
 
-
 <!-- =========================================================
      FOOTER NAVIGATION
 ========================================================= -->
@@ -1076,39 +1052,23 @@
     aria-label="Admin navigation"
 >
 
-    <a href="../index.html">
-        🏠 Home
-    </a>
+    <a href="../index.html">🏠 Home</a>
 
-    <a href="./articles.html">
-        📜 Articles
-    </a>
+    <a href="./articles.html">📜 Articles</a>
 
-    <a href="./library.html">
-        📚 Library
-    </a>
+    <a href="./library.html">📚 Library</a>
 
-    <a href="./gallery.html">
-        🖼️ Gallery
-    </a>
+    <a href="./gallery.html">🖼️ Gallery</a>
 
-    <a href="./contribute.html">
-        ✍️ Contribute
-    </a>
+    <a href="./contribute.html">✍️ Contribute</a>
 
-    <a href="./about.html">
-        ℹ️ About
-    </a>
+    <a href="./about.html">ℹ️ About</a>
 
-    <a href="./contact.html">
-        📩 Contact
-    </a>
+    <a href="./contact.html">📩 Contact</a>
 
 </nav>
 
-
 </main>
-
 
 <script>
 
@@ -1119,7 +1079,6 @@
 
 "use strict";
 
-
 const ARTICLE_KEY =
     "alon_historyverse_articles";
 
@@ -1128,7 +1087,6 @@ const TRASH_KEY =
 
 const DRAFT_KEY =
     "alon_historyverse_article_drafts";
-
 
 /* =========================================================
    ELEMENTS
@@ -1176,6 +1134,44 @@ const articleSources =
 const adminLog =
     document.getElementById("adminLog");
 
+const adminLogToggle =
+    document.getElementById("adminLogToggle");
+
+/* =========================================================
+   ADMIN ACTIVITY LOG TOGGLE — FIX
+========================================================= */
+
+if (adminLogToggle && adminLog) {
+
+    adminLogToggle.addEventListener(
+        "click",
+        function () {
+
+            const isOpening =
+                adminLog.hidden;
+
+            adminLog.hidden =
+                !isOpening;
+
+            adminLogToggle.setAttribute(
+                "aria-expanded",
+                String(isOpening)
+            );
+
+            const icon =
+                adminLogToggle.querySelector(
+                    ".admin-log-icon"
+                );
+
+            if (icon) {
+                icon.textContent =
+                    isOpening ? "−" : "＋";
+            }
+
+        }
+    );
+
+}
 
 /* =========================================================
    BASIC STORAGE
@@ -1192,10 +1188,7 @@ function readJSON(key, fallback) {
             return fallback;
         }
 
-        const parsed =
-            JSON.parse(value);
-
-        return parsed;
+        return JSON.parse(value);
 
     } catch (error) {
 
@@ -1203,8 +1196,8 @@ function readJSON(key, fallback) {
 
         return fallback;
     }
-}
 
+}
 
 function writeJSON(key, value) {
 
@@ -1215,7 +1208,6 @@ function writeJSON(key, value) {
 
 }
 
-
 /* =========================================================
    ARTICLE STORAGE
 ========================================================= */
@@ -1223,10 +1215,7 @@ function writeJSON(key, value) {
 function getArticles() {
 
     const articles =
-        readJSON(
-            ARTICLE_KEY,
-            []
-        );
+        readJSON(ARTICLE_KEY, []);
 
     return Array.isArray(articles)
         ? articles
@@ -1234,24 +1223,16 @@ function getArticles() {
 
 }
 
-
 function saveArticles(articles) {
 
-    writeJSON(
-        ARTICLE_KEY,
-        articles
-    );
+    writeJSON(ARTICLE_KEY, articles);
 
 }
-
 
 function getTrash() {
 
     const trash =
-        readJSON(
-            TRASH_KEY,
-            []
-        );
+        readJSON(TRASH_KEY, []);
 
     return Array.isArray(trash)
         ? trash
@@ -1259,24 +1240,16 @@ function getTrash() {
 
 }
 
-
 function saveTrash(trash) {
 
-    writeJSON(
-        TRASH_KEY,
-        trash
-    );
+    writeJSON(TRASH_KEY, trash);
 
 }
-
 
 function getDrafts() {
 
     const drafts =
-        readJSON(
-            DRAFT_KEY,
-            []
-        );
+        readJSON(DRAFT_KEY, []);
 
     return Array.isArray(drafts)
         ? drafts
@@ -1284,16 +1257,11 @@ function getDrafts() {
 
 }
 
-
 function saveDrafts(drafts) {
 
-    writeJSON(
-        DRAFT_KEY,
-        drafts
-    );
+    writeJSON(DRAFT_KEY, drafts);
 
 }
-
 
 /* =========================================================
    ESCAPE HTML
@@ -1310,7 +1278,6 @@ function escapeHTML(value) {
 
 }
 
-
 /* =========================================================
    ADMIN LOG
 ========================================================= */
@@ -1319,6 +1286,13 @@ function adminLogMessage(message) {
 
     if (!adminLog) {
         return;
+    }
+
+    const emptyMessage =
+        adminLog.querySelector(".admin-log-empty");
+
+    if (emptyMessage) {
+        emptyMessage.remove();
     }
 
     const entry =
@@ -1333,7 +1307,6 @@ function adminLogMessage(message) {
     adminLog.prepend(entry);
 
 }
-
 
 /* =========================================================
    DASHBOARD
@@ -1367,7 +1340,6 @@ async function updateDashboard() {
 
 }
 
-
 /* =========================================================
    ARTICLE RENDER
 ========================================================= */
@@ -1381,7 +1353,6 @@ function renderArticles(filter = "") {
         String(filter || "")
             .trim()
             .toLowerCase();
-
 
     const results =
         query
@@ -1403,9 +1374,7 @@ function renderArticles(filter = "") {
             })
             : articles;
 
-
     articleTableBody.innerHTML = "";
-
 
     if (!results.length) {
 
@@ -1420,33 +1389,24 @@ function renderArticles(filter = "") {
         return;
     }
 
-
     results.forEach(article => {
 
         const row =
             document.createElement("tr");
-
 
         const status =
             article.status === "published"
                 ? "Published"
                 : "Draft";
 
-
         row.innerHTML = `
 
             <td>
-                ${escapeHTML(
-                    article.title ||
-                    "Untitled"
-                )}
+                ${escapeHTML(article.title || "Untitled")}
             </td>
 
             <td>
-                ${escapeHTML(
-                    article.category ||
-                    "History"
-                )}
+                ${escapeHTML(article.category || "History")}
             </td>
 
             <td>
@@ -1474,13 +1434,11 @@ function renderArticles(filter = "") {
 
         `;
 
-
         articleTableBody.appendChild(row);
 
     });
 
 }
-
 
 /* =========================================================
    EDIT ARTICLE
@@ -1494,15 +1452,12 @@ function editArticle(id) {
     const article =
         articles.find(
             item =>
-                String(item.id) ===
-                String(id)
+                String(item.id) === String(id)
         );
-
 
     if (!article) {
         return;
     }
-
 
     articleId.value =
         article.id || "";
@@ -1524,24 +1479,20 @@ function editArticle(id) {
             ? article.sources.join("\n")
             : article.sources || "";
 
-
     window.scrollTo({
         top:
-            document.querySelector(
-                "#articleForm"
-            ).getBoundingClientRect().top +
+            document.querySelector("#articleForm")
+                .getBoundingClientRect().top +
             window.scrollY -
             20,
         behavior: "smooth"
     });
-
 
     adminLogMessage(
         `Editing article: ${article.title || "Untitled"}`
     );
 
 }
-
 
 /* =========================================================
    SAVE ARTICLE
@@ -1553,15 +1504,12 @@ articleForm.addEventListener(
 
         event.preventDefault();
 
-
         const articles =
             getArticles();
-
 
         const id =
             articleId.value ||
             `article-${Date.now()}`;
-
 
         const article = {
 
@@ -1571,8 +1519,7 @@ articleForm.addEventListener(
                 articleTitle.value.trim(),
 
             category:
-                articleCategory.value.trim() ||
-                "History",
+                articleCategory.value.trim() || "History",
 
             description:
                 articleDescription.value.trim(),
@@ -1594,14 +1541,11 @@ articleForm.addEventListener(
 
         };
 
-
         const index =
             articles.findIndex(
                 item =>
-                    String(item.id) ===
-                    String(id)
+                    String(item.id) === String(id)
             );
-
 
         if (index >= 0) {
 
@@ -1624,7 +1568,6 @@ articleForm.addEventListener(
 
         }
 
-
         saveArticles(articles);
 
         clearArticleForm();
@@ -1636,7 +1579,6 @@ articleForm.addEventListener(
     }
 );
 
-
 /* =========================================================
    SAVE DRAFT
 ========================================================= */
@@ -1645,7 +1587,6 @@ function saveCurrentDraft() {
 
     const drafts =
         getDrafts();
-
 
     const draft = {
 
@@ -1657,8 +1598,7 @@ function saveCurrentDraft() {
             articleTitle.value.trim(),
 
         category:
-            articleCategory.value.trim() ||
-            "History",
+            articleCategory.value.trim() || "History",
 
         description:
             articleDescription.value.trim(),
@@ -1680,26 +1620,17 @@ function saveCurrentDraft() {
 
     };
 
-
     const index =
         drafts.findIndex(
             item =>
-                String(item.id) ===
-                String(draft.id)
+                String(item.id) === String(draft.id)
         );
 
-
     if (index >= 0) {
-
-        drafts[index] =
-            draft;
-
+        drafts[index] = draft;
     } else {
-
         drafts.push(draft);
-
     }
-
 
     saveDrafts(drafts);
 
@@ -1711,22 +1642,15 @@ function saveCurrentDraft() {
 
 }
 
-
-document.getElementById(
-    "saveDraftBtn"
-).addEventListener(
+document.getElementById("saveDraftBtn").addEventListener(
     "click",
     saveCurrentDraft
 );
 
-
-document.getElementById(
-    "saveDraftShortcut"
-).addEventListener(
+document.getElementById("saveDraftShortcut").addEventListener(
     "click",
     saveCurrentDraft
 );
-
 
 /* =========================================================
    CLEAR ARTICLE FORM
@@ -1740,14 +1664,10 @@ function clearArticleForm() {
 
 }
 
-
-document.getElementById(
-    "clearArticleBtn"
-).addEventListener(
+document.getElementById("clearArticleBtn").addEventListener(
     "click",
     clearArticleForm
 );
-
 
 /* =========================================================
    ARTICLE DELETE
@@ -1761,19 +1681,15 @@ function deleteArticle(id) {
     const index =
         articles.findIndex(
             item =>
-                String(item.id) ===
-                String(id)
+                String(item.id) === String(id)
         );
-
 
     if (index < 0) {
         return;
     }
 
-
     const article =
         articles[index];
-
 
     if (
         !confirm(
@@ -1783,41 +1699,29 @@ function deleteArticle(id) {
         return;
     }
 
-
-    articles.splice(
-        index,
-        1
-    );
-
+    articles.splice(index, 1);
 
     const trash =
         getTrash();
 
     trash.push({
         ...article,
-        deletedAt:
-            new Date().toISOString()
+        deletedAt: new Date().toISOString()
     });
-
 
     saveArticles(articles);
 
     saveTrash(trash);
 
-
     adminLogMessage(
         `Article moved to Trash: ${article.title || "Untitled"}`
     );
 
-
-    renderArticles(
-        articleSearch.value
-    );
+    renderArticles(articleSearch.value);
 
     updateDashboard();
 
 }
-
 
 /* =========================================================
    ARTICLE TABLE ACTIONS
@@ -1828,10 +1732,7 @@ articleTableBody.addEventListener(
     event => {
 
         const editButton =
-            event.target.closest(
-                "[data-edit-article]"
-            );
-
+            event.target.closest("[data-edit-article]");
 
         if (editButton) {
 
@@ -1842,12 +1743,8 @@ articleTableBody.addEventListener(
             return;
         }
 
-
         const deleteButton =
-            event.target.closest(
-                "[data-delete-article]"
-            );
-
+            event.target.closest("[data-delete-article]");
 
         if (deleteButton) {
 
@@ -1860,7 +1757,6 @@ articleTableBody.addEventListener(
     }
 );
 
-
 /* =========================================================
    SEARCH
 ========================================================= */
@@ -1868,61 +1764,40 @@ articleTableBody.addEventListener(
 articleSearch.addEventListener(
     "input",
     () => {
-
-        renderArticles(
-            articleSearch.value
-        );
-
+        renderArticles(articleSearch.value);
     }
 );
-
 
 /* =========================================================
    RESTORE ALL
 ========================================================= */
 
-document.getElementById(
-    "restoreAllBtn"
-).addEventListener(
+document.getElementById("restoreAllBtn").addEventListener(
     "click",
     () => {
 
         const trash =
             getTrash();
 
-
         if (!trash.length) {
-
-            alert(
-                "Trash is empty."
-            );
-
+            alert("Trash is empty.");
             return;
         }
 
-
-        if (
-            !confirm(
-                "Restore all deleted articles?"
-            )
-        ) {
+        if (!confirm("Restore all deleted articles?")) {
             return;
         }
-
 
         const articles =
             getArticles();
-
 
         trash.forEach(article => {
 
             const exists =
                 articles.some(
                     item =>
-                        String(item.id) ===
-                        String(article.id)
+                        String(item.id) === String(article.id)
                 );
-
 
             if (!exists) {
 
@@ -1932,24 +1807,17 @@ document.getElementById(
 
                 delete restored.deletedAt;
 
-                articles.push(
-                    restored
-                );
+                articles.push(restored);
 
             }
 
         });
 
-
         saveArticles(articles);
 
         saveTrash([]);
 
-
-        adminLogMessage(
-            "All deleted articles restored."
-        );
-
+        adminLogMessage("All deleted articles restored.");
 
         renderArticles();
 
@@ -1958,58 +1826,36 @@ document.getElementById(
     }
 );
 
-
 /* =========================================================
    BACKUP
 ========================================================= */
 
-document.getElementById(
-    "backupBtn"
-).addEventListener(
+document.getElementById("backupBtn").addEventListener(
     "click",
     () => {
 
         const backup = {
 
-            version:
-                "ALON HISTORYVERSE 24 V100",
+            version: "ALON HISTORYVERSE 24 V100",
 
-            exportedAt:
-                new Date().toISOString(),
+            exportedAt: new Date().toISOString(),
 
-            articles:
-                getArticles(),
+            articles: getArticles(),
 
-            trash:
-                getTrash(),
+            trash: getTrash(),
 
-            drafts:
-                getDrafts()
+            drafts: getDrafts()
 
         };
 
-
         const blob =
             new Blob(
-                [
-                    JSON.stringify(
-                        backup,
-                        null,
-                        2
-                    )
-                ],
-                {
-                    type:
-                        "application/json"
-                }
+                [JSON.stringify(backup, null, 2)],
+                { type: "application/json" }
             );
-
 
         const url =
-            URL.createObjectURL(
-                blob
-            );
-
+            URL.createObjectURL(blob);
 
         const link =
             document.createElement("a");
@@ -2021,141 +1867,83 @@ document.getElementById(
 
         link.click();
 
-
         URL.revokeObjectURL(url);
 
-
-        adminLogMessage(
-            "Article database backup exported."
-        );
+        adminLogMessage("Article database backup exported.");
 
     }
 );
-
 
 /* =========================================================
    IMPORT
 ========================================================= */
 
-document.getElementById(
-    "importBtn"
-).addEventListener(
+document.getElementById("importBtn").addEventListener(
     "click",
     () => {
-
-        document.getElementById(
-            "importFile"
-        ).click();
-
+        document.getElementById("importFile").click();
     }
 );
 
-
-document.getElementById(
-    "importFile"
-).addEventListener(
+document.getElementById("importFile").addEventListener(
     "change",
     event => {
 
         const file =
             event.target.files[0];
 
-
         if (!file) {
             return;
         }
 
-
         const reader =
             new FileReader();
 
+        reader.onload = () => {
 
-        reader.onload =
-            () => {
+            try {
 
-                try {
+                const backup =
+                    JSON.parse(reader.result);
 
-                    const backup =
-                        JSON.parse(
-                            reader.result
-                        );
-
-
-                    if (
-                        Array.isArray(
-                            backup.articles
-                        )
-                    ) {
-
-                        saveArticles(
-                            backup.articles
-                        );
-
-                    }
-
-
-                    if (
-                        Array.isArray(
-                            backup.trash
-                        )
-                    ) {
-
-                        saveTrash(
-                            backup.trash
-                        );
-
-                    }
-
-
-                    if (
-                        Array.isArray(
-                            backup.drafts
-                        )
-                    ) {
-
-                        saveDrafts(
-                            backup.drafts
-                        );
-
-                    }
-
-
-                    adminLogMessage(
-                        "Article backup imported."
-                    );
-
-
-                    renderArticles();
-
-                    updateDashboard();
-
-
-                } catch (error) {
-
-                    alert(
-                        "Invalid backup file."
-                    );
-
-                    console.error(error);
-
+                if (Array.isArray(backup.articles)) {
+                    saveArticles(backup.articles);
                 }
 
-            };
+                if (Array.isArray(backup.trash)) {
+                    saveTrash(backup.trash);
+                }
 
+                if (Array.isArray(backup.drafts)) {
+                    saveDrafts(backup.drafts);
+                }
+
+                adminLogMessage("Article backup imported.");
+
+                renderArticles();
+
+                updateDashboard();
+
+            } catch (error) {
+
+                alert("Invalid backup file.");
+
+                console.error(error);
+
+            }
+
+        };
 
         reader.readAsText(file);
 
     }
 );
 
-
 /* =========================================================
    CLEAR ALL ARTICLE DATA
 ========================================================= */
 
-document.getElementById(
-    "clearAllDataBtn"
-).addEventListener(
+document.getElementById("clearAllDataBtn").addEventListener(
     "click",
     () => {
 
@@ -2167,24 +1955,13 @@ document.getElementById(
             return;
         }
 
+        localStorage.removeItem(ARTICLE_KEY);
 
-        localStorage.removeItem(
-            ARTICLE_KEY
-        );
+        localStorage.removeItem(TRASH_KEY);
 
-        localStorage.removeItem(
-            TRASH_KEY
-        );
+        localStorage.removeItem(DRAFT_KEY);
 
-        localStorage.removeItem(
-            DRAFT_KEY
-        );
-
-
-        adminLogMessage(
-            "All article data cleared."
-        );
-
+        adminLogMessage("All article data cleared.");
 
         renderArticles();
 
@@ -2192,7 +1969,6 @@ document.getElementById(
 
     }
 );
-
 
 /* =========================================================
    MEDIA DATABASE
@@ -2207,7 +1983,6 @@ const MEDIA_DB_VERSION =
 const MEDIA_STORE =
     "media";
 
-
 let mediaDB = null;
 
 let selectedMediaFiles = [];
@@ -2215,7 +1990,6 @@ let selectedMediaFiles = [];
 let selectedObjectURLs = [];
 
 let savedObjectURLs = [];
-
 
 /* =========================================================
    OPEN INDEXEDDB
@@ -2226,9 +2000,7 @@ function openMediaDatabase() {
     return new Promise(
         (resolve, reject) => {
 
-            if (
-                !("indexedDB" in window)
-            ) {
+            if (!("indexedDB" in window)) {
 
                 reject(
                     new Error(
@@ -2239,67 +2011,45 @@ function openMediaDatabase() {
                 return;
             }
 
-
             const request =
                 indexedDB.open(
                     MEDIA_DB_NAME,
                     MEDIA_DB_VERSION
                 );
 
+            request.onupgradeneeded = event => {
 
-            request.onupgradeneeded =
-                event => {
+                const db =
+                    event.target.result;
 
-                    const db =
-                        event.target.result;
+                if (!db.objectStoreNames.contains(MEDIA_STORE)) {
 
-
-                    if (
-                        !db.objectStoreNames.contains(
-                            MEDIA_STORE
-                        )
-                    ) {
-
-                        db.createObjectStore(
-                            MEDIA_STORE,
-                            {
-                                keyPath:
-                                    "id"
-                            }
-                        );
-
-                    }
-
-                };
-
-
-            request.onsuccess =
-                event => {
-
-                    mediaDB =
-                        event.target.result;
-
-                    resolve(
-                        mediaDB
+                    db.createObjectStore(
+                        MEDIA_STORE,
+                        { keyPath: "id" }
                     );
 
-                };
+                }
 
+            };
 
-            request.onerror =
-                () => {
+            request.onsuccess = event => {
 
-                    reject(
-                        request.error
-                    );
+                mediaDB =
+                    event.target.result;
 
-                };
+                resolve(mediaDB);
+
+            };
+
+            request.onerror = () => {
+                reject(request.error);
+            };
 
         }
     );
 
 }
-
 
 /* =========================================================
    ADD MEDIA
@@ -2313,48 +2063,29 @@ function saveMediaRecord(record) {
             if (!mediaDB) {
 
                 reject(
-                    new Error(
-                        "Media database is not ready."
-                    )
+                    new Error("Media database is not ready.")
                 );
 
                 return;
             }
 
-
             const transaction =
-                mediaDB.transaction(
-                    MEDIA_STORE,
-                    "readwrite"
-                );
-
+                mediaDB.transaction(MEDIA_STORE, "readwrite");
 
             const store =
-                transaction.objectStore(
-                    MEDIA_STORE
-                );
-
+                transaction.objectStore(MEDIA_STORE);
 
             const request =
-                store.put(
-                    record
-                );
+                store.put(record);
 
+            request.onsuccess = () => resolve(true);
 
-            request.onsuccess =
-                () => resolve(true);
-
-
-            request.onerror =
-                () => reject(
-                    request.error
-                );
+            request.onerror = () => reject(request.error);
 
         }
     );
 
 }
-
 
 /* =========================================================
    GET ALL MEDIA
@@ -2366,58 +2097,37 @@ function getAllMedia() {
         (resolve, reject) => {
 
             if (!mediaDB) {
-
                 resolve([]);
-
                 return;
             }
 
-
             const transaction =
-                mediaDB.transaction(
-                    MEDIA_STORE,
-                    "readonly"
-                );
-
+                mediaDB.transaction(MEDIA_STORE, "readonly");
 
             const store =
-                transaction.objectStore(
-                    MEDIA_STORE
-                );
-
+                transaction.objectStore(MEDIA_STORE);
 
             const request =
                 store.getAll();
 
+            request.onsuccess = () => {
 
-            request.onsuccess =
-                () => {
+                resolve(
+                    Array.isArray(request.result)
+                        ? request.result
+                        : []
+                );
 
-                    resolve(
-                        Array.isArray(
-                            request.result
-                        )
-                            ? request.result
-                            : []
-                    );
+            };
 
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
+            request.onerror = () => {
+                reject(request.error);
+            };
 
         }
     );
 
 }
-
 
 /* =========================================================
    MEDIA COUNT
@@ -2432,7 +2142,6 @@ async function getMediaCount() {
 
 }
 
-
 /* =========================================================
    DELETE MEDIA
 ========================================================= */
@@ -2445,48 +2154,29 @@ function deleteMediaRecord(id) {
             if (!mediaDB) {
 
                 reject(
-                    new Error(
-                        "Media database is not ready."
-                    )
+                    new Error("Media database is not ready.")
                 );
 
                 return;
             }
 
-
             const transaction =
-                mediaDB.transaction(
-                    MEDIA_STORE,
-                    "readwrite"
-                );
-
+                mediaDB.transaction(MEDIA_STORE, "readwrite");
 
             const store =
-                transaction.objectStore(
-                    MEDIA_STORE
-                );
-
+                transaction.objectStore(MEDIA_STORE);
 
             const request =
-                store.delete(
-                    id
-                );
+                store.delete(id);
 
+            request.onsuccess = () => resolve(true);
 
-            request.onsuccess =
-                () => resolve(true);
-
-
-            request.onerror =
-                () => reject(
-                    request.error
-                );
+            request.onerror = () => reject(request.error);
 
         }
     );
 
 }
-
 
 /* =========================================================
    DELETE ALL MEDIA
@@ -2498,44 +2188,27 @@ function deleteAllMediaRecords() {
         (resolve, reject) => {
 
             if (!mediaDB) {
-
                 resolve(true);
-
                 return;
             }
 
-
             const transaction =
-                mediaDB.transaction(
-                    MEDIA_STORE,
-                    "readwrite"
-                );
-
+                mediaDB.transaction(MEDIA_STORE, "readwrite");
 
             const store =
-                transaction.objectStore(
-                    MEDIA_STORE
-                );
-
+                transaction.objectStore(MEDIA_STORE);
 
             const request =
                 store.clear();
 
+            request.onsuccess = () => resolve(true);
 
-            request.onsuccess =
-                () => resolve(true);
-
-
-            request.onerror =
-                () => reject(
-                    request.error
-                );
+            request.onerror = () => reject(request.error);
 
         }
     );
 
 }
-
 
 /* =========================================================
    FORMAT FILE SIZE
@@ -2547,40 +2220,20 @@ function formatFileSize(bytes) {
         return "0 B";
     }
 
-
-    const units =
-        [
-            "B",
-            "KB",
-            "MB",
-            "GB"
-        ];
-
+    const units = ["B", "KB", "MB", "GB"];
 
     const index =
         Math.min(
-            Math.floor(
-                Math.log(bytes) /
-                Math.log(1024)
-            ),
+            Math.floor(Math.log(bytes) / Math.log(1024)),
             units.length - 1
         );
 
-
     const value =
-        bytes /
-        Math.pow(
-            1024,
-            index
-        );
+        bytes / Math.pow(1024, index);
 
-
-    return `${value.toFixed(
-        index === 0 ? 0 : 2
-    )} ${units[index]}`;
+    return `${value.toFixed(index === 0 ? 0 : 2)} ${units[index]}`;
 
 }
-
 
 /* =========================================================
    MEDIA TYPE
@@ -2588,13 +2241,11 @@ function formatFileSize(bytes) {
 
 function getMediaKind(type) {
 
-    return String(type)
-        .startsWith("video/")
+    return String(type).startsWith("video/")
         ? "video"
         : "image";
 
 }
-
 
 /* =========================================================
    SELECTED MEDIA PREVIEW
@@ -2603,280 +2254,173 @@ function getMediaKind(type) {
 function clearSelectedObjectURLs() {
 
     selectedObjectURLs.forEach(
-        url =>
-            URL.revokeObjectURL(url)
+        url => URL.revokeObjectURL(url)
     );
 
     selectedObjectURLs = [];
 
 }
 
-
 function renderSelectedMedia() {
 
     clearSelectedObjectURLs();
 
-
     const preview =
-        document.getElementById(
-            "mediaPreview"
-        );
+        document.getElementById("mediaPreview");
 
     const status =
-        document.getElementById(
-            "selectedMediaStatus"
-        );
+        document.getElementById("selectedMediaStatus");
 
     const saveButton =
-        document.getElementById(
-            "saveMediaBtn"
-        );
-
+        document.getElementById("saveMediaBtn");
 
     preview.innerHTML = "";
 
-
     if (!selectedMediaFiles.length) {
 
-        status.textContent =
-            "No media selected.";
+        status.textContent = "No media selected.";
 
-        saveButton.disabled =
-            true;
+        saveButton.disabled = true;
 
         return;
     }
 
-
     status.textContent =
         `${selectedMediaFiles.length} file(s) selected.`;
 
+    saveButton.disabled = false;
 
-    saveButton.disabled =
-        false;
+    selectedMediaFiles.forEach((file, index) => {
 
+        const item =
+            document.createElement("div");
 
-    selectedMediaFiles.forEach(
-        (file, index) => {
+        item.className =
+            "media-preview-item";
 
-            const item =
-                document.createElement(
-                    "div"
-                );
+        const url =
+            URL.createObjectURL(file);
 
-            item.className =
-                "media-preview-item";
+        selectedObjectURLs.push(url);
 
+        let mediaElement;
 
-            const url =
-                URL.createObjectURL(
-                    file
-                );
+        if (file.type.startsWith("video/")) {
 
+            mediaElement =
+                document.createElement("video");
 
-            selectedObjectURLs.push(
-                url
-            );
+            mediaElement.controls = true;
 
+            mediaElement.preload = "metadata";
 
-            let mediaElement;
+        } else {
 
+            mediaElement =
+                document.createElement("img");
 
-            if (
-                file.type.startsWith(
-                    "video/"
-                )
-            ) {
-
-                mediaElement =
-                    document.createElement(
-                        "video"
-                    );
-
-                mediaElement.controls =
-                    true;
-
-                mediaElement.preload =
-                    "metadata";
-
-            } else {
-
-                mediaElement =
-                    document.createElement(
-                        "img"
-                    );
-
-                mediaElement.alt =
-                    file.name;
-
-            }
-
-
-            mediaElement.src =
-                url;
-
-
-            const info =
-                document.createElement(
-                    "div"
-                );
-
-            info.className =
-                "media-preview-info";
-
-
-            info.innerHTML = `
-
-                <strong>
-                    ${escapeHTML(file.name)}
-                </strong>
-
-                <small>
-                    ${escapeHTML(file.type)}
-                    •
-                    ${formatFileSize(file.size)}
-                </small>
-
-            `;
-
-
-            const actions =
-                document.createElement(
-                    "div"
-                );
-
-            actions.className =
-                "media-preview-actions";
-
-
-            const removeButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            removeButton.type =
-                "button";
-
-            removeButton.textContent =
-                "✖ Remove";
-
-
-            removeButton.addEventListener(
-                "click",
-                () => {
-
-                    selectedMediaFiles.splice(
-                        index,
-                        1
-                    );
-
-                    renderSelectedMedia();
-
-                }
-            );
-
-
-            actions.appendChild(
-                removeButton
-            );
-
-
-            item.appendChild(
-                mediaElement
-            );
-
-            item.appendChild(
-                info
-            );
-
-            item.appendChild(
-                actions
-            );
-
-
-            preview.appendChild(
-                item
-            );
+            mediaElement.alt = file.name;
 
         }
-    );
+
+        mediaElement.src = url;
+
+        const info =
+            document.createElement("div");
+
+        info.className = "media-preview-info";
+
+        info.innerHTML = `
+
+            <strong>${escapeHTML(file.name)}</strong>
+
+            <small>
+                ${escapeHTML(file.type)}
+                •
+                ${formatFileSize(file.size)}
+            </small>
+
+        `;
+
+        const actions =
+            document.createElement("div");
+
+        actions.className =
+            "media-preview-actions";
+
+        const removeButton =
+            document.createElement("button");
+
+        removeButton.type = "button";
+
+        removeButton.textContent = "✖ Remove";
+
+        removeButton.addEventListener(
+            "click",
+            () => {
+
+                selectedMediaFiles.splice(index, 1);
+
+                renderSelectedMedia();
+
+            }
+        );
+
+        actions.appendChild(removeButton);
+
+        item.appendChild(mediaElement);
+
+        item.appendChild(info);
+
+        item.appendChild(actions);
+
+        preview.appendChild(item);
+
+    });
 
 }
-
 
 /* =========================================================
    FILE INPUT
 ========================================================= */
 
 const mediaInput =
-    document.getElementById(
-        "mediaInput"
-    );
-
+    document.getElementById("mediaInput");
 
 function chooseMedia(type) {
 
-    if (type === "image") {
+    mediaInput.accept =
+        type === "image" ? "image/*" : "video/*";
 
-        mediaInput.accept =
-            "image/*";
-
-    } else {
-
-        mediaInput.accept =
-            "video/*";
-
-    }
-
-
-    mediaInput.multiple =
-        true;
+    mediaInput.multiple = true;
 
     mediaInput.click();
 
 }
 
-
 /* Existing controls */
 
-document.getElementById(
-    "imageSelectBtn"
-).addEventListener(
+document.getElementById("imageSelectBtn").addEventListener(
     "click",
-    () =>
-        chooseMedia("image")
+    () => chooseMedia("image")
 );
 
-
-document.getElementById(
-    "videoSelectBtn"
-).addEventListener(
+document.getElementById("videoSelectBtn").addEventListener(
     "click",
-    () =>
-        chooseMedia("video")
+    () => chooseMedia("video")
 );
-
 
 /* Additional media controls */
 
-document.getElementById(
-    "imageSelectBtn2"
-).addEventListener(
+document.getElementById("imageSelectBtn2").addEventListener(
     "click",
-    () =>
-        chooseMedia("image")
+    () => chooseMedia("image")
 );
 
-
-document.getElementById(
-    "videoSelectBtn2"
-).addEventListener(
+document.getElementById("videoSelectBtn2").addEventListener(
     "click",
-    () =>
-        chooseMedia("video")
+    () => chooseMedia("video")
 );
-
 
 /* =========================================================
    FILE CHANGE
@@ -2887,93 +2431,62 @@ mediaInput.addEventListener(
     event => {
 
         const files =
-            Array.from(
-                event.target.files || []
-            );
-
+            Array.from(event.target.files || []);
 
         selectedMediaFiles =
             files.filter(
                 file =>
-                    file.type.startsWith(
-                        "image/"
-                    ) ||
-                    file.type.startsWith(
-                        "video/"
-                    )
+                    file.type.startsWith("image/") ||
+                    file.type.startsWith("video/")
             );
-
 
         renderSelectedMedia();
 
     }
 );
-
 
 /* =========================================================
    CLEAR SELECTED
 ========================================================= */
 
-document.getElementById(
-    "clearMediaBtn"
-).addEventListener(
+document.getElementById("clearMediaBtn").addEventListener(
     "click",
     () => {
 
-        selectedMediaFiles =
-            [];
+        selectedMediaFiles = [];
 
-        mediaInput.value =
-            "";
+        mediaInput.value = "";
 
         renderSelectedMedia();
 
-        adminLogMessage(
-            "Selected media cleared."
-        );
+        adminLogMessage("Selected media cleared.");
 
     }
 );
-
 
 /* =========================================================
    SAVE SELECTED MEDIA
 ========================================================= */
 
-document.getElementById(
-    "saveMediaBtn"
-).addEventListener(
+document.getElementById("saveMediaBtn").addEventListener(
     "click",
     async () => {
 
-        if (
-            !selectedMediaFiles.length
-        ) {
+        if (!selectedMediaFiles.length) {
 
-            alert(
-                "Please select an image or video first."
-            );
+            alert("Please select an image or video first.");
 
             return;
         }
 
-
         const saveButton =
-            document.getElementById(
-                "saveMediaBtn"
-            );
+            document.getElementById("saveMediaBtn");
 
-
-        saveButton.disabled =
-            true;
-
+        saveButton.disabled = true;
 
         try {
 
-            for (
-                const file of
-                selectedMediaFiles
-            ) {
+            for (const file of selectedMediaFiles) {
 
                 const record = {
 
@@ -2982,46 +2495,31 @@ document.getElementById(
                             .toString(36)
                             .slice(2, 10)}`,
 
-                    name:
-                        file.name,
+                    name: file.name,
 
-                    type:
-                        file.type,
+                    type: file.type,
 
-                    size:
-                        file.size,
+                    size: file.size,
 
-                    createdAt:
-                        new Date().toISOString(),
+                    createdAt: new Date().toISOString(),
 
-                    kind:
-                        getMediaKind(
-                            file.type
-                        ),
+                    kind: getMediaKind(file.type),
 
-                    blob:
-                        file
+                    blob: file
 
                 };
 
-
-                await saveMediaRecord(
-                    record
-                );
+                await saveMediaRecord(record);
 
             }
-
 
             adminLogMessage(
                 `${selectedMediaFiles.length} media file(s) saved.`
             );
 
+            selectedMediaFiles = [];
 
-            selectedMediaFiles =
-                [];
-
-            mediaInput.value =
-                "";
+            mediaInput.value = "";
 
             renderSelectedMedia();
 
@@ -3029,11 +2527,7 @@ document.getElementById(
 
             await updateDashboard();
 
-
-            alert(
-                "Media saved successfully."
-            );
-
+            alert("Media saved successfully.");
 
         } catch (error) {
 
@@ -3043,15 +2537,12 @@ document.getElementById(
                 "Media save failed. Please check browser storage permission."
             );
 
-
-            saveButton.disabled =
-                false;
+            saveButton.disabled = false;
 
         }
 
     }
 );
-
 
 /* =========================================================
    SAVED MEDIA RENDER
@@ -3060,42 +2551,30 @@ document.getElementById(
 function clearSavedObjectURLs() {
 
     savedObjectURLs.forEach(
-        url =>
-            URL.revokeObjectURL(url)
+        url => URL.revokeObjectURL(url)
     );
 
     savedObjectURLs = [];
 
 }
 
-
 async function renderSavedMedia() {
 
     clearSavedObjectURLs();
 
-
     const container =
-        document.getElementById(
-            "savedMediaGrid"
-        );
-
+        document.getElementById("savedMediaGrid");
 
     const records =
         await getAllMedia();
 
-
     records.sort(
         (a, b) =>
             String(b.createdAt || "")
-                .localeCompare(
-                    String(a.createdAt || "")
-                )
+                .localeCompare(String(a.createdAt || ""))
     );
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML = "";
 
     if (!records.length) {
 
@@ -3118,232 +2597,158 @@ async function renderSavedMedia() {
         return;
     }
 
+    records.forEach(record => {
 
-    records.forEach(
-        record => {
+        const card =
+            document.createElement("article");
 
-            const card =
-                document.createElement(
-                    "article"
-                );
+        card.className =
+            "saved-media-card";
 
-            card.className =
-                "saved-media-card";
+        const url =
+            URL.createObjectURL(record.blob);
 
+        savedObjectURLs.push(url);
 
-            const url =
-                URL.createObjectURL(
-                    record.blob
-                );
+        let mediaElement;
 
+        if (record.kind === "video") {
 
-            savedObjectURLs.push(
-                url
-            );
+            mediaElement =
+                document.createElement("video");
 
+            mediaElement.controls = true;
 
-            let mediaElement;
+            mediaElement.preload = "metadata";
 
+        } else {
 
-            if (
-                record.kind ===
-                "video"
-            ) {
+            mediaElement =
+                document.createElement("img");
 
-                mediaElement =
-                    document.createElement(
-                        "video"
-                    );
+            mediaElement.alt = record.name;
 
-                mediaElement.controls =
-                    true;
-
-                mediaElement.preload =
-                    "metadata";
-
-            } else {
-
-                mediaElement =
-                    document.createElement(
-                        "img"
-                    );
-
-                mediaElement.alt =
-                    record.name;
-
-                mediaElement.loading =
-                    "lazy";
-
-            }
-
-
-            mediaElement.src =
-                url;
-
-
-            const body =
-                document.createElement(
-                    "div"
-                );
-
-            body.className =
-                "saved-media-body";
-
-
-            body.innerHTML = `
-
-                <div class="saved-media-name">
-                    ${escapeHTML(record.name)}
-                </div>
-
-                <div class="saved-media-meta">
-
-                    ${record.kind === "video"
-                        ? "🎥 Video"
-                        : "🖼️ Image"}
-
-                    <br>
-
-                    Type:
-                    ${escapeHTML(record.type)}
-
-                    <br>
-
-                    Size:
-                    ${formatFileSize(record.size)}
-
-                    <br>
-
-                    Saved:
-                    ${new Date(
-                        record.createdAt
-                    ).toLocaleString()}
-
-                </div>
-
-            `;
-
-
-            const actions =
-                document.createElement(
-                    "div"
-                );
-
-            actions.className =
-                "saved-media-actions";
-
-
-            const deleteButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            deleteButton.type =
-                "button";
-
-            deleteButton.className =
-                "danger-button";
-
-            deleteButton.textContent =
-                "🗑️ Delete";
-
-
-            deleteButton.addEventListener(
-                "click",
-                async () => {
-
-                    if (
-                        !confirm(
-                            `Delete "${record.name}" from Media Library?`
-                        )
-                    ) {
-                        return;
-                    }
-
-
-                    try {
-
-                        await deleteMediaRecord(
-                            record.id
-                        );
-
-
-                        adminLogMessage(
-                            `Media deleted: ${record.name}`
-                        );
-
-
-                        await renderSavedMedia();
-
-                        await updateDashboard();
-
-
-                    } catch (error) {
-
-                        console.error(error);
-
-                        alert(
-                            "Unable to delete media."
-                        );
-
-                    }
-
-                }
-            );
-
-
-            actions.appendChild(
-                deleteButton
-            );
-
-
-            card.appendChild(
-                mediaElement
-            );
-
-            card.appendChild(
-                body
-            );
-
-            card.appendChild(
-                actions
-            );
-
-
-            container.appendChild(
-                card
-            );
+            mediaElement.loading = "lazy";
 
         }
-    );
+
+        mediaElement.src = url;
+
+        const body =
+            document.createElement("div");
+
+        body.className = "saved-media-body";
+
+        body.innerHTML = `
+
+            <div class="saved-media-name">
+                ${escapeHTML(record.name)}
+            </div>
+
+            <div class="saved-media-meta">
+
+                ${record.kind === "video" ? "🎥 Video" : "🖼️ Image"}
+
+                <br>
+
+                Type:
+                ${escapeHTML(record.type)}
+
+                <br>
+
+                Size:
+                ${formatFileSize(record.size)}
+
+                <br>
+
+                Saved:
+                ${new Date(record.createdAt).toLocaleString()}
+
+            </div>
+
+        `;
+
+        const actions =
+            document.createElement("div");
+
+        actions.className =
+            "saved-media-actions";
+
+        const deleteButton =
+            document.createElement("button");
+
+        deleteButton.type = "button";
+
+        deleteButton.className = "danger-button";
+
+        deleteButton.textContent = "🗑️ Delete";
+
+        deleteButton.addEventListener(
+            "click",
+            async () => {
+
+                if (
+                    !confirm(
+                        `Delete "${record.name}" from Media Library?`
+                    )
+                ) {
+                    return;
+                }
+
+                try {
+
+                    await deleteMediaRecord(record.id);
+
+                    adminLogMessage(
+                        `Media deleted: ${record.name}`
+                    );
+
+                    await renderSavedMedia();
+
+                    await updateDashboard();
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert("Unable to delete media.");
+
+                }
+
+            }
+        );
+
+        actions.appendChild(deleteButton);
+
+        card.appendChild(mediaElement);
+
+        card.appendChild(body);
+
+        card.appendChild(actions);
+
+        container.appendChild(card);
+
+    });
 
 }
-
 
 /* =========================================================
    DELETE ALL SAVED MEDIA
 ========================================================= */
 
-document.getElementById(
-    "clearAllSavedMediaBtn"
-).addEventListener(
+document.getElementById("clearAllSavedMediaBtn").addEventListener(
     "click",
     async () => {
 
         const count =
             await getMediaCount();
 
-
         if (!count) {
 
-            alert(
-                "There is no saved media to delete."
-            );
+            alert("There is no saved media to delete.");
 
             return;
         }
-
 
         if (
             !confirm(
@@ -3353,40 +2758,30 @@ document.getElementById(
             return;
         }
 
-
         try {
 
             await deleteAllMediaRecords();
-
 
             adminLogMessage(
                 `All saved media deleted: ${count} file(s).`
             );
 
-
             await renderSavedMedia();
 
             await updateDashboard();
 
-
-            alert(
-                "All saved media deleted."
-            );
-
+            alert("All saved media deleted.");
 
         } catch (error) {
 
             console.error(error);
 
-            alert(
-                "Unable to clear Media Library."
-            );
+            alert("Unable to clear Media Library.");
 
         }
 
     }
 );
-
 
 /* =========================================================
    DATABASE INITIALIZATION
@@ -3402,24 +2797,14 @@ async function initializeMediaSystem() {
 
         await updateDashboard();
 
-        adminLogMessage(
-            "Media Library initialized."
-        );
-
+        adminLogMessage("Media Library initialized.");
 
     } catch (error) {
 
-        console.error(
-            "Media database error:",
-            error
-        );
-
+        console.error("Media database error:", error);
 
         const container =
-            document.getElementById(
-                "savedMediaGrid"
-            );
-
+            document.getElementById("savedMediaGrid");
 
         container.innerHTML = `
 
@@ -3441,7 +2826,6 @@ async function initializeMediaSystem() {
 
 }
 
-
 /* =========================================================
    INITIAL LOAD
 ========================================================= */
@@ -3459,7 +2843,6 @@ document.addEventListener(
     }
 );
 
-
 /* =========================================================
    PAGE EXIT
 ========================================================= */
@@ -3476,7 +2859,6 @@ window.addEventListener(
 );
 
 </script>
-
 
 </body>
 
