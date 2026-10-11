@@ -1,1107 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
-
-    <meta
-        name="description"
-        content="ALON HISTORYVERSE 24 World Tourist Places — explore public tourist destinations and official source information from around the world."
-    >
-
-    <meta
-        name="theme-color"
-        content="#05080f"
-    >
-
-    <title>World Tourist Places • ALON HISTORYVERSE 24</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            background: #05080f;
-            color: #f4f4f4;
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button,
-        input {
-            font: inherit;
-        }
-
-        /* =========================================
-           HEADER
-        ========================================= */
-
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
-            width: 100%;
-
-            background:
-                rgba(5, 8, 15, 0.96);
-
-            border-bottom:
-                1px solid rgba(215, 179, 90, 0.28);
-
-            backdrop-filter:
-                blur(12px);
-
-            -webkit-backdrop-filter:
-                blur(12px);
-        }
-
-        .topbar-inner {
-            width: min(1400px, 94%);
-            margin: auto;
-
-            min-height: 72px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 16px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            min-width: 0;
-        }
-
-        .brand-logo {
-            width: 46px;
-            height: 46px;
-
-            object-fit: contain;
-
-            border-radius: 12px;
-        }
-
-        .brand-text {
-            min-width: 0;
-        }
-
-        .brand-title {
-            color: #f0d27a;
-
-            font-size: 18px;
-            font-weight: 800;
-
-            letter-spacing: 0.5px;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .brand-subtitle {
-            margin-top: 3px;
-
-            color: #a9b0bd;
-
-            font-size: 11px;
-            letter-spacing: 0.8px;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            min-height: 42px;
-            padding: 0 15px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.45);
-
-            border-radius: 12px;
-
-            color: #f0d27a;
-
-            background:
-                rgba(215, 179, 90, 0.07);
-
-            cursor: pointer;
-
-            transition:
-                0.2s ease;
-        }
-
-        .back-btn:hover {
-            background:
-                rgba(215, 179, 90, 0.16);
-
-            transform:
-                translateY(-1px);
-        }
-
-        /* =========================================
-           HERO
-        ========================================= */
-
-        .hero {
-            width: min(1400px, 94%);
-            margin: auto;
-
-            padding:
-                38px 0 24px;
-        }
-
-        .hero-title {
-            color: #f0d27a;
-
-            font-size:
-                clamp(28px, 5vw, 56px);
-
-            line-height: 1.08;
-
-            font-weight: 900;
-
-            letter-spacing: -1px;
-        }
-
-        .hero-title span {
-            color: #ffffff;
-        }
-
-        .hero-description {
-            max-width: 850px;
-
-            margin-top: 14px;
-
-            color: #b7becb;
-
-            font-size:
-                clamp(14px, 2vw, 18px);
-
-            line-height: 1.7;
-        }
-
-        .hero-note {
-            margin-top: 16px;
-
-            display: inline-flex;
-            align-items: center;
-
-            gap: 8px;
-
-            padding: 9px 13px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.25);
-
-            border-radius: 999px;
-
-            color: #d9dce2;
-
-            background:
-                rgba(255, 255, 255, 0.035);
-
-            font-size: 12px;
-        }
-
-        /* =========================================
-           SEARCH
-        ========================================= */
-
-        .search-panel {
-            width: min(1400px, 94%);
-            margin: 0 auto 25px;
-
-            display: flex;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            flex: 1 1 300px;
-
-            min-height: 50px;
-
-            padding:
-                0 16px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.3);
-
-            border-radius: 14px;
-
-            outline: none;
-
-            color: #ffffff;
-
-            background:
-                #0b111c;
-        }
-
-        .search-box::placeholder {
-            color: #7f8998;
-        }
-
-        .search-box:focus {
-            border-color:
-                rgba(240, 210, 122, 0.75);
-
-            box-shadow:
-                0 0 0 3px rgba(215, 179, 90, 0.08);
-        }
-
-        .search-btn,
-        .clear-btn {
-            min-height: 50px;
-
-            padding:
-                0 20px;
-
-            border-radius: 14px;
-
-            cursor: pointer;
-
-            transition:
-                0.2s ease;
-        }
-
-        .search-btn {
-            border:
-                1px solid #d7b35a;
-
-            color: #05080f;
-
-            background:
-                #d7b35a;
-
-            font-weight: 800;
-        }
-
-        .search-btn:hover {
-            background:
-                #f0d27a;
-
-            transform:
-                translateY(-1px);
-        }
-
-        .clear-btn {
-            border:
-                1px solid rgba(255, 255, 255, 0.16);
-
-            color: #d9dce2;
-
-            background:
-                rgba(255, 255, 255, 0.04);
-        }
-
-        .clear-btn:hover {
-            background:
-                rgba(255, 255, 255, 0.08);
-        }
-
-        /* =========================================
-           AI SEARCH
-        ========================================= */
-
-        .ai-panel {
-            width: min(1400px, 94%);
-            margin: 0 auto 28px;
-
-            padding: 17px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.22);
-
-            border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(215, 179, 90, 0.08),
-                    rgba(255, 255, 255, 0.025)
-                );
-        }
-
-        .ai-panel-title {
-            color: #f0d27a;
-
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-        .ai-panel-text {
-            margin-top: 6px;
-
-            color: #929baa;
-
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-        .ai-input-row {
-            display: flex;
-
-            gap: 9px;
-
-            margin-top: 12px;
-
-            flex-wrap: wrap;
-        }
-
-        .ai-input {
-            flex: 1 1 260px;
-
-            min-height: 45px;
-
-            padding:
-                0 13px;
-
-            border:
-                1px solid rgba(255, 255, 255, 0.12);
-
-            border-radius: 12px;
-
-            outline: none;
-
-            color: #fff;
-
-            background:
-                #080d16;
-        }
-
-        .ai-btn {
-            min-height: 45px;
-
-            padding:
-                0 17px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.45);
-
-            border-radius: 12px;
-
-            color: #f0d27a;
-
-            background:
-                rgba(215, 179, 90, 0.08);
-
-            cursor: pointer;
-
-            font-weight: 700;
-        }
-
-        .ai-btn:hover {
-            background:
-                rgba(215, 179, 90, 0.15);
-        }
-
-        .ai-result {
-            display: none;
-
-            margin-top: 12px;
-
-            padding: 12px;
-
-            border-radius: 11px;
-
-            color: #c9ced7;
-
-            background:
-                rgba(0, 0, 0, 0.22);
-
-            font-size: 12px;
-
-            line-height: 1.6;
-        }
-
-        /* =========================================
-           TOURIST PLACES
-        ========================================= */
-
-        #touristPlaces {
-            width: min(1400px, 94%);
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(280px, 1fr)
-                );
-
-            gap: 20px;
-        }
-
-        .tourist-card {
-            min-height: 280px;
-
-            padding: 20px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.2);
-
-            border-radius: 24px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #0a101b,
-                    #070b13
-                );
-
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.32);
-
-            transition:
-                0.2s ease;
-        }
-
-        .tourist-card:hover {
-            transform:
-                translateY(-3px);
-
-            border-color:
-                rgba(215, 179, 90, 0.38);
-        }
-
-        .tourist-icon {
-            width: 58px;
-            height: 58px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.3);
-
-            border-radius: 16px;
-
-            color: #f0d27a;
-
-            background:
-                rgba(215, 179, 90, 0.08);
-
-            font-size: 27px;
-        }
-
-        .tourist-location {
-            margin-top: 18px;
-
-            color: #f0d27a;
-
-            font-size:
-                clamp(22px, 4vw, 32px);
-
-            font-weight: 900;
-        }
-
-        .tourist-country {
-            margin-top: 5px;
-
-            color: #aeb5c1;
-
-            font-size: 14px;
-        }
-
-        .tourist-description {
-            margin-top: 12px;
-
-            color: #9ca5b3;
-
-            line-height: 1.7;
-
-            font-size: 13px;
-        }
-
-        .tourist-category {
-            margin-top: 14px;
-
-            color: #7f8998;
-
-            font-size: 11px;
-        }
-
-        .official-source {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            min-height: 42px;
-
-            margin-top: 17px;
-
-            padding:
-                0 15px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.45);
-
-            border-radius: 11px;
-
-            color: #f0d27a;
-
-            background:
-                rgba(215, 179, 90, 0.07);
-
-            font-size: 12px;
-
-            font-weight: 700;
-        }
-
-        .official-source:hover {
-            background:
-                rgba(215, 179, 90, 0.15);
-        }
-
-        /* =========================================
-           EMPTY STATE
-        ========================================= */
-
-        .empty-state {
-            display: none;
-
-            width: min(1400px, 94%);
-            margin: 0 auto;
-
-            padding: 45px 20px;
-
-            text-align: center;
-
-            border:
-                1px solid rgba(255,255,255,0.1);
-
-            border-radius: 20px;
-
-            color: #a9b0bd;
-
-            background:
-                rgba(255,255,255,0.025);
-        }
-
-        .empty-state h2 {
-            color: #f0d27a;
-
-            margin-bottom: 8px;
-        }
-
-        /* =========================================
-           FOOTER
-        ========================================= */
-
-        footer {
-            width: min(1400px, 94%);
-            margin: 35px auto 0;
-
-            padding:
-                35px 0 45px;
-
-            border-top:
-                1px solid rgba(255,255,255,0.08);
-
-            color: #737d8d;
-
-            text-align: center;
-
-            font-size: 12px;
-
-            line-height: 1.8;
-        }
-
-        footer strong {
-            color: #a9b0bd;
-        }
-
-        /* =========================================
-           FLOATING THREE-DOT BUTTON
-        ========================================= */
-
-        .side-dots {
-            position: fixed;
-
-            right: 15px;
-            top: 50%;
-
-            transform:
-                translateY(-50%);
-
-            z-index: 1500;
-
-            width: 48px;
-            height: 48px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.55);
-
-            border-radius: 50%;
-
-            color: #f0d27a;
-
-            background:
-                rgba(5, 8, 15, 0.94);
-
-            box-shadow:
-                0 8px 30px rgba(0,0,0,0.45);
-
-            cursor: pointer;
-
-            font-size: 25px;
-
-            transition:
-                0.2s ease;
-        }
-
-        .side-dots:hover {
-            transform:
-                translateY(-50%) scale(1.06);
-
-            background:
-                rgba(215, 179, 90, 0.12);
-        }
-
-        /* =========================================
-           SIDE MENU
-        ========================================= */
-
-        .side-panel {
-            position: fixed;
-
-            right: 15px;
-            top: 50%;
-
-            transform:
-                translateY(-50%)
-                translateX(120%);
-
-            z-index: 1499;
-
-            width: min(320px, calc(100vw - 30px));
-
-            padding: 18px;
-
-            border:
-                1px solid rgba(215, 179, 90, 0.3);
-
-            border-radius: 20px;
-
-            background:
-                rgba(7, 11, 19, 0.98);
-
-            box-shadow:
-                0 20px 60px rgba(0,0,0,0.55);
-
-            transition:
-                0.25s ease;
-        }
-
-        .side-panel.open {
-            transform:
-                translateY(-50%)
-                translateX(0);
-        }
-
-        .side-panel h3 {
-            color: #f0d27a;
-
-            margin-bottom: 10px;
-        }
-
-        .side-panel p {
-            color: #929baa;
-
-            font-size: 12px;
-
-            line-height: 1.6;
-
-            margin-bottom: 14px;
-        }
-
-        .side-panel button {
-            width: 100%;
-
-            min-height: 43px;
-
-            margin-top: 8px;
-
-            border:
-                1px solid rgba(255,255,255,0.12);
-
-            border-radius: 11px;
-
-            color: #d9dce2;
-
-            background:
-                rgba(255,255,255,0.04);
-
-            cursor: pointer;
-        }
-
-        .side-panel button:hover {
-            background:
-                rgba(215,179,90,0.1);
-
-            color: #f0d27a;
-        }
-
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
-
-        @media (max-width: 700px) {
-
-            .topbar-inner {
-                min-height: 64px;
-            }
-
-            .brand-logo {
-                width: 40px;
-                height: 40px;
-            }
-
-            .brand-title {
-                font-size: 14px;
-            }
-
-            .brand-subtitle {
-                font-size: 9px;
-            }
-
-            .back-btn {
-                min-height: 38px;
-
-                padding:
-                    0 11px;
-
-                font-size: 12px;
-            }
-
-            .hero {
-                padding-top: 27px;
-            }
-
-            #touristPlaces {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .tourist-card {
-                padding: 17px;
-
-                border-radius: 17px;
-            }
-
-            .side-dots {
-                right: 10px;
-
-                width: 44px;
-                height: 44px;
-            }
-
-            .side-panel {
-                right: 10px;
-            }
-
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="ALON HISTORYVERSE 24 World Tourist Places and World Heritage directory with city weather, public maps, heritage information and public live-camera directories.">
+  <meta name="theme-color" content="#05080f">
+  <title>World Tourist Places • ALON HISTORYVERSE 24</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{min-height:100vh;background:#05080f;color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    .topbar{position:sticky;top:0;z-index:1000;width:100%;background:rgba(5,8,15,.96);border-bottom:1px solid rgba(215,179,90,.28);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+    .topbar-inner{width:min(1400px,94%);margin:auto;min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .brand-logo{width:46px;height:46px;object-fit:contain;border-radius:12px}
+    .brand-text{min-width:0}
+    .brand-title{color:#f0d27a;font-size:18px;font-weight:800;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .brand-subtitle{margin-top:3px;color:#a9b0bd;font-size:11px;letter-spacing:.8px}
+    .back-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border:1px solid rgba(215,179,90,.45);border-radius:12px;color:#f0d27a;background:rgba(215,179,90,.07);cursor:pointer;transition:.2s}
+    .back-btn:hover{background:rgba(215,179,90,.16);transform:translateY(-1px)}
+    .hero{width:min(1400px,94%);margin:auto;padding:38px 0 24px}
+    .hero-title{color:#f0d27a;font-size:clamp(28px,5vw,56px);line-height:1.08;font-weight:900;letter-spacing:-1px}
+    .hero-title span{color:#fff}
+    .hero-description{max-width:850px;margin-top:14px;color:#b7becb;font-size:clamp(14px,2vw,18px);line-height:1.7}
+    .hero-note{margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid rgba(215,179,90,.25);border-radius:999px;color:#d9dce2;background:rgba(255,255,255,.035);font-size:12px}
+    .location-panel{width:min(1400px,94%);margin:0 auto 20px;padding:18px;border:1px solid rgba(215,179,90,.28);border-radius:20px;background:linear-gradient(135deg,rgba(215,179,90,.09),rgba(255,255,255,.025))}
+    .panel-heading{color:#f0d27a;font-size:15px;font-weight:800;margin-bottom:13px}
+    .location-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field-card{padding:14px;border-radius:15px;min-width:0}
+    .country-field{background:#0c1421;border:1px solid rgba(215,179,90,.55)}
+    .city-field{background:#11101b;border:1px solid rgba(127,164,222,.55)}
+    .field-label{display:block;font-size:12px;font-weight:800;letter-spacing:.7px;margin-bottom:8px}
+    .country-field .field-label{color:#f0d27a}
+    .city-field .field-label{color:#a9c8ff}
+    .country-select,.city-select,.heritage-select{width:100%;min-height:48px;padding:0 13px;border-radius:11px;outline:none;color:#fff;cursor:pointer}
+    .country-select{border:1px solid rgba(215,179,90,.48);background:#080d16}
+    .city-select{border:1px solid rgba(127,164,222,.5);background:#0a1020}
+    .country-select:focus,.city-select:focus,.heritage-select:focus{box-shadow:0 0 0 3px rgba(215,179,90,.12)}
+    select option{background:#0b111c;color:#fff}
+    .selection-hint{margin-top:8px;color:#8994a5;font-size:11px;line-height:1.5}
+    .weather-panel{margin-top:14px;padding:15px;border:1px solid rgba(96,180,220,.28);border-radius:14px;background:rgba(36,109,150,.08)}
+    .weather-title{color:#a8e1ff;font-size:14px;font-weight:800}
+    .weather-content{margin-top:8px;color:#c7d4df;font-size:13px;line-height:1.8}
+    .weather-content strong{color:#f0d27a}
+    .weather-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .search-panel{width:min(1400px,94%);margin:0 auto 20px;display:flex;gap:10px;flex-wrap:wrap}
+    .search-box{flex:1 1 280px;min-height:50px;padding:0 16px;border:1px solid rgba(215,179,90,.3);border-radius:14px;outline:none;color:#fff;background:#0b111c}
+    .search-box::placeholder{color:#7f8998}
+    .search-box:focus{border-color:rgba(240,210,122,.75);box-shadow:0 0 0 3px rgba(215,179,90,.08)}
+    .search-btn,.clear-btn,.ai-btn{min-height:48px;padding:0 18px;border-radius:13px;cursor:pointer;transition:.2s}
+    .search-btn{border:1px solid #d7b35a;color:#05080f;background:#d7b35a;font-weight:800}
+    .search-btn:hover{background:#f0d27a}
+    .clear-btn{border:1px solid rgba(255,255,255,.16);color:#d9dce2;background:rgba(255,255,255,.04)}
+    .clear-btn:hover{background:rgba(255,255,255,.08)}
+    .filter-panel{width:min(1400px,94%);margin:0 auto 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .filter-label{color:#aeb7c5;font-size:12px;font-weight:700}
+    .heritage-select{width:auto;min-width:220px;min-height:44px;border:1px solid rgba(215,179,90,.3);background:#0b111c}
+    .ai-panel{width:min(1400px,94%);margin:0 auto 28px;padding:17px;border:1px solid rgba(215,179,90,.22);border-radius:18px;background:linear-gradient(135deg,rgba(215,179,90,.08),rgba(255,255,255,.025))}
+    .ai-panel-title{color:#f0d27a;font-size:15px;font-weight:800}
+    .ai-panel-text{margin-top:6px;color:#929baa;font-size:12px;line-height:1.6}
+    .ai-input-row{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
+    .ai-input{flex:1 1 260px;min-height:45px;padding:0 13px;border:1px solid rgba(255,255,255,.12);border-radius:12px;outline:none;color:#fff;background:#080d16}
+    .ai-btn{border:1px solid rgba(215,179,90,.45);color:#f0d27a;background:rgba(215,179,90,.08);font-weight:700}
+    .ai-btn:hover{background:rgba(215,179,90,.15)}
+    .ai-result{display:none;margin-top:12px;padding:12px;border-radius:11px;color:#c9ced7;background:rgba(0,0,0,.22);font-size:12px;line-height:1.6}
+    .section-heading{width:min(1400px,94%);margin:28px auto 14px;color:#f0d27a;font-size:clamp(20px,3vw,28px);font-weight:900}
+    .section-subtitle{width:min(1400px,94%);margin:-5px auto 16px;color:#929baa;font-size:12px;line-height:1.6}
+    .tourist-count{width:min(1400px,94%);margin:0 auto 15px;color:#929baa;font-size:12px}
+    #touristPlaces{width:min(1400px,94%);margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .tourist-card{min-height:280px;padding:20px;border:1px solid rgba(215,179,90,.2);border-radius:24px;background:linear-gradient(145deg,#0a101b,#070b13);box-shadow:0 20px 60px rgba(0,0,0,.32);transition:.2s}
+    .tourist-card:hover{transform:translateY(-3px);border-color:rgba(215,179,90,.38)}
+    .tourist-icon{width:58px;height:58px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(215,179,90,.3);border-radius:16px;color:#f0d27a;background:rgba(215,179,90,.08);font-size:27px}
+    .tourist-location{margin-top:18px;color:#f0d27a;font-size:clamp(22px,4vw,30px);font-weight:900}
+    .tourist-country{margin-top:5px;color:#aeb5c1;font-size:14px}
+    .tourist-description{margin-top:12px;color:#9ca5b3;line-height:1.7;font-size:13px}
+    .tourist-category{margin-top:14px;color:#7f8998;font-size:11px}
+    .heritage-badge{display:inline-flex;margin-top:10px;padding:6px 9px;border:1px solid rgba(126,195,157,.35);border-radius:999px;color:#9ee0b8;background:rgba(55,140,90,.09);font-size:10px;font-weight:800}
+    .tourist-live-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .tourist-action-btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 12px;border:1px solid rgba(215,179,90,.35);border-radius:10px;color:#f0d27a;background:rgba(215,179,90,.07);text-decoration:none;font-size:12px;font-weight:700;cursor:pointer}
+    .tourist-action-btn:hover{background:rgba(215,179,90,.16)}
+    .tourist-weather{display:none;margin-top:13px;padding:12px;border:1px solid rgba(255,255,255,.09);border-radius:12px;color:#c9ced7;background:rgba(0,0,0,.2);font-size:12px;line-height:1.7}
+    .tourist-weather strong{color:#f0d27a}
+    .tourist-camera-note{margin-top:12px;color:#929baa;font-size:11px;line-height:1.6}
+    .official-source{display:inline-flex;align-items:center;justify-content:center;min-height:42px;margin-top:17px;padding:0 15px;border:1px solid rgba(215,179,90,.45);border-radius:11px;color:#f0d27a;background:rgba(215,179,90,.07);font-size:12px;font-weight:700}
+    .official-source:hover{background:rgba(215,179,90,.15)}
+    .camera-directory{width:min(1400px,94%);margin:30px auto 0;padding:19px;border:1px solid rgba(215,179,90,.24);border-radius:18px;background:#090f19}
+    .camera-directory h2{color:#f0d27a;font-size:20px}
+    .camera-directory p{margin-top:8px;color:#9ca5b3;font-size:12px;line-height:1.7}
+    .camera-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .empty-state{display:none;width:min(1400px,94%);margin:0 auto;padding:45px 20px;text-align:center;border:1px solid rgba(255,255,255,.1);border-radius:20px;color:#a9b0bd;background:rgba(255,255,255,.025)}
+    .empty-state h2{color:#f0d27a;margin-bottom:8px}
+    footer{width:min(1400px,94%);margin:35px auto 0;padding:35px 0 45px;border-top:1px solid rgba(255,255,255,.08);color:#737d8d;text-align:center;font-size:12px;line-height:1.8}
+    footer strong{color:#a9b0bd}
+    .side-dots{position:fixed;right:15px;top:50%;transform:translateY(-50%);z-index:1500;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(215,179,90,.55);border-radius:50%;color:#f0d27a;background:rgba(5,8,15,.94);box-shadow:0 8px 30px rgba(0,0,0,.45);cursor:pointer;font-size:25px;transition:.2s}
+    .side-dots:hover{transform:translateY(-50%) scale(1.06);background:rgba(215,179,90,.12)}
+    .side-panel{position:fixed;right:15px;top:50%;transform:translateY(-50%) translateX(120%);z-index:1499;width:min(320px,calc(100vw - 30px));padding:18px;border:1px solid rgba(215,179,90,.3);border-radius:20px;background:rgba(7,11,19,.98);box-shadow:0 20px 60px rgba(0,0,0,.55);transition:.25s}
+    .side-panel.open{transform:translateY(-50%) translateX(0)}
+    .side-panel h3{color:#f0d27a;margin-bottom:10px}
+    .side-panel p{color:#929baa;font-size:12px;line-height:1.6;margin-bottom:14px}
+    .side-panel button{width:100%;min-height:43px;margin-top:8px;border:1px solid rgba(255,255,255,.12);border-radius:11px;color:#d9dce2;background:rgba(255,255,255,.04);cursor:pointer}
+    .side-panel button:hover{background:rgba(215,179,90,.1);color:#f0d27a}
+    @media(max-width:700px){
+      .topbar-inner{min-height:64px}
+      .brand-logo{width:40px;height:40px}
+      .brand-title{font-size:14px}
+      .brand-subtitle{font-size:9px}
+      .back-btn{min-height:38px;padding:0 11px;font-size:12px}
+      .hero{padding-top:27px}
+      .location-fields{grid-template-columns:1fr}
+      .field-card{padding:12px}
+      #touristPlaces{grid-template-columns:1fr}
+      .tourist-card{padding:17px;border-radius:17px}
+      .side-dots{right:10px;width:44px;height:44px}
+      .side-panel{right:10px}
+      .heritage-select{width:100%}
+      .filter-panel{align-items:stretch;flex-direction:column}
+    }
+  </style>
 </head>
-
 <body>
-
-    <!-- =========================================
-         HEADER
-    ========================================= -->
-
-    <header class="topbar">
-
-        <div class="topbar-inner">
-
-            <a
-                class="brand"
-                href="./index.html"
-                aria-label="ALON HISTORYVERSE 24 Home"
-            >
-
-                <img
-                    class="brand-logo"
-                    src="./historyverse-logo.svg"
-                    alt="ALON HISTORYVERSE 24"
-                >
-
-                <div class="brand-text">
-
-                    <div class="brand-title">
-                        ALON HISTORYVERSE 24
-                    </div>
-
-                    <div class="brand-subtitle">
-                        WORLD TOURIST PLACES
-                    </div>
-
-                </div>
-
-            </a>
-
-            <a
-                class="back-btn"
-                href="./index.html"
-            >
-                ← Back
-            </a>
-
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./index.html" aria-label="ALON HISTORYVERSE 24 Home">
+        <img class="brand-logo" src="./historyverse-logo.svg" alt="ALON HISTORYVERSE 24">
+        <div class="brand-text">
+          <div class="brand-title">ALON HISTORYVERSE 24</div>
+          <div class="brand-subtitle">WORLD TOURIST PLACES & HERITAGE</div>
         </div>
+      </a>
+      <a class="back-btn" href="./index.html">← Back</a>
+    </div>
+  </header>
 
-    </header>
+  <main>
+    <section class="hero">
+      <h1 class="hero-title">World <span>Tourist Places</span></h1>
+      <p class="hero-description">Explore public tourist destinations and World Heritage landmarks, check live weather for supported cities, open public maps, and find public live-camera directories. Camera links open the provider's website; availability can change.</p>
+      <div class="hero-note">🌍 Public tourist places • World Heritage • Weather • Public cameras</div>
+    </section>
 
-
-    <!-- =========================================
-         HERO
-    ========================================= -->
-
-    <main>
-
-        <section class="hero">
-
-            <h1 class="hero-title">
-                World <span>Tourist Places</span>
-            </h1>
-
-            <p class="hero-description">
-                Explore famous tourist destinations, landmarks,
-                monuments, beaches, city squares, heritage sites,
-                scenic places, and other public sightseeing locations
-                from around the world.
-            </p>
-
-            <div class="hero-note">
-                🌍 Public tourist places and official sources only
-            </div>
-
-        </section>
-
-
-        <!-- =====================================
-             SEARCH
-        ===================================== -->
-
-        <section class="search-panel">
-
-            <input
-                id="placeSearch"
-                class="search-box"
-                type="search"
-                autocomplete="off"
-                placeholder="Search city, country or tourist place..."
-                aria-label="Search tourist places"
-            >
-
-            <button
-                id="searchBtn"
-                class="search-btn"
-                type="button"
-            >
-                🔎 Search
-            </button>
-
-            <button
-                id="clearBtn"
-                class="clear-btn"
-                type="button"
-            >
-                Clear
-            </button>
-
-        </section>
-
-
-        <!-- =====================================
-             AI SEARCH
-        ===================================== -->
-
-        <section class="ai-panel">
-
-            <div class="ai-panel-title">
-                🤖 AI Tourist Place Discovery
-            </div>
-
-            <div class="ai-panel-text">
-                Search naturally for a city, country, landmark or
-                tourist destination. AI searches only the approved
-                ALON HISTORYVERSE 24 tourist-place directory.
-            </div>
-
-            <div class="ai-input-row">
-
-                <input
-                    id="aiSearch"
-                    class="ai-input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Try: show me tourist places in New York"
-                >
-
-                <button
-                    id="aiBtn"
-                    class="ai-btn"
-                    type="button"
-                >
-                    🤖 AI Search
-                </button>
-
-            </div>
-
-            <div
-                id="aiResult"
-                class="ai-result"
-            ></div>
-
-        </section>
-
-
-        <!-- =====================================
-             TOURIST PLACES
-        ===================================== -->
-
-        <section id="touristPlaces"></section>
-
-        <div
-            id="emptyState"
-            class="empty-state"
-        >
-            <h2>🌎 No matching tourist place found</h2>
-
-            <p>
-                Try another city, country or destination. New public
-                tourist places can be added to the directory after
-                their information and official source have been verified.
-            </p>
+    <section class="location-panel" aria-label="Choose country and city">
+      <div class="panel-heading">📍 Choose your destination</div>
+      <div class="location-fields">
+        <div class="field-card country-field">
+          <label class="field-label" for="countrySelect">🌐 1. SELECT COUNTRY</label>
+          <select id="countrySelect" class="country-select" aria-label="Select country">
+            <option value="">All countries</option>
+          </select>
+          <p class="selection-hint">Choose a country first. This box uses a gold country selector.</p>
         </div>
+        <div class="field-card city-field">
+          <label class="field-label" for="citySelect">🏙️ 2. SELECT CITY</label>
+          <select id="citySelect" class="city-select" aria-label="Select city" disabled>
+            <option value="">Choose a country first</option>
+          </select>
+          <p class="selection-hint">Cities update for the selected country. This box has a separate blue city-selector design.</p>
+        </div>
+      </div>
+      <div class="weather-panel" aria-live="polite">
+        <div class="weather-title">🌦 City Weather</div>
+        <div id="cityWeather" class="weather-content">Select a country and city to load current weather. Weather needs an internet connection.</div>
+        <div class="weather-actions">
+          <button id="weatherBtn" class="tourist-action-btn" type="button" disabled>🌦 Load City Weather</button>
+        </div>
+      </div>
+    </section>
 
-    </main>
+    <section class="search-panel" aria-label="Search destinations">
+      <input id="placeSearch" class="search-box" type="search" autocomplete="off" placeholder="Search city, country, tourist place or heritage site..." aria-label="Search tourist places">
+      <button id="searchBtn" class="search-btn" type="button">🔎 Search</button>
+      <button id="clearBtn" class="clear-btn" type="button">Clear</button>
+    </section>
 
+    <section class="filter-panel" aria-label="Destination type filter">
+      <label class="filter-label" for="heritageFilter">SHOW DESTINATIONS</label>
+      <select id="heritageFilter" class="heritage-select">
+        <option value="all">All tourist places and heritage</option>
+        <option value="heritage">World Heritage / historic sites</option>
+        <option value="tourist">Other tourist places</option>
+      </select>
+    </section>
 
-    <!-- =========================================
-         FLOATING THREE-DOT BUTTON
-    ========================================= -->
+    <section class="ai-panel">
+      <div class="ai-panel-title">🤖 AI Tourist Place Discovery</div>
+      <div class="ai-panel-text">Search naturally for a city, country, landmark or heritage site. This searches the ALON directory stored in this file; it is not a remote generative AI service and will not invent entries.</div>
+      <div class="ai-input-row">
+        <input id="aiSearch" class="ai-input" type="text" autocomplete="off" placeholder="Try: show me heritage places in India">
+        <button id="aiBtn" class="ai-btn" type="button">🤖 AI Search</button>
+      </div>
+      <div id="aiResult" class="ai-result" aria-live="polite"></div>
+    </section>
 
-    <button
-        id="sideDots"
-        class="side-dots"
-        type="button"
-        aria-label="World Tourist Places menu"
-        aria-expanded="false"
-    >
-        ⋮
-    </button>
+    <h2 class="section-heading">🌍 Tourist Places & World Heritage</h2>
+    <p class="section-subtitle">Heritage labels indicate known UNESCO World Heritage or historically significant places; check the official source for current visitor rules and formal designation details.</p>
+    <div id="touristCount" class="tourist-count" aria-live="polite"></div>
+    <section id="touristPlaces" aria-label="Tourist places and heritage results"></section>
+    <div id="emptyState" class="empty-state">
+      <h2>🌎 No matching destination found</h2>
+      <p>Try another city, country or destination. A missing result means it is not yet in this local directory, not that the place does not exist.</p>
+    </div>
 
+    <section class="camera-directory">
+      <h2>📹 Public Live Camera Directories</h2>
+      <p>These public directories list camera feeds for selected landmarks and heritage destinations. A directory may not have a live feed for every place, and feeds can be unavailable or removed by their providers. ALON does not embed or claim control of external cameras.</p>
+      <div class="camera-links">
+        <a class="tourist-action-btn" href="https://www.skylinewebcams.com/en/live-cams-category/unesco-cams.html" target="_blank" rel="noopener noreferrer">📹 SkylineWebcams — UNESCO</a>
+        <a class="tourist-action-btn" href="https://liveworldwebcams.com/category/themes/world-heritage-sites/" target="_blank" rel="noopener noreferrer">📹 Live World Webcams — Heritage</a>
+        <a class="tourist-action-btn" href="https://tripplanning.org/live-cams/categories/heritage-landmarks/" target="_blank" rel="noopener noreferrer">📹 Heritage & Landmark Cameras</a>
+      </div>
+    </section>
+  </main>
 
-    <!-- =========================================
-         SIDE PANEL
-    ========================================= -->
+  <button id="sideDots" class="side-dots" type="button" aria-label="World Tourist Places menu" aria-expanded="false">⋮</button>
+  <aside id="sidePanel" class="side-panel" aria-hidden="true">
+    <h3>🌍 World Tourist Places</h3>
+    <p>Explore public tourist destinations, historic sites, current city weather and public camera directories. Private or unauthorized camera systems are not included.</p>
+    <button id="scrollTopBtn" type="button">↑ Top</button>
+    <button id="focusSearchBtn" type="button">🔎 Search Tourist Places</button>
+    <button id="focusCountryBtn" type="button">🌐 Choose Country / City</button>
+    <button id="closePanelBtn" type="button">Close</button>
+  </aside>
 
-    <aside
-        id="sidePanel"
-        class="side-panel"
-        aria-hidden="true"
-    >
-
-        <h3>
-            🌍 World Tourist Places
-        </h3>
-
-        <p>
-            Explore public tourist destinations and sightseeing
-            locations. Private, restricted, security, military and
-            unauthorized camera systems are not included.
-        </p>
-
-        <button
-            id="scrollTopBtn"
-            type="button"
-        >
-            ↑ Top
-        </button>
-
-        <button
-            id="focusSearchBtn"
-            type="button"
-        >
-            🔎 Search Tourist Places
-        </button>
-
-        <button
-            id="closePanelBtn"
-            type="button"
-        >
-            Close
-        </button>
-
-    </aside>
-
-
-    <!-- =========================================
-         FOOTER
-    ========================================= -->
-
-    <footer>
-
-        <strong>
-            ALON HISTORYVERSE 24
-        </strong>
-
-        <br>
-
-        World Tourist Places • Explore the world from anywhere
-
-        <br>
-
-        Tourist-place information and external sources remain the
-        property of their respective owners and organizations.
-
-    </footer>
-
-
-    <!-- =========================================
-         EXTERNAL TOURIST PLACES JAVASCRIPT
-         Keep world-tourist-places.js in the same
-         root directory as this HTML file.
-    ========================================= -->
-
-    <script src="./world-tourist-places.js" defer></script>
-
+  <footer>
+    <strong>ALON HISTORYVERSE 24</strong><br>
+    World Tourist Places • World Heritage • City Weather<br>
+    External sources, maps and camera feeds belong to their respective providers. Weather is provided by Open-Meteo and may not replace official local warnings.
+  </footer>
+  <script src="./world-tourist-places.js" defer></script>
 </body>
 </html>

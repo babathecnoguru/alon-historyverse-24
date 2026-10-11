@@ -1,1043 +1,778 @@
+
 /*
 ============================================================
  ALON HISTORYVERSE 24
- WORLD TOURIST PLACES
+ WORLD TOURIST PLACES & WORLD HERITAGE
  File: world-tourist-places.js
- Version: 1.0.0
+ Version: 2.1.0
  Owner: Baba Thecno Guru
 
- FEATURES
- -----------------------------------------------------------
- 1. Verified public tourist-place directory
- 2. Search by place, city, country and category
- 3. AI-style local directory discovery
- 4. Live weather using Open-Meteo
- 5. Public map links using OpenStreetMap
- 6. Official source links
- 7. Optional authorized live-camera links
- 8. Mobile-friendly results
- 9. Safe HTML rendering
- 10. No API key required for Open-Meteo's public endpoints
-
- IMPORTANT
- -----------------------------------------------------------
- Weather and maps require internet access.
- Live cameras appear only for entries with a configured,
- verified public camera URL. This file does not invent
- camera feeds or bypass access restrictions.
+ Includes:
+ - Separate Country and City selectors
+ - City list filtered by selected country
+ - Current city weather via Open-Meteo (no API key)
+ - Tourist and World Heritage directory filters
+ - Search and local-directory AI-style discovery
+ - OpenStreetMap links and official source links
+ - Public live-camera directory links
+ - Camera links shown on every destination card
+ - No unauthorized video embedding or rebroadcasting
+ - Safe text rendering and responsive cards
 ============================================================
 */
-
 "use strict";
 
-/* =========================================================
-   VERIFIED PUBLIC DESTINATION DIRECTORY
-
-   Camera links are intentionally empty until verified.
-   Coordinates identify public tourist destinations.
-========================================================= */
-
 const TOURIST_PLACES = [
-    {
-        id: "eiffel-tower",
-        city: "Paris",
-        country: "France",
-        place: "Eiffel Tower",
-        category: "Landmark",
-        description: "Famous Paris landmark with visitor information and views across the city.",
-        source: "https://www.toureiffel.paris/en",
-        sourceName: "Official Eiffel Tower",
-        latitude: 48.8584,
-        longitude: 2.2945,
-        tags: ["paris", "france", "tower", "landmark", "europe"]
-    },
-    {
-        id: "colosseum",
-        city: "Rome",
-        country: "Italy",
-        place: "Colosseum",
-        category: "Historical Monument",
-        description: "Ancient Roman amphitheatre. Check official visitor information before travelling.",
-        source: "https://colosseo.it/en/",
-        sourceName: "Colosseum Archaeological Park",
-        latitude: 41.8902,
-        longitude: 12.4922,
-        tags: ["rome", "italy", "history", "ancient", "monument"]
-    },
-    {
-        id: "statue-of-liberty",
-        city: "New York",
-        country: "United States",
-        place: "Statue of Liberty",
-        category: "Monument",
-        description: "Historic monument in New York Harbor with official visitor and park information.",
-        source: "https://www.nps.gov/stli/index.htm",
-        sourceName: "US National Park Service",
-        latitude: 40.6892,
-        longitude: -74.0445,
-        tags: ["new york", "usa", "united states", "liberty", "monument"]
-    },
-    {
-        id: "sydney-opera-house",
-        city: "Sydney",
-        country: "Australia",
-        place: "Sydney Opera House",
-        category: "Architecture",
-        description: "Landmark performing arts venue. Explore official visits, performances and events.",
-        source: "https://www.sydneyoperahouse.com/",
-        sourceName: "Sydney Opera House",
-        latitude: -33.8568,
-        longitude: 151.2153,
-        tags: ["sydney", "australia", "opera", "harbour", "architecture"]
-    },
-    {
-        id: "taj-mahal",
-        city: "Agra",
-        country: "India",
-        place: "Taj Mahal",
-        category: "World Heritage Monument",
-        description: "World-famous Mughal-era monument. Verify current visiting rules and timings before travel.",
-        source: "https://asi.nic.in/",
-        sourceName: "Archaeological Survey of India",
-        latitude: 27.1751,
-        longitude: 78.0421,
-        tags: ["agra", "india", "taj", "heritage", "history"]
-    },
-    {
-        id: "gateway-of-india",
-        city: "Mumbai",
-        country: "India",
-        place: "Gateway of India",
-        category: "Landmark",
-        description: "Popular public waterfront landmark in Mumbai.",
-        source: "https://maharashtratourism.gov.in/",
-        sourceName: "Maharashtra Tourism",
-        latitude: 18.9220,
-        longitude: 72.8347,
-        tags: ["mumbai", "india", "gateway", "waterfront"]
-    },
-    {
-        id: "burj-khalifa",
-        city: "Dubai",
-        country: "United Arab Emirates",
-        place: "Burj Khalifa",
-        category: "Architecture",
-        description: "Iconic Dubai skyscraper. Consult the official site for visitor experiences and access.",
-        source: "https://www.burjkhalifa.ae/",
-        sourceName: "Burj Khalifa",
-        latitude: 25.1972,
-        longitude: 55.2744,
-        tags: ["dubai", "uae", "united arab emirates", "skyscraper"]
-    },
-    {
-        id: "mount-fuji",
-        city: "Fujinomiya",
-        country: "Japan",
-        place: "Mount Fuji",
-        category: "Natural Landmark",
-        description: "Japan's celebrated mountain. Conditions, access and climbing rules vary by season.",
-        source: "https://www.japan.travel/en/",
-        sourceName: "Japan National Tourism Organization",
-        latitude: 35.3606,
-        longitude: 138.7274,
-        tags: ["japan", "fuji", "mountain", "nature", "volcano"]
-    },
-    {
-        id: "times-square",
-        city: "New York",
-        country: "United States",
-        place: "Times Square",
-        category: "Public Square",
-        description: "Famous Manhattan public entertainment district.",
-        source: "https://www.timessquarenyc.org/",
-        sourceName: "Times Square Alliance",
-        latitude: 40.7580,
-        longitude: -73.9855,
-        tags: ["new york", "usa", "manhattan", "square", "city"]
-    },
-    {
-        id: "christ-the-redeemer",
-        city: "Rio de Janeiro",
-        country: "Brazil",
-        place: "Christ the Redeemer",
-        category: "Monument",
-        description: "Landmark statue overlooking Rio de Janeiro. Check official visitor arrangements before travelling.",
-        source: "https://riotur.rio/",
-        sourceName: "Rio Tourism",
-        latitude: -22.9519,
-        longitude: -43.2105,
-        tags: ["rio", "brazil", "statue", "monument", "mountain"]
-    },
-    {
-        id: "sagrada-familia",
-        city: "Barcelona",
-        country: "Spain",
-        place: "Sagrada Família",
-        category: "Architecture",
-        description: "Renowned basilica in Barcelona. Consult the official site for tickets and access.",
-        source: "https://sagradafamilia.org/en/",
-        sourceName: "Sagrada Família",
-        latitude: 41.4036,
-        longitude: 2.1744,
-        tags: ["barcelona", "spain", "basilica", "architecture"]
-    },
-    {
-        id: "niagara-falls",
-        city: "Niagara Falls",
-        country: "Canada",
-        place: "Niagara Falls",
-        category: "Natural Attraction",
-        description: "Famous waterfall destination. Check official local visitor information for current access.",
-        source: "https://www.niagaraparks.com/",
-        sourceName: "Niagara Parks",
-        latitude: 43.0828,
-        longitude: -79.0742,
-        tags: ["canada", "waterfall", "nature", "niagara"]
-    }
+  {id:"eiffel-tower",city:"Paris",country:"France",place:"Eiffel Tower",category:"Landmark",description:"Famous Paris landmark with visitor information and views across the city.",source:"https://www.toureiffel.paris/en",sourceName:"Official Eiffel Tower",latitude:48.8584,longitude:2.2945,heritage:false,tags:["tower","landmark","europe"]},
+  {id:"colosseum",city:"Rome",country:"Italy",place:"Colosseum",category:"UNESCO World Heritage",description:"Ancient Roman amphitheatre and a major archaeological landmark.",source:"https://colosseo.it/en/",sourceName:"Colosseum Archaeological Park",latitude:41.8902,longitude:12.4922,heritage:true,tags:["history","ancient","monument"]},
+  {id:"venice-grand-canal",city:"Venice",country:"Italy",place:"Grand Canal and Rialto Bridge",category:"Historic Cityscape",description:"Venice's celebrated canal and bridge area in its historic lagoon city.",source:"https://www.veneziaunica.it/en",sourceName:"Official Venice Tourism",latitude:45.4408,longitude:12.3359,heritage:true,tags:["rialto","canal","bridge"]},
+  {id:"piazza-san-marco",city:"Venice",country:"Italy",place:"Piazza San Marco",category:"Historic Square",description:"Venice's famous public square beside St Mark's Basilica and the Doge's Palace.",source:"https://www.veneziaunica.it/en",sourceName:"Official Venice Tourism",latitude:45.4342,longitude:12.3388,heritage:true,tags:["st marks","basilica","square"]},
+  {id:"florence-cathedral",city:"Florence",country:"Italy",place:"Florence Cathedral and Historic Centre",category:"UNESCO World Heritage",description:"Historic Florence centre, known for Renaissance architecture and the cathedral complex.",source:"https://www.feelflorence.it/en",sourceName:"Feel Florence Tourism",latitude:43.7731,longitude:11.2560,heritage:true,tags:["duomo","renaissance"]},
+  {id:"pisa-tower",city:"Pisa",country:"Italy",place:"Leaning Tower of Pisa",category:"UNESCO World Heritage",description:"The famous leaning bell tower in Piazza del Duomo, part of a protected historic complex.",source:"https://www.opapisa.it/en/",sourceName:"Opera della Primaziale Pisana",latitude:43.7230,longitude:10.3966,heritage:true,tags:["pisa tower","piazza dei miracoli"]},
+  {id:"siena-piazza",city:"Siena",country:"Italy",place:"Piazza del Campo",category:"Historic Square",description:"Medieval shell-shaped main square in the historic Tuscan city of Siena.",source:"https://www.visittuscany.com/en/places/siena/",sourceName:"Visit Tuscany",latitude:43.3188,longitude:11.3308,heritage:true,tags:["medieval","tuscany"]},
+  {id:"matera-sassi",city:"Matera",country:"Italy",place:"Sassi di Matera",category:"UNESCO World Heritage",description:"Historic cave-dwelling districts and stone-built urban landscape.",source:"https://www.basilicataturistica.it/",sourceName:"Basilicata Tourism",latitude:40.6664,longitude:16.6043,heritage:true,tags:["cave houses","historic"]},
+  {id:"mount-etna",city:"Catania",country:"Italy",place:"Mount Etna",category:"UNESCO Natural Heritage",description:"Active volcanic landscape. Check official alerts and access conditions before visiting.",source:"https://www.visitsicily.info/en/",sourceName:"Visit Sicily",latitude:37.7510,longitude:14.9934,heritage:true,tags:["volcano","nature","sicily"]},
+  {id:"statue-of-liberty",city:"New York",country:"United States",place:"Statue of Liberty",category:"Monument",description:"Historic monument in New York Harbor with official visitor and park information.",source:"https://www.nps.gov/stli/index.htm",sourceName:"US National Park Service",latitude:40.6892,longitude:-74.0445,heritage:false,tags:["usa","liberty","monument"]},
+  {id:"times-square",city:"New York",country:"United States",place:"Times Square",category:"Public Square",description:"Famous Manhattan public entertainment district and city landmark.",source:"https://www.timessquarenyc.org/",sourceName:"Times Square Alliance",latitude:40.7580,longitude:-73.9855,heritage:false,tags:["manhattan","square","city"]},
+  {id:"grand-canyon",city:"Grand Canyon Village",country:"United States",place:"Grand Canyon National Park",category:"UNESCO Natural Heritage",description:"Vast canyon landscape with official park alerts, visitor guidance and viewpoints.",source:"https://www.nps.gov/grca/index.htm",sourceName:"Grand Canyon National Park",latitude:36.0544,longitude:-112.1401,heritage:true,tags:["nature","canyon","national park"]},
+  {id:"sydney-opera-house",city:"Sydney",country:"Australia",place:"Sydney Opera House",category:"UNESCO World Heritage",description:"Landmark performing arts venue on Sydney Harbour; explore official visits and events.",source:"https://www.sydneyoperahouse.com/",sourceName:"Sydney Opera House",latitude:-33.8568,longitude:151.2153,heritage:true,tags:["harbour","architecture"]},
+  {id:"taj-mahal",city:"Agra",country:"India",place:"Taj Mahal",category:"UNESCO World Heritage",description:"Mughal-era marble mausoleum and one of India's best-known heritage monuments.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:27.1751,longitude:78.0421,heritage:true,tags:["mughal","history","marble"]},
+  {id:"agra-fort",city:"Agra",country:"India",place:"Agra Fort",category:"UNESCO World Heritage",description:"Historic Mughal fort complex in Agra. Check official visitor notices before travel.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:27.1795,longitude:78.0211,heritage:true,tags:["fort","mughal"]},
+  {id:"qutub-minar",city:"Delhi",country:"India",place:"Qutb Minar Complex",category:"UNESCO World Heritage",description:"Historic complex featuring the Qutb Minar and important early Indo-Islamic architecture.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:28.5245,longitude:77.1855,heritage:true,tags:["delhi","minar","monument"]},
+  {id:"red-fort",city:"Delhi",country:"India",place:"Red Fort",category:"UNESCO World Heritage",description:"Historic Mughal fortification and major heritage landmark in Old Delhi.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:28.6562,longitude:77.2410,heritage:true,tags:["lal qila","mughal","fort"]},
+  {id:"hampi",city:"Hampi",country:"India",place:"Group of Monuments at Hampi",category:"UNESCO World Heritage",description:"Extensive historic remains of the Vijayanagara capital in a dramatic boulder landscape.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:15.3350,longitude:76.4600,heritage:true,tags:["karnataka","ruins","vijayanagara"]},
+  {id:"khajuraho",city:"Khajuraho",country:"India",place:"Khajuraho Group of Monuments",category:"UNESCO World Heritage",description:"Historic temple group known for its architecture and detailed stone sculpture.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:24.8318,longitude:79.9199,heritage:true,tags:["temples","madhya pradesh"]},
+  {id:"sanchi",city:"Sanchi",country:"India",place:"Buddhist Monuments at Sanchi",category:"UNESCO World Heritage",description:"Important Buddhist monument complex including the Great Stupa.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:23.4793,longitude:77.7397,heritage:true,tags:["stupa","buddhist","madhya pradesh"]},
+  {id:"ellora-caves",city:"Aurangabad",country:"India",place:"Ellora Caves",category:"UNESCO World Heritage",description:"Rock-cut cave temples and monasteries representing multiple Indian religious traditions.",source:"https://asi.nic.in/",sourceName:"Archaeological Survey of India",latitude:20.0268,longitude:75.1790,heritage:true,tags:["caves","maharashtra","rock cut"]},
+  {id:"gateway-of-india",city:"Mumbai",country:"India",place:"Gateway of India",category:"Landmark",description:"Popular public waterfront landmark overlooking Mumbai Harbour.",source:"https://maharashtratourism.gov.in/",sourceName:"Maharashtra Tourism",latitude:18.9220,longitude:72.8347,heritage:false,tags:["waterfront","harbour"]},
+  {id:"burj-khalifa",city:"Dubai",country:"United Arab Emirates",place:"Burj Khalifa",category:"Architecture",description:"Iconic Dubai skyscraper. Consult the official site for visitor experiences and access.",source:"https://www.burjkhalifa.ae/",sourceName:"Burj Khalifa",latitude:25.1972,longitude:55.2744,heritage:false,tags:["uae","skyscraper"]},
+  {id:"mount-fuji",city:"Fujinomiya",country:"Japan",place:"Mount Fuji",category:"UNESCO World Heritage",description:"Japan's celebrated mountain and cultural landmark. Conditions and access vary by season.",source:"https://www.japan.travel/en/",sourceName:"Japan National Tourism Organization",latitude:35.3606,longitude:138.7274,heritage:true,tags:["mountain","nature","volcano"]},
+  {id:"hiroshima-peace-park",city:"Hiroshima",country:"Japan",place:"Hiroshima Peace Memorial Park",category:"Historic Memorial",description:"Public memorial park dedicated to remembrance and peace.",source:"https://www.city.hiroshima.lg.jp/site/english/",sourceName:"Hiroshima City",latitude:34.3955,longitude:132.4536,heritage:true,tags:["peace memorial","atomic bomb dome"]},
+  {id:"fushimi-inari",city:"Kyoto",country:"Japan",place:"Fushimi Inari Taisha",category:"Historic Shrine",description:"Famous Shinto shrine known for its trails and rows of torii gates.",source:"https://inari.jp/en/",sourceName:"Fushimi Inari Taisha",latitude:34.9671,longitude:135.7727,heritage:false,tags:["shrine","torii","kyoto"]},
+  {id:"itsukushima",city:"Hatsukaichi",country:"Japan",place:"Itsukushima Shrine and Torii Gate",category:"UNESCO World Heritage",description:"Shrine and celebrated torii gate on Miyajima Island; check ferry and tide conditions.",source:"https://www.itsukushimajinja.jp/en/",sourceName:"Itsukushima Shrine",latitude:34.2959,longitude:132.3198,heritage:true,tags:["miyajima","shrine","torii"]},
+  {id:"christ-the-redeemer",city:"Rio de Janeiro",country:"Brazil",place:"Christ the Redeemer",category:"Monument",description:"Landmark statue overlooking Rio de Janeiro. Check official visitor arrangements before travelling.",source:"https://riotur.rio/",sourceName:"Rio Tourism",latitude:-22.9519,longitude:-43.2105,heritage:false,tags:["statue","monument","mountain"]},
+  {id:"sagrada-familia",city:"Barcelona",country:"Spain",place:"Sagrada Família",category:"Historic Basilica",description:"Renowned basilica in Barcelona. Consult the official site for tickets and access.",source:"https://sagradafamilia.org/en/",sourceName:"Sagrada Família",latitude:41.4036,longitude:2.1744,heritage:false,tags:["architecture","gaudi"]},
+  {id:"niagara-falls",city:"Niagara Falls",country:"Canada",place:"Niagara Falls",category:"Natural Attraction",description:"Famous waterfall destination shared by Canada and the United States; check local access information.",source:"https://www.niagaraparks.com/",sourceName:"Niagara Parks",latitude:43.0828,longitude:-79.0742,heritage:false,tags:["waterfall","nature"]},
+  {id:"acropolis",city:"Athens",country:"Greece",place:"Acropolis of Athens",category:"UNESCO World Heritage",description:"Ancient citadel above Athens, home to the Parthenon and other classical monuments.",source:"https://www.thisisathens.org/",sourceName:"This is Athens",latitude:37.9715,longitude:23.7257,heritage:true,tags:["parthenon","ancient greece"]},
+  {id:"petra-treasury",city:"Wadi Musa",country:"Jordan",place:"Petra — Al-Khazneh Treasury",category:"UNESCO World Heritage",description:"Rock-cut monumental facade in the ancient Nabataean city of Petra.",source:"https://visitpetra.jo/",sourceName:"Petra Development and Tourism Region Authority",latitude:30.3285,longitude:35.4444,heritage:true,tags:["petra","treasury","nabataean"]},
+  {id:"prague-old-town",city:"Prague",country:"Czechia",place:"Prague Old Town Square",category:"Historic City Centre",description:"Historic square known for its old town buildings and astronomical clock.",source:"https://www.prague.eu/en",sourceName:"Prague City Tourism",latitude:50.0870,longitude:14.4208,heritage:true,tags:["astronomical clock","old town"]},
+  {id:"valletta-grand-harbour",city:"Valletta",country:"Malta",place:"Valletta and Grand Harbour",category:"Historic Cityscape",description:"Fortified historic capital and harbour views in Malta.",source:"https://www.visitmalta.com/en/",sourceName:"Visit Malta",latitude:35.8992,longitude:14.5141,heritage:true,tags:["harbour","fortifications"]},
+  {id:"cusco-plaza",city:"Cusco",country:"Peru",place:"Cusco Plaza de Armas",category:"Historic City Centre",description:"Central square in the historic Andean city of Cusco.",source:"https://www.peru.travel/en",sourceName:"Peru Travel",latitude:-13.5160,longitude:-71.9785,heritage:true,tags:["plaza mayor","andes"]},
+  {id:"st-peters-square",city:"Vatican City",country:"Vatican City",place:"St. Peter's Square",category:"Historic Landmark",description:"Grand public square in Vatican City, beside St. Peter's Basilica.",source:"https://www.vatican.va/",sourceName:"The Holy See",latitude:41.9022,longitude:12.4539,heritage:false,tags:["vatican","basilica","square"]}
 ];
 
+/*
+ * Public camera directories.
+ *
+ * These links open the providers' own pages. They are not direct
+ * video-stream URLs, and this code does not embed or rebroadcast
+ * their video. Embed only a camera with explicit provider permission.
+ */
+const PUBLIC_CAMERA_DIRECTORIES = [
+  {
+    id: "skyline-unesco",
+    name: "UNESCO Live Cameras",
+    url: "https://www.skylinewebcams.com/en/live-cams-category/unesco-cams.html",
+    description: "Browse the provider's public UNESCO webcam directory."
+  },
+  {
+    id: "live-world-heritage",
+    name: "World Heritage Live Cameras",
+    url: "https://liveworldwebcams.com/category/themes/world-heritage-sites/",
+    description: "Browse public webcam listings related to world heritage."
+  },
+  {
+    id: "heritage-landmarks",
+    name: "Heritage and Landmark Cameras",
+    url: "https://tripplanning.org/live-cams/categories/heritage-landmarks/",
+    description: "Browse the directory for landmark and heritage webcams."
+  }
+];
 
-/* =========================================================
-   OPTIONAL AUTHORIZED LIVE CAMERAS
+const $ = id => document.getElementById(id);
 
-   Add a camera only after checking that the source is
-   public and the provider permits the intended linking.
-
-   Example:
-   {
-       placeId: "times-square",
-       url: "VERIFIED_PUBLIC_CAMERA_URL",
-       sourceName: "Camera Provider"
-   }
-
-   Do not add private, restricted or unauthorized feeds.
-========================================================= */
-
-const TOURIST_LIVE_CAMERAS = [];
-
-
-/* =========================================================
-   ELEMENT REFERENCES
-========================================================= */
-
-const touristPlaces =
-    document.getElementById("touristPlaces");
-
-const emptyState =
-    document.getElementById("emptyState");
-
-const placeSearch =
-    document.getElementById("placeSearch");
-
-const searchBtn =
-    document.getElementById("searchBtn");
-
-const clearBtn =
-    document.getElementById("clearBtn");
-
-const aiSearch =
-    document.getElementById("aiSearch");
-
-const aiBtn =
-    document.getElementById("aiBtn");
-
-const aiResult =
-    document.getElementById("aiResult");
-
-const sideDots =
-    document.getElementById("sideDots");
-
-const sidePanel =
-    document.getElementById("sidePanel");
-
-const scrollTopBtn =
-    document.getElementById("scrollTopBtn");
-
-const focusSearchBtn =
-    document.getElementById("focusSearchBtn");
-
-const closePanelBtn =
-    document.getElementById("closePanelBtn");
-
-
-/* =========================================================
-   INITIALIZATION CHECK
-========================================================= */
-
-if (!touristPlaces || !emptyState) {
-    console.error(
-        "World Tourist Places: required HTML elements are missing."
-    );
-}
-
-
-/* =========================================================
-   ADDITIONAL STYLES
-
-   Existing HTML and CSS remain untouched.
-========================================================= */
-
-(function addTouristStyles() {
-    if (document.getElementById("touristLiveStyles")) {
-        return;
-    }
-
-    const style = document.createElement("style");
-    style.id = "touristLiveStyles";
-
-    style.textContent = `
-        .tourist-live-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 14px;
-        }
-
-        .tourist-action-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 40px;
-            padding: 9px 12px;
-            border: 1px solid rgba(215,179,90,.35);
-            border-radius: 10px;
-            color: #f0d27a;
-            background: rgba(215,179,90,.07);
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .tourist-action-btn:hover {
-            background: rgba(215,179,90,.16);
-        }
-
-        .tourist-weather {
-            display: none;
-            margin-top: 13px;
-            padding: 12px;
-            border: 1px solid rgba(255,255,255,.09);
-            border-radius: 12px;
-            color: #c9ced7;
-            background: rgba(0,0,0,.2);
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        .tourist-weather strong {
-            color: #f0d27a;
-        }
-
-        .tourist-weather-error {
-            color: #e9a7a7;
-        }
-
-        .tourist-live-status {
-            margin-top: 10px;
-            color: #8f9aaa;
-            font-size: 11px;
-            line-height: 1.5;
-        }
-
-        .tourist-count {
-            width: min(1400px, 94%);
-            margin: 0 auto 15px;
-            color: #929baa;
-            font-size: 12px;
-        }
-
-        .tourist-camera-note {
-            margin-top: 12px;
-            color: #929baa;
-            font-size: 11px;
-            line-height: 1.6;
-        }
-    `;
-
-    document.head.appendChild(style);
-})();
-
-
-/* =========================================================
-   SAFE TEXT HELPERS
-========================================================= */
-
-function escapeHTML(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-function normalizeSearch(value) {
-    return String(value ?? "")
-        .normalize("NFKC")
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, " ");
-}
-
-
-function isValidHttpUrl(value) {
-    try {
-        const url = new URL(value);
-        return url.protocol === "https:" ||
-               url.protocol === "http:";
-    } catch {
-        return false;
-    }
-}
-
-
-function safeExternalUrl(value) {
-    return isValidHttpUrl(value)
-        ? value
-        : "#";
-}
-
-
-/* =========================================================
-   CAMERA LOOKUP
-========================================================= */
-
-function getAuthorizedCamera(placeId) {
-    return TOURIST_LIVE_CAMERAS.find(camera =>
-        camera.placeId === placeId &&
-        isValidHttpUrl(camera.url)
-    ) || null;
-}
-
-
-/* =========================================================
-   MAP URL
-========================================================= */
-
-function getMapUrl(place) {
-    const lat = Number(place.latitude);
-    const lon = Number(place.longitude);
-
-    if (!Number.isFinite(lat) ||
-        !Number.isFinite(lon) ||
-        lat < -90 || lat > 90 ||
-        lon < -180 || lon > 180) {
-        return null;
-    }
-
-    return (
-        "https://www.openstreetmap.org/" +
-        "?mlat=" + encodeURIComponent(lat) +
-        "&mlon=" + encodeURIComponent(lon) +
-        "#map=15/" + encodeURIComponent(lat) +
-        "/" + encodeURIComponent(lon)
-    );
-}
-
-
-/* =========================================================
-   WEATHER HELPERS
-   Open-Meteo public API. No API key is configured here.
-========================================================= */
+const touristPlaces = $("touristPlaces");
+const emptyState = $("emptyState");
+const placeSearch = $("placeSearch");
+const searchBtn = $("searchBtn");
+const clearBtn = $("clearBtn");
+const aiSearch = $("aiSearch");
+const aiBtn = $("aiBtn");
+const aiResult = $("aiResult");
+const countrySelect = $("countrySelect");
+const citySelect = $("citySelect");
+const heritageFilter = $("heritageFilter");
+const cityWeather = $("cityWeather");
+const weatherBtn = $("weatherBtn");
+const sideDots = $("sideDots");
+const sidePanel = $("sidePanel");
+const scrollTopBtn = $("scrollTopBtn");
+const focusSearchBtn = $("focusSearchBtn");
+const focusCountryBtn = $("focusCountryBtn");
+const closePanelBtn = $("closePanelBtn");
 
 const weatherCache = new Map();
+let currentFilteredPlaces = TOURIST_PLACES.slice();
 
-function weatherDescription(code) {
-    const descriptions = {
-        0: "Clear sky",
-        1: "Mainly clear",
-        2: "Partly cloudy",
-        3: "Overcast",
-        45: "Fog",
-        48: "Depositing rime fog",
-        51: "Light drizzle",
-        53: "Moderate drizzle",
-        55: "Dense drizzle",
-        56: "Light freezing drizzle",
-        57: "Dense freezing drizzle",
-        61: "Slight rain",
-        63: "Moderate rain",
-        65: "Heavy rain",
-        66: "Light freezing rain",
-        67: "Heavy freezing rain",
-        71: "Slight snowfall",
-        73: "Moderate snowfall",
-        75: "Heavy snowfall",
-        77: "Snow grains",
-        80: "Slight rain showers",
-        81: "Moderate rain showers",
-        82: "Violent rain showers",
-        85: "Slight snow showers",
-        86: "Heavy snow showers",
-        95: "Thunderstorm",
-        96: "Thunderstorm with light hail",
-        99: "Thunderstorm with heavy hail"
-    };
-
-    return descriptions[Number(code)] ||
-        "Weather description unavailable";
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-
-function showWeatherMessage(container, message, isError) {
-    container.style.display = "block";
-    container.classList.toggle(
-        "tourist-weather-error",
-        Boolean(isError)
-    );
-    container.textContent = message;
+function normalizeSearch(value) {
+  return String(value ?? "")
+    .normalize("NFKC")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ");
 }
 
+function validHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
 
-async function loadLiveWeather(place, container, button) {
-    if (!container || !button) return;
+function mapUrl(place) {
+  const lat = Number(place.latitude);
+  const lon = Number(place.longitude);
 
-    const latitude = Number(place.latitude);
-    const longitude = Number(place.longitude);
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lon) ||
+    lat < -90 ||
+    lat > 90 ||
+    lon < -180 ||
+    lon > 180
+  ) {
+    return null;
+  }
 
-    if (!Number.isFinite(latitude) ||
-        !Number.isFinite(longitude)) {
-        showWeatherMessage(
-            container,
-            "Weather is unavailable because this destination has no verified coordinates.",
-            true
-        );
-        return;
+  return `https://www.openstreetmap.org/?mlat=${encodeURIComponent(lat)}&mlon=${encodeURIComponent(lon)}#map=15/${encodeURIComponent(lat)}/${encodeURIComponent(lon)}`;
+}
+
+function uniqueSorted(values) {
+  return [...new Set(values)].sort((a, b) => a.localeCompare(b));
+}
+
+function getSelectedCityRecord() {
+  const city = citySelect && citySelect.value;
+  const country = countrySelect && countrySelect.value;
+
+  if (!city || !country) return null;
+
+  return TOURIST_PLACES.find(
+    place => place.city === city && place.country === country
+  ) || null;
+}
+
+function initializeLocationSelectors() {
+  if (!countrySelect || !citySelect) return;
+
+  const countries = uniqueSorted(
+    TOURIST_PLACES.map(place => place.country)
+  );
+
+  countries.forEach(country => {
+    const option = document.createElement("option");
+    option.value = country;
+    option.textContent = country;
+    countrySelect.appendChild(option);
+  });
+
+  citySelect.innerHTML =
+    '<option value="">Choose a country first</option>';
+
+  citySelect.disabled = true;
+
+  if (weatherBtn) weatherBtn.disabled = true;
+
+  countrySelect.addEventListener("change", () => {
+    const country = countrySelect.value;
+
+    citySelect.replaceChildren();
+
+    if (!country) {
+      citySelect.disabled = true;
+      citySelect.add(new Option("Choose a country first", ""));
+
+      if (weatherBtn) weatherBtn.disabled = true;
+
+      if (cityWeather) {
+        cityWeather.textContent =
+          "Select a country and city to load current weather.";
+      }
+
+      applyFilters();
+      return;
     }
 
+    citySelect.disabled = false;
+    citySelect.add(new Option("Select a city", ""));
+
+    uniqueSorted(
+      TOURIST_PLACES
+        .filter(place => place.country === country)
+        .map(place => place.city)
+    ).forEach(city => {
+      citySelect.add(new Option(city, city));
+    });
+
+    if (weatherBtn) weatherBtn.disabled = true;
+
+    if (cityWeather) {
+      cityWeather.textContent =
+        `Choose a city in ${country} to load its current weather.`;
+    }
+
+    applyFilters();
+  });
+
+  citySelect.addEventListener("change", () => {
+    if (weatherBtn) {
+      weatherBtn.disabled = !citySelect.value;
+    }
+
+    const place = getSelectedCityRecord();
+
+    if (cityWeather) {
+      cityWeather.textContent = place
+        ? `Selected city: ${place.city}, ${place.country}. Press “Load City Weather” for current conditions.`
+        : "Choose a city to load its current weather.";
+    }
+
+    applyFilters();
+  });
+}
+
+function weatherText(code) {
+  const descriptions = {
+    0: "Clear sky",
+    1: "Mainly clear",
+    2: "Partly cloudy",
+    3: "Overcast",
+    45: "Fog",
+    48: "Depositing rime fog",
+    51: "Light drizzle",
+    53: "Moderate drizzle",
+    55: "Dense drizzle",
+    56: "Light freezing drizzle",
+    57: "Dense freezing drizzle",
+    61: "Slight rain",
+    63: "Moderate rain",
+    65: "Heavy rain",
+    66: "Light freezing rain",
+    67: "Heavy freezing rain",
+    71: "Slight snowfall",
+    73: "Moderate snowfall",
+    75: "Heavy snowfall",
+    77: "Snow grains",
+    80: "Slight rain showers",
+    81: "Moderate rain showers",
+    82: "Violent rain showers",
+    85: "Slight snow showers",
+    86: "Heavy snow showers",
+    95: "Thunderstorm",
+    96: "Thunderstorm with light hail",
+    99: "Thunderstorm with heavy hail"
+  };
+
+  return descriptions[Number(code)] || "Weather description unavailable";
+}
+
+async function loadWeatherForCoordinates(place, container, button) {
+  if (!place || !container) return;
+
+  const latitude = Number(place.latitude);
+  const longitude = Number(place.longitude);
+
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude) ||
+    latitude < -90 ||
+    latitude > 90 ||
+    longitude < -180 ||
+    longitude > 180
+  ) {
+    container.textContent =
+      "Weather coordinates are not available for this city.";
+    return;
+  }
+
+  const originalButtonText = button ? button.textContent : "";
+
+  if (button) {
     button.disabled = true;
     button.textContent = "Loading weather…";
-    container.style.display = "block";
-    container.classList.remove("tourist-weather-error");
-    container.textContent = "Connecting to the weather service…";
+  }
 
-    const cacheKey = place.id;
-    const cached = weatherCache.get(cacheKey);
+  container.textContent = "Connecting to Open-Meteo…";
 
-    try {
-        let data;
+  const key = `${latitude},${longitude}`;
 
-        if (cached && Date.now() - cached.time < 10 * 60 * 1000) {
-            data = cached.data;
-        } else {
-            const url =
-                "https://api.open-meteo.com/v1/forecast" +
-                "?latitude=" + encodeURIComponent(latitude) +
-                "&longitude=" + encodeURIComponent(longitude) +
-                "&current=temperature_2m,relative_humidity_2m," +
-                "apparent_temperature,is_day,precipitation," +
-                "weather_code,wind_speed_10m" +
-                "&timezone=auto";
+  try {
+    let cached = weatherCache.get(key);
 
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
+    if (!cached || Date.now() - cached.savedAt > 10 * 60 * 1000) {
+      const url =
+        `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(latitude)}&longitude=${encodeURIComponent(longitude)}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&timezone=auto`;
 
-            if (!response.ok) {
-                throw new Error(
-                    "Weather service returned HTTP " +
-                    response.status
-                );
-            }
+      const response = await fetch(url, {
+        headers: { Accept: "application/json" }
+      });
 
-            data = await response.json();
-
-            if (!data || !data.current) {
-                throw new Error("Weather data is unavailable.");
-            }
-
-            weatherCache.set(cacheKey, {
-                time: Date.now(),
-                data
-            });
-        }
-
-        const current = data.current;
-        const units = data.current_units || {};
-
-        const temperature =
-            Number.isFinite(Number(current.temperature_2m))
-                ? Number(current.temperature_2m) + " " +
-                  (units.temperature_2m || "°C")
-                : "Unavailable";
-
-        const feelsLike =
-            Number.isFinite(Number(current.apparent_temperature))
-                ? Number(current.apparent_temperature) + " " +
-                  (units.apparent_temperature || "°C")
-                : "Unavailable";
-
-        const humidity =
-            Number.isFinite(Number(current.relative_humidity_2m))
-                ? Number(current.relative_humidity_2m) + "%"
-                : "Unavailable";
-
-        const wind =
-            Number.isFinite(Number(current.wind_speed_10m))
-                ? Number(current.wind_speed_10m) + " " +
-                  (units.wind_speed_10m || "km/h")
-                : "Unavailable";
-
-        const precipitation =
-            Number.isFinite(Number(current.precipitation))
-                ? Number(current.precipitation) + " " +
-                  (units.precipitation || "mm")
-                : "Unavailable";
-
-        const localTime = current.time
-            ? String(current.time).replace("T", " ") +
-              (data.timezone ? " (" + data.timezone + ")" : "")
-            : "Time unavailable";
-
-        container.innerHTML = `
-            <strong>🌦 Current Weather</strong>
-            <br>
-            <strong>Conditions:</strong>
-            ${escapeHTML(weatherDescription(current.weather_code))}
-            <br>
-            <strong>Temperature:</strong>
-            ${escapeHTML(temperature)}
-            <br>
-            <strong>Feels like:</strong>
-            ${escapeHTML(feelsLike)}
-            <br>
-            <strong>Humidity:</strong>
-            ${escapeHTML(humidity)}
-            <br>
-            <strong>Wind:</strong>
-            ${escapeHTML(wind)}
-            <br>
-            <strong>Precipitation:</strong>
-            ${escapeHTML(precipitation)}
-            <br>
-            <strong>Local observation time:</strong>
-            ${escapeHTML(localTime)}
-            <div class="tourist-live-status">
-                Source: Open-Meteo. Weather may change; check
-                local authorities before outdoor activities.
-            </div>
-        `;
-
-        container.classList.remove("tourist-weather-error");
-        container.style.display = "block";
-
-    } catch (error) {
-        console.error(
-            "Weather lookup failed for " + place.id,
-            error
+      if (!response.ok) {
+        throw new Error(
+          `Weather service returned HTTP ${response.status}`
         );
+      }
 
-        showWeatherMessage(
-            container,
-            "Live weather could not be loaded. Check your internet connection and try again.",
-            true
-        );
-    } finally {
-        button.disabled = false;
-        button.textContent = "🌦 Live Weather";
-    }
-}
+      const json = await response.json();
 
+      if (!json || !json.current) {
+        throw new Error("Weather data unavailable");
+      }
 
-/* =========================================================
-   CREATE TOURIST CARD
-========================================================= */
+      cached = {
+        json,
+        savedAt: Date.now()
+      };
 
-function renderTouristPlace(place) {
-    const card = document.createElement("article");
-    card.className = "tourist-card";
-    card.dataset.placeId = place.id;
-
-    card.dataset.city = normalizeSearch(place.city);
-    card.dataset.country = normalizeSearch(place.country);
-
-    const mapUrl = getMapUrl(place);
-    const camera = getAuthorizedCamera(place.id);
-
-    const safePlace = escapeHTML(place.place);
-    const safeCity = escapeHTML(place.city);
-    const safeCountry = escapeHTML(place.country);
-    const safeCategory = escapeHTML(place.category);
-    const safeDescription = escapeHTML(place.description);
-    const safeSourceName = escapeHTML(place.sourceName);
-
-    const sourceUrl = safeExternalUrl(place.source);
-
-    card.innerHTML = `
-        <div class="tourist-icon" aria-hidden="true">🌍</div>
-
-        <div class="tourist-location">
-            📍 ${safePlace}
-        </div>
-
-        <div class="tourist-country">
-            ${safeCity} • ${safeCountry}
-        </div>
-
-        <div class="tourist-description">
-            ${safeDescription}
-        </div>
-
-        <div class="tourist-category">
-            Category: ${safeCategory}
-        </div>
-
-        <div class="tourist-live-actions">
-            ${
-                mapUrl
-                    ? `<a class="tourist-action-btn"
-                         href="${escapeHTML(mapUrl)}"
-                         target="_blank"
-                         rel="noopener noreferrer">
-                         🗺 Open Map
-                       </a>`
-                    : ""
-            }
-
-            <button class="tourist-action-btn weather-btn"
-                    type="button">
-                🌦 Live Weather
-            </button>
-
-            ${
-                camera
-                    ? `<a class="tourist-action-btn"
-                         href="${escapeHTML(camera.url)}"
-                         target="_blank"
-                         rel="noopener noreferrer">
-                         📹 Official Live Camera
-                       </a>`
-                    : ""
-            }
-        </div>
-
-        <div class="tourist-weather"
-             aria-live="polite"></div>
-
-        ${
-            camera
-                ? `<div class="tourist-camera-note">
-                    Camera source: ${escapeHTML(camera.sourceName)}.
-                    Opens on the provider's website.
-                   </div>`
-                : `<div class="tourist-camera-note">
-                    No verified live camera is configured for this
-                    destination yet.
-                   </div>`
-        }
-
-        <a class="official-source"
-           href="${escapeHTML(sourceUrl)}"
-           target="_blank"
-           rel="noopener noreferrer">
-            Open ${safeSourceName}
-        </a>
-    `;
-
-    const weatherButton = card.querySelector(".weather-btn");
-    const weatherContainer = card.querySelector(".tourist-weather");
-
-    weatherButton.addEventListener("click", () => {
-        loadLiveWeather(
-            place,
-            weatherContainer,
-            weatherButton
-        );
-    });
-
-    touristPlaces.appendChild(card);
-}
-
-
-/* =========================================================
-   RENDER DIRECTORY
-========================================================= */
-
-function renderTouristPlaces(list) {
-    if (!touristPlaces || !emptyState) return;
-
-    touristPlaces.replaceChildren();
-
-    if (!list.length) {
-        emptyState.style.display = "block";
-        return;
+      weatherCache.set(key, cached);
     }
 
-    emptyState.style.display = "none";
+    const current = cached.json.current;
+    const units = cached.json.current_units || {};
 
-    const fragment = document.createDocumentFragment();
+    const value = (field, unitField, fallback) =>
+      current[field] !== undefined && current[field] !== null
+        ? `${current[field]} ${units[unitField] || fallback}`
+        : "Unavailable";
 
-    list.forEach(place => {
-        renderTouristPlace(place);
-    });
+    container.innerHTML =
+      `<strong>Conditions:</strong> ${escapeHTML(weatherText(current.weather_code))}<br>` +
+      `<strong>Temperature:</strong> ${escapeHTML(value("temperature_2m", "temperature_2m", "°C"))}<br>` +
+      `<strong>Feels like:</strong> ${escapeHTML(value("apparent_temperature", "apparent_temperature", "°C"))}<br>` +
+      `<strong>Humidity:</strong> ${escapeHTML(value("relative_humidity_2m", "relative_humidity_2m", "%"))}<br>` +
+      `<strong>Wind:</strong> ${escapeHTML(value("wind_speed_10m", "wind_speed_10m", "km/h"))}<br>` +
+      `<strong>Precipitation:</strong> ${escapeHTML(value("precipitation", "precipitation", "mm"))}<br>` +
+      `<strong>Local time:</strong> ${escapeHTML(String(current.time || "Unavailable").replace("T", " "))}<br>` +
+      `<strong>Time zone:</strong> ${escapeHTML(cached.json.timezone || "Unavailable")}` +
+      `<p class="selection-hint">Source: Open-Meteo. Forecast conditions may change; follow local weather warnings.</p>`;
+  } catch (error) {
+    console.error("Weather lookup failed", error);
 
-    const count = document.getElementById("touristCount");
+    container.textContent =
+      "Live weather could not be loaded. Check the internet connection and try again.";
+  } finally {
+    if (button) {
+      button.disabled = button.classList.contains("card-weather-btn")
+        ? false
+        : !(citySelect && citySelect.value);
 
-    if (count) {
-        count.textContent =
-            list.length + " public tourist destination" +
-            (list.length === 1 ? "" : "s") + " listed";
+      button.textContent = originalButtonText;
     }
+  }
 }
 
+if (weatherBtn) {
+  weatherBtn.addEventListener("click", () => {
+    const place = getSelectedCityRecord();
 
-/* =========================================================
-   SEARCH DIRECTORY
-========================================================= */
+    if (place) {
+      loadWeatherForCoordinates(place, cityWeather, weatherBtn);
+    }
+  });
+}
 
-function searchTouristPlaces(query) {
-    const search = normalizeSearch(query);
+/*
+ * Generate safe links to public camera directories.
+ * This function intentionally does not generate iframe embeds.
+ */
+function publicCameraLinks() {
+  return PUBLIC_CAMERA_DIRECTORIES
+    .filter(camera => validHttpUrl(camera.url))
+    .map(camera => `
+      <a
+        class="tourist-action-btn tourist-camera-link"
+        href="${escapeHTML(camera.url)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open ${escapeHTML(camera.name)}"
+        title="${escapeHTML(camera.description)}"
+      >📹 ${escapeHTML(camera.name)}</a>
+    `)
+    .join("");
+}
 
-    if (!search) {
-        renderTouristPlaces(TOURIST_PLACES);
-        return;
+function renderPlace(place) {
+  if (!touristPlaces) return;
+
+  const card = document.createElement("article");
+
+  card.className = "tourist-card";
+  card.dataset.placeId = place.id;
+
+  const map = mapUrl(place);
+  const source = validHttpUrl(place.source) ? place.source : null;
+
+  card.innerHTML = `
+    <div class="tourist-icon" aria-hidden="true">
+      ${place.heritage ? "🏛️" : "🌍"}
+    </div>
+
+    <div class="tourist-location">
+      📍 ${escapeHTML(place.place)}
+    </div>
+
+    <div class="tourist-country">
+      ${escapeHTML(place.city)} • ${escapeHTML(place.country)}
+    </div>
+
+    <div class="tourist-description">
+      ${escapeHTML(place.description)}
+    </div>
+
+    <div class="tourist-category">
+      Category: ${escapeHTML(place.category)}
+    </div>
+
+    ${place.heritage
+      ? '<div class="heritage-badge">🏛️ WORLD HERITAGE / HISTORIC SITE</div>'
+      : ""}
+
+    <div class="tourist-live-actions">
+      ${map
+        ? `<a class="tourist-action-btn" href="${escapeHTML(map)}" target="_blank" rel="noopener noreferrer">🗺 Open Map</a>`
+        : ""}
+
+      <button class="tourist-action-btn card-weather-btn" type="button">
+        🌦 Place Weather
+      </button>
+    </div>
+
+    <section class="tourist-camera-section" aria-label="Public live cameras">
+      <h3>📹 Public Live Cameras</h3>
+
+      <p class="tourist-camera-note">
+        Choose a camera directory to check available public webcams.
+        A destination may not have an active camera. Video availability
+        and embedding permissions are controlled by each provider.
+        ALON does not copy or rebroadcast external video.
+      </p>
+
+      <div class="tourist-live-actions tourist-camera-actions">
+        ${publicCameraLinks()}
+      </div>
+    </section>
+
+    <div class="tourist-weather card-weather" aria-live="polite"></div>
+
+    ${source
+      ? `<a class="official-source" href="${escapeHTML(source)}" target="_blank" rel="noopener noreferrer">Open ${escapeHTML(place.sourceName || "Official Source")}</a>`
+      : ""}
+  `;
+
+  const button = card.querySelector(".card-weather-btn");
+  const weather = card.querySelector(".card-weather");
+
+  if (button && weather) {
+    button.addEventListener("click", () => {
+      loadWeatherForCoordinates(place, weather, button);
+    });
+  }
+
+  touristPlaces.appendChild(card);
+}
+
+function renderPlaces(list) {
+  if (!touristPlaces || !emptyState) return;
+
+  touristPlaces.replaceChildren();
+  currentFilteredPlaces = list.slice();
+
+  list.forEach(renderPlace);
+
+  emptyState.style.display = list.length ? "none" : "block";
+
+  const count = $("touristCount");
+
+  if (count) {
+    count.textContent =
+      `${list.length} destination${list.length === 1 ? "" : "s"} shown • ${TOURIST_PLACES.length} directory entries total`;
+  }
+}
+
+function applyFilters(queryOverride) {
+  const query = normalizeSearch(
+    queryOverride !== undefined
+      ? queryOverride
+      : (placeSearch ? placeSearch.value : "")
+  );
+
+  const country = countrySelect ? countrySelect.value : "";
+  const city = citySelect ? citySelect.value : "";
+  const type = heritageFilter ? heritageFilter.value : "all";
+
+  const words = query.split(/\s+/).filter(Boolean);
+
+  const results = TOURIST_PLACES.filter(place => {
+    if (country && place.country !== country) return false;
+    if (city && place.city !== city) return false;
+    if (type === "heritage" && !place.heritage) return false;
+    if (type === "tourist" && place.heritage) return false;
+
+    const searchable = normalizeSearch([
+      place.id,
+      place.city,
+      place.country,
+      place.place,
+      place.category,
+      place.description,
+      place.sourceName,
+      ...(place.tags || [])
+    ].join(" "));
+
+    return words.every(word => searchable.includes(word));
+  });
+
+  renderPlaces(results);
+}
+
+if (searchBtn) {
+  searchBtn.addEventListener("click", () => applyFilters());
+}
+
+if (placeSearch) {
+  placeSearch.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      applyFilters();
+    }
+  });
+}
+
+if (heritageFilter) {
+  heritageFilter.addEventListener("change", () => applyFilters());
+}
+
+if (clearBtn) {
+  clearBtn.addEventListener("click", () => {
+    if (placeSearch) placeSearch.value = "";
+    if (aiSearch) aiSearch.value = "";
+
+    if (aiResult) {
+      aiResult.style.display = "none";
+      aiResult.textContent = "";
     }
 
-    const words = search.split(/\s+/).filter(Boolean);
+    if (countrySelect) countrySelect.value = "";
 
-    const results = TOURIST_PLACES.filter(place => {
-        const searchable = normalizeSearch([
-            place.id,
-            place.city,
-            place.country,
-            place.place,
-            place.category,
-            place.description,
-            place.sourceName,
-            ...(place.tags || [])
-        ].join(" "));
+    if (citySelect) {
+      citySelect.replaceChildren(
+        new Option("Choose a country first", "")
+      );
+      citySelect.disabled = true;
+    }
 
-        return words.every(word => searchable.includes(word));
-    });
+    if (weatherBtn) weatherBtn.disabled = true;
 
-    renderTouristPlaces(results);
+    if (cityWeather) {
+      cityWeather.textContent =
+        "Select a country and city to load current weather.";
+    }
+
+    if (heritageFilter) heritageFilter.value = "all";
+
+    applyFilters("");
+
+    if (placeSearch) placeSearch.focus();
+  });
 }
-
-
-if (searchBtn && placeSearch) {
-    searchBtn.addEventListener("click", () => {
-        searchTouristPlaces(placeSearch.value);
-    });
-
-    placeSearch.addEventListener("keydown", event => {
-        if (event.key === "Enter") {
-            searchTouristPlaces(placeSearch.value);
-        }
-    });
-}
-
-
-if (clearBtn && placeSearch) {
-    clearBtn.addEventListener("click", () => {
-        placeSearch.value = "";
-
-        if (aiSearch) aiSearch.value = "";
-
-        if (aiResult) {
-            aiResult.style.display = "none";
-            aiResult.textContent = "";
-        }
-
-        renderTouristPlaces(TOURIST_PLACES);
-        placeSearch.focus();
-    });
-}
-
-
-/* =========================================================
-   AI-STYLE DIRECTORY DISCOVERY
-
-   This searches the local directory; it is not a remote
-   generative AI service and does not invent results.
-========================================================= */
 
 function aiDiscover(query) {
-    const normalized = normalizeSearch(query);
+  const normalized = normalizeSearch(query);
 
-    if (!normalized) {
-        return {
-            text:
-                "Enter a destination, city or country. This search checks the ALON verified tourist-place directory.",
-            results: []
-        };
-    }
-
-    const cleaned = normalized
-        .replace(/\b(show me|tourist places|tourist place|places|place|please|find|search|in|of|for|near|the|give me|list)\b/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-
-    const searchTerm = cleaned || normalized;
-
-    const words = searchTerm.split(/\s+/).filter(Boolean);
-
-    const results = TOURIST_PLACES.filter(place => {
-        const searchable = normalizeSearch([
-            place.city,
-            place.country,
-            place.place,
-            place.category,
-            ...(place.tags || [])
-        ].join(" "));
-
-        return words.some(word => searchable.includes(word));
-    });
-
-    if (results.length) {
-        return {
-            text:
-                "Directory search found " + results.length +
-                " matching destination" +
-                (results.length === 1 ? "" : "s") +
-                ". These results come from the local ALON directory.",
-            results
-        };
-    }
-
+  if (!normalized) {
     return {
-        text:
-            'No matching destination is registered for "' +
-            searchTerm +
-            '". This does not mean the place does not exist. ' +
-            "The directory may need a verified entry added.",
-        results: []
+      text: "Enter a destination, city or country to search the ALON directory.",
+      results: []
     };
-}
+  }
 
+  const cleaned = normalized
+    .replace(/\b(show me|tourist places|tourist place|world heritage|heritage sites|heritage site|places|place|please|find|search|in|of|for|near|the|give me|list|historic sites|tourist destinations)\b/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const searchTerm = cleaned || normalized;
+  const words = searchTerm.split(/\s+/).filter(Boolean);
+
+  const results = TOURIST_PLACES.filter(place => {
+    const haystack = normalizeSearch([
+      place.city,
+      place.country,
+      place.place,
+      place.category,
+      ...(place.tags || [])
+    ].join(" "));
+
+    return words.some(word => haystack.includes(word));
+  });
+
+  if (results.length) {
+    return {
+      text: `Directory search found ${results.length} matching destination${results.length === 1 ? "" : "s"}. These entries are from the local ALON directory.`,
+      results
+    };
+  }
+
+  return {
+    text: `No matching destination is registered for “${searchTerm}”. This does not mean the place does not exist; it may need a verified directory entry.`,
+    results: []
+  };
+}
 
 function runAiSearch() {
-    if (!aiSearch || !aiResult) return;
+  if (!aiSearch || !aiResult) return;
 
-    const result = aiDiscover(aiSearch.value);
+  const result = aiDiscover(aiSearch.value);
 
-    aiResult.style.display = "block";
-    aiResult.textContent = result.text;
+  aiResult.style.display = "block";
+  aiResult.textContent = result.text;
 
-    renderTouristPlaces(result.results);
+  if (placeSearch) {
+    placeSearch.value = aiSearch.value;
+  }
+
+  if (countrySelect) {
+    countrySelect.value = "";
+  }
+
+  if (citySelect) {
+    citySelect.replaceChildren(
+      new Option("Choose a country first", "")
+    );
+    citySelect.disabled = true;
+  }
+
+  if (weatherBtn) {
+    weatherBtn.disabled = true;
+  }
+
+  if (heritageFilter) {
+    heritageFilter.value = "all";
+  }
+
+  renderPlaces(result.results);
 }
 
-
 if (aiBtn) {
-    aiBtn.addEventListener("click", runAiSearch);
+  aiBtn.addEventListener("click", runAiSearch);
 }
 
 if (aiSearch) {
-    aiSearch.addEventListener("keydown", event => {
-        if (event.key === "Enter") {
-            runAiSearch();
-        }
-    });
+  aiSearch.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      runAiSearch();
+    }
+  });
 }
-
-
-/* =========================================================
-   SIDE MENU
-========================================================= */
 
 function setSidePanelOpen(open) {
-    if (!sidePanel || !sideDots) return;
+  if (!sidePanel || !sideDots) return;
 
-    sidePanel.classList.toggle("open", open);
-
-    sideDots.setAttribute(
-        "aria-expanded",
-        String(open)
-    );
-
-    sidePanel.setAttribute(
-        "aria-hidden",
-        String(!open)
-    );
+  sidePanel.classList.toggle("open", open);
+  sideDots.setAttribute("aria-expanded", String(open));
+  sidePanel.setAttribute("aria-hidden", String(!open));
 }
-
 
 if (sideDots) {
-    sideDots.addEventListener("click", () => {
-        const isOpen = sidePanel
-            ? !sidePanel.classList.contains("open")
-            : false;
-
-        setSidePanelOpen(isOpen);
-    });
+  sideDots.addEventListener("click", () => {
+    setSidePanelOpen(!sidePanel.classList.contains("open"));
+  });
 }
-
 
 if (closePanelBtn) {
-    closePanelBtn.addEventListener("click", () => {
-        setSidePanelOpen(false);
-    });
+  closePanelBtn.addEventListener("click", () => {
+    setSidePanelOpen(false);
+  });
 }
-
 
 if (scrollTopBtn) {
-    scrollTopBtn.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
     });
+  });
 }
-
 
 if (focusSearchBtn && placeSearch) {
-    focusSearchBtn.addEventListener("click", () => {
-        setSidePanelOpen(false);
-
-        placeSearch.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-
-        placeSearch.focus({
-            preventScroll: true
-        });
+  focusSearchBtn.addEventListener("click", () => {
+    setSidePanelOpen(false);
+    placeSearch.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
     });
+    placeSearch.focus({ preventScroll: true });
+  });
 }
 
+if (focusCountryBtn && countrySelect) {
+  focusCountryBtn.addEventListener("click", () => {
+    setSidePanelOpen(false);
+    countrySelect.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+    countrySelect.focus({ preventScroll: true });
+  });
+}
 
 document.addEventListener("click", event => {
-    if (!sidePanel || !sideDots) return;
-
-    const clickedInsidePanel =
-        sidePanel.contains(event.target);
-
-    const clickedDots =
-        sideDots.contains(event.target);
-
-    if (!clickedInsidePanel && !clickedDots) {
-        setSidePanelOpen(false);
-    }
+  if (
+    sidePanel &&
+    sideDots &&
+    !sidePanel.contains(event.target) &&
+    !sideDots.contains(event.target)
+  ) {
+    setSidePanelOpen(false);
+  }
 });
-
 
 document.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-        setSidePanelOpen(false);
-    }
+  if (event.key === "Escape") {
+    setSidePanelOpen(false);
+  }
 });
 
-
-/* =========================================================
-   INITIAL LOAD
-========================================================= */
-
 (function initializeTouristPlaces() {
-    if (!touristPlaces || !emptyState) return;
-
-    renderTouristPlaces(TOURIST_PLACES);
-
-    console.info(
-        "ALON HISTORYVERSE 24 World Tourist Places initialized.",
-        {
-            destinations: TOURIST_PLACES.length,
-            weather: "Open-Meteo public API",
-            maps: "OpenStreetMap",
-            verifiedCameraLinks: TOURIST_LIVE_CAMERAS.length
-        }
+  if (!touristPlaces || !emptyState) {
+    console.error(
+      "World Tourist Places: required HTML elements are missing."
     );
+    return;
+  }
+
+  initializeLocationSelectors();
+  renderPlaces(TOURIST_PLACES);
+
+  console.info(
+    "ALON HISTORYVERSE 24 World Tourist Places initialized.",
+    {
+      destinations: TOURIST_PLACES.length,
+      heritage: TOURIST_PLACES.filter(place => place.heritage).length,
+      weather: "Open-Meteo public API",
+      maps: "OpenStreetMap",
+      publicCameraDirectories: PUBLIC_CAMERA_DIRECTORIES.length,
+      cameraEmbedding: "Only with explicit provider permission"
+    }
+  );
 })();

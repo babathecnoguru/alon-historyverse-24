@@ -1402,7 +1402,7 @@
         },
 
         /* =====================================================
-           LOGIN GATE — FIXED VISIBLE OVERLAY
+           LOGIN GATE — CENTERED RESPONSIVE OVERLAY
            ===================================================== */
 
         openLoginGate: function () {
@@ -1418,7 +1418,23 @@
 
             this.styleGeneratorOverlay();
 
+            var wrapper = this.elements.generatorInterface;
             var login = this.elements.loginPanel;
+
+            /*
+             * FIX:
+             * Center the login panel horizontally and vertically.
+             * Keep the full-screen overlay fixed to the viewport.
+             */
+            if (wrapper) {
+                wrapper.style.display = "flex";
+                wrapper.style.flexDirection = "column";
+                wrapper.style.alignItems = "center";
+                wrapper.style.justifyContent = "center";
+                wrapper.style.padding = "20px 14px";
+                wrapper.style.boxSizing = "border-box";
+                wrapper.style.overflowY = "auto";
+            }
 
             login.hidden = false;
 
@@ -1427,10 +1443,14 @@
                 "visibility:visible!important;" +
                 "opacity:1!important;" +
                 "position:relative!important;" +
+                "flex:0 0 auto!important;" +
                 "width:100%!important;" +
                 "max-width:460px!important;" +
+                "max-height:calc(100vh - 40px)!important;" +
+                "max-height:calc(100dvh - 40px)!important;" +
+                "overflow-y:auto!important;" +
                 "box-sizing:border-box!important;" +
-                "margin:8vh auto 24px!important;" +
+                "margin:auto!important;" +
                 "padding:24px!important;" +
                 "background:#101521!important;" +
                 "color:#ffffff!important;" +
