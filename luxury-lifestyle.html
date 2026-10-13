@@ -9,6 +9,7 @@
   <title>Luxury Lifestyle | ALON HISTORYVERSE 24</title>
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="./css/style.css">
+
   <style>
 :root {
   --lux-bg:#08090c;
@@ -293,6 +294,7 @@ button { cursor:pointer; }
 }
   </style>
 </head>
+
 <body class="lux-login-mode">
 
   <section id="luxLoginScreen" class="lux-login-shell" aria-labelledby="luxLoginTitle">
@@ -303,35 +305,59 @@ button { cursor:pointer; }
         <p>A considered destination for exceptional vehicles, private aviation, yachts, estates and refined living.</p>
       </div>
     </div>
+
     <div class="lux-login-panel">
       <form id="luxLoginForm" class="lux-login-card">
         <div class="lux-login-brand">
           ALON HISTORYVERSE 24
           <span>LUXURY LIFESTYLE</span>
         </div>
+
         <h2 id="luxLoginTitle">Welcome back.</h2>
         <p>Sign in to manage your private collection, listings and conversations.</p>
 
         <div class="lux-field">
           <label for="luxLoginEmail">Email address</label>
-          <input id="luxLoginEmail" name="email" type="email" autocomplete="email" required maxlength="180" placeholder="you@example.com">
+          <input
+            id="luxLoginEmail"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            maxlength="180"
+            placeholder="you@example.com"
+          >
         </div>
 
         <div class="lux-field">
           <label for="luxLoginPassword">Password</label>
-          <input id="luxLoginPassword" name="password" type="password" autocomplete="current-password" minlength="8" required maxlength="200" placeholder="At least 8 characters">
+          <input
+            id="luxLoginPassword"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            maxlength="200"
+            placeholder="Enter your password"
+          >
         </div>
 
         <label class="lux-terms-line">
           <input id="luxLoginTerms" type="checkbox" required>
-          <span>I agree to the <a href="#luxTerms" data-lux-open-terms style="text-decoration:underline">Terms of Use</a>, listing rules and privacy notice.</span>
+          <span>
+            I agree to the
+            <a href="#luxTerms" data-lux-open-terms style="text-decoration:underline">Terms of Use</a>,
+            listing rules and privacy notice.
+          </span>
         </label>
 
         <button class="lux-btn lux-btn-gold" type="submit">
           Enter Luxury Lifestyle <span aria-hidden="true">↗</span>
         </button>
 
-        <p id="luxLoginError" class="lux-login-notice" role="status">Demo note: this browser-based sign-in is not server authentication. Use a secure backend before handling real customer accounts.</p>
+        <p id="luxLoginError" class="lux-login-notice" role="status">
+          Demo note: this browser-based sign-in is not server authentication. Use a secure backend before handling real customer accounts.
+        </p>
       </form>
     </div>
   </section>
@@ -343,14 +369,27 @@ button { cursor:pointer; }
           <span class="lux-brand-mark">A</span>
           <span>ALON HISTORYVERSE 24<small>LUXURY LIFESTYLE</small></span>
         </a>
+
         <nav class="lux-nav" aria-label="Luxury navigation">
           <a href="#luxCategories">Collections</a>
           <a href="#luxShowroom">Showroom</a>
           <a href="#luxTrust">Our Standard</a>
-          <button id="luxInboxButton" class="lux-btn lux-btn-quiet" type="button">Inbox <span id="luxInboxCount">0</span></button>
-          <button id="luxSavedButton" class="lux-btn lux-btn-quiet" type="button">Saved <span id="luxSavedCount">0</span></button>
-          <button id="luxAddListingButton" class="lux-btn lux-btn-gold" type="button">＋ List an item</button>
-          <button id="luxLogoutButton" class="lux-btn lux-btn-quiet" type="button">Logout</button>
+
+          <button id="luxInboxButton" class="lux-btn lux-btn-quiet" type="button">
+            Inbox <span id="luxInboxCount">0</span>
+          </button>
+
+          <button id="luxSavedButton" class="lux-btn lux-btn-quiet" type="button">
+            Saved <span id="luxSavedCount">0</span>
+          </button>
+
+          <button id="luxAddListingButton" class="lux-btn lux-btn-gold" type="button">
+            ＋ List an item
+          </button>
+
+          <button id="luxLogoutButton" class="lux-btn lux-btn-quiet" type="button">
+            Logout
+          </button>
         </nav>
       </div>
     </header>
@@ -360,7 +399,11 @@ button { cursor:pointer; }
         <div class="lux-hero-content">
           <div class="lux-kicker">CURATED • EXCEPTIONAL • GLOBAL</div>
           <h1>Luxury is in<br>the details.</h1>
-          <p>Discover exceptional machines, private escapes and extraordinary properties. Explore carefully presented listings from independent owners and specialist sellers.</p>
+          <p>
+            Discover exceptional machines, private escapes and extraordinary properties.
+            Explore carefully presented listings from independent owners and specialist sellers.
+          </p>
+
           <div class="lux-hero-actions">
             <a class="lux-btn lux-btn-gold" href="#luxShowroom">Explore the collection ↘</a>
             <button class="lux-btn" type="button" id="luxHeroListButton">Present your listing</button>
@@ -373,9 +416,13 @@ button { cursor:pointer; }
           <div>
             <div class="lux-kicker">THE COLLECTIONS</div>
             <h2>Explore by category</h2>
-            <p>From extraordinary performance to private escapes, browse a focused collection of premium lifestyle assets.</p>
+            <p>
+              From extraordinary performance to private escapes, browse a focused collection
+              of premium lifestyle assets.
+            </p>
           </div>
         </div>
+
         <div id="luxCategoryGrid" class="lux-cats"></div>
       </section>
 
@@ -384,9 +431,15 @@ button { cursor:pointer; }
           <div>
             <div class="lux-kicker">THE PRIVATE SHOWROOM</div>
             <h2>Exceptional listings</h2>
-            <p>Search by collection, location, condition and budget. Listing photographs and details are supplied by their respective owners.</p>
+            <p>
+              Search by collection, location, condition and budget. Listing photographs and
+              details are supplied by their respective owners.
+            </p>
           </div>
-          <button id="luxClearFilters" class="lux-btn lux-btn-quiet" type="button">Clear filters</button>
+
+          <button id="luxClearFilters" class="lux-btn lux-btn-quiet" type="button">
+            Clear filters
+          </button>
         </div>
 
         <div class="lux-toolbar">
@@ -394,18 +447,21 @@ button { cursor:pointer; }
             <label for="luxSearch">Search the collection</label>
             <input id="luxSearch" type="search" placeholder="Brand, model, estate, location…">
           </div>
+
           <div class="lux-field">
             <label for="luxFilterCategory">Category</label>
             <select id="luxFilterCategory">
               <option value="">All collections</option>
             </select>
           </div>
+
           <div class="lux-field">
             <label for="luxFilterCountry">Country</label>
             <select id="luxFilterCountry">
               <option value="">All countries</option>
             </select>
           </div>
+
           <div class="lux-field">
             <label for="luxFilterCondition">Condition</label>
             <select id="luxFilterCondition">
@@ -418,14 +474,17 @@ button { cursor:pointer; }
               <option>For rent</option>
             </select>
           </div>
+
           <div class="lux-field">
             <label for="luxMinPrice">Minimum price</label>
             <input id="luxMinPrice" type="number" min="0" inputmode="decimal" placeholder="No minimum">
           </div>
+
           <div class="lux-field">
             <label for="luxMaxPrice">Maximum price</label>
             <input id="luxMaxPrice" type="number" min="0" inputmode="decimal" placeholder="No maximum">
           </div>
+
           <div class="lux-field">
             <label for="luxSort">Sort by</label>
             <select id="luxSort">
@@ -441,6 +500,7 @@ button { cursor:pointer; }
           <span id="luxResultsCount">0 listings</span>
           <span>Only contact sellers through channels they provide.</span>
         </div>
+
         <div id="luxListingsGrid" class="lux-listings" aria-live="polite"></div>
       </section>
 
@@ -449,21 +509,36 @@ button { cursor:pointer; }
           <div>
             <div class="lux-kicker">THE LUXURY STANDARD</div>
             <h2>Presented with intention.</h2>
-            <p>A refined marketplace experience is built on transparent details, quality photography and responsible communication.</p>
+            <p>
+              A refined marketplace experience is built on transparent details, quality
+              photography and responsible communication.
+            </p>
           </div>
         </div>
+
         <div class="lux-trust-grid">
           <article class="lux-trust-card">
             <strong>01 / Clarity</strong>
-            <p>Every listing can include location, condition, specifications, asking price and ownership or availability details provided by the seller.</p>
+            <p>
+              Every listing can include location, condition, specifications, asking price
+              and ownership or availability details provided by the seller.
+            </p>
           </article>
+
           <article class="lux-trust-card">
             <strong>02 / Presentation</strong>
-            <p>Upload genuine photographs you own or are authorized to use. Sample gallery imagery is illustrative and is not proof of a particular item's availability.</p>
+            <p>
+              Upload genuine photographs you own or are authorized to use. Sample gallery
+              imagery is illustrative and is not proof of a particular item's availability.
+            </p>
           </article>
+
           <article class="lux-trust-card">
             <strong>03 / Discretion</strong>
-            <p>Keep sensitive personal information out of public descriptions. Verify identity, documents and the asset independently before any transaction.</p>
+            <p>
+              Keep sensitive personal information out of public descriptions. Verify identity,
+              documents and the asset independently before any transaction.
+            </p>
           </article>
         </div>
       </section>
@@ -472,6 +547,7 @@ button { cursor:pointer; }
     <footer class="lux-footer">
       <div class="lux-wrap lux-footer-inner">
         <span>© <span id="luxYear"></span> Baba Thecno Guru — ALON HISTORYVERSE 24</span>
+
         <span>
           <a href="#luxTerms" data-lux-open-terms>Terms</a>
           <a href="#luxPrivacy" data-lux-open-privacy>Privacy</a>
@@ -482,21 +558,43 @@ button { cursor:pointer; }
   </div>
 
   <div id="luxModalOverlay" class="lux-overlay" hidden>
-    <section id="luxModal" class="lux-modal" role="dialog" aria-modal="true" aria-labelledby="luxModalTitle">
+    <section
+      id="luxModal"
+      class="lux-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="luxModalTitle"
+    >
       <div class="lux-modal-head">
         <div>
           <div id="luxModalKicker" class="lux-kicker">LUXURY LIFESTYLE</div>
           <h2 id="luxModalTitle">Details</h2>
         </div>
-        <button id="luxModalClose" class="lux-close" type="button" aria-label="Close dialog">×</button>
+
+        <button
+          id="luxModalClose"
+          class="lux-close"
+          type="button"
+          aria-label="Close dialog"
+        >×</button>
       </div>
+
       <div id="luxModalContent"></div>
     </section>
   </div>
 
   <div id="luxToast" class="lux-toast" role="status" aria-live="polite" hidden></div>
 
+  <!-- API configuration: use the existing Luxury Marketplace Worker. -->
+  <script>
+    window.ALON_LUXURY_API_BASE =
+      window.ALON_LUXURY_API_BASE ||
+      "https://alon-historyverse-marketplace-api.bthecnoguru.workers.dev";
+  </script>
+
+  <!-- Keep the existing script paths and load order unchanged. -->
   <script src="./marketplace-countries.js"></script>
   <script src="./luxury-lifestyle.js"></script>
+
 </body>
 </html>
