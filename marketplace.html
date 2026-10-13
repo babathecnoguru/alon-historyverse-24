@@ -1,719 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#05080f">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Global Marketplace • ALON HISTORYVERSE 24</title>
+    <meta name="description" content="ALON HISTORYVERSE 24 Global Marketplace — discover businesses, products and services worldwide.">
 
-    <title>
-        Global Marketplace • ALON HISTORYVERSE 24
-    </title>
-
-    <meta
-        name="description"
-        content="ALON HISTORYVERSE 24 Global Marketplace — create business advertisements, sell products, offer services and reach customers worldwide."
-    >
-
-    <meta
-        name="theme-color"
-        content="#05080f"
-    >
-
-    <link
-        rel="stylesheet"
-        href="../css/style.css"
-    >
+    <link rel="stylesheet" href="../css/style.css">
 
     <style>
-
-        /* =================================================
-           MARKETPLACE ACCOUNT
-           ================================================= */
-
-        .marketplace-account {
-
-            margin-bottom: 20px;
-
-        }
-
-        .marketplace-login-box {
-
-            display: block;
-
-        }
-
-        .marketplace-profile-box {
-
-            display: none;
-
-        }
-
-        .marketplace-profile-email {
-
-            word-break: break-word;
-
-            font-weight: bold;
-
-            margin: 10px 0;
-
-        }
-
+        .marketplace-account { margin-bottom: 20px; }
+        .marketplace-profile-box { display: none; }
         .marketplace-status {
-
-            margin-top: 12px;
-
-            padding: 10px;
-
-            border-radius: 10px;
-
             display: none;
-
-        }
-
-        .marketplace-status.show {
-
-            display: block;
-
-        }
-
-        .marketplace-media-preview {
-
-            display: grid;
-
-            gap: 10px;
-
             margin-top: 12px;
-
+            padding: 10px;
+            border-radius: 10px;
+            overflow-wrap: anywhere;
         }
-
+        .marketplace-status.show { display: block; }
+        .marketplace-hidden { display: none !important; }
+        .marketplace-media-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
         .marketplace-media-preview img,
         .marketplace-media-preview video {
-
             width: 100%;
-
-            max-width: 420px;
-
+            max-height: 320px;
+            object-fit: contain;
             border-radius: 12px;
-
-            display: block;
-
         }
-
-        .marketplace-ad-card {
-
-            margin-top: 16px;
-
-        }
-
-        .marketplace-ad-actions {
-
+        .marketplace-ad-card { margin-top: 16px; }
+        .marketplace-ad-actions,
+        .marketplace-counts {
             display: flex;
-
             flex-wrap: wrap;
-
-            gap: 8px;
-
+            align-items: center;
+            gap: 12px;
             margin-top: 12px;
-
         }
-
-        .marketplace-hidden {
-
-            display: none !important;
-
+        .marketplace-counts span {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(128, 128, 128, .12);
         }
-
+        .marketplace-account label,
+        #advertisementForm label {
+            display: block;
+            margin-top: 12px;
+        }
+        .marketplace-account input,
+        #advertisementForm input,
+        #advertisementForm textarea,
+        #advertisementForm select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .marketplace-auth-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .marketplace-auth-panel {
+            padding: 16px;
+            border: 1px solid rgba(128, 128, 128, .3);
+            border-radius: 12px;
+        }
+        button:disabled { opacity: .6; }
     </style>
-
 </head>
 
-
 <body>
-
-
-<!-- =====================================================
-     HEADER
-     ===================================================== -->
-
 <header class="ah-header">
-
     <div class="ah-brand">
-
         <a href="../index.html">
-
-            <strong>
-                ALON HISTORYVERSE 24
-            </strong>
-
-            <small>
-                Global Marketplace
-            </small>
-
+            <strong>ALON HISTORYVERSE 24</strong>
+            <small>Global Marketplace</small>
         </a>
-
     </div>
 
-
     <nav class="ah-nav">
-
-        <a href="../index.html">
-            Home
-        </a>
-
-        <a href="#createAd">
-            Create Ad
-        </a>
-
-        <a href="#myAds">
-            My Ads
-        </a>
-
+        <a href="../index.html">Home</a>
+        <a href="#createAd">Create Ad</a>
+        <a href="#myAds">My Ads</a>
     </nav>
-
 </header>
-
-
-<!-- =====================================================
-     MAIN
-     ===================================================== -->
 
 <main class="ah-container">
 
+    <!-- LOGIN / REGISTER: FIRST SCREEN -->
+    <section class="ah-card marketplace-account" id="marketplaceAccount">
 
-    <!-- =================================================
-         ACCOUNT
-         ================================================= -->
+        <div id="marketplaceLoginBox">
+            <h2>🔐 Global Marketplace Login</h2>
+            <p>Log in to access the Global Marketplace.</p>
 
-    <section
-        class="ah-card marketplace-account"
-        id="marketplaceAccount"
-    >
+            <div class="marketplace-auth-grid">
+                <div class="marketplace-auth-panel">
+                    <h3>Login</h3>
 
-        <!-- LOGIN -->
+                    <label for="marketplaceLoginEmail">Email</label>
+                    <input
+                        id="marketplaceLoginEmail"
+                        type="email"
+                        autocomplete="username"
+                        placeholder="Email address"
+                        required
+                    >
 
-        <div
-            id="marketplaceLoginBox"
-            class="marketplace-login-box"
-        >
+                    <label for="marketplaceLoginPassword">Password</label>
+                    <input
+                        id="marketplaceLoginPassword"
+                        type="password"
+                        autocomplete="current-password"
+                        placeholder="Password"
+                        required
+                    >
 
-            <h2>
-                🔐 Marketplace Login
-            </h2>
+                    <button type="button" id="marketplaceLoginButton">
+                        🔐 Login
+                    </button>
 
-            <p>
-                Login to create and manage your
-                advertisements.
-            </p>
+                    <div id="marketplaceLoginStatus"
+                         class="marketplace-status"
+                         aria-live="polite"></div>
+                </div>
 
+                <div class="marketplace-auth-panel">
+                    <h3>Create Account</h3>
+                    <p>New users can create an account here.</p>
 
-            <label for="marketplaceLoginMobile">
-                Mobile
-            </label>
+                    <label for="marketplaceRegisterName">Display Name</label>
+                    <input
+                        id="marketplaceRegisterName"
+                        type="text"
+                        autocomplete="name"
+                        placeholder="Your name"
+                    >
 
-            <input
-                id="marketplaceLoginMobile"
-                type="tel"
-                placeholder="Mobile number"
-                autocomplete="tel"
-            >
+                    <label for="marketplaceRegisterEmail">Email</label>
+                    <input
+                        id="marketplaceRegisterEmail"
+                        type="email"
+                        autocomplete="email"
+                        placeholder="Email address"
+                    >
 
+                    <label for="marketplaceRegisterPassword">Password</label>
+                    <input
+                        id="marketplaceRegisterPassword"
+                        type="password"
+                        autocomplete="new-password"
+                        placeholder="Create a password"
+                    >
 
-            <label for="marketplaceLoginEmail">
-                Email
-            </label>
+                    <label>
+                        <input
+                            id="marketplaceTermsAccepted"
+                            type="checkbox"
+                            style="width:auto"
+                        >
+                        I accept the website's Terms.
+                    </label>
 
-            <input
-                id="marketplaceLoginEmail"
-                type="email"
-                placeholder="Email address"
-                autocomplete="email"
-            >
+                    <button type="button" id="marketplaceRegisterButton">
+                        Create Account
+                    </button>
 
-
-            <label for="marketplaceLoginPassword">
-                Password
-            </label>
-
-            <input
-                id="marketplaceLoginPassword"
-                type="password"
-                placeholder="Password"
-                autocomplete="current-password"
-            >
-
-
-            <button
-                type="button"
-                id="marketplaceLoginButton"
-            >
-                🔐 Login
-            </button>
-
-
-            <div
-                id="marketplaceLoginStatus"
-                class="marketplace-status"
-                aria-live="polite"
-            ></div>
-
+                    <div id="marketplaceRegisterStatus"
+                         class="marketplace-status"
+                         aria-live="polite"></div>
+                </div>
+            </div>
         </div>
 
-
-        <!-- PROFILE -->
-
-        <div
-            id="marketplaceProfileBox"
-            class="marketplace-profile-box"
-        >
-
-            <h2>
-                👤 Marketplace Profile
-            </h2>
-
-            <p>
-                Logged in as:
-            </p>
-
-            <div
-                id="marketplaceProfileEmail"
-                class="marketplace-profile-email"
-            ></div>
-
-
-            <p>
-                Your marketplace account is active.
-            </p>
-
-
-            <button
-                type="button"
-                id="marketplaceLogoutButton"
-            >
+        <div id="marketplaceProfileBox" class="marketplace-profile-box">
+            <h2>👤 Marketplace Profile</h2>
+            <p>Logged in as:</p>
+            <div id="marketplaceProfileEmail"></div>
+            <button type="button" id="marketplaceLogoutButton">
                 🚪 Logout
             </button>
-
         </div>
-
     </section>
 
-
-    <!-- =================================================
-         HERO
-         ================================================= -->
-
+    <!-- HERO -->
     <section class="ah-card">
-
-        <h1>
-            🌍 Global Marketplace
-        </h1>
-
+        <h1>🌍 Global Marketplace</h1>
         <p>
-            Sell your products, promote your small or large
-            business, offer services and reach customers
-            around the world.
+            Discover businesses, products and services from around the world.
+            Create a business advertisement and reach customers internationally.
         </p>
-
     </section>
 
+    <!-- SEARCH -->
+    <section class="ah-card marketplace-hidden" id="marketplaceSearchSection">
+        <h2>🔎 Search Marketplace</h2>
 
-    <!-- =================================================
-         SEARCH
-         ================================================= -->
-
-    <section class="ah-card">
-
-        <h2>
-            🔎 Search Marketplace
-        </h2>
-
-        <form
-            id="marketplaceSearchForm"
-        >
-
+        <form id="marketplaceSearchForm">
             <input
                 id="marketplaceSearch"
                 name="search"
                 type="search"
-                placeholder="Search business, product, service or job..."
+                placeholder="Search business, product or service..."
                 autocomplete="off"
             >
-
-            <button
-                type="submit"
-            >
-                Search
-            </button>
-
+            <button type="submit">Search</button>
         </form>
-
     </section>
 
+    <!-- FILTERS -->
+    <section class="ah-card marketplace-hidden" id="marketplaceCountrySection">
+        <h2>🌎 Find by Country</h2>
 
-    <!-- =================================================
-         COUNTRY + CATEGORY
-         ================================================= -->
-
-    <section class="ah-card">
-
-        <h2>
-            🌎 Find by Country
-        </h2>
-
-
-        <label for="country">
-            Country
-        </label>
-
+        <label for="country">Country</label>
         <select id="country">
-
-            <option value="">
-                All Countries
-            </option>
-
+            <option value="">All Countries</option>
         </select>
 
-
-        <br><br>
-
-
-        <label for="marketplaceCategory">
-            Category
-        </label>
-
-        <select
-            id="marketplaceCategory"
-        >
-
-            <option value="">
-                All Categories
-            </option>
-
-            <option value="business">
-                Business
-            </option>
-
-            <option value="products">
-                Products
-            </option>
-
-            <option value="services">
-                Services
-            </option>
-
-            <option value="jobs">
-                Jobs
-            </option>
-
-            <option value="technology">
-                Technology
-            </option>
-
-            <option value="education">
-                Education
-            </option>
-
-            <option value="food">
-                Food
-            </option>
-
-            <option value="fashion">
-                Fashion
-            </option>
-
-            <option value="electronics">
-                Electronics
-            </option>
-
-            <option value="agriculture">
-                Agriculture
-            </option>
-
-            <option value="other">
-                Other
-            </option>
-
+        <label for="marketplaceCategory">Category</label>
+        <select id="marketplaceCategory">
+            <option value="">All Categories</option>
+            <option value="business">Business</option>
+            <option value="products">Products</option>
+            <option value="services">Services</option>
+            <option value="jobs">Jobs</option>
+            <option value="technology">Technology</option>
+            <option value="education">Education</option>
+            <option value="food">Food</option>
+            <option value="fashion">Fashion</option>
+            <option value="electronics">Electronics</option>
+            <option value="agriculture">Agriculture</option>
+            <option value="other">Other</option>
         </select>
-
     </section>
 
+    <!-- CREATE BUSINESS AD -->
+    <section class="ah-card marketplace-hidden" id="createAd">
+        <h2>📢 Create Business Advertisement</h2>
+        <p>Add your business details and publish an advertisement.</p>
 
-    <!-- =================================================
-         CREATE AD
-         ================================================= -->
+        <form id="advertisementForm" enctype="multipart/form-data">
+            <input type="hidden" id="editingAdId" value="">
 
-    <section
-        class="ah-card"
-        id="createAd"
-    >
+            <h3>Business Information</h3>
 
-        <h2>
-            📢 Create Your Advertisement
-        </h2>
-
-        <p>
-            Create an advertisement for your business,
-            product, shop or service.
-        </p>
-
-
-        <form
-            id="advertisementForm"
-            enctype="multipart/form-data"
-        >
-
-
-            <h3>
-                Business / Advertisement Information
-            </h3>
-
-
-            <label for="adTitle">
-                Advertisement Title
-            </label>
-
+            <label for="adTitle">Advertisement Title *</label>
             <input
                 id="adTitle"
                 name="title"
                 type="text"
+                maxlength="250"
                 placeholder="Example: Handmade Furniture Shop"
                 required
             >
 
-
-            <label for="businessName">
-                Business / Shop Name
-            </label>
-
+            <label for="businessName">Business / Shop Name</label>
             <input
                 id="businessName"
                 name="businessName"
                 type="text"
+                maxlength="200"
                 placeholder="Your business name"
             >
 
-
-            <label for="adCategory">
-                Category
-            </label>
-
-            <select
-                id="adCategory"
-                name="category"
-            >
-
-                <option value="business">
-                    Business
-                </option>
-
-                <option value="products">
-                    Products
-                </option>
-
-                <option value="services">
-                    Services
-                </option>
-
-                <option value="jobs">
-                    Jobs
-                </option>
-
-                <option value="technology">
-                    Technology
-                </option>
-
-                <option value="education">
-                    Education
-                </option>
-
-                <option value="food">
-                    Food
-                </option>
-
-                <option value="fashion">
-                    Fashion
-                </option>
-
-                <option value="electronics">
-                    Electronics
-                </option>
-
-                <option value="agriculture">
-                    Agriculture
-                </option>
-
-                <option value="other">
-                    Other
-                </option>
-
+            <label for="adCategory">Category</label>
+            <select id="adCategory" name="category">
+                <option value="business">Business</option>
+                <option value="products">Products</option>
+                <option value="services">Services</option>
+                <option value="jobs">Jobs</option>
+                <option value="technology">Technology</option>
+                <option value="education">Education</option>
+                <option value="food">Food</option>
+                <option value="fashion">Fashion</option>
+                <option value="electronics">Electronics</option>
+                <option value="agriculture">Agriculture</option>
+                <option value="other">Other</option>
             </select>
 
-
-            <label for="adDescription">
-                Advertisement Description
-            </label>
-
+            <label for="adDescription">Description</label>
             <textarea
                 id="adDescription"
                 name="description"
                 rows="6"
-                placeholder="Describe your business, product or service..."
+                maxlength="10000"
+                placeholder="Describe your business, products or services..."
             ></textarea>
 
+            <h3>🌎 Business Location</h3>
 
-            <h3>
-                🌎 Location
-            </h3>
-
-
-            <label for="adCountry">
-                Country
-            </label>
-
-            <select id="adCountry">
-
-                <option value="">
-                    Select Country
-                </option>
-
+            <label for="adCountry">Country *</label>
+            <select id="adCountry" name="country" required>
+                <option value="">Select Country</option>
             </select>
 
-
-            <label for="adState">
-                State / Province
-            </label>
-
+            <label for="adState">State / Province</label>
             <input
                 id="adState"
                 name="state"
                 type="text"
+                maxlength="150"
                 placeholder="State / Province"
             >
 
-
-            <label for="adCity">
-                City
-            </label>
-
+            <label for="adCity">City</label>
             <input
                 id="adCity"
                 name="city"
                 type="text"
+                maxlength="150"
                 placeholder="City"
             >
 
+            <h3>💰 Product / Offer</h3>
 
-            <h3>
-                💰 Product / Offer
-            </h3>
-
-
-            <label for="adPrice">
-                Price
-            </label>
-
+            <label for="adPrice">Price</label>
             <input
                 id="adPrice"
                 name="price"
                 type="text"
+                maxlength="100"
                 placeholder="Example: 500"
             >
 
-
-            <label for="adCurrency">
-                Currency
-            </label>
-
-            <select id="adCurrency">
-
-                <option value="USD">
-                    USD
-                </option>
-
-                <option value="INR">
-                    INR
-                </option>
-
-                <option value="EUR">
-                    EUR
-                </option>
-
-                <option value="GBP">
-                    GBP
-                </option>
-
-                <option value="AED">
-                    AED
-                </option>
-
-                <option value="CAD">
-                    CAD
-                </option>
-
-                <option value="AUD">
-                    AUD
-                </option>
-
-                <option value="JPY">
-                    JPY
-                </option>
-
+            <label for="adCurrency">Currency</label>
+            <select id="adCurrency" name="currency">
+                <option value="USD">USD</option>
+                <option value="INR">INR</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="AED">AED</option>
+                <option value="CAD">CAD</option>
+                <option value="AUD">AUD</option>
+                <option value="JPY">JPY</option>
             </select>
 
-
-            <label for="adOffer">
-                Special Offer
-            </label>
-
+            <label for="adOffer">Special Offer</label>
             <input
                 id="adOffer"
                 name="offer"
                 type="text"
+                maxlength="250"
                 placeholder="Example: 20% discount"
             >
 
-
-            <h3>
-                🖼️ Images
-            </h3>
-
-            <p>
-                Add images of your business, shop or product.
-            </p>
-
+            <h3>🖼️ Business Images</h3>
+            <p>Choose images to upload. Images require Marketplace media storage.</p>
             <input
                 id="adImages"
                 name="images"
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/gif"
                 multiple
             >
 
-
-            <h3>
-                🎥 Video
-            </h3>
-
-            <p>
-                Add a promotional video.
-            </p>
-
+            <h3>🎥 Promotional Video</h3>
             <input
                 id="adVideo"
                 name="video"
                 type="file"
-                accept="video/*"
+                accept="video/mp4,video/webm,video/quicktime"
             >
 
-
-            <label for="adVideoURL">
-                Or Video URL
-            </label>
-
+            <label for="adVideoURL">Or Video URL</label>
             <input
                 id="adVideoURL"
                 name="videoURL"
@@ -721,40 +377,27 @@
                 placeholder="https://..."
             >
 
+            <h3>📞 Contact Information</h3>
 
-            <h3>
-                📞 Contact Information
-            </h3>
-
-
-            <label for="adPhone">
-                Phone / WhatsApp
-            </label>
-
+            <label for="adPhone">Phone / WhatsApp</label>
             <input
                 id="adPhone"
                 name="phone"
                 type="tel"
+                maxlength="50"
                 placeholder="Phone or WhatsApp number"
             >
 
-
-            <label for="adEmail">
-                Email
-            </label>
-
+            <label for="adEmail">Business Email</label>
             <input
                 id="adEmail"
                 name="email"
                 type="email"
+                maxlength="250"
                 placeholder="Business email"
             >
 
-
-            <label for="adWebsite">
-                Website
-            </label>
-
+            <label for="adWebsite">Website</label>
             <input
                 id="adWebsite"
                 name="website"
@@ -762,11 +405,7 @@
                 placeholder="https://yourwebsite.com"
             >
 
-
-            <label for="adSocial">
-                Social Media / Business Link
-            </label>
-
+            <label for="adSocial">Social Media / Business Link</label>
             <input
                 id="adSocial"
                 name="social"
@@ -774,177 +413,62 @@
                 placeholder="https://..."
             >
 
-
-            <div>
-
-                <button
-                    type="submit"
-                    id="saveAdButton"
-                >
+            <div style="margin-top:16px">
+                <button type="submit" id="saveAdButton">
                     💾 Save Advertisement
                 </button>
 
-                <button
-                    type="reset"
-                    id="clearAdButton"
-                >
+                <button type="reset" id="clearAdButton">
                     Clear
                 </button>
-
             </div>
 
+            <div id="marketplaceAdStatus"
+                 class="marketplace-status"
+                 aria-live="polite"></div>
         </form>
-
     </section>
 
-
-    <!-- =================================================
-         MY ADS
-         ================================================= -->
-
-    <section
-        class="ah-card"
-        id="myAds"
-    >
-
-        <h2>
-            📋 My Advertisements
-        </h2>
-
-        <p>
-            Your saved advertisements will appear here.
-        </p>
-
-
-        <div id="myAdsList">
-
-            <div>
-                No advertisements created yet.
-            </div>
-
-        </div>
-
+    <!-- MY ADS -->
+    <section class="ah-card marketplace-hidden" id="myAds">
+        <h2>📋 My Advertisements</h2>
+        <div id="myAdsList">No advertisements created yet.</div>
     </section>
 
-
-    <!-- =================================================
-         PRODUCTS
-         ================================================= -->
-
-    <section class="ah-card">
-
-        <h2>
-            🛍️ Global Products
-        </h2>
-
-        <div id="productsList">
-
-            <div>
-                No products available yet.
-            </div>
-
-        </div>
-
+    <!-- PUBLIC GLOBAL BUSINESS ADS -->
+    <section class="ah-card marketplace-hidden" id="globalBusinessAdsSection">
+        <h2>🌐 Global Business Advertisements</h2>
+        <p>Business advertisements published on the Global Marketplace.</p>
+        <div id="globalAdsList">Loading advertisements…</div>
     </section>
 
-
-    <!-- =================================================
-         SERVICES
-         ================================================= -->
-
-    <section class="ah-card">
-
-        <h2>
-            🛠️ Global Services
-        </h2>
-
-        <div id="servicesList">
-
-            <div>
-                No services available yet.
-            </div>
-
-        </div>
-
+    <!-- KEEP EXISTING SECTION IDS AVAILABLE FOR OTHER SITE INTEGRATIONS -->
+    <section class="ah-card marketplace-hidden" id="productsSection">
+        <h2>🛍️ Global Products</h2>
+        <div id="productsList">Products are shown through published advertisements.</div>
     </section>
 
-
-    <!-- =================================================
-         JOBS
-         ================================================= -->
-
-    <section class="ah-card">
-
-        <h2>
-            💼 Global Jobs
-        </h2>
-
-        <div id="jobsList">
-
-            <div>
-                No jobs available yet.
-            </div>
-
-        </div>
-
+    <section class="ah-card marketplace-hidden" id="servicesSection">
+        <h2>🛠️ Global Services</h2>
+        <div id="servicesList">Services are shown through published advertisements.</div>
     </section>
 
+    <section class="ah-card marketplace-hidden" id="jobsSection">
+        <h2>💼 Global Jobs</h2>
+        <div id="jobsList">Jobs are shown through published advertisements.</div>
+    </section>
 
 </main>
 
-
-<!-- =====================================================
-     FOOTER
-     ===================================================== -->
-
 <footer class="ah-footer">
-
-    <p>
-        <strong>
-            ALON HISTORYVERSE 24
-        </strong>
-    </p>
-
-    <p>
-        Global Marketplace
-    </p>
-
-    <p>
-        Creator:
-        <strong>
-            Baba Thecno Guru
-        </strong>
-    </p>
-
+    <p><strong>ALON HISTORYVERSE 24</strong></p>
+    <p>Global Marketplace</p>
+    <p>Creator: <strong>Baba Thecno Guru</strong></p>
 </footer>
 
-
-<!-- =====================================================
-     COUNTRY DATABASE
-     ===================================================== -->
-
-<script
-    src="./marketplace-countries.js"
-></script>
-
-<!-- =====================================================
-     MARKETPLACE ENGINE
-     ===================================================== -->
-
-<script
-    src="./marketplace.js"
-></script>
-
-
-<!-- =====================================================
-     MARKETPLACE ENGINE
-     ===================================================== -->
-
-<script
-    src="../marketplace.js"
-></script>
-
+<!-- Load each engine once only -->
+<script src="../marketplace-countries.js"></script>
+<script src="../marketplace.js"></script>
 
 </body>
-
 </html>
