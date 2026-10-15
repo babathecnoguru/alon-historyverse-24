@@ -1,41 +1,44 @@
+
 /* =========================================================
    ALON HISTORYVERSE 24
    FIREBASE INTEGRATION ENGINE
    File: jss/firebase.js
    Creator: Baba Thecno Guru
-   Version: 24.0
+   Version: 25.0 FIREBASE API INTEGRATION
+
+   Services:
+   - Firebase Authentication
+   - Cloud Firestore
+   - Firebase Storage
+   - Authentication state events
+   - Article helpers
+   - Admin custom-claim verification
 
    IMPORTANT:
-   This file does NOT contain fake Firebase credentials.
-   Add the real Firebase configuration only after creating
-   and configuring the Firebase project.
+   Insert the real Firebase Web App configuration below.
+   Enforce all permissions using Firebase Security Rules.
    ========================================================= */
 
 (function () {
     "use strict";
 
+    if (window.ALON_FIREBASE) {
+        console.warn(
+            "ALON_FIREBASE is already loaded."
+        );
+        return;
+    }
 
     /* =====================================================
        FIREBASE CONFIGURATION
+
+       Get these values from:
+       Firebase Console > Project settings > Your apps
+
+       Do not insert service-account private keys here.
     ====================================================== */
 
     const FIREBASE_CONFIG = {
-
-        /*
-         * Paste the REAL Firebase configuration here later.
-         *
-         * Example structure:
-         *
-         * apiKey: "YOUR_REAL_API_KEY",
-         * authDomain: "YOUR_PROJECT.firebaseapp.com",
-         * projectId: "YOUR_PROJECT_ID",
-         * storageBucket: "YOUR_PROJECT.firebasestorage.app",
-         * messagingSenderId: "YOUR_SENDER_ID",
-         * appId: "YOUR_APP_ID"
-         *
-         * DO NOT use fake values.
-         */
-
         apiKey: "",
         authDomain: "",
         projectId: "",
@@ -44,39 +47,11 @@
         appId: ""
     };
 
-
     /* =====================================================
-       FIREBASE STATE
-    ====================================================== */
-
-    const STATE = {
-
-        initialized: false,
-
-        available: false,
-
-        authenticated: false,
-
-        user: null,
-
-        app: null,
-
-        auth: null,
-
-        db: null,
-
-        storage: null,
-
-        error: null
-    };
-
-
-    /* =====================================================
-       CDN URLS
+       FIREBASE SDK URLS
     ====================================================== */
 
     const FIREBASE_MODULE_URLS = {
-
         app:
             "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js",
 
@@ -90,512 +65,386 @@
             "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js"
     };
 
-
     /* =====================================================
-       CONFIGURATION CHECK
+       STATE
     ====================================================== */
 
-    function hasConfiguration() {
+    const STATE = {
+        initialized: false,
+        available: false,
+        authenticated: false,
+        user: null,
+        app: null,
+        auth: null,
+        db: null,
+        storage: null,
+        adminClaim: false,
+        error: null
+    };
+
+    let firebaseModules = null;
+    let modulesPromise = null;
+    let initializationPromise = null;
+    let authObserverStarted = false;
+
+    /* =====================================================
+       CONFIGURATION
+    ====================================================== */
+
+    function hasConfiguration(config) {
+        const value = config || FIREBASE_CONFIG;
 
         return Boolean(
-
-            FIREBASE_CONFIG.apiKey &&
-
-            FIREBASE_CONFIG.authDomain &&
-
-            FIREBASE_CONFIG.projectId &&
-
-            FIREBASE_CONFIG.storageBucket &&
-
-            FIREBASE_CONFIG.messagingSenderId &&
-
-            FIREBASE_CONFIG.appId
-
+            value.apiKey &&
+            value.authDomain &&
+            value.projectId &&
+            value.storageBucket &&
+            value.messagingSenderId &&
+            value.appId
         );
     }
 
-
-    /* =====================================================
-       STATUS
-    ====================================================== */
-
     function getState() {
-
         return {
-            ...STATE
+            initialized: STATE.initialized,
+            available: STATE.available,
+            authenticated: STATE.authenticated,
+            user: STATE.user,
+            app: STATE.app,
+            auth: STATE.auth,
+            db: STATE.db,
+            storage: STATE.storage,
+            adminClaim: STATE.adminClaim,
+            error: STATE.error
         };
     }
 
-
     function isConfigured() {
-
         return hasConfiguration();
     }
 
-
     function isReady() {
-
         return (
             STATE.initialized === true &&
-            STATE.available === true
+            STATE.available === true &&
+            Boolean(STATE.app) &&
+            Boolean(STATE.auth) &&
+            Boolean(STATE.db) &&
+            Boolean(STATE.storage)
         );
     }
-
 
     function isLoggedIn() {
-
         return (
-            STATE.authenticated === true
+            STATE.authenticated === true &&
+            Boolean(STATE.user)
         );
     }
 
-
     function getCurrentUser() {
+        return STATE.user;
+    }
+
+    function requireReady() {
+        if (!isReady()) {
+            throw new Error(
+                STATE.error ||
+                "Firebase is not initialized. Check the Firebase configuration."
+            );
+        }
+    }
+
+    function requireAuth() {
+        requireReady();
+
+        if (!STATE.user) {
+            throw new Error(
+                "Please sign in before performing this operation."
+            );
+        }
 
         return STATE.user;
     }
 
-
     /* =====================================================
-       SCRIPT LOADER
-    ====================================================== */
-
-    function loadScript(
-        url
-    ) {
-
-        return new Promise(
-            function (
-                resolve,
-                reject
-            ) {
-
-                if (!url) {
-
-                    reject(
-                        new Error(
-                            "Firebase script URL is missing."
-                        )
-                    );
-
-                    return;
-                }
-
-
-                const existing =
-                    document.querySelector(
-                        'script[data-alon-firebase="' +
-                        url +
-                        '"]'
-                    );
-
-
-                if (existing) {
-
-                    resolve();
-
-                    return;
-                }
-
-
-                const script =
-                    document.createElement(
-                        "script"
-                    );
-
-
-                script.type =
-                    "module";
-
-
-                script.src =
-                    url;
-
-
-                script.setAttribute(
-                    "data-alon-firebase",
-                    url
-                );
-
-
-                script.onload =
-                    function () {
-
-                        resolve();
-
-                    };
-
-
-                script.onerror =
-                    function () {
-
-                        reject(
-                            new Error(
-                                "Unable to load Firebase module."
-                            )
-                        );
-
-                    };
-
-
-                document.head.appendChild(
-                    script
-                );
-
-            }
-        );
-    }
-
-
-    /* =====================================================
-       FIREBASE MODULE IMPORT
+       LOAD FIREBASE MODULES
     ====================================================== */
 
     async function loadFirebaseModules() {
+        if (firebaseModules) {
+            return firebaseModules;
+        }
 
-        const appModule =
-            await import(
-                FIREBASE_MODULE_URLS.app
-            );
+        if (modulesPromise) {
+            return modulesPromise;
+        }
 
+        modulesPromise = (async function () {
+            try {
+                const [
+                    appModule,
+                    authModule,
+                    firestoreModule,
+                    storageModule
+                ] = await Promise.all([
+                    import(FIREBASE_MODULE_URLS.app),
+                    import(FIREBASE_MODULE_URLS.auth),
+                    import(FIREBASE_MODULE_URLS.firestore),
+                    import(FIREBASE_MODULE_URLS.storage)
+                ]);
 
-        const authModule =
-            await import(
-                FIREBASE_MODULE_URLS.auth
-            );
+                firebaseModules = {
+                    app: appModule,
+                    auth: authModule,
+                    firestore: firestoreModule,
+                    storage: storageModule
+                };
 
+                return firebaseModules;
+            } catch (error) {
+                modulesPromise = null;
+                throw error;
+            }
+        })();
 
-        const firestoreModule =
-            await import(
-                FIREBASE_MODULE_URLS.firestore
-            );
-
-
-        const storageModule =
-            await import(
-                FIREBASE_MODULE_URLS.storage
-            );
-
-
-        return {
-
-            app: appModule,
-
-            auth: authModule,
-
-            firestore:
-                firestoreModule,
-
-            storage:
-                storageModule
-        };
+        return modulesPromise;
     }
 
+    /* =====================================================
+       EVENTS
+    ====================================================== */
+
+    function dispatchEvent(name, detail) {
+        try {
+            window.dispatchEvent(
+                new CustomEvent(name, {
+                    detail: detail
+                })
+            );
+        } catch (error) {
+            console.warn(
+                "Firebase event could not be dispatched:",
+                name
+            );
+        }
+    }
+
+    function dispatchAuthChange() {
+        dispatchEvent(
+            "alon:firebase-auth-change",
+            {
+                user: STATE.user,
+                authenticated: STATE.authenticated,
+                adminClaim: STATE.adminClaim
+            }
+        );
+    }
 
     /* =====================================================
        INITIALIZE FIREBASE
     ====================================================== */
 
-    async function initialize(
-        customConfig
-    ) {
-
-        if (
-            STATE.initialized
-        ) {
-
+    async function initialize(customConfig) {
+        if (isReady()) {
             return getState();
         }
 
+        if (initializationPromise) {
+            return initializationPromise;
+        }
 
         const config = {
-
             ...FIREBASE_CONFIG,
-
             ...(customConfig || {})
         };
 
-
-        if (
-            !(
-                config.apiKey &&
-                config.authDomain &&
-                config.projectId &&
-                config.storageBucket &&
-                config.messagingSenderId &&
-                config.appId
-            )
-        ) {
-
-            STATE.initialized =
-                true;
-
-            STATE.available =
-                false;
-
+        if (!hasConfiguration(config)) {
+            STATE.initialized = false;
+            STATE.available = false;
             STATE.error =
-                "Firebase configuration is not added yet.";
+                "Firebase configuration is missing. Add the real Firebase Web App configuration.";
 
             console.warn(
-                "ALON HISTORYVERSE 24: Firebase is not configured yet."
+                "ALON HISTORYVERSE 24: Firebase configuration is incomplete."
             );
 
             return getState();
         }
 
+        initializationPromise = (async function () {
+            try {
+                const modules =
+                    await loadFirebaseModules();
 
-        try {
+                let firebaseApp;
 
-            const modules =
-                await loadFirebaseModules();
+                const existingApps =
+                    modules.app.getApps();
 
+                const existingDefaultApp =
+                    existingApps.find(function (app) {
+                        return app.name === "[DEFAULT]";
+                    });
 
-            const firebaseApp =
-                modules.app.initializeApp(
-                    config
-                );
+                if (existingDefaultApp) {
+                    const existingConfig =
+                        existingDefaultApp.options;
 
-
-            const firebaseAuth =
-                modules.auth.getAuth(
-                    firebaseApp
-                );
-
-
-            const firestoreDB =
-                modules.firestore.getFirestore(
-                    firebaseApp
-                );
-
-
-            const firebaseStorage =
-                modules.storage.getStorage(
-                    firebaseApp
-                );
-
-
-            STATE.app =
-                firebaseApp;
-
-
-            STATE.auth =
-                firebaseAuth;
-
-
-            STATE.db =
-                firestoreDB;
-
-
-            STATE.storage =
-                firebaseStorage;
-
-
-            STATE.initialized =
-                true;
-
-
-            STATE.available =
-                true;
-
-
-            STATE.error =
-                null;
-
-
-            modules.auth.onAuthStateChanged(
-                firebaseAuth,
-                function (user) {
-
-                    STATE.user =
-                        user || null;
-
-
-                    STATE.authenticated =
-                        Boolean(user);
-
-
-                    try {
-
-                        window.dispatchEvent(
-                            new CustomEvent(
-                                "alon:firebase-auth-change",
-                                {
-                                    detail: {
-                                        user:
-                                            user ||
-                                            null
-                                    }
-                                }
-                            )
+                    if (
+                        existingConfig.projectId !==
+                        config.projectId
+                    ) {
+                        throw new Error(
+                            "A different default Firebase project is already initialized on this page."
                         );
-
-                    } catch (error) {
-                        /* Compatibility fallback */
                     }
 
+                    firebaseApp =
+                        existingDefaultApp;
+                } else {
+                    firebaseApp =
+                        modules.app.initializeApp(config);
                 }
-            );
 
+                const firebaseAuth =
+                    modules.auth.getAuth(firebaseApp);
 
-            try {
+                const firestoreDB =
+                    modules.firestore.getFirestore(firebaseApp);
 
-                window.dispatchEvent(
-                    new CustomEvent(
-                        "alon:firebase-ready",
-                        {
-                            detail:
-                                getState()
+                const firebaseStorage =
+                    modules.storage.getStorage(firebaseApp);
+
+                STATE.app = firebaseApp;
+                STATE.auth = firebaseAuth;
+                STATE.db = firestoreDB;
+                STATE.storage = firebaseStorage;
+
+                STATE.initialized = true;
+                STATE.available = true;
+                STATE.error = null;
+
+                if (!authObserverStarted) {
+                    authObserverStarted = true;
+
+                    modules.auth.onAuthStateChanged(
+                        firebaseAuth,
+                        async function (user) {
+                            STATE.user = user || null;
+                            STATE.authenticated =
+                                Boolean(user);
+
+                            STATE.adminClaim = false;
+
+                            if (user) {
+                                try {
+                                    const tokenResult =
+                                        await modules.auth
+                                            .getIdTokenResult(user);
+
+                                    STATE.adminClaim =
+                                        tokenResult.claims.admin === true;
+                                } catch (error) {
+                                    STATE.adminClaim = false;
+
+                                    console.warn(
+                                        "Unable to verify Firebase admin claim."
+                                    );
+                                }
+                            }
+
+                            dispatchAuthChange();
                         }
-                    )
+                    );
+                }
+
+                dispatchEvent(
+                    "alon:firebase-ready",
+                    getState()
                 );
 
+                console.log(
+                    "ALON HISTORYVERSE 24: Firebase initialized."
+                );
+
+                return getState();
             } catch (error) {
-                /* Compatibility fallback */
+                STATE.initialized = false;
+                STATE.available = false;
+                STATE.error =
+                    error && error.message
+                        ? error.message
+                        : String(error);
+
+                STATE.app = null;
+                STATE.auth = null;
+                STATE.db = null;
+                STATE.storage = null;
+
+                console.error(
+                    "ALON HISTORYVERSE 24 Firebase initialization failed:",
+                    error
+                );
+
+                dispatchEvent(
+                    "alon:firebase-error",
+                    {
+                        message: STATE.error
+                    }
+                );
+
+                return getState();
+            } finally {
+                initializationPromise = null;
             }
+        })();
 
-
-            console.log(
-                "ALON HISTORYVERSE 24 Firebase initialized successfully."
-            );
-
-
-            return getState();
-
-
-        } catch (error) {
-
-            STATE.initialized =
-                true;
-
-            STATE.available =
-                false;
-
-            STATE.error =
-                error &&
-                error.message
-                    ? error.message
-                    : String(error);
-
-
-            console.error(
-                "ALON HISTORYVERSE 24 Firebase initialization failed:",
-                error
-            );
-
-
-            return getState();
-        }
+        return initializationPromise;
     }
-
 
     /* =====================================================
        AUTHENTICATION
     ====================================================== */
 
-    async function signInWithEmail(
-        email,
-        password
-    ) {
-
-        if (
-            !STATE.auth
-        ) {
-
-            throw new Error(
-                "Firebase Authentication is not initialized."
-            );
-        }
-
+    async function signInWithEmail(email, password) {
+        requireReady();
 
         const emailValue =
-            String(
-                email || ""
-            ).trim();
-
+            String(email || "").trim();
 
         const passwordValue =
-            String(
-                password || ""
-            );
+            String(password || "");
 
-
-        if (
-            !emailValue ||
-            !passwordValue
-        ) {
-
+        if (!emailValue || !passwordValue) {
             throw new Error(
                 "Email and password are required."
             );
         }
 
-
-        return STATE.auth &&
-            window.firebase
-                ? null
-                : await import(
-                    FIREBASE_MODULE_URLS.auth
-                )
-                .then(
-                    function (authModule) {
-
-                        return authModule
-                            .signInWithEmailAndPassword(
-                                STATE.auth,
-                                emailValue,
-                                passwordValue
-                            );
-
-                    }
-                );
+        return firebaseModules.auth
+            .signInWithEmailAndPassword(
+                STATE.auth,
+                emailValue,
+                passwordValue
+            );
     }
 
-
-    async function createAccount(
-        email,
-        password
-    ) {
-
-        if (
-            !STATE.auth
-        ) {
-
-            throw new Error(
-                "Firebase Authentication is not initialized."
-            );
-        }
-
+    async function createAccount(email, password) {
+        requireReady();
 
         const emailValue =
-            String(
-                email || ""
-            ).trim();
-
+            String(email || "").trim();
 
         const passwordValue =
-            String(
-                password || ""
-            );
+            String(password || "");
 
-
-        if (
-            !emailValue ||
-            !passwordValue
-        ) {
-
+        if (!emailValue || !passwordValue) {
             throw new Error(
                 "Email and password are required."
             );
         }
 
-
-        const authModule =
-            await import(
-                FIREBASE_MODULE_URLS.auth
-            );
-
-
-        return authModule
+        return firebaseModules.auth
             .createUserWithEmailAndPassword(
                 STATE.auth,
                 emailValue,
@@ -603,133 +452,171 @@
             );
     }
 
-
     async function signOut() {
+        requireReady();
 
-        if (
-            !STATE.auth
-        ) {
-
-            throw new Error(
-                "Firebase Authentication is not initialized."
-            );
-        }
-
-
-        const authModule =
-            await import(
-                FIREBASE_MODULE_URLS.auth
-            );
-
-
-        await authModule.signOut(
+        await firebaseModules.auth.signOut(
             STATE.auth
         );
 
-
-        STATE.user =
-            null;
-
-
-        STATE.authenticated =
-            false;
-
-
+        // The auth-state observer updates STATE.
         return true;
     }
 
-
-    /* =====================================================
-       PASSWORD RESET
-    ====================================================== */
-
-    async function resetPassword(
-        email
-    ) {
-
-        if (
-            !STATE.auth
-        ) {
-
-            throw new Error(
-                "Firebase Authentication is not initialized."
-            );
-        }
-
+    async function resetPassword(email) {
+        requireReady();
 
         const emailValue =
-            String(
-                email || ""
-            ).trim();
-
+            String(email || "").trim();
 
         if (!emailValue) {
-
             throw new Error(
                 "Email address is required."
             );
         }
 
-
-        const authModule =
-            await import(
-                FIREBASE_MODULE_URLS.auth
-            );
-
-
-        return authModule
+        return firebaseModules.auth
             .sendPasswordResetEmail(
                 STATE.auth,
                 emailValue
             );
     }
 
+    async function sendEmailVerification() {
+        requireAuth();
 
-    /* =====================================================
-       FIRESTORE
-    ====================================================== */
-
-    async function addDocument(
-        collectionName,
-        data
-    ) {
-
-        if (
-            !STATE.db
-        ) {
-
-            throw new Error(
-                "Firestore is not initialized."
-            );
-        }
-
-
-        if (
-            !collectionName
-        ) {
-
-            throw new Error(
-                "Collection name is required."
-            );
-        }
-
-
-        const firestoreModule =
-            await import(
-                FIREBASE_MODULE_URLS.firestore
-            );
-
-
-        return firestoreModule
-            .addDoc(
-                firestoreModule.collection(
-                    STATE.db,
-                    collectionName
-                ),
-                data || {}
+        return firebaseModules.auth
+            .sendEmailVerification(
+                STATE.user
             );
     }
 
+    async function updateDisplayName(displayName) {
+        requireAuth();
+
+        const name =
+            String(displayName || "").trim();
+
+        if (!name) {
+            throw new Error(
+                "Display name is required."
+            );
+        }
+
+        return firebaseModules.auth
+            .updateProfile(
+                STATE.user,
+                {
+                    displayName: name
+                }
+            );
+    }
+
+    async function refreshIdToken(forceRefresh) {
+        requireAuth();
+
+        const token =
+            await firebaseModules.auth
+                .getIdToken(
+                    STATE.user,
+                    forceRefresh === true
+                );
+
+        return token;
+    }
+
+    async function getIdTokenResult(forceRefresh) {
+        requireAuth();
+
+        const result =
+            await firebaseModules.auth
+                .getIdTokenResult(
+                    STATE.user,
+                    forceRefresh === true
+                );
+
+        STATE.adminClaim =
+            result.claims.admin === true;
+
+        return result;
+    }
+
+    /* =====================================================
+       AUTH STATE LISTENER
+    ====================================================== */
+
+    function onAuthStateChanged(callback) {
+        requireReady();
+
+        if (typeof callback !== "function") {
+            throw new Error(
+                "Authentication callback must be a function."
+            );
+        }
+
+        return firebaseModules.auth
+            .onAuthStateChanged(
+                STATE.auth,
+                callback
+            );
+    }
+
+    /* =====================================================
+       FIRESTORE HELPERS
+    ====================================================== */
+
+    function validateCollectionName(name) {
+        if (
+            typeof name !== "string" ||
+            !name.trim() ||
+            name.trim().includes("/")
+        ) {
+            throw new Error(
+                "A valid Firestore collection name is required."
+            );
+        }
+
+        return name.trim();
+    }
+
+    function validateDocumentId(id) {
+        if (
+            typeof id !== "string" ||
+            !id.trim() ||
+            id.trim().includes("/")
+        ) {
+            throw new Error(
+                "A valid Firestore document ID is required."
+            );
+        }
+
+        return id.trim();
+    }
+
+    async function addDocument(collectionName, data) {
+        requireReady();
+
+        const collection =
+            validateCollectionName(collectionName);
+
+        if (
+            !data ||
+            typeof data !== "object" ||
+            Array.isArray(data)
+        ) {
+            throw new Error(
+                "Document data must be an object."
+            );
+        }
+
+        return firebaseModules.firestore.addDoc(
+            firebaseModules.firestore.collection(
+                STATE.db,
+                collection
+            ),
+            data
+        );
+    }
 
     async function setDocument(
         collectionName,
@@ -737,389 +624,533 @@
         data,
         merge
     ) {
+        requireReady();
+
+        const collection =
+            validateCollectionName(collectionName);
+
+        const id =
+            validateDocumentId(documentId);
 
         if (
-            !STATE.db
+            !data ||
+            typeof data !== "object" ||
+            Array.isArray(data)
         ) {
-
             throw new Error(
-                "Firestore is not initialized."
+                "Document data must be an object."
             );
         }
 
-
-        if (
-            !collectionName ||
-            !documentId
-        ) {
-
-            throw new Error(
-                "Collection and document ID are required."
-            );
-        }
-
-
-        const firestoreModule =
-            await import(
-                FIREBASE_MODULE_URLS.firestore
-            );
-
-
-        return firestoreModule
-            .setDoc(
-                firestoreModule.doc(
-                    STATE.db,
-                    collectionName,
-                    documentId
-                ),
-                data || {},
-                {
-                    merge:
-                        merge !== false
-                }
-            );
+        return firebaseModules.firestore.setDoc(
+            firebaseModules.firestore.doc(
+                STATE.db,
+                collection,
+                id
+            ),
+            data,
+            {
+                merge: merge !== false
+            }
+        );
     }
-
 
     async function getDocument(
         collectionName,
         documentId
     ) {
+        requireReady();
 
-        if (
-            !STATE.db
-        ) {
+        const collection =
+            validateCollectionName(collectionName);
 
-            throw new Error(
-                "Firestore is not initialized."
-            );
-        }
-
-
-        const firestoreModule =
-            await import(
-                FIREBASE_MODULE_URLS.firestore
-            );
-
+        const id =
+            validateDocumentId(documentId);
 
         const snapshot =
-            await firestoreModule.getDoc(
-                firestoreModule.doc(
+            await firebaseModules.firestore.getDoc(
+                firebaseModules.firestore.doc(
                     STATE.db,
-                    collectionName,
-                    documentId
+                    collection,
+                    id
                 )
             );
 
-
-        if (
-            !snapshot.exists()
-        ) {
-
+        if (!snapshot.exists()) {
             return null;
         }
 
-
         return {
-
-            id:
-                snapshot.id,
-
+            id: snapshot.id,
             ...snapshot.data()
         };
     }
-
 
     async function deleteDocument(
         collectionName,
         documentId
     ) {
+        requireReady();
 
-        if (
-            !STATE.db
-        ) {
+        const collection =
+            validateCollectionName(collectionName);
 
-            throw new Error(
-                "Firestore is not initialized."
-            );
-        }
+        const id =
+            validateDocumentId(documentId);
 
-
-        const firestoreModule =
-            await import(
-                FIREBASE_MODULE_URLS.firestore
-            );
-
-
-        return firestoreModule
-            .deleteDoc(
-                firestoreModule.doc(
-                    STATE.db,
-                    collectionName,
-                    documentId
-                )
-            );
+        return firebaseModules.firestore.deleteDoc(
+            firebaseModules.firestore.doc(
+                STATE.db,
+                collection,
+                id
+            )
+        );
     }
 
+    async function queryDocuments(
+        collectionName,
+        options
+    ) {
+        requireReady();
+
+        const collection =
+            validateCollectionName(collectionName);
+
+        const settings = options || {};
+
+        const constraints = [];
+
+        if (Array.isArray(settings.where)) {
+            settings.where.forEach(function (condition) {
+                if (
+                    !Array.isArray(condition) ||
+                    condition.length !== 3
+                ) {
+                    throw new Error(
+                        "Each where condition must contain field, operator and value."
+                    );
+                }
+
+                constraints.push(
+                    firebaseModules.firestore.where(
+                        condition[0],
+                        condition[1],
+                        condition[2]
+                    )
+                );
+            });
+        }
+
+        if (settings.orderBy) {
+            if (typeof settings.orderBy === "string") {
+                constraints.push(
+                    firebaseModules.firestore.orderBy(
+                        settings.orderBy
+                    )
+                );
+            } else {
+                constraints.push(
+                    firebaseModules.firestore.orderBy(
+                        settings.orderBy.field,
+                        settings.orderBy.direction || "asc"
+                    )
+                );
+            }
+        }
+
+        if (settings.limit !== undefined) {
+            const limitValue =
+                Number(settings.limit);
+
+            if (
+                !Number.isInteger(limitValue) ||
+                limitValue < 1 ||
+                limitValue > 500
+            ) {
+                throw new Error(
+                    "Query limit must be between 1 and 500."
+                );
+            }
+
+            constraints.push(
+                firebaseModules.firestore.limit(
+                    limitValue
+                )
+            );
+        }
+
+        const collectionRef =
+            firebaseModules.firestore.collection(
+                STATE.db,
+                collection
+            );
+
+        const queryRef =
+            constraints.length
+                ? firebaseModules.firestore.query(
+                    collectionRef,
+                    ...constraints
+                )
+                : collectionRef;
+
+        const snapshot =
+            await firebaseModules.firestore.getDocs(
+                queryRef
+            );
+
+        return snapshot.docs.map(function (item) {
+            return {
+                id: item.id,
+                ...item.data()
+            };
+        });
+    }
+
+    function listenDocument(
+        collectionName,
+        documentId,
+        callback,
+        onError
+    ) {
+        requireReady();
+
+        if (typeof callback !== "function") {
+            throw new Error(
+                "A document listener callback is required."
+            );
+        }
+
+        const reference =
+            firebaseModules.firestore.doc(
+                STATE.db,
+                validateCollectionName(collectionName),
+                validateDocumentId(documentId)
+            );
+
+        return firebaseModules.firestore.onSnapshot(
+            reference,
+            function (snapshot) {
+                callback(
+                    snapshot.exists()
+                        ? {
+                            id: snapshot.id,
+                            ...snapshot.data()
+                        }
+                        : null
+                );
+            },
+            typeof onError === "function"
+                ? onError
+                : function (error) {
+                    console.error(
+                        "Firestore document listener failed:",
+                        error
+                    );
+                }
+        );
+    }
+
+    function listenCollection(
+        collectionName,
+        callback,
+        options,
+        onError
+    ) {
+        requireReady();
+
+        if (typeof callback !== "function") {
+            throw new Error(
+                "A collection listener callback is required."
+            );
+        }
+
+        const settings = options || {};
+        const constraints = [];
+
+        if (Array.isArray(settings.where)) {
+            settings.where.forEach(function (condition) {
+                if (
+                    !Array.isArray(condition) ||
+                    condition.length !== 3
+                ) {
+                    throw new Error(
+                        "Each where condition must contain field, operator and value."
+                    );
+                }
+
+                constraints.push(
+                    firebaseModules.firestore.where(
+                        condition[0],
+                        condition[1],
+                        condition[2]
+                    )
+                );
+            });
+        }
+
+        if (settings.orderBy) {
+            const order = settings.orderBy;
+
+            constraints.push(
+                firebaseModules.firestore.orderBy(
+                    typeof order === "string"
+                        ? order
+                        : order.field,
+                    typeof order === "string"
+                        ? "asc"
+                        : (order.direction || "asc")
+                )
+            );
+        }
+
+        if (settings.limit !== undefined) {
+            const limitValue = Number(settings.limit);
+
+            if (
+                !Number.isInteger(limitValue) ||
+                limitValue < 1 ||
+                limitValue > 500
+            ) {
+                throw new Error(
+                    "Listener limit must be between 1 and 500."
+                );
+            }
+
+            constraints.push(
+                firebaseModules.firestore.limit(
+                    limitValue
+                )
+            );
+        }
+
+        const reference =
+            firebaseModules.firestore.collection(
+                STATE.db,
+                validateCollectionName(collectionName)
+            );
+
+        const queryRef =
+            constraints.length
+                ? firebaseModules.firestore.query(
+                    reference,
+                    ...constraints
+                )
+                : reference;
+
+        return firebaseModules.firestore.onSnapshot(
+            queryRef,
+            function (snapshot) {
+                callback(
+                    snapshot.docs.map(function (item) {
+                        return {
+                            id: item.id,
+                            ...item.data()
+                        };
+                    })
+                );
+            },
+            typeof onError === "function"
+                ? onError
+                : function (error) {
+                    console.error(
+                        "Firestore collection listener failed:",
+                        error
+                    );
+                }
+        );
+    }
 
     /* =====================================================
-       STORAGE
+       STORAGE HELPERS
     ====================================================== */
 
-    async function uploadFile(
-        file,
-        path
-    ) {
-
-        if (
-            !STATE.storage
-        ) {
-
-            throw new Error(
-                "Firebase Storage is not initialized."
-            );
-        }
-
+    async function uploadFile(file, path) {
+        requireReady();
 
         if (!file) {
-
             throw new Error(
-                "File is required."
+                "A file is required."
             );
         }
 
-
-        if (!path) {
-
+        if (
+            typeof path !== "string" ||
+            !path.trim()
+        ) {
             throw new Error(
-                "Storage path is required."
+                "A valid Storage path is required."
             );
         }
-
-
-        const storageModule =
-            await import(
-                FIREBASE_MODULE_URLS.storage
-            );
-
 
         const storageReference =
-            storageModule.ref(
+            firebaseModules.storage.ref(
                 STATE.storage,
-                path
+                path.trim()
             );
 
-
         const result =
-            await storageModule
-                .uploadBytes(
-                    storageReference,
-                    file
-                );
-
+            await firebaseModules.storage.uploadBytes(
+                storageReference,
+                file,
+                {
+                    contentType:
+                        file.type || "application/octet-stream"
+                }
+            );
 
         const downloadURL =
-            await storageModule
-                .getDownloadURL(
-                    result.ref
-                );
-
+            await firebaseModules.storage.getDownloadURL(
+                result.ref
+            );
 
         return {
-
-            reference:
-                result.ref,
-
-            url:
-                downloadURL
+            reference: result.ref,
+            fullPath: result.ref.fullPath,
+            url: downloadURL
         };
     }
 
-
-    async function deleteFile(
-        path
-    ) {
+    async function deleteFile(path) {
+        requireReady();
 
         if (
-            !STATE.storage
+            typeof path !== "string" ||
+            !path.trim()
         ) {
-
             throw new Error(
-                "Firebase Storage is not initialized."
+                "A valid Storage path is required."
             );
         }
-
-
-        if (!path) {
-
-            throw new Error(
-                "Storage path is required."
-            );
-        }
-
-
-        const storageModule =
-            await import(
-                FIREBASE_MODULE_URLS.storage
-            );
-
 
         const storageReference =
-            storageModule.ref(
+            firebaseModules.storage.ref(
                 STATE.storage,
-                path
+                path.trim()
             );
 
-
-        return storageModule
-            .deleteObject(
-                storageReference
-            );
+        return firebaseModules.storage.deleteObject(
+            storageReference
+        );
     }
-
 
     /* =====================================================
        ARTICLE HELPERS
+
+       Firestore rules must restrict who may create,
+       update and delete articles.
     ====================================================== */
 
-    async function saveArticle(
-        article
-    ) {
+    async function saveArticle(article) {
+        requireReady();
 
-        if (!article) {
-
+        if (
+            !article ||
+            typeof article !== "object" ||
+            Array.isArray(article)
+        ) {
             throw new Error(
                 "Article data is required."
             );
         }
 
-
         const articleId =
             article.id ||
             (
                 window.ALON_ENGINE &&
-                typeof window.ALON_ENGINE
-                    .createId === "function"
-                    ? window.ALON_ENGINE
-                        .createId("article")
+                typeof window.ALON_ENGINE.createId === "function"
+                    ? window.ALON_ENGINE.createId("article")
                     : "article-" +
-                      Date.now()
+                      (
+                          window.crypto &&
+                          typeof window.crypto.randomUUID === "function"
+                              ? window.crypto.randomUUID()
+                              : Date.now() + "-" +
+                                Math.random().toString(36).slice(2)
+                      )
             );
 
-
         const articleData = {
-
             ...article,
-
-            id:
-                articleId,
-
+            id: articleId,
             updatedAt:
-                new Date()
-                    .toISOString()
+                new Date().toISOString()
         };
 
-
-        return setDocument(
+        await setDocument(
             "articles",
-            articleId,
+            String(articleId),
             articleData,
             true
         );
+
+        return {
+            id: String(articleId)
+        };
     }
 
-
-    async function getArticle(
-        articleId
-    ) {
-
+    async function getArticle(articleId) {
         if (!articleId) {
-
             return null;
         }
 
-
         return getDocument(
             "articles",
-            articleId
+            String(articleId)
         );
     }
 
-
-    async function deleteArticle(
-        articleId
-    ) {
-
+    async function deleteArticle(articleId) {
         if (!articleId) {
-
             throw new Error(
                 "Article ID is required."
             );
         }
 
-
-        /*
-         * Permanent deletion should not normally
-         * be used directly by the public UI.
-         *
-         * The admin system should preferably move
-         * the article into a trash collection first.
-         */
-
         return deleteDocument(
             "articles",
-            articleId
+            String(articleId)
         );
     }
-
 
     /* =====================================================
        ADMIN HELPERS
+
+       Admin status must be assigned through trusted
+       Firebase Admin SDK/server-side code.
+
+       Never trust localStorage or user-edited properties.
     ====================================================== */
 
     function isAdmin() {
-
-        if (
-            !STATE.user
-        ) {
-
-            return false;
-        }
-
-
-        /*
-         * Real admin authorization must be enforced
-         * with Firebase Security Rules / custom claims.
-         *
-         * This frontend check is NOT security.
-         */
-
         return Boolean(
-            STATE.user.admin === true
+            STATE.user &&
+            STATE.adminClaim === true
         );
     }
 
+    async function verifyAdmin(forceRefresh) {
+        requireAuth();
+
+        const result =
+            await getIdTokenResult(
+                forceRefresh === true
+            );
+
+        return result.claims.admin === true;
+    }
 
     /* =====================================================
-       ERROR HANDLER
+       FRIENDLY ERRORS
     ====================================================== */
 
-    function getFriendlyError(
-        error
-    ) {
-
+    function getFriendlyError(error) {
         if (!error) {
-
             return "Unknown Firebase error.";
         }
 
-
-        const code =
-            error.code || "";
-
+        const code = error.code || "";
 
         const messages = {
-
             "auth/invalid-email":
                 "The email address is invalid.",
 
@@ -1127,24 +1158,41 @@
                 "No account was found for this email.",
 
             "auth/wrong-password":
-                "The password is incorrect.",
+                "The password is incorrect or invalid.",
+
+            "auth/invalid-credential":
+                "The email or password is incorrect.",
 
             "auth/email-already-in-use":
                 "This email is already registered.",
 
             "auth/weak-password":
-                "The password is too weak.",
+                "Firebase rejected the password as too weak.",
 
             "auth/network-request-failed":
                 "Network connection failed.",
 
+            "auth/too-many-requests":
+                "Too many attempts. Please try again later.",
+
+            "auth/operation-not-allowed":
+                "This sign-in method is not enabled in Firebase.",
+
             "permission-denied":
-                "You do not have permission to perform this action.",
+                "Firebase Security Rules denied this operation.",
 
             "storage/unauthorized":
-                "You do not have permission to access this file."
-        };
+                "Firebase Storage denied access to this file.",
 
+            "storage/canceled":
+                "The file upload was canceled.",
+
+            "storage/object-not-found":
+                "The requested file was not found.",
+
+            "unavailable":
+                "Firebase service is temporarily unavailable."
+        };
 
         return (
             messages[code] ||
@@ -1153,140 +1201,97 @@
         );
     }
 
-
     /* =====================================================
        PUBLIC API
+
+       Existing API names are preserved.
     ====================================================== */
 
     const API = {
+        config: FIREBASE_CONFIG,
+        moduleURLs: FIREBASE_MODULE_URLS,
+        state: STATE,
 
-        config:
-            FIREBASE_CONFIG,
+        getState: getState,
+        isConfigured: isConfigured,
+        isReady: isReady,
+        isLoggedIn: isLoggedIn,
+        getCurrentUser: getCurrentUser,
 
-        moduleURLs:
-            FIREBASE_MODULE_URLS,
+        initialize: initialize,
+        loadFirebaseModules: loadFirebaseModules,
 
-        state:
-            STATE,
+        signInWithEmail: signInWithEmail,
+        createAccount: createAccount,
+        signOut: signOut,
+        resetPassword: resetPassword,
+        sendEmailVerification: sendEmailVerification,
+        updateDisplayName: updateDisplayName,
+        refreshIdToken: refreshIdToken,
+        getIdTokenResult: getIdTokenResult,
+        onAuthStateChanged: onAuthStateChanged,
 
-        getState:
-            getState,
+        addDocument: addDocument,
+        setDocument: setDocument,
+        getDocument: getDocument,
+        deleteDocument: deleteDocument,
+        queryDocuments: queryDocuments,
+        listenDocument: listenDocument,
+        listenCollection: listenCollection,
 
-        isConfigured:
-            isConfigured,
+        uploadFile: uploadFile,
+        deleteFile: deleteFile,
 
-        isReady:
-            isReady,
+        saveArticle: saveArticle,
+        getArticle: getArticle,
+        deleteArticle: deleteArticle,
 
-        isLoggedIn:
-            isLoggedIn,
+        isAdmin: isAdmin,
+        verifyAdmin: verifyAdmin,
 
-        getCurrentUser:
-            getCurrentUser,
-
-        initialize:
-            initialize,
-
-        signInWithEmail:
-            signInWithEmail,
-
-        createAccount:
-            createAccount,
-
-        signOut:
-            signOut,
-
-        resetPassword:
-            resetPassword,
-
-        addDocument:
-            addDocument,
-
-        setDocument:
-            setDocument,
-
-        getDocument:
-            getDocument,
-
-        deleteDocument:
-            deleteDocument,
-
-        uploadFile:
-            uploadFile,
-
-        deleteFile:
-            deleteFile,
-
-        saveArticle:
-            saveArticle,
-
-        getArticle:
-            getArticle,
-
-        deleteArticle:
-            deleteArticle,
-
-        isAdmin:
-            isAdmin,
-
-        getFriendlyError:
-            getFriendlyError
+        getFriendlyError: getFriendlyError
     };
-
 
     /* =====================================================
        GLOBAL EXPORT
     ====================================================== */
 
-    window.ALON_FIREBASE =
-        API;
-
+    window.ALON_FIREBASE = API;
 
     /* =====================================================
-       INITIALIZATION NOTICE
+       AUTO INITIALIZATION
+
+       Missing configuration does not permanently block
+       a later call to initialize(realConfig).
     ====================================================== */
 
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-
-                /*
-                 * Do not automatically initialize
-                 * until real Firebase configuration
-                 * has been provided.
-                 */
-
-                if (
-                    hasConfiguration()
-                ) {
-
-                    initialize();
-                }
-
-            },
-            {
-                once: true
-            }
-        );
-
-    } else {
-
-        if (
-            hasConfiguration()
-        ) {
-
-            initialize();
+    function autoInitialize() {
+        if (hasConfiguration()) {
+            initialize().catch(function (error) {
+                console.error(
+                    "Firebase auto-initialization failed:",
+                    error
+                );
+            });
+        } else {
+            console.info(
+                "ALON HISTORYVERSE 24: Add the real Firebase configuration before using Firebase services."
+            );
         }
     }
 
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            autoInitialize,
+            { once: true }
+        );
+    } else {
+        autoInitialize();
+    }
 
     console.log(
-        "ALON HISTORYVERSE 24 firebase.js loaded."
+        "ALON HISTORYVERSE 24 firebase.js v25.0 loaded."
     );
 
 })();
