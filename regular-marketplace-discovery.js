@@ -1,3297 +1,1796 @@
-/* =========================================================
-   FILE NAME: regular-marketplace-discovery.js
+/*
+============================================================
+ ALON HISTORYVERSE 24
+ REGULAR MARKETPLACE — DISCOVERY ENGINE
+ File: regular-marketplace-discovery.js
+ Version: 27.0 CLOUDFLARE API INTEGRATION
+ Creator: Baba Thecno Guru
 
-   ALON HISTORYVERSE 24
-   REGULAR MARKETPLACE DISCOVERY
-   SAFE FEATURE ADD-ON
-   ---------------------------------------------------------
-   Adds:
-   👀 Viewer / Explore
-   ➕ Publisher / Add
-   ✏️ Edit
-   🗑️ Owner Delete
-   👤 Owner Identification
-   🔎 Search
-   🌍 Country Filter
-   🖼️ Image
-   🎥 Video
-   ✈️ Travel
-   🧑‍🏫 Culture Tour Guide
-   🎬 Movies
-   📺 TV Serials
-   🎙️ Podcasts
-   🌐 Hosting
-   🎞️ Web Series
-   💎 Luxury
-   🏆 Sports
-   🎮 Games
-   🎵 Songs
-   💿 Albums
-   🆕 New / Upcoming
-   🌍 World Culture
+ FEATURES
+ ------------------------------------------------------------
+ 1. Brand Promoters
+ 2. Travel & Tourist Places
+ 3. Culture Guides
+ 4. Movie Promoters
+ 5. Serials
+ 6. Podcasts
+ 7. Hosting
+ 8. Web Series
+ 9. Luxury Lifestyle
+10. Sports
+11. Games
+12. Songs
+13. Albums
+14. Upcoming Content
+15. World Culture & Local Life
 
-   IMPORTANT:
-   marketplace-countries.js is READ ONLY.
-   This code only reads:
-   window.MARKETPLACE_COUNTRIES
-   with safe fallbacks.
+ API-backed publishing, editing, deletion, media uploads,
+ comments, engagement and view tracking.
 
-   Existing Discovery code is NOT replaced.
-   ========================================================= */
+ Existing marketplace-countries.js is not modified.
+ Global Marketplace and Jobs are not modified.
+============================================================
+*/
 
 (function () {
+  "use strict";
 
-    "use strict";
+  if (window.ALON_REGULAR_DISCOVERY_V27) return;
+  window.ALON_REGULAR_DISCOVERY_V27 = true;
 
-    var ADDON_VERSION = "SAFE FEATURE ADD-ON 1.0";
+  const CONFIG = {
+    version: "27.0 CLOUDFLARE API INTEGRATION",
 
-    /* =====================================================
-       CENTRAL STORAGE KEYS
-       ===================================================== */
+    /*
+      Keep this aligned with the actual Marketplace Worker
+      deployed for ALON HISTORYVERSE 24.
+    */
+    apiBase:
+      "https://alon-historyverse-marketplace-api.bthecnoguru.workers.dev",
 
-    var STORAGE = {
+    tokenKey: "alon_marketplace_api_token",
 
-        guide:
-            "alon_historyverse_regular_culture_guides",
+    maxImageBytes: 8 * 1024 * 1024,
+    maxVideoBytes: 40 * 1024 * 1024,
 
-        serials:
-            "alon_historyverse_regular_serials",
+    requestTimeout: 30000,
 
-        podcasts:
-            "alon_historyverse_regular_podcasts",
+    /*
+      These are the API routes this client expects.
+      The Worker must implement them for server persistence.
+    */
+    recordsPath: "/api/marketplace/records/discovery",
+    mediaPath: "/api/media",
+    engagementPath: "/api/marketplace/engagement",
+    commentsPath: "/api/marketplace/comments",
+    viewsPath: "/api/marketplace/views"
+  };
 
-        hosting:
-            "alon_historyverse_regular_hosting",
+  const STORAGE_KEYS = {
+    cultureGuides:
+      "alon_historyverse_regular_culture_guides",
+    serials:
+      "alon_historyverse_regular_serials",
+    podcasts:
+      "alon_historyverse_regular_podcasts",
+    hosting:
+      "alon_historyverse_regular_hosting",
+    webSeries:
+      "alon_historyverse_regular_web_series",
+    luxury:
+      "alon_historyverse_regular_luxury",
+    sports:
+      "alon_historyverse_regular_sports",
+    games:
+      "alon_historyverse_regular_games",
+    songs:
+      "alon_historyverse_regular_songs",
+    albums:
+      "alon_historyverse_regular_albums",
+    upcoming:
+      "alon_historyverse_regular_upcoming",
+    brandPromoters:
+      "alon_historyverse_regular_brand_promoters",
+    travelPlaces:
+      "alon_historyverse_regular_travel_places",
+    moviePromoters:
+      "alon_historyverse_regular_movie_promoters",
+    worldCulture:
+      "alon_historyverse_regular_world_culture"
+  };
 
-        webSeries:
-            "alon_historyverse_regular_web_series",
+  const CATEGORIES = [
+    {
+      id: "brandPromoters",
+      label: "Brand Promoters",
+      feed: "rmdBrandFeed",
+      storage: STORAGE_KEYS.brandPromoters
+    },
+    {
+      id: "travelPlaces",
+      label: "Travel & Tourist Places",
+      feed: "rmdTravelFeed",
+      storage: STORAGE_KEYS.travelPlaces
+    },
+    {
+      id: "cultureGuides",
+      label: "Culture Guides",
+      feed: "rmdGuideFeed",
+      storage: STORAGE_KEYS.cultureGuides
+    },
+    {
+      id: "moviePromoters",
+      label: "Movie Promoters",
+      feed: "rmdMovieFeed",
+      storage: STORAGE_KEYS.moviePromoters
+    },
+    {
+      id: "serials",
+      label: "Serials",
+      feed: "rmdSerialFeed",
+      storage: STORAGE_KEYS.serials
+    },
+    {
+      id: "podcasts",
+      label: "Podcasts",
+      feed: "rmdPodcastFeed",
+      storage: STORAGE_KEYS.podcasts
+    },
+    {
+      id: "hosting",
+      label: "Hosting",
+      feed: "rmdHostingFeed",
+      storage: STORAGE_KEYS.hosting
+    },
+    {
+      id: "webSeries",
+      label: "Web Series",
+      feed: "rmdWebSeriesFeed",
+      storage: STORAGE_KEYS.webSeries
+    },
+    {
+      id: "luxury",
+      label: "Luxury Lifestyle",
+      feed: "rmdLuxuryFeed",
+      storage: STORAGE_KEYS.luxury
+    },
+    {
+      id: "sports",
+      label: "Sports",
+      feed: "rmdSportsFeed",
+      storage: STORAGE_KEYS.sports
+    },
+    {
+      id: "games",
+      label: "Games",
+      feed: "rmdGamesFeed",
+      storage: STORAGE_KEYS.games
+    },
+    {
+      id: "songs",
+      label: "Songs",
+      feed: "rmdSongsFeed",
+      storage: STORAGE_KEYS.songs
+    },
+    {
+      id: "albums",
+      label: "Albums",
+      feed: "rmdAlbumsFeed",
+      storage: STORAGE_KEYS.albums
+    },
+    {
+      id: "upcoming",
+      label: "New & Upcoming",
+      feed: "rmdUpcomingFeed",
+      storage: STORAGE_KEYS.upcoming
+    },
+    {
+      id: "worldCulture",
+      label: "World Culture & Local Life",
+      feed: "rmdCultureFeed",
+      storage: STORAGE_KEYS.worldCulture
+    }
+  ];
 
-        luxury:
-            "alon_historyverse_regular_luxury",
+  const state = {
+    records: [],
+    countries: [],
+    activeCategory: "brandPromoters",
+    search: "",
+    country: "",
+    editingId: null,
+    loading: false,
+    initialized: false
+  };
 
-        sports:
-            "alon_historyverse_regular_sports",
+  const $ = (selector, root = document) =>
+    root.querySelector(selector);
 
-        games:
-            "alon_historyverse_regular_games",
+  const $$ = (selector, root = document) =>
+    Array.from(root.querySelectorAll(selector));
 
-        songs:
-            "alon_historyverse_regular_songs",
+  function escapeHTML(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 
-        albums:
-            "alon_historyverse_regular_albums",
+  function safeURL(value) {
+    if (!value) return "";
 
-        upcoming:
-            "alon_historyverse_regular_upcoming"
-    };
+    try {
+      const url = new URL(value, window.location.origin);
 
+      if (
+        url.protocol !== "https:" &&
+        url.protocol !== "http:" &&
+        url.protocol !== "blob:"
+      ) {
+        return "";
+      }
 
-    /* =====================================================
-       CATEGORY INFORMATION
-       ===================================================== */
+      return url.href;
+    } catch (_) {
+      return "";
+    }
+  }
 
-    var CATEGORIES = {
-
-        rmdBrands: {
-            name: "Brand Promoter",
-            key:
-                "alon_historyverse_regular_brand_promoters",
-            feed: "rmdBrandFeed"
-        },
-
-        rmdTravel: {
-            name: "Travel & Tourist",
-            key:
-                "alon_historyverse_regular_travel_places",
-            feed: "rmdTravelFeed"
-        },
-
-        rmdGuides: {
-            name: "Culture Tour Guide",
-            key:
-                STORAGE.guide,
-            feed: "rmdGuideFeed"
-        },
-
-        rmdMovies: {
-            name: "Movies",
-            key:
-                "alon_historyverse_regular_movie_promoters",
-            feed: "rmdMovieFeed"
-        },
-
-        rmdSerials: {
-            name: "TV Serials",
-            key:
-                STORAGE.serials,
-            feed: "rmdSerialFeed"
-        },
-
-        rmdPodcasts: {
-            name: "Podcasts",
-            key:
-                STORAGE.podcasts,
-            feed: "rmdPodcastFeed"
-        },
-
-        rmdHosting: {
-            name: "Hosting",
-            key:
-                STORAGE.hosting,
-            feed: "rmdHostingFeed"
-        },
-
-        rmdWebSeries: {
-            name: "Web Series",
-            key:
-                STORAGE.webSeries,
-            feed: "rmdWebSeriesFeed"
-        },
-
-        rmdLuxury: {
-            name: "Luxury",
-            key:
-                STORAGE.luxury,
-            feed: "rmdLuxuryFeed"
-        },
-
-        rmdSports: {
-            name: "Sports",
-            key:
-                STORAGE.sports,
-            feed: "rmdSportsFeed"
-        },
-
-        rmdGames: {
-            name: "Games",
-            key:
-                STORAGE.games,
-            feed: "rmdGamesFeed"
-        },
-
-        rmdSongs: {
-            name: "Songs",
-            key:
-                STORAGE.songs,
-            feed: "rmdSongsFeed"
-        },
-
-        rmdAlbums: {
-            name: "Albums",
-            key:
-                STORAGE.albums,
-            feed: "rmdAlbumsFeed"
-        },
-
-        rmdUpcoming: {
-            name: "New / Upcoming",
-            key:
-                STORAGE.upcoming,
-            feed: "rmdUpcomingFeed"
-        },
-
-        rmdCulture: {
-            name: "World Culture",
-            key:
-                "alon_historyverse_regular_world_culture",
-            feed: "rmdCultureFeed"
-        }
-    };
-
-
-    /* =====================================================
-       SAFE HELPERS
-       ===================================================== */
-
-    function esc(value) {
-
-        return String(
-            value == null ? "" : value
-        )
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+  function makeId() {
+    if (window.crypto && crypto.randomUUID) {
+      return crypto.randomUUID();
     }
 
+    return (
+      "rmd-" +
+      Date.now().toString(36) +
+      "-" +
+      Math.random().toString(36).slice(2, 11)
+    );
+  }
 
-    function parse(value, fallback) {
-
-        try {
-
-            var result = JSON.parse(value);
-
-            return result;
-
-        } catch (error) {
-
-            return fallback;
-        }
+  function readJSON(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch (_) {
+      return fallback;
     }
-
-
-    function read(key) {
-
-        try {
-
-            var value =
-                localStorage.getItem(key);
-
-            if (!value) {
-                return [];
-            }
-
-            var data =
-                parse(value, []);
-
-            return Array.isArray(data)
-                ? data
-                : [];
-
-        } catch (error) {
-
-            return [];
-        }
-    }
-
-
-    function write(key, data) {
-
-        try {
-
-            localStorage.setItem(
-                key,
-                JSON.stringify(data)
-            );
-
-            return true;
-
-        } catch (error) {
-
-            console.error(
-                "RMD Add-on storage error:",
-                error
-            );
-
-            return false;
-        }
-    }
-
-
-    function makeId(prefix) {
-
-        return (
-            prefix +
-            "_" +
-            Date.now() +
-            "_" +
-            Math.random()
-                .toString(36)
-                .substring(2, 9)
-        );
-    }
-
-
-    /* =====================================================
-       READ ONLY COUNTRY DATABASE
-       ===================================================== */
-
-    function getCountries() {
-
-        try {
-
-            if (
-                Array.isArray(
-                    window.MARKETPLACE_COUNTRIES
-                ) &&
-                window.MARKETPLACE_COUNTRIES.length
-            ) {
-
-                return window.MARKETPLACE_COUNTRIES;
-            }
-
-
-            if (
-                Array.isArray(
-                    window.ALON_WORLD_COUNTRIES
-                ) &&
-                window.ALON_WORLD_COUNTRIES.length
-            ) {
-
-                return window.ALON_WORLD_COUNTRIES;
-            }
-
-
-            if (
-                Array.isArray(
-                    window.WORLD_COUNTRIES
-                ) &&
-                window.WORLD_COUNTRIES.length
-            ) {
-
-                return window.WORLD_COUNTRIES;
-            }
-
-        } catch (error) {
-
-            console.error(
-                "RMD country read error:",
-                error
-            );
-        }
-
-        return [];
-    }
-
-
-    function countryOptions() {
-
-        var countries =
-            getCountries();
-
-        var html =
-            '<option value="">All Countries</option>';
-
-
-        countries.forEach(
-            function (country) {
-
-                if (!country) {
-                    return;
-                }
-
-                var code =
-                    country.code ||
-                    country.iso ||
-                    country.isoCode ||
-                    country.name ||
-                    "";
-
-                var name =
-                    country.name ||
-                    country.country ||
-                    code;
-
-                var flag =
-                    country.flag || "";
-
-
-                html +=
-                    '<option value="' +
-                    esc(code) +
-                    '">' +
-                    esc(
-                        (flag ? flag + " " : "") +
-                        name
-                    ) +
-                    "</option>";
-            }
-        );
-
-
-        return html;
-    }
-
-
-    function countryName(code) {
-
-        if (!code) {
-            return "";
-        }
-
-        var countries =
-            getCountries();
-
-        var found =
-            countries.find(
-                function (country) {
-
-                    return String(
-                        country.code ||
-                        country.iso ||
-                        country.isoCode ||
-                        ""
-                    ).toLowerCase() ===
-                    String(code).toLowerCase();
-                }
-            );
-
-
-        if (!found) {
-            return String(code);
-        }
-
-        return (
-            found.name ||
-            found.country ||
-            found.code ||
-            code
-        );
-    }
-
-
-    /* =====================================================
-       ACCOUNT / OWNER
-       ===================================================== */
-
-    function getAccount() {
-
-        var keys = [
-
-            "alon_user",
-            "alonUser",
-            "alon_account",
-            "alon_historyverse_user",
-            "alon_historyverse_account",
-            "regular_marketplace_account",
-            "currentUser",
-            "user"
-        ];
-
-
-        for (
-            var i = 0;
-            i < keys.length;
-            i++
-        ) {
-
-            try {
-
-                var raw =
-                    localStorage.getItem(
-                        keys[i]
-                    );
-
-                if (!raw) {
-                    continue;
-                }
-
-
-                var parsed =
-                    parse(raw, null);
-
-
-                if (
-                    parsed &&
-                    typeof parsed === "object"
-                ) {
-
-                    return parsed;
-                }
-
-
-                return {
-                    email: raw
-                };
-
-            } catch (error) {
-
-                continue;
-            }
-        }
-
-
-        return null;
-    }
-
-
-    function getOwner() {
-
-        var account =
-            getAccount();
-
-
-        if (!account) {
-            return "Guest";
-        }
-
-
-        return String(
-
-            account.id ||
-            account.userId ||
-            account.email ||
-            account.username ||
-            account.phone ||
-            account.name ||
-            "Guest"
-
-        );
-    }
-
-
-    function isOwner(item) {
-
-        if (!item) {
-            return false;
-        }
-
-
-        var owner =
-            String(
-                item.owner || ""
-            ).trim();
-
-
-        var current =
-            String(
-                getOwner()
-            ).trim();
-
-
-        if (
-            !owner ||
-            owner === "Guest" ||
-            owner === "guest"
-        ) {
-
-            return false;
-        }
-
-
-        return owner === current;
-    }
-
-
-    /* =====================================================
-       ADDON STYLE
-       ===================================================== */
-
-    function addStyle() {
-
-        if (
-            document.getElementById(
-                "rmdSafeAddonStyle"
-            )
-        ) {
-            return;
-        }
-
-
-        var style =
-            document.createElement(
-                "style"
-            );
-
-        style.id =
-            "rmdSafeAddonStyle";
-
-
-        style.textContent = `
-
-        .rmd-addon-bar{
-            margin:15px 0;
-            padding:12px;
-            border:1px solid #d7b35a;
-            border-radius:12px;
-            background:#05080f;
-            color:#f0d27a;
-        }
-
-        .rmd-addon-mode{
-            display:flex;
-            flex-wrap:wrap;
-            gap:8px;
-            margin-bottom:10px;
-        }
-
-        .rmd-addon-mode button{
-            border:1px solid #d7b35a;
-            border-radius:8px;
-            padding:10px 14px;
-            cursor:pointer;
-            font-weight:700;
-            background:#111;
-            color:#f0d27a;
-        }
-
-        .rmd-addon-mode button.active{
-            background:#d7b35a;
-            color:#05080f;
-        }
-
-        .rmd-addon-search{
-            display:grid;
-            grid-template-columns:
-                minmax(0,2fr)
-                minmax(0,1fr);
-            gap:8px;
-        }
-
-        .rmd-addon-search input,
-        .rmd-addon-search select{
-            width:100%;
-            box-sizing:border-box;
-            padding:11px;
-            border-radius:8px;
-            border:1px solid #ccc;
-            background:#fff;
-            color:#111;
-        }
-
-        .rmd-addon-account{
-            margin-top:8px;
-            font-size:13px;
-        }
-
-        .rmd-addon-hidden{
-            display:none !important;
-        }
-
-        .rmd-addon-actions{
-            display:flex;
-            flex-wrap:wrap;
-            gap:7px;
-            margin-top:10px;
-        }
-
-        .rmd-addon-action{
-            border:0;
-            border-radius:7px;
-            padding:8px 11px;
-            cursor:pointer;
-            font-weight:700;
-        }
-
-        .rmd-addon-edit{
-            background:#d7b35a;
-            color:#05080f;
-        }
-
-        .rmd-addon-delete{
-            background:#222;
-            color:#fff;
-        }
-
-        .rmd-addon-owner{
-            display:inline-block;
-            margin-top:7px;
-            padding:4px 8px;
-            border-radius:20px;
-            font-size:11px;
-            background:#eee;
-            color:#333;
-        }
-
-        .rmd-addon-publisher{
-            margin-top:12px;
-            padding:14px;
-            border:1px solid #ddd;
-            border-radius:10px;
-            background:#fff;
-            color:#111;
-        }
-
-        .rmd-addon-publisher form{
-            display:grid;
-            gap:9px;
-        }
-
-        .rmd-addon-publisher input,
-        .rmd-addon-publisher select,
-        .rmd-addon-publisher textarea{
-            width:100%;
-            box-sizing:border-box;
-            padding:10px;
-            border:1px solid #ccc;
-            border-radius:8px;
-        }
-
-        .rmd-addon-publisher textarea{
-            min-height:100px;
-        }
-
-        .rmd-addon-publisher button{
-            padding:11px;
-            border:0;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:700;
-            background:#05080f;
-            color:#f0d27a;
-        }
-
-        .rmd-addon-editor{
-            position:relative;
-            margin:12px 0;
-            padding:14px;
-            border:2px solid #d7b35a;
-            border-radius:10px;
-            background:#fffdf5;
-            color:#111;
-        }
-
-        .rmd-addon-editor input,
-        .rmd-addon-editor textarea{
-            width:100%;
-            box-sizing:border-box;
-            margin-top:5px;
-            padding:9px;
-            border:1px solid #ccc;
-            border-radius:7px;
-        }
-
-        @media(max-width:650px){
-
-            .rmd-addon-search{
-                grid-template-columns:1fr;
-            }
-
-        }
-
-        `;
-
-
-        document.head.appendChild(
-            style
-        );
-    }
-
-
-    /* =====================================================
-       MODE BAR
-       ===================================================== */
-
-    var currentMode =
-        "viewer";
-
-
-    function buildModeBar() {
-
-        var hub =
-            document.getElementById(
-                "rmDiscoveryHub"
-            );
-
-        if (!hub) {
-            return;
-        }
-
-
-        if (
-            document.getElementById(
-                "rmdSafeAddonBar"
-            )
-        ) {
-            return;
-        }
-
-
-        var bar =
-            document.createElement(
-                "div"
-            );
-
-        bar.id =
-            "rmdSafeAddonBar";
-
-        bar.className =
-            "rmd-addon-bar";
-
-
-        bar.innerHTML = `
-
-            <div class="rmd-addon-mode">
-
-                <button
-                    type="button"
-                    id="rmdViewerMode"
-                    class="active">
-                    👀 Viewer / Explore
-                </button>
-
-                <button
-                    type="button"
-                    id="rmdPublisherMode">
-                    ➕ Publisher / Add
-                </button>
-
-            </div>
-
-            <div class="rmd-addon-search">
-
-                <input
-                    type="search"
-                    id="rmdGlobalSearch"
-                    placeholder="🔎 Search Discovery...">
-
-                <select
-                    id="rmdCountryFilter">
-                    ${countryOptions()}
-                </select>
-
-            </div>
-
-            <div
-                id="rmdAddonAccount"
-                class="rmd-addon-account">
-            </div>
-
-        `;
-
-
-        hub.insertBefore(
-            bar,
-            hub.firstChild
-        );
-
-
-        updateAccountText();
-
-
-        document
-            .getElementById(
-                "rmdViewerMode"
-            )
-            .addEventListener(
-                "click",
-                function () {
-
-                    setMode(
-                        "viewer"
-                    );
-                }
-            );
-
-
-        document
-            .getElementById(
-                "rmdPublisherMode"
-            )
-            .addEventListener(
-                "click",
-                function () {
-
-                    setMode(
-                        "publisher"
-                    );
-                }
-            );
-
-
-        document
-            .getElementById(
-                "rmdGlobalSearch"
-            )
-            .addEventListener(
-                "input",
-                applyFilters
-            );
-
-
-        document
-            .getElementById(
-                "rmdCountryFilter"
-            )
-            .addEventListener(
-                "change",
-                applyFilters
-            );
-    }
-
-
-    function updateAccountText() {
-
-        var box =
-            document.getElementById(
-                "rmdAddonAccount"
-            );
-
-        if (!box) {
-            return;
-        }
-
-
-        var account =
-            getAccount();
-
-
-        if (!account) {
-
-            box.textContent =
-                "👤 Account: Guest — publishing is available, but owner editing requires an identified account.";
-
-            return;
-        }
-
-
-        box.innerHTML =
-            "👤 Account: <strong>" +
-            esc(
-                account.email ||
-                account.username ||
-                account.name ||
-                account.phone ||
-                getOwner()
-            ) +
-            "</strong>";
-    }
-
-
-    function setMode(mode) {
-
-        currentMode =
-            mode === "publisher"
-                ? "publisher"
-                : "viewer";
-
-
-        var viewer =
-            document.getElementById(
-                "rmdViewerMode"
-            );
-
-        var publisher =
-            document.getElementById(
-                "rmdPublisherMode"
-            );
-
-
-        if (viewer) {
-
-            viewer.classList.toggle(
-                "active",
-                currentMode === "viewer"
-            );
-        }
-
-
-        if (publisher) {
-
-            publisher.classList.toggle(
-                "active",
-                currentMode === "publisher"
-            );
-        }
-
-
-        document
-            .querySelectorAll(
-                "#rmDiscoveryHub form"
-            )
-            .forEach(
-                function (form) {
-
-                    form.classList.toggle(
-                        "rmd-addon-hidden",
-                        currentMode === "viewer"
-                    );
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                ".rmd-addon-publisher"
-            )
-            .forEach(
-                function (box) {
-
-                    box.classList.toggle(
-                        "rmd-addon-hidden",
-                        currentMode === "viewer"
-                    );
-                }
-            );
-    }
-
-
-    /* =====================================================
-       COMMON PUBLISHER FIELDS
-       ===================================================== */
-
-    function publisherFields(extra) {
-
-        return `
-
-            ${extra || ""}
-
-            <select
-                name="country"
-                required>
-                ${countryOptions()}
-            </select>
-
-            <input
-                type="text"
-                name="state"
-                placeholder="State / Province">
-
-            <input
-                type="text"
-                name="district"
-                placeholder="District">
-
-            <input
-                type="text"
-                name="city"
-                placeholder="City / Town">
-
-            <input
-                type="text"
-                name="village"
-                placeholder="Village / Local Area">
-
-            <input
-                type="text"
-                name="language"
-                placeholder="Language">
-
-            <textarea
-                name="description"
-                placeholder="Description"
-                required></textarea>
-
-            <label>
-                🖼️ Image
-                <input
-                    type="file"
-                    name="image"
-                    accept="image/*">
-            </label>
-
-            <label>
-                🎥 Video
-                <input
-                    type="file"
-                    name="video"
-                    accept="video/*">
-            </label>
-
-            <input
-                type="url"
-                name="website"
-                placeholder="🔗 Website / Page Link">
-
-            <input
-                type="url"
-                name="social"
-                placeholder="📱 Social Media Link">
-
-            <input
-                type="text"
-                name="reach"
-                placeholder="👥 Reach / Audience">
-
-            <button
-                type="submit">
-                💾 Save / Publish
-            </button>
-        `;
-    }
-
-
-    /* =====================================================
-       NEW CATEGORY DEFINITIONS
-       ===================================================== */
-
-    var NEW_FORMS = [
-
-        {
-            id: "rmdGuideForm",
-            panel: "rmdGuides",
-            feed: "rmdGuideFeed",
-            key: STORAGE.guide,
-            title: "🧑‍🏫 Culture Tour Guide",
-            extra: `
-                <input
-                    type="text"
-                    name="guideName"
-                    placeholder="Guide Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Tour / Guide Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="experience"
-                    placeholder="Experience">
-
-                <input
-                    type="text"
-                    name="languages"
-                    placeholder="Languages Spoken">
-
-                <input
-                    type="text"
-                    name="specialty"
-                    placeholder="Specialty">
-
-                <input
-                    type="text"
-                    name="foodKnowledge"
-                    placeholder="Food Knowledge">
-
-                <input
-                    type="text"
-                    name="festivalKnowledge"
-                    placeholder="Festival Knowledge">
-
-                <input
-                    type="text"
-                    name="hiddenPlaces"
-                    placeholder="Hidden Places">
-
-                <input
-                    type="text"
-                    name="tourStyle"
-                    placeholder="Tour Style">
-            `
-        },
-
-
-        {
-            id: "rmdSerialForm",
-            panel: "rmdSerials",
-            feed: "rmdSerialFeed",
-            key: STORAGE.serials,
-            title: "📺 TV Serials",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="TV Serial Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Promotion / Episode Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Genre / Category">
-            `
-        },
-
-
-        {
-            id: "rmdPodcastForm",
-            panel: "rmdPodcasts",
-            feed: "rmdPodcastFeed",
-            key: STORAGE.podcasts,
-            title: "🎙️ Podcasts",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Podcast Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Episode / Podcast Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="host"
-                    placeholder="Host / Creator">
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Podcast Category">
-            `
-        },
-
-
-        {
-            id: "rmdHostingForm",
-            panel: "rmdHosting",
-            feed: "rmdHostingFeed",
-            key: STORAGE.hosting,
-            title: "🌐 Hosting",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Hosting Provider"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Hosting Service / Plan"
-                    required>
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Hosting Type">
-
-                <input
-                    type="text"
-                    name="price"
-                    placeholder="Price / Plan">
-            `
-        },
-
-
-        {
-            id: "rmdWebSeriesForm",
-            panel: "rmdWebSeries",
-            feed: "rmdWebSeriesFeed",
-            key: STORAGE.webSeries,
-            title: "🎞️ Web Series",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Web Series Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Series / Episode Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Genre / Category">
-            `
-        },
-
-
-        {
-            id: "rmdLuxuryForm",
-            panel: "rmdLuxury",
-            feed: "rmdLuxuryFeed",
-            key: STORAGE.luxury,
-            title: "💎 Luxury",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Luxury Item / Brand"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Luxury Listing Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Luxury Category">
-
-                <input
-                    type="text"
-                    name="price"
-                    placeholder="Price">
-            `
-        },
-
-
-        {
-            id: "rmdSportsForm",
-            panel: "rmdSports",
-            feed: "rmdSportsFeed",
-            key: STORAGE.sports,
-            title: "🏆 Sports",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Sport / Team / Player"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Sports Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Sport Category">
-
-                <input
-                    type="text"
-                    name="event"
-                    placeholder="Event / Tournament">
-            `
-        },
-
-
-        {
-            id: "rmdGamesForm",
-            panel: "rmdGames",
-            feed: "rmdGamesFeed",
-            key: STORAGE.games,
-            title: "🎮 Games",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Game Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Game Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Game Category">
-
-                <input
-                    type="text"
-                    name="platform"
-                    placeholder="Platform">
-            `
-        },
-
-
-        {
-            id: "rmdSongsForm",
-            panel: "rmdSongs",
-            feed: "rmdSongsFeed",
-            key: STORAGE.songs,
-            title: "🎵 Songs",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Song Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Song / Release Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="artist"
-                    placeholder="Artist / Singer">
-
-                <input
-                    type="text"
-                    name="album"
-                    placeholder="Album">
-            `
-        },
-
-
-        {
-            id: "rmdAlbumsForm",
-            panel: "rmdAlbums",
-            feed: "rmdAlbumsFeed",
-            key: STORAGE.albums,
-            title: "💿 Albums",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Album Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Album Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="artist"
-                    placeholder="Artist / Creator">
-
-                <input
-                    type="text"
-                    name="genre"
-                    placeholder="Genre">
-            `
-        },
-
-
-        {
-            id: "rmdUpcomingForm",
-            panel: "rmdUpcoming",
-            feed: "rmdUpcomingFeed",
-            key: STORAGE.upcoming,
-            title: "🆕 New / Upcoming",
-            extra: `
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Project / Product Name"
-                    required>
-
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Announcement Title"
-                    required>
-
-                <input
-                    type="text"
-                    name="category"
-                    placeholder="Category">
-
-                <input
-                    type="text"
-                    name="releaseDate"
-                    placeholder="Release / Launch Date">
-            `
-        }
+  }
+
+  function getToken() {
+    return (
+      localStorage.getItem(CONFIG.tokenKey) ||
+      localStorage.getItem("ALON_AUTH_TOKEN") ||
+      ""
+    );
+  }
+
+  function getAccount() {
+    const candidates = [
+      "ALON_AUTH_USER",
+      "alon_historyverse_regular_marketplace_account",
+      "alon_historyverse_regular_marketplace_session",
+      "alon_historyverse_luxury_account",
+      "alon_historyverse_luxury_session"
     ];
 
-
-    /* =====================================================
-       BUILD NEW PANELS
-       ===================================================== */
-
-    function buildNewPanels() {
-
-        var tabs =
-            document.querySelector(
-                "#rmDiscoveryHub .rmd-tabs"
-            );
-
-        if (!tabs) {
-            return;
-        }
-
-
-        NEW_FORMS.forEach(
-            function (config) {
-
-                if (
-                    document.getElementById(
-                        config.panel
-                    )
-                ) {
-                    return;
-                }
-
-
-                var tab =
-                    document.createElement(
-                        "button"
-                    );
-
-                tab.type =
-                    "button";
-
-                tab.className =
-                    "rmd-tab";
-
-                tab.setAttribute(
-                    "data-panel",
-                    config.panel
-                );
-
-                tab.textContent =
-                    config.title;
-
-
-                tabs.appendChild(
-                    tab
-                );
-
-
-                var panel =
-                    document.createElement(
-                        "div"
-                    );
-
-                panel.id =
-                    config.panel;
-
-                panel.className =
-                    "rmd-panel";
-
-
-                panel.innerHTML = `
-
-                    <div class="rmd-card">
-
-                        <h3 class="rmd-section-title">
-                            ${esc(config.title)}
-                        </h3>
-
-                        <div class="rmd-addon-publisher">
-
-                            <form
-                                id="${esc(config.id)}">
-
-                                ${publisherFields(
-                                    config.extra
-                                )}
-
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                    <div
-                        id="${esc(config.feed)}"
-                        class="rmd-feed">
-                    </div>
-
-                `;
-
-
-                tabs.parentNode.insertAdjacentElement(
-                    "afterend",
-                    panel
-                );
-            }
-        );
-    }
-
-
-    /* =====================================================
-       GENERIC PUBLISHING
-       ===================================================== */
-
-    function readFiles(form) {
-
-        return new Promise(
-            function (resolve, reject) {
-
-                var result = {
-                    image: "",
-                    video: ""
-                };
-
-
-                var image =
-                    form.querySelector(
-                        'input[name="image"]'
-                    );
-
-
-                var video =
-                    form.querySelector(
-                        'input[name="video"]'
-                    );
-
-
-                var files = [];
-
-
-                if (
-                    image &&
-                    image.files &&
-                    image.files[0]
-                ) {
-
-                    files.push({
-                        type: "image",
-                        file:
-                            image.files[0]
-                    });
-                }
-
-
-                if (
-                    video &&
-                    video.files &&
-                    video.files[0]
-                ) {
-
-                    files.push({
-                        type: "video",
-                        file:
-                            video.files[0]
-                    });
-                }
-
-
-                if (!files.length) {
-
-                    resolve(result);
-
-                    return;
-                }
-
-
-                var remaining =
-                    files.length;
-
-
-                files.forEach(
-                    function (entry) {
-
-                        var file =
-                            entry.file;
-
-
-                        if (
-                            entry.type === "image" &&
-                            file.size >
-                            8 * 1024 * 1024
-                        ) {
-
-                            reject(
-                                new Error(
-                                    "Image maximum size is 8 MB."
-                                )
-                            );
-
-                            return;
-                        }
-
-
-                        if (
-                            entry.type === "video" &&
-                            file.size >
-                            40 * 1024 * 1024
-                        ) {
-
-                            reject(
-                                new Error(
-                                    "Video maximum size is 40 MB."
-                                )
-                            );
-
-                            return;
-                        }
-
-
-                        if (
-                            entry.type === "image" &&
-                            !String(
-                                file.type
-                            )
-                            .toLowerCase()
-                            .startsWith(
-                                "image/"
-                            )
-                        ) {
-
-                            reject(
-                                new Error(
-                                    "Invalid image file."
-                                )
-                            );
-
-                            return;
-                        }
-
-
-                        if (
-                            entry.type === "video" &&
-                            !String(
-                                file.type
-                            )
-                            .toLowerCase()
-                            .startsWith(
-                                "video/"
-                            )
-                        ) {
-
-                            reject(
-                                new Error(
-                                    "Invalid video file."
-                                )
-                            );
-
-                            return;
-                        }
-
-
-                        var reader =
-                            new FileReader();
-
-
-                        reader.onload =
-                            function () {
-
-                                result[
-                                    entry.type
-                                ] =
-                                    reader.result;
-
-
-                                remaining--;
-
-
-                                if (
-                                    remaining === 0
-                                ) {
-
-                                    resolve(
-                                        result
-                                    );
-                                }
-                            };
-
-
-                        reader.onerror =
-                            function () {
-
-                                reject(
-                                    new Error(
-                                        "Media file could not be read."
-                                    )
-                                );
-                            };
-
-
-                        reader.readAsDataURL(
-                            file
-                        );
-                    }
-                );
-            }
-        );
-    }
-
-
-    async function publishNew(
-        form,
-        config
-    ) {
-
-        try {
-
-            var data = {};
-
-
-            new FormData(
-                form
-            ).forEach(
-                function (value, key) {
-
-                    if (
-                        !(
-                            value instanceof
-                            File
-                        )
-                    ) {
-
-                        data[key] =
-                            String(
-                                value || ""
-                            ).trim();
-                    }
-                }
-            );
-
-
-            var media =
-                await readFiles(
-                    form
-                );
-
-
-            data.image =
-                media.image;
-
-            data.video =
-                media.video;
-
-
-            data.id =
-                makeId("rmd");
-
-
-            data.owner =
-                getOwner();
-
-
-            data.createdAt =
-                new Date().toISOString();
-
-
-            data.type =
-                config.id;
-
-
-            var list =
-                read(config.key);
-
-
-            list.unshift(
-                data
-            );
-
-
-            if (
-                !write(
-                    config.key,
-                    list
-                )
-            ) {
-
-                throw new Error(
-                    "Could not save this post."
-                );
-            }
-
-
-            form.reset();
-
-
-            renderNewFeed(
-                config
-            );
-
-
-            alert(
-                config.title +
-                " published successfully."
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "RMD publisher error:",
-                error
-            );
-
-
-            alert(
-                error.message ||
-                "Could not publish post."
-            );
-        }
-    }
-
-
-    function bindNewForms() {
-
-        NEW_FORMS.forEach(
-            function (config) {
-
-                var form =
-                    document.getElementById(
-                        config.id
-                    );
-
-
-                if (!form) {
-                    return;
-                }
-
-
-                if (
-                    form.getAttribute(
-                        "data-rmd-safe-bound"
-                    ) === "yes"
-                ) {
-                    return;
-                }
-
-
-                form.setAttribute(
-                    "data-rmd-safe-bound",
-                    "yes"
-                );
-
-
-                form.addEventListener(
-                    "submit",
-                    function (event) {
-
-                        event.preventDefault();
-
-                        publishNew(
-                            form,
-                            config
-                        );
-                    }
-                );
-            }
-        );
-    }
-
-
-    /* =====================================================
-       FEED RENDERING
-       ===================================================== */
-
-    function titleFor(
-        item,
-        category
-    ) {
-
-        return (
-            item.title ||
-            item.name ||
-            item.brandName ||
-            item.placeName ||
-            item.guideName ||
-            category.name
-        );
-    }
-
-
-    function renderMedia(
-        item
-    ) {
-
-        var html = "";
-
-
-        if (item.image) {
-
-            html += `
-                <img
-                    class="rmd-media"
-                    src="${esc(item.image)}"
-                    alt="Discovery image">
-            `;
-        }
-
-
-        if (item.video) {
-
-            html += `
-                <video
-                    class="rmd-media"
-                    controls
-                    preload="metadata">
-
-                    <source
-                        src="${esc(item.video)}">
-
-                </video>
-            `;
-        }
-
-
-        return html;
-    }
-
-
-    function renderAddonItem(
-        item,
-        category
-    ) {
-
-        var location = [
-
-            item.village,
-            item.city,
-            item.district,
-            item.state,
-            item.country
-
-        ]
-        .filter(Boolean)
-        .join(" • ");
-
-
-        var ownerLabel =
-            isOwner(item)
-                ? "👤 My Post"
-                : "👁 Public";
-
-
-        return `
-
-            <article
-                class="rmd-item rmd-addon-item"
-                data-addon-id="${esc(item.id)}"
-                data-addon-key="${esc(category.key)}"
-                data-addon-country="${esc(item.country || "")}"
-                data-addon-search="${esc(
-                    JSON.stringify(item)
-                )}">
-
-                <div class="rmd-item-title">
-                    ${esc(
-                        titleFor(
-                            item,
-                            category
-                        )
-                    )}
-                </div>
-
-                ${
-                    item.guideName
-                        ? `
-                        <div class="rmd-meta">
-                            🧑‍🏫 Guide:
-                            ${esc(item.guideName)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    item.artist
-                        ? `
-                        <div class="rmd-meta">
-                            🎤 Artist:
-                            ${esc(item.artist)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    item.host
-                        ? `
-                        <div class="rmd-meta">
-                            🎙️ Host:
-                            ${esc(item.host)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    item.category
-                        ? `
-                        <div class="rmd-meta">
-                            📂 Category:
-                            ${esc(item.category)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    item.platform
-                        ? `
-                        <div class="rmd-meta">
-                            🎮 Platform:
-                            ${esc(item.platform)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    location
-                        ? `
-                        <div class="rmd-meta">
-                            🌍 ${esc(location)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    item.description
-                        ? `
-                        <div class="rmd-description">
-                            ${esc(item.description)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${renderMedia(item)}
-
-                ${
-                    item.website
-                        ? `
-                        <div class="rmd-meta">
-                            🔗
-                            ${esc(item.website)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    item.social
-                        ? `
-                        <div class="rmd-meta">
-                            📱
-                            ${esc(item.social)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                ${
-                    item.reach
-                        ? `
-                        <div class="rmd-meta">
-                            👥 Reach:
-                            ${esc(item.reach)}
-                        </div>
-                        `
-                        : ""
-                }
-
-                <span class="rmd-addon-owner">
-                    ${ownerLabel}
-                </span>
-
-                <div class="rmd-meta">
-
-                    Published:
-                    ${esc(
-                        item.createdAt
-                            ? new Date(
-                                item.createdAt
-                            ).toLocaleString()
-                            : ""
-                    )}
-
-                </div>
-
-                ${
-                    isOwner(item)
-                        ? `
-                        <div class="rmd-addon-actions">
-
-                            <button
-                                type="button"
-                                class="rmd-addon-action rmd-addon-edit"
-                                data-addon-edit-id="${esc(item.id)}"
-                                data-addon-edit-key="${esc(category.key)}">
-
-                                ✏️ Edit
-
-                            </button>
-
-                            <button
-                                type="button"
-                                class="rmd-addon-action rmd-addon-delete"
-                                data-addon-delete-id="${esc(item.id)}"
-                                data-addon-delete-key="${esc(category.key)}">
-
-                                🗑️ Delete
-
-                            </button>
-
-                        </div>
-                        `
-                        : ""
-                }
-
-            </article>
-        `;
-    }
-
-
-    function renderNewFeed(
-        config
-    ) {
-
-        var feed =
-            document.getElementById(
-                config.feed
-            );
-
-
-        if (!feed) {
-            return;
-        }
-
-
-        var list =
-            read(config.key);
-
-
-        if (!list.length) {
-
-            feed.innerHTML =
-                '<div class="rmd-empty">' +
-                "No posts published yet." +
-                "</div>";
-
-            return;
-        }
-
-
-        feed.innerHTML =
-            list.map(
-                function (item) {
-
-                    return renderAddonItem(
-                        item,
-                        {
-                            key:
-                                config.key,
-
-                            name:
-                                config.title
-                        }
-                    );
-                }
-            ).join("");
-    }
-
-
-    function renderAllNewFeeds() {
-
-        NEW_FORMS.forEach(
-            function (config) {
-
-                renderNewFeed(
-                    config
-                );
-            }
-        );
-    }
-
-
-    /* =====================================================
-       OWNER ACTIONS
-       ===================================================== */
-
-    function findItem(
-        key,
-        id
-    ) {
-
-        var list =
-            read(key);
-
-
-        return (
-            list.find(
-                function (item) {
-
-                    return String(
-                        item.id
-                    ) ===
-                    String(id);
-                }
-            ) ||
-            null
-        );
-    }
-
-
-    function deleteOwned(
-        key,
-        id
-    ) {
-
-        var list =
-            read(key);
-
-
-        var item =
-            findItem(
-                key,
-                id
-            );
-
-
-        if (!item) {
-            return;
-        }
-
-
-        if (!isOwner(item)) {
-
-            alert(
-                "Only the owner of this post can delete it."
-            );
-
-            return;
-        }
-
+    for (const key of candidates) {
+      const value = readJSON(key, null);
+
+      if (value && typeof value === "object") {
+        const account = value.user || value.account || value;
 
         if (
-            !window.confirm(
-                "Delete your Discovery post?"
-            )
+          account.id ||
+          account.userId ||
+          account.email ||
+          account.user_id
         ) {
-            return;
+          return account;
         }
-
-
-        var filtered =
-            list.filter(
-                function (entry) {
-
-                    return String(
-                        entry.id
-                    ) !==
-                    String(id);
-                }
-            );
-
-
-        write(
-            key,
-            filtered
-        );
-
-
-        renderAllNewFeeds();
-
-        decorateExistingFeeds();
+      }
     }
 
+    return null;
+  }
 
-    /* =====================================================
-       EDIT
-       ===================================================== */
+  function getUserId() {
+    const account = getAccount();
 
-    var editState = {
-        key: null,
-        id: null
+    if (!account) return "";
+
+    return String(
+      account.id ||
+      account.userId ||
+      account.user_id ||
+      account.email ||
+      ""
+    );
+  }
+
+  function getUserName() {
+    const account = getAccount();
+
+    if (!account) return "Marketplace User";
+
+    return String(
+      account.name ||
+      account.fullName ||
+      account.username ||
+      account.email ||
+      "Marketplace User"
+    );
+  }
+
+  function isLoggedIn() {
+    return Boolean(getToken() && getUserId());
+  }
+
+  async function apiRequest(path, options = {}) {
+    const headers = new Headers(options.headers || {});
+    const token = getToken();
+
+    if (token) {
+      headers.set("Authorization", "Bearer " + token);
+    }
+
+    const isFormData =
+      typeof FormData !== "undefined" &&
+      options.body instanceof FormData;
+
+    if (!isFormData && options.body != null) {
+      headers.set("Content-Type", "application/json");
+    }
+
+    headers.set("Accept", "application/json");
+
+    const controller =
+      typeof AbortController !== "undefined"
+        ? new AbortController()
+        : null;
+
+    const timeout = controller
+      ? setTimeout(
+          () => controller.abort(),
+          CONFIG.requestTimeout
+        )
+      : null;
+
+    try {
+      const response = await fetch(
+        CONFIG.apiBase.replace(/\/$/, "") + path,
+        {
+          ...options,
+          headers,
+          credentials: "omit",
+          signal: controller ? controller.signal : undefined
+        }
+      );
+
+      const raw = await response.text();
+      let data = {};
+
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch (_) {
+        data = { message: raw };
+      }
+
+      if (!response.ok || data.ok === false) {
+        throw new Error(
+          data.message ||
+          data.error ||
+          "API request failed (" + response.status + ")"
+        );
+      }
+
+      return data;
+    } catch (error) {
+      if (error && error.name === "AbortError") {
+        throw new Error("API request timed out. Please try again.");
+      }
+
+      throw error;
+    } finally {
+      if (timeout) clearTimeout(timeout);
+    }
+  }
+
+  function recordsURL(extra = "") {
+    const params = new URLSearchParams();
+    params.set("marketplace", "regular");
+
+    if (extra) {
+      const additional = new URLSearchParams(extra);
+
+      additional.forEach((value, key) => {
+        params.set(key, value);
+      });
+    }
+
+    return CONFIG.recordsPath + "?" + params.toString();
+  }
+
+  function normalizeRecord(record) {
+    if (!record || typeof record !== "object") return null;
+
+    const category = String(
+      record.category ||
+      record.feature ||
+      record.discoveryCategory ||
+      ""
+    );
+
+    if (!CATEGORIES.some(item => item.id === category)) {
+      return null;
+    }
+
+    return {
+      ...record,
+      id: String(record.id || record.recordId || ""),
+      category,
+      title: String(record.title || ""),
+      description: String(record.description || ""),
+      tags: Array.isArray(record.tags)
+        ? record.tags
+        : String(record.tags || "")
+            .split(",")
+            .map(tag => tag.trim())
+            .filter(Boolean),
+      country: String(record.country || ""),
+      state: String(record.state || ""),
+      city: String(record.city || ""),
+      mediaUrl: String(
+        record.mediaUrl ||
+        record.media_url ||
+        record.image ||
+        record.video ||
+        ""
+      ),
+      mediaType: String(
+        record.mediaType ||
+        record.media_type ||
+        "image"
+      ),
+      ownerId: String(
+        record.ownerId ||
+        record.owner_id ||
+        record.userId ||
+        record.user_id ||
+        ""
+      ),
+      ownerName: String(
+        record.ownerName ||
+        record.owner_name ||
+        record.author ||
+        "Marketplace User"
+      ),
+      createdAt: record.createdAt || record.created_at || "",
+      views: Number(record.views || record.viewCount || 0),
+      likes: Number(record.likes || record.likeCount || 0),
+      dislikes: Number(record.dislikes || record.dislikeCount || 0),
+      comments: Array.isArray(record.comments)
+        ? record.comments
+        : []
     };
+  }
 
+  function extractRecords(data) {
+    if (Array.isArray(data)) return data;
 
-    function editableKeys(
-        item
-    ) {
+    const possible = [
+      data.records,
+      data.items,
+      data.listings,
+      data.data,
+      data.results
+    ];
 
-        return Object.keys(
-            item
-        ).filter(
-            function (key) {
-
-                return (
-
-                    key !== "id" &&
-                    key !== "owner" &&
-                    key !== "createdAt" &&
-                    key !== "updatedAt" &&
-                    key !== "type" &&
-                    key !== "image" &&
-                    key !== "video"
-
-                );
-            }
-        );
+    for (const item of possible) {
+      if (Array.isArray(item)) return item;
     }
 
+    if (data.data && Array.isArray(data.data.records)) {
+      return data.data.records;
+    }
 
-    function openEditor(
-        key,
-        id
-    ) {
+    return [];
+  }
 
-        var item =
-            findItem(
-                key,
-                id
-            );
+  async function loadRecords() {
+    state.loading = true;
+    renderStatus("Loading Discovery content…");
 
+    try {
+      const data = await apiRequest(recordsURL());
 
-        if (!item) {
-            return;
+      state.records = extractRecords(data)
+        .map(normalizeRecord)
+        .filter(Boolean);
+
+      renderAllFeeds();
+      renderStatus(
+        state.records.length +
+        " Discovery posts loaded from the server."
+      );
+
+      return state.records;
+    } catch (error) {
+      renderAllFeeds();
+
+      renderStatus(
+        "Could not load server content: " +
+        error.message +
+        ". Please check the Marketplace API Worker and its Discovery routes."
+      );
+
+      return [];
+    } finally {
+      state.loading = false;
+    }
+  }
+
+  async function uploadMedia(file) {
+    if (!file) return null;
+
+    const isImage = file.type.startsWith("image/");
+    const isVideo = file.type.startsWith("video/");
+
+    if (!isImage && !isVideo) {
+      throw new Error("Choose an image or video file.");
+    }
+
+    const limit = isVideo
+      ? CONFIG.maxVideoBytes
+      : CONFIG.maxImageBytes;
+
+    if (file.size > limit) {
+      throw new Error(
+        isVideo
+          ? "Video size must not exceed 40 MB."
+          : "Image size must not exceed 8 MB."
+      );
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("marketplace", "regular");
+    formData.append("feature", "discovery");
+    formData.append("fileName", file.name);
+
+    const result = await apiRequest(CONFIG.mediaPath, {
+      method: "POST",
+      body: formData
+    });
+
+    const media =
+      result.media ||
+      result.data ||
+      result.file ||
+      result;
+
+    const url = safeURL(
+      media.url ||
+      media.publicUrl ||
+      media.public_url ||
+      media.location
+    );
+
+    if (!url) {
+      throw new Error(
+        "The media API did not return a valid public URL."
+      );
+    }
+
+    return {
+      url,
+      type: isVideo ? "video" : "image",
+      name: file.name,
+      size: file.size
+    };
+  }
+
+  function getCategory(categoryId) {
+    return CATEGORIES.find(item => item.id === categoryId);
+  }
+
+  function getCategoryRecords(categoryId) {
+    let records = state.records.filter(
+      item => item.category === categoryId
+    );
+
+    if (state.country) {
+      records = records.filter(
+        item => item.country.toLowerCase() ===
+          state.country.toLowerCase()
+      );
+    }
+
+    if (state.search) {
+      const needle = state.search.toLowerCase();
+
+      records = records.filter(item => {
+        const text = [
+          item.title,
+          item.description,
+          item.country,
+          item.state,
+          item.city,
+          item.ownerName,
+          ...(item.tags || [])
+        ].join(" ").toLowerCase();
+
+        return text.includes(needle);
+      });
+    }
+
+    return records.sort((a, b) => {
+      const aTime = Date.parse(a.createdAt || 0) || 0;
+      const bTime = Date.parse(b.createdAt || 0) || 0;
+      return bTime - aTime;
+    });
+  }
+
+  function renderStatus(message) {
+    const status = $("#rmdStatus");
+
+    if (status) {
+      status.textContent = message || "";
+    }
+  }
+
+  function mediaHTML(record) {
+    const url = safeURL(record.mediaUrl);
+
+    if (!url) return "";
+
+    if (record.mediaType === "video") {
+      return (
+        '<video class="rmd-media" controls preload="metadata" ' +
+        'playsinline src="' + escapeHTML(url) + '">' +
+        "Your browser does not support video playback." +
+        "</video>"
+      );
+    }
+
+    return (
+      '<img class="rmd-media" loading="lazy" ' +
+      'src="' + escapeHTML(url) + '" ' +
+      'alt="' + escapeHTML(record.title) + '">'
+    );
+  }
+
+  function isOwner(record) {
+    const currentId = getUserId();
+
+    return Boolean(
+      currentId &&
+      record.ownerId &&
+      currentId === record.ownerId
+    );
+  }
+
+  function recordCard(record) {
+    const tags = (record.tags || [])
+      .map(tag =>
+        '<span class="rmd-tag">#' +
+        escapeHTML(tag.replace(/^#/, "")) +
+        "</span>"
+      )
+      .join(" ");
+
+    const location = [
+      record.city,
+      record.state,
+      record.country
+    ].filter(Boolean).join(", ");
+
+    const ownerActions = isOwner(record)
+      ? (
+        '<div class="rmd-owner-actions">' +
+          '<button type="button" data-rmd-edit="' +
+            escapeHTML(record.id) + '">Edit</button>' +
+          '<button type="button" data-rmd-delete="' +
+            escapeHTML(record.id) + '">Delete</button>' +
+        "</div>"
+      )
+      : "";
+
+    return (
+      '<article class="rmd-card" data-record-id="' +
+        escapeHTML(record.id) + '">' +
+
+        mediaHTML(record) +
+
+        '<div class="rmd-card-body">' +
+          '<h3>' + escapeHTML(record.title) + "</h3>" +
+
+          '<p class="rmd-description">' +
+            escapeHTML(record.description) +
+          "</p>" +
+
+          (tags
+            ? '<div class="rmd-tags">' + tags + "</div>"
+            : "") +
+
+          (location
+            ? '<p class="rmd-location">📍 ' +
+                escapeHTML(location) +
+              "</p>"
+            : "") +
+
+          '<p class="rmd-author">By ' +
+            escapeHTML(record.ownerName) +
+          "</p>" +
+
+          '<div class="rmd-stats">' +
+            '<span>Views: ' +
+              escapeHTML(record.views) +
+            "</span>" +
+            '<span>Likes: ' +
+              escapeHTML(record.likes) +
+            "</span>" +
+            '<span>Dislikes: ' +
+              escapeHTML(record.dislikes) +
+            "</span>" +
+          "</div>" +
+
+          '<div class="rmd-actions">' +
+            '<button type="button" data-rmd-like="' +
+              escapeHTML(record.id) + '">👍 Like</button>' +
+            '<button type="button" data-rmd-dislike="' +
+              escapeHTML(record.id) + '">👎 Dislike</button>' +
+            '<button type="button" data-rmd-comment="' +
+              escapeHTML(record.id) + '">Comments (' +
+              escapeHTML(record.comments.length) +
+            ")</button>" +
+          "</div>" +
+
+          '<div class="rmd-comment-area" id="rmdComments-' +
+            escapeHTML(record.id) + '" hidden>' +
+            '<div class="rmd-comments-list"></div>' +
+            '<form data-rmd-comment-form="' +
+              escapeHTML(record.id) + '">' +
+              '<textarea name="comment" rows="2" maxlength="3000" ' +
+                'placeholder="Write a comment…" required></textarea>' +
+              '<button type="submit">Send Comment</button>' +
+            "</form>" +
+          "</div>" +
+
+          ownerActions +
+        "</div>" +
+      "</article>"
+    );
+  }
+
+  function renderFeed(categoryId) {
+    const category = getCategory(categoryId);
+    if (!category) return;
+
+    let feed = document.getElementById(category.feed);
+
+    if (!feed) {
+      const pane = document.querySelector(
+        '[data-rmd-pane="' + categoryId + '"]'
+      );
+
+      if (pane) {
+        feed = document.createElement("div");
+        feed.id = category.feed;
+        feed.className = "rmd-feed";
+        pane.appendChild(feed);
+      }
+    }
+
+    if (!feed) return;
+
+    const records = getCategoryRecords(categoryId);
+
+    if (!records.length) {
+      feed.innerHTML =
+        '<div class="rmd-empty">' +
+          "No server posts found in this category yet." +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = records.map(recordCard).join("");
+  }
+
+  function renderAllFeeds() {
+    CATEGORIES.forEach(item => renderFeed(item.id));
+  }
+
+  function countryOptions() {
+    const options = [
+      '<option value="">All countries</option>'
+    ];
+
+    state.countries.forEach(country => {
+      const name = typeof country === "string"
+        ? country
+        : (
+          country.name ||
+          country.country ||
+          country.label ||
+          ""
+        );
+
+      if (name) {
+        options.push(
+          '<option value="' + escapeHTML(name) + '">' +
+            escapeHTML(name) +
+          "</option>"
+        );
+      }
+    });
+
+    return options.join("");
+  }
+
+  function loadCountries() {
+    const sources = [
+      window.ALON_MARKETPLACE_COUNTRIES,
+      window.MARKETPLACE_COUNTRIES,
+      window.ALON_COUNTRIES
+    ];
+
+    for (const source of sources) {
+      if (Array.isArray(source) && source.length) {
+        state.countries = source;
+        return;
+      }
+
+      if (
+        source &&
+        Array.isArray(source.countries) &&
+        source.countries.length
+      ) {
+        state.countries = source.countries;
+        return;
+      }
+    }
+
+    state.countries = [];
+  }
+
+  function addStyles() {
+    if ($("#rmdV27Styles")) return;
+
+    const style = document.createElement("style");
+    style.id = "rmdV27Styles";
+
+    style.textContent = `
+      #rmDiscoveryHub {
+        color: #f2f4f8;
+        background: #05080f;
+        padding: 16px;
+        border-radius: 14px;
+        font-family: Arial, sans-serif;
+      }
+
+      #rmDiscoveryHub * {
+        box-sizing: border-box;
+      }
+
+      #rmDiscoveryHub .rmd-heading {
+        color: #f0d27a;
+        margin: 0 0 8px;
+      }
+
+      #rmDiscoveryHub .rmd-subtitle {
+        color: #c5cad3;
+        margin: 0 0 16px;
+        line-height: 1.5;
+      }
+
+      #rmDiscoveryHub .rmd-controls,
+      #rmDiscoveryHub .rmd-form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      #rmDiscoveryHub .rmd-controls {
+        margin: 14px 0;
+      }
+
+      #rmDiscoveryHub input,
+      #rmDiscoveryHub select,
+      #rmDiscoveryHub textarea {
+        width: 100%;
+        min-width: 0;
+        color: #f4f5f7;
+        background: #111827;
+        border: 1px solid #3b4350;
+        border-radius: 8px;
+        padding: 11px;
+        font: inherit;
+      }
+
+      #rmDiscoveryHub input[type="file"] {
+        grid-column: 1 / -1;
+      }
+
+      #rmDiscoveryHub button {
+        color: #f0d27a;
+        background: #141b28;
+        border: 1px solid #65552c;
+        border-radius: 8px;
+        padding: 9px 12px;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      #rmDiscoveryHub button:hover {
+        background: #222c3d;
+      }
+
+      #rmDiscoveryHub .rmd-primary {
+        color: #080b10;
+        background: #d7b35a;
+        border-color: #d7b35a;
+        font-weight: 700;
+      }
+
+      #rmDiscoveryHub .rmd-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 16px 0;
+      }
+
+      #rmDiscoveryHub .rmd-tab[aria-selected="true"] {
+        color: #080b10;
+        background: #d7b35a;
+        font-weight: 700;
+      }
+
+      #rmDiscoveryHub .rmd-pane[hidden],
+      #rmDiscoveryHub [hidden] {
+        display: none !important;
+      }
+
+      #rmDiscoveryHub .rmd-feed {
+        display: grid;
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(min(100%, 270px), 1fr)
+        );
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      #rmDiscoveryHub .rmd-card {
+        min-width: 0;
+        overflow: hidden;
+        border: 1px solid #303948;
+        border-radius: 12px;
+        background: #0c111b;
+      }
+
+      #rmDiscoveryHub .rmd-media {
+        display: block;
+        width: 100%;
+        max-height: 340px;
+        object-fit: contain;
+        background: #03050a;
+      }
+
+      #rmDiscoveryHub .rmd-card-body {
+        padding: 13px;
+      }
+
+      #rmDiscoveryHub .rmd-card h3 {
+        margin: 0 0 9px;
+        color: #f0d27a;
+        overflow-wrap: anywhere;
+      }
+
+      #rmDiscoveryHub .rmd-description {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        line-height: 1.5;
+      }
+
+      #rmDiscoveryHub .rmd-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      #rmDiscoveryHub .rmd-tag {
+        color: #f0d27a;
+        font-size: 12px;
+      }
+
+      #rmDiscoveryHub .rmd-location,
+      #rmDiscoveryHub .rmd-author {
+        color: #b8c0cc;
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+
+      #rmDiscoveryHub .rmd-stats,
+      #rmDiscoveryHub .rmd-actions,
+      #rmDiscoveryHub .rmd-owner-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 10px;
+      }
+
+      #rmDiscoveryHub .rmd-stats {
+        color: #d2d7df;
+        font-size: 12px;
+        justify-content: space-between;
+      }
+
+      #rmDiscoveryHub .rmd-empty,
+      #rmDiscoveryHub #rmdStatus {
+        color: #c6ccd6;
+        padding: 12px 0;
+        line-height: 1.5;
+      }
+
+      #rmDiscoveryHub .rmd-publish-panel {
+        border: 1px solid #343e4e;
+        border-radius: 12px;
+        padding: 14px;
+        margin: 14px 0;
+      }
+
+      #rmDiscoveryHub .rmd-publish-panel h3 {
+        color: #f0d27a;
+        margin-top: 0;
+      }
+
+      #rmDiscoveryHub .rmd-full {
+        grid-column: 1 / -1;
+      }
+
+      #rmDiscoveryHub .rmd-comment-area {
+        margin-top: 12px;
+        border-top: 1px solid #303948;
+        padding-top: 10px;
+      }
+
+      #rmDiscoveryHub .rmd-comment {
+        border-bottom: 1px solid #252d3a;
+        padding: 8px 0;
+        overflow-wrap: anywhere;
+      }
+
+      #rmDiscoveryHub .rmd-comment small {
+        color: #b8c0cc;
+      }
+
+      @media (max-width: 560px) {
+        #rmDiscoveryHub {
+          padding: 10px;
         }
 
-
-        if (!isOwner(item)) {
-
-            alert(
-                "Only the owner can edit this post."
-            );
-
-            return;
+        #rmDiscoveryHub .rmd-controls,
+        #rmDiscoveryHub .rmd-form-grid {
+          grid-template-columns: minmax(0, 1fr);
         }
 
-
-        closeEditor();
-
-
-        editState.key =
-            key;
-
-        editState.id =
-            id;
-
-
-        var hub =
-            document.getElementById(
-                "rmDiscoveryHub"
-            );
-
-
-        if (!hub) {
-            return;
+        #rmDiscoveryHub .rmd-tabs button {
+          flex: 1 1 42%;
         }
 
+        #rmDiscoveryHub .rmd-actions button,
+        #rmDiscoveryHub .rmd-owner-actions button {
+          flex: 1 1 auto;
+        }
+      }
+    `;
 
-        var box =
-            document.createElement(
-                "div"
-            );
+    document.head.appendChild(style);
+  }
 
+  function buildInterface(hub) {
+    if ($("#rmdV27Root", hub)) return;
 
-        box.id =
-            "rmdSafeEditor";
+    const tabs = CATEGORIES.map((item, index) =>
+      '<button type="button" class="rmd-tab" ' +
+        'data-rmd-tab="' + escapeHTML(item.id) + '" ' +
+        'aria-selected="' + (index === 0 ? "true" : "false") + '">' +
+        escapeHTML(item.label) +
+      "</button>"
+    ).join("");
 
-        box.className =
-            "rmd-addon-editor";
+    const panes = CATEGORIES.map((item, index) =>
+      '<section class="rmd-pane" data-rmd-pane="' +
+        escapeHTML(item.id) + '"' +
+        (index === 0 ? "" : " hidden") + ">" +
+        '<h3 class="rmd-heading">' +
+          escapeHTML(item.label) +
+        "</h3>" +
+        '<div id="' + escapeHTML(item.feed) +
+          '" class="rmd-feed"></div>' +
+      "</section>"
+    ).join("");
 
+    hub.innerHTML = `
+      <div id="rmdV27Root">
+        <h2 class="rmd-heading">Regular Marketplace Discovery</h2>
+        <p class="rmd-subtitle">
+          Discover brands, destinations, culture, entertainment,
+          sports, games, music and upcoming content.
+        </p>
 
-        var html = `
+        <div class="rmd-controls">
+          <input id="rmdSearch" type="search"
+            placeholder="Search titles, tags, places…"
+            aria-label="Search Discovery posts">
 
-            <h3>
-                ✏️ Edit Discovery Post
-            </h3>
+          <select id="rmdCountryFilter"
+            aria-label="Filter by country">
+            ${countryOptions()}
+          </select>
+        </div>
 
-            <div class="rmd-small">
-                Existing image/video will remain unchanged.
+        <div class="rmd-publish-panel">
+          <h3 id="rmdFormHeading">Publish Discovery Content</h3>
+
+          <form id="rmdPublishForm">
+            <div class="rmd-form-grid">
+              <select id="rmdCategory" name="category" required>
+                ${CATEGORIES.map(item =>
+                  '<option value="' + escapeHTML(item.id) + '">' +
+                    escapeHTML(item.label) +
+                  "</option>"
+                ).join("")}
+              </select>
+
+              <input id="rmdTitle" name="title"
+                maxlength="200" required
+                placeholder="Post title">
+
+              <textarea id="rmdDescription" name="description"
+                class="rmd-full" rows="4" maxlength="15000"
+                placeholder="Description and useful details"
+                required></textarea>
+
+              <input id="rmdTags" name="tags"
+                maxlength="1000"
+                placeholder="Tags separated by commas">
+
+              <select id="rmdPublishCountry" name="country">
+                ${countryOptions()}
+              </select>
+
+              <input id="rmdState" name="state"
+                maxlength="120" placeholder="State / Province">
+
+              <input id="rmdCity" name="city"
+                maxlength="120" placeholder="City">
+
+              <input id="rmdMedia" name="media" type="file"
+                accept="image/*,video/*">
+
+              <p class="rmd-full">
+                Image limit: 8 MB. Video limit: 40 MB.
+                Uploads require a working media API.
+              </p>
+
+              <button id="rmdSubmit" class="rmd-primary"
+                type="submit">Publish</button>
+
+              <button id="rmdCancelEdit" type="button" hidden>
+                Cancel Edit
+              </button>
             </div>
+          </form>
+        </div>
 
-        `;
+        <div id="rmdStatus" role="status" aria-live="polite"></div>
 
+        <div class="rmd-tabs" role="tablist">
+          ${tabs}
+        </div>
 
-        editableKeys(
-            item
-        ).forEach(
-            function (keyName) {
+        ${panes}
+      </div>
+    `;
+  }
 
-                var value =
-                    item[keyName] == null
-                        ? ""
-                        : item[keyName];
+  function ensureInterface() {
+    const hub = $("#rmDiscoveryHub");
 
-
-                html += `
-
-                    <label
-                        style="display:block;margin-top:9px;">
-
-                        ${esc(
-                            keyName
-                        )}
-
-                        <input
-                            type="text"
-                            data-rmd-edit-field="${esc(
-                                keyName
-                            )}"
-                            value="${esc(
-                                value
-                            )}">
-
-                    </label>
-
-                `;
-            }
-        );
-
-
-        html += `
-
-            <div
-                style="margin-top:12px;">
-
-                <button
-                    type="button"
-                    id="rmdSaveEdit">
-
-                    💾 Save Changes
-
-                </button>
-
-                <button
-                    type="button"
-                    id="rmdCancelEdit"
-                    style="margin-left:7px;">
-
-                    Cancel
-
-                </button>
-
-            </div>
-        `;
-
-
-        box.innerHTML =
-            html;
-
-
-        hub.insertBefore(
-            box,
-            hub.firstChild.nextSibling
-        );
-
-
-        document
-            .getElementById(
-                "rmdSaveEdit"
-            )
-            .addEventListener(
-                "click",
-                saveEdit
-            );
-
-
-        document
-            .getElementById(
-                "rmdCancelEdit"
-            )
-            .addEventListener(
-                "click",
-                closeEditor
-            );
-
-
-        box.scrollIntoView({
-            behavior:
-                "smooth",
-            block:
-                "start"
-        });
+    if (!hub) {
+      console.warn(
+        "ALON Discovery: #rmDiscoveryHub was not found. " +
+        "Place this script after the Discovery container."
+      );
+      return false;
     }
 
+    addStyles();
+    buildInterface(hub);
+    return true;
+  }
 
-    function saveEdit() {
+  function setActiveCategory(categoryId) {
+    if (!getCategory(categoryId)) return;
 
-        if (
-            !editState.key ||
-            !editState.id
-        ) {
-            return;
+    state.activeCategory = categoryId;
+
+    $$(".rmd-tab").forEach(button => {
+      button.setAttribute(
+        "aria-selected",
+        button.dataset.rmdTab === categoryId
+          ? "true"
+          : "false"
+      );
+    });
+
+    $$(".rmd-pane").forEach(pane => {
+      pane.hidden = pane.dataset.rmdPane !== categoryId;
+    });
+  }
+
+  function resetForm() {
+    const form = $("#rmdPublishForm");
+    if (form) form.reset();
+
+    state.editingId = null;
+
+    const heading = $("#rmdFormHeading");
+    const submit = $("#rmdSubmit");
+    const cancel = $("#rmdCancelEdit");
+
+    if (heading) heading.textContent = "Publish Discovery Content";
+    if (submit) submit.textContent = "Publish";
+    if (cancel) cancel.hidden = true;
+  }
+
+  function beginEdit(recordId) {
+    const record = state.records.find(
+      item => item.id === recordId
+    );
+
+    if (!record) {
+      renderStatus("Post not found. Refresh the feed and try again.");
+      return;
+    }
+
+    if (!isOwner(record)) {
+      renderStatus("Only the post owner can edit this post.");
+      return;
+    }
+
+    state.editingId = record.id;
+
+    $("#rmdCategory").value = record.category;
+    $("#rmdTitle").value = record.title;
+    $("#rmdDescription").value = record.description;
+    $("#rmdTags").value = (record.tags || []).join(", ");
+    $("#rmdPublishCountry").value = record.country || "";
+    $("#rmdState").value = record.state || "";
+    $("#rmdCity").value = record.city || "";
+    $("#rmdMedia").value = "";
+
+    $("#rmdFormHeading").textContent = "Edit Discovery Content";
+    $("#rmdSubmit").textContent = "Save Changes";
+    $("#rmdCancelEdit").hidden = false;
+
+    setActiveCategory(record.category);
+
+    const form = $("#rmdPublishForm");
+
+    if (form) {
+      form.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }
+
+  async function submitRecord(event) {
+    event.preventDefault();
+
+    if (!isLoggedIn()) {
+      renderStatus(
+        "Please sign in through the existing Marketplace login first."
+      );
+      return;
+    }
+
+    const form = event.currentTarget;
+    const submit = $("#rmdSubmit");
+    const fileInput = $("#rmdMedia");
+    const file = fileInput && fileInput.files
+      ? fileInput.files[0]
+      : null;
+
+    const category = $("#rmdCategory").value;
+    const title = $("#rmdTitle").value.trim();
+    const description = $("#rmdDescription").value.trim();
+
+    if (!getCategory(category)) {
+      renderStatus("Choose a valid Discovery category.");
+      return;
+    }
+
+    if (!title || !description) {
+      renderStatus("Title and description are required.");
+      return;
+    }
+
+    const editing = state.editingId
+      ? state.records.find(item => item.id === state.editingId)
+      : null;
+
+    if (editing && !isOwner(editing)) {
+      renderStatus("You cannot edit another user's post.");
+      return;
+    }
+
+    if (submit) {
+      submit.disabled = true;
+      submit.textContent = "Saving…";
+    }
+
+    try {
+      let uploadedMedia = null;
+
+      if (file) {
+        renderStatus("Uploading media…");
+        uploadedMedia = await uploadMedia(file);
+      }
+
+      const payload = {
+        marketplace: "regular",
+        type: "discovery",
+        category,
+        title,
+        description,
+        tags: $("#rmdTags").value
+          .split(",")
+          .map(tag => tag.trim().replace(/^#/, ""))
+          .filter(Boolean)
+          .slice(0, 50),
+        country: $("#rmdPublishCountry").value,
+        state: $("#rmdState").value.trim(),
+        city: $("#rmdCity").value.trim(),
+        ownerId: getUserId(),
+        ownerName: getUserName()
+      };
+
+      if (uploadedMedia) {
+        payload.mediaUrl = uploadedMedia.url;
+        payload.mediaType = uploadedMedia.type;
+        payload.mediaName = uploadedMedia.name;
+      } else if (editing) {
+        payload.mediaUrl = editing.mediaUrl || "";
+        payload.mediaType = editing.mediaType || "image";
+      }
+
+      let response;
+
+      if (editing) {
+        response = await apiRequest(
+          CONFIG.recordsPath + "/" +
+            encodeURIComponent(editing.id) +
+            "?marketplace=regular",
+          {
+            method: "PUT",
+            body: JSON.stringify(payload)
+          }
+        );
+      } else {
+        response = await apiRequest(
+          recordsURL(),
+          {
+            method: "POST",
+            body: JSON.stringify(payload)
+          }
+        );
+      }
+
+      renderStatus(
+        response.message ||
+        (editing
+          ? "Post updated on the server."
+          : "Post published to the server.")
+      );
+
+      resetForm();
+      await loadRecords();
+    } catch (error) {
+      renderStatus(
+        "Save failed: " + error.message
+      );
+    } finally {
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = state.editingId
+          ? "Save Changes"
+          : "Publish";
+      }
+    }
+  }
+
+  async function deleteRecord(recordId) {
+    const record = state.records.find(
+      item => item.id === recordId
+    );
+
+    if (!record) return;
+
+    if (!isOwner(record)) {
+      renderStatus("Only the post owner can delete this post.");
+      return;
+    }
+
+    if (!window.confirm("Delete this Discovery post permanently?")) {
+      return;
+    }
+
+    try {
+      await apiRequest(
+        CONFIG.recordsPath + "/" +
+          encodeURIComponent(record.id) +
+          "?marketplace=regular",
+        { method: "DELETE" }
+      );
+
+      renderStatus("Post deleted from the server.");
+
+      if (state.editingId === record.id) {
+        resetForm();
+      }
+
+      await loadRecords();
+    } catch (error) {
+      renderStatus("Delete failed: " + error.message);
+    }
+  }
+
+  async function sendEngagement(recordId, action) {
+    if (!isLoggedIn()) {
+      renderStatus("Please sign in before engaging with a post.");
+      return;
+    }
+
+    const record = state.records.find(
+      item => item.id === recordId
+    );
+
+    if (!record) return;
+
+    try {
+      await apiRequest(CONFIG.engagementPath, {
+        method: "POST",
+        body: JSON.stringify({
+          marketplace: "regular",
+          recordType: "discovery",
+          recordId,
+          action,
+          userId: getUserId(),
+          category: record.category
+        })
+      });
+
+      renderStatus("Your response was saved.");
+      await loadRecords();
+    } catch (error) {
+      renderStatus(
+        "Engagement could not be saved: " + error.message
+      );
+    }
+  }
+
+  async function trackView(recordId) {
+    const key = "rmd_seen_" + recordId;
+
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch (_) {
+      // The server still receives the request if session storage
+      // is unavailable; duplicate control may then be server-side.
+    }
+
+    try {
+      await apiRequest(CONFIG.viewsPath, {
+        method: "POST",
+        body: JSON.stringify({
+          marketplace: "regular",
+          recordType: "discovery",
+          recordId,
+          country: $("#rmdCountryFilter")?.value || ""
+        })
+      });
+    } catch (error) {
+      console.warn("Discovery view tracking failed:", error.message);
+    }
+  }
+
+  function renderComments(recordId, container) {
+    const record = state.records.find(
+      item => item.id === recordId
+    );
+
+    if (!record || !container) return;
+
+    const list = $(".rmd-comments-list", container);
+    if (!list) return;
+
+    const comments = Array.isArray(record.comments)
+      ? record.comments
+      : [];
+
+    if (!comments.length) {
+      list.innerHTML =
+        '<p class="rmd-empty">No comments loaded for this post.</p>';
+      return;
+    }
+
+    list.innerHTML = comments.map(comment => {
+      const name = comment.userName ||
+        comment.user_name ||
+        comment.author ||
+        "Marketplace User";
+
+      const body = comment.text ||
+        comment.comment ||
+        comment.message ||
+        "";
+
+      const date = comment.createdAt ||
+        comment.created_at ||
+        "";
+
+      return (
+        '<div class="rmd-comment">' +
+          '<strong>' + escapeHTML(name) + "</strong>" +
+          "<p>" + escapeHTML(body) + "</p>" +
+          (date
+            ? "<small>" + escapeHTML(date) + "</small>"
+            : "") +
+        "</div>"
+      );
+    }).join("");
+  }
+
+  async function submitComment(event, recordId) {
+    event.preventDefault();
+
+    if (!isLoggedIn()) {
+      renderStatus("Please sign in before commenting.");
+      return;
+    }
+
+    const form = event.currentTarget;
+    const textarea = $('textarea[name="comment"]', form);
+    const comment = textarea ? textarea.value.trim() : "";
+
+    if (!comment) {
+      renderStatus("Write a comment first.");
+      return;
+    }
+
+    try {
+      await apiRequest(CONFIG.commentsPath, {
+        method: "POST",
+        body: JSON.stringify({
+          marketplace: "regular",
+          recordType: "discovery",
+          recordId,
+          text: comment,
+          userId: getUserId(),
+          userName: getUserName()
+        })
+      });
+
+      if (textarea) textarea.value = "";
+
+      renderStatus("Comment submitted.");
+      await loadRecords();
+
+      const area = $("#rmdComments-" + CSS.escape(recordId));
+
+      if (area) {
+        area.hidden = false;
+        renderComments(recordId, area);
+      }
+    } catch (error) {
+      renderStatus(
+        "Comment could not be saved: " + error.message
+      );
+    }
+  }
+
+  function bindEvents() {
+    const hub = $("#rmDiscoveryHub");
+    if (!hub || hub.dataset.rmdBound === "1") return;
+
+    hub.dataset.rmdBound = "1";
+
+    hub.addEventListener("click", async event => {
+      const tab = event.target.closest("[data-rmd-tab]");
+
+      if (tab) {
+        setActiveCategory(tab.dataset.rmdTab);
+        return;
+      }
+
+      const edit = event.target.closest("[data-rmd-edit]");
+
+      if (edit) {
+        beginEdit(edit.dataset.rmdEdit);
+        return;
+      }
+
+      const remove = event.target.closest("[data-rmd-delete]");
+
+      if (remove) {
+        await deleteRecord(remove.dataset.rmdDelete);
+        return;
+      }
+
+      const like = event.target.closest("[data-rmd-like]");
+
+      if (like) {
+        await sendEngagement(like.dataset.rmdLike, "like");
+        return;
+      }
+
+      const dislike = event.target.closest("[data-rmd-dislike]");
+
+      if (dislike) {
+        await sendEngagement(dislike.dataset.rmdDislike, "dislike");
+        return;
+      }
+
+      const commentButton = event.target.closest(
+        "[data-rmd-comment]"
+      );
+
+      if (commentButton) {
+        const recordId = commentButton.dataset.rmdComment;
+        const area = $("#rmdComments-" + CSS.escape(recordId));
+
+        if (area) {
+          area.hidden = !area.hidden;
+          renderComments(recordId, area);
         }
 
+        await trackView(recordId);
+      }
+    });
 
-        var list =
-            read(
-                editState.key
-            );
+    hub.addEventListener("submit", async event => {
+      if (event.target.id === "rmdPublishForm") {
+        await submitRecord(event);
+        return;
+      }
 
+      const commentForm = event.target.closest(
+        "[data-rmd-comment-form]"
+      );
 
-        var index =
-            list.findIndex(
-                function (item) {
-
-                    return String(
-                        item.id
-                    ) ===
-                    String(
-                        editState.id
-                    );
-                }
-            );
-
-
-        if (index < 0) {
-
-            alert(
-                "Post not found."
-            );
-
-            return;
-        }
-
-
-        if (
-            !isOwner(
-                list[index]
-            )
-        ) {
-
-            alert(
-                "Only the owner can edit this post."
-            );
-
-            return;
-        }
-
-
-        document
-            .querySelectorAll(
-                "[data-rmd-edit-field]"
-            )
-            .forEach(
-                function (field) {
-
-                    var key =
-                        field.getAttribute(
-                            "data-rmd-edit-field"
-                        );
-
-
-                    if (key) {
-
-                        list[index][key] =
-                            field.value;
-                    }
-                }
-            );
-
-
-        list[index].updatedAt =
-            new Date().toISOString();
-
-
-        write(
-            editState.key,
-            list
+      if (commentForm) {
+        await submitComment(
+          event,
+          commentForm.dataset.rmdCommentForm
         );
+      }
+    });
 
+    hub.addEventListener("change", event => {
+      if (event.target.id === "rmdCountryFilter") {
+        state.country = event.target.value;
+        renderAllFeeds();
+      }
+    });
 
-        closeEditor();
+    hub.addEventListener("input", event => {
+      if (event.target.id === "rmdSearch") {
+        state.search = event.target.value.trim();
+        renderAllFeeds();
+      }
+    });
 
+    hub.addEventListener("click", event => {
+      if (event.target.id === "rmdCancelEdit") {
+        resetForm();
+      }
+    });
+  }
 
-        renderAllNewFeeds();
+  function checkCompatibility() {
+    const base = window.ALON_REGULAR_MARKETPLACE;
 
-        decorateExistingFeeds();
-
-
-        alert(
-            "Post updated successfully."
-        );
+    if (!base) {
+      console.info(
+        "Discovery initialized independently. " +
+        "The regular marketplace core export was not found."
+      );
+      return;
     }
 
+    console.info(
+      "Discovery detected the regular marketplace core:",
+      base.version || "version not exposed"
+    );
+  }
 
-    function closeEditor() {
+  async function init() {
+    if (state.initialized) return;
 
-        var editor =
-            document.getElementById(
-                "rmdSafeEditor"
-            );
+    if (!ensureInterface()) return;
 
+    state.initialized = true;
 
-        if (editor) {
-            editor.remove();
-        }
+    loadCountries();
 
+    const countryFilter = $("#rmdCountryFilter");
+    const publishCountry = $("#rmdPublishCountry");
 
-        editState.key =
-            null;
-
-        editState.id =
-            null;
+    if (countryFilter) {
+      countryFilter.innerHTML = countryOptions();
     }
 
-
-    /* =====================================================
-       EXISTING FEEDS
-       OWNER ACTIONS
-       ===================================================== */
-
-    function decorateExistingFeeds() {
-
-        var oldCategories = [
-
-            {
-                feed:
-                    "rmdBrandFeed",
-
-                key:
-                    "alon_historyverse_regular_brand_promoters"
-            },
-
-            {
-                feed:
-                    "rmdTravelFeed",
-
-                key:
-                    "alon_historyverse_regular_travel_places"
-            },
-
-            {
-                feed:
-                    "rmdMovieFeed",
-
-                key:
-                    "alon_historyverse_regular_movie_promoters"
-            },
-
-            {
-                feed:
-                    "rmdCultureFeed",
-
-                key:
-                    "alon_historyverse_regular_world_culture"
-            }
-        ];
-
-
-        oldCategories.forEach(
-            function (category) {
-
-                var feed =
-                    document.getElementById(
-                        category.feed
-                    );
-
-
-                if (!feed) {
-                    return;
-                }
-
-
-                var list =
-                    read(
-                        category.key
-                    );
-
-
-                feed
-                    .querySelectorAll(
-                        ".rmd-item"
-                    )
-                    .forEach(
-                        function (article) {
-
-                            var id =
-                                article.getAttribute(
-                                    "data-id"
-                                );
-
-
-                            var item =
-                                list.find(
-                                    function (
-                                        entry
-                                    ) {
-
-                                        return String(
-                                            entry.id
-                                        ) ===
-                                        String(id);
-                                    }
-                                );
-
-
-                            if (!item) {
-                                return;
-                            }
-
-
-                            article.setAttribute(
-                                "data-addon-search",
-                                JSON.stringify(
-                                    item
-                                )
-                            );
-
-
-                            article.setAttribute(
-                                "data-addon-country",
-                                item.country ||
-                                ""
-                            );
-
-
-                            var oldDelete =
-                                article.querySelector(
-                                    ".rmd-delete"
-                                );
-
-
-                            if (oldDelete) {
-
-                                oldDelete.style.display =
-                                    "none";
-                            }
-
-
-                            if (
-                                article.querySelector(
-                                    ".rmd-addon-owner"
-                                )
-                            ) {
-                                return;
-                            }
-
-
-                            var owner =
-                                document.createElement(
-                                    "span"
-                                );
-
-
-                            owner.className =
-                                "rmd-addon-owner";
-
-
-                            owner.textContent =
-                                isOwner(item)
-                                    ? "👤 My Post"
-                                    : "👁 Public";
-
-
-                            article.appendChild(
-                                owner
-                            );
-
-
-                            if (
-                                isOwner(item)
-                            ) {
-
-                                var actions =
-                                    document.createElement(
-                                        "div"
-                                    );
-
-
-                                actions.className =
-                                    "rmd-addon-actions";
-
-
-                                actions.innerHTML = `
-
-                                    <button
-                                        type="button"
-                                        class="rmd-addon-action rmd-addon-edit"
-                                        data-addon-edit-id="${esc(item.id)}"
-                                        data-addon-edit-key="${esc(category.key)}">
-
-                                        ✏️ Edit
-
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        class="rmd-addon-action rmd-addon-delete"
-                                        data-addon-delete-id="${esc(item.id)}"
-                                        data-addon-delete-key="${esc(category.key)}">
-
-                                        🗑️ Delete
-
-                                    </button>
-
-                                `;
-
-
-                                article.appendChild(
-                                    actions
-                                );
-                            }
-                        }
-                    );
-            }
-        );
+    if (publishCountry) {
+      publishCountry.innerHTML = countryOptions();
     }
 
+    bindEvents();
+    checkCompatibility();
+    setActiveCategory(state.activeCategory);
 
-    /* =====================================================
-       SEARCH + COUNTRY FILTER
-       ===================================================== */
+    const cancel = $("#rmdCancelEdit");
 
-    function applyFilters() {
-
-        var searchInput =
-            document.getElementById(
-                "rmdGlobalSearch"
-            );
-
-
-        var countryInput =
-            document.getElementById(
-                "rmdCountryFilter"
-            );
-
-
-        var search =
-            searchInput
-                ? String(
-                    searchInput.value
-                )
-                .trim()
-                .toLowerCase()
-                : "";
-
-
-        var country =
-            countryInput
-                ? String(
-                    countryInput.value
-                )
-                .trim()
-                .toLowerCase()
-                : "";
-
-
-        document
-            .querySelectorAll(
-                "#rmDiscoveryHub .rmd-item"
-            )
-            .forEach(
-                function (item) {
-
-                    var text =
-                        String(
-                            item.getAttribute(
-                                "data-addon-search"
-                            ) ||
-                            item.textContent ||
-                            ""
-                        )
-                        .toLowerCase();
-
-
-                    var itemCountry =
-                        String(
-                            item.getAttribute(
-                                "data-addon-country"
-                            ) ||
-                            ""
-                        )
-                        .toLowerCase();
-
-
-                    var searchOK =
-                        !search ||
-                        text.indexOf(
-                            search
-                        ) !== -1;
-
-
-                    var countryOK =
-                        !country ||
-                        itemCountry ===
-                        country;
-
-
-                    item.style.display =
-                        searchOK &&
-                        countryOK
-                            ? ""
-                            : "none";
-                }
-            );
+    if (cancel) {
+      cancel.addEventListener("click", resetForm);
     }
 
-
-    /* =====================================================
-       CLICK EVENTS
-       ===================================================== */
-
-    function bindActionEvents() {
-
-        if (
-            window.__ALON_RMD_SAFE_ACTIONS__
-        ) {
-            return;
-        }
-
-
-        window.__ALON_RMD_SAFE_ACTIONS__ =
-            true;
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-                var editButton =
-                    event.target.closest(
-                        ".rmd-addon-edit"
-                    );
-
-
-                if (editButton) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-
-                    openEditor(
-                        editButton.getAttribute(
-                            "data-addon-edit-key"
-                        ),
-                        editButton.getAttribute(
-                            "data-addon-edit-id"
-                        )
-                    );
-
-
-                    return;
-                }
-
-
-                var deleteButton =
-                    event.target.closest(
-                        ".rmd-addon-delete"
-                    );
-
-
-                if (deleteButton) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-
-                    deleteOwned(
-                        deleteButton.getAttribute(
-                            "data-addon-delete-key"
-                        ),
-                        deleteButton.getAttribute(
-                            "data-addon-delete-id"
-                        )
-                    );
-                }
-            },
-            true
-        );
-    }
-
-
-    /* =====================================================
-       OBSERVE EXISTING DISCOVERY
-       ===================================================== */
-
-    function observe() {
-
-        var hub =
-            document.getElementById(
-                "rmDiscoveryHub"
-            );
-
-
-        if (!hub) {
-            return;
-        }
-
-
-        if (
-            window.__ALON_RMD_SAFE_OBSERVER__
-        ) {
-            return;
-        }
-
-
-        window.__ALON_RMD_SAFE_OBSERVER__ =
-            true;
-
-
-        var observer =
-            new MutationObserver(
-                function () {
-
-                    decorateExistingFeeds();
-                    applyFilters();
-                }
-            );
-
-
-        observer.observe(
-            hub,
-            {
-                childList: true,
-                subtree: true
-            }
-        );
-    }
-
-
-    /* =====================================================
-       BLOCK GUEST EDIT/DELETE ON OLD BUTTONS
-       ===================================================== */
-
-    function protectOldDeleteButtons() {
-
-        if (
-            window.__ALON_RMD_SAFE_DELETE_GUARD__
-        ) {
-            return;
-        }
-
-
-        window.__ALON_RMD_SAFE_DELETE_GUARD__ =
-            true;
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-                var button =
-                    event.target.closest(
-                        ".rmd-delete"
-                    );
-
-
-                if (!button) {
-                    return;
-                }
-
-
-                var key =
-                    button.getAttribute(
-                        "data-delete-key"
-                    );
-
-
-                var id =
-                    button.getAttribute(
-                        "data-delete-id"
-                    );
-
-
-                var item =
-                    findItem(
-                        key,
-                        id
-                    );
-
-
-                if (
-                    item &&
-                    !isOwner(item)
-                ) {
-
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-
-
-                    alert(
-                        "Only the owner of this post can delete it."
-                    );
-                }
-            },
-            true
-        );
-    }
-
-
-    /* =====================================================
-       BLOCK OLD FORMS IN VIEWER MODE
-       ===================================================== */
-
-    function protectExistingForms() {
-
-        if (
-            window.__ALON_RMD_SAFE_FORM_GUARD__
-        ) {
-            return;
-        }
-
-
-        window.__ALON_RMD_SAFE_FORM_GUARD__ =
-            true;
-
-
-        document.addEventListener(
-            "submit",
-            function (event) {
-
-                if (
-                    currentMode !==
-                    "viewer"
-                ) {
-                    return;
-                }
-
-
-                if (
-                    event.target.closest(
-                        "#rmDiscoveryHub"
-                    )
-                ) {
-
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-
-
-                    alert(
-                        "Viewer mode is read-only. Switch to Publisher / Add mode."
-                    );
-                }
-            },
-            true
-        );
-    }
-
-
-    /* =====================================================
-       RE-APPLY VIEWER / PUBLISHER MODE
-       ===================================================== */
-
-    function refreshMode() {
-
-        setMode(
-            currentMode
-        );
-    }
-
-
-    /* =====================================================
-       INITIALIZATION
-       ===================================================== */
-
-    function initializeAddon() {
-
-        var hub =
-            document.getElementById(
-                "rmDiscoveryHub"
-            );
-
-
-        if (!hub) {
-            return;
-        }
-
-
-        addStyle();
-
-        buildModeBar();
-
-        buildNewPanels();
-
-        bindNewForms();
-
-        bindActionEvents();
-
-        protectOldDeleteButtons();
-
-        protectExistingForms();
-
-        observe();
-
-
-        setTimeout(
-            function () {
-
-                decorateExistingFeeds();
-
-                renderAllNewFeeds();
-
-                updateAccountText();
-
-                refreshMode();
-
-                applyFilters();
-
-            },
-            300
-        );
-
-
-        console.log(
-            "ALON Regular Marketplace Discovery " +
-            ADDON_VERSION +
-            " loaded."
-        );
-    }
-
-
-    /* =====================================================
-       START
-       ===================================================== */
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            initializeAddon
-        );
-
-    } else {
-
-        initializeAddon();
-    }
-
-
+    await loadRecords();
+  }
+
+  window.ALON_REGULAR_DISCOVERY = {
+    version: CONFIG.version,
+
+    refresh: loadRecords,
+
+    publish: async payload => {
+      if (!isLoggedIn()) {
+        throw new Error("Sign in before publishing.");
+      }
+
+      return apiRequest(recordsURL(), {
+        method: "POST",
+        body: JSON.stringify({
+          ...payload,
+          marketplace: "regular",
+          type: "discovery",
+          ownerId: getUserId(),
+          ownerName: getUserName()
+        })
+      });
+    },
+
+    getRecords: () => state.records.slice(),
+
+    getCategories: () => CATEGORIES.map(item => ({ ...item })),
+
+    setCategory: setActiveCategory,
+
+    apiBase: CONFIG.apiBase
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, {
+      once: true
+    });
+  } else {
+    init();
+  }
 })();
