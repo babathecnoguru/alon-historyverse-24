@@ -7,7 +7,3 @@ workers_dev = true
 binding = "DB"
 database_name = "alon-historyverse-marketplace-db"
 database_id = "1d06958e-f352-4357-97c5-598e8168946b"
-
-[[r2_buckets]]
-binding = "MEDIA"
-bucket_name = "YOUR_R2_BUCKET_NAME"
