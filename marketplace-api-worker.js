@@ -88,6 +88,14 @@ async function sha256(value) {
   return bytesToHex(await crypto.subtle.digest("SHA-256", data));
 }
 
+/*
+============================================================
+ PASSWORD HASHING
+ Cloudflare Workers PBKDF2 limit:
+ Maximum supported iterations: 100000
+============================================================
+*/
+
 async function passwordHash(password, salt) {
   const encoder = new TextEncoder();
 
@@ -103,7 +111,7 @@ async function passwordHash(password, salt) {
     {
       name: "PBKDF2",
       salt: encoder.encode(salt),
-      iterations: 150000,
+      iterations: 100000,
       hash: "SHA-256"
     },
     key,
@@ -135,6 +143,7 @@ function getOrigin(request) {
 
 function corsHeaders(request) {
   const origin = getOrigin(request);
+
   const headers = {
     "Access-Control-Allow-Methods":
       "GET, POST, PUT, DELETE, OPTIONS",
@@ -346,6 +355,7 @@ async function register(request, env) {
     .toLowerCase();
 
   const password = String(body.password || "");
+
   const displayName = String(body.displayName || "")
     .trim()
     .slice(0, 100);
@@ -766,6 +776,7 @@ async function uploadMedia(request, env, auth) {
   }
 
   const file = form.get("file");
+
   const marketplace = String(form.get("marketplace") || "")
     .toLowerCase();
 
@@ -809,6 +820,7 @@ async function uploadMedia(request, env, auth) {
 
   const mediaId = randomId("media");
   const extension = safeFileExtension(file.name, type);
+
   const objectKey =
     marketplace + "/" + auth.user.id + "/" +
     mediaId + "." + extension;
@@ -841,6 +853,7 @@ async function uploadMedia(request, env, auth) {
   ).run();
 
   const url = new URL(request.url);
+
   const mediaUrl =
     url.origin + "/media/" +
     objectKey.split("/").map(encodeURIComponent).join("/");
@@ -961,9 +974,10 @@ async function handleRequest(request, env) {
     return uploadMedia(request, env, auth);
   }
 
-  if (pathname === "/api/marketplace/records" ||
-      pathname.startsWith("/api/marketplace/records/")) {
-
+  if (
+    pathname === "/api/marketplace/records" ||
+    pathname.startsWith("/api/marketplace/records/")
+  ) {
     const auth = await getAuthenticatedUser(request, env);
 
     const kind = pathname === "/api/marketplace/records"
@@ -983,6 +997,7 @@ async function handleRequest(request, env) {
     }
 
     const parts = pathname.split("/").filter(Boolean);
+
     const id = parts.length > 4
       ? decodeURIComponent(parts[5] || "")
       : "";
@@ -1027,6 +1042,7 @@ export default {
   async fetch(request, env, ctx) {
     try {
       const response = await handleRequest(request, env);
+
       return withCors(response, request);
     } catch (error) {
       console.error(
