@@ -1,9 +1,10 @@
+
 /*
 ============================================================
  ALON HISTORYVERSE 24
  JOBS MODULE
  File: jobs.js
- Version: 1.1 API ROUTE FIX
+ Version: 1.1 API ROUTE FIX + COUNTRY DROPDOWN FIX
  Creator: Baba Thecno Guru
 
  Marketplace API Integration
@@ -24,7 +25,7 @@
   window.__ALON_JOBS_API_MODULE__ = true;
 
   const CONFIG = Object.freeze({
-    version: "1.1 API ROUTE FIX",
+    version: "1.1 API ROUTE FIX + COUNTRY DROPDOWN FIX",
 
     apiBase: (
       window.ALON_MARKETPLACE_API_BASE ||
@@ -1700,6 +1701,39 @@
   }
 
   /* ========================================================
+     JOBS COUNTRY DROPDOWN FIX
+     Uses the existing shared country database.
+  ======================================================== */
+
+  function initJobCountrySelects() {
+
+    if (
+      typeof window.ALON_FILL_COUNTRY_SELECT !== "function"
+    ) {
+      console.warn(
+        "[ALON Jobs] Shared Country database helper unavailable."
+      );
+      return;
+    }
+
+    const internationalFilled =
+      window.ALON_FILL_COUNTRY_SELECT(
+        "internationalCountry"
+      );
+
+    const localFilled =
+      window.ALON_FILL_COUNTRY_SELECT(
+        "localCountry"
+      );
+
+    if (!internationalFilled || !localFilled) {
+      console.warn(
+        "[ALON Jobs] One or more Country dropdowns could not be filled."
+      );
+    }
+  }
+
+  /* ========================================================
      INITIALIZATION
   ======================================================== */
 
@@ -1716,6 +1750,9 @@
 
     state.token =
       localStorage.getItem(CONFIG.storage.token) || "";
+
+    // Fill both Jobs Country selectors from shared database.
+    initJobCountrySelects();
 
     bindFormHandlers();
     bindActions();
